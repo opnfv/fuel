@@ -1,0 +1,3 @@
+global:Registered-Users	Registered Users
+ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-submitters
+ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-contributors
