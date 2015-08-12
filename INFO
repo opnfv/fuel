@@ -1,0 +1,21 @@
+Project: Fuel@OPNFV started
+Project Creation Date: July 7, 2015
+Project Category: Integration & Testing
+Lifecycle State: Incubation
+Primary Contact: Jonas Bjurel
+Project Lead: Jonas Bjurel
+Jira Project Name: Fuel
+Jira Project Prefix: FUEL
+Mailing list tag: [fuel]
+IRC: Server:freenode.net Channel:#opnfv-fuel
+Repository: fuel
+
+Committers:
+jonas.bjurel@ericsson.com
+stefan.k.berg@ericsson.com
+daniel.smith@ericsson.com
+szilard.cserey@ericsson.com
+mskalski@mirantis.com
+ruijing.guo@intel.com
+
+Link to TSC approval of the project: https://wiki.opnfv.org/wiki/tsc#july_7_2015
