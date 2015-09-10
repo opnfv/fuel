@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a2585a7_3cab3d8b",
+        "filename": "docs/how-to-use-docs/documentation-example.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-09-10T20:52:45Z",
+      "side": 1,
+      "message": "A whitespace",
+      "revId": "dee05173250411f3a1b74c35784428af6b93f047",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
