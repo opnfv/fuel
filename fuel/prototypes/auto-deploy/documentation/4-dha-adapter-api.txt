@@ -1,0 +1,128 @@
+The structure is being reworked. This page describes the DHA adapter interface.
+
+
+This is a the beginning of a documentation of the DHA adapter
+interface, which is auto generated from the bash implementation of the
+libvirt DHA adapter. So, to some extent work in progress.
+
+An example run from the ./verify_adapter tool:
+
+sfb@blackbox:~/git/toolbox/opnfv/production/deploy$ ./verify_adapter.sh libvirt.sh dha.yaml
+Adapter init
+dha.yaml
+DHAPARSE: /home/sfb/git/toolbox/opnfv/production/deploy/dha-adapters/dhaParse.py
+DHAFILE: dha.yaml
+Adapter API version: 1.0
+Adapter name: libvirt
+All PXE MAC addresses:
+1: 52:54:00:38:c7:8e
+2: 52:54:00:9c:c2:c9
+Using Fuel custom install: no
+Can set boot order live: no
+Can operate on ISO media: yes
+Can insert/eject ISO without power toggle: yes
+Can erase the boot disk MBR: yes
+Done
+
+
+*** DHA API definition version 1.1 ***
+
+# Get the DHA API version supported by this adapter
+dha_getApiVersion ()
+
+# Get the name of this adapter
+dha_getAdapterName ()
+
+# ### Node identity functions ###
+# Node numbering is sequential.
+# Get a list of all defined node ids, sorted in ascending order
+dha_getAllNodeIds()
+
+# Get ID for Fuel node ID
+dha_getFuelNodeId()
+
+# Get node property
+# Argument 1: node id
+# Argument 2: Property
+dha_getNodeProperty()
+
+# Get MAC address for the PXE interface of this node. If not
+# defined, an empty string will be returned.
+# Argument 1: Node id
+dha_getNodePxeMac()
+
+# Use custom installation method for Fuel master?
+# Returns 0 if true, 1 if false
+dha_useFuelCustomInstall()
+
+# Fuel custom installation method
+# Leaving the Fuel master powered on and booting from ISO at exit
+# Argument 1: Full path to ISO file to install
+dha_fuelCustomInstall()
+
+# Get power on strategy from DHA
+# Returns one of two values:
+#   all:        Power on all nodes simultaneously
+#   sequence:   Power on node by node, wait for Fuel detection
+dha_getPowerOnStrategy()
+
+# Power on node
+# Argument 1: node id
+dha_nodePowerOn()
+
+# Power off node
+# Argument 1: node id
+dha_nodePowerOff()
+
+# Reset node
+# Argument 1: node id
+dha_nodeReset()
+
+# Is the node able to commit boot order without power toggle?
+# Argument 1: node id
+# Returns 0 if true, 1 if false
+dha_nodeCanSetBootOrderLive()
+
+# Set node boot order
+# Argument 1: node id
+# Argument 2: Space separated line of boot order - boot ids are "pxe", "disk" and "iso"
+dha_nodeSetBootOrder()
+
+# Is the node able to operate on ISO media?
+# Argument 1: node id
+# Returns 0 if true, 1 if false
+dha_nodeCanSetIso()
+
+# Is the node able to insert add eject ISO files without power toggle?
+# Argument 1: node id
+# Returns 0 if true, 1 if false
+dha_nodeCanHandeIsoLive()
+
+# Insert ISO into virtualDVD
+# Argument 1: node id
+# Argument 2: iso file
+dha_nodeInsertIso()
+
+# Eject ISO from virtual DVD
+# Argument 1: node id
+dha_nodeEjectIso()
+
+# Wait until a suitable time to change the boot order to 
+# "disk iso" when ISO has been booted. Can't be too long, nor
+# too short...
+# We should make a smart trigger for this somehow...
+dha_waitForIsoBoot()
+
+# Is the node able to reset its MBR?
+# Returns 0 if true, 1 if false
+dha_nodeCanZeroMBR()
+
+# Reset the node's MBR
+dha_nodeZeroMBR()
+
+# Entry point for dha functions
+# Typically do not call "dha_node_zeroMBR" but "dha node_ZeroMBR"
+# Before calling dha, the adapter file must gave been sourced with
+# the DHA file name as argument
+dha()
+

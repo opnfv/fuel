@@ -1,0 +1,35 @@
+#!/bin/bash
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# stefan.k.berg@ericsson.com
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+#
+context=$1
+shift
+GID=`id -g`
+USER=`whoami`
+res=`docker build -q --rm -  <<EOF
+FROM $context
+RUN date || date
+RUN /root/setcontext $USER $UID $GID $HOME
+EOF`
+GITROOT=`git rev-parse --show-toplevel`
+CID=`echo $res | sed 's/.* //'`
+
+    RUN_CONTEXT_OPT="--privileged=true --rm -i -e HOME=$HOME -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT"
+
+if [  "${INTERACTIVE}" != "FALSE" ]; then
+    RUN_CONTEXT_OPT+=" -t"
+fi
+
+echo command: docker run ${RUN_CONTEXT_OPT} $CID "$@"
+docker run ${RUN_CONTEXT_OPT} $CID "$@"
+
+rc=$?
+docker rmi -f $CID > /dev/null
+exit $rc

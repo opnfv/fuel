@@ -1,0 +1,34 @@
+*** FIXMEs can automatically be extracted from the code by running
+*** list_fixmes.sh!
+
+In transplant2.sh, grafting can not operate on the DEA node ID but
+must consider the DHA MAC address instead. It will work as long as
+the interface setup on all nodes is identical or if the powerOnStrategy
+of the dha.yaml is sequential but it needs to be fixed down the road.
+
+Fix the NTP server pointer on computes (currently fixed, needs to be
+calculated - OPNFV clause). Alternatively, add data to feed into
+pre-deploy in the dea.yaml. Or... Add the information requested from
+the script into settings.yaml instead and make the pre-deploy script
+only "refine" these settings?
+
+Move the network transformations out from the two compute: and
+controller: clauses and add them to the individual nodes as well?
+Potentially needed if e.g. a Cinder node is a separate node type!
+
+The release is currently hardcoded to Ubuntu, make in general.
+
+Investigate how to reliable detect that the kickstart has started - is
+it possible to set the IP even when installation is made by cdrom and
+trigger on that? See FIXME in install_iso.sh.
+
+The Fuel gateway in dea_getFuelGateway is always returning the .1 of
+the Fuel IP - should be possible to use another scheme?
+
+Verify that nodes in DEA corresponds with nodes in DHA.
+
+Verify that API versions in DEA, DHA and API are aligned.
+
+Fix dhaParse and dheParse so they exit gracefully when parsing of YAML
+file fails.
+

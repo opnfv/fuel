@@ -1,0 +1,36 @@
+The structure is being reworked. This page is an introduction to DEA
+and DHA.
+
+Introduction
+
+The aim of the deployment prototype is to try out a (hopefully)
+logical setup to support Fuel deployment on a variety of different
+hardware platforms using a common data format to describe the
+deployment itself and another data format to describe the hardware in
+question.
+
+DEA.yaml The DEA.yaml file describes a Fuel deployment, complete with
+	all settings. The easiest way to create this file is to use
+	the "create_templates.sh" script in an existing deployment to
+	copy its configuration to the DEA.yaml file.
+
+DHA.yaml The DHA.yaml file describes to hardware setup for an
+	installation. This file denotes among other things which DHA
+	adapter to use when deploying Fuel on this hardware setup.
+	
+DHA adapter interface: The DHA adapter interface contains a number of
+    functions calls available to the automatic Fuel deployer script
+    (deploy.sh). Each adapter creates an implementation of this
+    interface in order for the deployer to orchestrate the
+    installation. There's currently an example DHA adapter "libvirt"
+    that is able to deploy Fuel in a nested KVM environment. Future
+    adapters could support HP C7000, Dell R620 or other types of
+    hardware.
+
+    It is important to note that a certain DHA adapter could implement
+    the dha_fuelCustomInstall() function, which for instance could
+    install the Fuel master as a VM or using PXE.
+
+A typical installation would be kicked off by the following command:
+
+./deploy.sh <isofile to deploy> <dea.yaml> <dha.yaml>

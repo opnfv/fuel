@@ -1,0 +1,49 @@
+title: Deployment Hardware Adapter (DHA)
+# DHA API version supported
+version: 1.1
+created: Sat Apr 25 16:26:22 UTC 2015
+comment: Small libvirt setup
+
+# Adapter to use for this definition
+adapter: libvirt
+
+# Node list.
+# Mandatory fields are id and role.
+# The MAC address of the PXE boot interface is not mandatory
+#   to be set, but the field must be present.
+# All other fields are adapter specific.
+
+nodes:
+- id: 1
+  pxeMac: 52:54:00:aa:dd:84
+  libvirtName: controller1
+- id: 2
+  pxeMac: 52:54:00:41:64:f3
+  libvirtName: compute4
+- id: 3
+  pxeMac: 52:54:00:69:a0:79
+  libvirtName: compute5
+- id: 4
+  pxeMac: 52:54:00:f8:b0:75
+  libvirtName: fuel-master
+  isFuel: yes
+
+# Deployment power on strategy
+# all:      Turn on all nodes at once. There will be no correlation
+#           between the DHA and DEA node numbering. MAC addresses
+#           will be used to select the node roles though.
+# sequence: Turn on the nodes in sequence starting with the lowest order
+#           node and wait for the node to be detected by Fuel. Not until
+#           the node has been detected and assigned a role will the next
+#           node be turned on.
+powerOnStrategy: all
+
+# If fuelCustomInstall is set to true, Fuel is assumed to be installed by
+# calling the DHA adapter function "dha_fuelCustomInstall()"  with two
+# arguments: node ID and the ISO file name to deploy. The custom install
+# function is then to handle all necessary logic to boot the Fuel master
+# from the ISO and then return.
+# Allowed values: true, false
+
+fuelCustomInstall: false
+

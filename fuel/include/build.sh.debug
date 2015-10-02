@@ -1,0 +1,355 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# stefan.k.berg@ericsson.com
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+############################################################################
+# BEGIN of build script integration test
+#
+integration-test () {
+
+test_clean () {
+    make -C ${BUILD_BASE} clean
+    test_cache_clean
+    test_output_clean
+}
+
+test_cache_clean () {
+    rm -rf ${TEST_BUILD_CACHE_URI_DIR}
+}
+
+test_output_clean () {
+    rm -rf ${TEST_BUILD_RESULT_DIR}
+}
+
+test_prepare () {
+    test_clean
+    test_cache_clean
+    test_output_clean
+    mkdir -p ${TEST_BUILD_CACHE_URI_DIR}
+}
+
+test_cache_check () {
+    if [ ! -f ${BUILD_BASE}/fuel-6.0.1.iso ] || \
+       [ ! -f ${BUILD_BASE}/.versions ] || \
+       [ ! -f ${BUILD_BASE}/opendaylight/.odl-build-history ]; \
+       [ ! -f ${BUILD_BASE}/opendaylight/.odl-build.log ]; then
+	echo "Cache not present in the build system"
+	echo "TEST FAILED"
+	exit $rc
+    fi
+
+    if [ ! -f ${TEST_BUILD_CACHE_URI_DIR}/${REMOTE_CACHE_ARCH_NAME}.tgz ]; then
+	echo "Cache archive not present"
+	echo "TEST FAILED"
+	exit $rc
+    fi
+
+    if tar -tf ${TEST_BUILD_CACHE_URI_DIR}/${REMOTE_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}/.mark > /dev/null 2>&1; then
+	echo "Cache archive is invalidated"
+	echo "TEST FAILED"
+	exit $rc
+    fi
+}
+
+test_output_check () {
+    if [ ! -f  ${TEST_BUILD_RESULT_DIR}/*.iso ] || \
+       [ ! -f  ${TEST_BUILD_RESULT_DIR}/*.txt ] || \
+       [ ! -f  ${TEST_BUILD_RESULT_DIR}/.versions ]; then
+	echo "Build output not produced by the build system"
+	echo "TEST FAILED"
+	exit $rc
+    fi
+}
+
+test_invalidate_cache () {
+    tar -C ${TEST_BUILD_CACHE_URI_DIR} -xf ${TEST_BUILD_CACHE_URI_DIR}/${REMOTE_CACHE_ARCH_NAME}.tgz
+    echo "cache.mk 123" > ${TEST_BUILD_CACHE_URI_DIR}/cache/.versions
+    echo "config.mk 123" >> ${TEST_BUILD_CACHE_URI_DIR}/cache/.versions
+    echo "fuel 123" >> ${TEST_BUILD_CACHE_URI_DIR}/cache/.versions
+    echo "odl 123" >> ${TEST_BUILD_CACHE_URI_DIR}/cache/.versions
+
+    echo "This file marks the invalid cache" > ${TEST_BUILD_CACHE_URI_DIR}/cache/.mark
+    rm -f ${TEST_BUILD_CACHE_URI_DIR}/${REMOTE_CACHE_ARCH_NAME}.tgz
+    tar --dereference -C ${TEST_BUILD_CACHE_URI_DIR} -caf ${TEST_BUILD_CACHE_URI_DIR}/${REMOTE_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}
+}
+
+##### Always succeed integration test ####
+build_tc1 () {
+    echo "TEST - $0 - ALWAYS SUCCEED"
+    set +e
+    $0 -f s tmp/output
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "TEST FAILED"
+	rc=151
+	exit $rc
+    fi
+}
+
+##### Always fail integration test (TC2) ####
+build_tc2 () {
+    echo "TEST - $0 - ALWAYS FAIL"
+    set +e
+    $0 -f f tmp/output
+    rc=$?
+    set -e
+    if [ $rc -eq 0 ]; then
+	echo "TEST FAILED"
+	rc=152
+	exit $rc
+    fi
+}
+
+##### Fake build and populate dummy cache - integration test (TC3) ####
+build_tc3 () {
+    echo "TEST - $0 - FAKE BUILD AND POPULATE DUMMY CACHE"
+    rm -rf tmp
+    mkdir -p ${TEST_BUILD_CACHE_URI_DIR}
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f PD ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=152
+	exit $rc
+    fi
+
+    rc=153
+    test_output_check
+
+    rc=154
+    test_cache_check
+}
+
+##### Fake build usng dummy cache integration test (TC4) ####
+build_tc4 () {
+    echo "TEST - $0 - FAKE BUILD USING DUMMY CACHE"
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f D ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=155
+	exit $rc
+    fi
+
+    rc=156
+    test_output_check
+
+    rc=157
+    test_cache_check
+}
+
+#### Fake build and repopulate cache because cache non existant (TC5) ####
+build_tc5 () {
+    echo "TEST - $0 - FAKE BUILD AND REPOPULATE CACHE BECAUSE NON EXISTANT"
+    rm -rf ${TEST_BUILD_CACHE_URI_DIR}/*
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f D ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=158
+	exit $rc
+    fi
+
+    rc=159
+    test_output_check
+
+    rc=160
+    test_cache_check
+}
+
+#### Fake build and repopulate cache because cache is ivalidated (TC6) ####
+build_tc6 () {
+    echo "TEST - $0 - FAKE BUILD AND REPOPULATE DUE TO CACHE INVALIDATION"
+    test_invalidate_cache
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f D ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=161
+	exit $rc
+    fi
+
+    rc=162
+    test_output_check
+
+    rc=163
+    test_cache_check
+}
+
+#### Real build and populate cache (TC7) ####
+build_tc7 () {
+    echo "TEST - $0 - FULL BUILD AND POPULATE CACHE"
+    test_prepare
+    BUILD_START=$(date +%s)
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f Pi ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=164
+	exit $rc
+    fi
+
+    BUILD_TIME=$(($(date +%s)-${BUILD_START}))
+    rc=165
+    test_output_check
+    rc=166
+    test_cache_check
+}
+
+#### Real build using cache from TC7 (TC8) ####
+build_tc8 () {
+    echo "TEST - $0 - INCREMENTAL BUILD AND USING CACHE"
+    BUILD_START=$(date +%s)
+    set +e
+    $0 -c ${TEST_BUILD_CACHE_URI} -f i ${TEST_BUILD_RESULT_DIR}
+    rc=$?
+    set -e
+    if [ $rc -ne 0 ]; then
+	echo "Build failed"
+	echo "TEST FAILED"
+	rc=167
+	exit $rc
+    fi
+    BUILD_TIME=$(($(date +%s)-${BUILD_START}))
+    test_output_check
+    rc=168
+    test_cache_check
+    rc=169
+}
+
+TEST_BUILD_ARTIFACT_DIR=${BUILD_BASE}/test
+TEST_BUILD_CACHE_URI_DIR=${TEST_BUILD_ARTIFACT_DIR}
+TEST_BUILD_CACHE_URI=file://${TEST_BUILD_CACHE_URI_DIR}
+TEST_BUILD_RESULT_DIR=${BUILD_BASE}/tmp/output
+
+TEST_START=$(date +%s)
+# Run test case 1: Always succeed integration test
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 1 ============================
+echo ==========================================================================
+test_prepare
+build_tc1
+
+# Run test case 2: Always fail integration test
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 2 ============================
+echo ==========================================================================
+test_prepare
+build_tc2
+
+# Run test case 3: Fake build and populate a build cach
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 3 ============================
+echo ==========================================================================
+test_prepare
+build_tc3
+
+# Run test case 4: Fake build using the build cache produced in TC 3
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 4 ============================
+echo ==========================================================================
+build_tc4
+
+# Run test case 5: Fake build and repopulate the build cache as there is no existing one
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 5 ============================
+echo ==========================================================================
+test_prepare
+build_tc5
+
+# Run test case 6: Fake build and repopulate the build cache as there the current one is invalidated/outdated
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 6 ============================
+echo ==========================================================================
+test_invalidate_cache
+build_tc4
+
+# Run test case 7: Build from upstream repos and populate the build cache
+if [ ${FULL_INTEGRATION_TEST} -eq 1 ]; then
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 7 ============================
+echo ==========================================================================
+    test_prepare
+    build_tc7
+    POPULATE_CACHE_TIME=${BUILD_TIME}
+fi
+
+# Run test case 8: Build from cache produced in TC7
+if [ ${FULL_INTEGRATION_TEST} -eq 1 ]; then
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 8 ============================
+echo ==========================================================================
+    build_tc8
+    PARTIAL_BUILD_TIME=${BUILD_TIME}
+fi
+
+# Run test case 9: Build and repopulate the cache as the current one is invalidated/not up to date
+if [ ${FULL_INTEGRATION_TEST} -eq 1 ]; then
+echo ==========================================================================
+echo ========================= RUNNING TEST CASE 9 ============================
+echo ==========================================================================
+    echo "TEST - $0 - REPOPULATING CACHE DUE TO CACHE INVALIDATION"
+    test_invalidate_cache
+    build_tc8
+fi
+
+TEST_TIME=$(($(date +%s)-${TEST_START}))
+
+rm -rf tmp
+echo "All tests passed!, test duration was ${TEST_TIME} seconds"
+if [ ${FULL_INTEGRATION_TEST} -eq 1 ]; then
+    echo "Full build took ${POPULATE_CACHE_TIME} second"
+    echo "Incremental build took ${PARTIAL_BUILD_TIME} seconds"
+fi
+rc=0
+exit $rc
+}
+#
+# END of build script integration test
+############################################################################
+
+############################################################################
+# BEGIN of debug_make - a fake make initiated with -D for debugging
+#
+debug_make () {
+    make -C ${BUILD_BASE} clean
+    echo "This is a fake debug fuel .iso image" > ${BUILD_BASE}/fuel-6.0.1.iso
+
+    echo "This is a fake debug versions file" > ${BUILD_BASE}/.versions
+    echo "cache.mk" $(md5sum ${BUILD_BASE}/cache.mk | cut -f1 -d " ") >> ${BUILD_BASE}/.versions
+    echo "config.mk" $(md5sum ${BUILD_BASE}/config.mk | cut -f1 -d " ") >> ${BUILD_BASE}/.versions
+    echo "fuel" $(git ls-remote $(make -C ${BUILD_BASE} get-fuel-repo | grep https) | awk '{print $(NF-1)}') >> ${BUILD_BASE}/.versions
+    echo "odl" $(git ls-remote $(make -C ${BUILD_BASE} get-odl-repo | grep https) | awk '{print $(NF-1)}') >> ${BUILD_BASE}/.versions
+
+    rm -rf ${BUILD_BASE}/release
+    mkdir ${BUILD_BASE}/release
+    echo "This is a fake debug OPNFV .iso image"  > ${BUILD_BASE}/release/fake-debug.iso
+    echo "This is a fake debug OPNFV .iso.txt message"  > ${BUILD_BASE}/release/fake-debug.iso.txt
+    echo "This a fake debug odl build history" > ${BUILD_BASE}/opendaylight/.odl-build-history
+    echo "This a fake debug odl build log" > ${BUILD_BASE}/opendaylight/.odl-build.log
+}
+#
+# END of debug_make
+############################################################################
