@@ -1,4 +1,5 @@
-fc3a6d1b01ee1ef316ae2be5c62bb4c54d3f22c0	Non-Interactive Users
-global:Registered-Users	Registered Users
-ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-submitters
+# UUID                                  	Group Name
+#
+global:Registered-Users                 	Registered Users
 ldap:cn=opnfv-gerrit-fuel-contributors,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-contributors
+ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-submitters
