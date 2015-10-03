@@ -80,32 +80,6 @@ EOF
 ############################################################################
 
 ############################################################################
-# Begin of string xor function
-#
-function  xor()
-{
-      local res=(`echo "$1" | sed "s/../0x& /g"`)
-      shift 1
-      while [[ "$1" ]]; do
-            local one=(`echo "$1" | sed "s/../0x& /g"`)
-            local count1=${#res[@]}
-            if [ $count1 -lt ${#one[@]} ]
-            then
-                  count1=${#one[@]}
-            fi
-            for (( i = 0; i < $count1; i++ ))
-            do
-                  res[$i]=$((${one[$i]:-0} ^ ${res[$i]:-0}))
-            done
-            shift 1
-      done
-       printf "%02x" "${res[@]}"
-}
-#
-# END of string xor function
-############################################################################
-
-############################################################################
 # BEGIN of variables to customize
 #
 BUILD_BASE=$(readlink -e ../build/)
@@ -113,7 +87,7 @@ RESULT_DIR="${BUILD_BASE}/release"
 BUILD_SPEC="${BUILD_BASE}/config.mk"
 CACHE_DIR="cache"
 LOCAL_CACHE_ARCH_NAME="fuel-cache"
-
+REMOTE_CACHE_ARCH_NAME="fuel_cache-$(md5sum ${BUILD_SPEC}| cut -f1 -d " ")"
 REMOTE_ACCESS_METHD=curl
 INCLUDE_DIR=../include
 #
@@ -143,14 +117,6 @@ BUILD_DIR=
 BUILD_LOG=
 BUILD_VERSION=
 MAKE_ARGS=
-FUEL_GIT_SRC="$(make -f ../build/config.mk get-fuel-repo | cut -d " " -f1)"
-FUEL_GIT_BRANCH="$(make -f ../build/config.mk get-fuel-repo | cut -d " " -f2)"
-CACHE_MD5=$(md5sum ../build/cache.mk | cut -f1 -d " ")
-CONFIG_MD5=$(md5sum ../build/config.mk | cut -f1 -d " ")
-FUEL_COMMIT_ID=$(git ls-remote $FUEL_GIT_SRC -t $FUEL_GIT_BRANCH | cut -d $'\t' -f1)
-REMOTE_CACHE_ARCH_HASH_TMP="$(xor $CACHE_MD5 $CONFIG_MD5)"
-REMOTE_CACHE_ARCH_HASH="$(xor $REMOTE_CACHE_ARCH_HASH_TMP $FUEL_COMMIT_ID)"
-REMOTE_CACHE_ARCH_NAME="fuel_cache-$REMOTE_CACHE_ARCH_HASH"
 #
 # END of script assigned variables
 ############################################################################
@@ -169,53 +135,53 @@ source ${INCLUDE_DIR}/build.sh.debug
 while getopts "s:c:v:f:l:r:RtTh" OPTION
 do
     case $OPTION in
-        h)
-            usage
-            rc=0
-            exit $rc
-            ;;
+	h)
+	    usage
+	    rc=0
+	    exit $rc
+	    ;;
 
-        s)
-            BUILD_SPEC=${OPTARG}
-            ;;
+	s)
+	    BUILD_SPEC=${OPTARG}
+	    ;;
 
-        c)
-            BUILD_CACHE_URI=${OPTARG}
-            ;;
+	c)
+	    BUILD_CACHE_URI=${OPTARG}
+	    ;;
 
-        l)
-            BUILD_LOG=${OPTARG}
-            ;;
+	l)
+	    BUILD_LOG=${OPTARG}
+	    ;;
 
-        v)
-            BUILD_VERSION=${OPTARG}
-            ;;
+	v)
+	    BUILD_VERSION=${OPTARG}
+	    ;;
 
-        f)
-            BUILD_FLAGS=${OPTARG}
-            ;;
+	f)
+	    BUILD_FLAGS=${OPTARG}
+	    ;;
 
-        r)  REMOTE_ACCESS_METHD=${OPTARG}
-            ;;
+	r)  REMOTE_ACCESS_METHD=${OPTARG}
+	    ;;
 
-        R)
-            RECURSIVE=1
-            ;;
+	R)
+	    RECURSIVE=1
+	    ;;
 
-        t)
-            INTEGRATION_TEST=1
-            ;;
+	t)
+	    INTEGRATION_TEST=1
+	    ;;
 
-        T)
-            INTEGRATION_TEST=1
-            FULL_INTEGRATION_TEST=1
-            ;;
+	T)
+	    INTEGRATION_TEST=1
+	    FULL_INTEGRATION_TEST=1
+	    ;;
 
-        *)
-            echo "${OPTION} is not a valid argument"
-            rc=100
-            exit $rc
-            ;;
+	*)
+	    echo "${OPTION} is not a valid argument"
+	    rc=100
+	    exit $rc
+	    ;;
     esac
 done
 
@@ -225,44 +191,44 @@ fi
 
 for ((i=0; i<${#BUILD_FLAGS};i++)); do
     case ${BUILD_FLAGS:$i:1} in
-        s)
-            rc=0
-            exit $rc
-            ;;
+	s)
+	    rc=0
+	    exit $rc
+	    ;;
 
-        f)
-            rc=1
-            exit $rc
-            ;;
+	f)
+	    rc=1
+	    exit $rc
+	    ;;
 
-        t)
-            UNIT_TEST=1
-            ;;
+	t)
+	    UNIT_TEST=1
+	    ;;
 
-        i)
-            INTERACTIVE=1
-            ;;
+	i)
+	    INTERACTIVE=1
+	    ;;
 
-        P)
-            POPULATE_CACHE=1
-            ;;
+	P)
+	    POPULATE_CACHE=1
+	    ;;
 
-        d)
-            DETACH=1
-            echo "Detach is not yet supported - exiting ...."
-            rc=100
-            exit $rc
-            ;;
+	d)
+	    DETACH=1
+	    echo "Detach is not yet supported - exiting ...."
+	    rc=100
+	    exit $rc
+	    ;;
 
-        D)
-            DEBUG=1
-            ;;
+	D)
+ 	    DEBUG=1
+	    ;;
 
-        *)
-            echo "${BUILD_FLAGS:$i:1} is not a valid build flag - exiting ...."
-            rc=100
-            exit $rc
-            ;;
+	*)
+	    echo "${BUILD_FLAGS:$i:1} is not a valid build flag - exiting ...."
+	    rc=100
+	    exit $rc
+	    ;;
     esac
 done
 
@@ -286,13 +252,13 @@ fi
 
 if [ ! -z ${BUILD_LOG} ]; then
     if [[ ${RECURSIVE} -ne 1 ]]; then
-        set +e
-        eval $0 -R $@ > ${BUILD_LOG} 2>&1
-        rc=$?
-        set -e
-        if [ $rc -ne 0]; then
-            exit $rc
-        fi
+	set +e
+	eval $0 -R $@ > ${BUILD_LOG} 2>&1
+	rc=$?
+	set -e
+	if [ $rc -ne 0]; then
+	    exit $rc
+	fi
     fi
 fi
 
@@ -318,86 +284,47 @@ echo $$ > ${LOCK_FILE}
 
 if [ ! -z ${BUILD_CACHE_URI} ]; then
     if [ ${POPULATE_CACHE} -ne 1 ]; then
-        rm -rf ${CACHE_TMP}/cache
-        mkdir -p ${CACHE_TMP}/cache
-        echo "Downloading cache archive ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME} ..."
-        set +e
-        ${REMOTE_ACCESS_METHD} -o ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
-        rc=$?
-        set -e
-        if [ $rc -ne 0 ]; then
-            echo "Remote cache does not exist, or is not accessible - a new cache will be built ..."
-            POPULATE_CACHE=1
-        else
-            echo "Unpacking cache archive ..."
-            set +e
-            tar -C ${CACHE_TMP}/cache -xvf ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz
-            rc=$?
-            set -e
-            if [ $rc -ne 0 ]; then
-                echo "WARNING: The cache seems to be corrupt or has trailing garbage, will try to use brute force"
-                echo "Info about the cache below:"
-                set +e
-                file ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz
-                tar -C ${CACHE_TMP}/cache -tvf ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz
-                set -e
-                echo "Current time is: `date`"
-                set +e
-                pushd ${CACHE_TMP}/cache
-                gunzip -dcq ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz | tar -xvf -
-                rc=$?
-                set -e
-                popd
-                if [ $rc -ne 0 ]; then
-                    echo "ERROR: Not able to resolve the cache corruption"
-                    POPULATE_CACHE=1
-                else
-                    echo "The chache corruption was resolved"
-                    cp ${CACHE_TMP}/cache/cache/.versions ${BUILD_BASE}/.
-                    set +e
-                    make -C ${BUILD_BASE} validate-cache;
-                    rc=$?
-                    set -e
-                    if [ $rc -ne 0 ]; then
-                        echo "Cache invalid - a new cache will be built "
-                        POPULATE_CACHE=1
-                    else
-                        echo "Cache is up to date and will be used"
-                        cp -rf ${CACHE_TMP}/cache/cache/. ${BUILD_BASE}
-                    fi
-                fi
-            else
-                echo "Cache archive is intact"
-                cp ${CACHE_TMP}/cache/cache/.versions ${BUILD_BASE}/.
-                set +e
-                make -C ${BUILD_BASE} validate-cache;
-                rc=$?
-                set -e
+	rm -rf ${CACHE_TMP}/cache
+	mkdir -p ${CACHE_TMP}/cache
+	echo "Downloading cach file ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME} ..."
+	set +e
+	${REMOTE_ACCESS_METHD} -o ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
+	rc=$?
+	set -e
+	if [ $rc -ne 0 ]; then
+		echo "Remote cache does not exist, or is not accessible - a new cache will be built ..."
+		POPULATE_CACHE=1
+	else
+	    echo "Unpacking cache file ..."
+	    tar -C ${CACHE_TMP}/cache -xvf ${CACHE_TMP}/cache/${LOCAL_CACHE_ARCH_NAME}.tgz
+	    cp ${CACHE_TMP}/cache/cache/.versions ${BUILD_BASE}/.
+	    set +e
+       	    make -C ${BUILD_BASE} validate-cache;
+	    rc=$?
+	    set -e
 
-                if [ $rc -ne 0 ]; then
-                    echo "Cache invalid - a new cache will be built "
-                    POPULATE_CACHE=1
-                else
-                    echo "Cache is up to date and will be used"
-                    cp -rf ${CACHE_TMP}/cache/cache/. ${BUILD_BASE}
-                fi
-            fi
-            rm -rf ${CACHE_TMP}/cache
-        fi
+	    if [ $rc -ne 0 ]; then
+		echo "Cache invalid - a new cache will be built "
+		POPULATE_CACHE=1
+	    else
+		cp -rf ${CACHE_TMP}/cache/cache/. ${BUILD_BASE}
+	    fi
+	    rm -rf ${CACHE_TMP}/cache
+	fi
     fi
 fi
 
 if [ ${POPULATE_CACHE} -eq 1 ]; then
     if [ ${DEBUG} -eq 0 ]; then
-        set +e
-        cd ${BUILD_BASE} && make clean
-        rc=$?
-        set -e
-        if [ $rc -ne 0 ]; then
-            echo "Build - make clean failed, exiting ..."
-            rc=100
-            exit $rc
-        fi
+	set +e
+	cd ${BUILD_BASE} && make clean
+	rc=$?
+	set -e
+	if [ $rc -ne 0 ]; then
+	    echo "Build - make clean failed, exiting ..."
+	    rc=100
+	    exit $rc
+	fi
     fi
 fi
 
@@ -425,12 +352,12 @@ if [ ${DEBUG} -eq 0 ]; then
     rc=$?
     set -e
     if [ $rc -gt 0 ]; then
-        echo "Build: make all failed, exiting ..."
-        rc=200
-        exit $rc
+	echo "Build: make all failed, exiting ..."
+	rc=200
+	exit $rc
     fi
 else
-    debug_make
+debug_make
 fi
 set +e
 make -C ${BUILD_BASE} prepare-cache
@@ -450,20 +377,11 @@ cp ${RESULT_DIR}/*.iso* ${BUILD_DIR}
 
 if [ $POPULATE_CACHE -eq 1 ]; then
     if [ ! -z ${BUILD_CACHE_URI} ]; then
-        echo "Building cache ..."
-        tar --dereference -C ${BUILD_BASE} -caf ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}
-        set +e
-        tar -C ${CACHE_TMP}/cache -tvf ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz
-        rc=$?
-        set -e
-        if [ $rc -ne 0 ]; then
-            echo "WARNING the cache archive generated seems to be corrupt, or containing trailing garbage"
-        else
-            echo "The Cache archive build is intact"
-        fi
-        echo "Uploading cache ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}"
-        ${REMOTE_ACCESS_METHD} -T ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
-        rm ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz
+	echo "Building cache ..."
+	tar --dereference -C ${BUILD_BASE} -caf ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}
+	echo "Uploading cache ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}"
+	${REMOTE_ACCESS_METHD} -T ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
+	rm ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz
     fi
 fi
 echo "Success!!!"

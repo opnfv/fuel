@@ -1,13 +1,3 @@
-###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
-# szilard.cserey@ericsson.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-###############################################################################
-
-
 import common
 from lxml import etree
 from hardware_adapter import HardwareAdapter
@@ -19,7 +9,6 @@ err = common.err
 DEV = {'pxe': 'network',
        'disk': 'hd',
        'iso': 'cdrom'}
-
 
 class LibvirtAdapter(HardwareAdapter):
 
@@ -99,14 +88,19 @@ class LibvirtAdapter(HardwareAdapter):
     def node_eject_iso(self, node_id):
         vm_name = self.get_node_property(node_id, 'libvirtName')
         device = self.get_name_of_device(vm_name, 'cdrom')
-        exec_cmd('virsh change-media %s --eject %s --config --live'
-                 % (vm_name, device), False)
+        exec_cmd('virsh change-media %s --eject %s' % (vm_name, device), False)
 
     def node_insert_iso(self, node_id, iso_file):
         vm_name = self.get_node_property(node_id, 'libvirtName')
         device = self.get_name_of_device(vm_name, 'cdrom')
         exec_cmd('virsh change-media %s --insert %s %s'
                  % (vm_name, device, iso_file))
+
+    def get_disks(self):
+        return self.dha_struct['disks']
+
+    def get_node_role(self, node_id):
+        return self.get_node_property(node_id, 'role')
 
     def get_node_pxe_mac(self, node_id):
         mac_list = []
@@ -131,6 +125,3 @@ class LibvirtAdapter(HardwareAdapter):
                     device = target.get('dev')
                     if device:
                         return device
-
-    def get_virt_net_conf_dir(self):
-        return self.dha_struct['virtNetConfDir']

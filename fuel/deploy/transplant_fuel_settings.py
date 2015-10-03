@@ -1,13 +1,3 @@
-###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
-# szilard.cserey@ericsson.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-###############################################################################
-
-
 import sys
 import common
 import io
@@ -16,15 +6,11 @@ from dea import DeploymentEnvironmentAdapter
 
 check_file_exists = common.check_file_exists
 
-ASTUTE_YAML = '/etc/fuel/astute.yaml'
-
-
 def usage():
     print '''
     Usage:
     python transplant_fuel_settings.py <deafile>
     '''
-
 
 def parse_arguments():
     if len(sys.argv) != 2:
@@ -33,7 +19,6 @@ def parse_arguments():
     dea_file = sys.argv[-1]
     check_file_exists(dea_file)
     return dea_file
-
 
 def transplant(dea, astute):
     fuel_conf = dea.get_fuel_config()
@@ -45,15 +30,15 @@ def transplant(dea, astute):
             astute[key] = fuel_conf[key]
     return astute
 
-
 def main():
     dea_file = parse_arguments()
-    check_file_exists(ASTUTE_YAML)
+    astute_yaml = '/etc/fuel/astute.yaml'
+    check_file_exists(astute_yaml)
     dea = DeploymentEnvironmentAdapter(dea_file)
-    with io.open(ASTUTE_YAML) as stream:
+    with io.open(astute_yaml) as stream:
         astute = yaml.load(stream)
     transplant(dea, astute)
-    with io.open(ASTUTE_YAML, 'w') as stream:
+    with io.open(astute_yaml, 'w') as stream:
         yaml.dump(astute, stream, default_flow_style=False)
 
 

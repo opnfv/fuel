@@ -1,0 +1,338 @@
+global_params:
+  admin_email: opnfv@opnfv.com
+  ha_flag: "true"
+  odl_flag: "true"
+  private_network:
+  storage_network:
+  controllers_hostnames_array: oscontroller1,oscontroller2,oscontroller3
+  controllers_ip_array:
+  amqp_vip:
+  private_subnet:
+  cinder_admin_vip:
+  cinder_private_vip:
+  cinder_public_vip:
+  db_vip:
+  glance_admin_vip:
+  glance_private_vip:
+  glance_public_vip:
+  heat_admin_vip:
+  heat_private_vip:
+  heat_public_vip:
+  heat_cfn_admin_vip:
+  heat_cfn_private_vip:
+  heat_cfn_public_vip:
+  horizon_admin_vip:
+  horizon_private_vip:
+  horizon_public_vip:
+  keystone_admin_vip:
+  keystone_private_vip:
+  keystone_public_vip:
+  loadbalancer_vip:
+  neutron_admin_vip:
+  neutron_private_vip:
+  neutron_public_vip:
+  nova_admin_vip:
+  nova_private_vip:
+  nova_public_vip:
+  external_network_flag: "true"
+  public_gateway:
+  public_dns:
+  public_network:
+  public_subnet:
+  public_allocation_start:
+  public_allocation_end:
+  deployment_type:
+network_type: multi_network
+default_gw:
+foreman:
+  seed_values:
+    - { name: heat_cfn, oldvalue: true, newvalue: false }
+workaround_puppet_version_lock: false
+opm_branch: master
+installer:
+  name: puppet
+  short_name: pupt
+  network:
+    auto_assign_floating_ip: false
+    variant:
+      short_name: m2vx
+    plugin:
+      name: neutron
+workaround_openstack_packstack_rpm: false
+tempest:
+  repo:
+    Fedora:
+      '19': http://REPLACE_ME/~REPLACE_ME/openstack-tempest-icehouse/fedora-19/
+      '20': http://REPLACE_ME/~REPLACE_ME/openstack-tempest-icehouse/fedora-20/
+    RedHat:
+       '7.0': https://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7/
+  use_virtual_env: false
+  public_allocation_end: 10.2.84.71
+  skip:
+    files: null
+    tests: null
+  public_allocation_start: 10.2.84.51
+  physnet: physnet1
+  use_custom_repo: false
+  public_subnet_cidr: 10.2.84.0/24
+  public_subnet_gateway: 10.2.84.1
+  additional_default_settings:
+  - section: compute
+    option: flavor_ref
+    value: 1
+  cirros_image_file: cirros-0.3.1-x86_64-disk.img
+  setup_method: tempest/rpm
+  test_name: all
+  rdo:
+     version: juno
+     rpm: http://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+  rpm:
+    version: 20141201
+  dir: ~{{ nodes.tempest.remote_user }}/tempest-dir
+tmp:
+  node_prefix: '{{ node.prefix | reject("none") | join("-") }}-'
+  anchors:
+  - https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+  - http://repos.fedorapeople.org/repos/openstack/openstack-juno/
+opm_repo: https://github.com/redhat-openstack/openstack-puppet-modules.git
+workaround_vif_plugging: false
+openstack_packstack_rpm: http://REPLACE_ME/brewroot/packages/openstack-puppet-modules/2013.2/9.el6ost/noarch/openstack-puppet-modules-2013.2-9.el6ost.noarch.rpm
+nodes:
+  compute:
+    name: oscompute11.opnfv.com
+    hostname: oscompute11.opnfv.com
+    short_name: oscompute11
+    type: compute
+    host_type: baremetal
+    hostgroup: Compute
+    mac_address: "10:23:45:67:89:AB"
+    bmc_ip: 10.4.17.2
+    bmc_mac: "10:23:45:67:88:AB"
+    bmc_user: root
+    bmc_pass: root
+    ansible_ssh_pass: "Op3nStack"
+    admin_password: ""
+    groups:
+    - compute
+    - foreman_nodes
+    - puppet
+    - rdo
+    - neutron
+  controller1:
+    name: oscontroller1.opnfv.com
+    hostname: oscontroller1.opnfv.com
+    short_name: oscontroller1
+    type: controller
+    host_type: baremetal
+    hostgroup: Controller_Network_ODL
+    mac_address: "10:23:45:67:89:AC"
+    bmc_ip: 10.4.17.3
+    bmc_mac: "10:23:45:67:88:AC"
+    bmc_user: root
+    bmc_pass: root
+    private_ip: controller1_private
+    private_mac: "10:23:45:67:87:AC"
+    ansible_ssh_pass: "Op3nStack"
+    admin_password: "octopus"
+    groups:
+    - controller
+    - foreman_nodes
+    - puppet
+    - rdo
+    - neutron
+  controller2:
+    name: oscontroller2.opnfv.com
+    hostname: oscontroller2.opnfv.com
+    short_name: oscontroller2
+    type: controller
+    host_type: baremetal
+    hostgroup: Controller_Network
+    mac_address: "10:23:45:67:89:AD"
+    bmc_ip: 10.4.17.4
+    bmc_mac: "10:23:45:67:88:AD"
+    bmc_user: root
+    bmc_pass: root
+    private_ip: controller2_private
+    private_mac: "10:23:45:67:87:AD"
+    ansible_ssh_pass: "Op3nStack"
+    admin_password: "octopus"
+    groups:
+    - controller
+    - foreman_nodes
+    - puppet
+    - rdo
+    - neutron
+  controller3:
+    name: oscontroller3.opnfv.com
+    hostname: oscontroller3.opnfv.com
+    short_name: oscontroller3
+    type: controller
+    host_type: baremetal
+    hostgroup: Controller_Network
+    mac_address: "10:23:45:67:89:AE"
+    bmc_ip: 10.4.17.5
+    bmc_mac: "10:23:45:67:88:AE"
+    bmc_user: root
+    bmc_pass: root
+    private_ip: controller3_private
+    private_mac: "10:23:45:67:87:AE"
+    ansible_ssh_pass: "Op3nStack"
+    admin_password: "octopus"
+    groups:
+    - controller
+    - foreman_nodes
+    - puppet
+    - rdo
+    - neutron
+workaround_mysql_centos7: true
+distro:
+  name: centos
+  centos:
+    '7.0':
+      repos: []
+  short_name: c
+  short_version: 70
+  version: '7.0'
+  rhel:
+    '7.0':
+      kickstart_url: http://REPLACE_ME/released/RHEL-7/7.0/Server/x86_64/os/
+      repos:
+      - section: rhel7-server-rpms
+        name: Packages for RHEL 7 - $basearch
+        baseurl: http://REPLACE_ME/rel-eng/repos/rhel-7.0/x86_64/
+        gpgcheck: 0
+      - section: rhel-7-server-update-rpms
+        name: Update Packages for Enterprise Linux 7 - $basearch
+        baseurl: http://REPLACE_ME/rel-eng/repos/rhel-7.0-z/x86_64/
+        gpgcheck: 0
+      - section: rhel-7-server-optional-rpms
+        name: Optional Packages for Enterprise Linux 7 - $basearch
+        baseurl: http://REPLACE_ME/released/RHEL-7/7.0/Server-optional/x86_64/os/
+        gpgcheck: 0
+      - section: rhel-7-server-extras-rpms
+        name: Optional Packages for Enterprise Linux 7 - $basearch
+        baseurl: http://REPLACE_ME/rel-eng/EXTRAS-7.0-RHEL-7-20140610.0/compose/Server/x86_64/os/
+        gpgcheck: 0
+    '6.5':
+      kickstart_url: http://REPLACE_ME/released/RHEL-6/6.5/Server/x86_64/os/
+      repos:
+      - section: rhel6.5-server-rpms
+        name: Packages for RHEL 6.5 - $basearch
+        baseurl: http://REPLACE_ME.REPLACE_ME/released/RHEL-6/6.5/Server/$basearch/os/Server
+        gpgcheck: 0
+      - section: rhel-6.5-server-update-rpms
+        name: Update Packages for Enterprise Linux 6.5 - $basearch
+        baseurl: http://REPLACE_ME.REPLACE_ME/rel-eng/repos/RHEL-6.5-Z/$basearch/
+        gpgcheck: 0
+      - section: rhel-6.5-server-optional-rpms
+        name: Optional Packages for Enterprise Linux 6.5 - $basearch
+        baseurl: http://REPLACE_ME.REPLACE_ME/released/RHEL-6/6.5/Server/optional/$basearch/os
+        gpgcheck: 0
+      - section: rhel6.5-server-rpms-32bit
+        name: Packages for RHEL 6.5 - i386
+        baseurl: http://REPLACE_ME.REPLACE_ME/released/RHEL-6/6.5/Server/i386/os/Server
+        gpgcheck: 0
+        enabled: 1
+      - section: rhel-6.5-server-update-rpms-32bit
+        name: Update Packages for Enterprise Linux 6.5 - i686
+        baseurl: http://REPLACE_ME.REPLACE_ME/rel-eng/repos/RHEL-6.5-Z/i686/
+        gpgcheck: 0
+        enabled: 1
+      - section: rhel-6.5-server-optional-rpms-32bit
+        name: Optional Packages for Enterprise Linux 6.5 - i386
+        baseurl: http://REPLACE_ME.REPLACE_ME/released/RHEL-6/6.5/Server/optional/i386/os
+        gpgcheck: 0
+        enabled: 1
+    subscription:
+      username: REPLACE_ME
+      password: HWj8TE28Qi0eP2c
+      pool: 8a85f9823e3d5e43013e3ddd4e2a0977
+  config:
+    selinux: permissive
+    ntp_server: 0.pool.ntp.org
+    dns_servers:
+    - 10.4.1.1
+    - 10.4.0.2
+    reboot_delay: 1
+    initial_boot_timeout: 180
+node:
+  prefix:
+  - rdo
+  - pupt
+  - ffqiotcxz1
+  - null
+product:
+  repo_type: production
+  name: rdo
+  short_name: rdo
+  rpm:
+    CentOS: https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+    Fedora: https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+    RedHat: https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+  short_version: ju
+  repo:
+    production:
+      CentOS:
+        7.0.1406: http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7
+        '6.5': http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-6
+        '7.0': http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7
+      Fedora:
+        '20': http://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-20
+        '21': http://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21
+      RedHat:
+        '6.6': http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-6
+        '6.5': http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-6
+        '7.0': http://repos.fedorapeople.org/repos/openstack/openstack-juno/epel-7
+  version: juno
+  config:
+    enable_epel: y
+  short_repo: prod
+tester:
+  name: tempest
+distro_reboot_options: '--no-wall '' Reboot is triggered by Ansible'' '
+job:
+  verbosity: 1
+  archive:
+  - '{{ tempest.dir }}/etc/tempest.conf'
+  - '{{ tempest.dir }}/etc/tempest.conf.sample'
+  - '{{ tempest.dir }}/*.log'
+  - '{{ tempest.dir }}/*.xml'
+  - /root/
+  - /var/log/
+  - /etc/nova
+  - /etc/ceilometer
+  - /etc/cinder
+  - /etc/glance
+  - /etc/keystone
+  - /etc/neutron
+  - /etc/ntp
+  - /etc/puppet
+  - /etc/qpid
+  - /etc/qpidd.conf
+  - /root
+  - /etc/yum.repos.d
+  - /etc/yum.repos.d
+topology:
+  name: multinode
+  short_name: mt
+workaround_neutron_ovs_udev_loop: true
+workaround_glance_table_utf8: false
+verbosity:
+  debug: 0
+  info: 1
+  warning: 2
+  warn: 2
+  errors: 3
+provisioner:
+  username: admin
+  network:
+    type: nova
+    name: external
+  skip: skip_provision
+  foreman_url: https://10.2.84.2/api/v2/
+  password: octopus
+  type: foreman
+workaround_nova_compute_fix: false
+workarounds:
+  enabled: true
+

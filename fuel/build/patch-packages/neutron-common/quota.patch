@@ -1,0 +1,67 @@
+*** package/etc/neutron/neutron.conf.orig	2015-05-25 15:50:09.933131041 +0200
+--- package/etc/neutron/neutron.conf	2015-05-25 15:55:07.859210010 +0200
+***************
+*** 502,518 ****
+  # default_quota = -1
+  
+  # Number of networks allowed per tenant. A negative value means unlimited.
+! # quota_network = 10
+  
+  # Number of subnets allowed per tenant. A negative value means unlimited.
+! # quota_subnet = 10
+  
+  # Number of ports allowed per tenant. A negative value means unlimited.
+  # quota_port = 50
+  
+  # Number of security groups allowed per tenant. A negative value means
+  # unlimited.
+! # quota_security_group = 10
+  
+  # Number of security group rules allowed per tenant. A negative value means
+  # unlimited.
+--- 502,521 ----
+  # default_quota = -1
+  
+  # Number of networks allowed per tenant. A negative value means unlimited.
+! # This quota modified by OPNFV: 10 -> 50
+! quota_network = 50
+  
+  # Number of subnets allowed per tenant. A negative value means unlimited.
+! # This quota modified by OPNFV: 10 -> 50
+! quota_subnet = 50
+  
+  # Number of ports allowed per tenant. A negative value means unlimited.
+  # quota_port = 50
+  
+  # Number of security groups allowed per tenant. A negative value means
+  # unlimited.
+! # This quota modified by OPNFV: 10 -> 50
+! quota_security_group = 50
+  
+  # Number of security group rules allowed per tenant. A negative value means
+  # unlimited.
+***************
+*** 538,547 ****
+  # quota_health_monitor = -1
+  
+  # Number of routers allowed per tenant. A negative value means unlimited.
+! # quota_router = 10
+  
+  # Number of floating IPs allowed per tenant. A negative value means unlimited.
+! # quota_floatingip = 50
+  
+  # Number of firewalls allowed per tenant. A negative value means unlimited.
+  # quota_firewall = 1
+--- 541,552 ----
+  # quota_health_monitor = -1
+  
+  # Number of routers allowed per tenant. A negative value means unlimited.
+! # This quota modified by OPNFV: 10 -> 50
+! quota_router = 50
+  
+  # Number of floating IPs allowed per tenant. A negative value means unlimited.
+! # This quota modified by OPNFV: 50 -> 100
+! quota_floatingip = 100
+  
+  # Number of firewalls allowed per tenant. A negative value means unlimited.
+  # quota_firewall = 1

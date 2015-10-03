@@ -14,7 +14,7 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties \
     make python-setuptools python-all dpkg-dev debhelper \
     fuseiso git genisoimage bind9-host wget curl lintian tmux lxc iptables \
-    ca-certificates sudo apt-utils lsb-release dosfstools
+    ca-certificates sudo apt-utils lsb-release
 
 RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN chmod 0440 /etc/sudoers.d/open-sudo
@@ -24,5 +24,8 @@ ADD ./setcontext /root/setcontext
 RUN chmod +x /root/setcontext
 ADD ./enable_dockerx2 /root/enable_dockerx2
 RUN chmod +x /root/enable_dockerx2
+ADD ./install.sh /root/install.sh
+RUN chmod +x /root/install.sh
+RUN /root/install.sh
 
 VOLUME /var/lib/docker

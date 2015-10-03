@@ -1,0 +1,18 @@
+*** fuel-main/sandbox.mk.orig	2015-02-13 12:12:55.362989171 +0100
+--- fuel-main/sandbox.mk	2015-02-13 14:50:39.103017653 +0100
+***************
+*** 71,77 ****
+--- 71,83 ----
+  echo "Updating apt package database"
+  sudo chroot $(SANDBOX_UBUNTU) apt-get update
+  echo "Installing additional packages: $(SANDBOX_DEB_PKGS)"
++ test -e $(SANDBOX_UBUNTU)/sbin/start.orig || mv $(SANDBOX_UBUNTU)/sbin/start $(SANDBOX_UBUNTU)/sbin/start.orig
++ echo "#!/bin/sh" > $(SANDBOX_UBUNTU)/sbin/start
++ echo "exit 0" >> $(SANDBOX_UBUNTU)/sbin/start
++ chmod 755 $(SANDBOX_UBUNTU)/sbin/start
+  test -n "$(SANDBOX_DEB_PKGS)" && sudo chroot $(SANDBOX_UBUNTU) apt-get install --yes $(SANDBOX_DEB_PKGS)
++ test -e $(SANDBOX_UBUNTU)/sbin/start.orig && (cp $(SANDBOX_UBUNTU)/sbin/start.orig $(SANDBOX_UBUNTU)/sbin/start; \
++ 	rm $(SANDBOX_UBUNTU)/sbin/start.orig)
+  echo "SANDBOX_UBUNTU_UP: done"
+  endef
+

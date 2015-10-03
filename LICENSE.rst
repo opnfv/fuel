@@ -64,6 +64,15 @@ Licenses as listed below:
 | Puppet         | Apache License 2.0                                  |
 |                | https://www.apache.org/licenses/LICENSE-2.0         |
 +----------------+-----------------------------------------------------+
+
+Other applicable upstream project Licenses used by Fuel ISO
+==================================================================
+You may not use the content of this software bundle except in compliance with the
+Licenses as listed below:
+
++----------------+-----------------------------------------------------+
+| **Component**  | **Licence**                                         |
++----------------+-----------------------------------------------------+
 | Docker         | Apache License 2.0                                  |
 |                | https://www.apache.org/licenses/LICENSE-2.0         |
 +----------------+-----------------------------------------------------+
@@ -81,4 +90,27 @@ Licenses as listed below:
 +----------------+-----------------------------------------------------+
 | Astute         | Apache License 2.0                                  |
 |                | https://www.apache.org/licenses/LICENSE-2.0         |
++----------------+-----------------------------------------------------+
+
+Other applicable upstream project Licenses used by Foreman ISO
+==================================================================
+You may not use the content of this software bundle except in compliance with the
+Licenses as listed below:
+
++----------------+-----------------------------------------------------+
+| **Component**  | **Licence**                                         |
++----------------+-----------------------------------------------------+
+| Foreman        | Creative Commons Attribution-ShareAlike 3.0         |
+|                | http://creativecommons.org/licenses/by-sa/3.0/      |
++----------------+-----------------------------------------------------+
+| VirtualBox     | GPL v2                                              |
+|                | https://www.gnu.org/licenses/gpl-2.0.html           |
++----------------+-----------------------------------------------------+
+| Vagrant        | The MIT License                                     |
++----------------+-----------------------------------------------------+
+| Ansible        | GPL v3                                              |
+|                | https://www.gnu.org/licenses/gpl-3.0.html           |
++----------------+-----------------------------------------------------+
+| Khaleesi       | GPL v3                                              |
+|                | https://www.gnu.org/licenses/gpl-3.0.html           |
 +----------------+-----------------------------------------------------+

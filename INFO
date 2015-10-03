@@ -1,23 +1,35 @@
-Project: Fuel based OPNFV installer (Fuel@OPNFV)
-Project Creation Date: 2015.07.07
-Project Category: Integration and testing
+Project: Bootstrap/Get started (Genesis)
+Project Creation Date: December 9, 2014
+Project Category: Integration & Testing
 Lifecycle State: Incubation
-Primary Contact:  jonas.bjurel@ericsson.com
-Project Lead: jonas.bjurel@ericsson.com
-Jira Project Name: Fuel based OPNFV installer
-Jira Project Prefix: FUEL
-Mailing list tag: [Fuel]
-IRC: Server:freenode.net Channel:#opnfv-fuel
-Repository: fuel
+Primary Contact: Frank Brockners
+Project Lead: Frank Brockners
+Jira Project Name: Bootstrap Get started project
+Jira Project Prefix: BGS
+Mailing list tag: [bgs]
+IRC: Server:freenode.net Channel:#opnfv-bgs
+Repository: genesis
 
 Committers:
+dradez@redhat.com
+fbrockne@cisco.com
+iawells@cisco.com
 jonas.bjurel@ericsson.com
+sudha.kumari@hp.com
+cm-r@hp.com
+pals@cisco.com
+peter.hladky@pantheon.sk
+rapenno@gmail.com
 stefan.k.berg@ericsson.com
+prakash.ramchandran@huawei.com
+whayutin@redhat.com
+zhangxiong7@huawei.com
+joseph.gasparakis@intel.com
+pbandzi@cisco.com
 daniel.smith@ericsson.com
-szilard.cserey@ericsson.com
-mskalski@mirantis.com
-ruijing.guo@intel.com
+trozet@redhat.com
 
-<<<<<<< HEAD
-Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-07-07-13.59.log.html
+Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2014/opnfv-meeting.2014-12-09-15.02.html
 Link(s) to approval of additional committers:
+* Addition of Daniel Smith: Email vote: http://lists.opnfv.org/pipermail/opnfv-tech-discuss/2015-March/001801.html
+* Addition of Tim Rozet: Email vote: http://lists.opnfv.org/pipermail/opnfv-tsc/2015-May/000845.html

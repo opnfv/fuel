@@ -1,0 +1,52 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# stefan.k.berg@ericsson.com
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+This directory builds the OpenDaylight debian package by cloning the
+opendaylight.org repo, building the odl tag specified in
+"fuel-build/config-spec" and constructing a debian package source tree under
+"f_odl", which automatically is linked into "fuel_build/." for further build processing.
+
+The opendaylight has the following structure:
+.
++--------+-------------+-----------+
+|        |             |           |
+|     Makefile  make-odl-deb.sh  README
+|                              (this file)
+|
++----------+----------+
+           |          |
+       odl_maven/   f_odl/
+
+Makefile:
+Invoked by the git root Makefile, it builds the clones the odl repo from
+odl, checkout the tag/branch indicated in "fuelbuild/config-spec", builds
+odl, and calls "make-odl-deb.sh" to create a debian package source tree.
+
+make-odl-deb.sh:
+Creates the odl debian package source tree in "f_odl" from the odl build
+results.
+
+odl_maven/:
+Contains needed control files for maven OpenDaylight build
+
+f_odl/:
+Contains buildscripts and the generated odl debian package source tree produced
+by the odl build (make-odl-deb.sh) which is later used by the root build system.
+
+NOTE on the controller/ git repo clone:
+The git controller repo clone Contains all artifacts from the odl build, it only
+exists in /tmp inside the build docker container and is not visible anywhere on
+the build host
+
+Note on build caching:
+The latest build results are cached, and will not be rebuilt unless the fuel-build/
+config-spec is changed in respect to odl version or if make clean is applied.
+./.odl-build.log and ./.odl-build.history are used to keep adequate bookmaking to
+track caching and needed cleanout.

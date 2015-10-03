@@ -1,13 +1,3 @@
-###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
-# szilard.cserey@ericsson.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-###############################################################################
-
-
 import paramiko
 import common
 import scp
@@ -15,7 +5,6 @@ import scp
 TIMEOUT = 600
 log = common.log
 err = common.err
-
 
 class SSHClient(object):
 
@@ -29,8 +18,7 @@ class SSHClient(object):
         self.client = paramiko.SSHClient()
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.connect(self.host, username=self.username,
-                            password=self.password, look_for_keys=False,
-                            timeout=timeout)
+                            password=self.password, timeout=timeout)
 
     def close(self):
         if self.client is not None:
@@ -44,7 +32,7 @@ class SSHClient(object):
     def __exit__(self, type, value, traceback):
         self.close()
 
-    def exec_cmd(self, command, check=True, sudo=False, timeout=TIMEOUT):
+    def exec_cmd(self, command, sudo=False, timeout=TIMEOUT, check=True):
         if sudo and self.username != 'root':
             command = "sudo -S -p '' %s" % command
         stdin, stdout, stderr = self.client.exec_command(command,
@@ -72,15 +60,16 @@ class SSHClient(object):
             if chan.recv_ready():
                 data = chan.recv(1024)
                 while data:
-                    log(data.strip())
+                    print data
                     data = chan.recv(1024)
 
             if chan.recv_stderr_ready():
                 error_buff = chan.recv_stderr(1024)
                 while error_buff:
-                    log(error_buff.strip())
+                    print error_buff
                     error_buff = chan.recv_stderr(1024)
-        return chan.recv_exit_status()
+        exit_status = chan.recv_exit_status()
+        log('Exit status %s' % exit_status)
 
     def scp_get(self, remote, local='.', dir=False):
         try:

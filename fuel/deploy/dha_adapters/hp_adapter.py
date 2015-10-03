@@ -1,13 +1,3 @@
-###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
-# szilard.cserey@ericsson.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-###############################################################################
-
-
 import common
 from ipmi_adapter import IpmiAdapter
 from ssh_client import SSHClient
@@ -20,7 +10,6 @@ DEV = {'pxe': 'bootsource5',
 
 ROOT = '/system1/bootconfig1'
 
-
 class HpAdapter(IpmiAdapter):
 
     def __init__(self, yaml_path):
@@ -30,7 +19,7 @@ class HpAdapter(IpmiAdapter):
         log('Set boot order %s on Node %s' % (boot_order_list, node_id))
         ip, username, password = self.get_access_info(node_id)
         ssh = SSHClient(ip, username, password)
-        with ssh as s:
-            for order, dev in enumerate(boot_order_list):
+        for order, dev in enumerate(boot_order_list):
+            with ssh as s:
                 s.exec_cmd('set %s/%s bootorder=%s'
-                           % (ROOT, DEV[dev], order + 1))
+                           % (ROOT, DEV[dev], order+1))

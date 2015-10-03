@@ -1,13 +1,3 @@
-###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
-# szilard.cserey@ericsson.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-###############################################################################
-
-
 import common
 import os
 import shutil
@@ -29,13 +19,42 @@ log = common.log
 
 class Deployment(object):
 
-    def __init__(self, dea, yaml_config_dir, env_id, node_id_roles_dict,
-                 no_health_check):
+    def __init__(self, dea, yaml_config_dir, env_id, node_id_roles_dict):
         self.dea = dea
         self.yaml_config_dir = yaml_config_dir
         self.env_id = env_id
         self.node_id_roles_dict = node_id_roles_dict
-        self.no_health_check = no_health_check
+
+    def download_deployment_info(self):
+        log('Download deployment info for environment %s' % self.env_id)
+        deployment_dir = '%s/deployment_%s' \
+                         % (self.yaml_config_dir, self.env_id)
+        if os.path.exists(deployment_dir):
+            shutil.rmtree(deployment_dir)
+        exec_cmd('fuel --env %s deployment --default --dir %s'
+                 % (self.env_id, self.yaml_config_dir))
+
+    def upload_deployment_info(self):
+        log('Upload deployment info for environment %s' % self.env_id)
+        exec_cmd('fuel --env %s deployment --upload --dir %s'
+                 % (self.env_id, self.yaml_config_dir))
+
+    def config_opnfv(self):
+        log('Configure OPNFV settings on environment %s' % self.env_id)
+        opnfv_compute = self.dea.get_opnfv('compute')
+        opnfv_controller = self.dea.get_opnfv('controller')
+        self.download_deployment_info()
+        for node_file in glob.glob('%s/deployment_%s/*.yaml'
+                                   % (self.yaml_config_dir, self.env_id)):
+             with io.open(node_file) as stream:
+                 node = yaml.load(stream)
+             if node['role'] == 'compute':
+                node.update(opnfv_compute)
+             else:
+                node.update(opnfv_controller)
+             with io.open(node_file, 'w') as stream:
+                 yaml.dump(node, stream, default_flow_style=False)
+        self.upload_deployment_info()
 
     def run_deploy(self):
         WAIT_LOOP = 180
@@ -56,8 +75,7 @@ class Deployment(object):
             if env[0][E['status']] == 'operational':
                 ready = True
                 break
-            elif (env[0][E['status']] == 'error'
-                  or env[0][E['status']] == 'stopped'):
+            elif env[0][E['status']] == 'error':
                 break
             else:
                 time.sleep(SLEEP_TIME)
@@ -84,14 +102,12 @@ class Deployment(object):
 
     def health_check(self):
         log('Now running sanity and smoke health checks')
-        r = exec_cmd('fuel health --env %s --check sanity,smoke --force'
-                     % self.env_id)
-        log(r)
-        if 'failure' in r:
-            err('Healthcheck failed!')
+        exec_cmd('fuel health --env %s --check sanity,smoke --force'
+                 % self.env_id)
+        log('Health checks passed !')
 
     def deploy(self):
+        self.config_opnfv()
         self.run_deploy()
         self.verify_node_status()
-        if not self.no_health_check:
-            self.health_check()
+        self.health_check()
