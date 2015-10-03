@@ -9,6 +9,7 @@
     <boot dev='network'/>
     <boot dev='hd'/>
     <bootmenu enable='yes'/>
+    <bios rebootTimeout='30000'/>
   </os>
   <features>
     <acpi/>

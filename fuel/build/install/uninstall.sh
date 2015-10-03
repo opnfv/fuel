@@ -31,17 +31,17 @@ DEST=$MOUNT
 REPO=$DEST/var/www/nailgun/ubuntu/fuelweb/x86_64
 
 cd $REPO
-if [ ! -f  $REPO/dists/precise/main/binary-amd64/Packages.backup ]; then
+if [ ! -f  $REPO/dists/trusty/main/binary-amd64/Packages.backup ]; then
     echo "Error - didn't find backup file for Packages!"
     exit 1
 fi
 
-if [ ! -f  $REPO/dists/precise/main/binary-amd64/Packages.gz.backup ]; then
+if [ ! -f  $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup ]; then
     echo "Error - didn't find backup file for Packages.gz!"
     exit 1
 fi
 
-if [ ! -f  $REPO/dists/precise/Release.backup ]; then
+if [ ! -f  $REPO/dists/trusty/Release.backup ]; then
     echo "Error - didn't find backup file for Release!"
     exit 1
 fi
@@ -71,9 +71,9 @@ cd $REPO
 
 echo "Restoring backups of datafiles"
 
-rm -f $REPO/dists/precise/main/binary-amd64/Packages $REPO/dists/precise/main/binary-amd64/Packages.gz
-rm -f $REPO/dists/precise/Release $DEST/etc/puppet/manifests/site.pp
-mv $REPO/dists/precise/main/binary-amd64/Packages.backup $REPO/dists/precise/main/binary-amd64/Packages
-mv $REPO/dists/precise/main/binary-amd64/Packages.gz.backup $REPO/dists/precise/main/binary-amd64/Packages.gz
-mv $REPO/dists/precise/Release.backup $REPO/dists/precise/Release
+rm -f $REPO/dists/trusty/main/binary-amd64/Packages $REPO/dists/trusty/main/binary-amd64/Packages.gz
+rm -f $REPO/dists/trusty/Release $DEST/etc/puppet/manifests/site.pp
+mv $REPO/dists/trusty/main/binary-amd64/Packages.backup $REPO/dists/trusty/main/binary-amd64/Packages
+mv $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup $REPO/dists/trusty/main/binary-amd64/Packages.gz
+mv $REPO/dists/trusty/Release.backup $REPO/dists/trusty/Release
 mv $DEST/etc/puppet/manifests/site.pp.backup $DEST/etc/puppet/manifests/site.pp

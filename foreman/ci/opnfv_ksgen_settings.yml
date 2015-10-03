@@ -7,6 +7,7 @@ global_params:
   controllers_hostnames_array: oscontroller1,oscontroller2,oscontroller3
   controllers_ip_array:
   amqp_vip:
+  admin_network:
   private_subnet:
   cinder_admin_vip:
   cinder_private_vip:
@@ -44,6 +45,8 @@ global_params:
   deployment_type:
 network_type: multi_network
 default_gw:
+no_dhcp: false
+domain_name: opnfv.com
 foreman:
   seed_values:
     - { name: heat_cfn, oldvalue: true, newvalue: false }
@@ -99,8 +102,8 @@ workaround_vif_plugging: false
 openstack_packstack_rpm: http://REPLACE_ME/brewroot/packages/openstack-puppet-modules/2013.2/9.el6ost/noarch/openstack-puppet-modules-2013.2-9.el6ost.noarch.rpm
 nodes:
   compute:
-    name: oscompute11.opnfv.com
-    hostname: oscompute11.opnfv.com
+    name: oscompute11.{{ domain_name }}
+    hostname: oscompute11.{{ domain_name }}
     short_name: oscompute11
     type: compute
     host_type: baremetal
@@ -110,8 +113,12 @@ nodes:
     bmc_mac: "10:23:45:67:88:AB"
     bmc_user: root
     bmc_pass: root
+    admin_ip: compute_admin
     ansible_ssh_pass: "Op3nStack"
     admin_password: ""
+    cpus: 2
+    memory: 2048
+    disk: 40
     groups:
     - compute
     - foreman_nodes
@@ -119,8 +126,8 @@ nodes:
     - rdo
     - neutron
   controller1:
-    name: oscontroller1.opnfv.com
-    hostname: oscontroller1.opnfv.com
+    name: oscontroller1.{{ domain_name }}
+    hostname: oscontroller1.{{ domain_name }}
     short_name: oscontroller1
     type: controller
     host_type: baremetal
@@ -130,10 +137,14 @@ nodes:
     bmc_mac: "10:23:45:67:88:AC"
     bmc_user: root
     bmc_pass: root
+    admin_ip: controller1_admin
     private_ip: controller1_private
     private_mac: "10:23:45:67:87:AC"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
+    cpus: 2
+    memory: 4096
+    disk: 40
     groups:
     - controller
     - foreman_nodes
@@ -141,8 +152,8 @@ nodes:
     - rdo
     - neutron
   controller2:
-    name: oscontroller2.opnfv.com
-    hostname: oscontroller2.opnfv.com
+    name: oscontroller2.{{ domain_name }}
+    hostname: oscontroller2.{{ domain_name }}
     short_name: oscontroller2
     type: controller
     host_type: baremetal
@@ -152,10 +163,14 @@ nodes:
     bmc_mac: "10:23:45:67:88:AD"
     bmc_user: root
     bmc_pass: root
+    admin_ip: controller2_admin
     private_ip: controller2_private
     private_mac: "10:23:45:67:87:AD"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
+    cpus: 2
+    memory: 4096
+    disk: 40
     groups:
     - controller
     - foreman_nodes
@@ -163,8 +178,8 @@ nodes:
     - rdo
     - neutron
   controller3:
-    name: oscontroller3.opnfv.com
-    hostname: oscontroller3.opnfv.com
+    name: oscontroller3.{{ domain_name }}
+    hostname: oscontroller3.{{ domain_name }}
     short_name: oscontroller3
     type: controller
     host_type: baremetal
@@ -174,10 +189,14 @@ nodes:
     bmc_mac: "10:23:45:67:88:AE"
     bmc_user: root
     bmc_pass: root
+    admin_ip: controller3_admin
     private_ip: controller3_private
     private_mac: "10:23:45:67:87:AE"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
+    cpus: 2
+    memory: 4096
+    disk: 40
     groups:
     - controller
     - foreman_nodes

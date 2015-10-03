@@ -1,0 +1,13 @@
+---
+- include: cinder_install.yml
+  tags:
+    - install
+    - cinder-install
+    - cinder
+
+- include: cinder_config.yml
+  when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
+  tags:
+    - config
+    - cinder-config
+    - cinder

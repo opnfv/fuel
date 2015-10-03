@@ -18,7 +18,6 @@ class opnfv {
 	include opnfv::resolver
 	include opnfv::ntp
 	include opnfv::add_packages
-	include opnfv::odl_docker
 	include opnfv::opncheck
     }
 

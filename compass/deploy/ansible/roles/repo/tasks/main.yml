@@ -1,0 +1,6 @@
+---
+- name: add juno cloudarchive
+  apt_repository: repo="{{ juno_cloud_archive }}" state=present
+
+- name: first update pkgs
+  apt: update_cache=yes

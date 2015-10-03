@@ -1,6 +1,13 @@
+###############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# szilard.cserey@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+###############################################################################
+
 import common
-import os
-import shutil
 
 from configure_settings import ConfigureSettings
 from configure_network import ConfigureNetwork
@@ -14,6 +21,9 @@ exec_cmd = common.exec_cmd
 parse = common.parse
 err = common.err
 log = common.log
+delete = common.delete
+create_dir_if_not_exists = common.create_dir_if_not_exists
+
 
 class ConfigureEnvironment(object):
 
@@ -21,7 +31,6 @@ class ConfigureEnvironment(object):
         self.env_id = None
         self.dea = dea
         self.yaml_config_dir = yaml_config_dir
-        self.env_name = self.dea.get_property('environment_name')
         self.release_id = release_id
         self.node_id_roles_dict = node_id_roles_dict
         self.required_networks = []
@@ -36,21 +45,20 @@ class ConfigureEnvironment(object):
 
     def configure_environment(self):
         log('Configure environment')
-        if os.path.exists(self.yaml_config_dir):
-            log('Deleting existing config directory %s' % self.yaml_config_dir)
-            shutil.rmtree(self.yaml_config_dir)
-        log('Creating new config directory %s' % self.yaml_config_dir)
-        os.makedirs(self.yaml_config_dir)
-
-        mode = self.dea.get_property('environment_mode')
+        delete(self.yaml_config_dir)
+        create_dir_if_not_exists(self.yaml_config_dir)
+        env_name = self.dea.get_env_name()
+        env_mode = self.dea.get_env_mode()
+        env_net_segment_type = self.dea.get_env_net_segment_type()
         log('Creating environment %s release %s, mode %s, network-mode neutron'
-            ', net-segment-type vlan' % (self.env_name, self.release_id, mode))
+            ', net-segment-type %s'
+            % (env_name, self.release_id, env_mode, env_net_segment_type))
         exec_cmd('fuel env create --name %s --release %s --mode %s '
-                 '--network-mode neutron --net-segment-type vlan'
-                 % (self.env_name, self.release_id, mode))
+                 '--network-mode neutron --net-segment-type %s'
+                 % (env_name, self.release_id, env_mode, env_net_segment_type))
 
-        if not self.env_exists(self.env_name):
-            err('Failed to create environment %s' % self.env_name)
+        if not self.env_exists(env_name):
+            err('Failed to create environment %s' % env_name)
         self.config_settings()
         self.config_network()
         self.config_nodes()
@@ -68,6 +76,3 @@ class ConfigureEnvironment(object):
         nodes = ConfigureNodes(self.yaml_config_dir, self.env_id,
                                self.node_id_roles_dict, self.dea)
         nodes.config_nodes()
-
-
-

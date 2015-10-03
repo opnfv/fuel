@@ -26,10 +26,12 @@ skipx
 drives=""
 removable_drives=""
 for drv in `ls -1 /sys/block | grep "sd\|hd\|vd\|cciss"`; do
-    if (grep -q 0 /sys/block/${drv}/removable); then
-        drives="${drives} ${drv}"
-    else
-        removable_drives="${removable_drives} ${drv}"
+    if !(blkid | grep -q "${drv}.*Fuel"); then
+      if (grep -q 0 /sys/block/${drv}/removable); then
+          drives="${drives} ${drv}"
+      else
+          removable_drives="${removable_drives} ${drv}"
+      fi
     fi
 done
 default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
@@ -152,9 +154,9 @@ if [ "$format_confirmed" != "yes" ] ; then
   chvt 1
 fi
 
-# verify tgtdrive is at least 30GB
+# verify tgtdrive is at least 41GB
 tgtdrivesize=$(( $(cat "/sys/class/block/${tgtdrive}/size") / 2 / 1024 ))
-if [ $tgtdrivesize -lt 30720 ]; then
+if [ $tgtdrivesize -lt 41984 ]; then
     exec < /dev/tty3 > /dev/tty3 2>&1
     chvt 3
     clear
@@ -162,7 +164,7 @@ if [ $tgtdrivesize -lt 30720 ]; then
     echo '********************************************************************'
     echo '*                            E R R O R                             *'
     echo '*                                                                  *'
-    echo '*  Your disk is under 30GB in size. Installation cannot continue.  *'
+    echo '*  Your disk is under 41GB in size. Installation cannot continue.  *'
     echo '*             Restart installation with a larger disk.             *'
     echo '*                                                                  *'
     echo '********************************************************************'
@@ -175,7 +177,9 @@ fi
 tgtdrive=$(echo $tgtdrive | sed -e 's/!/\//')
 
 # source
-if test -e /dev/disk/by-uuid/will_be_substituted_with_actual_uuid; then
+if test -e /dev/disk/by-label/"OpenStack_Fuel"; then
+    echo "harddrive --partition=LABEL="OpenStack_Fuel" --dir=/" > /tmp/source.ks
+elif test -e /dev/disk/by-uuid/will_be_substituted_with_actual_uuid; then
     echo "harddrive --partition=UUID=will_be_substituted_with_actual_uuid --dir=/" > /tmp/source.ks
 else
     echo "cdrom" > /tmp/source.ks
@@ -204,16 +208,18 @@ else
 fi
 echo > /tmp/partition.ks
 echo "partition /boot --onpart=/dev/${bootdev}3" >> /tmp/partition.ks
-echo "partition pv.001 --ondisk=${tgtdrive} --size=30000 --grow" >> /tmp/partition.ks
+echo "partition /boot/efi --onpart=/dev/${bootdev}2" >> /tmp/partition.ks
+echo "partition pv.001 --ondisk=${tgtdrive} --size=41000 --grow" >> /tmp/partition.ks
 echo "volgroup os pv.001" >> /tmp/partition.ks
 echo "logvol swap --vgname=os --recommended --name=swap" >> /tmp/partition.ks
 echo "logvol / --vgname=os --size=10000 --name=root --fstype=ext4" >> /tmp/partition.ks
-echo "logvol /var --vgname=os --size=10000 --percent 60 --grow --name=var --fstype=ext4" >> /tmp/partition.ks
-echo "logvol /var/log --vgname=os --size=4096 --percent 40 --grow --name=varlog --fstype=ext4" >> /tmp/partition.ks
+echo "logvol /var --vgname=os --size=10000 --percent 30 --grow --name=var --fstype=ext4" >> /tmp/partition.ks
+echo "logvol /var/lib/docker --vgname=os --size=17000  --percent 20 --grow --name=varlibdocker --fstype=ext4" >> /tmp/partition.ks
+echo "logvol /var/log --vgname=os --size=4096 --percent 50 --grow --name=varlog --fstype=ext4" >> /tmp/partition.ks
 
 
 # bootloader
-echo "bootloader --location=mbr --driveorder=${tgtdrive} --append=' biosdevname=0 crashkernel=none'" > /tmp/bootloader.ks
+echo "bootloader --location=partition --driveorder=${tgtdrive} --append=' biosdevname=0 crashkernel=none'" > /tmp/bootloader.ks
 
 # Anaconda can not install grub 0.97 on disks which are >4T.
 # The reason is that grub does not support such large geometries
@@ -233,6 +239,9 @@ echo "cat /tmp/grub.script | chroot /mnt/sysimage /sbin/grub --no-floppy --batch
 
 %packages --nobase --excludedocs
 @Core
+fuel
+fuel-library
+fuel-dockerctl
 authconfig
 bind-utils
 cronie
@@ -241,7 +250,12 @@ curl
 daemonize
 dhcp
 docker-io
+fuel-bootstrap-image
+fuel-createmirror
+fuel-target-centos-images
+fuel-package-updates
 fuelmenu
+fuel-docker-images
 gdisk
 lrzip
 lsof
@@ -249,8 +263,10 @@ man
 mlocate
 nmap-ncat
 ntp
+ntpdate
 openssh-clients
 policycoreutils
+python-daemon
 rsync
 ruby21-puppet
 ruby21-rubygem-netaddr
@@ -266,6 +282,7 @@ vim-enhanced
 virt-what
 wget
 yum
+yum-plugin-priorities
 
 %include /tmp/post_partition.ks
 
@@ -284,6 +301,8 @@ echo -e "* soft core unlimited\n* hard core unlimited" >> /etc/security/limits.c
 # Mount installation media in chroot
 %post --nochroot --log=/mnt/sysimage/root/anaconda-post-before-chroot.log
 #!/bin/sh
+
+set -x
 
 SOURCE="/mnt/sysimage/tmp/source"
 
@@ -342,6 +361,7 @@ function save_cfg {
     else
         echo GATEWAY=$gw >> /etc/sysconfig/network
     fi
+    [ -n "$build_images" -a "$build_images" != "0" ] && echo -e "$build_images" > /root/.build_images
 }
 
 # Default FQDN
@@ -356,6 +376,7 @@ gw=$gw
 device="eth0"
 hwaddr=`ifconfig $device | grep -i hwaddr | sed -e 's#^.*hwaddr[[:space:]]*##I'`
 dhcp_interface=$dhcp_interface
+build_images=$build_images
 save_cfg
 
 # Mounting installation source
@@ -366,7 +387,9 @@ echo
 mkdir -p ${SOURCE}
 mkdir -p ${FS}
 
-if test -e /dev/disk/by-uuid/will_be_substituted_with_actual_uuid; then
+if test -e /dev/disk/by-label/"OpenStack_Fuel"; then
+    mount /dev/disk/by-label/"OpenStack_Fuel" ${SOURCE}
+elif test -e /dev/disk/by-uuid/will_be_substituted_with_actual_uuid; then
     mount /dev/disk/by-uuid/will_be_substituted_with_actual_uuid ${FS}
     mount -o loop ${FS}/nailgun.iso ${SOURCE}
 fi
@@ -390,60 +413,46 @@ cp ${SOURCE}/.treeinfo ${repodir}/centos/x86_64
 
 # Copying Ubuntu files
 mkdir -p ${repodir}/ubuntu/x86_64/images
-cp -r ${SOURCE}/ubuntu/conf ${repodir}/ubuntu/x86_64
-cp -r ${SOURCE}/ubuntu/db ${repodir}/ubuntu/x86_64
 cp -r ${SOURCE}/ubuntu/dists ${repodir}/ubuntu/x86_64
-cp -r ${SOURCE}/ubuntu/indices ${repodir}/ubuntu/x86_64
 cp -r ${SOURCE}/ubuntu/pool ${repodir}/ubuntu/x86_64
-cp -r ${SOURCE}/ubuntu/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux ${repodir}/ubuntu/x86_64/images
-cp -r ${SOURCE}/ubuntu/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz ${repodir}/ubuntu/x86_64/images
+
+# We do not ship debian-installer kernel and initrd on ISO.
+# But we still need to be able to create ubuntu cobbler distro
+# which requires kernel and initrd to be available. So, we
+# just touch these files to work around cobbler's limitation.
+touch ${repodir}/ubuntu/x86_64/images/linux
+touch ${repodir}/ubuntu/x86_64/images/initrd.gz
 
 # make links for backward compatibility
 ln -s ${repodir}/centos ${wwwdir}/centos
 ln -s ${repodir}/ubuntu ${wwwdir}/ubuntu
-
-# Copying bootstrap image
-mkdir -p ${wwwdir}/bootstrap
-cp -r ${SOURCE}/bootstrap/initramfs.img ${wwwdir}/bootstrap
-cp -r ${SOURCE}/bootstrap/linux ${wwwdir}/bootstrap
-
-# Copying target images
-cp -r ${SOURCE}/targetimages ${wwwdir}
-
-mkdir -p /root/.ssh
-chmod 700 /root/.ssh
-cp ${SOURCE}/bootstrap/bootstrap.rsa /root/.ssh
-chmod 600 /root/.ssh/bootstrap.rsa
 
 # --------------------------
 # UNPACKING PUPPET MANIFESTS
 # --------------------------
 
 # create folders
-mkdir -p /etc/puppet/${OPENSTACK_VERSION}/manifests/
-mkdir -p /etc/puppet/${OPENSTACK_VERSION}/modules/
-rm -rf /etc/puppet/modules/
+#mkdir -p /etc/puppet/${OPENSTACK_VERSION}/manifests/
+#mkdir -p /etc/puppet/${OPENSTACK_VERSION}/modules/
+#rm -rf /etc/puppet/modules/
 
 # TODO(ikalnitsky): investigate why we need this
-cp ${SOURCE}/puppet-slave.tgz ${wwwdir}/
+#cp ${SOURCE}/puppet-slave.tgz ${wwwdir}/
 
 # place modules and manifests
-tar zxf ${SOURCE}/puppet-slave.tgz -C /etc/puppet/${OPENSTACK_VERSION}/modules
-cp /etc/puppet/${OPENSTACK_VERSION}/modules/osnailyfacter/examples/site.pp /etc/puppet/${OPENSTACK_VERSION}/manifests/site.pp
+#tar zxf ${SOURCE}/puppet-slave.tgz -C /etc/puppet/${OPENSTACK_VERSION}/modules
+#cp /etc/puppet/${OPENSTACK_VERSION}/modules/osnailyfacter/examples/site.pp /etc/puppet/${OPENSTACK_VERSION}/manifests/site.pp
 cp ${SOURCE}/centos-versions.yaml ${SOURCE}/ubuntu-versions.yaml /etc/puppet/${OPENSTACK_VERSION}/manifests/
 
 # make links for backward compatibility
-pushd /etc/puppet
-ln -s ${OPENSTACK_VERSION}/manifests/ /etc/puppet/manifests
-ln -s ${OPENSTACK_VERSION}/modules/ /etc/puppet/modules
-popd
+#pushd /etc/puppet
+#ln -s ${OPENSTACK_VERSION}/manifests/ /etc/puppet/manifests
+#ln -s ${OPENSTACK_VERSION}/modules/ /etc/puppet/modules
+#popd
 
 cp ${SOURCE}/send2syslog.py /bin/send2syslog.py
 mkdir -p /var/lib/hiera
 touch /var/lib/hiera/common.yaml /etc/puppet/hiera.yaml
-
-# Deploy docker images and ctl tools if we built ISO with docker containers support
-[ -d "${SOURCE}/docker" ] && cp -r ${SOURCE}/docker ${wwwdir}/docker
 
 # Prepare local repository specification
 rm /etc/yum.repos.d/CentOS*.repo
@@ -460,6 +469,24 @@ sed -i 's/^enabled.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
 
 # Disable GSSAPI in ssh server config
 sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication yes/d" /etc/ssh/sshd_config
+
+# Enable MOTD banner in sshd
+sed -i -e "s/^\s*PrintMotd no/PrintMotd yes/g" /etc/ssh/sshd_config
+
+# Add note regarding local repos creation to MOTD
+cat >> /etc/motd << EOF
+
+All environments use online repositories by default.
+Use the following commands to create local repositories
+on master node and change default repository settings:
+
+* CentOS: fuel-package-updates (see --help for options)
+* Ubuntu: fuel-createmirror (see --help for options)
+
+Please refer to the following guide for more information:
+https://docs.mirantis.com/openstack/fuel/fuel-6.1/reference-architecture.html#fuel-rep-mirror
+
+EOF
 
 # Copying bootstrap_admin_node.sh, chmod it and
 # adding /etc/init/bootstrap_admin_node.conf
@@ -540,10 +567,7 @@ rm -rf ${SOURCE}
 umount -f ${FS} || true
 rm -rf ${FS}
 
-# Enabling/configuring NTPD and ntpdate services
-echo "server 127.127.1.0"            >> /etc/ntp.conf
-echo "fudge  127.127.1.0 stratum 10" >> /etc/ntp.conf
-echo "tos    orphan 7"               >> /etc/ntp.conf
+echo "tos orphan 7" >> /etc/ntp.conf
 
 # Do not show error message on ntpdate failure. Customers should not be confused
 # if admin node does not have access to the internet time servers.

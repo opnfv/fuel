@@ -26,7 +26,7 @@ export VBOXDNLD = http://download.virtualbox.org/virtualbox/rpm/el/7.1/x86_64/Vi
 export VBOXRPM = $(shell pwd)/VirtualBox-4.3-4.3.26_98988_el7-1.x86_64.rpm
 export VAGRANTDNLD = https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.rpm
 export VAGRANTRPM = $(shell pwd)/vagrant_1.7.2_x86_64.rpm
-export GENESISRPM = $(shell pwd)/x86_64/opnfv-genesis-0.1-1.x86_64.rpm
+export GENESISRPM = $(shell pwd)/x86_64/opnfv-genesis-0.2-1.x86_64.rpm
 
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
 # Invoke with ICOCACHE=/full/path/to/iso if cached ISO is in non-standard location.
@@ -106,8 +106,8 @@ rpm-clean:
 
 .PHONY: rpm
 rpm:
-	pushd ../../ && git archive --format=tar --prefix=opnfv-genesis-0.1/ HEAD | gzip > foreman/build/opnfv-genesis.tar.gz
-	rpmbuild -ba opnfv-genesis.spec -D '_topdir %(echo `pwd`)' -D '_builddir %(echo `pwd`)' -D '_sourcedir %(echo `pwd`)' -D '_rpmdir %(echo `pwd`)' -D '_specdir %(echo `pwd`)' -D '_srcrpmdir %(echo `pwd`)' 
+	pushd ../../ && git archive --format=tar --prefix=opnfv-genesis-0.2/ HEAD | gzip > foreman/build/opnfv-genesis.tar.gz
+	rpmbuild -ba opnfv-genesis.spec -D '_topdir %(echo `pwd`)' -D '_builddir %(echo `pwd`)' -D '_sourcedir %(echo `pwd`)' -D '_rpmdir %(echo `pwd`)' -D '_specdir %(echo `pwd`)' -D '_srcrpmdir %(echo `pwd`)'
 	@make rpm-clean
 
 

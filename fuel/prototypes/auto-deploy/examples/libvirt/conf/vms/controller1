@@ -8,6 +8,7 @@
     <type arch='x86_64' machine='pc-1.0'>hvm</type>
     <boot dev='network'/>
     <boot dev='hd'/>
+    <bios rebootTimeout='30000'/>
   </os>
   <features>
     <acpi/>

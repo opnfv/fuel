@@ -302,6 +302,7 @@ class opnfv::controller_networker {
     class { "quickstack::pacemaker::neutron":
       agent_type               =>  $this_agent,
       enable_tunneling         =>  'true',
+      external_network_bridge  =>  'br-ex',
       ml2_mechanism_drivers    =>  $ml2_mech_drivers,
       ml2_network_vlan_ranges  =>  ["physnet1:10:50"],
       odl_controller_ip        =>  $odl_control_ip,
@@ -309,6 +310,18 @@ class opnfv::controller_networker {
       ovs_tunnel_iface         =>  $ovs_tunnel_if,
       ovs_tunnel_types         =>  ["vxlan"],
       verbose                  =>  'true',
+      neutron_conf_additional_params => { default_quota => 'default',
+                                      quota_network => '50',
+                                      quota_subnet => '50',
+                                      quota_port => 'default',
+                                      quota_security_group => '50',
+                                      quota_security_group_rule  => 'default',
+                                      quota_vip => 'default',
+                                      quota_pool => 'default',
+                                      quota_router => '50',
+                                      quota_floatingip => '100',
+                                      network_auto_schedule => 'default',
+                                    },
     }
 
     if ($external_network_flag != '') and str2bool($external_network_flag) {
@@ -316,50 +329,47 @@ class opnfv::controller_networker {
     }
 
   } else {
-    if $ovs_tunnel_if == '' { fail('ovs_tunnel_if is empty') }
-    if $public_ip == '' { fail('public_ip is empty') }
-    if $private_ip == '' { fail('private_ip is empty') }
+    ##Mandatory Non-HA parameters
+    if $private_network == '' { fail('private_network is empty') }
+    if $public_network == '' { fail('public_network is empty') }
 
-    if $odl_control_ip == '' { $odl_control_ip = $private_ip }
-
-    if $mysql_ip == '' { fail('mysql_ip is empty') }
-    if $mysql_root_password == '' { fail('mysql_root_password is empty') }
-    if $amqp_ip == '' { fail('amqp_ip is empty') }
-
-    if $memcache_ip == '' { fail('memcache_ip is empty') }
-    if $neutron_ip == '' { fail('neutron_ip is empty') }
-
-    if $keystone_db_password == '' { fail('keystone_db_password is empty') }
-
-    if $horizon_secret_key == '' { fail('horizon_secret_key is empty') }
-
-    if $nova_user_password == '' { fail('nova_user_password is empty') }
-    if $nova_db_password == '' { fail('nova_db_password is empty') }
-
-    if $cinder_user_password == '' { fail('cinder_user_password is empty') }
-    if $cinder_db_password == '' { fail('cinder_db_password is empty') }
-
-    if $glance_user_password == '' { fail('glance_user_password is empty') }
-    if $glance_db_password == '' { fail('glance_db_password is empty') }
-
-    if $neutron_user_password == '' { fail('neutron_user_password is empty') }
-    if $neutron_db_password == '' { fail('neutron_db_password is empty') }
-    if $neutron_metadata_shared_secret == '' { fail('neutron_metadata_shared_secret is empty') }
-
-    if $ceilometer_user_password == '' { fail('ceilometer_user_password is empty') }
-    if $ceilometer_metering_secret == '' { fail('ceilometer_user_password is empty') }
-
-    if $heat_user_password == '' { fail('heat_user_password is empty') }
-    if $heat_db_password == '' { fail('heat_db_password is empty') }
-    if $heat_auth_encrypt_key == '' { fail('heat_auth_encrypt_key is empty') }
-
-    if $swift_user_password == '' { fail('swift_user_password is empty') }
-    if $swift_shared_secret == '' { fail('swift_shared_secret is empty') }
-    if $swift_admin_password == '' { fail('swift_admin_password is empty') }
-
+    ##Optional Non-HA parameters
     if !$amqp_username { $amqp_username = $single_username }
     if !$amqp_password { $amqp_password = $single_password }
+    if !$mysql_root_password { $mysql_root_password = $single_password }
+    if !$keystone_db_password { $keystone_db_password = $single_password }
+    if !$horizon_secret_key { $horizon_secret_key = $single_password }
+    if !$nova_db_password { $nova_db_password = $single_password }
+    if !$nova_user_password { $nova_user_password = $single_password }
+    if !$cinder_db_password { $cinder_db_password = $single_password }
+    if !$cinder_user_password { $cinder_user_password = $single_password }
+    if !$glance_db_password { $glance_db_password = $single_password }
+    if !$glance_user_password { $glance_user_password = $single_password }
+    if !$neutron_db_password  { $neutron_db_password = $single_password }
+    if !$neutron_user_password  { $neutron_user_password = $single_password }
+    if !$neutron_metadata_shared_secret { $neutron_metadata_shared_secret = $single_password }
+    if !$ceilometer_user_password { $ceilometer_user_password = $single_password }
+    if !$ceilometer_metering_secret { $ceilometer_metering_secret = $single_password }
+    if !$heat_user_password  { $heat_user_password = $single_password }
+    if !$heat_db_password  { $heat_db_password = $single_password }
+    if !$heat_auth_encryption_key  { $heat_auth_encryption_key = 'octopus1octopus1' }
+    if !$swift_user_password { $swift_user_password = $single_password }
+    if !$swift_shared_secret { $swift_shared_secret = $single_password }
+    if !$swift_admin_password { $swift_admin_password = $single_password }
 
+    ##Find private interface
+    $ovs_tunnel_if = get_nic_from_network("$private_network")
+    ##Find private ip
+    $private_ip = get_ip_from_nic("$ovs_tunnel_if")
+    #Find public NIC
+    $public_nic = get_nic_from_network("$public_network")
+    $public_ip = get_ip_from_nic("$public_nic")
+
+    if !$mysql_ip { $mysql_ip = $private_ip }
+    if !$amqp_ip { $amqp_ip = $private_ip }
+    if !$memcache_ip { $memcache_ip = $private_ip }
+    if !$neutron_ip { $neutron_ip = $private_ip }
+    if !$odl_control_ip { $odl_control_ip = $private_ip }
 
     class { "quickstack::neutron::controller_networker":
       admin_email                   => $admin_email,
@@ -413,6 +423,8 @@ class opnfv::controller_networker {
       horizon_ca                    => $quickstack::params::horizon_ca,
       horizon_cert                  => $quickstack::params::horizon_cert,
       horizon_key                   => $quickstack::params::horizon_key,
+
+      keystonerc                    => true,
 
       ml2_mechanism_drivers         => $ml2_mech_drivers,
 

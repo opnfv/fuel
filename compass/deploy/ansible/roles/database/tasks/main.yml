@@ -1,0 +1,12 @@
+---
+- name: copy data.sh
+  template: src=data.j2 dest=/opt/data.sh mode=777
+  tags:
+    - mysql_user
+
+- include: mysql.yml
+  when: HA_CLUSTER is not defined
+
+- include: mariadb.yml
+  when: HA_CLUSTER is defined
+

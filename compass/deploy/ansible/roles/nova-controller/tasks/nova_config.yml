@@ -1,0 +1,16 @@
+---
+- name: nova db sync
+  command: su -s /bin/sh -c "nova-manage db sync" nova
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
+  notify:
+    - restart nova-api
+    - restart nova-cert
+    - restart nova-consoleauth
+    - restart nova-scheduler
+    - restart nova-conductor
+    - restart nova-novncproxy
+
+- meta: flush_handlers

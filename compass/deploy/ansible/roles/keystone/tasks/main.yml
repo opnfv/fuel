@@ -1,0 +1,13 @@
+---
+- include: keystone_install.yml
+  tags:
+    - install
+    - keystone_install
+    - keystone
+
+- include: keystone_config.yml
+  when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
+  tags:
+    - config
+    - keystone_config
+    - keystone

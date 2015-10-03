@@ -3,8 +3,3 @@
 # jonas.bjurel@ericsson.com 0.2 2015.04.14
 #########################################################################
 Following items needs to be done to achieve an OPNFV/BGS ARNO Fuel Stack:
-1) Add support for CentOS 6.5 - REMAINING
-2) Add Local GIT repo mirror
-3) Add Auto-deployment for Linux-Foundation Lab.
-4) Dry-run Funktest (Jenkins/Robot/etc.)
-5) Finalize Documentation

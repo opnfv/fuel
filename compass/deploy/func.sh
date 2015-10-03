@@ -1,19 +1,22 @@
 function tear_down_machines() {
-    virtmachines=$(virsh list --name |grep pxe)
+    virtmachines=$(sudo virsh list --name |grep pxe)
     for virtmachine in $virtmachines; do
         echo "destroy $virtmachine"
-        virsh destroy $virtmachine
+        sudo virsh destroy $virtmachine
         if [[ "$?" != "0" ]]; then
             echo "destroy instance $virtmachine failed"
             exit 1
         fi
     done
-    virtmachines=$(virsh list --all --name |grep pxe)
-    for virtmachine in $virtmachines; do
-        echo "undefine $virtmachine"
-        virsh undefine $virtmachine
+
+    sudo virsh  list --all|grep shut|awk '{print $2}'|xargs -n 1 sudo virsh undefine
+
+    vol_names=$(sudo virsh vol-list default |grep .img | awk '{print $1}')
+    for vol_name in $vol_names; do
+        echo "virsh vol-delete $vol_name"
+        sudo virsh vol-delete  $vol_name  --pool default
         if [[ "$?" != "0" ]]; then
-            echo "undefine instance $virtmachine failed"
+            echo "vol-delete $vol_name failed!"
             exit 1
         fi
     done

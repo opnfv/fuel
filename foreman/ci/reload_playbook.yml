@@ -14,3 +14,4 @@
                     delay=60
                     timeout=180
       sudo: false
+    - pause: minutes=1

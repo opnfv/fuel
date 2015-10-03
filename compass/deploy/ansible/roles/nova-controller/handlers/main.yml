@@ -1,0 +1,24 @@
+---
+- name: restart nova-api
+  service: name=nova-api state=restarted enabled=yes
+
+- name: restart nova-cert
+  service: name=nova-cert state=restarted enabled=yes
+
+- name: restart nova-consoleauth
+  service: name=nova-consoleauth state=restarted enabled=yes
+
+- name: restart nova-scheduler
+  service: name=nova-scheduler state=restarted enabled=yes
+
+- name: restart nova-conductor
+  service: name=nova-conductor state=restarted enabled=yes
+
+- name: restart nova-novncproxy
+  service: name=nova-novncproxy state=restarted enabled=yes
+
+- name: remove nova-sqlite-db
+  shell: rm /var/lib/nova/nova.sqlite || touch nova.sqlite.db.removed
+
+- name: restart neutron-server
+  service: name=neutron-server state=restarted enabled=yes

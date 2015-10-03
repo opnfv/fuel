@@ -60,7 +60,7 @@ class opnfv::external_net_setup {
     provider_network_type     => flat,
     provider_physical_network => 'physnet1',
     router_external           => true,
-    tenant_name               => 'admin',
+    tenant_name               => 'services',
   }
   ->
   neutron_subnet { 'provider_subnet':
@@ -70,8 +70,9 @@ class opnfv::external_net_setup {
     gateway_ip        => $public_gateway,
     allocation_pools  => [ "start=${public_allocation_start},end=${public_allocation_end}" ],
     dns_nameservers   => $public_dns,
+    enable_dhcp       => false,
     network_name      => 'provider_network',
-    tenant_name       => 'admin',
+    tenant_name       => 'services',
   }
   ->
   neutron_router { 'provider_router':

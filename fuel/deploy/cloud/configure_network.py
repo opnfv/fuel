@@ -1,3 +1,13 @@
+###############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# szilard.cserey@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+###############################################################################
+
+
 import common
 import yaml
 import io
@@ -11,6 +21,8 @@ parse = common.parse
 err = common.err
 check_file_exists = common.check_file_exists
 log = common.log
+backup = common.backup
+
 
 class ConfigureNetwork(object):
 
@@ -41,6 +53,7 @@ class ConfigureNetwork(object):
         network_yaml = ('%s/network_%s.yaml'
                         % (self.yaml_config_dir, self.env_id))
         check_file_exists(network_yaml)
+        backup(network_yaml)
 
         network_config = self.dea.get_property('network')
 

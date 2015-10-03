@@ -122,17 +122,17 @@ prep_make_live() {
     ssh-copy-id root@$FUELHOST
     sshfs root@1${FUELHOST}:/ $TMP_HOSTMOUNT
 
-    if [ -f  $REPO/dists/precise/main/binary-amd64/Packages.backup ]; then
+    if [ -f  $REPO/dists/trusty/main/binary-amd64/Packages.backup ]; then
         echo "Error - found backup file for Packages!"
         exit 1
     fi
 
-    if [ -f  $REPO/dists/precise/main/binary-amd64/Packages.gz.backup ]; then
+    if [ -f  $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup ]; then
         echo "Error - found backup file for Packages.gz!"
         exit 1
     fi
 
-    if [ -f  $REPO/dists/precise/Release.backup ]; then
+    if [ -f  $REPO/dists/trusty/Release.backup ]; then
         echo "Error - found backup file for Release!"
         exit 1
     fi
@@ -142,20 +142,24 @@ prep_make_live() {
         exit 1
     fi
 
-    cp $REPO/dists/precise/main/binary-amd64/Packages $REPO/dists/precise/main/binary-amd64/Packages.backup
-    cp $REPO/dists/precise/main/binary-amd64/Packages.gz $REPO/dists/precise/main/binary-amd64/Packages.gz.backup
-    cp $REPO/dists/precise/Release $REPO/dists/precise/Release.backup
+    cp $REPO/dists/trusty/main/binary-amd64/Packages $REPO/dists/trusty/main/binary-amd64/Packages.backup
+    cp $REPO/dists/trusty/main/binary-amd64/Packages.gz $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup
+    cp $REPO/dists/trusty/Release $REPO/dists/trusty/Release.backup
     cp -Rvp $DEST/etc/puppet $DEST/etc/puppet.backup
 }
 
 post_make_live() {
-    echo "Installing into Puppet:"
-    cd $TOP/release/puppet/modules
-    for dir in *
-    do
-        echo "   $dir"
-        cp -Rp $dir $DEST/etc/puppet/modules
-    done
+    if [ -d $TOP/release/puppet/modules ]; then
+        echo "Installing into Puppet:"
+        cd $TOP/release/puppet/modules
+        if [ `ls -1 | wc -l` -gt 0 ]; then
+            for dir in *
+            do
+                echo "   $dir"
+                cp -Rp $dir $DEST/etc/puppet/modules
+            done
+        fi
+    fi
 }
 
 make_live() {
@@ -210,18 +214,21 @@ iso_copy_puppet() {
     tar xzf $DEST/puppet-slave.tgz
     cd $TOP/release/puppet/modules
 
-    verify_orig_files $TMP_ISOPUPPET/release/puppet $TOP/release/puppet/modules
     # Remove all .orig files before copying as they now have been verfied
-    find $TOP/release/puppet/modules -type f -name '*.orig' -exec rm {} \;
 
-    for dir in $TOP/release/puppet/modules/*
-    do
-        echo "   $dir"
-        cp -Rp $dir $TMP_ISOPUPPET/release/puppet
-    done
+    if [ -d $TOP/release/puppet/modules ]; then
+        if [ `ls -1 | wc -l` -gt 0 ]; then
+            verify_orig_files $TMP_ISOPUPPET/release/puppet $TOP/release/puppet/modules
+            find $TOP/release/puppet/modules -type f -name '*.orig' -exec rm {} \;
+            for dir in $TOP/release/puppet/modules/*
+            do
+                echo "   $dir"
+                cp -Rp $dir $TMP_ISOPUPPET/release/puppet
+            done
+        fi
+    fi
+
     cd $TMP_ISOPUPPET/release/puppet
-
-
     tar czf $DEST/puppet-slave.tgz .
     cd $TOP
     rm -Rf $TMP_ISOPUPPET
@@ -250,7 +257,7 @@ iso_modify_image () {
 make_iso() {
     prep_make_iso
     copy_packages
-    iso_copy_puppet
+    #iso_copy_puppet
     iso_modify_image
     make_iso_image
 }
@@ -263,6 +270,8 @@ copy_packages() {
     do
         echo "   $udeb"
         cp $udeb $REPO/pool/debian-installer
+	echo "Did not expect a package here, not supported"
+	exit 1
     done
 
     cd $TOP/release/packages/ubuntu/pool/main
@@ -270,6 +279,8 @@ copy_packages() {
     do
         echo "   $deb"
         cp $deb $REPO/pool/main
+	echo "Did not expect a package here, not supported"
+	exit 1
     done
 
     echo "Running Fuel package patch file"
@@ -277,6 +288,8 @@ copy_packages() {
 
     for line in `cat $TOP/apply_patches | grep -v "^#" | grep -v "^$"`; do
         echo "Line is $line"
+        echo "Did not expect a line here, not supported"
+        exit 1
         ref=`echo $line | cut -d '>' -f 1`
         origpkg=`echo $line| cut -d '>' -f 2`
         url=`echo $line | cut -d '>' -f 3`
@@ -315,10 +328,11 @@ copy_packages() {
     done
 
     printf "Done running Fuel patch file\n\n"
-
     echo "Running add packages file"
     for line in `cat $TOP/add_opnfv_packages | grep -v "^#" | grep -v "^$"`; do
         echo "Line is $line"
+        echo "Did not expect a line here, not supported"
+        exit 1
         ref=`echo $line | cut -d '>' -f 1`
         origpkg=`echo $line| cut -d '>' -f 2`
         url=`echo $line | cut -d '>' -f 3`
@@ -370,6 +384,8 @@ copy_packages() {
         printf "\n\n" | tee -a  $REPORTFILE
         for line in `cat $TOP/patch-packages/release/patch-replacements`
         do
+            echo "Did not expect a line here, not supported"
+       	    exit 1
             frompkg=`echo $line | cut -d ">" -f 1`
             topkg=`echo $line | cut -d ">" -f 2`
             echo "CM: Applying patch to $frompkg" | tee -a $REPORTFILE
@@ -411,17 +427,19 @@ copy_packages() {
     APT_DEB_CONF="$TOP/install/apt-ftparchive-deb.conf"
     APT_UDEB_CONF="$TOP/install/apt-ftparchive-udeb.conf"
 
-    apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
-    apt-ftparchive generate "${APT_UDEB_CONF}"
+    echo Not running echo apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
+    echo Not running apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
+    echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
+    echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
 
     # Fuel also needs this index file
-    cat dists/precise/main/binary-amd64/Packages | \
-        awk '/^Package:/{pkg=$2}
-    /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
-    cp ubuntu-versions.yaml $DEST
+    # cat dists/trusty/main/binary-amd64/Packages | \
+    #    awk '/^Package:/{pkg=$2}
+    # /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
+    # cp ubuntu-versions.yaml $DEST
 
-    apt-ftparchive -c "${APT_REL_CONF}" release dists/precise/ > dists/precise/Release
-    gzip -9cf dists/precise/Release > dists/precise/Release.gz
+    # apt-ftparchive -c "${APT_REL_CONF}" release dists/trusty/ > dists/trusty/Release
+    # gzip -9cf dists/trusty/Release > dists/trusty/Release.gz
 
     popd > /dev/null
 
@@ -444,6 +462,8 @@ if [ $MODE = "iso" ]; then
     NEWISO=$3
     VOLUMEID="$4 $5"
     REPORTFILE="${NEWISO}.txt"
+    echo "Opening reportfile at $REPORTFILE"
+    touch $REPORTFILE
     if [ ! -f $ORIGISO ]; then
         echo "Can't find original MOS 5.1 iso at $ORIGISO"
         rm $CONF

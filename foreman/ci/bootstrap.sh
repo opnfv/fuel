@@ -25,8 +25,7 @@ green=`tput setaf 2`
 yum install -y epel-release-7*
 
 # Install other required packages
-# Major version is pinned to force some consistency for Arno
-if ! yum -y install python-pip-1* python-virtualenv-1* gcc-4* git-1* sshpass-1* ansible-1* python-requests-1*; then
+if ! yum -y install python-pip python-virtualenv gcc git sshpass ansible python-requests; then
   printf '%s\n' 'bootstrap.sh: failed to install required packages' >&2
   exit 1
 fi
@@ -36,7 +35,7 @@ cd /opt
 echo "Cloning khaleesi to /opt"
 
 if [ ! -d khaleesi ]; then
-  if ! git clone -b v1.0 https://github.com/trozet/khaleesi.git; then
+  if ! git clone -b opnfv https://github.com/trozet/khaleesi.git; then
     printf '%s\n' 'bootstrap.sh: Unable to git clone khaleesi' >&2
     exit 1
   fi

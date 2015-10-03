@@ -18,6 +18,5 @@ This purpose of this framework is to:
         - Apply patches to the baseline.
         - Etc.
 3)      Re factor/rebuild the .iso image for deployment (also builds in a container, for the same reason as mentioned above)
-4)      Through a pre-deployment script, setting config's not part of the pristine fuel build can be achieved
 
 For detailed instructions on how to add content, configuration, build and deply - please see: DOC/

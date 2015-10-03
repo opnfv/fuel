@@ -8,7 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-SUBDIRS := debootstrap novnc neutron-common
+SUBDIRS := 
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: $(SUBDIRS) $(SUBCLEAN) clean

@@ -1,0 +1,41 @@
+---
+- name: get nfs server
+  local_action: shell  /sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6| grep "10" -m 1 |awk '{print $2}'|tr -d "addr:"
+  register: ip_info
+  run_once: True
+
+- name: install nfs
+  local_action: yum  name=nfs-utils state=present
+  run_once: True
+
+- name: create image directory
+  local_action: file path=/opt/images state=directory mode=0777
+  run_once: True
+
+- name: update nfs config
+  local_action: lineinfile dest=/etc/exports state=present
+              regexp="/opt/images *(rw,insecure,sync,all_squash)"
+              line="/opt/images *(rw,insecure,sync,all_squash)"
+  run_once: True
+
+- name: restart nfs service
+  local_action: service name=nfs state=restarted enabled=yes
+  run_once: True
+
+- name: install nfs comm
+  apt: name=nfs-common state=present
+
+- name: get mount info
+  command: mount
+  register: mount_info
+
+- name: mount image directory
+  shell: |
+    mount -t nfs  -onfsvers=3 {{ item }}:/opt/images /var/lib/glance/images
+    sed -i '/\/var\/lib\/glance\/images/d' /etc/fstab
+    echo {{ item }}:/opt/images /var/lib/glance/images/ nfs nfsvers=3 >> /etc/fstab
+  when: mount_info.stdout.find('images') == -1
+  with_items:
+      ip_info.stdout_lines
+  retries: 5
+  delay: 3

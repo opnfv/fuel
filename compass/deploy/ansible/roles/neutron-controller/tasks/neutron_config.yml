@@ -1,0 +1,10 @@
+---
+- name: neutron-db-manage upgrade to Juno
+  shell: neutron-db-manage --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
+  notify:
+    - restart neutron-server
+

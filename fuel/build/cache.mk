@@ -1,4 +1,4 @@
-##############################################################################
+#############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # stefan.k.berg@ericsson.com
 # jonas.bjurel@ericsson.com
@@ -15,10 +15,8 @@ CACHECLEAN := $(addsuffix .clean,$(CACHEFILES) $(CACHEDIRS))
 ############################################################################
 # BEGIN of variables to customize
 #
-#CACHEDIRS := opendaylight/f_odl/package
+#CACHEDIRS := foo/bar
 
-#CACHEFILES := opendaylight/.odl-build-history
-#CACHEFILES += opendaylight/.odl-build.log
 CACHEFILES += .versions
 CACHEFILES += $(shell basename $(ISOSRC))
 #
@@ -54,20 +52,20 @@ $(CACHEFILES):
 
 	@if [ ! -f $(BUILD_BASE)/$@ ]; then\
 	   echo " " > $(BUILD_BASE)/$@;\
- 	   ln -s $(BUILD_BASE)/$@ $(CACHE_DIR)/$@;\
+	   ln -s $(BUILD_BASE)/$@ $(CACHE_DIR)/$@;\
 	   rm -f $(BUILD_BASE)/$@;\
 	else\
 	   ln -s $(BUILD_BASE)/$@ $(CACHE_DIR)/$@;\
 	fi
 
 .PHONY: validate-cache
-validate-cache: prepare $(CACHEVALIDATE)
-	@if [[ $(shell md5sum $(BUILD_BASE)/config.mk | cut -f1 -d " ") != $(shell cat $(VERSION_FILE) | grep config.mk | awk '{print $$NF}') ]]; then\
+validate-cache: $(CACHEVALIDATE)
+	@if [ "$(shell md5sum $(BUILD_BASE)/config.mk | cut -f1 -d " ")" != "$(shell cat $(VERSION_FILE) | grep config.mk | awk '{print $$NF}')" ]; then\
 	   echo "Cache does not match current config.mk definition, cache must be rebuilt";\
 	   exit 1;\
 	fi;
 
-	@if [[ $(shell md5sum $(BUILD_BASE)/cache.mk | cut -f1 -d " ") != $(shell cat $(VERSION_FILE) | grep cache.mk | awk '{print $$NF}') ]]; then\
+	@if [ "$(shell md5sum $(BUILD_BASE)/cache.mk | cut -f1 -d " ")" != "$(shell cat $(VERSION_FILE) | grep cache.mk | awk '{print $$NF}')" ]; then\
 	   echo "Cache does not match current cache.mk definition, cache must be rebuilt";\
 	   exit 1;\
 	fi;
@@ -80,13 +78,11 @@ validate-cache: prepare $(CACHEVALIDATE)
 	then \
 	   REMOTE_ID=$(shell git ls-remote $(FUEL_MAIN_REPO) $(FUEL_MAIN_TAG) | awk '{print $$(NF-1)}'); \
 	fi; \
-	if [ $$REMOTE_ID != $(shell cat $(VERSION_FILE) | grep fuel | awk '{print $$NF}') ]; \
+	if [[ $$REMOTE_ID != $(shell cat $(VERSION_FILE) | grep fuel | awk '{print $$NF}') ]]; \
 	then \
 	   echo "Cache does not match upstream Fuel, cache must be rebuilt!"; \
 	   exit 1; \
 	fi
-
-	#$(MAKE) -C opendaylight validate-cache
 
 .PHONY: $(CACHEVALIDATE)
 $(CACHEVALIDATE): %.validate:

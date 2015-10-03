@@ -1,8 +1,21 @@
+###############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# szilard.cserey@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+###############################################################################
+
+
 import common
+import time
 from hardware_adapter import HardwareAdapter
 
 log = common.log
 exec_cmd = common.exec_cmd
+err = common.err
+
 
 class IpmiAdapter(HardwareAdapter):
 
@@ -27,28 +40,72 @@ class IpmiAdapter(HardwareAdapter):
         return mac_list
 
     def node_power_on(self, node_id):
+        WAIT_LOOP = 200
+        SLEEP_TIME = 3
         log('Power ON Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
         state = exec_cmd('%s chassis power status' % cmd_prefix)
         if state == 'Chassis Power is off':
             exec_cmd('%s chassis power on' % cmd_prefix)
+            done = False
+            for i in range(WAIT_LOOP):
+                state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
+                                    False)
+                if state == 'Chassis Power is on':
+                    done = True
+                    break
+                else:
+                    time.sleep(SLEEP_TIME)
+            if not done:
+                err('Could Not Power ON Node %s' % node_id)
 
     def node_power_off(self, node_id):
+        WAIT_LOOP = 200
+        SLEEP_TIME = 3
         log('Power OFF Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
         state = exec_cmd('%s chassis power status' % cmd_prefix)
         if state == 'Chassis Power is on':
+            done = False
             exec_cmd('%s chassis power off' % cmd_prefix)
+            for i in range(WAIT_LOOP):
+                state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
+                                    False)
+                if state == 'Chassis Power is off':
+                    done = True
+                    break
+                else:
+                    time.sleep(SLEEP_TIME)
+            if not done:
+                err('Could Not Power OFF Node %s' % node_id)
 
     def node_reset(self, node_id):
-        log('Reset Node %s' % node_id)
+        WAIT_LOOP = 600
+        log('RESET Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
         state = exec_cmd('%s chassis power status' % cmd_prefix)
         if state == 'Chassis Power is on':
+            was_shut_off = False
+            done = False
             exec_cmd('%s chassis power reset' % cmd_prefix)
+            for i in range(WAIT_LOOP):
+                state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
+                                    False)
+                if state == 'Chassis Power is off':
+                    was_shut_off = True
+                elif state == 'Chassis Power is on' and was_shut_off:
+                    done = True
+                    break
+                time.sleep(1)
+            if not done:
+                err('Could Not RESET Node %s' % node_id)
+        else:
+            err('Cannot RESET Node %s because it\'s not Active, state: %s'
+                % (node_id, state))
 
     def node_set_boot_order(self, node_id, boot_order_list):
         log('Set boot order %s on Node %s' % (boot_order_list, node_id))
+        boot_order_list.reverse()
         cmd_prefix = self.ipmi_cmd(node_id)
         for dev in boot_order_list:
             if dev == 'pxe':

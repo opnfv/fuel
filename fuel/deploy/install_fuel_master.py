@@ -1,20 +1,37 @@
+###############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# szilard.cserey@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+###############################################################################
+
+
 import common
 import time
 import os
+import glob
 from ssh_client import SSHClient
 from dha_adapters.libvirt_adapter import LibvirtAdapter
 
 log = common.log
 err = common.err
 clean = common.clean
+delete = common.delete
 
 TRANSPLANT_FUEL_SETTINGS = 'transplant_fuel_settings.py'
 BOOTSTRAP_ADMIN = '/usr/local/sbin/bootstrap_admin_node'
+FUEL_CLIENT_CONFIG = '/etc/fuel/client/config.yaml'
+PLUGINS_DIR = '~/plugins'
+LOCAL_PLUGIN_FOLDER = '/opt/opnfv'
+
 
 class InstallFuelMaster(object):
 
-    def __init__(self, dea_file, dha_file, fuel_ip, fuel_username, fuel_password,
-                 fuel_node_id, iso_file, work_dir):
+    def __init__(self, dea_file, dha_file, fuel_ip, fuel_username,
+                 fuel_password, fuel_node_id, iso_file, work_dir,
+                 fuel_plugins_dir):
         self.dea_file = dea_file
         self.dha = LibvirtAdapter(dha_file)
         self.fuel_ip = fuel_ip
@@ -22,7 +39,9 @@ class InstallFuelMaster(object):
         self.fuel_password = fuel_password
         self.fuel_node_id = fuel_node_id
         self.iso_file = iso_file
+        self.iso_dir = os.path.dirname(self.iso_file)
         self.work_dir = work_dir
+        self.fuel_plugins_dir = fuel_plugins_dir
         self.file_dir = os.path.dirname(os.path.realpath(__file__))
         self.ssh = SSHClient(self.fuel_ip, self.fuel_username,
                              self.fuel_password)
@@ -32,21 +51,16 @@ class InstallFuelMaster(object):
 
         self.dha.node_power_off(self.fuel_node_id)
 
-        self.zero_mbr_set_boot_order()
-
-        self.proceed_with_installation()
-
-    def custom_install(self):
-        log('Start Custom Fuel Installation')
-
-        self.dha.node_power_off(self.fuel_node_id)
-
         log('Zero the MBR')
         self.dha.node_zero_mbr(self.fuel_node_id)
 
         self.dha.node_set_boot_order(self.fuel_node_id, ['disk', 'iso'])
 
-        self.proceed_with_installation()
+        try:
+            self.proceed_with_installation()
+        except Exception as e:
+            self.post_install_cleanup()
+            err(e)
 
     def proceed_with_installation(self):
         log('Eject ISO')
@@ -68,7 +82,7 @@ class InstallFuelMaster(object):
 
         log('Let the Fuel deployment continue')
         log('Found FUEL menu as PID %s, now killing it' % fuel_menu_pid)
-        self.ssh_exec_cmd('kill %s' % fuel_menu_pid)
+        self.ssh_exec_cmd('kill %s' % fuel_menu_pid, False)
 
         log('Wait until installation complete')
         self.wait_until_installation_completed()
@@ -76,22 +90,36 @@ class InstallFuelMaster(object):
         log('Waiting for one minute for Fuel to stabilize')
         time.sleep(60)
 
-        log('Eject ISO')
-        self.dha.node_eject_iso(self.fuel_node_id)
+        self.delete_deprecated_fuel_client_config_from_fuel_6_1()
+
+        self.collect_plugin_files()
+
+        self.install_plugins()
+
+        self.post_install_cleanup()
 
         log('Fuel Master installed successfully !')
 
-    def zero_mbr_set_boot_order(self):
-        if self.dha.node_can_zero_mbr(self.fuel_node_id):
-            log('Fuel Node %s capable of zeroing MBR so doing that...'
-                % self.fuel_node_id)
-            self.dha.node_zero_mbr(self.fuel_node_id)
-            self.dha.node_set_boot_order(self.fuel_node_id, ['disk', 'iso'])
-        elif self.dha.node_can_set_boot_order_live(self.fuel_node_id):
-            log('Node %s can change ISO boot order live' % self.fuel_node_id)
-            self.dha.node_set_boot_order(self.fuel_node_id, ['iso', 'disk'])
-        else:
-            err('No way to install Fuel node')
+    def collect_plugin_files(self):
+        with self.ssh as s:
+            s.exec_cmd('mkdir %s' % PLUGINS_DIR)
+            if self.fuel_plugins_dir:
+                for f in glob.glob('%s/*.rpm' % self.fuel_plugins_dir):
+                    s.scp_put(f, PLUGINS_DIR)
+            else:
+                s.exec_cmd('cp %s/*.rpm %s' % (LOCAL_PLUGIN_FOLDER,
+                                               PLUGINS_DIR))
+
+    def install_plugins(self):
+        log('Installing Fuel Plugins')
+        with self.ssh as s:
+            r = s.exec_cmd('find %s -type f -name \'*.rpm\'' % PLUGINS_DIR)
+            for f in r.splitlines():
+                log('Found plugin %s, installing ...' % f)
+                r, e = s.exec_cmd('fuel plugins --install %s' % f, False)
+                if e and 'does not update installed package' not in r:
+                    raise Exception('Installation of Fuel Plugin %s '
+                                    'failed: %s' % (f, e))
 
     def wait_for_node_up(self):
         WAIT_LOOP = 60
@@ -103,14 +131,14 @@ class InstallFuelMaster(object):
                 success = True
                 break
             except Exception as e:
-                log('EXCEPTION [%s] received when SSH-ing into Fuel VM %s ... '
-                    'sleeping %s seconds' % (e, self.fuel_ip, SLEEP_TIME))
+                log('Trying to SSH into Fuel VM %s ... sleeping %s seconds'
+                    % (self.fuel_ip, SLEEP_TIME))
                 time.sleep(SLEEP_TIME)
             finally:
                 self.ssh.close()
 
         if not success:
-           err('Could not SSH into Fuel VM %s' % self.fuel_ip)
+            raise Exception('Could not SSH into Fuel VM %s' % self.fuel_ip)
 
     def wait_until_fuel_menu_up(self):
         WAIT_LOOP = 60
@@ -127,39 +155,35 @@ class InstallFuelMaster(object):
                 else:
                     break
         if not fuel_menu_pid:
-            err('Could not find the Fuel Menu Process ID')
+            raise Exception('Could not find the Fuel Menu Process ID')
         return fuel_menu_pid
 
     def get_fuel_menu_pid(self, printout, search):
-        fuel_menu_pid = None
         for line in printout.splitlines():
-            if search in line:
-                fuel_menu_pid = clean(line)[1]
-                break
-        return fuel_menu_pid
+            if line.endswith(search):
+                return clean(line)[1]
 
-    def ssh_exec_cmd(self, cmd):
+    def ssh_exec_cmd(self, cmd, check=True):
         with self.ssh:
-            ret = self.ssh.exec_cmd(cmd)
+            ret = self.ssh.exec_cmd(cmd, check=check)
         return ret
 
     def inject_own_astute_yaml(self):
-        dest ='~/%s/' % self.work_dir
-
         with self.ssh as s:
-            s.exec_cmd('rm -rf %s' % self.work_dir, check=False)
-            s.exec_cmd('mkdir ~/%s' % self.work_dir)
-            s.scp_put(self.dea_file, dest)
-            s.scp_put('%s/common.py' % self.file_dir, dest)
-            s.scp_put('%s/dea.py' % self.file_dir, dest)
-            s.scp_put('%s/transplant_fuel_settings.py' % self.file_dir, dest)
+            s.exec_cmd('rm -rf %s' % self.work_dir, False)
+            s.exec_cmd('mkdir %s' % self.work_dir)
+            s.scp_put(self.dea_file, self.work_dir)
+            s.scp_put('%s/common.py' % self.file_dir, self.work_dir)
+            s.scp_put('%s/dea.py' % self.file_dir, self.work_dir)
+            s.scp_put('%s/transplant_fuel_settings.py'
+                      % self.file_dir, self.work_dir)
             log('Modifying Fuel astute')
-            s.run('python ~/%s/%s ~/%s/%s'
+            s.run('python %s/%s %s/%s'
                   % (self.work_dir, TRANSPLANT_FUEL_SETTINGS,
                      self.work_dir, os.path.basename(self.dea_file)))
 
     def wait_until_installation_completed(self):
-        WAIT_LOOP = 180
+        WAIT_LOOP = 360
         SLEEP_TIME = 10
         CMD = 'ps -ef | grep %s | grep -v grep' % BOOTSTRAP_ADMIN
 
@@ -174,4 +198,21 @@ class InstallFuelMaster(object):
                     time.sleep(SLEEP_TIME)
 
         if not install_completed:
-            err('Fuel installation did not complete')
+            raise Exception('Fuel installation did not complete')
+
+    def post_install_cleanup(self):
+        log('Eject ISO file %s' % self.iso_file)
+        self.dha.node_eject_iso(self.fuel_node_id)
+        log('Remove ISO directory %s' % self.iso_dir)
+        delete(self.iso_dir)
+
+    def delete_deprecated_fuel_client_config_from_fuel_6_1(self):
+        with self.ssh as s:
+            response, error = s.exec_cmd('fuel -v', False)
+        if (error and
+            'DEPRECATION WARNING' in error and
+            '6.1.0' in error and
+            FUEL_CLIENT_CONFIG in error):
+            log('Delete deprecated fuel client config %s' % FUEL_CLIENT_CONFIG)
+            with self.ssh as s:
+                s.exec_cmd('rm %s' % FUEL_CLIENT_CONFIG, False)

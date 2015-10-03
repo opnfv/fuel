@@ -105,9 +105,9 @@ nodes:
     type: compute
     host_type: baremetal
     hostgroup: Compute
-    mac_address: "00:25:b5:a0:00:5e"
-    bmc_ip: 172.30.8.74
-    bmc_mac: "74:a2:e6:a4:14:9c"
+    mac_address: "00:25:B5:A0:00:2A"
+    bmc_ip: 172.30.8.75
+    bmc_mac: "a8:9d:21:c9:8b:56"
     bmc_user: admin
     bmc_pass: octopus
     ansible_ssh_pass: "Op3nStack"
@@ -125,9 +125,9 @@ nodes:
     type: compute
     host_type: baremetal
     hostgroup: Compute
-    mac_address: "00:25:b5:a0:00:3e"
-    bmc_ip: 172.30.8.73
-    bmc_mac: "a8:9d:21:a0:15:9c"
+    mac_address: "00:25:B5:A0:00:3A"
+    bmc_ip: 172.30.8.65
+    bmc_mac: "a8:9d:21:c9:4d:26"
     bmc_user: admin
     bmc_pass: octopus
     ansible_ssh_pass: "Op3nStack"
@@ -145,13 +145,13 @@ nodes:
     type: controller
     host_type: baremetal
     hostgroup: Controller_Network_ODL
-    mac_address: "00:25:b5:a0:00:af"
-    bmc_ip: 172.30.8.66
-    bmc_mac: "a8:9d:21:c9:8b:56"
+    mac_address: "00:25:B5:A0:00:4A"
+    bmc_ip: 172.30.8.74
+    bmc_mac: "a8:9d:21:c9:3a:92"
     bmc_user: admin
     bmc_pass: octopus
     private_ip: controller1_private
-    private_mac: "00:25:b5:b0:00:1f"
+    private_mac: "00:25:B5:A0:00:4B"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
     groups:
@@ -167,13 +167,13 @@ nodes:
     type: controller
     host_type: baremetal
     hostgroup: Controller_Network
-    mac_address: "00:25:b5:a0:00:9e"
-    bmc_ip: 172.30.8.75
-    bmc_mac: "a8:9d:21:c9:4d:26"
+    mac_address: "00:25:B5:A0:00:5A"
+    bmc_ip: 172.30.8.73
+    bmc_mac: "74:a2:e6:a4:14:9c"
     bmc_user: admin
     bmc_pass: octopus
     private_ip: controller2_private
-    private_mac: "00:25:b5:b0:00:de"
+    private_mac: "00:25:B5:A0:00:5B"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
     groups:
@@ -189,13 +189,13 @@ nodes:
     type: controller
     host_type: baremetal
     hostgroup: Controller_Network
-    mac_address: "00:25:b5:a0:00:7e"
-    bmc_ip: 172.30.8.65
-    bmc_mac: "a8:9d:21:c9:3a:92"
+    mac_address: "00:25:B5:A0:00:6A"
+    bmc_ip: 172.30.8.72
+    bmc_mac: "a8:9d:21:a0:15:9c"
     bmc_user: admin
     bmc_pass: octopus
     private_ip: controller3_private
-    private_mac: "00:25:b5:b0:00:be"
+    private_mac: "00:25:B5:A0:00:6B"
     ansible_ssh_pass: "Op3nStack"
     admin_password: "octopus"
     groups:

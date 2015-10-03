@@ -1,0 +1,10 @@
+DEVICE=br-ex
+DEVICETYPE=ovs
+IPADDR=<%= @public_nic_ip %>
+NETMASK=<%= @public_nic_netmask %>
+GATEWAY=<%= @public_gateway %>
+BOOTPROTO=static
+ONBOOT=yes
+TYPE=OVSBridge
+PROMISC=yes
+PEERDNS=no

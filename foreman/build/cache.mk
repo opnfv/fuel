@@ -16,6 +16,8 @@ CACHECLEAN := $(addsuffix .clean,$(CACHEFILES) $(CACHEDIRS))
 # BEGIN of variables to customize
 #
 CACHEFILES += .versions
+CACHEFILES += $(shell basename $(VAGRANTRPM))
+CACHEFILES += $(shell basename $(VBOXRPM))
 CACHEFILES += $(shell basename $(ISOSRC))
 #
 # END of variables to customize

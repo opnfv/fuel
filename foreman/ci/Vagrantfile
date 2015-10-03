@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "chef/centos-7.0"
+  config.vm.box = "opnfv/centos-7.0"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -40,6 +40,9 @@ Vagrant.configure(2) do |config|
   # IP address of your LAN's router
   default_gw = ""
   nat_flag = false
+
+  # Disable dhcp flag
+  disable_dhcp_flag = false
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -77,10 +80,11 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  
+
   config.ssh.username = 'root'
   config.ssh.password = 'vagrant'
   config.ssh.insert_key = 'true'
+  config.vm.provision :shell, path: "resize_partition.sh"
   config.vm.provision "ansible" do |ansible|
      ansible.playbook = "reload_playbook.yml"
   end
@@ -90,4 +94,9 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, path: "nat_setup.sh"
   end
   config.vm.provision :shell, path: "bootstrap.sh"
+  if disable_dhcp_flag
+    config.vm.provision :shell, :inline => "systemctl stop dhcpd"
+    config.vm.provision :shell, :inline => "systemctl disable dhcpd"
+  end
+  config.vm.provision :shell, path: "resize_lvm.sh"
 end

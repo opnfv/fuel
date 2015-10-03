@@ -1,0 +1,16 @@
+---
+- name: keystone-manage db-sync
+  shell: su -s /bin/sh -c "keystone-manage db_sync"
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
+
+- name: place keystone init script under /opt/
+  template: src=keystone_init dest=/opt/keystone_init mode=0744
+
+- name: run keystone_init
+  shell: /opt/keystone_init && touch keystone_init_complete || keystone_init_failed
+  args:
+    creates: keystone_init_complete 
+

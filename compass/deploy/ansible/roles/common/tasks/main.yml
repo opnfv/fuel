@@ -1,0 +1,28 @@
+---
+- name: install ubuntu-cloud-keyring(ubuntu)
+  apt: name={{ item }} state=latest
+  with_items:
+    - ubuntu-cloud-keyring
+
+- name: update hosts files to all hosts
+  template: src=hosts
+            dest=/etc/hosts
+            backup=yes
+
+- name: install common packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - python-pip
+    - python-dev
+    - python-mysqldb
+    - ntp
+
+- name: restart ntp
+  command: su -s /bin/sh -c "service ntp stop; ntpd -gq; hwclock --systohc"
+  ignore_errors: True
+
+- name: update ntp conf
+  template: src=ntp.conf dest=/etc/ntp.conf backup=yes
+
+- name: restart ntp
+  service: name=ntp state=restarted enabled=yes

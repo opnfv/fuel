@@ -51,11 +51,11 @@ class opnfv::compute {
   if !$ceilometer_metering_secret { $ceilometer_metering_secret = $single_password }
 
   ##HA Global params
-  if $ha_flag {
+  if $ha_flag and str2bool($ha_flag) {
      if $private_network == '' { fail('private_network is empty') }
      if !$keystone_private_vip { fail('keystone_private_vip is empty') }
      if !$glance_private_vip { fail('glance_private_vip is empty') }
-     if !$nova_private_vip { fail('nova_private_vip is empty') }
+     if !$nova_public_vip { fail('nova_public_vip is empty') }
      if !$nova_db_password { $nova_db_password = $single_password }
      if !$nova_user_password { $nova_user_password = $single_password }
      if !$controllers_ip_array { fail('controllers_ip_array is empty') }
@@ -78,19 +78,30 @@ class opnfv::compute {
 
   } else {
   ##non HA params
-     if $ovs_tunnel_if == '' { fail('ovs_tunnel_if is empty') }
-     if !$private_ip { fail('private_ip is empty') }
-     $keystone_private_vip = $private_ip
-     $glance_private_vip   = $private_ip
-     $nova_private_vip     = $private_ip
-     $neutron_private_vip  = $private_ip
-     if !$nova_db_password { fail('nova_db_password is empty') }
-     if !$nova_user_password { fail('nova_user_password is empty') }
-     if !$odl_control_ip { $odl_control_ip = $private_ip }
-     if !$mysql_ip { $mysql_ip = $private_ip }
-     if !$amqp_ip { $amqp_ip = $private_ip }
-     if !$amqp_username { $amqp_username = 'guest' }
-     if !$amqp_password { $amqp_password = 'guest' }
+     ##Mandatory
+     if $private_network == '' { fail('private_network is empty') }
+     if ($odl_flag != '') and str2bool($odl_flag) {
+       if $odl_control_ip == '' { fail('odl_control_ip is empty') }
+     }
+     if $controller_ip == '' { fail('controller_ip is empty') }
+
+     ##Optional
+     ##Find private interface
+     $ovs_tunnel_if = get_nic_from_network("$private_network")
+     ##Find private ip
+     $private_ip = get_ip_from_nic("$ovs_tunnel_if")
+
+     $keystone_private_vip = $controller_ip
+     $glance_private_vip   = $controller_ip
+     $nova_public_vip      = $controller_ip
+     $neutron_private_vip  = $controller_ip
+
+     if !$nova_db_password { $nova_db_password = $single_password }
+     if !$nova_user_password { $nova_user_password = $single_password }
+     if !$mysql_ip { $mysql_ip = $controller_ip }
+     if !$amqp_ip { $amqp_ip = $controller_ip }
+     if !$amqp_username { $amqp_username = $single_username }
+     if !$amqp_password { $amqp_password = $single_password }
      if !$ceph_mon_host { $ceph_mon_host= ["$private_ip"] }
      if !$ceph_mon_initial_members { $ceph_mon_initial_members = ["$::hostname"] }
   }
@@ -103,7 +114,7 @@ class opnfv::compute {
     libvirt_inject_password      => 'false',
     libvirt_inject_key           => 'false',
     libvirt_images_type          => 'rbd',
-    nova_host                    => $nova_private_vip,
+    nova_host                    => $nova_public_vip,
     nova_db_password             => $nova_db_password,
     nova_user_password           => $nova_user_password,
     private_network              => '',

@@ -84,7 +84,7 @@ EOF
 # BEGIN of variables to customize
 #
 BUILD_BASE=$(readlink -e ../build/)
-RESULT_DIR="${BUILD_BASE}/release"
+export RESULT_DIR="${BUILD_BASE}/release"
 BUILD_SPEC="${BUILD_BASE}/config.mk"
 CACHE_DIR="cache"
 LOCAL_CACHE_ARCH_NAME="compass-cache"
@@ -112,11 +112,11 @@ DEBUG=0
 INTEGRATION_TEST=0
 FULL_INTEGRATION_TEST=0
 INTERACTIVE=0
-BUILD_CACHE_URI=
+export BUILD_CACHE_URI=
 BUILD_SPEC=
 BUILD_DIR=
 BUILD_LOG=
-BUILD_VERSION=
+export BUILD_VERSION=
 MAKE_ARGS=
 #
 # END of script assigned variables
@@ -133,6 +133,8 @@ source ${INCLUDE_DIR}/build.sh.debug
 ############################################################################
 # BEGIN of main
 #
+build_prepare
+
 while getopts "s:c:v:f:l:r:RtTh" OPTION
 do
     case $OPTION in
@@ -376,15 +378,15 @@ mkdir -p ${BUILD_DIR}
 cp ${BUILD_BASE}/.versions ${BUILD_DIR}
 cp ${RESULT_DIR}/*.iso* ${BUILD_DIR}
 
-if [ $POPULATE_CACHE -eq 1 ]; then
-    if [ ! -z ${BUILD_CACHE_URI} ]; then
-	echo "Building cache ..."
-	tar --dereference -C ${BUILD_BASE} -caf ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}
-	echo "Uploading cache ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}"
-	${REMOTE_ACCESS_METHD} -T ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
-	rm ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz
-    fi
-fi
+#if [ $POPULATE_CACHE -eq 1 ]; then
+#    if [ ! -z ${BUILD_CACHE_URI} ]; then
+#	echo "Building cache ..."
+#	tar --dereference -C ${BUILD_BASE} -caf ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${CACHE_DIR}
+#	echo "Uploading cache ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}"
+#	${REMOTE_ACCESS_METHD} -T ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz ${BUILD_CACHE_URI}/${REMOTE_CACHE_ARCH_NAME}.tgz
+#	rm ${BUILD_BASE}/${LOCAL_CACHE_ARCH_NAME}.tgz
+#    fi
+#fi
 echo "Success!!!"
 exit 0
 #

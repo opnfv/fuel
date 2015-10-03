@@ -1,6 +1,6 @@
-========================================================================
-OPNFV Build instructions for - Fuel deployment tool - OPNFV Arno release
-========================================================================
+============================================================================
+OPNFV Build instructions for - Fuel deployment tool - OPNFV Arno SR1 release
+============================================================================
 
 .. contents:: Table of Contents
    :backlinks: none
@@ -8,31 +8,34 @@ OPNFV Build instructions for - Fuel deployment tool - OPNFV Arno release
 Abstract
 ========
 
-This document describes how to build the Fuel deployment tool for the Arno release of OPNFV, the build system, dependencies and required system resources.
+This document describes how to build the Fuel deployment tool for the Arno SR1 release of OPNFV, the build system, dependencies and required system resources.
 
 License
 =======
-Arno release of OPNFV when using Fuel as a deployment tool DOCs (c) by Jonas Bjurel (Ericsson AB)
+Arno SR1 release of OPNFV when using Fuel as a deployment tool DOCs (c) by Jonas Bjurel (Ericsson AB)
 
-Arno release of OPNFV when using Fuel as a deployment tool DOCs (c) are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+Arno SR1 release of OPNFV when using Fuel as a deployment tool DOCs (c) are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
 
 
 Version history
 ===============
 
-+--------------------+--------------------+--------------------+--------------------+
-| **Date**           | **Ver.**           | **Author**         | **Comment**        |
-|                    |                    |                    |                    |
-+--------------------+--------------------+--------------------+--------------------+
-| 2015-06-03         | 1.0.0              | Jonas Bjurel       | Instructions for   |
-|                    |                    | (Ericsson AB)      | the Arno release   |
-+--------------------+--------------------+--------------------+--------------------+
++--------------------+--------------------+--------------------+----------------------+
+| **Date**           | **Ver.**           | **Author**         | **Comment**          |
+|                    |                    |                    |                      |
++--------------------+--------------------+--------------------+----------------------+
+| 2015-06-03         | 1.0.0              | Jonas Bjurel       | Instructions for     |
+|                    |                    | (Ericsson AB)      | the Arno release     |
++--------------------+--------------------+--------------------+----------------------+
+| 2015-09-24         | 1.1.0              | Jonas Bjurel       | Instructions for     |
+|                    |                    | (Ericsson AB)      | the Arno SR1 release |
++--------------------+--------------------+--------------------+----------------------+
 
 Introduction
 ============
 
-This document describes the build system used to build the Fuel deployment tool for the Arno release of OPNFV, required dependencies and minimum requirements on the host to be used for the buildsystem.
+This document describes the build system used to build the Fuel deployment tool for the Arno SR1 release of OPNFV, required dependencies and minimum requirements on the host to be used for the buildsystem.
 
 The Fuel build system is desigened around Docker containers such that dependencies outside of the build system can be kept to a minimum. It also shields the host from any potential dangerous operations performed by the build system.
 
@@ -100,9 +103,9 @@ Now it is time to clone the code repository:
 
 Now you should have the OPNFV genesis repository with the Fuel directories stored locally on your build host.
 
-Check out the Arno release:
+Check out the Arno SR1 release:
 <cd genesis>
-<git checkout arno.2015.1.0>
+<git checkout arno.2015.2.0>
 
 Building
 ========
@@ -170,7 +173,7 @@ References
 -
 
 :Authors: Jonas Bjurel (Ericsson)
-:Version: 1.0.0
+:Version: 1.1.0
 
 **Documentation tracking**
 

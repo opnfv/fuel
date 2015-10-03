@@ -24,13 +24,24 @@ class opnfv::external_net_presetup {
   $controllers_hostnames_array_str = $controllers_hostnames_array
   $controllers_hostnames_array = split($controllers_hostnames_array, ',')
 
+  if ($admin_network != '') and ($admin_network != 'false') {
+    $admin_nic = get_nic_from_network("$admin_network")
+    if $admin_nic == '' { fail('admin_nic was not found') }
+    #Disable defalute route on Admin network
+    file_line { 'disable-defroute-admin':
+      path => "/etc/sysconfig/network-scripts/ifcfg-$admin_nic",
+      line  => 'DEFROUTE=no',
+      match => '^DEFROUTE',
+    }
+  }
+
   #find public NIC
   $public_nic = get_nic_from_network("$public_network")
   $public_nic_ip = get_ip_from_nic("$public_nic")
   $public_nic_netmask = get_netmask_from_nic("$public_nic")
 
  if ($public_nic == '') or ($public_nic_ip == '') or ($public_nic == "br-ex") or ($public_nic == "br_ex") {
-  notify {"Skipping augeas, public_nic ${public_nic}, public_nic_ip ${public_nic_ip}":} 
+  notify {"Skipping augeas, public_nic ${public_nic}, public_nic_ip ${public_nic_ip}":}
 
   exec {'ovs-vsctl -t 10 -- --may-exist add-br br-ex':
        path         => ["/usr/sbin/", "/usr/bin/"],
@@ -85,7 +96,7 @@ class opnfv::external_net_presetup {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        content => template('trystack/br_ex.erb'),
+        content => template('opnfv/br_ex.erb'),
         before  => Class["quickstack::pacemaker::params"],
   }
   ->

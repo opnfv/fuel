@@ -1,0 +1,26 @@
+---
+- name: install glance packages
+  apt: name={{ item }} state=latest force=yes
+  with_items:
+    - glance
+    - python-glanceclient
+
+- name: generate glance service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - glance-registry
+    - glance-api
+
+- name: update glance conf
+  template: src={{ item }} dest=/etc/glance/{{ item }}
+            backup=yes
+  with_items:
+    - glance-api.conf
+    - glance-registry.conf
+  notify:
+    - restart glance-registry
+    - restart glance-api
+
+- name: remove default sqlite db
+  shell: rm /var/lib/glance/glance.sqlite || touch glance.sqllite.db.removed
+

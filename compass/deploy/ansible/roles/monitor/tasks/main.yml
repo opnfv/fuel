@@ -1,0 +1,11 @@
+---
+- name: copy service check file
+  copy: src=check_service.sh dest=/usr/local/bin/check_service.sh mode=0777
+
+- name: copy cron file
+  copy: src=root dest=/var/spool/cron/crontabs/root mode=0600
+
+- name: restart cron
+  service: name=cron state=restarted
+
+

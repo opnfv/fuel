@@ -1,3 +1,13 @@
+###############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# szilard.cserey@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+###############################################################################
+
+
 import common
 import yaml
 import io
@@ -12,6 +22,7 @@ parse = common.parse
 err = common.err
 check_file_exists = common.check_file_exists
 log = common.log
+backup = common.backup
 
 
 class ConfigureNodes(object):
@@ -26,7 +37,7 @@ class ConfigureNodes(object):
         log('Configure nodes')
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
             exec_cmd('fuel node set --node-id %s --role %s --env %s'
-                     % (node_id, ','.join(roles_blade[0]), self.env_id))
+                     % (node_id, roles_blade[0], self.env_id))
 
         self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
@@ -37,22 +48,20 @@ class ConfigureNodes(object):
         self.upload_deployment_config()
 
     def modify_node_network_schemes(self, node_id, roles_blade):
-        log('Modify node network transformations in environment %s'
-            % self.env_id)
+        log('Modify network transformations for node %s' % node_id)
         type = self.dea.get_node_property(roles_blade[1], 'transformations')
-        transformations = self.dea.get_transformations(type)
-
-        for node_file in glob.glob('%s/deployment_%s/*_%s.yaml'
-                                   % (self.yaml_config_dir, self.env_id,
-                                      node_id)):
+        transformations = self.dea.get_property(type)
+        deployment_dir = '%s/deployment_%s' % (
+            self.yaml_config_dir, self.env_id)
+        backup(deployment_dir)
+        for node_file in glob.glob(deployment_dir + '/*_%s.yaml' % node_id):
             with io.open(node_file) as stream:
-               node = yaml.load(stream)
+                node = yaml.load(stream)
 
-            node['network_scheme']['transformations'] = transformations
+            node['network_scheme'].update(transformations)
 
             with io.open(node_file, 'w') as stream:
-               yaml.dump(node, stream, default_flow_style=False)
-
+                yaml.dump(node, stream, default_flow_style=False)
 
     def download_deployment_config(self):
         log('Download deployment config for environment %s' % self.env_id)
@@ -79,6 +88,7 @@ class ConfigureNodes(object):
         interface_yaml = ('%s/node_%s/interfaces.yaml'
                           % (self.yaml_config_dir, node_id))
         check_file_exists(interface_yaml)
+        backup('%s/node_%s' % (self.yaml_config_dir, node_id))
 
         with io.open(interface_yaml) as stream:
             interfaces = yaml.load(stream)
@@ -86,10 +96,10 @@ class ConfigureNodes(object):
         net_name_id = {}
         for interface in interfaces:
             for network in interface['assigned_networks']:
-                 net_name_id[network['name']] = network['id']
+                net_name_id[network['name']] = network['id']
 
         type = self.dea.get_node_property(roles_blade[1], 'interfaces')
-        interface_config = self.dea.get_interfaces(type)
+        interface_config = self.dea.get_property(type)
 
         for interface in interfaces:
             interface['assigned_networks'] = []

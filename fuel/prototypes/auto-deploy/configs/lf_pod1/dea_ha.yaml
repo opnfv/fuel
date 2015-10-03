@@ -205,7 +205,7 @@ network:
     gateway: 172.30.9.1
     ip_ranges:
     - - 172.30.9.70
-      - 172.30.9.70
+      - 172.30.9.79
     meta:
       assign_vip: true
       cidr: 172.16.0.0/24

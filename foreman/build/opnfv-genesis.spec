@@ -1,5 +1,5 @@
 Name:		opnfv-genesis
-Version:	0.1
+Version:	0.2
 Release:	1
 Summary:	The files from the OPNFV genesis repo
 
@@ -8,8 +8,8 @@ License:	Apache 2.0
 URL:		https://gerrit.opnfv.org/gerrit/genesis.git
 Source0:	opnfv-genesis.tar.gz
 
-#BuildRequires:	
-Requires:	vagrant, VirtualBox-4.3
+#BuildRequires:
+Requires:	vagrant, VirtualBox-4.3, net-tools
 
 %description
 The files from the OPNFV genesis repo
@@ -21,13 +21,16 @@ The files from the OPNFV genesis repo
 %build
 
 %install
-mkdir -p %{buildroot}/usr/bin/
-cp foreman/ci/deploy.sh %{buildroot}/usr/bin/
+mkdir -p %{buildroot}/root/genesis
+cp -r foreman/ %{buildroot}/root/genesis
+cp -r common/ %{buildroot}/root/genesis
 
 %files
-/usr/bin/deploy.sh
+/root/genesis
 
 
 %changelog
-* Fri Apr 24 2015 Dan Radez <dradez@redhatcom> - 0.1-1
+* Tue Sep 15 2015 Dan Radez <dradez@redhat.com> - 0.2-1
+- Updating the install files and cleaning up white space
+* Fri Apr 24 2015 Dan Radez <dradez@redhat.com> - 0.1-1
 - Initial Packaging

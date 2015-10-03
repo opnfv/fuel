@@ -1,0 +1,29 @@
+---
+- name: init glance db version
+  shell: glance-manage db_version_control 0
+
+- name: sync glance db
+  shell: sleep 15; su -s /bin/sh -c "glance-manage db_sync" glance
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
+  notify:
+    - restart glance-registry
+    - restart glance-api
+
+- meta: flush_handlers
+
+- name: place image upload script
+  template: src=image_upload.sh dest=/opt/image_upload.sh mode=0744
+
+- name: download cirros image file
+  get_url: url={{ build_in_image }} dest=/opt/{{ build_in_image_name }}
+
+- name: wait for 9292 port to become available
+  wait_for: host={{ image_host }} port=9292 delay=5
+
+- name: run image upload
+  shell: for i in {0..5}; do /opt/image_upload.sh && touch image_upload_completed; if [ $? != 0 ] ;then sleep 5; else break;fi;done
+  args:
+    creates: image_upload_completed
