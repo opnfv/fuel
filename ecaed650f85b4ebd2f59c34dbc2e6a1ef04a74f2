@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_32bb7174",
+        "filename": "fuel/build/docker/runcontext",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-10-07T22:14:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I understand this. Isn\u0027t this a function where indenting could make sense?",
+      "parentUuid": "da6255ed_729a0916",
+      "revId": "ecaed650f85b4ebd2f59c34dbc2e6a1ef04a74f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_b2f8814a",
         "filename": "fuel/build/docker/runcontext",
         "patchSetId": 1
@@ -89,6 +107,24 @@
       "side": 1,
       "message": "RUN_CONTEXT_OPT shouldn\u0027t be indented!",
       "parentUuid": "da6255ed_b2f8814a",
+      "revId": "ecaed650f85b4ebd2f59c34dbc2e6a1ef04a74f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_12b06d8a",
+        "filename": "fuel/build/docker/runcontext",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-10-07T22:14:17Z",
+      "side": 1,
+      "message": "what is special about RUN_CONTEXT_OPT? isn\u0027t this a usual env var located in the same code block as the lines before and the after?",
+      "parentUuid": "da6255ed_529f0504",
       "revId": "ecaed650f85b4ebd2f59c34dbc2e6a1ef04a74f2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
