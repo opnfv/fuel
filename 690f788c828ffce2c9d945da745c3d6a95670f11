@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_72bb29c5",
+        "filename": "fuel/build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2015-10-07T15:50:33Z",
+      "side": 1,
+      "message": "needed?",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 83,
+        "endChar": 2
+      },
+      "revId": "690f788c828ffce2c9d945da745c3d6a95670f11",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_52b025dd",
+        "filename": "fuel/build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2015-10-07T15:50:33Z",
+      "side": 1,
+      "message": "Needed?",
+      "revId": "690f788c828ffce2c9d945da745c3d6a95670f11",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_32b5b1cd",
+        "filename": "fuel/build/f_isoroot/f_bootstrap/bootstrap_admin_node.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2015-10-07T15:50:33Z",
+      "side": 1,
+      "message": "Hey there..  a question - are we hard coding that eth0 will exist as the first NIC?  What about em\u0027s (10GB nics that are showing up).. perhaps we \"dont care\" right now?",
+      "revId": "690f788c828ffce2c9d945da745c3d6a95670f11",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
