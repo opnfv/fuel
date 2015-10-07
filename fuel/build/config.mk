@@ -8,8 +8,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-FUEL_MAIN_REPO := https://github.com/openstack/fuel-main
-FUEL_MAIN_TAG = stable/6.1
+FUEL_MAIN_REPO := https://github.com/stackforge/fuel-main
+FUEL_MAIN_TAG = stable/7.0
 
 DOCKER_REPO := http://get.docker.com/builds/Linux/x86_64
 DOCKER_TAG := docker-latest

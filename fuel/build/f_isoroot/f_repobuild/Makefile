@@ -30,16 +30,16 @@ nailgun:
 	rm -rf tmpiso tmpdir
 	mkdir tmpiso
 	fuseiso ${ISOCACHE} tmpiso
-	cp tmpiso/ubuntu/pool/main/f/fuel-createmirror/fuel-createmirror_6.1*.deb .
+	cp tmpiso/ubuntu/pool/main/f/fuel-createmirror/fuel-createmirror_*.deb .
 	fusermount -u tmpiso
 	rm -rf tmpiso
-	sudo dpkg -i fuel-createmirror_6.1*.deb
+	sudo dpkg -i fuel-createmirror_*.deb
 	sudo sed -i 's/DOCKER_MODE=true/DOCKER_MODE=false/' /etc/fuel-createmirror/common.cfg
 	sudo sed -i 's/DEBUG="no"/DEBUG="yes"/' /etc/fuel-createmirror/ubuntu.cfg
 	sudo sed -i "s/MIRROR_UBUNTU_HOST=\".*\"/MIRROR_UBUNTU_HOST=\"$(RSYNC_HOST)\"/" /etc/fuel-createmirror/common.cfg
 	rm -Rf nailgun
 	sudo mkdir -p /var/www
-	sudo su - -c /opt/fuel-createmirror-6.1/fuel-createmirror
+	sudo su - -c /opt/fuel-createmirror-*/fuel-createmirror
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
 
