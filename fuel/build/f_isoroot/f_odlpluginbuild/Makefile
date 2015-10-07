@@ -10,7 +10,7 @@
 TOP := $(shell pwd)
 DOCKNAME = fuelrepo
 DOCKVERSION = 1.0
-ODL_BRANCH="juno/lithium-sr1"
+ODL_BRANCH="master"
 ODL_REPO="https://github.com/stackforge/fuel-plugin-opendaylight.git"
 
 .PHONY: all
