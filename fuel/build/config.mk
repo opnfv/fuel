@@ -8,6 +8,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+# Change the below value with "uuidgen" to force a full cache rebuild - a
+# temporary as we work with improving the caching functionality for the next
+# release.
+CACHE_RND := 73b88a88-9714-4010-888e-e7cd4b26d5e4
+
 FUEL_MAIN_REPO := https://github.com/stackforge/fuel-main
 FUEL_MAIN_TAG = stable/6.1
 
