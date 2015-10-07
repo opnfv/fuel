@@ -56,6 +56,24 @@
       "revId": "690f788c828ffce2c9d945da745c3d6a95670f11",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_b2d761ed",
+        "filename": "fuel/build/f_isoroot/f_bootstrap/bootstrap_admin_node.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-07T15:57:47Z",
+      "side": 1,
+      "message": "So while it may seem that \"we\" are changing this in the context of OPNFV, this is actually the upstream content (long story, we should maybe just do a real patch here).\n\nYou put a great question forward, but I think we need to let Michal answer it. :)",
+      "parentUuid": "da6255ed_32b5b1cd",
+      "revId": "690f788c828ffce2c9d945da745c3d6a95670f11",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
