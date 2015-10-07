@@ -86,13 +86,6 @@ $(ISOCACHE):
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
-	# Patch for speeding up image creation in virtual environments,
-	# https://review.openstack.org/#/c/197943/
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-agent_1.patch
-	cd /tmp/fuel-main/build/repos/nailgun && git config --global user.email "build$opnfv.org"
-	cd /tmp/fuel-main/build/repos/nailgun && git config --global user.name "OPNFV build"
-	cd /tmp/fuel-main/build/repos/nailgun && git add -u .
-	cd /tmp/fuel-main/build/repos/nailgun && git commit -m "Added patch"
 	#
 	cd /tmp/fuel-main && make iso
 	mv /tmp/fuel-main/build/artifacts/fuel*.iso .
