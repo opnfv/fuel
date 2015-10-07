@@ -15,7 +15,7 @@ SHELL = /bin/bash
 #Input args
 export UNIT_TEST = FALSE
 export INTERACTIVE = TRUE
-export ISOSRC = file:$(shell pwd)/fuel-6.1.iso
+export ISOSRC = file:$(shell pwd)/fuel-7.0.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_BGS"
 export REVSTATE = "P0000"
@@ -75,9 +75,6 @@ $(ISOCACHE):
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
 	# Setup cgroups for docker-in-docker
 	sudo /root/enable_dockerx2
-	# Temporary patch to accomodate for new Ubuntu trusty devops keys not yet
-	# backported to fuel 6.0 or 6.1
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_3.patch
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
@@ -86,13 +83,6 @@ $(ISOCACHE):
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
-	# Patch for speeding up image creation in virtual environments,
-	# https://review.openstack.org/#/c/197943/
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-agent_1.patch
-	cd /tmp/fuel-main/build/repos/nailgun && git config --global user.email "build$opnfv.org"
-	cd /tmp/fuel-main/build/repos/nailgun && git config --global user.name "OPNFV build"
-	cd /tmp/fuel-main/build/repos/nailgun && git add -u .
-	cd /tmp/fuel-main/build/repos/nailgun && git commit -m "Added patch"
 	#
 	cd /tmp/fuel-main && make iso
 	mv /tmp/fuel-main/build/artifacts/fuel*.iso .
