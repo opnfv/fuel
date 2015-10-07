@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 ##############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # stefan.k.berg@ericsson.com
@@ -9,27 +10,44 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 #
+
+############################################################################
+# BEGIN of Exit handlers
+#
+
+do_exit () {
+CID=`cat $CID_FILE`
+rm -f $CID_FILE
+set +e
+docker kill $CID > /dev/null 2>&1
+docker rm -f $CID > /dev/null 2>&1
+docker rmi -f $IID > /dev/null 2>&1
+set -e
+}
+
+#
+# End of Exit handlers
+############################################################################
+
+trap do_exit SIGINT SIGTERM EXIT
 context=$1
 shift
 GID=`id -g`
 USER=`whoami`
-res=`docker build -q --rm -  <<EOF
+res=`docker build -q --force-rm -  <<EOF
 FROM $context
 RUN date || date
 RUN /root/setcontext $USER $UID $GID $HOME
 EOF`
 GITROOT=`git rev-parse --show-toplevel`
-CID=`echo $res | sed 's/.* //'`
-
-    RUN_CONTEXT_OPT="--privileged=true --rm -i -e HOME=$HOME -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT"
+IID=`echo $res | sed 's/.* //'`
+CID_FILE=`mktemp -u -t runcontext.XXXXXXXXXX`
+    RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -i -e HOME=$HOME -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT"
 
 if [  "${INTERACTIVE}" != "FALSE" ]; then
     RUN_CONTEXT_OPT+=" -t"
 fi
 
-echo command: docker run ${RUN_CONTEXT_OPT} $CID "$@"
-docker run ${RUN_CONTEXT_OPT} $CID "$@"
-
-rc=$?
-docker rmi -f $CID > /dev/null
-exit $rc
+echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
+docker run ${RUN_CONTEXT_OPT} $IID "$@"
+exit 0
