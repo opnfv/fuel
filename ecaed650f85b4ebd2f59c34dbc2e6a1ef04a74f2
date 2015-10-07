@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da6255ed_726329b2",
+        "filename": "fuel/build/docker/runcontext",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2015-10-07T14:22:45Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "ecaed650f85b4ebd2f59c34dbc2e6a1ef04a74f2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_d25415cc",
         "filename": "fuel/build/docker/runcontext",
         "patchSetId": 1
