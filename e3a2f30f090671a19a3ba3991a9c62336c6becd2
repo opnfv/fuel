@@ -51,6 +51,29 @@
       "revId": "e3a2f30f090671a19a3ba3991a9c62336c6becd2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_486e32cb",
+        "filename": "fuel/build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-08T17:34:21Z",
+      "side": 1,
+      "message": "Also here a small typo",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "e3a2f30f090671a19a3ba3991a9c62336c6becd2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
