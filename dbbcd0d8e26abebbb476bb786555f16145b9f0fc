@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_d554ffcb",
+        "filename": "fuel/build/docker/runcontext",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-08T08:58:18Z",
+      "side": 1,
+      "message": "My eyes are still drawn to this \"exit 0\" even though I now have seen the \"set -e\".\n\nI think it would be simpler to understand the logic if the \"exit 0\" line is dropped completely, not to confuse dim witted people like myself. :)",
+      "revId": "dbbcd0d8e26abebbb476bb786555f16145b9f0fc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
