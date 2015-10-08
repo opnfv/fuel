@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_68521615",
+        "filename": "fuel/build/f_isoroot/f_repobuild/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2015-10-08T16:22:35Z",
+      "side": 1,
+      "message": "Maybe we should do some fallback to archive.ubuntu.com if we don\u0027t find suitable repo near us",
+      "revId": "e3a2f30f090671a19a3ba3991a9c62336c6becd2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_884d4a75",
+        "filename": "fuel/build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2015-10-08T16:22:35Z",
+      "side": 1,
+      "message": "small typo: minor",
+      "revId": "e3a2f30f090671a19a3ba3991a9c62336c6becd2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
