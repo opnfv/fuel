@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_57ca4fa2",
+        "filename": "fuel/include/build.sh.debug",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-15T12:13:12Z",
+      "side": 0,
+      "message": "Should it rally be 6.0.1, better fuel*.iso?",
+      "revId": "66fae447879604849beb2108242e33cc0c6fc867",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

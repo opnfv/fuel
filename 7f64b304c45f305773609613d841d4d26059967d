@@ -50,6 +50,23 @@
       "revId": "7f64b304c45f305773609613d841d4d26059967d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_37cfdbb2",
+        "filename": "fuel/ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-15T12:13:12Z",
+      "side": 1,
+      "message": "Should be \"could NOT write..\"",
+      "revId": "7f64b304c45f305773609613d841d4d26059967d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
