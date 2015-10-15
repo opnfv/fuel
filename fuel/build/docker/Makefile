@@ -20,4 +20,5 @@ all:	.docker
 
 .PHONY:	clean
 clean:
-	rm .docker
+	echo "Not removing .docker to save time"
+

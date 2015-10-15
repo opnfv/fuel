@@ -42,7 +42,15 @@ EOF`
 GITROOT=`git rev-parse --show-toplevel`
 IID=`echo $res | sed 's/.* //'`
 CID_FILE=`mktemp -u -t runcontext.XXXXXXXXXX`
-RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -i -e HOME=$HOME -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT"
+
+# Evaluate the need for bind mounting the cache directory
+if [ -n "$CACHEBASE" ]; then
+    if echo $CACHEBASE | grep -q '^file://'; then
+        CACHEMOUNT="-v $(echo $CACHEBASE | sed 's;file://;;'):$(echo $CACHEBASE | sed 's;file://;;')"
+    fi
+fi
+
+RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -i -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT $CACHEMOUNT"
 
 if [  "${INTERACTIVE}" != "FALSE" ]; then
     RUN_CONTEXT_OPT+=" -t"

@@ -27,3 +27,22 @@ clean:
 .PHONY: release
 release:all
 	@cp -Rvp release/* ../release
+
+#############################################################################
+# Cache operations - only used when building through ci/build.sh
+#############################################################################
+
+# Clean local data related to caching - called prior to ordinary build
+.PHONY: clean-cache
+clean-cache: clean
+	@echo "clean-cache not implemented"
+
+# Try to download cache - called prior to ordinary build
+.PHONY: get-cache
+get-cache:
+	@echo "get-cache not implemented"
+
+# Store cache if not already stored - called after ordinary build
+.PHONY: put-cache
+put-cache:
+	@echo "put-cache not implemented"
