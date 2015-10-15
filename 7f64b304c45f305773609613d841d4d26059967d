@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_d754ffcb",
+        "filename": "fuel/build/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-15T12:46:45Z",
+      "side": 1,
+      "message": "Thanks! Even worse, that line shouldn\u0027t even be there!",
+      "parentUuid": "da6255ed_f792639e",
+      "revId": "7f64b304c45f305773609613d841d4d26059967d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_17ddf770",
         "filename": "fuel/build/docker/Makefile",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-15T12:07:07Z",
       "side": 1,
       "message": "Is any of the other files ever calling the docker clean target when building or after build complete? I did\u0027nt think so. I thought the clean target was just in case you manually wanted to clean the buildsystem.",
+      "revId": "7f64b304c45f305773609613d841d4d26059967d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_975e87e8",
+        "filename": "fuel/build/docker/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-15T12:46:45Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right! This is redundant for sure, removing...",
+      "parentUuid": "da6255ed_17ddf770",
       "revId": "7f64b304c45f305773609613d841d4d26059967d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2015-10-15T12:13:12Z",
       "side": 1,
       "message": "Should be \"could NOT write..\"",
+      "revId": "7f64b304c45f305773609613d841d4d26059967d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_776313b2",
+        "filename": "fuel/ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-15T12:46:45Z",
+      "side": 1,
+      "message": "Oups, thanks!",
+      "parentUuid": "da6255ed_37cfdbb2",
       "revId": "7f64b304c45f305773609613d841d4d26059967d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false

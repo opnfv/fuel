@@ -16,6 +16,24 @@
       "revId": "66fae447879604849beb2108242e33cc0c6fc867",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_375d9bea",
+        "filename": "fuel/include/build.sh.debug",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-15T12:46:45Z",
+      "side": 0,
+      "message": "This is the old debug file, I\u0027ve actually been rude and removed it completely in my commit. :)",
+      "parentUuid": "da6255ed_57ca4fa2",
+      "revId": "66fae447879604849beb2108242e33cc0c6fc867",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
