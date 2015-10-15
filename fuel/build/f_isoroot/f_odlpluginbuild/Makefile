@@ -18,14 +18,14 @@ all: .odlbuild
 
 .PHONY: clean
 clean:
-	# Deliberately not cleaning nailgun directory to speed up multiple builds
-	@rm -f ../release/opnfv/opendaylight*.rpm
+	@rm -f .odlbuild ../release/opnfv/opendaylight*.rpm opendaylight*.rpm
+	@rm -f $(BUILD_BASE)/gitinfo_odlplugin.txt
 
 .PHONY: release
 release:.odlbuild
 	@rm -f ../release/opnfv/opendaylight*.rpm
 	@mkdir -p ../release/opnfv
-	@cp  opendaylight*.rpm ../release/opnfv/
+	@cp opendaylight*.rpm ../release/opnfv/
 
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
@@ -35,4 +35,25 @@ release:.odlbuild
 	git clone -b ${ODL_BRANCH} ${ODL_REPO}
 	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-opendaylight/
 	mv fuel-plugin-opendaylight/opendaylight*.rpm .
+	$(REPOINFO) -r . > $(BUILD_BASE)/gitinfo_odlplugin.txt
 	rm -rf fuel-plugin-opendaylight
+
+#############################################################################
+# Cache operations - only used when building through ci/build.sh
+#############################################################################
+
+# Clean local data related to caching - called prior to ordinary build
+.PHONY: clean-cache
+clean-cache: clean
+	@echo "clean-cache not implemented"
+
+# Try to download cache - called prior to ordinary build
+.PHONY: get-cache
+get-cache:
+	@echo "get-cache not implemented"
+
+# Store cache if not already stored - called after ordinary build
+.PHONY: put-cache
+put-cache:
+	@echo "put-cache not implemented"
+

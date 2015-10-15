@@ -13,8 +13,6 @@ SHELL = /bin/bash
 # BEGIN of variables to customize
 #
 #Input args
-export UNIT_TEST = FALSE
-export INTERACTIVE = TRUE
 export ISOSRC = file:$(shell pwd)/fuel-6.1.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_BGS"
@@ -24,15 +22,15 @@ export NEWISO = $(shell pwd)/release/opnfv-${REVSTATE}.iso
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
 # Invoke with ICOCACHE=/full/path/to/iso if cached ISO is in non-standard location.
 
-#Build variables
+# Build variables
 export BUILD_BASE := $(shell pwd)
 export DEB_DEST := $(BUILD_BASE)/release/packages/ubuntu/pool/main
 export UDEB_DEST := $(BUILD_BASE)/release/packages/ubuntu/pool/debian-installer
 export PUPPET_DEST := $(BUILD_BASE)/release/puppet/modules
-export CACHE_DIR := $(BUILD_BASE)/cache
 export VERSION_FILE := $(BUILD_BASE)/.versions
 export DOCKERIMG = opnfv.org/ubuntu-builder:14.04
 export TOPDIR := $(shell pwd)
+export REPOINFO  := $(BUILD_BASE)/repo_info.sh
 
 #Build subclasses
 
@@ -49,15 +47,12 @@ ORIGDIR := $(TOPDIR)/origiso
 
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
-
 .PHONY: all
 all:
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
-	@echo "Versions of cached build results built by" $(shell hostname) "at" $(shell date -u) > $(VERSION_FILE)
-	@echo "cache.mk" $(shell md5sum $(BUILD_BASE)/cache.mk | cut -f1 -d " ") >> $(VERSION_FILE)
-	@echo "config.mk" $(shell md5sum $(BUILD_BASE)/config.mk | cut -f1 -d " ") >> $(VERSION_FILE)
 	@make -C docker
 	@docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) iso
+
 
 ############################################################################
 # BEGIN of Include definitions
@@ -70,7 +65,10 @@ include cache.mk
 
 $(ISOCACHE):
 	# Clone Fuel to non-persistent location and build
-	cd /tmp && git clone $(FUEL_MAIN_REPO)
+	# The cache layer can 
+	if [ ! -d /tmp/fuel-main ]; then \
+		cd /tmp && git clone $(FUEL_MAIN_REPO); \
+	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
 	# Setup cgroups for docker-in-docker
@@ -86,6 +84,7 @@ $(ISOCACHE):
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
+	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
 	#
 	cd /tmp/fuel-main && make iso
 	mv /tmp/fuel-main/build/artifacts/fuel*.iso .
@@ -110,21 +109,14 @@ $(SUBDIRS):
 patch-packages:
 	ORIGISO=$(ISOCACHE) REVSTATE=$(REVSTATE) $(MAKE) -C $@ -f Makefile release
 
-.PHONY: build-clean $(SUBCLEAN)
-build-clean: $(SUBCLEAN)
-	$(MAKE) -C patch-packages -f Makefile clean
-	@rm -Rf release
-	@rm -Rf newiso
-	@rm -f $(NEWISO)
-
 .PHONY: clean $(SUBCLEAN)
-clean:  clean-cache $(SUBCLEAN)
+clean:  $(SUBCLEAN)
 	$(MAKE) -C patch-packages -f Makefile clean
 	@rm -f *.iso
 	@rm -Rf release
 	@rm -Rf newiso
 	@rm -f $(NEWISO)
-	@rm -f $(BUILD_BASE)/.versions
+	@rm -f $(BUILD_BASE)/gitinfo_*.txt
 
 $(SUBCLEAN): %.clean:
 	$(MAKE) -C $* -f Makefile clean
@@ -132,7 +124,8 @@ $(SUBCLEAN): %.clean:
 # Todo: Make things smarter - we shouldn't need to clean everything
 # betwen make invocations.
 .PHONY: iso
-iso:	build-clean $(ISOCACHE) $(SUBDIRS) patch-packages
+iso:	$(ISOCACHE) $(SUBDIRS) patch-packages
+	$(REPOINFO) . > gitinfo_main.txt
 	install/install.sh iso $(ISOCACHE) $(NEWISO) $(PRODNO) $(REVSTATE)
 	@printf "\n\nProduct ISO is $(NEWISO)\n\n"
 
@@ -141,3 +134,38 @@ iso:	build-clean $(ISOCACHE) $(SUBDIRS) patch-packages
 debug:
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
 	docker/runcontext $(DOCKERIMG) bash
+
+#############################################################################
+# Cache operations - only used when building through ci/build.sh
+#############################################################################
+
+# Create a unique hash to be used for getting and putting cache, based on:
+#   - The commit ID of the full Fuel repo structre
+#   - The contents of all local Fuel patches
+.cacheid:
+	cd /tmp && git clone $(FUEL_MAIN_REPO)
+	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
+	cd /tmp/fuel-main && make repos
+	$(REPOINFO) -r /tmp/fuel-main > .cachedata
+	sha1sum fuel-main*.patch >> .cachedata
+	cat .cachedata | $(CACHETOOL) getid > .cacheid
+	# Not removing fuel-main as it is re-used in build
+
+# Clean local data related to caching - called prior to ordinary build
+.PHONY: clean-cache
+clean-cache:
+	rm -f .cachedata .cacheid
+
+# Try to download cache - called prior to ordinary build
+.PHONY: get-cache
+get-cache: .cacheid
+	@if $(CACHETOOL) check $(shell cat .cacheid); then \
+		 $(CACHETOOL) get $(shell cat .cacheid) | tar xf -;\
+	else \
+		exit 0;\
+	fi
+
+# Store cache if not already stored - called after ordinary build
+.PHONY: put-cache
+put-cache: .cacheid
+	@tar cf - fuel*.iso gitinfo_fuel.txt | $(CACHETOOL) put $(shell cat .cacheid)

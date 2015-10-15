@@ -252,6 +252,9 @@ iso_modify_image () {
 
     cd $TOP/release/isoroot
     cp -Rvp . $DEST
+
+    # Add all Git info files
+    sort $TOP/gitinfo*.txt > $DEST/gitinfo.txt
 }
 
 make_iso() {
