@@ -252,6 +252,10 @@ iso_modify_image () {
 
     cd $TOP/release/isoroot
     cp -Rvp . $DEST
+
+    # Add all Git info files
+    sort $TOP/gitinfo*.txt > $DEST/gitinfo.txt
+    cp $DEST/gitinfo.txt $REPORTFILE
 }
 
 make_iso() {
@@ -465,7 +469,7 @@ if [ $MODE = "iso" ]; then
     echo "Opening reportfile at $REPORTFILE"
     touch $REPORTFILE
     if [ ! -f $ORIGISO ]; then
-        echo "Can't find original MOS 5.1 iso at $ORIGISO"
+        echo "Can't find original iso at $ORIGISO"
         rm $CONF
         exit 1
     fi
