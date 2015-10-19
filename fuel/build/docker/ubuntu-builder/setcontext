@@ -14,6 +14,16 @@ SETUID=$2
 SETGID=$3
 SETHOME=$4
 
+# Proxy settings, if any
+if [ -n "$http_proxy" ] || [ -n "$https_proxy" ]; then
+    echo "http_proxy = $http_proxy" >> /etc/environment
+    echo "https_proxy = $https_proxy" >> /etc/environment
+    echo "Acquire::http::proxy \"$http_proxy\";" >> /etc/apt/apt.conf
+    echo "Acquire::https::proxy \"$https_proxy\";" >> /etc/apt/apt.conf
+    echo "proxy = $http_proxy" >> /etc/npmrc
+    echo "https-proxy = $https_proxy" >> /etc/npmrc
+fi
+
 getent group $SETUSER || /usr/sbin/groupadd --gid $SETGID $SETUSER
 getent passwd $SETUSER || /usr/sbin/adduser --system --uid=$SETUID --gid=$SETGID --home $SETHOME --shell /bin/bash $SETUSER
 /usr/sbin/usermod -a -G fuse $SETUSER
