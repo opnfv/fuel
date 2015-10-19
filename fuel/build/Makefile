@@ -77,6 +77,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_3.patch
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
+	# Patch for changing the second layer Docker --bip address
+	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_6.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
@@ -85,8 +87,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
 	#
-	cd /tmp/fuel-main && make iso
-	mv /tmp/fuel-main/build/artifacts/fuel*.iso .
+	cd /tmp/fuel-main && sudo make iso
+	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 
 .PHONY: mount-origiso umount-origiso
 mount-origiso: $(ISOCACHE)
@@ -132,7 +134,7 @@ iso:	$(ISOCACHE) $(SUBDIRS) patch-packages
 .PHONY: debug
 debug:
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
-	docker/runcontext $(DOCKERIMG) bash
+	docker/runcontext $(DOCKERIMG) debug
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh

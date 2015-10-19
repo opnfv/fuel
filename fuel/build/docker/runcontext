@@ -29,6 +29,14 @@ do_exit () {
 # End of Exit handlers
 ############################################################################
 
+
+# Make sure to add the Docker socket in no_proxy
+if [ -n "$no_proxy" ]; then
+    no_proxy="$no_proxy,/var/run/docker.sock"
+ else
+   no_proxy="/var/run/docker.sock"
+fi
+
 trap do_exit SIGINT SIGTERM EXIT
 context=$1
 shift
@@ -36,11 +44,13 @@ GID=`id -g`
 USER=`whoami`
 res=`docker build -q --force-rm -  <<EOF
 FROM $context
+$(env | egrep -i 'proxy|rsync' | sed 's/^/ENV /' | sed 's/=/ /')
 RUN date || date
 RUN /root/setcontext $USER $UID $GID $HOME
 EOF`
 GITROOT=`git rev-parse --show-toplevel`
 IID=`echo $res | sed 's/.* //'`
+
 CID_FILE=`mktemp -u -t runcontext.XXXXXXXXXX`
 
 # Evaluate the need for bind mounting the cache directory
@@ -52,5 +62,12 @@ fi
 
 RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT $CACHEMOUNT"
 
-echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
-docker run ${RUN_CONTEXT_OPT} $IID "$@"
+# Passing "debug" puts up an interactive bash shell
+if [ "$1" == "debug" ]; then
+  echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
+  docker run -i -t ${RUN_CONTEXT_OPT} $IID bash
+else
+  echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
+  docker run ${RUN_CONTEXT_OPT} $IID "$@"
+fi
+

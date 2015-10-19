@@ -8,16 +8,23 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+SHELL = /bin/bash
 FILES = $(wildcard ubuntu-builder/*) runcontext
 
 .PHONY: all
 all:	.docker
 
 .docker: $(FILES)
+	cp Dockerfile ubuntu-builder/Dockerfile
+	# Only add proxy ENVs where set in host - needed to pull the base Ubuntu image
+	test -n "${http_proxy}" && sed -i "s;INSERT_HTTP_PROXY;${http_proxy};" ubuntu-builder/Dockerfile || exit 0
+	test -n "${https_proxy}" && sed -i "s;INSERT_HTTPS_PROXY;${https_proxy};" ubuntu-builder/Dockerfile || exit 0
+	test -n "${no_proxy}" && sed -i "s;INSERT_NO_PROXY;${no_proxy};" ubuntu-builder/Dockerfile || exit 0
+	sed -i '/INSERT_/d' ubuntu-builder/Dockerfile
 	/usr/bin/docker build --rm=true --no-cache=true -t opnfv.org/ubuntu-builder:14.04 ubuntu-builder
 	/usr/bin/docker tag -f opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
 	touch .docker
 
 .PHONY:	clean
 clean:
-	rm .docker
+	rm -f .docker ubuntu-builder/Dockerfile
