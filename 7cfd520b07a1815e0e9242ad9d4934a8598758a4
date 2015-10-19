@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_bd4a8981",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-19T19:19:05Z",
+      "side": 1,
+      "message": "It\u0027s the context diff that adds this, the original and patched file is fine. I think we need to live with it...",
+      "parentUuid": "da6255ed_1d74f5cd",
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_fd80018d",
         "filename": "fuel/build/fuel-main_6.patch",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-19T19:03:08Z",
       "side": 1,
       "message": "Whitespace",
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_7d3bf1eb",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-19T19:19:05Z",
+      "side": 1,
+      "message": "Same here, it\u0027s the context diff doing funky stuff.",
+      "parentUuid": "da6255ed_fd80018d",
       "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
