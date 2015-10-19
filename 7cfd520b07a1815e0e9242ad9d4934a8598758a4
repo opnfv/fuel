@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da6255ed_7d12d163",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2015-10-19T19:47:27Z",
+      "side": 1,
+      "message": "just wonder if you had situation that the filename was different than \u0027docker\u0027?",
+      "range": {
+        "startLine": 9,
+        "startChar": 109,
+        "endLine": 9,
+        "endChar": 110
+      },
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_1d74f5cd",
         "filename": "fuel/build/fuel-main_6.patch",
         "patchSetId": 3
