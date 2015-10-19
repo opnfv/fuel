@@ -50,7 +50,21 @@ if [ -n "$CACHEBASE" ]; then
     fi
 fi
 
-RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT $CACHEMOUNT"
+# no_proxy handling necessary for second layer of docker
+if [ -n "$no_proxy" ]; then
+  my_no_proxy="$no_proxy,/var/run/docker.sock"
+else
+  my_no_proxy="/var/run/docker.sock"
+fi
 
-echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
-docker run ${RUN_CONTEXT_OPT} $IID "$@"
+RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e no_proxy="$my_no_proxy" -e http_proxy -e https_proxy -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -u $USER -w $PWD -v ${HOME}/.ssh:${HOME}/.ssh -v $GITROOT:$GITROOT $CACHEMOUNT"
+
+# Passing "debug" puts up an interactive bash shell
+if [ "$1" == "debug" ]; then
+  echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
+  docker run -i -t ${RUN_CONTEXT_OPT} $IID bash
+else
+  echo command: docker run ${RUN_CONTEXT_OPT} $IID "$@"
+  docker run ${RUN_CONTEXT_OPT} $IID "$@"
+fi
+
