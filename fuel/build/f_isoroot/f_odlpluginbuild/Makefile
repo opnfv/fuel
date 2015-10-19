@@ -17,7 +17,7 @@ all: .odlbuild
 .PHONY: clean
 clean:
 	@rm -f .odlbuild ../release/opnfv/opendaylight*.rpm opendaylight*.rpm
-	@rm -f $(BUILD_BASE)/gitinfo_odlplugin.txt
+	@rm -f $(BUILD_BASE)/gitinfo_odlplugin.txt gitinfo_odlplugin.txt
 
 .PHONY: release
 release:.odlbuild

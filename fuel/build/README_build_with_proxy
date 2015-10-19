@@ -1,0 +1,69 @@
+SUPPORT FOR BUILDING FUEL BEHIND A HTTP/HTTPS/RSYNC PROXY
+=========================================================
+
+The build system is able to make use of a web proxy setup if the
+http_proxy, https_proxy, no_proxy (if needed) and RSYNC_PROXY or
+RSYNC_CONNECT_PROG environment variables have been set before invoking make.
+
+The proxy setup must permit port 80 (http), 443 (https) and 873
+(rsync).
+
+Important note about the host Docker daemon settings
+----------------------------------------------------
+
+The Docker daemon on the host must be configured to use the http proxy
+for it to be able to pull the base Ubuntu 14.04 image from the Docker
+registry before invoking make! In Ubuntu this is done by adding a line
+like:
+
+export http_proxy="http://10.0.0.1:8888/"
+
+to /etc/default/docker and restarting the Docker daemon.
+
+Setting proxy environment variables prior to build
+---------------------------------------------------
+
+The build system will make use the following environment variables
+that needs to be exported to subshells by using export (bash) or
+setenv (csh/tcsh).
+
+http_proxy (or HTTP_PROXY)
+https_proxy (or HTTP_PROXY)
+no_proxy (or NO_PROXY)
+RSYNC_PROXY
+RSYNC_CONNECT_PROG
+
+As an example, these are the settings that were put in the user's
+.bashrc when verifying the proxy build functionality:
+
+export RSYNC_PROXY=10.0.0.1:8888
+export http_proxy=http://10.0.0.1:8888
+export https_proxy=http://10.0.0.1:8888
+export no_proxy=localhost,127.0.0.1,.consultron.com,.sock
+
+Using a ssh proxy for the rsync connection
+------------------------------------------
+
+If the proxy setup is not allowing the rsync protocol, an alternative
+solution is to use a SSH tunnel to a machine capable of accessing the
+outbound port 873. Set the RSYNC_CONNECT_PROG according to the rsync
+manual page (for example to "ssh <hostname> nc %H 873") to enable
+this. Also note that netcat needs to be installed on the remote
+system!
+
+Disabling the Ubuntu repo cache if rsync is not allowed
+-------------------------------------------------------
+
+During the build phase, a local Ubuntu package repository is fetched
+from upstream in order to be added to the OPNFV Fuel ISO and for parts
+of this process rsync is used.
+
+If neither of the two available methods for proxying rsync are
+available, the last resort is to turn off the caching of the Ubuntu
+packages in the build system. This is done by removing the
+"f_repobuild" from SUBDIRS in the beginning of
+the fuel/build/f_isoroot/Makefile.
+
+Note! Doing this will require the Fuel master node to have Internet
+access when installing the ISO artifact built as no Ubuntu package
+cache will be on the ISO!
