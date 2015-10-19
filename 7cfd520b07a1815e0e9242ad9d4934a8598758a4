@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_1d74f5cd",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-19T19:03:08Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6255ed_fd80018d",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-19T19:03:08Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
