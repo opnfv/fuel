@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da6255ed_3d0c5942",
+        "filename": "fuel/build/fuel-main_6.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-10-19T20:24:42Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve seen the docker package named docker.io a few times with a /etc/default/docker.io - wasn\u0027t that the default Ubuntu name in one of the versions? But I guess this is phased out for just plain \"docker\".",
+      "parentUuid": "da6255ed_7d12d163",
+      "range": {
+        "startLine": 9,
+        "startChar": 109,
+        "endLine": 9,
+        "endChar": 110
+      },
+      "revId": "7cfd520b07a1815e0e9242ad9d4934a8598758a4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6255ed_1d74f5cd",
         "filename": "fuel/build/fuel-main_6.patch",
         "patchSetId": 3
