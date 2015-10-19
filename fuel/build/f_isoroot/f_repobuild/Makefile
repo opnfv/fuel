@@ -10,13 +10,22 @@
 
 SHELL := /bin/bash
 TOP := $(shell pwd)
-
 RSYNC_HOST := $(shell ./select_ubuntu_repo.sh)
+
 
 .PHONY: all
 all: nailgun
 
 nailgun:
+#	If RSYNC_CONNECT_PROG is set we need to do some magic to copy the
+#	keys. Make sure to have the username set in the SSH_CONNECT_PROG
+#	as well!
+	@if [ -n "${RSYNC_CONNECT_PROG}" -a ! -d /root/.ssh ]; then \
+		sudo mkdir -p /root/.ssh; \
+		test -d ${HOME}/.ssh && sudo find ${HOME}/.ssh -maxdepth 1 -type f -exec cp {} /root/.ssh \; ; \
+		sudo bash -c "echo StrictHostKeyChecking=no > /root/.ssh/config"; \
+		sudo chmod 700 /root/.ssh; \
+	fi
 	sudo apt-get install -y rsync python python-yaml dpkg-dev openssl
 	rm -rf tmpiso tmpdir
 	mkdir tmpiso
@@ -27,7 +36,7 @@ nailgun:
 	sudo dpkg -i fuel-createmirror_*.deb
 	sudo sed -i 's/DOCKER_MODE=true/DOCKER_MODE=false/' /etc/fuel-createmirror/common.cfg
 	sudo sed -i 's/DEBUG="no"/DEBUG="yes"/' /etc/fuel-createmirror/ubuntu.cfg
-	sudo sed -i 's/MIRROR_UBUNTU_HOST="archive.ubuntu.com"/MIRROR_UBUNTU_HOST="${RSYNC_HOST}"/' /etc/fuel-createmirror/common.cfg
+	sudo sed -i "s/MIRROR_UBUNTU_HOST=\".*\"/MIRROR_UBUNTU_HOST=\"$(RSYNC_HOST)\"/" /etc/fuel-createmirror/common.cfg
 	rm -Rf nailgun
 	sudo mkdir -p /var/www
 	sudo su - -c /opt/fuel-createmirror-*/fuel-createmirror
