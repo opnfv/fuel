@@ -9,6 +9,11 @@
 ##############################################################################
 
 SHELL = /bin/bash
+
+# This file will be created if needed by runcontext to contain proxy
+# settings.
+-include environment.mk
+
 ############################################################################
 # BEGIN of variables to customize
 #
@@ -77,6 +82,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_3.patch
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
+	# Patch for changing the second layer Docker --bip address
+	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_6.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
@@ -85,8 +92,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
 	#
-	cd /tmp/fuel-main && make iso
-	mv /tmp/fuel-main/build/artifacts/fuel*.iso .
+	cd /tmp/fuel-main && sudo make iso
+	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 
 .PHONY: mount-origiso umount-origiso
 mount-origiso: $(ISOCACHE)
@@ -114,16 +121,36 @@ clean:  $(SUBCLEAN)
 	@rm -f *.iso
 	@rm -Rf release
 	@rm -Rf newiso
+	@rm -Rf .versions
 	@rm -f $(NEWISO)
 	@rm -f $(BUILD_BASE)/gitinfo_*.txt
+
+.PHONY: deepclean
+deepclean: clean clean-cache
+	make -C docker clean
+	docker rmi opnfv.org/ubuntu-builder:14.04 &>/dev/null || exit 0
+	docker rmi opnfv.org/ubuntu-builder:latest &>/dev/null || exit 0
+	docker rmi ubuntu:14.04 &>/dev/null || exit 0
+	@if docker images | grep -q "ubuntu *14.04"; then \
+		echo "Error: ubuntu:14.04 still present!"; \
+		exit 1; \
+	fi
+	@if docker images | grep -q "opnfv.org/ubuntu-builder"; then \
+		echo "Error: opnfv.org/ubuntu-builder still present!"; \
+		exit 1; \
+	fi
 
 $(SUBCLEAN): %.clean:
 	$(MAKE) -C $* -f Makefile clean
 
+.PHONY: setup-env
+setup-env:
+	test -f environment.mk && sudo bash -c "cat environment.mk >> /etc/environment"
+
 # Todo: Make things smarter - we shouldn't need to clean everything
 # betwen make invocations.
 .PHONY: iso
-iso:	$(ISOCACHE) $(SUBDIRS) patch-packages
+iso:	setup-env $(ISOCACHE) $(SUBDIRS) patch-packages
 	$(REPOINFO) . > gitinfo_main.txt
 	install/install.sh iso $(ISOCACHE) $(NEWISO) $(PRODNO) $(REVSTATE)
 	@printf "\n\nProduct ISO is $(NEWISO)\n\n"
@@ -132,7 +159,8 @@ iso:	$(ISOCACHE) $(SUBDIRS) patch-packages
 .PHONY: debug
 debug:
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
-	docker/runcontext $(DOCKERIMG) bash
+	@make -C docker
+	docker/runcontext $(DOCKERIMG) debug
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh
@@ -152,7 +180,7 @@ debug:
 
 # Clean local data related to caching - called prior to ordinary build
 .PHONY: clean-cache
-clean-cache:
+clean-cache: $(SUBCLEANCACHE)
 	rm -f .cachedata .cacheid
 
 # Try to download cache - called prior to ordinary build
