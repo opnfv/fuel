@@ -14,10 +14,14 @@ FILES = $(wildcard ubuntu-builder/*) runcontext
 all:	.docker
 
 .docker: $(FILES)
+	cp Dockerfile ubuntu-builder/Dockerfile
+	sed -i "s;INSERT_HTTP_PROXY;\"${http_proxy}\";" ubuntu-builder/Dockerfile
+	sed -i "s;INSERT_HTTPS_PROXY;\"${https_proxy}\";" ubuntu-builder/Dockerfile
+	sed -i "s;INSERT_NO_PROXY;\"${no_proxy}\";" ubuntu-builder/Dockerfile
 	/usr/bin/docker build --rm=true --no-cache=true -t opnfv.org/ubuntu-builder:14.04 ubuntu-builder
 	/usr/bin/docker tag -f opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
 	touch .docker
 
 .PHONY:	clean
 clean:
-	rm .docker
+	rm -f .docker ubuntu-builder/Dockerfile
