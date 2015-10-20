@@ -13,20 +13,19 @@ import io
 import yaml
 import glob
 import time
+import shutil
 
 from ssh_client import SSHClient
-import common
 
-exec_cmd = common.exec_cmd
-err = common.err
-check_file_exists = common.check_file_exists
-log = common.log
-parse = common.parse
-commafy = common.commafy
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
+from common import (
+    err,
+    log,
+    parse,
+    N,
+    E,
+    R,
+    delete,
+)
 
 CLOUD_DEPLOY_FILE = 'deploy.py'
 BLADE_RESTART_TIMES = 3
@@ -35,13 +34,14 @@ BLADE_RESTART_TIMES = 3
 class CloudDeploy(object):
 
     def __init__(self, dea, dha, fuel_ip, fuel_username, fuel_password,
-                 dea_file, work_dir, no_health_check):
+                 dea_file, fuel_plugins_conf_dir, work_dir, no_health_check):
         self.dea = dea
         self.dha = dha
         self.fuel_ip = fuel_ip
         self.fuel_username = fuel_username
         self.fuel_password = fuel_password
         self.dea_file = dea_file
+        self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.work_dir = work_dir
         self.no_health_check = no_health_check
         self.file_dir = os.path.dirname(os.path.realpath(__file__))
@@ -53,11 +53,31 @@ class CloudDeploy(object):
         self.blade_node_dict = {}
         self.macs_per_blade = {}
 
+    def merge_plugin_config_files_to_dea_file(self):
+        updated_dea_file = ('%s/.%s' % (os.path.dirname(self.dea_file),
+                                        os.path.basename(self.dea_file)))
+        shutil.copy2(self.dea_file, updated_dea_file)
+        plugins_conf_dir = (
+            self.fuel_plugins_conf_dir if self.fuel_plugins_conf_dir
+            else '%s/plugins_conf' % os.path.dirname(self.dea_file))
+        if os.path.isdir(plugins_conf_dir):
+            with io.open(updated_dea_file) as stream:
+                updated_dea = yaml.load(stream)
+            for plugin_file in glob.glob('%s/*.yaml' % plugins_conf_dir):
+                with io.open(plugin_file) as stream:
+                    plugin_conf = yaml.load(stream)
+                updated_dea['settings']['editable'].update(plugin_conf)
+            with io.open(updated_dea_file, 'w') as stream:
+                yaml.dump(updated_dea, stream, default_flow_style=False)
+        return updated_dea_file
+
     def upload_cloud_deployment_files(self):
+        updated_dea_file = self.merge_plugin_config_files_to_dea_file()
         with self.ssh as s:
             s.exec_cmd('rm -rf %s' % self.work_dir, False)
             s.exec_cmd('mkdir %s' % self.work_dir)
-            s.scp_put(self.dea_file, self.work_dir)
+            s.scp_put(updated_dea_file, self.work_dir)
+            delete(updated_dea_file)
             s.scp_put(self.blade_node_file, self.work_dir)
             s.scp_put('%s/common.py' % self.file_dir, self.work_dir)
             s.scp_put('%s/dea.py' % self.file_dir, self.work_dir)

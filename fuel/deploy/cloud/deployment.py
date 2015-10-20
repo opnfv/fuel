@@ -8,23 +8,17 @@
 ###############################################################################
 
 
-import common
-import os
-import shutil
-import glob
-import yaml
-import io
 import time
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-run_proc = common.run_proc
-parse = common.parse
-err = common.err
-log = common.log
+from common import (
+    N,
+    E,
+    exec_cmd,
+    run_proc,
+    parse,
+    err,
+    log,
+)
 
 
 class Deployment(object):

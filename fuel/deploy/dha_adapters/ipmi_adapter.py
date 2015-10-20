@@ -8,13 +8,14 @@
 ###############################################################################
 
 
-import common
 import time
 from hardware_adapter import HardwareAdapter
 
-log = common.log
-exec_cmd = common.exec_cmd
-err = common.err
+from common import (
+    log,
+    exec_cmd,
+    err,
+)
 
 
 class IpmiAdapter(HardwareAdapter):

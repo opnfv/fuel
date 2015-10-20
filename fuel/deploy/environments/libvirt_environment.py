@@ -10,16 +10,14 @@
 
 from lxml import etree
 import glob
-
-import common
 from execution_environment import ExecutionEnvironment
 
-exec_cmd = common.exec_cmd
-err = common.err
-log = common.log
-check_dir_exists = common.check_dir_exists
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    log,
+    check_dir_exists,
+    check_file_exists,
+)
 
 
 class LibvirtEnvironment(ExecutionEnvironment):
