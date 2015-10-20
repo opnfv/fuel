@@ -8,24 +8,24 @@
 ###############################################################################
 
 
-import common
-import os
-import shutil
-import glob
-import yaml
-import io
 import time
+import re
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-run_proc = common.run_proc
-parse = common.parse
-err = common.err
-log = common.log
+from common import (
+    N,
+    E,
+    exec_cmd,
+    run_proc,
+    parse,
+    err,
+    log,
+    delete,
+)
 
+SEARCH_TEXT = 'Puppet (err)'
+LOG_FILE = '/var/log/puppet.log'
+GREP_LINES_OF_LEADING_CONTEXT = 100
+GREP_LINES_OF_TRAILING_CONTEXT = 100
 
 class Deployment(object):
 
@@ -36,6 +36,57 @@ class Deployment(object):
         self.env_id = env_id
         self.node_id_roles_dict = node_id_roles_dict
         self.no_health_check = no_health_check
+        self.pattern = re.compile(
+            '\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d')
+
+    def collect_error_logs(self):
+        for node_id, roles_blade in self.node_id_roles_dict.iteritems():
+            log_list = []
+            cmd = ('ssh -q node-%s grep \'"%s"\' %s'
+                   % (node_id, SEARCH_TEXT, LOG_FILE))
+            results, _ = exec_cmd(cmd, False)
+            for result in results.splitlines():
+                log_msg = ''
+                cmd = ('ssh -q node-%s grep -B%s \'"%s"\' %s'
+                       % (node_id, GREP_LINES_OF_LEADING_CONTEXT, result,
+                          LOG_FILE))
+                details, _ = exec_cmd(cmd, False)
+                details_list = details.splitlines()
+
+                found_prev_log = False
+                for i in range(len(details_list) - 2, -1, -1):
+                    if self.pattern.match(details_list[i]):
+                        found_prev_log = True
+                        break
+                if found_prev_log:
+                    log_msg += '\n'.join(details_list[i:-1]) + '\n'
+
+                cmd = ('ssh -q node-%s grep -A%s \'"%s"\' %s'
+                       % (node_id, GREP_LINES_OF_TRAILING_CONTEXT, result,
+                          LOG_FILE))
+                details, _ = exec_cmd(cmd, False)
+                details_list = details.splitlines()
+
+                found_next_log = False
+                for i in range(1, len(details_list)):
+                    if self.pattern.match(details_list[i]):
+                        found_next_log = True
+                        break
+                if found_next_log:
+                    log_msg += '\n'.join(details_list[:i])
+                else:
+                    log_msg += details
+
+                if log_msg:
+                   log_list.append(log_msg)
+
+            if log_list:
+                role = ('controller' if 'controller' in roles_blade[0]
+                        else 'compute host')
+                log('_' * 40 + 'Errors in node-%s %s' % (node_id, role)
+                    + '_' * 40)
+                for log_msg in log_list:
+                    print(log_msg + '\n')
 
     def run_deploy(self):
         WAIT_LOOP = 180
@@ -61,11 +112,12 @@ class Deployment(object):
                 break
             else:
                 time.sleep(SLEEP_TIME)
-        exec_cmd('rm %s' % LOG_FILE)
+        delete(LOG_FILE)
 
         if ready:
             log('Environment %s successfully deployed' % self.env_id)
         else:
+            self.collect_error_logs()
             err('Deployment failed, environment %s is not operational'
                 % self.env_id)
 

@@ -9,14 +9,14 @@
 
 
 from lxml import etree
-
-import common
 from execution_environment import ExecutionEnvironment
 
-exec_cmd = common.exec_cmd
-log = common.log
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    check_file_exists,
+    check_if_root,
+    delete,
+)
 
 
 class VirtualFuel(ExecutionEnvironment):
@@ -59,7 +59,7 @@ class VirtualFuel(ExecutionEnvironment):
         exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
         self.define_vm(vm_name, temp_vm_file, disk_path)
-        exec_cmd('rm -fr %s' % temp_dir)
+        delete(temp_dir)
 
     def setup_environment(self):
         check_if_root()

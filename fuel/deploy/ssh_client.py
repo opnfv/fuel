@@ -9,13 +9,14 @@
 
 
 import paramiko
-import common
 import scp
 
-TIMEOUT = 600
-log = common.log
-err = common.err
+from common import (
+    log,
+    err,
+)
 
+TIMEOUT = 600
 
 class SSHClient(object):
 
@@ -58,7 +59,7 @@ class SSHClient(object):
         if check:
             if error:
                 self.close()
-                err(error)
+                raise Exception(error)
             else:
                 return response
         return response, error
