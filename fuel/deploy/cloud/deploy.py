@@ -8,47 +8,36 @@
 ###############################################################################
 
 
-import os
 import yaml
 import io
-import glob
 
-import common
 from dea import DeploymentEnvironmentAdapter
 from configure_environment import ConfigureEnvironment
 from deployment import Deployment
 
-YAML_CONF_DIR = '/var/lib/opnfv'
+from common import (
+    R,
+    exec_cmd,
+    parse,
+    check_file_exists,
+    commafy,
+    ArgParser,
+)
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-parse = common.parse
-err = common.err
-check_file_exists = common.check_file_exists
-log = common.log
-commafy = common.commafy
-ArgParser = common.ArgParser
+YAML_CONF_DIR = '/var/lib/opnfv'
 
 
 class Deploy(object):
 
-    def __init__(self, dea_file, blade_node_file, no_health_check):
+    def __init__(self, dea_file, no_health_check):
         self.dea = DeploymentEnvironmentAdapter(dea_file)
-        self.blade_node_file = blade_node_file
         self.no_health_check = no_health_check
         self.macs_per_blade = {}
         self.blades = self.dea.get_node_ids()
-        self.blade_node_dict = {}
+        self.blade_node_dict = self.dea.get_blade_node_map()
         self.node_roles_dict = {}
         self.env_id = None
         self.wanted_release = self.dea.get_property('wanted_release')
-
-    def get_blade_node_mapping(self):
-        with io.open(self.blade_node_file, 'r') as stream:
-            self.blade_node_dict = yaml.load(stream)
 
     def assign_roles_to_cluster_node_ids(self):
         self.node_roles_dict = {}
@@ -74,8 +63,6 @@ class Deploy(object):
 
     def deploy(self):
 
-        self.get_blade_node_mapping()
-
         self.assign_roles_to_cluster_node_ids()
 
         self.configure_environment()
@@ -90,17 +77,17 @@ def parse_arguments():
                         help='Don\'t run health check after deployment')
     parser.add_argument('dea_file', action='store',
                         help='Deployment Environment Adapter: dea.yaml')
-    parser.add_argument('blade_node_file', action='store',
-                        help='Blade Node mapping: blade_node.yaml')
     args = parser.parse_args()
     check_file_exists(args.dea_file)
-    check_file_exists(args.blade_node_file)
-    return (args.dea_file, args.blade_node_file, args.no_health_check)
+
+    kwargs = {'dea_file': args.dea_file,
+              'no_health_check': args.no_health_check}
+    return kwargs
 
 
 def main():
-    dea_file, blade_node_file, no_health_check = parse_arguments()
-    deploy = Deploy(dea_file, blade_node_file, no_health_check)
+    kwargs = parse_arguments()
+    deploy = Deploy(**kwargs)
     deploy.deploy()
 
 if __name__ == '__main__':
