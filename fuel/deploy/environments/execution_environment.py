@@ -9,16 +9,13 @@
 
 
 from lxml import etree
-
-import common
 from dha_adapters.libvirt_adapter import LibvirtAdapter
 
-exec_cmd = common.exec_cmd
-err = common.err
-log = common.log
-check_dir_exists = common.check_dir_exists
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    log,
+    delete,
+)
 
 
 class ExecutionEnvironment(object):
@@ -51,7 +48,7 @@ class ExecutionEnvironment(object):
         exec_cmd('virsh destroy %s' % vm_name, False)
         exec_cmd('virsh undefine %s' % vm_name, False)
         for file in disk_files:
-            exec_cmd('rm -f %s' % file)
+            delete(file)
 
     def define_vm(self, vm_name, temp_vm_file, disk_path):
         log('Creating VM %s with disks %s' % (vm_name, disk_path))
