@@ -9,16 +9,12 @@
 
 
 from lxml import etree
-
-import common
 from dha_adapters.libvirt_adapter import LibvirtAdapter
 
-exec_cmd = common.exec_cmd
-err = common.err
-log = common.log
-check_dir_exists = common.check_dir_exists
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    log,
+)
 
 
 class ExecutionEnvironment(object):
