@@ -9,14 +9,13 @@
 
 
 from lxml import etree
-
-import common
 from execution_environment import ExecutionEnvironment
 
-exec_cmd = common.exec_cmd
-log = common.log
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    check_file_exists,
+    check_if_root,
+)
 
 
 class VirtualFuel(ExecutionEnvironment):

@@ -7,20 +7,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-import common
+
 import yaml
 import io
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-parse = common.parse
-err = common.err
-check_file_exists = common.check_file_exists
-log = common.log
-backup = common.backup
+from common import (
+    exec_cmd,
+    check_file_exists,
+    log,
+    backup,
+)
 
 
 class ConfigureSettings(object):

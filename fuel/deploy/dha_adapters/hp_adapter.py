@@ -8,11 +8,12 @@
 ###############################################################################
 
 
-import common
 from ipmi_adapter import IpmiAdapter
 from ssh_client import SSHClient
 
-log = common.log
+from common import (
+    log,
+)
 
 DEV = {'pxe': 'bootsource5',
        'disk': 'bootsource3',

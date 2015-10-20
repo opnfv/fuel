@@ -9,12 +9,13 @@
 
 
 import sys
-import common
 import io
 import yaml
 from dea import DeploymentEnvironmentAdapter
 
-check_file_exists = common.check_file_exists
+from common import (
+    check_file_exists,
+)
 
 ASTUTE_YAML = '/etc/fuel/astute.yaml'
 

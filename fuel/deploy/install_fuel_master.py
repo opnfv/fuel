@@ -7,24 +7,26 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-
-import common
 import time
 import os
 import glob
 from ssh_client import SSHClient
 from dha_adapters.libvirt_adapter import LibvirtAdapter
 
-log = common.log
-err = common.err
-clean = common.clean
-delete = common.delete
+from common import (
+    log,
+    err,
+    clean,
+    delete,
+)
 
 TRANSPLANT_FUEL_SETTINGS = 'transplant_fuel_settings.py'
 BOOTSTRAP_ADMIN = '/usr/local/sbin/bootstrap_admin_node'
 FUEL_CLIENT_CONFIG = '/etc/fuel/client/config.yaml'
 PLUGINS_DIR = '~/plugins'
 LOCAL_PLUGIN_FOLDER = '/opt/opnfv'
+IGNORABLE_FUEL_ERRORS = ['does not update installed package',
+                         'Couldn\'t resolve host']
 
 
 class InstallFuelMaster(object):
@@ -106,18 +108,21 @@ class InstallFuelMaster(object):
             if self.fuel_plugins_dir:
                 for f in glob.glob('%s/*.rpm' % self.fuel_plugins_dir):
                     s.scp_put(f, PLUGINS_DIR)
-            else:
-                s.exec_cmd('cp %s/*.rpm %s' % (LOCAL_PLUGIN_FOLDER,
-                                               PLUGINS_DIR))
 
     def install_plugins(self):
         log('Installing Fuel Plugins')
+        plugin_files = []
         with self.ssh as s:
-            r = s.exec_cmd('find %s -type f -name \'*.rpm\'' % PLUGINS_DIR)
-            for f in r.splitlines():
+            for plugin_location in [PLUGINS_DIR, LOCAL_PLUGIN_FOLDER]:
+                r = s.exec_cmd('find %s -type f -name \'*.rpm\''
+                               % plugin_location)
+                plugin_files.extend(r.splitlines())
+            for f in plugin_files:
                 log('Found plugin %s, installing ...' % f)
                 r, e = s.exec_cmd('fuel plugins --install %s' % f, False)
-                if e and 'does not update installed package' not in r:
+                printout = r + e if e else r
+                if e and all([err not in printout
+                              for err in IGNORABLE_FUEL_ERRORS]):
                     raise Exception('Installation of Fuel Plugin %s '
                                     'failed: %s' % (f, e))
 
@@ -130,7 +135,7 @@ class InstallFuelMaster(object):
                 self.ssh.open()
                 success = True
                 break
-            except Exception as e:
+            except Exception:
                 log('Trying to SSH into Fuel VM %s ... sleeping %s seconds'
                     % (self.fuel_ip, SLEEP_TIME))
                 time.sleep(SLEEP_TIME)

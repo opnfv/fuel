@@ -8,29 +8,23 @@
 ###############################################################################
 
 
-import os
 import yaml
 import io
-import glob
 
-import common
 from dea import DeploymentEnvironmentAdapter
 from configure_environment import ConfigureEnvironment
 from deployment import Deployment
 
-YAML_CONF_DIR = '/var/lib/opnfv'
+from common import (
+    R,
+    exec_cmd,
+    parse,
+    check_file_exists,
+    commafy,
+    ArgParser,
+)
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-parse = common.parse
-err = common.err
-check_file_exists = common.check_file_exists
-log = common.log
-commafy = common.commafy
-ArgParser = common.ArgParser
+YAML_CONF_DIR = '/var/lib/opnfv'
 
 
 class Deploy(object):

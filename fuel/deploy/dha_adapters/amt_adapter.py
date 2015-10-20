@@ -8,12 +8,14 @@
 ###############################################################################
 
 
-import common
 from hardware_adapter import HardwareAdapter
 
-log = common.log
-exec_cmd = common.exec_cmd
-err = common.err
+from common import (
+    log,
+    exec_cmd,
+    err,
+)
+
 
 '''
 This is hardware adapter for Intel AMT based system. It use amttool to interact
