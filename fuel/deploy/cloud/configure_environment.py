@@ -7,22 +7,20 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-import common
 
 from configure_settings import ConfigureSettings
 from configure_network import ConfigureNetwork
 from configure_nodes import ConfigureNodes
 
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
-exec_cmd = common.exec_cmd
-parse = common.parse
-err = common.err
-log = common.log
-delete = common.delete
-create_dir_if_not_exists = common.create_dir_if_not_exists
+from common import (
+    E,
+    exec_cmd,
+    parse,
+    err,
+    log,
+    delete,
+    create_dir_if_not_exists,
+)
 
 
 class ConfigureEnvironment(object):

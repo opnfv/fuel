@@ -20,18 +20,18 @@ from dha import DeploymentHardwareAdapter
 from install_fuel_master import InstallFuelMaster
 from deploy_env import CloudDeploy
 from execution_environment import ExecutionEnvironment
-import common
 
-log = common.log
-exec_cmd = common.exec_cmd
-err = common.err
-warn = common.warn
-check_file_exists = common.check_file_exists
-check_dir_exists = common.check_dir_exists
-create_dir_if_not_exists = common.create_dir_if_not_exists
-delete = common.delete
-check_if_root = common.check_if_root
-ArgParser = common.ArgParser
+from common import (
+    log,
+    exec_cmd,
+    err,
+    warn,
+    check_file_exists,
+    create_dir_if_not_exists,
+    delete,
+    check_if_root,
+    ArgParser,
+)
 
 FUEL_VM = 'fuel'
 PATCH_DIR = 'fuel_patch'
@@ -56,7 +56,7 @@ class AutoDeploy(object):
 
     def __init__(self, no_fuel, fuel_only, no_health_check, cleanup_only,
                  cleanup, storage_dir, pxe_bridge, iso_file, dea_file,
-                 dha_file, fuel_plugins_dir):
+                 dha_file, fuel_plugins_dir, fuel_plugins_conf_dir):
         self.no_fuel = no_fuel
         self.fuel_only = fuel_only
         self.no_health_check = no_health_check
@@ -68,6 +68,7 @@ class AutoDeploy(object):
         self.dea_file = dea_file
         self.dha_file = dha_file
         self.fuel_plugins_dir = fuel_plugins_dir
+        self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.dea = (DeploymentEnvironmentAdapter(dea_file)
                     if not cleanup_only else None)
         self.dha = DeploymentHardwareAdapter(dha_file)
@@ -92,8 +93,8 @@ class AutoDeploy(object):
 
     def install_fuel_master(self):
         log('Install Fuel Master')
-        new_iso = '%s/deploy-%s' \
-                  % (self.tmp_dir, os.path.basename(self.iso_file))
+        new_iso = ('%s/deploy-%s'
+                   % (self.tmp_dir, os.path.basename(self.iso_file)))
         self.patch_iso(new_iso)
         self.iso_file = new_iso
         self.install_iso()
@@ -159,7 +160,8 @@ class AutoDeploy(object):
     def deploy_env(self):
         dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
                           self.fuel_username, self.fuel_password,
-                          self.dea_file, WORK_DIR, self.no_health_check)
+                          self.dea_file, self.fuel_plugins_conf_dir,
+                          WORK_DIR, self.no_health_check)
         return dep.deploy()
 
     def setup_execution_environment(self):
@@ -271,6 +273,8 @@ def parse_arguments():
                              '[default: pxebr]')
     parser.add_argument('-p', dest='fuel_plugins_dir', action='store',
                         help='Fuel Plugins directory')
+    parser.add_argument('-pc', dest='fuel_plugins_conf_dir', action='store',
+                        help='Fuel Plugins Configuration directory')
 
     args = parser.parse_args()
     log(args)
@@ -294,13 +298,13 @@ def parse_arguments():
               'storage_dir': args.storage_dir, 'pxe_bridge': args.pxe_bridge,
               'iso_file': args.iso_file, 'dea_file': args.dea_file,
               'dha_file': args.dha_file,
-              'fuel_plugins_dir': args.fuel_plugins_dir}
+              'fuel_plugins_dir': args.fuel_plugins_dir,
+              'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir}
     return kwargs
 
 
 def main():
     kwargs = parse_arguments()
-
     d = AutoDeploy(**kwargs)
     sys.exit(d.run())
 
