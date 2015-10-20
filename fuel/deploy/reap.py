@@ -8,23 +8,24 @@
 ###############################################################################
 
 
-import common
 import time
 import os
 import yaml
 import glob
 import shutil
 
-N = common.N
-E = common.E
-R = common.R
-ArgParser = common.ArgParser
-exec_cmd = common.exec_cmd
-parse = common.parse
-err = common.err
-log = common.log
-delete = common.delete
-commafy = common.commafy
+from common import (
+    N,
+    E,
+    R,
+    ArgParser,
+    exec_cmd,
+    parse,
+    err,
+    log,
+    delete,
+    commafy,
+)
 
 DEA_1 = '''
 title: Deployment Environment Adapter (DEA)
