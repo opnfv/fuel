@@ -1,0 +1,17 @@
+--- packages.make.orig	2015-11-03 21:13:42.847214965 +0100
++++ packages.make.new	2015-11-03 21:15:33.018859377 +0100
+@@ -25,12 +25,14 @@
+ SERIES=$(shell lsb_release -c -s)
+ 
+ # DPDK vRouter is currently supported only on Ubuntu 12.04 Precise and 14.04 Trusty
++ifeq ($(CONTRAIL_DPDK),1)
+ ifeq ($(SERIES),precise)
+     CONTRAIL_VROUTER_DPDK := contrail-vrouter-dpdk
+ endif
+ ifeq ($(SERIES),trusty)
+     CONTRAIL_VROUTER_DPDK := contrail-vrouter-dpdk
+ endif
++endif
+ 
+ source-all: source-package-contrail-web-core \
+ 	source-package-contrail-web-controller \
