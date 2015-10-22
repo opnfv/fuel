@@ -1,6 +1,5 @@
 ##############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
-# stefan.k.berg@ericsson.com
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -8,21 +7,18 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-# REPO Information for fuel and build system
+# Fuel Plugin repo/branch
 #
-FUEL_MAIN_REPO := https://github.com/openstack/fuel-main
-FUEL_MAIN_TAG = stable/6.1
+export OCL_BRANCH="stable/2.1"
+export OCL_REPO="https://github.com/openstack/fuel-plugin-contrail"
 
-DOCKER_REPO := http://get.docker.com/builds/Linux/x86_64
-DOCKER_TAG := docker-latest
-
-# Target kernel version, needed for some of the build steps
+# Build options
 #
-export TARGET_KERNEL := 3.13.0-66-generic
+# Uncomment The line below to in order to build a DPDK accellerated vRouter -
+# Not yet supported
+# CONTRAIL_DPDK=1
 
-# Extended build targets
+# OpenContrail repos
 #
-.PHONY: get-fuel-repo
-get-fuel-repo:
-	@echo $(FUEL_MAIN_REPO) $(FUEL_MAIN_TAG)
-
+# NOTE THE OPEN CONTRAIL REPO SPECIFICATION IS FOUND AT:
+# ===== ./manifest.xml =====
