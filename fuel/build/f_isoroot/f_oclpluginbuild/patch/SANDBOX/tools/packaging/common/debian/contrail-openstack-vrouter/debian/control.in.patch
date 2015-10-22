@@ -1,0 +1,9 @@
+--- control.in.orig	2015-11-19 22:28:08.458013887 +0100
++++ control.in.new	2015-11-19 22:28:39.205929245 +0100
+@@ -8,5 +8,5 @@
+ Package: contrail-openstack-vrouter
+ Architecture: all
+ Maintainer: amoghe <amoghe@juniper.net>
+-Depends: contrail-vrouter-common, nova-compute, python-novaclient, librabbitmq0, nfs-kernel-server
++Depends: contrail-vrouter-common, nova-compute, python-novaclient, librabbitmq1, nfs-kernel-server
+ Description: Contrail Openstack vRouter composite debian package

@@ -1,0 +1,465 @@
+<packages>
+  <package>
+    <name>bitarray - efficient arrays of booleans -- C extension</name>
+    <url>https://pypi.python.org/packages/source/b/bitarray/bitarray-0.8.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>3825184f54f4d93508a28031b4c65d3b</md5>
+  </package>
+  <package>
+    <name>ElementTree - a light-weight XML object model for Python</name>
+    <url>http://effbot.org/media/downloads/elementtree-1.2.6-20050316.tar.gz</url>
+    <format>tgz</format>
+    <md5>e1b21716be8bfff8bf192fc3880ad008</md5>
+  </package>
+  <package>
+    <name>http client library for gevent</name>
+    <url>https://pypi.python.org/packages/source/g/geventhttpclient/geventhttpclient-1.0a.tar.gz</url>
+    <format>tgz</format>
+    <md5>3386f167c1bd77e0bb25d300902858de</md5>
+  </package>
+  <package>
+    <name>Python extension that wraps hiredis</name>
+    <url>https://pypi.python.org/packages/source/h/hiredis/hiredis-0.1.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>92128474f6fb027cfb8587fce724ea8e</md5>
+  </package>
+  <package>
+    <name>Higher Level Zookeeper Client</name>
+    <url>https://pypi.python.org/packages/source/k/kazoo/kazoo-1.3.1.zip</url>
+    <format>zip</format>
+    <md5>be826de7afaa7011541fe95dc5238edb</md5>
+    <patches>
+      <patch strip="2">kazoo-timeout.diff</patch>
+    </patches>
+    <rename>kazoo</rename>
+  </package>
+  <package>
+    <name>meld3 is an HTML/XML templating engine</name>
+    <url>https://pypi.python.org/packages/source/m/meld3/meld3-0.6.10.tar.gz</url>
+    <format>tgz</format>
+    <md5>42e58624e9d427be7659d7a28e2b0b6f</md5>
+  </package>
+  <package>
+    <name>Python library for NETCONF clients</name>
+    <url>https://github.com/leopoul/ncclient/tarball/v0.3.2</url>
+    <format>tgz</format>
+    <md5>530fe50cb4e51879af41ec5cdb53f71f</md5>
+    <local-filename>ncclient-0.3.2.tar.gz</local-filename>
+    <rename>ncclient</rename>
+  </package>
+  <package>
+    <name>Python client library for Apache Cassandra</name>
+    <url>https://pypi.python.org/packages/source/p/pycassa/pycassa-1.10.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>05a503440b593f51580024cd2a6b751b</md5>
+  </package>
+  <package>
+    <name>Python client for Redis key-value store</name>
+    <url>https://pypi.python.org/packages/source/r/redis/redis-2.8.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>3a5b1b96d70852a2581a0b28f6122902</md5>
+    <patches>
+      <patch strip="2">redis-py.diff</patch>
+    </patches>
+  </package>
+  <package>
+    <name>Python bindings for the Apache Thrift RPC system</name>
+    <url>https://pypi.python.org/packages/source/t/thrift/thrift-0.9.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>8989a8a96b0e3a3380cfb89c44e172a6</md5>
+  </package>
+  <package>
+    <name>Makes working with XML feel like you are working with JSON</name>
+    <url>https://pypi.python.org/packages/source/x/xmltodict/xmltodict-0.7.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>a5ff936c9e26b6df1001394f8c7a80b1</md5>
+  </package>
+  <package>
+    <name>SSH2 protocol library</name>
+    <url>https://pypi.python.org/packages/source/p/paramiko/paramiko-1.11.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>a2c55dc04904bd08d984533703177084</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Fabric is a simple, Pythonic tool for remote execution and deployment</name>
+    <url>https://pypi.python.org/packages/source/F/Fabric/Fabric-1.7.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>48e4176f0be925a44ef83ce0efc6d69b</md5>
+  </package>
+  <package>
+    <name>Fabric is a simple, Pythonic tool for remote execution and deployment</name>
+    <url>https://pypi.python.org/packages/source/F/Fabric/Fabric-1.7.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>48e4176f0be925a44ef83ce0efc6d69b</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>PyCrypto - The Python Cryptography Toolkit</name>
+    <url>https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.tar.gz</url>
+    <format>tgz</format>
+    <md5>88dad0a270d1fe83a39e0467a66a22bb</md5>
+  </package>
+  <package>
+    <name>PyCrypto - The Python Cryptography Toolkit</name>
+    <url>https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.tar.gz</url>
+    <format>tgz</format>
+    <md5>88dad0a270d1fe83a39e0467a66a22bb</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Zope Toolkit Interfaces for Python</name>
+    <url>https://pypi.python.org/packages/source/z/zope.interface/zope.interface-3.7.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>8f3e942e9556ed27ac1a71ee85bf697f</md5>
+  </package>
+  <package>
+    <name>Zope Toolkit Interfaces for Python</name>
+    <url>https://pypi.python.org/packages/source/z/zope.interface/zope.interface-3.7.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>8f3e942e9556ed27ac1a71ee85bf697f</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Zope Toolkit Interfaces for Python</name>
+    <url>https://pypi.python.org/packages/source/z/zope.interface/zope.interface-3.8.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>8ab837320b4532774c9c89f030d2a389</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Cassandra</name>
+    <url>https://launchpad.net/cassandra/1.1/1.1.7-src/+download/apache-cassandra-1.1.7-src.tar.gz</url>
+    <format>tgz</format>
+    <md5>1297d453e7ea02dfcc3e3bceabd35a7d</md5>
+  </package>
+  <package>
+    <name>Python bindings for the Apache Thrift RPC system</name>
+    <url>https://pypi.python.org/packages/source/t/thrift/thrift-0.8.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>edc7e5311e2ae5593cd6ac06fdab3257</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Lightweight in-process concurrent programming</name>
+    <url>https://pypi.python.org/packages/source/g/greenlet/greenlet-0.4.1.zip</url>
+    <format>zip</format>
+    <md5>c2deda75bdda59c38cae12a77cc53adc</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Python network library that uses greenlet and libevent for easy and scalable concurrency</name>
+    <url>https://pypi.python.org/packages/source/g/gevent/gevent-0.13.8.tar.gz</url>
+    <format>tgz</format>
+    <md5>ca9dcaa7880762d8ebbc266b11252960</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Highly concurrent networking library</name>
+    <url>https://pypi.python.org/packages/source/e/eventlet/eventlet-0.9.17.tar.gz</url>
+    <format>tgz</format>
+    <md5>86f3223f6f45ad3f8392d8f1c1a09bf2</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API</name>
+    <url>https://pypi.python.org/packages/source/l/lxml/lxml-2.3.3.tar.gz</url>
+    <format>tgz</format>
+    <md5>a7825793c69d004f388ec6600bad7a6f</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>http client library for gevent</name>
+    <url>https://pypi.python.org/packages/source/g/geventhttpclient/geventhttpclient-1.0a.tar.gz</url>
+    <format>tgz</format>
+    <md5>3386f167c1bd77e0bb25d300902858de</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Pythonic manipulation of IPv4, IPv6, CIDR, EUI and MAC network addresses</name>
+    <url>http://pkgs.fedoraproject.org/repo/pkgs/python-netaddr/netaddr-0.7.5.tar.gz/06168e1efb753d4d3e48778a5373e192/netaddr-0.7.5.tar.gz</url>
+    <format>tgz</format>
+    <md5>06168e1efb753d4d3e48778a5373e192</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Useful extra bits for Python - things that shold be in the standard library</name>
+    <url>https://pypi.python.org/packages/source/e/extras/extras-0.0.3.tar.gz</url>
+    <format>tgz</format>
+    <md5>62d8ba049e3386a6df69b413ea81517b</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Python HTTP for Humans</name>
+    <url>https://pypi.python.org/packages/source/r/requests/requests-1.1.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>a0158815af244c32041a3147ee09abf3</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>WSGI (PEP 333) Reference Library</name>
+    <url>https://pypi.python.org/packages/source/w/wsgiref/wsgiref-0.1.2.zip</url>
+    <format>zip</format>
+    <md5>29b146e6ebd0f9fb119fe321f7bcf6cb</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Portable network interface information</name>
+    <url>http://alastairs-place.net/projects/netifaces/netifaces-0.8.tar.gz</url>
+    <format>tgz</format>
+    <md5>e57e5983f4c286fac5f8068fbfc5c873</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>efficient arrays of booleans -- C extension</name>
+    <url>https://pypi.python.org/packages/source/b/bitarray/bitarray-0.8.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>a1e80e63aec650721826d385b017201b</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>A cross-platform process and system utilities module for Python</name>
+    <url>https://psutil.googlecode.com/files/psutil-1.0.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>c85e29db7d6d716761eb2b105b9fb177</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Simple module to parse ISO 8601 dates</name>
+    <url>https://pypi.python.org/packages/source/i/iso8601/iso8601-0.1.8.tar.gz</url>
+    <format>tgz</format>
+    <md5>b207ad4f2df92810533ce6145ab9c3e7</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>A simple Python library for easily displaying tabular data in a visually appealing ASCII table format</name>
+    <url>https://pypi.python.org/packages/source/P/PrettyTable/prettytable-0.7.2.tar.gz</url>
+    <format>tgz</format>
+    <md5>a6b80afeef286ce66733d54a0296b13b</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Simple, fast, extensible JSON encoder/decoder for Python</name>
+    <url>https://pypi.python.org/packages/source/s/simplejson/simplejson-3.3.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>0e29b393bceac8081fa4e93ff9f6a001</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Python command-line parsing library</name>
+    <url>http://argparse.googlecode.com/files/argparse-1.2.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>2fbef8cb61e506c706957ab6e135840c</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Oslo configuration API</name>
+    <url>https://pypi.python.org/packages/source/o/oslo.config/oslo.config-1.1.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>54eef87dabb9ceb2e8d57c9bbbde1f65</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Allows using distutils2-like setup.cfg files for a package's metadata with a distribute/setuptools setup.py</name>
+    <url>https://pypi.python.org/packages/source/d/d2to1/d2to1-0.2.11.tar.gz</url>
+    <format>tgz</format>
+    <md5>81addef3dde584ab89b35ada8177c0d0</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Python parsing module</name>
+    <url>https://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.7.tar.gz</url>
+    <format>tgz</format>
+    <md5>9be0fcdcc595199c646ab317c1d9a709</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Extra features for standard library's cmd module</name>
+    <url>https://pypi.python.org/packages/source/c/cmd2/cmd2-0.6.5.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>44a8f40eabcba2cbefe7ea7560a8abfc</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Command Line Interface Formulation Framework</name>
+    <url>https://pypi.python.org/packages/source/c/cliff/cliff-1.4.4.tar.gz</url>
+    <format>tgz</format>
+    <md5>1b74a2d4e7b0b46fae30c27488ec2448</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>A comprehensive HTTP client library</name>
+    <url>https://pypi.python.org/packages/source/h/httplib2/httplib2-0.8.tar.gz</url>
+    <format>tgz</format>
+    <md5>94cb8a3b196dfd19253c46609489d9f1</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>A tiny LRU cache implementation and decorator</name>
+    <url>https://pypi.python.org/packages/source/r/repoze.lru/repoze.lru-0.6.tar.gz</url>
+    <format>tgz</format>
+    <md5>2c3b64b17a8e18b405f55d46173e14dd</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Tools for using a Web Server Gateway Interface stack</name>
+    <url>https://pypi.python.org/packages/source/P/Paste/Paste-1.7.5.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>7ea5fabed7dca48eb46dc613c4b6c4ed</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Load, configure, and compose WSGI applications and servers</name>
+    <url>https://pypi.python.org/packages/source/P/PasteDeploy/PasteDeploy-1.5.0.tar.gz</url>
+    <format>tgz</format>
+    <md5>f1a068a0b680493b6eaff3dd7690690f</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>The Python SQL Toolkit and Object Relational Mapper</name>
+    <url>https://pypi.python.org/packages/source/S/SQLAlchemy/SQLAlchemy-0.8.2.tar.gz</url>
+    <format>tgz</format>
+    <md5>5a33fb43dea93468dbb2a6562ee80b54</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Routing Recognition and Generation Tools</name>
+    <url>https://pypi.python.org/packages/source/R/Routes/Routes-1.13.tar.gz</url>
+    <format>tgz</format>
+    <md5>d527b0ab7dd9172b1275a41f97448783</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>This distribution contains the Python client libraries for Apache Qpid</name>
+    <url>https://pypi.python.org/packages/source/q/qpid-python/qpid-python-0.20.tar.gz</url>
+    <format>tgz</format>
+    <md5>235bbc76138c6a0655820bb989e80367</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Manage dynamic plugins for Python applications</name>
+    <url>https://pypi.python.org/packages/source/s/stevedore/stevedore-0.12.tar.gz</url>
+    <format>tgz</format>
+    <md5>8bf1b7bed06bf5ab636784d161f1a494</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Python Build Reasonableness</name>
+    <url>https://pypi.python.org/packages/source/p/pbr/pbr-0.5.21.tar.gz</url>
+    <format>tgz</format>
+    <md5>1dafd1ef666b9bce4d880170ddc39387</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Virtual Python Environment builder</name>
+    <url>https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.9.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>07e09df0adfca0b2d487e39a4bf2270a</md5>
+  </package>
+  <package>
+    <name>ECDSA cryptographic signature library</name>
+    <url>https://pypi.python.org/packages/source/e/ecdsa/ecdsa-0.10.tar.gz</url>
+    <format>tgz</format>
+    <md5>e95941b3bcbf1726472bb724d7478551</md5>
+    <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>AMQP Client using the rabbitmq-c library</name>
+    <url>https://pypi.python.org/packages/source/l/librabbitmq/librabbitmq-1.0.3.tar.gz</url>
+    <format>tgz</format>
+    <md5>3f30171606ad0786aa9e79d8c007d329</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Low-level AMQP client for Python</name>
+    <url>https://pypi.python.org/packages/source/a/amqp/amqp-1.4.1.tar.gz</url>
+    <format>tgz</format>
+    <md5>cc7b9b2a545062087830ca550754d1eb</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Wraps the best available JSON implementation available in a common interface</name>
+    <url>https://pypi.python.org/packages/source/a/anyjson/anyjson-0.3.3.tar.gz</url>
+    <format>tgz</format>
+    <md5>2ea28d6ec311aeeebaf993cb3008b27c</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>Messaging library for Python</name>
+    <url>https://pypi.python.org/packages/source/k/kombu/kombu-3.0.9.tar.gz</url>
+    <format>tgz</format>
+    <md5>653cddb01f435ade241391d637e8407f</md5>
+     <no_unpack>True</no_unpack>
+  </package>
+  <package>
+    <name>A toolkit to interact with the virtualization capabilities of recent versions of Linux</name>
+    <url>http://libvirt.org/sources/old/libvirt-0.9.12.tar.gz</url>
+    <format>tgz</format>
+    <md5>5e842bc55733ceba60c64767580ff3e4</md5>
+    <patches>
+      <patch strip="1">libvirt_fedora17.diff</patch>
+    </patches>
+  </package>
+  <package>
+    <name>Manage dynamic plugins for Python applications</name>
+    <url>https://pypi.python.org/packages/source/s/stevedore/stevedore-0.12.tar.gz</url>
+    <format>tgz</format>
+    <md5>8bf1b7bed06bf5ab636784d161f1a494</md5>
+  </package>
+    <package>
+      <name>Fast and simple WSGI-framework for small web-applications</name>
+      <url>https://pypi.python.org/packages/source/b/bottle/bottle-0.11.6.tar.gz</url>
+      <format>tgz</format>
+      <md5>0bafdc4e13ea2b1a3bddf36b5af108c4</md5>
+      <no_unpack>True</no_unpack>
+    </package>
+  <package>
+      <name>World Timezone Definitions for Python applications</name>
+      <url>https://pypi.python.org/packages/source/p/pytz/pytz-2014.2.tar.gz</url>
+      <format>tgz</format>
+      <md5>c0158314605420cbf6e5328369b06145</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>Six is a Python 2 and 3 compatibility library</name>
+      <url>https://pypi.python.org/packages/source/s/six/six-1.6.1.tar.gz</url>
+      <format>tgz</format>
+      <md5>07d606ac08595d795bf926cc9985674f</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>A collection of tools for internationalizing Python applications</name>
+      <url>https://pypi.python.org/packages/source/B/Babel/Babel-1.3.tar.gz</url>
+      <format>tgz</format>
+      <md5>5264ceb02717843cbc9ffce8e6e06bdb</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>WebOb provides wrappers around the WSGI request and response environment</name>
+      <url>https://pypi.python.org/packages/source/W/WebOb/WebOb-1.2.3.tar.gz</url>
+      <format>tgz</format>
+      <md5>11825b7074ba7043e157805e4e6e0f55</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>testtools is a set of extensions to the Python standard library's unit testing framework</name>
+      <url>https://launchpad.net/testtools/0.9/0.9.21/+download/testtools-0.9.21.tar.gz</url>
+      <format>tgz</format>
+      <md5>64a36b4ad1de2e970e251673aeb8f1a5</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>Fixtures, reusable state for writing clean tests and more</name>
+      <url>https://pypi.python.org/packages/source/f/fixtures/fixtures-0.3.12.tar.gz</url>
+      <format>tgz</format>
+      <md5>53111c85d15b42a144c690c6ecd29260</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+  <package>
+      <name>Galera ClusterControl Controller</name>
+      <url>https://github.com/Juniper/contrail-third-party-cache/raw/master/distro/cmon-1.2.6-357-64bit-glibc23-mc70.tar.gz</url>
+      <format>tgz</format>
+      <md5>9343a9cab2d3f00d35c8963b68f959c5</md5>
+      <no_unpack>True</no_unpack>
+  </package>
+</packages>

@@ -1,0 +1,11 @@
+--- packages.xml.orig	2015-11-14 18:54:02.795916642 +0100
++++ packages.xml.new	2015-11-15 13:43:26.941462239 +0100
+@@ -43,7 +43,7 @@
+     <name>Python library for NETCONF clients</name>
+     <url>https://github.com/leopoul/ncclient/tarball/v0.3.2</url>
+     <format>tgz</format>
+-    <md5>530fe50cb4e51879af41ec5cdb53f71f</md5>
++    <md5>2534a8ee8d0280958d5b27c784ef7647</md5>
+     <local-filename>ncclient-0.3.2.tar.gz</local-filename>
+     <rename>ncclient</rename>
+   </package>
