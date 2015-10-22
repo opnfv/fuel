@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_31f922c9",
+        "filename": "fuel/build/Makefile",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-10-22T21:05:24Z",
+      "side": 1,
+      "message": "Hi Stefan, is a little curious on this target. Who calls it and what does it do. Pardon my ignorance :-)",
+      "revId": "9fadf52a748da65da06ccac3734acb17d7b9f9b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
