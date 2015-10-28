@@ -7,6 +7,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
+
 import subprocess
 import sys
 import os
@@ -43,7 +44,7 @@ def exec_cmd(cmd, check=True):
     return_code = process.returncode
     if check:
         if return_code > 0:
-            err(response)
+            raise Exception(response)
         else:
             return response
     return response, return_code

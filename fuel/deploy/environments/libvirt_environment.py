@@ -10,16 +10,15 @@
 
 from lxml import etree
 import glob
-
-import common
 from execution_environment import ExecutionEnvironment
 
-exec_cmd = common.exec_cmd
-err = common.err
-log = common.log
-check_dir_exists = common.check_dir_exists
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
+from common import (
+    exec_cmd,
+    log,
+    check_dir_exists,
+    check_file_exists,
+    delete,
+)
 
 
 class LibvirtEnvironment(ExecutionEnvironment):
@@ -56,7 +55,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
             temp_vm_file = '%s/%s' % (temp_dir, vm_name)
             exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
             self.define_vm(vm_name, temp_vm_file, disk_path)
-        exec_cmd('rm -fr %s' % temp_dir)
+        delete(temp_dir)
 
     def start_vms(self):
         for node_id in self.node_ids:
@@ -94,6 +93,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
     def delete_vms(self):
         for node_id in self.node_ids:
             self.delete_vm(node_id)
+
 
     def setup_environment(self):
         check_dir_exists(self.network_dir)

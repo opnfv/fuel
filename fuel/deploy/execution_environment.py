@@ -12,17 +12,8 @@ import yaml
 import io
 import os
 
-import common
 from environments.libvirt_environment import LibvirtEnvironment
 from environments.virtual_fuel import VirtualFuel
-
-exec_cmd = common.exec_cmd
-err = common.err
-log = common.log
-check_dir_exists = common.check_dir_exists
-check_file_exists = common.check_file_exists
-check_if_root = common.check_if_root
-ArgParser = common.ArgParser
 
 
 class ExecutionEnvironment(object):

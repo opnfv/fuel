@@ -8,13 +8,15 @@
 ###############################################################################
 
 
-import common
 from lxml import etree
 from hardware_adapter import HardwareAdapter
 
-log = common.log
-exec_cmd = common.exec_cmd
-err = common.err
+from common import (
+    log,
+    exec_cmd,
+    err,
+    delete,
+)
 
 DEV = {'pxe': 'network',
        'disk': 'hd',
@@ -80,7 +82,7 @@ class LibvirtAdapter(HardwareAdapter):
         with open(xml_file, 'w') as f:
             tree.write(f, pretty_print=True, xml_declaration=True)
         exec_cmd('virsh define %s' % xml_file)
-        exec_cmd('rm -fr %s' % temp_dir)
+        delete(temp_dir)
 
     def node_zero_mbr(self, node_id):
         vm_name = self.get_node_property(node_id, 'libvirtName')
@@ -93,7 +95,7 @@ class LibvirtAdapter(HardwareAdapter):
                 for source in sources:
                     disk_file = source.get('file')
                     disk_size = exec_cmd('ls -l %s' % disk_file).split()[4]
-                    exec_cmd('rm -f %s' % disk_file)
+                    delete(disk_file)
                     exec_cmd('fallocate -l %s %s' % (disk_size, disk_file))
 
     def node_eject_iso(self, node_id):

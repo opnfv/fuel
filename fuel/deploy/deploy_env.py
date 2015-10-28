@@ -13,20 +13,19 @@ import io
 import yaml
 import glob
 import time
+import shutil
 
 from ssh_client import SSHClient
-import common
 
-exec_cmd = common.exec_cmd
-err = common.err
-check_file_exists = common.check_file_exists
-log = common.log
-parse = common.parse
-commafy = common.commafy
-N = common.N
-E = common.E
-R = common.R
-RO = common.RO
+from common import (
+    err,
+    log,
+    parse,
+    N,
+    E,
+    R,
+    delete,
+)
 
 CLOUD_DEPLOY_FILE = 'deploy.py'
 BLADE_RESTART_TIMES = 3
@@ -35,30 +34,48 @@ BLADE_RESTART_TIMES = 3
 class CloudDeploy(object):
 
     def __init__(self, dea, dha, fuel_ip, fuel_username, fuel_password,
-                 dea_file, work_dir, no_health_check):
+                 dea_file, fuel_plugins_conf_dir, work_dir, no_health_check):
         self.dea = dea
         self.dha = dha
         self.fuel_ip = fuel_ip
         self.fuel_username = fuel_username
         self.fuel_password = fuel_password
         self.dea_file = dea_file
+        self.updated_dea_file = (
+            '%s/.%s' % (os.path.dirname(self.dea_file),
+            os.path.basename(self.dea_file)))
+        shutil.copy2(self.dea_file, self.updated_dea_file)
+        self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.work_dir = work_dir
         self.no_health_check = no_health_check
         self.file_dir = os.path.dirname(os.path.realpath(__file__))
         self.ssh = SSHClient(self.fuel_ip, self.fuel_username,
                              self.fuel_password)
-        self.blade_node_file = '%s/blade_node.yaml' % self.file_dir
         self.node_ids = self.dha.get_node_ids()
         self.wanted_release = self.dea.get_property('wanted_release')
         self.blade_node_dict = {}
         self.macs_per_blade = {}
 
+    def merge_plugin_config_files_to_dea_file(self):
+        plugins_conf_dir = (
+            self.fuel_plugins_conf_dir if self.fuel_plugins_conf_dir
+            else '%s/plugins_conf' % os.path.dirname(self.dea_file))
+        if os.path.isdir(plugins_conf_dir):
+            with io.open(self.updated_dea_file) as stream:
+                updated_dea = yaml.load(stream)
+            for plugin_file in glob.glob('%s/*.yaml' % plugins_conf_dir):
+                with io.open(plugin_file) as stream:
+                    plugin_conf = yaml.load(stream)
+                updated_dea['settings']['editable'].update(plugin_conf)
+            with io.open(self.updated_dea_file, 'w') as stream:
+                yaml.dump(updated_dea, stream, default_flow_style=False)
+
     def upload_cloud_deployment_files(self):
         with self.ssh as s:
             s.exec_cmd('rm -rf %s' % self.work_dir, False)
             s.exec_cmd('mkdir %s' % self.work_dir)
-            s.scp_put(self.dea_file, self.work_dir)
-            s.scp_put(self.blade_node_file, self.work_dir)
+            s.scp_put(self.updated_dea_file, '%s/%s' % (
+                self.work_dir, os.path.basename(self.dea_file)))
             s.scp_put('%s/common.py' % self.file_dir, self.work_dir)
             s.scp_put('%s/dea.py' % self.file_dir, self.work_dir)
             for f in glob.glob('%s/cloud/*' % self.file_dir):
@@ -85,13 +102,9 @@ class CloudDeploy(object):
         log('START CLOUD DEPLOYMENT')
         deploy_app = '%s/%s' % (self.work_dir, deploy_app)
         dea_file = '%s/%s' % (self.work_dir, os.path.basename(self.dea_file))
-        blade_node_file = '%s/%s' % (
-            self.work_dir, os.path.basename(self.blade_node_file))
         with self.ssh as s:
-            status = s.run(
-                'python %s %s %s %s' % (
-                    deploy_app, ('-nh' if self.no_health_check else ''),
-                    dea_file, blade_node_file))
+            status = s.run('python %s %s %s' % (
+                deploy_app, ('-nh' if self.no_health_check else ''), dea_file))
         return status
 
     def check_supported_release(self):
@@ -171,8 +184,11 @@ class CloudDeploy(object):
             err('Not all blades have been discovered: %s'
                 % self.not_discovered_blades_summary())
 
-        with io.open(self.blade_node_file, 'w') as stream:
-            yaml.dump(self.blade_node_dict, stream, default_flow_style=False)
+        with io.open(self.updated_dea_file) as stream:
+            updated_dea = yaml.load(stream)
+        updated_dea.update({'blade_node_map': self.blade_node_dict})
+        with io.open(self.updated_dea_file, 'w') as stream:
+            yaml.dump(updated_dea, stream, default_flow_style=False)
 
     def discovery_waiting_loop(self, discovered_macs):
         WAIT_LOOP = 360
@@ -199,7 +215,7 @@ class CloudDeploy(object):
                 if blade:
                     log('Blade %s discovered as Node %s with MAC %s'
                         % (blade, node[N['id']], node[N['mac']]))
-                    self.blade_node_dict[blade] = node[N['id']]
+                    self.blade_node_dict[blade] = int(node[N['id']])
 
     def find_mac_in_dict(self, mac):
         for blade, mac_list in self.macs_per_blade.iteritems():
@@ -241,6 +257,10 @@ class CloudDeploy(object):
 
         self.wait_for_discovered_blades()
 
+        self.merge_plugin_config_files_to_dea_file()
+
         self.upload_cloud_deployment_files()
+
+        delete(self.updated_dea_file)
 
         return self.run_cloud_deploy(CLOUD_DEPLOY_FILE)

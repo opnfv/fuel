@@ -97,3 +97,6 @@ class DeploymentEnvironmentAdapter(object):
         settings = self.get_property('settings')
         ntp_list = settings['editable']['external_ntp']['ntp_list']['value']
         return [n.strip() for n in ntp_list.split(',')]
+
+    def get_blade_node_map(self):
+        return self.dea_struct['blade_node_map']
