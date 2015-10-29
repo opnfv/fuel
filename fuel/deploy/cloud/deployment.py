@@ -47,7 +47,7 @@ class Deployment(object):
             results, _ = exec_cmd(cmd, False)
             for result in results.splitlines():
                 log_msg = ''
-                cmd = ('ssh -q node-%s grep -B%s \'"%s"\' %s'
+                cmd = ('ssh -q node-%s "grep -B%s \\"%s\\" %s"'
                        % (node_id, GREP_LINES_OF_LEADING_CONTEXT, result,
                           LOG_FILE))
                 details, _ = exec_cmd(cmd, False)
@@ -61,7 +61,7 @@ class Deployment(object):
                 if found_prev_log:
                     log_msg += '\n'.join(details_list[i:-1]) + '\n'
 
-                cmd = ('ssh -q node-%s grep -A%s \'"%s"\' %s'
+                cmd = ('ssh -q node-%s "grep -A%s \\"%s\\" %s"'
                        % (node_id, GREP_LINES_OF_TRAILING_CONTEXT, result,
                           LOG_FILE))
                 details, _ = exec_cmd(cmd, False)
