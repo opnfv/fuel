@@ -211,7 +211,6 @@ class InstallFuelMaster(object):
     def post_install_cleanup(self):
         log('Eject ISO file %s' % self.iso_file)
         self.dha.node_eject_iso(self.fuel_node_id)
-        log('Remove ISO directory %s' % self.iso_dir)
         delete(self.iso_dir)
 
     def delete_deprecated_fuel_client_config(self):

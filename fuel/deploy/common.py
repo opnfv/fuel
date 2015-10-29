@@ -30,10 +30,13 @@ formatter = logging.Formatter('%(message)s')
 out_handler = logging.StreamHandler(sys.stdout)
 out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
-out_handler = logging.FileHandler('autodeploy.log', mode='w')
+LOGFILE = 'autodeploy.log'
+if os.path.isfile(LOGFILE):
+    os.remove(LOGFILE)
+out_handler = logging.FileHandler(LOGFILE, mode='w')
 out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
-os.chmod('autodeploy.log', stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
 def exec_cmd(cmd, check=True):
     process = subprocess.Popen(cmd,
