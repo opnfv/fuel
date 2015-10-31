@@ -1,0 +1,84 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# jonas.bjurel@eicsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+TOP := $(shell pwd)
+
+############################################################################
+# BEGIN of Include definitions
+#
+include config.mk
+#
+# END Include definitions
+#############################################################################
+
+.PHONY: all
+all: .ovsbuild
+
+.PHONY: clean
+clean:
+	@rm -f .ovsbuild ../release/opnfv/fuel-plugin-ovs*.rpm fuel-plugin-ovs*.rpm
+	@rm -f $(BUILD_BASE)/gitinfo_ovs-nsh-dpdk-plugin.txt gitinfo_gitinfo_ovs-nsh-dpdk-plugin.txt
+
+.PHONY: release
+release:.ovsbuild
+	@rm -f ../release/opnfv/fuel-plugin-ovs*.rpm
+	@mkdir -p ../release/opnfv
+	@cp fuel-plugin-ovs*.rpm ../release/opnfv/
+	cp gitinfo_gitinfo_ovs-nsh-dpdk-plugin.txt $(BUILD_BASE)
+
+.ovsbuild:
+	@rm -rf fuel-plugin-ovs
+	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
+	sudo gem install fpm
+	sudo pip install fuel-plugin-builder
+	git clone -b $(OVS_NSH_DPDK_BRANCH) $(OVS_NSH_DPDK_REPO)
+	if [ ! -z $(OVS_NSH_DPDK_CHANGE) ]; then \
+	   cd fuel-plugin-ovs; \
+	   git fetch $(OVS_NSH_DPDK_REPO) $(OVS_NSH_DPDK_CHANGE); \
+	   git checkout FETCH_HEAD; \
+	fi
+	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-ovs/
+	@mv fuel-plugin-ovs/fuel-plugin-ovs*.rpm .
+	$(REPOINFO) -r . > gitinfo_ovs-nsh-dpdk-plugin.txt
+	@rm -rf fuel-plugin-ovs
+	@touch .ovsbuild
+
+#############################################################################
+# Cache operations - only used when building through ci/build.sh
+#############################################################################
+
+
+# Create a unique hash to be used for getting and putting cache, based on:
+#   - The SHA1 hash of the HEAD on the plugin repo's $(OVS_NSH_DPDK_BRANCH)
+#   - The contents of this Makefile
+.cacheid:
+	@git ls-remote --heads $(OVS_NSH_DPDK_REPO) | grep $(OVS_NSH_DPDK_BRANCH) | awk {'print $$1'} > .cachedata
+	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
+	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
+	@cat .cachedata | $(CACHETOOL) getid > .cacheid
+
+# Clean local data related to caching - called prior to ordinary build
+.PHONY: clean-cache
+clean-cache: clean
+	@rm -f .cachedata .cacheid
+
+# Try to download cache - called prior to ordinary build
+.PHONY: get-cache
+get-cache: .cacheid
+	@if $(CACHETOOL) check $(shell cat .cacheid); then \
+		 $(CACHETOOL) get $(shell cat .cacheid) | tar xf -;\
+	else \
+		echo "No cache item found for $(shell cat .cacheid)" ;\
+		exit 0;\
+	fi
+
+# Store cache if not already stored - called after ordinary build
+.PHONY: put-cache
+put-cache: .cacheid
+	@tar cf - .ovsbuild fuel-plugin-ovs*.rpm gitinfo_gitinfo_ovs-nsh-dpdk-plugin.txt | $(CACHETOOL) put $(shell cat .cacheid)

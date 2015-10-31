@@ -1,0 +1,7 @@
+attributes:
+  fuel-plugin-ovs_text:
+    value: '2.3.2'
+    label: 'Version'
+    description: 'Description for version'
+    weight: 25
+    type: "text"
