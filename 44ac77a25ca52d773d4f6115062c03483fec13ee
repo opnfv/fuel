@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_a18cb280",
+        "filename": "fuel/build/config.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Will fix!",
+      "parentUuid": "9a5c5d37_01681eb9",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_e164eae6",
         "filename": "fuel/build/config.mk",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-02T13:43:10Z",
       "side": 1,
       "message": "Is this related to the already existing \"get-fuel-repo\" target below, or did you intend to add additional targets here?",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_c18fa674",
+        "filename": "fuel/build/config.mk",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "It was ment to describe the get-fuel-repo target below.\nCould we describe it in a better way?",
+      "parentUuid": "9a5c5d37_e164eae6",
       "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_81e9ae1c",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/Makefile",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Will fix this",
+      "parentUuid": "9a5c5d37_c161e6d4",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_41a5f602",
         "filename": "fuel/build/f_isoroot/f_oclpluginbuild/build_packages.sh",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2015-11-02T13:43:10Z",
       "side": 1,
       "message": "The exit 1 needs to go of course!\n\nThis little blurb should be able to tell if we\u0027re running in Docker or not:\n\nrunning_in_docker() {\n  (awk -F/ \u0027$2 \u003d\u003d \"docker\"\u0027 /proc/self/cgroup | read non_empty_input)\n}\n\nAll credit to http://stackoverflow.com/questions/23513045/how-to-check-if-a-process-is-running-inside-docker-container",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_61eeba24",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/build_packages.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Great! I will fix this eventually.",
+      "parentUuid": "9a5c5d37_41a5f602",
       "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_e1d98a84",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Will fix!",
+      "parentUuid": "9a5c5d37_c1b8c62c",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_2181e24a",
         "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch.sh",
         "patchSetId": 6
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_c1e68644",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Will fix",
+      "parentUuid": "9a5c5d37_2181e24a",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_8182ce50",
         "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch.sh",
         "patchSetId": 6
@@ -132,6 +240,24 @@
       "writtenOn": "2015-11-02T13:43:10Z",
       "side": 1,
       "message": "Minor: Maybe some check to see if $1 is set but not \"generate_cache_id\"?",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_41ca96a2",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "Yes will fix as well as add usage",
+      "parentUuid": "9a5c5d37_8182ce50",
       "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -166,6 +292,24 @@
       "writtenOn": "2015-11-02T13:43:10Z",
       "side": 1,
       "message": "Did you intend to add this file?",
+      "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a1ba7208",
+        "filename": "fuel/build/f_isoroot/f_oclpluginbuild/patch/SANDBOX/packages.make.orig",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-02T14:49:37Z",
+      "side": 1,
+      "message": "I will keep .orig but remove .new. Just to simplify a rebase once that is needed.",
+      "parentUuid": "9a5c5d37_417cd672",
       "revId": "44ac77a25ca52d773d4f6115062c03483fec13ee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
