@@ -16,6 +16,24 @@
       "revId": "2c94709cbd7afa9861c9a966a12fa346b7c30839",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_30cfe9b2",
+        "filename": "fuel/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/config/environment_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2015-11-04T07:09:40Z",
+      "side": 1,
+      "message": "It looks like you don\u0027t use this field anymore",
+      "parentUuid": "9a5c5d37_f676eed7",
+      "revId": "2c94709cbd7afa9861c9a966a12fa346b7c30839",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
