@@ -607,49 +607,49 @@ settings:
         type: custom_repo_configuration
         value:
         - name: ubuntu
-          priority: null
+          priority: 2000
           section: main
           suite: trusty
           type: deb
           uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-updates
-          priority: null
+          priority: 2000
           section: main
           suite: trusty
           type: deb
           uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-security
-          priority: null
+          priority: 2000
           section: main
           suite: trusty
           type: deb
           uri: http://10.20.0.2:8080/ubuntu-part
         - name: mos
-          priority: 1050
+          priority: 2050
           section: main restricted
           suite: mos6.1
           type: deb
           uri: http://10.20.0.2:8080/2014.2.2-6.1/ubuntu/x86_64
         - name: mos-updates
-          priority: 1050
+          priority: 2050
           section: main restricted
           suite: mos6.1-updates
           type: deb
           uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-security
-          priority: 1050
+          priority: 2050
           section: main restricted
           suite: mos6.1-security
           type: deb
           uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-holdback
-          priority: 1100
+          priority: 2100
           section: main restricted
           suite: mos6.1-holdback
           type: deb
           uri: http://10.20.0.2:8080/mos-ubuntu
         - name: Auxiliary
-          priority: 1150
+          priority: 2150
           section: main restricted
           suite: auxiliary
           type: deb
