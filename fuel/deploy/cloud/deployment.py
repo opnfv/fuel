@@ -26,6 +26,7 @@ SEARCH_TEXT = 'Puppet (err)'
 LOG_FILE = '/var/log/puppet.log'
 GREP_LINES_OF_LEADING_CONTEXT = 100
 GREP_LINES_OF_TRAILING_CONTEXT = 100
+LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
 
 class Deployment(object):
 
@@ -47,9 +48,14 @@ class Deployment(object):
             results, _ = exec_cmd(cmd, False)
             for result in results.splitlines():
                 log_msg = ''
-                cmd = ('ssh -q node-%s "grep -B%s \\"%s\\" %s"'
-                       % (node_id, GREP_LINES_OF_LEADING_CONTEXT, result,
-                          LOG_FILE))
+
+                sub_cmd = '"%s" %s' % (result, LOG_FILE)
+                for c in LIST_OF_CHAR_TO_BE_ESCAPED:
+                    sub_cmd = sub_cmd.replace(c, '\%s' % c)
+                grep_cmd = ('grep -B%s %s'
+                            % (GREP_LINES_OF_LEADING_CONTEXT, sub_cmd))
+                cmd = ('ssh -q node-%s "%s"' % (node_id, grep_cmd))
+
                 details, _ = exec_cmd(cmd, False)
                 details_list = details.splitlines()
 
@@ -61,9 +67,10 @@ class Deployment(object):
                 if found_prev_log:
                     log_msg += '\n'.join(details_list[i:-1]) + '\n'
 
-                cmd = ('ssh -q node-%s "grep -A%s \\"%s\\" %s"'
-                       % (node_id, GREP_LINES_OF_TRAILING_CONTEXT, result,
-                          LOG_FILE))
+                grep_cmd = ('grep -A%s %s'
+                            % (GREP_LINES_OF_TRAILING_CONTEXT, sub_cmd))
+                cmd = ('ssh -q node-%s "%s"' % (node_id, grep_cmd))
+
                 details, _ = exec_cmd(cmd, False)
                 details_list = details.splitlines()
 
