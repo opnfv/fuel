@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_1fd18efb",
+        "filename": "fuel/deploy/templates/virtual_environment/conf/dea.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-12T08:56:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have NTP3 here as well to make sure that current/future Fuel validations keeps being happy?",
+      "revId": "125c1e75602979a81d6dac6e9e2f4e0f9097e0da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
