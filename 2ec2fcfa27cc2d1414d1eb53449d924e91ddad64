@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_1adbdcee",
+        "filename": "fuel/build/f_isoroot/f_qemupluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2423
+      },
+      "writtenOn": "2015-11-16T06:41:11Z",
+      "side": 1,
+      "message": "no need to install fpm",
+      "revId": "2ec2fcfa27cc2d1414d1eb53449d924e91ddad64",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
