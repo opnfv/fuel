@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_7acc1836",
+        "filename": "fuel/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2423
+      },
+      "writtenOn": "2015-11-16T06:39:58Z",
+      "side": 1,
+      "message": "no need to install fpm",
+      "revId": "f8950b12e9f968522f6e0e17d94b07e502be8f29",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
