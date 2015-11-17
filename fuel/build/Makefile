@@ -90,6 +90,7 @@ $(ISOCACHE):
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
+	cd /tmp/fuel-main/build/repos/nailgun && patch -p0 < $(TOPDIR)/fuel_web_1.patch
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
 	#
 	cd /tmp/fuel-main && sudo make iso

@@ -1,0 +1,41 @@
+From f89638af5b68ff92f9bebd5c95682f60a5662cec Mon Sep 17 00:00:00 2001
+From: Michal Skalski <mskalski@mirantis.com>
+Date: Tue, 17 Nov 2015 13:35:40 +0100
+Subject: [PATCH] Try to resolve problem with gulp-lintspaces
+
+---
+ nailgun/npm-shrinkwrap.json | 4 ++--
+ nailgun/package.json        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/nailgun/npm-shrinkwrap.json b/nailgun/npm-shrinkwrap.json
+index a94009f..42bd102 100644
+--- a/nailgun/npm-shrinkwrap.json
++++ b/nailgun/npm-shrinkwrap.json
+@@ -3901,8 +3901,8 @@
+       }
+     },
+     "gulp-lintspaces": {
+-      "version": "0.2.3",
+-      "from": "gulp-lintspaces@~0.2.3",
++      "version": "0.3.2",
++      "from": "gulp-lintspaces@0.3.2",
+       "dependencies": {
+         "gulp-util": {
+           "version": "2.2.20",
+diff --git a/nailgun/package.json b/nailgun/package.json
+index 8167f19..75962fa 100644
+--- a/nailgun/package.json
++++ b/nailgun/package.json
+@@ -17,7 +17,7 @@
+     "gulp-jscs": "~1.3.0",
+     "gulp-jshint": "~1.9.4",
+     "gulp-less": "~3.0.2",
+-    "gulp-lintspaces": "~0.2.3",
++    "gulp-lintspaces": "0.3.2",
+     "gulp-react": "~3.0.1",
+     "gulp-replace": "~0.5.3",
+     "gulp-util": "~3.0.4",
+-- 
+2.1.4
+
