@@ -50,6 +50,5 @@ cache:
 		echo "CACHEBASE not set, are you really building through build.sh?"; \
 		exit 1; \
 	fi
-	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
 	@make -C docker
 	docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) cached-all
