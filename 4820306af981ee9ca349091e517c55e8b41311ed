@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_7920a59b",
+        "filename": "fuel/build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-11-17T18:33:53Z",
+      "side": 1,
+      "message": "Hi Michal, if you look in the cache logic you will see that patches named fuel-main*.patch will be part in the cache hash and the cache will be invalidated if changed. So you should probably name the patch something like this: fuel-main_web_1.patch",
+      "revId": "4820306af981ee9ca349091e517c55e8b41311ed",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
