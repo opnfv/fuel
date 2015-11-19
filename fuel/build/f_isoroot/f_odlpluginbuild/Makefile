@@ -8,7 +8,7 @@
 ##############################################################################
 
 TOP := $(shell pwd)
-ODL_BRANCH=juno/lithium-sr1
+ODL_BRANCH=7.0
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
 .PHONY: all
@@ -33,7 +33,6 @@ release:.odlbuild
 	sudo pip install fuel-plugin-builder
 	git clone -b $(ODL_BRANCH) $(ODL_REPO)
 	@$(BUILD_BASE)/check_dependencies.sh fuel-plugin-opendaylight/odl_package/ubuntu/dependencies.txt
-	@$(BUILD_BASE)/check_dependencies.sh fuel-plugin-opendaylight/odl_package/centos/dependencies.txt
 	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-opendaylight/
 	mv fuel-plugin-opendaylight/opendaylight*.rpm .
 	$(REPOINFO) -r . > gitinfo_odlplugin.txt
