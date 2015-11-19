@@ -381,7 +381,7 @@ Configure the OPNFV environment
 
     - Assign interfaces (bonded) for mgmt-, admin-, private-, public- and storage networks
 
-    - Note: Set MTU level to at least MTU=2090 (recommended MTU=2140 for SDN over VXLAN Usage) for each network
+    - Note: Set MTU level to at least MTU=1458 (recommended MTU=1450 for SDN over VXLAN Usage) for each network
 
     - Click Apply
 
