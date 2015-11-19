@@ -1,6 +1,6 @@
-==================================================================================================
-OPNFV Installation instructions for the Arno release of OPNFV when using Fuel as a deployment tool
-==================================================================================================
+=========================================================================================================
+OPNFV Installation instructions for the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool
+=========================================================================================================
 
 .. contents:: Table of Contents
    :backlinks: none
@@ -9,13 +9,13 @@ OPNFV Installation instructions for the Arno release of OPNFV when using Fuel as
 Abstract
 ========
 
-This document describes how to install the Arno SR1 release of OPNFV when using Fuel as a deployment tool covering it's limitations, dependencies and required system resources.
+This document describes how to install the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool covering it's limitations, dependencies and required system resources.
 
 License
 =======
-Arno SR1 release of OPNFV when using Fuel as a deployment tool Docs (c) by Jonas Bjurel (Ericsson AB)
+Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool Docs (c) by Jonas Bjurel (Ericsson AB)
 
-Arno SR1 release of OPNFV when using Fuel as a deployment tool Docs are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool Docs are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
 Version history
 ===============
@@ -32,27 +32,29 @@ Version history
 |                    |                    |  (Ericsson AB)     | update             |
 |		     |                    |                    |                    |
 |		     |                    |                    |                    |
+| 2015-11-19         | 2.0.0              | Daniel Smith       | B-Rel WP1 update   |
+|		     |                    |                    |                    |
 +--------------------+--------------------+--------------------+--------------------+
 
 
 Introduction
 ============
 
-This document describes providing guidelines on how to install and configure the Arno SR1 release of OPNFV when using Fuel as a deployment tool including required software and hardware configurations.
+This document describes providing guidelines on how to install and configure the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool including required software and hardware configurations.
 
-Although the available installation options gives a high degree of freedom in how the system is set-up including architecture, services and features, etc. said permutations may not provide an OPNFV compliant reference architecture. This instruction provides a step-by-step guide that results in an OPNFV Arno SR1 compliant deployment.
+Although the available installation options gives a high degree of freedom in how the system is set-up including architecture, services and features, etc. said permutations may not provide an OPNFV compliant reference architecture. This instruction provides a step-by-step guide that results in an OPNFV Brahmaputra WP1 compliant deployment.
 
 The audience of this document is assumed to have good knowledge in networking and Unix/Linux administration.
 
 Preface
 =======
 
-Before starting the installation of the Arno SR1 release of OPNFV when using Fuel as a deployment tool, some planning must be done.
+Before starting the installation of the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool, some planning must be done.
 
 Retrieving the ISO image
 ------------------------
 
-First of all, the Fuel deployment ISO image needs to be retrieved, the .iso image of the Arno SR1 release of OPNFV when using Fuel as a deployment tool can be found at http://artifacts.opnfv.org/arno.2015.2.0/fuel/arno.2015.2.0.fuel.iso
+First of all, the Fuel deployment ISO image needs to be retrieved, the .iso image of the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool can be found at http://artifacts.opnfv.org/fuel/opnfv-2015-11-19_03-04-21.iso   NOTE: TO BE UPDATED WITH FINAL B-REL ARTIFACT
 
 
 Building the ISO image
@@ -61,25 +63,25 @@ Building the ISO image
 
 Alternatively, you may build the .iso from source by cloning the opnfv/genesis git repository.  To retrieve the repository for the Arno release use the following command:
 
-- git clone https://<linux foundation uid>@gerrit.opnf.org/gerrit/genesis
+- git clone https://<linux foundation uid>@gerrit.opnf.org/gerrit/fuel
 
-Check-out the Arno SR1 release tag to set the branch to the baseline required to replicate the Arno SR1 release:
+Check-out the Brahmaputra WP1 release tag to set the branch to the baseline required to replicate the Brahmaputra WP1 release:
 
-- cd genesis; git checkout stable/arno2015.2.0
+- TODO: NEEDS UPDATE TO REFLECT WP1 TAG / NEW REPO - cd genesis; git checkout stable/arno2015.2.0
 
 Go to the fuel directory and build the .iso:
 
 - cd fuel/build; make all
 
-For more information on how to build, please see "OPNFV Build instructions for - Arno SR1 release of OPNFV when using Fuel as a deployment tool which you retrieved with the repository at </genesis/fuel/docs/src/build-instructions.rst>
+For more information on how to build, please see "OPNFV Build instructions for - Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool which you retrieved with the repository at </fuel/fuel/docs/src/build-instructions.rst>
 
-Next, familiarize yourself with the Fuel 6.1 version by reading the following documents:
+Next, familiarize yourself with the Fuel 7.0 version by reading the following documents:
 
-- Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-6.1/planning-guide.html>
+- Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>
 
-- Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-6.1/user-guide.html#user-guide>
+- Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>
 
-- Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-6.1/operations.html#operations-guide>
+- Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>
 
 - Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>
 
@@ -109,7 +111,7 @@ This information will be needed for the configuration procedures provided in thi
 Hardware requirements
 =====================
 
-The following minimum hardware requirements must be met for the installation of Arno SR1 using Fuel:
+The following minimum hardware requirements must be met for the installation of Brahmaputra WP1 using Fuel:
 
 +--------------------+------------------------------------------------------+
 | **HW Aspect**      | **Requirement**                                      |
@@ -148,7 +150,7 @@ Help with Hardware Requirements
 
 Calculate hardware requirements:
 
-You can use the Fuel Hardware Calculator <https://www.mirantis.com/openstack-services/bom-calculator/> to calculate the hardware required for your OpenStack environment.
+Refer to the OpenStack Hardware Compability List  <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list/> for more information on various hardware types available for use. 
 
 When choosing the hardware on which you will deploy your OpenStack environment, you should think about:
 
@@ -165,7 +167,7 @@ The switching infrastructure provides connectivity for the OPNFV infrastructure 
 
 The physical TOR switches are **not** automatically configured from the OPNFV reference platform. All the networks involved in the OPNFV infrastructure as well as the provider networks and the private tenant VLANs needs to be manually configured.
 
-Manual configuration of the Arno SR1 hardware platform should be carried out according to the Pharos specification TODO-<insert link to Pharos ARNO SR1 Specification>
+Manual configuration of the Brahmaputra WP1 hardware platform should be carried out according to the Pharos specification TODO-<insert link to Pharos ARNO SR1 Specification>
 
 OPNFV Software installation and deployment
 ==========================================
@@ -174,7 +176,7 @@ This section describes the installation of the OPNFV installation server (Fuel m
 
 Install Fuel master
 -------------------
-1. Mount the Arno SR1 ISO  file as a boot device to the jump host server.
+1. Mount the Brahmaputra WP1 ISO file as a boot device to the jump host server.
 
 2. Reboot the jump host to establish the Fuel server.
 
@@ -186,11 +188,19 @@ Install Fuel master
 
 3. Wait until screen Fuel setup is shown (Note: This can take up to 30 minutes).
 
-4. Configure DHCP/Static IP information for your FUEL node - For example, ETH0 is 10.20.0.2/24 for FUEL booting and ETH1 is DHCP in your corporate/lab network.
+4. In the 'Fuel User' Section - Confirm/change the default password 
+    
+   - Enter 'admin' in the Fuel password input
+
+   - Enter 'admin' in the Confim password input
+
+   - Select 'Check' and press [Enter]
+
+5. In 'Network Setup' Section - Configure DHCP/Static IP information for your FUEL node - For example, ETH0 is 10.20.0.2/24 for FUEL booting and ETH1 is DHCP in your corporate/lab network.
 
    - Configure eth1 or other network interfaces here as well (if you have them present on your FUEL server).
 
-5. Select PXE Setup and change the following fields to appropriate values (example below):
+6. In 'PXE Setup' Section - Change the following fields to appropriate values (example below):
 
    - DHCP Pool Start 10.20.0.3
 
@@ -198,15 +208,32 @@ Install Fuel master
 
    - DHCP Pool Gateway  10.20.0.2 (ip of Fuel node)
 
+7. In 'DNS & Hostname' - Change the following fields to appropriate values:
+
    - Hostname <OPNFV Region name>-fuel
 
    - Domain <Domain Name>
 
    - Search Domain <Search Domain Name>
 
-   - Hostname to test DNS <Hostname to test DNS>
+   - External DNS
 
-6. Select Time Sync and change the following fields to appropriate values:
+   - Hostname to test DNS <Hostname to test DNS>
+ 
+   - Select 'Check' and press [Enter]
+
+
+8. OPTION TO ENABLE PROXY SUPPORT - In 'Bootstrap Image', edit the following fields to define a proxy.
+
+	NOTE: cannot be used in tandem with local repo support
+	NOTE: not tested with ODL for support (plugin)
+
+   - Navigate to 'HTTP proxy' and input your http proxy address 
+
+   - Select 'Check' and press [Enter]
+
+ 
+9. In 'Time Sync' Section - Change the following fields to appropriate values:
 
    - NTP Server 1 <Customer NTP server 1>
 
@@ -214,7 +241,7 @@ Install Fuel master
 
    - NTP Server 3 <Customer NTP server 3>
 
-7. Start the installation.
+10. Start the installation.
 
    - Select Quit Setup and press Save and Quit.
 
@@ -227,14 +254,16 @@ Boot the Node Servers
 After the Fuel Master node has rebooted from the above step and is at the login prompt, you should boot the Node Servers (Your Compute/Control/Storage blades (nested or real)) with a PXE Booting Scheme so that the FUEL 
 Master can pick them up for control.
 
-8. Enable PXE booting
+11. Enable PXE booting
 
     - For every controller and compute server: enable PXE Booting as the first boot device in the BIOS boot order menu and hard disk as the second boot device in the same menu.
 
-9. Reboot all the control and compute blades.
+12. Reboot all the control and compute blades.
 
-10. Wait for the availability of nodes showing up in the Fuel GUI.
+13. Wait for the availability of nodes showing up in the Fuel GUI.
 
+    - Connect to the FUEL UI via the URL provided in the Console (default: http://10.20.0.2:8000)
+    
     - Wait until all nodes are displayed in top right corner of the Fuel GUI: <total number of server> TOTAL NODES and <total number of servers> UNALLOCATED NODES.
 
 
@@ -242,27 +271,29 @@ Master can pick them up for control.
 Install ODL Plugin on FUEL node
 -------------------------------
 
-11. SSH to your FUEL node   (e.g. root@10.20.0.2  pwd: r00tme)
+NOTE: CURRENTLY DISABLED IN B-REL WP1
 
-12. Verify the plugin exists at /opt/opnfv/opendaylight-0.6-0.6.1-1.noarch.rpm
+14. SSH to your FUEL node   (e.g. root@10.20.0.2  pwd: r00tme)
 
-13. Install the plugin with the command
+15. Verify the plugin exists at /opt/opnfv/opendaylight-0.6-0.6.1-1.noarch.rpm
+
+16. Install the plugin with the command
 
     - "fuel plugins --install /opt/opnfv/opendaylight-0.6-0.6.1-1.noarch.rpm"
 
-    - Expected output: "Plugin  opendaylight-0.6-0.6.1-1.noarch.rpm was successfully installed."
+    - Expected output: "Plugin opendaylight-0.6-0.6.1-1.noarch.rpm was successfully installed."
 
 
 Create an OPNFV Environment
 ---------------------------
 
-14. Connect to Fuel WEB UI with a browser towards port http://<ip of fuel server>:8000 (login admin/admin)
+17. Connect to Fuel WEB UI with a browser towards port http://<ip of fuel server>:8000 (login admin/admin)
 
-15. Create and name a new OpenStack environment, to be installed.
+18. Create and name a new OpenStack environment, to be installed.
 
-16. Select <Juno on Ubuntu> or <Juno on CentOS> as per your which in the "OpenStack Release" field and press "Next"
+19. Select <Kilo on Ubuntu 14.04> and press "Next"
 
-17. Select compute virtulization method.
+20. Select compute virtulization method.
 
     - Select KVM as hypervisor (or one of your choosing) and press "Next"
 
@@ -270,12 +301,11 @@ Create an OPNFV Environment
 
     - Select Neutron with GRE segmentation and press "Next"
 
-    Note: this is the supportted method when using the ODL installation, other options will not work with the plugin and this Instruction Set.
+	Note: Required if using the ODL plugin
 
 19. Select Storage Back-ends.
 
     - Select "Yes, use Ceph" if you intend to deploy Ceph Backends and press "Next"
-
 
 20. Select additional services you wish to install.
 
@@ -381,12 +411,14 @@ Configure the OPNFV environment
 
     - Assign interfaces (bonded) for mgmt-, admin-, private-, public- and storage networks
 
-    - Note: Set MTU level to at least MTU=2090 (recommended MTU=2140 for SDN over VXLAN Usage) for each network
+           Note: Set MTU level to at least MTU=1458 (recommended MTU=1450 for SDN over VXLAN Usage) for each network if you using ODL plugin
 
     - Click Apply
 
 Enable ODL
 ----------
+
+TODO: NOT UPDATED YET FOR WP1 - NOT AVAILABLE AT TIME OF EDIT
 
 35. In the FUEL UI of your Enviornment, click the "Settings" Tab
 
@@ -436,9 +468,14 @@ Deploy Your Environment
 -----------------------
 
 38. Deploy the environment.
-    In the Fuel GUI, click Deploy Changes.
 
-    - Wait until your Environment is deployed and the Horizon URI to connect is displayed in the FUEL GUI for your Environment
+    In the Fuel GUI, click on the Dashboard Tab.
+
+    - Click on 'Deploy Changes' in the 'Ready to Deploy?' Section
+
+    - Examine any information notice that pops up and click 'Deploy'
+
+    Wait for your deployment to complete, you can view the 'Dashboard' Tag to see the progress and status of your deployment.
 
 Installation health-check
 =========================
@@ -454,6 +491,8 @@ Installation health-check
     - Allow tests to run and investigate results where appropriate
 
 40. Verify that the OpenDaylight GUI is accessible
+
+TODO: Not available for WP1 Update at time of writing
 
 Point your browser to the following URL: http://{Controller-VIP}:8181/index.html> and login:
 
@@ -473,7 +512,7 @@ OPNFV
 OpenStack
 ---------
 
-`OpenStack Juno Release artifacts <http://www.openstack.org/software/juno>`_
+`OpenStack Juno Release artifacts <http://www.openstack.org/software/kilo>`_
 
 `OpenStack documentation <http://docs.openstack.org>`_
 
@@ -488,7 +527,7 @@ Fuel
 `Fuel documentation <https://wiki.openstack.org/wiki/Fuel>`_
 
 :Authors: Daniel Smith (Ericsson AB)
-:Version: 1.1.0
+:Version: 2.0.0
 
 **Documentation tracking**
 
