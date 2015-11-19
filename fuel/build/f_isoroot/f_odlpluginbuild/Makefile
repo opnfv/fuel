@@ -8,7 +8,7 @@
 ##############################################################################
 
 TOP := $(shell pwd)
-ODL_BRANCH=juno/lithium-sr1
+ODL_BRANCH=7.0
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
 .PHONY: all
