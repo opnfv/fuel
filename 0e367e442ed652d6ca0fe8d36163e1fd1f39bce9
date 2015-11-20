@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_223e76b9",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Not up to speed in ReST formatting, but should perhaps these lines be as long as the text itself?",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_625c6e26",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Add (Ericsson AB) to be consistent?",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_024b725a",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Whitespace in the end.",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_223796e5",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "whitespace in the end.",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_023492dc",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e2305eea",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_c24d5a74",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a2526611",
+        "filename": "fuel/docs/src/installation-instructions.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-11-20T08:27:34Z",
+      "side": 1,
+      "message": "Change to Kilo in text, not only in link. :)",
+      "revId": "0e367e442ed652d6ca0fe8d36163e1fd1f39bce9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
