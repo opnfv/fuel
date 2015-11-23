@@ -2,7 +2,7 @@ title: Deployment Environment Adapter (DEA)
 # DEA API version supported
 version:
 created:
-comment: Config for Virtual Environment - HA deployment with Ceph
+comment: Config for Virtual Environment - HA deployment with Cinder and Opendaylight
 environment:
   name: opnfv_virt
   mode: ha
@@ -12,27 +12,19 @@ nodes:
 - id: 1
   interfaces: interfaces_1
   transformations: transformations_1
-  role: ceph-osd,controller
+  role: cinder,controller
 - id: 2
   interfaces: interfaces_1
-  transformations: transformations_1
-  role: ceph-osd,controller
+  transformations: transformations_2
+  role: compute
 - id: 3
   interfaces: interfaces_1
-  transformations: transformations_1
-  role: ceph-osd,controller
+  transformations: transformations_2
+  role: compute
 - id: 4
   interfaces: interfaces_1
   transformations: transformations_2
-  role: ceph-osd,compute
-- id: 5
-  interfaces: interfaces_1
-  transformations: transformations_2
-  role: ceph-osd,compute
-- id: 6
-  interfaces: interfaces_1
-  transformations: transformations_2
-  role: ceph-osd,compute
+  role: compute
 fuel:
   ADMIN_NETWORK:
     cidr: 10.20.0.0/24
@@ -41,16 +33,16 @@ fuel:
     dhcp_pool_start: 10.20.0.3
     ipaddress: 10.20.0.2
     netmask: 255.255.0.0
-  DNS_DOMAIN: opnfvericsson.ca
-  DNS_SEARCH: opnfvericsson.ca
-  DNS_UPSTREAM: 10.118.32.193
+  DNS_DOMAIN: opnfvericsson.se
+  DNS_SEARCH: opnfvericsson.se
+  DNS_UPSTREAM: 8.8.8.8
   FUEL_ACCESS:
     password: admin
     user: admin
   HOSTNAME: opnfv_virt
-  NTP1: 10.118.32.193
-  NTP2: 10.118.34.193
-  NTP3: null
+  NTP1: 188.126.88.9
+  NTP2: 193.228.143.12
+  NTP3: 178.73.198.130
 interfaces_1:
   eth0:
   - fuelweb_admin
@@ -126,7 +118,7 @@ network:
     base_mac: fa:16:3e:00:00:00
     configuration_template: null
     dns_nameservers:
-    - 10.118.32.193
+    - 8.8.8.8
     floating_ranges:
     - - 172.16.0.130
       - 172.16.0.254
@@ -457,7 +449,7 @@ settings:
           error: Invalid IP address list
           source: ^\*$|^(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3}(?:\s*,\s*(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3})*$
         type: text
-        value: 10.118.32.193
+        value: 8.8.8.8
         weight: 10
       metadata:
         label: Host OS DNS Servers
@@ -524,7 +516,7 @@ settings:
           error: Invalid NTP server list
           source: ^\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(?:\.\d{1,3}){3})\s*(?:,\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(\.\d{1,3}){3})\s*)*$
         type: text
-        value: 10.118.32.193, 10.118.34.193
+        value: 188.126.88.9, 193.228.143.12, 178.73.198.130
         weight: 10
     kernel_params:
       kernel:
@@ -686,7 +678,7 @@ settings:
           condition: settings:public_ssl.horizon.value == false and settings:public_ssl.services.value
             == false
         type: text
-        value: 10.20.0.2
+        value: public.fuel.local
         weight: 50
       metadata:
         label: Public TLS
@@ -721,22 +713,22 @@ settings:
         value:
         - name: ubuntu
           priority: null
-          section: main universe multiverse
+          section: main
           suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-updates
           priority: null
-          section: main universe multiverse
-          suite: trusty-updates
+          section: main
+          suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-security
           priority: null
-          section: main universe multiverse
-          suite: trusty-security
+          section: main
+          suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: mos
           priority: 1050
           section: main restricted
@@ -748,19 +740,19 @@ settings:
           section: main restricted
           suite: mos7.0-updates
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-security
           priority: 1050
           section: main restricted
           suite: mos7.0-security
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-holdback
           priority: 1100
           section: main restricted
           suite: mos7.0-holdback
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: Auxiliary
           priority: 1150
           section: main restricted
@@ -775,7 +767,7 @@ settings:
           work with VMs launched from Cinder volumes).
         label: Ceph RBD for ephemeral volumes (Nova)
         type: checkbox
-        value: true
+        value: false
         weight: 75
       images_ceph:
         description: Configures Glance to use the Ceph RBD backend to store images.
@@ -785,7 +777,7 @@ settings:
         - settings:storage.images_vcenter.value == true: Only one Glance backend could
             be selected.
         type: checkbox
-        value: true
+        value: false
         weight: 30
       images_vcenter:
         description: Configures Glance to use the vCenter/ESXi backend to store images.
@@ -841,7 +833,7 @@ settings:
         restrictions:
         - settings:storage.volumes_lvm.value == true
         type: checkbox
-        value: true
+        value: false
         weight: 20
       volumes_lvm:
         description: It is recommended to have at least one Storage - Cinder LVM node.
@@ -849,7 +841,7 @@ settings:
         restrictions:
         - settings:storage.volumes_ceph.value == true
         type: checkbox
-        value: false
+        value: true
         weight: 10
     syslog:
       metadata:
