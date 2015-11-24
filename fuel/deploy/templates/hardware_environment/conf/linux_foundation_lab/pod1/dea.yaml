@@ -681,7 +681,7 @@ settings:
           condition: settings:public_ssl.horizon.value == false and settings:public_ssl.services.value
             == false
         type: text
-        value: public.fuel.local
+        value: 172.30.9.64
         weight: 50
       metadata:
         label: Public TLS
