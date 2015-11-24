@@ -373,7 +373,7 @@ settings:
       libvirt_type:
         label: Hypervisor type
         type: radio
-        value: qemu
+        value: kvm
         values:
         - data: kvm
           description: Choose this type of hypervisor if you run OpenStack on hardware
@@ -675,7 +675,7 @@ settings:
         description: Secure access to Horizon enabling HTTPS instead of HTTP
         label: HTTPS for Horizon
         type: checkbox
-        value: true
+        value: false
         weight: 10
       hostname:
         description: Your DNS entries should point to this name. Self-signed certificates
@@ -695,7 +695,7 @@ settings:
         description: Enable TLS termination on HAProxy for OpenStack services
         label: TLS for OpenStack public endpoints
         type: checkbox
-        value: true
+        value: false
         weight: 20
     repo_setup:
       metadata:
