@@ -1,4 +1,0 @@
-bridge name	bridge id		STP enabled	interfaces
-br0		8000.0025b5a0008f	no		enp8s0.0
-pxebr		8000.0025b5b000ff	no		enp7s0.0
-virbr0		8000.525400e134af	yes		virbr0-nic
