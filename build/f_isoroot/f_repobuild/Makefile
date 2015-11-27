@@ -11,6 +11,7 @@
 SHELL := /bin/bash
 TOP := $(shell pwd)
 RSYNC_HOST := $(shell ./select_ubuntu_repo.sh)
+DEPENDENCIES_FILE := /etc/fuel-createmirror/requirements-deb.txt
 
 
 .PHONY: all
@@ -37,6 +38,8 @@ nailgun:
 	sudo sed -i 's/DOCKER_MODE=true/DOCKER_MODE=false/' /etc/fuel-createmirror/common.cfg
 	sudo sed -i 's/DEBUG="no"/DEBUG="yes"/' /etc/fuel-createmirror/ubuntu.cfg
 	sudo sed -i "s/MIRROR_UBUNTU_HOST=\".*\"/MIRROR_UBUNTU_HOST=\"$(RSYNC_HOST)\"/" /etc/fuel-createmirror/common.cfg
+	# Add dependencies from plugins. With awk help try add only unique packages.
+	sudo bash -c 'find ../ -name requirements-deb.txt -print0 | xargs -0 -I% awk '\''NR == FNR {first[$$0];next}; ! ($$0 in first)'\'' "${DEPENDENCIES_FILE}" "%" >> "${DEPENDENCIES_FILE}"'
 	rm -Rf nailgun
 	sudo mkdir -p /var/www
 	sudo su - -c /opt/fuel-createmirror-*/fuel-createmirror
