@@ -8,7 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-SUBDIRS = f_kscfg f_bootstrap f_repobuild f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild
+SUBDIRS = f_kscfg f_bootstrap f_repobuild f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: all
