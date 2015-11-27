@@ -32,8 +32,7 @@ release:.odlbuild
 	sudo gem install fpm
 	sudo pip install fuel-plugin-builder
 	git clone -b $(ODL_BRANCH) $(ODL_REPO)
-	@$(BUILD_BASE)/check_dependencies.sh fuel-plugin-opendaylight/odl_package/ubuntu/dependencies.txt
-	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-opendaylight/
+	fpb --debug --build fuel-plugin-opendaylight/
 	mv fuel-plugin-opendaylight/opendaylight*.rpm .
 	$(REPOINFO) -r . > gitinfo_odlplugin.txt
 	rm -rf fuel-plugin-opendaylight
