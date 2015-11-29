@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: etc/opnfv-logo.png
+.. image:: opnfv-logo.png
   :height: 40
   :width: 200
   :alt: OPNFV
