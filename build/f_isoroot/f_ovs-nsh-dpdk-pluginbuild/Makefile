@@ -36,7 +36,6 @@ release:.ovsbuild
 .ovsbuild:
 	@rm -rf fuel-plugin-ovs
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo gem install fpm
 	sudo pip install fuel-plugin-builder
 	git clone $(OVS_NSH_DPDK_REPO)
 	cd fuel-plugin-ovs; \
