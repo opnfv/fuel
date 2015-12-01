@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-OVS_NSH_DPDK_BRANCH=373740ac0ad9de0c948edf7b4e35b86a8e6b2745
+OVS_NSH_DPDK_BRANCH=7590019023887d6f59c20248e6503cacfa491d8c
 OVS_NSH_DPDK_REPO=https://review.openstack.org/openstack/fuel-plugin-ovs
 OVS_NSH_DPDK_CHANGE=
