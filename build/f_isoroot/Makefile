@@ -8,7 +8,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-SUBDIRS = f_kscfg f_bootstrap f_repobuild f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild
+# Add Fuel plugin build targets here
+PLUGINS = f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild
+
+# If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
+# indicated therein.
+ifdef BUILD_FUEL_PLUGINS
+SUBDIRS = f_kscfg f_bootstrap f_repobuild $(BUILD_FUEL_PLUGINS)
+$(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
+else
+SUBDIRS = f_kscfg f_bootstrap f_repobuild $(PLUGINS)
+endif
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: all
