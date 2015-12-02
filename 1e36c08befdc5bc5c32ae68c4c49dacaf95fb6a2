@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_91356548",
+        "filename": "build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/Makefile",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-02T09:47:59Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to do this... Let\u0027s get in touch and discuss if you still are facing problems!",
+      "revId": "1e36c08befdc5bc5c32ae68c4c49dacaf95fb6a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
