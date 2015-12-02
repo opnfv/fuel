@@ -22,7 +22,13 @@ export ISOSRC = file:$(shell pwd)/fuel-7.0.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_BGS"
 export REVSTATE = "P0000"
+
+ifdef BUILD_FUEL_PLUGINS
+$(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
+export NEWISO = $(shell pwd)/release/unofficial-opnfv-${REVSTATE}.iso
+else
 export NEWISO = $(shell pwd)/release/opnfv-${REVSTATE}.iso
+endif
 
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
 # Invoke with ICOCACHE=/full/path/to/iso if cached ISO is in non-standard location.

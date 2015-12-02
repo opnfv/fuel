@@ -34,6 +34,10 @@ Version history
 | 2015-10-23         | 1.1.1              | Stefan Berg        | Added instructions   |
 |                    |                    | (Ericsson AB)      | for proxy builds     |
 +--------------------+--------------------+--------------------+----------------------+
+| 2015-12-03         | 1.2.0              | Stefan Berg        | Added instructions   |
+|                    |                    | (Ericsson AB)      | for plugin build     |
+|                    |                    |                    | selection            |
++--------------------+--------------------+--------------------+----------------------+
 
 Introduction
 ============
@@ -209,6 +213,23 @@ Configure your build environment
 ** Configuring the build environment should not be performed if building standard Brahmaputra release **
 
 Select the versions of the components you want to build by editing the fuel/build/config.mk file.
+
+Non official build: Selecting which plugins to build
+----------------------------------------------------
+In order to cut the build time for unofficial builds (made by an
+individual developer locally), the selection if which Fuel plugins to
+build (if any) can be done by environment variable
+"BUILD_FUEL_PLUGINS" prior to building.
+
+Only the plugin targets from fuel/build/f_isoroot/Makefile that are
+specified in the environment variable will then be built. In order to
+completely disable the building of plugins, the environment variable
+is set to " ". When using this functionality, the resulting iso file
+will be prepended with the prefix "unofficial-" to clearly indiciate
+that this is not a full build.
+
+This method of plugin selection is not meant to be used from within
+Gerrit!
 
 Low level build method using make
 ---------------------------------
