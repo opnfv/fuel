@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_830cfa43",
+        "filename": "ci/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-06T21:46:30Z",
+      "side": 1,
+      "message": "configuyration -\u003e configuration\nadheare -\u003e adhere",
+      "revId": "50208dabd93209e1031ce801a246dbf5cea27a2d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
