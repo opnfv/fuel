@@ -114,8 +114,8 @@ transformations_2:
     bridge: br-mesh
     name: eth0.302
 network:
-  management_vip: 192.168.0.2
-  management_vrouter_vip: 192.168.0.1
+  management_vip: 192.168.1.2
+  management_vrouter_vip: 192.168.1.1
   networking_parameters:
     base_mac: fa:16:3e:00:00:00
     configuration_template: null
@@ -160,13 +160,13 @@ network:
       vlan_start: null
     name: public
     vlan_start: null
-  - cidr: 192.168.0.0/24
+  - cidr: 192.168.1.0/24
     gateway: null
     ip_ranges:
-    - - 192.168.0.1
-      - 192.168.0.254
+    - - 192.168.1.1
+      - 192.168.1.254
     meta:
-      cidr: 192.168.0.0/24
+      cidr: 192.168.1.0/24
       configurable: true
       map_priority: 2
       name: management
@@ -180,13 +180,13 @@ network:
       vlan_start: 101
     name: management
     vlan_start: 300
-  - cidr: 192.168.1.0/24
+  - cidr: 192.168.0.0/24
     gateway: null
     ip_ranges:
-    - - 192.168.1.1
-      - 192.168.1.254
+    - - 192.168.0.1
+      - 192.168.0.254
     meta:
-      cidr: 192.168.1.0/24
+      cidr: 192.168.0.0/24
       configurable: true
       map_priority: 2
       name: storage
@@ -234,7 +234,7 @@ network:
   public_vrouter_vip: 172.30.10.65
   vips:
     management:
-      ipaddr: 192.168.0.2
+      ipaddr: 192.168.1.2
       namespace: haproxy
       network_role: mgmt/vip
       node_roles:
@@ -248,7 +248,7 @@ network:
       - controller
       - primary-controller
     vrouter:
-      ipaddr: 192.168.0.1
+      ipaddr: 192.168.1.1
       namespace: vrouter
       network_role: mgmt/vip
       node_roles:
