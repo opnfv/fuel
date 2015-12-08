@@ -1,3 +1,4 @@
+#!/usr/bin/python
 ###############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # szilard.cserey@ericsson.com
@@ -212,6 +213,11 @@ class Reap(object):
         network_file = ('%s/network_%s.yaml'
                         % (self.temp_dir, self.env_id))
         network = self.read_yaml(network_file)
+
+        # ha_compact not understood by Fuel when deploying...OD
+        if self.env[E['mode']] == 'ha_compact':
+            self.env[E['mode']] = 'ha'
+
         env = {'environment':
                    {'name': self.env[E['name']],
                     'mode': self.env[E['mode']],
