@@ -10,6 +10,7 @@
 
 from lxml import etree
 from execution_environment import ExecutionEnvironment
+import tempfile
 
 from common import (
     exec_cmd,
@@ -45,7 +46,7 @@ class VirtualFuel(ExecutionEnvironment):
             vm_xml.write(f, pretty_print=True, xml_declaration=True)
 
     def create_vm(self):
-        temp_dir = exec_cmd('mktemp -d')
+        temp_dir = tempfile.mkdtemp()
         vm_name = self.dha.get_node_property(self.fuel_node_id, 'libvirtName')
         vm_template = '%s/%s' % (self.root_dir,
                                  self.dha.get_node_property(

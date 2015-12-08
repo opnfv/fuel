@@ -13,6 +13,7 @@ import os
 import yaml
 import glob
 import shutil
+import tempfile
 
 from common import (
     N,
@@ -282,7 +283,7 @@ class Reap(object):
     def intro(self):
         delete(self.dea_file)
         delete(self.dha_file)
-        self.temp_dir = exec_cmd('mktemp -d')
+        self.temp_dir = tempfile.mkdtemp()
         date = time.strftime('%c')
         self.write(self.dea_file,
                    DEA_1.format(date=date, comment=self.comment), False)
