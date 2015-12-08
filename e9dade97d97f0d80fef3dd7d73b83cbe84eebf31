@@ -46,6 +46,29 @@
       "revId": "e9dade97d97f0d80fef3dd7d73b83cbe84eebf31",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6c2213bb",
+        "filename": "deploy/common.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2015-12-08T15:57:21Z",
+      "side": 1,
+      "message": "why not?\n\nwith open(os.devnull, \u0027w\u0027) as dev_null:\n    process \u003d subprocess.Popen(cmd,\n                               stdout\u003dsubprocess.PIPE,\n                               stderr\u003ddev_null,\n                               shell\u003dTrue)\nresponse \u003d process.communicate()[0].strip()",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 17
+      },
+      "revId": "e9dade97d97f0d80fef3dd7d73b83cbe84eebf31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
