@@ -39,10 +39,12 @@ LOG.addHandler(out_handler)
 os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
 def exec_cmd(cmd, check=True):
+    nul_f = open(os.devnull, 'w')
     process = subprocess.Popen(cmd,
                                stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT,
+                               stderr=nul_f,
                                shell=True)
+    nul_f.close()
     response = process.communicate()[0].strip()
     return_code = process.returncode
     if check:
