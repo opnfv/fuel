@@ -1,3 +1,4 @@
+#!/usr/bin/python
 ###############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # szilard.cserey@ericsson.com
@@ -101,6 +102,12 @@ class Reap(object):
         exec_cmd('fuel %s --env %s --download --dir %s'
                  % (config_type, self.env_id, self.temp_dir))
 
+    def download_node_config(self, nodeid):
+        log('Download node %s config for environment %s to %s'
+            % (nodeid, self.env_id,self.temp_dir))
+        exec_cmd('fuel deployment --node-id %s --env %s  --default --dir %s'
+                 % (nodeid, self.env_id, self.temp_dir))
+
     def write(self, file, text, newline=True):
         mode = 'a' if os.path.isfile(file) else 'w'
         with open(file, mode) as f:
@@ -152,7 +159,6 @@ class Reap(object):
         real_node_ids = [node[N['id']] for node in node_list]
         real_node_ids.sort()
         min_node = real_node_ids[0]
-
         interfaces = {}
         transformations = {}
         dea_nodes = []
@@ -169,6 +175,7 @@ class Reap(object):
                         'role': roles}
             dha_node = {'id': node_id}
             if_name, mac = self.reap_interface(real_node_id, interfaces)
+            log('reap transformation for node %s' % real_node_id)
             tr_name = self.reap_transformation(real_node_id, roles,
                                                transformations)
             dea_node.update(
@@ -212,6 +219,11 @@ class Reap(object):
         network_file = ('%s/network_%s.yaml'
                         % (self.temp_dir, self.env_id))
         network = self.read_yaml(network_file)
+
+        # ha_compact not understood by Fuel when deploying...OD
+        if self.env[E['mode']] == 'ha_compact':
+            self.env[E['mode']] = 'ha'
+
         env = {'environment':
                    {'name': self.env[E['name']],
                     'mode': self.env[E['mode']],
@@ -289,7 +301,13 @@ class Reap(object):
         self.write(self.dha_file,
                    DHA_1.format(date=date, comment=self.comment))
         self.get_env()
-        self.download_config('deployment')
+
+        # Need to download deployment with explicit node ids
+        node_list = parse(exec_cmd('fuel node'))
+        real_node_ids = [node[N['id']] for node in node_list]
+        real_node_ids.sort()
+        self.download_node_config(','.join(real_node_ids))
+
         self.download_config('settings')
         self.download_config('network')
 
