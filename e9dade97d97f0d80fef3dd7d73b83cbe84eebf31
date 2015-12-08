@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_6c7453cf",
+        "filename": "deploy/common.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2015-12-08T15:30:00Z",
+      "side": 1,
+      "message": "Is it valid syntactically?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "e9dade97d97f0d80fef3dd7d73b83cbe84eebf31",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
