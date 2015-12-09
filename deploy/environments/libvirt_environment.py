@@ -11,6 +11,7 @@
 from lxml import etree
 import glob
 from execution_environment import ExecutionEnvironment
+import tempfile
 
 from common import (
     exec_cmd,
@@ -42,7 +43,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
         exec_cmd('fallocate -l %s %s' % (disk_size, disk_path))
 
     def create_vms(self):
-        temp_dir = exec_cmd('mktemp -d')
+        temp_dir = tempfile.mkdtemp()
         disk_sizes = self.dha.get_disks()
         for node_id in self.node_ids:
             vm_name = self.dha.get_node_property(node_id, 'libvirtName')

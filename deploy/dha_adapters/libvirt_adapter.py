@@ -10,6 +10,7 @@
 
 from lxml import etree
 from hardware_adapter import HardwareAdapter
+import tempfile
 
 from common import (
     log,
@@ -60,7 +61,7 @@ class LibvirtAdapter(HardwareAdapter):
     def node_set_boot_order(self, node_id, boot_order_list):
         boot_order_list = self.translate(boot_order_list)
         vm_name = self.get_node_property(node_id, 'libvirtName')
-        temp_dir = exec_cmd('mktemp -d')
+        temp_dir = tempfile.mkdtemp()
         log('Set boot order %s on Node %s' % (boot_order_list, vm_name))
         resp = exec_cmd('virsh dumpxml %s' % vm_name)
         xml_dump = etree.fromstring(resp, self.parser)
