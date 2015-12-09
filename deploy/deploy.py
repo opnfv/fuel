@@ -1,3 +1,4 @@
+#!/usr/bin/python
 ###############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # szilard.cserey@ericsson.com
