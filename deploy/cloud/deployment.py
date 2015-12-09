@@ -22,7 +22,7 @@ from common import (
     delete,
 )
 
-SEARCH_TEXT = 'Puppet (err)'
+SEARCH_TEXT = '(err)'
 LOG_FILE = '/var/log/puppet.log'
 GREP_LINES_OF_LEADING_CONTEXT = 100
 GREP_LINES_OF_TRAILING_CONTEXT = 100
