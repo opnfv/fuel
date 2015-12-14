@@ -1,0 +1,13 @@
+--- vrouter-functions.sh.orig	2015-12-13 18:09:25.401792929 +0100
++++ vrouter-functions.sh.new	2015-12-13 18:10:29.329614830 +0100
+@@ -27,8 +27,8 @@
+     fi
+ 
+     grep $kmod /proc/modules 1>/dev/null 2>&1
+-    if [ $? != 0 ]; then 
+-        modprobe $kmod
++    if [ $? != 0 ]; then
++        insmod $kmod
+         if [ $? != 0 ]
+         then
+             echo "$(date) : Error inserting vrouter module"

@@ -8,8 +8,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+
 # Add Fuel plugin build targets here
-PLUGINS = f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild
+PLUGINS = f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild f_oclpluginbuild
 
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.

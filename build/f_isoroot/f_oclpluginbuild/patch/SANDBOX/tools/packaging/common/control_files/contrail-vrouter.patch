@@ -1,0 +1,11 @@
+--- contrail-vrouter.orig	2015-12-11 15:32:12.030458089 +0100
++++ contrail-vrouter.new	2015-12-11 15:39:21.241260042 +0100
+@@ -11,7 +11,7 @@
+ AGENT="contrail-vrouter-agent"
+ 
+ insert_kmod() {
+-    KMOD=/lib/modules/$(uname -r)/extra/net/vrouter/vrouter.ko
++    KMOD=/lib/modules/$(uname -r)/updates/dkms/vrouter.ko
+     if [ ! -e $KMOD ]; then
+ 	echo "Kernel module $KMOD: no such file"
+ 	exit 1	
