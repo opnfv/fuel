@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_40b94b2d",
+        "filename": "build/f_isoroot/f_oclpluginbuild/config.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2859
+      },
+      "writtenOn": "2015-12-14T11:46:48Z",
+      "side": 1,
+      "message": "why \u0027juno\u0027? Fuel 7.0 use \u0027kilo\u0027 release",
+      "revId": "921413232bddb13541bd0c8615b515708cf890ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
