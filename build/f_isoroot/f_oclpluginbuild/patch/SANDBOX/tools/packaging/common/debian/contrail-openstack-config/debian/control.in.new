@@ -1,0 +1,32 @@
+Source: contrail-openstack-config
+Maintainer: rrugge <rrugge@juniper.net>
+Section: misc
+Priority: optional
+Standards-Version: 1.0
+Build-Depends:
+
+Package: contrail-openstack-config
+Architecture: all
+Maintainer: rrugge <rrugge@juniper.net>
+Depends:
+ supervisor,
+ contrail-nodemgr,
+ contrail-lib,
+ contrail-config,
+ neutron-plugin-contrail,
+ neutron-server,
+ python-novaclient,
+ python-keystoneclient,
+ contrail-setup,
+ contrail-utils,
+ haproxy,
+ euca2ools,
+ rabbitmq-server (>= 3.5.0-1),
+ python-qpid,
+ python-iniparse,
+ python-bottle,
+ ifmap-server,
+ ifmap-python-client,
+ contrail-config-openstack,
+ keepalived
+Description: Contrail Openstack Config composite debian package

@@ -1,0 +1,25 @@
+--- control.in.orig	2015-12-09 10:55:29.467775448 +0100
++++ control.in.new	2015-12-10 10:23:49.274892872 +0100
+@@ -13,14 +13,13 @@
+  contrail-nodemgr,
+  contrail-lib,
+  contrail-config,
+- contrail-f5,
+  neutron-plugin-contrail,
+  neutron-server,
+  python-novaclient,
+  python-keystoneclient,
+  contrail-setup,
+  contrail-utils,
+- haproxy (>=1.5.4-1ppa1~precise),
++ haproxy,
+  euca2ools,
+  rabbitmq-server (>= 3.5.0-1),
+  python-qpid,
+@@ -29,5 +28,5 @@
+  ifmap-server,
+  ifmap-python-client,
+  contrail-config-openstack,
+- keepalived (=1:1.2.13-1~bpo70+1) | keepalived (=1.2.13-0~276~ubuntu14.04.1)
++ keepalived
+ Description: Contrail Openstack Config composite debian package

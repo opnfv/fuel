@@ -1,0 +1,19 @@
+--- agent_param.erb.orig	2015-12-12 20:23:30.718194144 +0100
++++ agent_param.erb.new	2015-12-12 21:38:58.584913456 +0100
+@@ -1,7 +1,7 @@
+ LOG=/var/log/contrail.log
+ CONFIG=/etc/contrail/agent.conf
+ prog=/usr/bin/contrail-vrouter-agent
+-kmod=vrouter
++kmod=/lib/modules/<%= scope.lookupvar('kernelrelease') %>/updates/dkms/vrouter.ko
+ pname=contrail-vrouter-agent
+ LIBDIR=/usr/lib64
+ DEVICE=vhost0
+@@ -9,7 +9,3 @@
+ vgw_subnet_ip=__VGW_SUBNET_IP__
+ vgw_intf=__VGW_INTF_LIST__
+ LOGFILE=--log-file=/var/log/contrail/vrouter.log
+-<%- if scope.lookupvar('operatingsystem') ==  'CentOS' then -%>
+-VHOST_CFG=<%= '/etc/sysconfig/network-scripts/ifcfg-vhost0' %>
+-kmod=/lib/modules/<%= scope.lookupvar('kernelrelease') %>/extra/vrouter.ko
+-<%- end -%>

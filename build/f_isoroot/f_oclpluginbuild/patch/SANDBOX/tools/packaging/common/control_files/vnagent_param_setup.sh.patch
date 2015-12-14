@@ -1,0 +1,11 @@
+--- vnagent_param_setup.sh.orig	2015-12-12 19:45:59.228837118 +0100
++++ vnagent_param_setup.sh.new	2015-12-12 19:45:59.228837118 +0100
+@@ -17,7 +17,7 @@
+ prog=/usr/bin/contrail-vrouter-agent
+ echo prog=$prog >> $CFG_FILE
+ 
+-kmod=/lib/modules/${OS_VER}/extra/net/vrouter/vrouter.ko
++kmod=/lib/modules/${OS_VER}/updates/dkms/vrouter.ko
+ echo kmod=$kmod >> $CFG_FILE
+ 
+ pname=$(basename $prog)

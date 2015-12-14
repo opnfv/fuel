@@ -1,0 +1,12 @@
+Source: contrail-openstack-vrouter
+Maintainer: amoghe <amoghe@juniper.net>
+Section: misc
+Priority: optional
+Standards-Version: 1.0
+Build-Depends:
+
+Package: contrail-openstack-vrouter
+Architecture: all
+Maintainer: amoghe <amoghe@juniper.net>
+Depends: contrail-vrouter-common, contrail-nova-vif, nova-compute, python-novaclient, librabbitmq0, nfs-kernel-server
+Description: Contrail Openstack vRouter composite debian package

@@ -111,7 +111,7 @@ if [ -n "$CACHEBASE" ]; then
     fi
 fi
 
-RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -e BUILD_FUEL_PLUGINS -u $USER_ID:$GROUP_ID -w $PWD -v $GITROOT:$GITROOT $CACHEMOUNT"
+RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e USER=$USER -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -u $USER_ID:$GROUP_ID -w $PWD -v $GITROOT:$GITROOT $CACHEMOUNT"
 
 # Passing "debug" puts up an interactive bash shell
 if [ "$1" == "debug" ]; then

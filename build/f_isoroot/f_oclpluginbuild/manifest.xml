@@ -1,0 +1,34 @@
+<manifest>
+<remote name="github" fetch="https://github.com/Juniper/"/>
+
+<default revision="refs/heads/R2.21.x" remote="github"/>
+
+<project name="contrail-build" remote="github" path="tools/build">
+  <copyfile src="SConstruct" dest="SConstruct"/>
+</project>
+<project name="contrail-controller" remote="github" path="controller"/>
+<project name="contrail-vrouter" remote="github" path="vrouter"/>
+<project name="contrail-third-party" remote="github" path="third_party"/>
+<project name="contrail-generateDS" remote="github" path="tools/generateds"/>
+<project name="contrail-sandesh" remote="github" path="tools/sandesh"/>
+<project name="contrail-packages" remote="github" path="tools/packages">
+  <copyfile src="packages.make" dest="packages.make"/>
+</project>
+<project name="contrail-nova-vif-driver" remote="github" path="openstack/nova_contrail_vif"/>
+<project name="contrail-neutron-plugin" remote="github" path="openstack/neutron_plugin"/>
+<project name="contrail-web-controller" remote="github"/>
+<project name="contrail-web-core" remote="github"/>
+<project name="contrail-webui-third-party" remote="github"/>
+<project name="contrail-packaging" remote="github" path="tools/packaging"/>
+<project name="contrail-provisioning" remote="github" path="tools/provisioning"/>
+<project name="contrail-distro-third-party" revision="master" remote="github" path="distro"/>
+<project name="contrail-web-storage" remote="github"/>
+<project name="contrail-web-server-manager" remote="github"/>
+<project name="contrail-fabric-utils" remote="github" path="third_party/fabric-utils"/>
+<project name="contrail-test" remote="github" path="third_party/contrail-test"/>
+<project name="contrail-server-manager" remote="github" path="tools/contrail-server-manager"/>
+<project name="contrail-puppet" remote="github" path="tools/puppet"/>
+<project name="supervisor" remote="github" revision="refs/heads/master" path="distro/third_party/supervisor-3.0b2"/>
+<project name="contrail-heat" remote="github" path="openstack/contrail-heat"/>
+<project name="contrail-horizon" revision="contrail/Kilo-2015.1.1" remote="github"/>
+</manifest>

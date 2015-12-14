@@ -1,0 +1,13 @@
+--- database.pp.orig	2015-12-09 10:26:38.840859383 +0100
++++ database.pp.new	2015-12-09 10:28:36.596515402 +0100
+@@ -26,7 +26,9 @@
+ 
+ # Packages
+   package { 'zookeeper': } ->
+-  package { 'cassandra': } ->
++  package { 'cassandra':
++    ensure => '1.2.11' ,
++  } ->
+   package { 'contrail-openstack-database': }
+ 
+ # Zookeeper
