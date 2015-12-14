@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_fb790efd",
+        "filename": "docs/installerconfig.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2015-12-14T22:20:27Z",
+      "side": 1,
+      "message": "trailing whitespaces here and down below.",
+      "revId": "d92a4584f85cae0a527829854ab3137a3bcd96d7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
