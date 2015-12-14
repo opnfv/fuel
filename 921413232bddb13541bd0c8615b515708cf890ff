@@ -16,6 +16,24 @@
       "revId": "921413232bddb13541bd0c8615b515708cf890ff",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_60932fa4",
+        "filename": "build/f_isoroot/f_oclpluginbuild/config.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-12-14T11:57:26Z",
+      "side": 1,
+      "message": "I know, but if I remember correctly there was no sku target for Kilo, I will try to build with kilo and come back to you.",
+      "parentUuid": "9a5c5d37_40b94b2d",
+      "revId": "921413232bddb13541bd0c8615b515708cf890ff",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
