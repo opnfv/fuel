@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_b5f602d6",
+        "filename": "build/f_isoroot/f_bgpvpn-pluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-12-15T20:07:57Z",
+      "side": 1,
+      "message": "Ahh, this needs to be changed in several plugins.\nWhat about if we do something like this:\nREMOTE_BRANCH\u003d$(`git ls-remote --heads $(BGPVPN_REPO) | grep $(BGPVPN_BRANCH)`)\nif [ -z $REMOTE_BGPVPN_BRANCH ]; then\n   echo $(BGVPN_BRANCH) \u003e .cachedata\nelse \n   echo $($REMOTE_BGPVPN_BRANCH) \u003e .cachedata\nfi",
+      "revId": "da72e8e57234cdf872c2d43b56c91168b17b1fec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
