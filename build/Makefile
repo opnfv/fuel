@@ -18,7 +18,7 @@ SHELL = /bin/bash
 # BEGIN of variables to customize
 #
 #Input args
-export ISOSRC = file:$(shell pwd)/fuel-7.0.iso
+export ISOSRC = file:$(shell pwd)/fuel-8.0.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_BGS"
 export REVSTATE = "P0000"
@@ -87,6 +87,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for changing the second layer Docker --bip address
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_6.patch
+	# Patch for setting the Czech mirror
+	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_7.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*

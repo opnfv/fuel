@@ -14,12 +14,15 @@ ENV http_proxy INSERT_HTTP_PROXY
 ENV https_proxy INSERT_HTTPS_PROXY
 ENV no_proxy INSERT_NO_PROXY
 
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+RUN echo "deb http://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
 RUN apt-get update
+RUN apt-get purge lxc-docker || echo "No lxc-docker installed"
 RUN apt-get install -y software-properties-common python-software-properties \
     make python-setuptools python-all dpkg-dev debhelper \
     fuseiso git genisoimage bind9-host wget curl lintian tmux lxc iptables \
-    ca-certificates sudo apt-utils lsb-release dosfstools debmirror
-
+    ca-certificates sudo apt-utils lsb-release dosfstools debmirror \
+    cgroup-lite docker-engine
 RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC_PROXY RSYNC_CONNECT_PROG npm_config_registry\"" > /etc/sudoers.d/keep-proxies
 # Keeping PWD is needed to build as root
