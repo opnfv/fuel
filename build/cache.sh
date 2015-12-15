@@ -9,6 +9,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+
+exit_trap() {
+    if [ -d "$TMPDIR" ]; then
+        rm -rf $TMPDIR
+    fi
+}
+
+trap exit_trap EXIT
+
 CACHETRANSPORT=${CACHETRANSPORT:-"curl --silent"}
 CACHEBASE=${CACHEBASE:-"file://${HOME}/cache"}
 CACHEMAXAGE=${CACHEMAXAGE:-$[14*24*3600]}
@@ -20,8 +29,9 @@ debugmsg () {
     fi
 }
 
-errormsg () {
+errorexit () {
     echo "$@" >&2
+    exit 1
 }
 
 # Get a SHA1 based on what's piped into the cache command
@@ -84,22 +94,45 @@ validSHA1() {
     fi
 }
 
+# Figure out commit ID from URI and tag/branch/commit ID
+getcommitid() {
+    HEADMATCH=`git ls-remote $1 | grep "refs/heads/$2$" | awk '{ print $1 }'`
+    TAGMATCH=`git ls-remote $1 | grep "refs/tags/$2$" | awk '{ print $1 }'`
+
+    if [ -n "$HEADMATCH" ]; then
+        echo "$HEADMATCH"
+    elif [ -n "$TAGMATCH" ]; then
+        echo "$TAGMATCH"
+    else
+        TMPDIR=`mktemp -d /tmp/cacheXXXXX`
+        cd $TMPDIR
+        git clone $1 &>/dev/null || errorexit "Could not clone $1"
+        cd * || errorexit "Could not enter clone of $1"
+        git show $2 &>/dev/null || errorexit "Could not find commit $2"
+        git show $2 | head -1 | awk '{ print $2 }'
+    fi
+}
+
 case $1 in
+    getcommitid)
+        if [ $# -ne 3 ]; then
+            errorexit "Arg 1 needs to be URI and arg 2 tag/branch/commit"
+        fi
+        shift
+        getcommitid $@
+        ;;
     getid)
         if [ $# -ne 1 ]; then
-            errormsg "No arguments can be given to getid!"
-            exit 1
+            errorexit "No arguments can be given to getid!"
         fi
         getid
         ;;
     get|check|put)
         if [ $# -ne 2 ]; then
-            errormsg "Only one argument, the SHA1 sum, can be given to getid!"
-            exit 1
+            errorexit "Only one argument, the SHA1 sum, can be given to getid!"
         else
             if ! validSHA1 $2; then
-                errormsg "Invalid SHA1 format!"
-                exit 1
+                errorexit "Invalid SHA1 format!"
             fi
         fi
 
@@ -107,6 +140,5 @@ case $1 in
         exit $rc
         ;;
     *)
-        errormsg "I only know about getid, check, get and put!"
-        exit 1
+        errorexit "I only know about getcommitid, getid, check, get and put!"
 esac
