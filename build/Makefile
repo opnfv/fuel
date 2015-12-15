@@ -18,7 +18,7 @@ SHELL = /bin/bash
 # BEGIN of variables to customize
 #
 #Input args
-export ISOSRC = file:$(shell pwd)/fuel-7.0.iso
+export ISOSRC = file:$(shell pwd)/fuel-8.0.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_BGS"
 export REVSTATE = "P0000"
