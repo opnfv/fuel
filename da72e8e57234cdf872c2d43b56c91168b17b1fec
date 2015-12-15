@@ -16,6 +16,24 @@
       "revId": "da72e8e57234cdf872c2d43b56c91168b17b1fec",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b5cba271",
+        "filename": "build/f_isoroot/f_bgpvpn-pluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2015-12-15T20:35:03Z",
+      "side": 1,
+      "message": "Maybe rather like this\nWe skip all plugin specific var names and define these - less fault prune:\nPLUGIN_REPO\u003d....\nPLUGIN_BRANCH\u003d....\nPLUGIN_CHANGE\u003d....\nREMOTE_REFS\u003d$(git ls-remote $(PLUGIN_REPO))\nif [ -z $PLUGIN_CHANGE ]; then\n   if [ -z $(echo $REMOTE_REFS | grep $(PLUGIN_BRANCH) | cut -f1 ]; then\n      echo $(PLUGIN_BRANCH) \u003e .cachedata\n   else \n      echo $(echo $REMOTE_REFS | grep $(PLUGIN_BRANCH) | cut -f1 ) \u003e .cachedata\n   fi\nelse\n      echo $(echo $REMOTE_REFS | grep $(PLUGIN_CHANGE) | cut -f1 ) \u003e .cachedata\nfi\n\nWhat do you think?",
+      "parentUuid": "9a5c5d37_b5f602d6",
+      "revId": "da72e8e57234cdf872c2d43b56c91168b17b1fec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
