@@ -61,7 +61,11 @@ release:.bgpvpnbuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(BGPVPN_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	git ls-remote --heads $(BGPVPN_REPO) | grep $(BGPVPN_BRANCH) > .cachedata
+	# It is expected that the $(BGVPN_BRANCH) is an actual branch name,
+	# in which the original construct below would work:
+	# git ls-remote --heads $(BGPVPN_REPO) | grep $(BGPVPN_BRANCH) > .cachedata
+	# As it currently is a commit ID, we need to change this to this next line:
+	echo $(BGVPN_BRANCH) > .cachedata
 	sha1sum Makefile >> .cachedata
 	sha1sum config.mk >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
