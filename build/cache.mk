@@ -51,5 +51,10 @@ cache:
 		exit 1; \
 	fi
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
+	# remove fuel containers which may still exist from last run
+	@if docker ps -a | grep -q FUEL; then \
+	  docker stop $$(docker ps -a | grep FUEL | cut -d ' ' -f 1); \
+	  docker rm $$(docker ps -a | grep FUEL | cut -d ' ' -f 1); \
+	fi
 	@make -C docker
 	docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) cached-all
