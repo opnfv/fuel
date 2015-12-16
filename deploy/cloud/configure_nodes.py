@@ -36,6 +36,9 @@ class ConfigureNodes(object):
 
         self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
+            for node in self.dea.dea_struct['nodes']:
+                if node['id'] == roles_blade[1] and 'bonds' in node:
+                    self.modify_node_bond(node_id, roles_blade)
             self.download_interface_config(node_id)
             self.modify_node_interface(node_id, roles_blade)
             self.modify_node_network_schemes(node_id, roles_blade)
@@ -97,13 +100,50 @@ class ConfigureNodes(object):
         interface_config = self.dea.get_property(type)
 
         for interface in interfaces:
-            interface['assigned_networks'] = []
+            if interface['type'] == 'ether':
+                interface['assigned_networks'] = []
             if interface['name'] in interface_config:
                 for net_name in interface_config[interface['name']]:
                     net = {}
                     net['id'] = net_name_id[net_name]
                     net['name'] = net_name
                     interface['assigned_networks'].append(net)
+
+        with io.open(interface_yaml, 'w') as stream:
+            yaml.dump(interfaces, stream, default_flow_style=False)
+
+    def modify_node_bond(self, node_id, roles_blade):
+        log('Modify interface config for node %s' % node_id)
+        interface_yaml = ('%s/node_%s/interfaces.yaml'
+                          % (self.yaml_config_dir, node_id))
+        check_file_exists(interface_yaml)
+        backup('%s/node_%s' % (self.yaml_config_dir, node_id))
+
+        with io.open(interface_yaml) as stream:
+            interfaces = yaml.load(stream)
+
+        net_name_id = {}
+        for interface in interfaces:
+            for network in interface['assigned_networks']:
+                net_name_id[network['name']] = network['id']
+
+        bond_type = self.dea.get_node_property(roles_blade[1], 'bonds')
+        bond_config = copy.deepcopy(self.dea.get_property(bond_type))
+
+        interface_type = self.dea.get_node_property(roles_blade[1], 'interfaces')
+        interface_config = self.dea.get_property(interface_type)
+
+        for bond in bond_config:
+            for slave in bond['slaves']:
+                if slave['name'] in interface_config.keys():
+                    raise BaseException, "%s is a bond interface" % slave['name']
+            bond_net = []
+            for network in bond['assigned_networks']:
+                if network in net_name_id:
+                    bond_net.append({'id': net_name_id[network], 'name': bond['name']})
+            bond['assigned_networks'] = bond_net
+            log("bond[assigned_networks]: %s" % bond['assigned_networks'])
+            interfaces.append(bond)
 
         with io.open(interface_yaml, 'w') as stream:
             yaml.dump(interfaces, stream, default_flow_style=False)

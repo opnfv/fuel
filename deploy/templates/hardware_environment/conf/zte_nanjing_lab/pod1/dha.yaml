@@ -1,0 +1,49 @@
+title: Deployment Hardware Adapter (DHA)
+# DHA API version supported
+version:
+created:
+comment: Config for LF POD2 and Opendaylight
+
+# Adapter to use for this definition
+adapter: ipmi
+
+# Node list.
+# Mandatory property is id, all other properties are adapter specific.
+
+nodes:
+- id: 1
+  pxeMac: 4c:09:b4:b2:59:87
+  ipmiIp: 129.5.1.101
+  ipmiUser: zteroot
+  ipmiPass: superuser
+- id: 2
+  pxeMac: 4c:09:b4:b2:59:fc
+  ipmiIp: 129.5.1.22
+  ipmiUser: zteroot
+  ipmiPass: superuser
+- id: 3
+  pxeMac: 4c:09:b4:b2:59:a2
+  ipmiIp: 129.5.1.3
+  ipmiUser: zteroot
+  ipmiPass: superuser
+- id: 4
+  pxeMac: 4c:09:b4:b2:59:d8
+  ipmiIp: 129.5.1.4
+  ipmiUser: zteroot
+  ipmiPass: superuser
+- id: 5
+  pxeMac: 4c:09:b4:b2:59:75
+  ipmiIp: 129.5.1.5
+  ipmiUser: zteroot
+  ipmiPass: superuser
+# Adding the Fuel node as node id 6 which may not be correct - please
+# adjust as needed.
+- id: 6
+  libvirtName: fuel-opnfv
+  libvirtTemplate: templates/hardware_environment/vms/fuel.xml
+  isFuel: yes
+  username: root
+  password: r00tme
+
+disks:
+  fuel: 50G
