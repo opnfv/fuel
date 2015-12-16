@@ -38,7 +38,9 @@ Important notes
 
 For the first OPNFV release (Arno), these notes introduce use of `OpenStack Fuel <https://wiki.openstack.org/wiki/Fuel>` for the deployment stage of the OPNFV continuous integration (CI) pipeline.  The goal of the Arno release and this Fuel-based deployment process is to establish a foundational platform accelerating further development of the OPNFV infrastructure.
 
-Carefully follow the installation-instructions and pay special attention to the pre-deploy script that needs to be run before deployment is started.
+Carefully follow the installation-instructions and pay special
+attention to the pre-deploy script that needs to be run before
+deployment is started.
 
 Summary
 =======
