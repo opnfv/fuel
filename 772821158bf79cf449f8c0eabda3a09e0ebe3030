@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_1b45fd6f",
+        "filename": "docs/installation-instructions.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-16T14:45:59Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "772821158bf79cf449f8c0eabda3a09e0ebe3030",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_3b50c131",
+        "filename": "docs/installation-instructions.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-16T14:45:59Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "772821158bf79cf449f8c0eabda3a09e0ebe3030",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_5b4b7587",
+        "filename": "docs/installation-instructions.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-16T14:45:59Z",
+      "side": 1,
+      "message": "Whitespace.",
+      "revId": "772821158bf79cf449f8c0eabda3a09e0ebe3030",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
