@@ -34,6 +34,24 @@
       "revId": "da72e8e57234cdf872c2d43b56c91168b17b1fec",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b8cef758",
+        "filename": "build/f_isoroot/f_bgpvpn-pluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-16T10:47:01Z",
+      "side": 1,
+      "message": "Jonas, I like your ideas! Let\u0027s see if we can keep a single configuration setting to support all variants though - I\u0027ll play around with it a bit.",
+      "parentUuid": "9a5c5d37_b5cba271",
+      "revId": "da72e8e57234cdf872c2d43b56c91168b17b1fec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
