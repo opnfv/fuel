@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-BGPVPN_BRANCH=32e4b36fa2d37dabb53cc3ee71960e2162f64a43
+BGPVPN_BRANCH=master
 BGPVPN_REPO="https://github.com/openstack/fuel-plugin-bgpvpn.git"
-BGPVPN_CHANGE=
+BGPVPN_CHANGE=7137636587724561bf437e84295e0fb6f6f9aef1
