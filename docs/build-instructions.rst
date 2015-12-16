@@ -12,9 +12,14 @@ This document describes how to build the Fuel deployment tool for the B release 
 
 License
 =======
-Brahmaputra release of OPNFV when using Fuel as a deployment tool DOCs (c) by Jonas Bjurel (Ericsson AB) and others.
+Brahmaputra release of OPNFV when using Fuel as a deployment tool
+DOCs (c) by Jonas Bjurel (Ericsson AB) and others.
 
-Brahmaputra release of OPNFV when using Fuel as a deployment tool DOCs (c) are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+Brahmaputra release of OPNFV when using Fuel as a deployment tool
+DOCs (c) are licensed under a Creative Commons Attribution 4.0
+International License. You should have received a copy of the license
+along with this. If not, see
+<http://creativecommons.org/licenses/by/4.0/>.
 
 
 
@@ -42,11 +47,18 @@ Version history
 Introduction
 ============
 
-This document describes the build system used to build the Fuel deployment tool for the Brahmaputra release of OPNFV, required dependencies and minimum requirements on the host to be used for the buildsystem.
+This document describes the build system used to build the Fuel
+deployment tool for the Brahmaputra release of OPNFV, required
+dependencies and minimum requirements on the host to be used for the
+buildsystem.
 
-The Fuel build system is desigened around Docker containers such that dependencies outside of the build system can be kept to a minimum. It also shields the host from any potential dangerous operations performed by the build system.
+The Fuel build system is desigened around Docker containers such that
+dependencies outside of the build system can be kept to a minimum. It
+also shields the host from any potential dangerous operations
+performed by the build system.
 
-The audience of this document is assumed to have good knowledge in network and Unix/Linux administration.
+The audience of this document is assumed to have good knowledge in
+network and Unix/Linux administration.
 
 Requirements
 ============
@@ -67,7 +79,9 @@ The build host should run Ubuntu 14.04 operating system.
 
 On the host, the following packages must be installed:
 
-- docker - see https://docs.docker.com/installation/ubuntulinux/ for installation notes for Ubuntu 14.04. Note: only use the Ubuntu stock distro of Docker (docker.io)
+- docker - see https://docs.docker.com/installation/ubuntulinux/ for
+  installation notes for Ubuntu 14.04. Note: only use the Ubuntu stock
+  distro of Docker (docker.io)
 
 - git (simply available through sudo apt-get install git)
 
@@ -95,12 +109,15 @@ Then restart docker:
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- Start setting up OPNFV gerrit by creating a SSH key (unless you don't already have one), create one with ssh-keygen
+- Start setting up OPNFV gerrit by creating a SSH key (unless you
+  don't already have one), create one with ssh-keygen
 
 - Add your generated public key in OPNFV Gerrit <https://gerrit.opnfv.org/>
-  (this requires a linuxfoundation account, create one if you do not already have one)
+  (this requires a linuxfoundation account, create one if you do not
+  already have one)
 
-- Select "SSH Public Keys" to the left and then "Add Key" and paste your public key in.
+- Select "SSH Public Keys" to the left and then "Add Key" and paste
+  your public key in.
 
 Clone the OPNFV code Git repository with your SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +125,8 @@ Now it is time to clone the code repository:
 
 <git clone ssh://'Linux foundation user'@gerrit.opnfv.org:29418/fuel>
 
-Now you should have the OPNFV fuel repository with the Fuel directories stored locally on your build host.
+Now you should have the OPNFV fuel repository with the Fuel
+directories stored locally on your build host.
 
 Check out the Brahmaputra release:
 <cd fuel>
@@ -138,7 +156,8 @@ Support for building behind a http/https/rsync proxy
 
 The build system is able to make use of a web proxy setup if the
 http_proxy, https_proxy, no_proxy (if needed) and RSYNC_PROXY or
-RSYNC_CONNECT_PROG environment variables have been set before invoking make.
+RSYNC_CONNECT_PROG environment variables have been set before invoking
+make.
 
 The proxy setup must permit port 80 (http), 443 (https) and 873
 (rsync).
@@ -210,9 +229,11 @@ cache will be on the ISO!
 Configure your build environment
 -------------------------------------
 
-** Configuring the build environment should not be performed if building standard Brahmaputra release **
+** Configuring the build environment should not be performed if
+building standard Brahmaputra release **
 
-Select the versions of the components you want to build by editing the fuel/build/config.mk file.
+Select the versions of the components you want to build by editing the
+fuel/build/config.mk file.
 
 Non official build: Selecting which plugins to build
 ----------------------------------------------------
@@ -225,7 +246,7 @@ Only the plugin targets from fuel/build/f_isoroot/Makefile that are
 specified in the environment variable will then be built. In order to
 completely disable the building of plugins, the environment variable
 is set to " ". When using this functionality, the resulting iso file
-will be prepended with the prefix "unofficial-" to clearly indiciate
+will be prepended with the prefix "unofficial-" to clearly indicate
 that this is not a full build.
 
 This method of plugin selection is not meant to be used from within
@@ -243,27 +264,35 @@ Following targets exist:
 
   - If not already existing, initialize the docker build environment
 
-  - If not already done, build OpenDaylight from upstream (as defined by fuel-build config-spec)
+  - If not already done, build OpenDaylight from upstream (as defined
+    by fuel-build config-spec)
 
-  - If not already done, build fuel from upstream (as defined by fuel-build/config-spec)
+  - If not already done, build fuel from upstream (as defined by
+    fuel-build/config-spec)
 
-  - Build the defined additions to fuel (as defined by the structure of this framework)
+  - Build the defined additions to fuel (as defined by the structure
+    of this framework)
 
-  - Apply changes and patches to fuel (as defined by the structure of this framework)
+  - Apply changes and patches to fuel (as defined by the structure of
+    this framework)
 
   - Reconstruct a fuel .iso image
 
 - clean - this will remove all artifacts from earlier builds.
 
-If the build is successful, you will find the generated ISO file in the <fuel/build/release> subdirectory!
+If the build is successful, you will find the generated ISO file in
+the <fuel/build/release> subdirectory!
 
 Abstracted build method using build.sh
 ======================================
-The abstracted build method uses the <fuel/ci/build.sh> script which allows you to:
+The abstracted build method uses the <fuel/ci/build.sh> script which
+allows you to:
 
-- Create and use a build cache - significantly speeding up the buildtime if upstream repositories have not changed.
+- Create and use a build cache - significantly speeding up the
+  buildtime if upstream repositories have not changed.
 
-- push/pull cache and artifacts to an arbitrary URI (http(s):, file:, ftp:)
+- push/pull cache and artifacts to an arbitrary URI (http(s):, file:,
+  ftp:)
 
 For more info type <fuel/ci/build.sh -h>.
 
@@ -272,7 +301,8 @@ Artifacts
 
 The artifacts produced are:
 
-- <OPNFV_XXXX.iso> - Which represents the bootable Fuel image, XXXX is replaced with the build identity provided to the build system
+- <OPNFV_XXXX.iso> - Which represents the bootable Fuel image, XXXX is
+  replaced with the build identity provided to the build system
 
 - <OPNFV_XXXX.iso.txt> - Which holds version metadata.
 
