@@ -91,7 +91,7 @@ in your </etc/default/docker> configuration file, for example:
 
 Then restart docker:
 
-<sudo service docker.io restart>
+<sudo service docker restart>
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
