@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_043c7ee1",
+        "filename": "docs/build-instructions.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2015-12-17T14:47:33Z",
+      "side": 1,
+      "message": "Hi Peter. The installation routine suggested on line 70 ( https://docs.docker.com/installation/ubuntulinux/) resulted in an installation of \"docker.io\". You\u0027ve verified that this is no longer the case? In that case we should of course change, and well spotted.",
+      "revId": "4a7ca21b73310da0129431d57fc50ebe06a91058",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
