@@ -47,7 +47,7 @@ release:.odlbuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(ODL_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	git ls-remote --heads $(ODL_REPO) | grep $(ODL_BRANCH) > .cachedata
+	$(CACHETOOL) getcommitid $(ODL_REPO) $(ODL_BRANCH) > .cachedata
 	sha1sum Makefile >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
 

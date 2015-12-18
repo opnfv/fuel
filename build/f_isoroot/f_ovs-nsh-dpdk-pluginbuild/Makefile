@@ -60,7 +60,11 @@ release:.ovsbuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(OVS_NSH_DPDK_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	@git ls-remote --heads $(OVS_NSH_DPDK_REPO) | grep $(OVS_NSH_DPDK_BRANCH) | awk {'print $$1'} > .cachedata
+	if [ ! -z $(OVS_NSH_DPDK_CHANGE) ]; then \
+	  $(CACHETOOL) getcommitid $(OVS_NSH_DPDK_REPO) $(OVS_NSH_DPDK_CHANGE) > .cachedata; \
+	else \
+	  $(CACHETOOL) getcommitid $(OVS_NSH_DPDK_REPO) $(OVS_NSH_DPDK_BRANCH) > .cachedata; \
+	fi
 	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
 	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
 	@cat .cachedata | $(CACHETOOL) getid > .cacheid
