@@ -98,7 +98,11 @@ validSHA1() {
 getcommitid() {
     HEADMATCH=`git ls-remote $1 | grep "refs/heads/$2$" | awk '{ print $1 }'`
     TAGMATCH=`git ls-remote $1 | grep "refs/tags/$2$" | awk '{ print $1 }'`
+    CHANGESMATCH=`git ls-remote $1 | grep "refs/changes/$2$" | awk '{ print $1 }'`
 
+    if [ -n "$CHANGESMATCH" ]; then
+        echo "Warning: $2 is a change (commit id is $CHANGESMATCH)" >&2
+        echo "$CHANGESMATCH"
     if [ -n "$HEADMATCH" ]; then
         echo "$HEADMATCH"
     elif [ -n "$TAGMATCH" ]; then
