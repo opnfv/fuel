@@ -96,13 +96,32 @@ validSHA1() {
 
 # Figure out commit ID from URI and tag/branch/commit ID
 getcommitid() {
-    HEADMATCH=`git ls-remote $1 | grep "refs/heads/$2$" | awk '{ print $1 }'`
-    TAGMATCH=`git ls-remote $1 | grep "refs/tags/$2$" | awk '{ print $1 }'`
+    if echo $2 | grep -q '^refs/changes/'; then
+        REF=`echo $2 | sed "s,refs\/changes\/\(.*\),\1,"`
+    else
+        REF=$2
+    fi
+
+    echo "Repo is $1, ref is ${REF}" >&2
+
+    HEADMATCH=`git ls-remote $1 | grep "refs/heads/${REF}$" | awk '{ print $1 }'`
+    TAGMATCH=`git ls-remote $1 | grep "refs/tags/${REF}$" | awk '{ print $1 }'`
+    CHANGEMATCH=`git ls-remote $1 | grep "refs/changes/${REF}$" | awk '{ print $1 }'`
 
     if [ -n "$HEADMATCH" ]; then
         echo "$HEADMATCH"
     elif [ -n "$TAGMATCH" ]; then
         echo "$TAGMATCH"
+    elif [ -n "$CHANGEMATCH" ]; then
+        echo "Warning: ${REF} is a change!" >&2
+        TMPDIR=`mktemp -d /tmp/cacheXXXXX`
+        cd $TMPDIR
+        git clone $1 &>/dev/null || errorexit "Could not clone $1"
+        cd * || errorexit "Could not enter clone of $1"
+	git fetch $1 refs/changes/$REF &>/dev/null || errorexit "Could not fetch change"
+	git checkout FETCH_HEAD &>/dev/null || errorexit "Could not checkout FETCH_HEAD"
+        git show HEAD &>/dev/null || errorexit "Could not find commit $2"
+        git show HEAD | head -1 | awk '{ print $2 }'
     else
         TMPDIR=`mktemp -d /tmp/cacheXXXXX`
         cd $TMPDIR
