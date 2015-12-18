@@ -59,7 +59,11 @@ release:.onosbuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(ONOS_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	@git ls-remote --heads $(ONOS_REPO) | grep $(ONOS_BRANCH) | awk {'print $$1'} > .cachedata
+	if [ ! -z $(ONOS_CHANGE) ]; then \
+	  $(CACHETOOL) getcommitid $(ONOS_REPO) $(ONOS_CHANGE) > .cachedata; \
+	else \
+	  $(CACHETOOL) getcommitid $(ONOS_REPO) $(ONOS_BRANCH) > .cachedata; \
+	fi
 	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
 	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
 	@cat .cachedata | $(CACHETOOL) getid > .cacheid
