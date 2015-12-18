@@ -60,7 +60,11 @@ release:.qemubuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(QEMU_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	@git ls-remote --heads $(QEMU_REPO) | grep $(QEMU_BRANCH) | awk {'print $$1'} > .cachedata
+	if [ ! -z $(QEMU_CHANGE) ]; then \
+	  $(CACHETOOL) getcommitid $(QEMU_REPO) $(QEMU_CHANGE) > .cachedata; \
+	else \
+	  $(CACHETOOL) getcommitid $(QEMU_REPO) $(QEMU_BRANCH) > .cachedata; \
+	fi
 	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
 	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
 	@cat .cachedata | $(CACHETOOL) getid > .cacheid

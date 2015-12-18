@@ -96,10 +96,22 @@ validSHA1() {
 
 # Figure out commit ID from URI and tag/branch/commit ID
 getcommitid() {
-    HEADMATCH=`git ls-remote $1 | grep "refs/heads/$2$" | awk '{ print $1 }'`
-    TAGMATCH=`git ls-remote $1 | grep "refs/tags/$2$" | awk '{ print $1 }'`
+    if echo $2 | grep -q '^refs/changes/'; then
+        REF=`echo $2 | sed "s,refs\/changes\/\(.*\),\1,"`
+    else
+        REF=$2
+    fi
 
-    if [ -n "$HEADMATCH" ]; then
+    echo "Repo is $1, ref is ${REF}" >&2
+
+    HEADMATCH=`git ls-remote $1 | grep "refs/heads/${REF}$" | awk '{ print $1 }'`
+    TAGMATCH=`git ls-remote $1 | grep "refs/tags/${REF}$" | awk '{ print $1 }'`
+    CHANGEMATCH=`git ls-remote $1 | grep "refs/changes/${REF}$" | awk '{ print $1 }'`
+
+    if [ -n "$CHANGEMATCH" ]; then
+        echo "Warning: ${REF} is a change (commit id is $CHANGEMATCH)" >&2
+        echo "$CHANGEMATCH"
+    elif [ -n "$HEADMATCH" ]; then
         echo "$HEADMATCH"
     elif [ -n "$TAGMATCH" ]; then
         echo "$TAGMATCH"
