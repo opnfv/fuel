@@ -61,7 +61,7 @@ release:.bgpvpnbuild
 #   - The SHA1 hash of the HEAD on the plugin repo's $(BGPVPN_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	if [ ! -z $(BGPVPN_CHANGE) ]; then \
+	@if [ ! -z $(BGPVPN_CHANGE) ]; then \
 	  $(CACHETOOL) getcommitid $(BGPVPN_REPO) $(BGPVPN_CHANGE) > .cachedata; \
 	else \
 	  $(CACHETOOL) getcommitid $(BGPVPN_REPO) $(BGPVPN_BRANCH) > .cachedata; \
