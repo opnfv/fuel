@@ -2,11 +2,11 @@
 title: Deployment Environment Adapter (DEA)
 # DEA API version supported
 version: 1.1
-created: Wed Dec  9 10:24:07 2015
-comment: reap for efatdeg
+created: Thu Dec 17 23:26:28 2015
+comment: None
 environment:
   mode: ha
-  name: POD2-BM1
+  name: POD2-BM1-DEPLOY
   net_segment_type: tun
 wanted_release: Kilo on Ubuntu 14.04
 nodes:
@@ -35,7 +35,7 @@ nodes:
   role: ceph-osd,compute
   transformations: transformations_1
 interfaces_1:
-  eth0:
+  eth1:
   - fuelweb_admin
   eth2:
   - public
@@ -85,13 +85,13 @@ fuel:
     dhcp_pool_start: 10.20.0.3
     ipaddress: 10.20.0.2
     netmask: 255.255.255.0
-  DNS_DOMAIN: pod2.opnfvericsson.ca
-  DNS_SEARCH: pod2.opnfvericsson.ca
+  DNS_DOMAIN: opnfvericsson.ca
+  DNS_SEARCH: opnfvericsson.ca
   DNS_UPSTREAM: 10.118.32.193
   FUEL_ACCESS:
     password: admin
     user: admin
-  HOSTNAME: fuel-bm
+  HOSTNAME: fuel
   NTP1: 10.118.32.193
   NTP2: ''
   NTP3: ''
@@ -115,6 +115,44 @@ network:
     - 1000
     - 1030
   networks:
+  - cidr: 192.168.10.0/24
+    gateway: null
+    ip_ranges:
+    - - 192.168.10.1
+      - 192.168.10.254
+    meta:
+      cidr: 192.168.0.0/24
+      configurable: true
+      map_priority: 2
+      name: management
+      notation: cidr
+      render_addr_mask: internal
+      render_type: cidr
+      use_gateway: false
+      vips:
+      - haproxy
+      - vrouter
+      vlan_start: 101
+    name: management
+    vlan_start: 100
+  - cidr: 192.168.30.0/24
+    gateway: null
+    ip_ranges:
+    - - 192.168.30.1
+      - 192.168.30.254
+    meta:
+      cidr: 192.168.2.0/24
+      configurable: true
+      map_priority: 2
+      name: private
+      notation: cidr
+      render_addr_mask: null
+      render_type: cidr
+      seg_type: tun
+      use_gateway: false
+      vlan_start: 103
+    name: private
+    vlan_start: 300
   - cidr: 10.118.101.0/24
     gateway: 10.118.101.1
     ip_ranges:
@@ -156,44 +194,6 @@ network:
       vlan_start: 102
     name: storage
     vlan_start: 200
-  - cidr: 192.168.10.0/24
-    gateway: null
-    ip_ranges:
-    - - 192.168.10.1
-      - 192.168.10.254
-    meta:
-      cidr: 192.168.0.0/24
-      configurable: true
-      map_priority: 2
-      name: management
-      notation: cidr
-      render_addr_mask: internal
-      render_type: cidr
-      use_gateway: false
-      vips:
-      - haproxy
-      - vrouter
-      vlan_start: 101
-    name: management
-    vlan_start: 100
-  - cidr: 192.168.30.0/24
-    gateway: null
-    ip_ranges:
-    - - 192.168.30.1
-      - 192.168.30.254
-    meta:
-      cidr: 192.168.2.0/24
-      configurable: true
-      map_priority: 2
-      name: private
-      notation: cidr
-      render_addr_mask: null
-      render_type: cidr
-      seg_type: tun
-      use_gateway: false
-      vlan_start: 103
-    name: private
-    vlan_start: 300
   - cidr: 10.20.0.0/24
     gateway: 10.20.0.2
     ip_ranges:
@@ -311,7 +311,7 @@ settings:
           disk space.
         label: OpenStack debug logging
         type: checkbox
-        value: true
+        value: false
         weight: 20
       libvirt_type:
         label: Hypervisor type
@@ -668,22 +668,22 @@ settings:
         value:
         - name: ubuntu
           priority: null
-          section: main universe multiverse
+          section: main
           suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-updates
           priority: null
-          section: main universe multiverse
-          suite: trusty-updates
+          section: main
+          suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: ubuntu-security
           priority: null
-          section: main universe multiverse
-          suite: trusty-security
+          section: main
+          suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/ubuntu-part
         - name: mos
           priority: 1050
           section: main restricted
@@ -695,19 +695,19 @@ settings:
           section: main restricted
           suite: mos7.0-updates
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-security
           priority: 1050
           section: main restricted
           suite: mos7.0-security
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: mos-holdback
           priority: 1100
           section: main restricted
           suite: mos7.0-holdback
           type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/7.0/
+          uri: http://10.20.0.2:8080/mos-ubuntu
         - name: Auxiliary
           priority: 1150
           section: main restricted
@@ -841,7 +841,7 @@ settings:
         weight: 10
       password:
         type: password
-        value: BNULZ6Lk
+        value: YqvwqNhL
       tenant:
         type: text
         value: services
