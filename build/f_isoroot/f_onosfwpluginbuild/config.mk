@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-ONOS_BRANCH=master
+ONOS_BRANCH=1e0aef4a4495b66122c00bbe698ec95d8d17fe5a
 ONOS_REPO=https://review.openstack.org/openstack/fuel-plugin-onos
-ONOS_CHANGE=refs/changes/02/250802/1
+ONOS_CHANGE=
