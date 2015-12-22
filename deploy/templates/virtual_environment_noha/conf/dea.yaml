@@ -40,9 +40,9 @@ fuel:
     password: admin
     user: admin
   HOSTNAME: opnfv_virt
-  NTP1: 10.20.0.2
-  NTP2: 10.20.0.2
-  NTP3: 10.20.0.2
+  NTP1: 188.126.88.9
+  NTP2: 193.228.143.12
+  NTP3: 178.73.198.130
 interfaces_1:
   eth0:
   - fuelweb_admin
