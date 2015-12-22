@@ -30,10 +30,6 @@ nodes:
   interfaces: interfaces_1
   role: ceph-osd,compute
   transformations: transformations_1
-- id: 6
-  interfaces: interfaces_1
-  role: ceph-osd,compute
-  transformations: transformations_1
 interfaces_1:
   eth1:
   - fuelweb_admin
