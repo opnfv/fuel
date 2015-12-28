@@ -1,0 +1,48 @@
+title: Deployment Hardware Adapter (DHA)
+# DHA API version supported
+version:  esxi-dha-0.1
+created:  lmcdasm
+comment: Config for ESXI Based Virtual Environment
+
+# Adapter to use for this definition
+adapter: esxivirt
+
+# Node list.
+# Mandatory property is id, all other properties are adapter specific.
+
+#host: 10.118.101.12
+#user: root
+#pass: systemabc123
+
+nodes:
+- id: 1
+  esxivirtName: controller1
+  esxivirtTemplate: templates/virtual_environment/vms/controller.xml
+- id: 2
+  esxivirtName: controller2
+  esxivirtTemplate: templates/virtual_environment/vms/controller.xml
+- id: 3
+  esxivirtName: controller3
+  esxivirtTemplate: templates/virtual_environment/vms/controller.xml
+- id: 4
+  esxivirtName: compute1
+  esxivirtTemplate: templates/virtual_environment/vms/compute.xml
+- id: 5
+  esxivirtName: compute2
+  esxivirtTemplate: templates/virtual_environment/vms/compute.xml
+- id: 6
+  esxivirtName: compute3
+  esxivirtTemplate: templates/virtual_environment/vms/compute.xml
+- id: 7
+  esxivirtName: fuel-master
+  esxivirtTemplate: templates/virtual_environment/vms/fuel.xml
+  isFuel: yes
+  username: root
+  password: r00tme
+
+virtNetConfDir: templates/virtual_environment/networks
+
+disks:
+  fuel: 50G
+  controller: 60G
+  compute: 50G

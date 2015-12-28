@@ -210,9 +210,12 @@ class AutoDeploy(object):
 def check_bridge(pxe_bridge, dha_path):
     with io.open(dha_path) as yaml_file:
         dha_struct = yaml.load(yaml_file)
+    if dha_struct['adapter'] == 'esxivirt':
+	log('Ignoring PXEBR value in DHA as Esxi Adapter doesnt use it')
+	log(' Since we are here, lets get our values as well')
+	return
     if dha_struct['adapter'] != 'libvirt':
-        log('Using Linux Bridge %s for booting up the Fuel Master VM'
-            % pxe_bridge)
+        log('Using Linux Bridge %s for booting up the Fuel Master VM' % pxe_bridge)
         r = exec_cmd('ip link show %s' % pxe_bridge)
         if pxe_bridge in r and 'state DOWN' in r:
             err('Linux Bridge {0} is not Active, bring'

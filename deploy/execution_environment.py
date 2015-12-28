@@ -14,6 +14,8 @@ import os
 
 from environments.libvirt_environment import LibvirtEnvironment
 from environments.virtual_fuel import VirtualFuel
+from environments.esxivirt_environment import EsxivirtEnvironment
+
 
 
 class ExecutionEnvironment(object):
@@ -27,11 +29,17 @@ class ExecutionEnvironment(object):
 
         root_dir = os.path.dirname(os.path.realpath(__file__))
 
+	print("TYPE : " + str(type))
+
         if cls is ExecutionEnvironment:
             if type == 'libvirt':
                 return LibvirtEnvironment(storage_dir, dha_path, dea, root_dir)
 
             if type in ['ipmi', 'hp', 'amt']:
                 return VirtualFuel(storage_dir, pxe_bridge, dha_path, root_dir)
+
+	    if type in ['esxivirt']:
+		print("HIT")
+		return EsxivirtEnvironment(storage_dir, dha_path, dea,  root_dir)
 
         return super(ExecutionEnvironment, cls).__new__(cls)
