@@ -30,9 +30,18 @@ class ConfigureNodes(object):
 
     def config_nodes(self):
         log('Configure nodes')
+
+        # Super dirty fix since Fuel 7 requires user defined roles to be
+        # assigned before anything else (BUG fixed in Fuel 8)!
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
-            exec_cmd('fuel node set --node-id %s --role %s --env %s'
-                     % (node_id, roles_blade[0], self.env_id))
+            if "opendaylight" in roles_blade[0] or "onos" in roles_blade[0] or "contrail" in roles_blade[0]:
+                exec_cmd('fuel node set --node-id %s --role %s --env %s'
+                         % (node_id, roles_blade[0], self.env_id))
+
+        for node_id, roles_blade in self.node_id_roles_dict.iteritems():
+            if "opendaylight" not in roles_blade[0] and "onos" not in roles_blade[0] and "contrail" not in roles_blade[0]:
+                exec_cmd('fuel node set --node-id %s --role %s --env %s'
+                         % (node_id, roles_blade[0], self.env_id))
 
         self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():

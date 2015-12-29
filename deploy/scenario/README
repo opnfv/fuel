@@ -1,0 +1,20 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+The directory contains configuration files for different OPNFV deployment
+feature scenarios used by Fuel@OPNFV, eg.:
+- High availability configuration
+- Type of SDN controller to be deployed
+- OPNFV collaboration project features to be deployed.
+
+scenario.yaml provides a mapping between a deployment scenario short-name
+and one or several deplyment scenario configuration yaml files.
+
+These configuration files are used by deploy.sh provided by Fuel@OPNFV, e.g.
+deploy.sh will clone this repo when deploying.
