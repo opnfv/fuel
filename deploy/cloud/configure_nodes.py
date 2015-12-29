@@ -31,8 +31,14 @@ class ConfigureNodes(object):
     def config_nodes(self):
         log('Configure nodes')
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
-            exec_cmd('fuel node set --node-id %s --role %s --env %s'
-                     % (node_id, roles_blade[0], self.env_id))
+            if "opendaylight" in roles_blade[0]:
+                exec_cmd('fuel node set --node-id %s --role %s --env %s'
+                         % (node_id, roles_blade[0], self.env_id))
+
+        for node_id, roles_blade in self.node_id_roles_dict.iteritems():
+            if not "opendaylight" in roles_blade[0]:
+                exec_cmd('fuel node set --node-id %s --role %s --env %s'
+                         % (node_id, roles_blade[0], self.env_id))
 
         self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():

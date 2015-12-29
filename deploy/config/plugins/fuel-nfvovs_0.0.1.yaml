@@ -1,0 +1,19 @@
+plugin-config-metadata:
+  title: NFV OVS fuel Plugin configuration template
+  version: 0.1
+  created: Wed Jan 6 2016
+  comment: None
+
+fuel-plugin-ovsnfv:
+  fuel-plugin-ovsnfv_text:
+    description: Description for text field
+    label: Text field
+    type: text
+    value: Set default value
+    weight: 25
+  metadata:
+    enabled: true
+    label: Userspace OVS support
+    # plugin_id: Assigned during installation
+    toggleable: true
+    weight: 70
