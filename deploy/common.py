@@ -49,8 +49,13 @@ def exec_cmd(cmd, check=True):
     return_code = process.returncode
     if check:
         if return_code > 0:
+            print "Failed command: " + str(cmd)
+            print "Command returned response: " + str(response)
+            print "Command return code: " + str(return_code)
             raise Exception(response)
         else:
+            print "Command: " + str(cmd)
+            print str(response)
             return response
     return response, return_code
 
