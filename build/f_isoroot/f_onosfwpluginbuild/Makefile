@@ -8,6 +8,8 @@
 ##############################################################################
 
 TOP := $(shell pwd)
+ONOS_BRANCH=kilo
+ONOS_REPO="git://git.openstack.org/openstack/fuel-plugin-onos"
 
 ############################################################################
 # BEGIN of Include definitions
