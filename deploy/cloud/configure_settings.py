@@ -47,9 +47,19 @@ class ConfigureSettings(object):
         settings_yaml = ('%s/settings_%s.yaml'
                          % (self.yaml_config_dir, self.env_id))
         check_file_exists(settings_yaml)
-        backup(settings_yaml)
 
+        with io.open(settings_yaml, 'r') as stream:
+            orig_dea = yaml.load(stream)
+
+        backup(settings_yaml)
         settings = self.dea.get_property('settings')
+        # Copy fuel defined plugin_id's to user defined settings
+        for plugin in orig_dea['editable']:
+            if 'metadata' in orig_dea['editable'][plugin] and 'plugin_id' in orig_dea['editable'][plugin]['metadata']:
+                if not plugin in settings['editable']:
+                    settings['editable'][plugin] = orig_dea['editable'][plugin]
+                else:
+                    settings['editable'][plugin]["metadata"]["plugin_id"] = orig_dea['editable'][plugin]["metadata"]["plugin_id"]
 
         with io.open(settings_yaml, 'w') as stream:
             yaml.dump(settings, stream, default_flow_style=False)
