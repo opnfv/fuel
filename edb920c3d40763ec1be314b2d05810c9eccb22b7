@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_69a9c1de",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2015-12-30T11:12:25Z",
+      "side": 1,
+      "message": "dea_dict \u003d {\n    \u0027version\u0027: calendar.timegm(time.gmtime()),\n    \u0027creation_time\u0027: time.strftime(\"%d/%m/%Y\") + \u0027 \u0027 + time.strftime(\"%H:%M:%S\"),\n    \u0027dea_base_uri\u0027: kwargs[\u0027dea_base_uri\u0027],\n    \u0027dea_base_title\u0027: dea_base_conf[\u0027dea-base-config-metadata\u0027][\u0027title\u0027],\n    \u0027dea_base_version\u0027: dea_base_conf[\u0027dea-base-config-metadata\u0027][\u0027version\u0027],\n    \u0027dea_base_creation\u0027: dea_base_conf[\u0027dea-base-config-metadata\u0027][\u0027created\u0027],\n    \u0027dea_base_sha\u0027: sha_uri(kwargs[\"dea_base_uri\"],\n    \u0027dea_base_comment\u0027: dea_base_conf[\u0027dea-base-config-metadata\u0027][\u0027comment\u0027],\n}\n\n\ndea_text \u003d \"\"\"title: DEA.yaml file automatically generated from the configuration files stated in the \\\"configuration-files\\\" fragment below\nversion: {version}\ncreated: {creation_time}\ncomment: none\nconfiguration-files:\n  dea-base:\n    uri: {dea_base_uri}\n    title: {dea_base_title}\n    version: {dea_base_version}\n    created: {dea_base_creation}\n    sha1: {dea_base_sha}\n    comment: {dea_base_comment}\n\"\"\".format(**dea_dict)\n\n\nwith open(kwargs[\"output_path\"] + \u0027/dea.yaml\u0027, \"w\") as f:\n    f.write(dea_text)\n    yaml.dump(final_dea_conf, f, default_flow_style\u003dFalse)",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 58
+      },
+      "revId": "edb920c3d40763ec1be314b2d05810c9eccb22b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
