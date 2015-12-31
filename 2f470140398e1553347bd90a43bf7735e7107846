@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_4996fd4d",
+        "filename": "deploy/dha_adapters/esxivirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2015-12-31T02:55:28Z",
+      "side": 1,
+      "message": "remove empty",
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_29918952",
+        "filename": "deploy/dha_adapters/esxivirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2015-12-31T02:55:28Z",
+      "side": 1,
+      "message": "move parameters to yaml file?",
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_09a0059e",
+        "filename": "deploy/dha_adapters/esxivirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2015-12-31T02:55:28Z",
+      "side": 1,
+      "message": "we may check the result of above statement",
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e99a516d",
+        "filename": "deploy/dha_adapters/esxivirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2015-12-31T02:55:28Z",
+      "side": 1,
+      "message": "get iso name from parameter?",
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
