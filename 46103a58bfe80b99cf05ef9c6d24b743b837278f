@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_a98c5936",
+        "filename": "build/f_isoroot/f_onosfwpluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2015-12-31T02:58:13Z",
+      "side": 1,
+      "message": "can you move to config.mk?",
+      "revId": "46103a58bfe80b99cf05ef9c6d24b743b837278f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
