@@ -16,6 +16,23 @@
       "revId": "46103a58bfe80b99cf05ef9c6d24b743b837278f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_a4bec0d2",
+        "filename": "build/f_isoroot/f_onosfwpluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-01T19:08:48Z",
+      "side": 1,
+      "message": "As already pointed out, these definitions already exist in config.mk. Please modify the config.mk",
+      "revId": "46103a58bfe80b99cf05ef9c6d24b743b837278f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
