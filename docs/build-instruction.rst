@@ -55,7 +55,9 @@ On the host, the following packages must be installed:
 
   - **Note:** Builds on Wily (Ubuntu 15.x) are currently not supported
 
-- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for installation notes for Ubuntu 14.04. Tested against version 1.9.x and greater
+- docker - see https://docs.docker.com/installation/ubuntulinux/ for
+  installation notes for Ubuntu 14.04. Note: use the latest version from
+  Docker (docker-engine) and not the one in Ubuntu 14.04.
 
 - git (simply available through $ sudo apt-get install git)
 
@@ -84,9 +86,13 @@ For example:
 
 Then restart docker:
 
+<<<<<<< HEAD
 .. code-block:: console
 
     $ sudo service docker restart
+=======
+<sudo service docker restart>
+>>>>>>> Clarify docker installation instructions
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
