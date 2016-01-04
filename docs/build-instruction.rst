@@ -78,8 +78,8 @@ The build host should run Ubuntu 14.04 operating system.
 On the host, the following packages must be installed:
 
 - docker - see https://docs.docker.com/installation/ubuntulinux/ for
-  installation notes for Ubuntu 14.04. Note: only use the Ubuntu stock
-  distro of Docker (docker.io)
+  installation notes for Ubuntu 14.04. Note: use the latest version from
+  Docker (docker-engine) and not the one in Ubuntu 14.04.
 
 - git (simply available through sudo apt-get install git)
 
