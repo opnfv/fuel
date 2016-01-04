@@ -38,7 +38,12 @@ class LibvirtEnvironment(ExecutionEnvironment):
             disk_size = disk_sizes['fuel']
         else:
             roles = self.dea.get_node_role(node_id)
-            role = 'controller' if 'controller' in roles else 'compute'
+            if 'controller' in roles :
+                role = 'controller'
+            if 'compute' in roles :
+                role = 'compute'
+            if 'onos'in roles :
+                role =  'onos'
             disk_size = disk_sizes[role]
         exec_cmd('fallocate -l %s %s' % (disk_size, disk_path))
 
