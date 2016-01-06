@@ -14,7 +14,7 @@ the following dependencies and python modules are required to be installed:
 - for Ubuntu:
 
 sudo apt-get install -y libvirt-bin qemu-kvm python-pip fuseiso mkisofs genisoimage
-sudo apt-get install -y python-dev libz-dev libxml2-dev libxslt-dev
+sudo apt-get install -y python-dev libz-dev libxml2-dev libxslt-dev libyaml-dev
 sudo pip install pyyaml netaddr paramiko lxml scp pycrypto ecdsa
 
 During libvirt install the user is added to the libvirtd group, so you have to
