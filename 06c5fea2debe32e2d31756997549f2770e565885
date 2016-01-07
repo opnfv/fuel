@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_d584b2b2",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 335
+      },
+      "writtenOn": "2016-01-07T16:45:38Z",
+      "side": 1,
+      "message": "os_[controller]_[options]_[mode] with controller\u003dodl-l3|odl-l2|onos|opencontrail, options\u003dkvm[version X]||ovs[version Z], mode\u003dha|no-ha would maybe more explicit and systematic\n\nos_kvm_ha \u003d\u003e does it mean that it is pure neutron? \nwhy adding ceilometer and heat in the file description, if they are on all the files it maybe not mandatory to indicate it\nI could imagine an additional OpenStack module as an option\n(e.g. os_odl_congress_ha)\n\nbut no strong opinion we need scenario, we could adapt",
+      "revId": "06c5fea2debe32e2d31756997549f2770e565885",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
