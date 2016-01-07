@@ -37,15 +37,16 @@ release:.ovsnfvbuild
 	@rm -rf fuel-plugin-ovsnfv
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 	sudo pip install fuel-plugin-builder
-	git clone $(OVSNFV_DPDK_REPO)
-	cd fuel-plugin-ovsnfv; \
+	git clone $(OVSNFV_DPDK_REPO) ovsnfv
+	cd ovsnfv; \
 	git checkout $(OVSNFV_DPDK_BRANCH); \
 	if [ ! -z $(OVSNFV_DPDK_CHANGE) ]; then \
 	   git fetch $(OVSNFV_DPDK_REPO) $(OVSNFV_DPDK_CHANGE); \
 	   git checkout FETCH_HEAD; \
 	fi
-	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-ovsnfv/
-	@mv fuel-plugin-ovsnfv/fuel-plugin-ovsnfv*.rpm .
+	cd ovsnfv; \
+	INCLUDE_DEPENDENCIES=true fpb --debug --build $(OVSNFV_DPDK_DIR)
+	@mv ovsnfv/$(OVSNFV_DPDK_DIR)/fuel-plugin-ovsnfv*.rpm .
 	$(REPOINFO) -r . > gitinfo_ovsnfv-dpdk-plugin.txt
 	@rm -rf fuel-plugin-ovsnfv
 	@touch .ovsnfvbuild
