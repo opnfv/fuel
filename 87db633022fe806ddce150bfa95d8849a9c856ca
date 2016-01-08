@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_f077c4d2",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2283
+      },
+      "writtenOn": "2016-01-08T02:38:49Z",
+      "side": 1,
+      "message": "This is for -l.",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_d07280e2",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2283
+      },
+      "writtenOn": "2016-01-08T02:38:49Z",
+      "side": 1,
+      "message": "This is for -p",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b0582c57",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2283
+      },
+      "writtenOn": "2016-01-08T02:38:49Z",
+      "side": 1,
+      "message": "If base dea.yaml is provided by -b, this dea is used for what?\nOr do you mean that the whole dea has three parts: base(from -b), pod_dea.yaml(rom -p), scenarios_dea.yaml(from -s to find its scenario )?",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_107138e0",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 2283
+      },
+      "writtenOn": "2016-01-08T02:38:49Z",
+      "side": 1,
+      "message": "Is this para from -b? It shoud be a yaml? The example is a directory.",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b0814c91",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2283
+      },
+      "writtenOn": "2016-01-08T02:38:49Z",
+      "side": 1,
+      "message": "This is for -s and it will find the corresponding yaml in deploy-scenarios.",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
