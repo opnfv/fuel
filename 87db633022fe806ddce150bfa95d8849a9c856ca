@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_165b702f",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-08T10:14:59Z",
+      "side": 1,
+      "message": "The TOP is the point to address with -b.\nlab-name is addressed with  -l \u003clab\u003e, lab can be both a physical lab or a virtual environment.",
+      "parentUuid": "9a5c5d37_f077c4d2",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_d07280e2",
         "filename": "ci/README",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-08T02:38:49Z",
       "side": 1,
       "message": "This is for -p",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_d63cb8c1",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-08T10:14:59Z",
+      "side": 1,
+      "message": "Correct!",
+      "parentUuid": "9a5c5d37_d07280e2",
       "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_b66264d6",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-08T10:14:59Z",
+      "side": 1,
+      "message": "I think you missed a few things.\nbase_dea: is not adressed by any arguments, it is part of the fuel repo and is automatically fetched from there. base_dea is the installer base configuration and the intention is that it almost never change apart from when rebasing to a newer version.\ndea_pod_override: Is adressed with -b \u003cbase uri\u003e -l \u003clab\u003e -p pod and is lab/pod dependent, it differs from lab/pod to lab/pod and is owned by Pharos. It is stored in a separate repo called secured lab with very limited access rights (only installer, releng and pharos) cvommitters. Reason being security policies. We cannot have passwords stored publically.",
+      "parentUuid": "9a5c5d37_b0582c57",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_107138e0",
         "filename": "ci/README",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_965d2018",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-08T10:14:59Z",
+      "side": 1,
+      "message": "Cathy, sorry I need to remove the installers section, it has been moved to the fuel repo.\n-b Adresses the top as said before.",
+      "parentUuid": "9a5c5d37_107138e0",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_b0814c91",
         "filename": "ci/README",
         "patchSetId": 6
@@ -81,6 +153,24 @@
       "writtenOn": "2016-01-08T02:38:49Z",
       "side": 1,
       "message": "This is for -s and it will find the corresponding yaml in deploy-scenarios.",
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_36a67411",
+        "filename": "ci/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-08T10:14:59Z",
+      "side": 1,
+      "message": "No -s adresses a deployment scenario. Each deployment scenario in its turn addresses aone or mor plugin configs",
+      "parentUuid": "9a5c5d37_b0814c91",
       "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
