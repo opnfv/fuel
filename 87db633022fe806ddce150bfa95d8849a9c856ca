@@ -84,6 +84,29 @@
       "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_d635d8db",
+        "filename": "deploy/config/plugins/fuel-odl_0.0.1.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-01-08T09:50:13Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be possible to use the meta date from the fuel-plugins itself?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "87db633022fe806ddce150bfa95d8849a9c856ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
