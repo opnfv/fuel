@@ -81,8 +81,6 @@ $(ISOCACHE):
 	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
-	# Setup cgroups for docker-in-docker
-	sudo /root/enable_dockerx2
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for changing the second layer Docker --bip address
