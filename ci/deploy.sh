@@ -74,9 +74,7 @@ EOF
 #
 clean() {
     echo "Cleaning up deploy tmp directories"
-    rm -rf ${SCRIPT_PATH}/config
     rm -rf ${SCRIPT_PATH}/ISO
-    rm -rf ${SCRIPT_PATH}/releng
 }
 #
 # END of deployment clean-up
@@ -87,7 +85,6 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../deploy; pwd)
-RELENG_REPO=https://jonasbjurel@gerrit.opnfv.org/gerrit/releng
 #
 # END of variables to customize
 ############################################################################
@@ -148,6 +145,9 @@ fi
 # Enable the automatic exit trap
 set -o errexit
 trap do_exit SIGINT SIGTERM EXIT
+
+# Set no restrictive umask so that Jenkins can removeeee any residuals
+umask 0000
 
 clean
 
