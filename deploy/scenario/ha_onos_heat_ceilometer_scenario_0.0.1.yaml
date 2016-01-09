@@ -64,11 +64,11 @@ dea-override-config:
   - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_2
   - id: 5
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_2
 
   settings:
     editable:
