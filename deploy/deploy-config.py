@@ -264,9 +264,13 @@ dha_pod_conf.pop('dha-pod-config-metadata')
 final_dha_conf = dha_pod_conf
 
 dha_scenario_override_conf = deploy_scenario_conf["dha-override-config"]
-if dha_scenario_override_conf:
+# Only virtual deploy scenarios can only override dha.yaml since there
+# is no way to programatically override a physical environment:
+# wireing, IPMI set-up, etc.
+# For Physical environments, dha.yaml overrides will be silently ignored
+if dha_scenario_override_conf and (final_dha_conf['adapter'] == 'libvirt' or final_dha_conf['adapter'] == 'esxi' or final_dha_conf['adapter'] == 'vbox'):
     print 'Merging dha-pod and deployment-scenario override information to final dha.yaml configuration....'
-    final_dha_conf = dict(mergedicts(dha_base_conf, dha_scenario_override_conf))
+    final_dha_conf = dict(mergedicts(final_dha_conf, dha_scenario_override_conf))
 
 # Dump final dha.yaml to argument provided directory
 print 'Dumping final dha.yaml to ' + kwargs["output_path"] + '/dha.yaml....'
