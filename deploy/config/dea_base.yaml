@@ -120,7 +120,7 @@ settings:
       libvirt_type:
         label: Hypervisor type
         type: radio
-        value: kvm
+        value: qemu
         values:
         - data: kvm
           description: Choose this type of hypervisor if you run OpenStack on hardware
@@ -357,7 +357,7 @@ settings:
           only
         label: Assign public network to all nodes
         type: checkbox
-        value: true
+        value: false
         weight: 10
       metadata:
         label: Public network assignment
