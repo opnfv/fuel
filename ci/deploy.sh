@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 ##############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # jonas.bjurel@ericsson.com
@@ -34,6 +35,8 @@ usage: `basename $0` -b base-uri -l lab-name -p pod-name -i iso
 
 OPTIONS:
   -b  Base-uri for the stack-configuration structure
+  -d  Dry-run
+
   -l  Lab-name
   -p  Pod-name
   -s  Deploy-scenario short-name/base-file-name
@@ -48,6 +51,8 @@ and provides a fairly simple mechanism to execute a deployment.
 Input parameters to the build script is:
 -b Base URI to the configuration directory (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
+-d Dry-run - - Produces deploy config files (config/dea.yaml and
+   config/dha.yaml), but does not execute deploy
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a deployment/test scenario file as
@@ -59,6 +64,7 @@ Input parameters to the build script is:
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
 NOTE: Root priviledges are needed for this script to run
+
 
 Examples:
 sudo `basename $0` -b file:///home/jenkins/lab-config -l lf -p pod1 -s ha_odl-l3_heat_ceilometer -i file:///home/jenkins/myiso.iso
@@ -74,9 +80,7 @@ EOF
 #
 clean() {
     echo "Cleaning up deploy tmp directories"
-    rm -rf ${SCRIPT_PATH}/config
     rm -rf ${SCRIPT_PATH}/ISO
-    rm -rf ${SCRIPT_PATH}/releng
 }
 #
 # END of deployment clean-up
@@ -87,7 +91,7 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../deploy; pwd)
-RELENG_REPO=https://jonasbjurel@gerrit.opnfv.org/gerrit/releng
+DRY_RUN=0
 #
 # END of variables to customize
 ############################################################################
@@ -95,11 +99,14 @@ RELENG_REPO=https://jonasbjurel@gerrit.opnfv.org/gerrit/releng
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:l:p:s:i:h" OPTION
+while getopts "b:dl:p:s:i:h" OPTION
 do
     case $OPTION in
         b)
             BASE_CONFIG_URI=${OPTARG}
+            ;;
+        d)
+            DRY_RUN=1
             ;;
         l)
             TARGET_LAB=${OPTARG}
@@ -146,8 +153,10 @@ if [ -z $BASE_CONFIG_URI ] || [ -z $TARGET_LAB ] || \
 fi
 
 # Enable the automatic exit trap
-set -o errexit
 trap do_exit SIGINT SIGTERM EXIT
+
+# Set no restrictive umask so that Jenkins can removeeee any residuals
+umask 0000
 
 clean
 
@@ -157,23 +166,23 @@ pushd ${DEPLOY_DIR} > /dev/null
 
 echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab ${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri ${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins ${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
 
+
 python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config
 
-# Download iso if it doesn't already exists locally
-if [[ $ISO == file://* ]]; then
-    ISO=${ISO#file://}
-else
-    mkdir -p ${SCRIPT_PATH}/ISO
-    curl -o ${SCRIPT_PATH}/ISO/image.iso $ISO
-    ISO=${SCRIPT_PATH}/ISO/image.iso
+if [ $DRY_RUN -eq 0 ]; then
+    # Download iso if it doesn't already exists locally
+    if [[ $ISO == file://* ]]; then
+        ISO=${ISO#file://}
+    else
+        mkdir -p ${SCRIPT_PATH}/ISO
+        curl -o ${SCRIPT_PATH}/ISO/image.iso $ISO
+        ISO=${SCRIPT_PATH}/ISO/image.iso
+    fi
+    # Start deployment
+    echo "python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
+    python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 fi
-# Start deployment
-echo "python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
-python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 popd > /dev/null
-
-# TBD: Upload the test-section of the scenario yaml file to the fuel master:
-# var/www/test.yaml
 
 #
 # END of main
