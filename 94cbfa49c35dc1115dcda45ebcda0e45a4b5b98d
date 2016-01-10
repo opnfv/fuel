@@ -16,6 +16,24 @@
       "revId": "94cbfa49c35dc1115dcda45ebcda0e45a4b5b98d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6310ab01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-10T21:09:01Z",
+      "side": 1,
+      "message": "Another way is that I re-create these files with a script prior to func-test execution if you can you provide the same parameters to as you did for deploy?\nOr we upload them to artifactory, these files are pretty interesting to have in artifactory as they are the soul source for the actual deployment configuration - provides good traceability.\nThar is actually what I now do in the fuel devel-pipeline, these files get uploaded to the artifact store with the logs, .iso files, etc.",
+      "parentUuid": "9a5c5d37_036e8f96",
+      "revId": "94cbfa49c35dc1115dcda45ebcda0e45a4b5b98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
