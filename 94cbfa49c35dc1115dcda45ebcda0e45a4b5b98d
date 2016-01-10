@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_036e8f96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-01-10T20:57:19Z",
+      "side": 1,
+      "message": "Good that you put this information here since this will introduce dependency between job names on Jenkins - unless we fix it of course.\n\nJust giving some more details below.\n\nJenkins determines the execution location dynamically based on the job names and execution numbers by default and telling others to look at this directory is something we need to refrain from doing. If for one reason job names change, this unnecessarily impacts other jobs and break functest and yardstick until they\u0027re adjusted.\n\nOf course we can solve this in another way and pass these files to functest and yardstick some way - copying these files to a predefined/agreed folder (named after the scenario perhaps for example) once the deployment is done and pointing location to functest and yardstick. (I don\u0027t like this either but we have to move on. We can fix this in better after the release.)",
+      "revId": "94cbfa49c35dc1115dcda45ebcda0e45a4b5b98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
