@@ -34,6 +34,24 @@
       "revId": "94cbfa49c35dc1115dcda45ebcda0e45a4b5b98d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_23fab3bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2016-01-10T21:19:48Z",
+      "side": 1,
+      "message": "I think both of your suggestions are great.\n\nFor execution purposes, it is better have a script to get them created like you suggested and this script can be used by anybody; functest, yardstick on jenkins or humans. \n\nBUT; please do not lose time for this if you have other/important stuff to fix. We can live with a workaround for a while.\n\nAnd storing them on artifact repo is important for traceability as you pointed out. This will require us to think about the final location of these files on artifact repo which is pretty messy at the moment.",
+      "parentUuid": "9a5c5d37_6310ab01",
+      "revId": "94cbfa49c35dc1115dcda45ebcda0e45a4b5b98d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
