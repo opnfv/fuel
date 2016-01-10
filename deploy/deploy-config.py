@@ -266,7 +266,7 @@ final_dha_conf = dha_pod_conf
 dha_scenario_override_conf = deploy_scenario_conf["dha-override-config"]
 if dha_scenario_override_conf:
     print 'Merging dha-pod and deployment-scenario override information to final dha.yaml configuration....'
-    final_dha_conf = dict(mergedicts(dha_base_conf, dha_scenario_override_conf))
+    final_dha_conf = dict(mergedicts(final_dha_conf, dha_scenario_override_conf))
 
 # Dump final dha.yaml to argument provided directory
 print 'Dumping final dha.yaml to ' + kwargs["output_path"] + '/dha.yaml....'
