@@ -29,17 +29,21 @@ cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 `basename $0`: Deploys the Fuel@OPNFV stack
 
-usage: `basename $0` -b base-uri -l lab-name -p pod-name -i iso
+usage: `basename $0` -b base-uri [-B PXE Bridge] [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario [-S image-dir] -i iso
        -s deployment-scenario [-S optional Deploy-scenario path URI]
        [-R optional local relen repo (containing deployment Scenarios]
 
 OPTIONS:
   -b  Base-uri for the stack-configuration structure
+  -B  PXE Bridge for booting of Fuel master
   -d  Dry-run
-
+  -f  Deploy on existing Fuel master
+  -F  Do only create a Fuel master
+  -H  No health check
   -l  Lab-name
   -p  Pod-name
   -s  Deploy-scenario short-name/base-file-name
+  -S  Storage dir for VM images
   -i  iso url
 
 Description:
@@ -51,8 +55,12 @@ and provides a fairly simple mechanism to execute a deployment.
 Input parameters to the build script is:
 -b Base URI to the configuration directory (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
--d Dry-run - - Produces deploy config files (config/dea.yaml and
+-B PXE Bridge for booting of Fuel master, default is pxebr
+-d Dry-run - Produces deploy config files (config/dea.yaml and
    config/dha.yaml), but does not execute deploy
+-f Deploy on existing Fuel master
+-F Do only create a Fuel master
+-H Do not run fuel built in health-check after successfull deployment
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a deployment/test scenario file as
@@ -60,6 +68,7 @@ Input parameters to the build script is:
    e.g fuel-ocl-heat-ceilometer_scenario_0.0.1.yaml
    or a deployment short-name as defined by scenario.yaml in the deployment
    scenario path.
+-S Storage dir for VM images, default is fuel/deploy/images
 -i .iso image to be deployed (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
@@ -91,6 +100,11 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../deploy; pwd)
+PXE_BRIDGE=''
+NO_HEALTH_CHECK=''
+USE_EXISTING_FUEL=''
+FUEL_CREATION_ONLY=''
+STORAGE_DIR=''
 DRY_RUN=0
 #
 # END of variables to customize
@@ -99,14 +113,34 @@ DRY_RUN=0
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:dl:p:s:i:h" OPTION
+while getopts "b:B:dfFHl:p:s:S:i:h" OPTION
 do
     case $OPTION in
         b)
             BASE_CONFIG_URI=${OPTARG}
+            if [[ ! $BASE_CONFIG_URI == file://* ]] && \
+               [[ ! $BASE_CONFIG_URI == http://* ]] && \
+               [[ ! $BASE_CONFIG_URI == https://* ]] && \
+               [[ ! $BASE_CONFIG_URI == ftp://* ]]; then
+                echo "-b $BASE_CONFIG_URI - Not given in URI style"
+                usage
+                exit 1
+            fi
+            ;;
+        B)
+            PXE_BRIDGE="-b ${OPTARG}"
             ;;
         d)
             DRY_RUN=1
+            ;;
+        f)
+            USE_EXISTING_FUEL='-nf'
+            ;;
+        F)
+            FUEL_CREATION_ONLY='-fo'
+            ;;
+        H)
+            NO_HEALTH_CHECK='-nh'
             ;;
         l)
             TARGET_LAB=${OPTARG}
@@ -117,8 +151,20 @@ do
         s)
             DEPLOY_SCENARIO=${OPTARG}
             ;;
+        S)
+            STORAGE_DIR="-s ${OPTARG}"
+            ;;
         i)
             ISO=${OPTARG}
+            if [[ ! $ISO == file://* ]] && \
+               [[ ! $ISO == http://* ]] && \
+               [[ ! $ISO == https://* ]] && \
+               [[ ! $ISO == ftp://* ]]; then
+                echo "-i $ISO - Not given in URI style"
+                usage
+                exit 1
+            fi
+
             ;;
         h)
             usage
@@ -164,8 +210,7 @@ pushd ${DEPLOY_DIR} > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
-echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab ${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri ${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins ${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
-
+echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
 
 python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config
 
@@ -179,8 +224,8 @@ if [ $DRY_RUN -eq 0 ]; then
         ISO=${SCRIPT_PATH}/ISO/image.iso
     fi
     # Start deployment
-    echo "python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
-    python deploy.py -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
+    echo "python deploy.py -s $STORAGE_DIR -b $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
+    python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 fi
 popd > /dev/null
 
