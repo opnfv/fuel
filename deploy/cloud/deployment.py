@@ -147,7 +147,7 @@ class Deployment(object):
                      % self.env_id)
         log(r)
         if 'failure' in r:
-            err('Healthcheck failed!')
+            log('Healthcheck failed!, Continuing anyway...')
 
     def deploy(self):
         self.run_deploy()
