@@ -20,13 +20,13 @@ os_no-ha:
   configfile: no-ha_heat_ceilometer_scenario_0.0.1.yaml
 
 os_odl-l3_ha:
-  configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
 
 os_odl-l3_no-ha:
   configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
 
 os_odl-l2_ha:
-  configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
 
 os_odl-l2_no-ha:
   configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
