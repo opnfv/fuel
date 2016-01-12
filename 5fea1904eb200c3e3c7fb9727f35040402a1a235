@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_0ee90fb8",
+        "filename": "deploy/scenario/ha_onos_heat_ceilometer_scenario_0.0.3.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-12T14:29:33Z",
+      "side": 1,
+      "message": "Change the version and the date",
+      "revId": "5fea1904eb200c3e3c7fb9727f35040402a1a235",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_6ed76bee",
+        "filename": "deploy/scenario/no-ha_onos_heat_ceilometer_scenario_0.0.3.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-12T14:29:33Z",
+      "side": 1,
+      "message": "Change the version and the date",
+      "revId": "5fea1904eb200c3e3c7fb9727f35040402a1a235",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
