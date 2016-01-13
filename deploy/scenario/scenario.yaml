@@ -11,52 +11,59 @@
 # Description:
 # This configuration file defines translation between a short deployment
 # scenario name and an actual deployment scenario configuration file
+#
+# Short deployment scenario names are aligned between installer, test, and
+# releng projects according to below pattern.
+#   os-[controller]-[feature]-[mode](-[optionalparameter])
+#
+# Please note that the mechanism to get the details regarding the scenarios
+# is different currently which needs to be aligned as well.
 ##############################################################################
 
-os_ha:
+os-nosdn-nofeature-ha:
   configfile: ha_heat_ceilometer_scenario_0.0.1.yaml
 
-os_no-ha:
+os-nosdn-nofeature-noha:
   configfile: no-ha_heat_ceilometer_scenario_0.0.1.yaml
 
-os_vlan_ha:
+os-nosdn-vlan-ha:
   configfile: ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
 
-os_vlan_no-ha:
+os-nosdn-vlan-noha:
   configfile: no-ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
 
-os_odl-l3_ha:
+os-odl_l3-nofeature-ha:
   configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
 
-os_odl-l3_no-ha:
+os-odl_l3-nofeature-noha:
   configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
 
-os_odl-l2_ha:
+os-odl_l2-nofeature-ha:
   configfile: ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
 
-os_odl-l2_no-ha:
+os-odl_l2-nofeature-noha:
   configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
 
-os_onos_ha:
+os-onos-nofeature-ha:
   configfile: ha_onos_heat_ceilometer_scenario_0.0.2.yaml
 
-os_onos_no-ha:
+os-onos-nofeature-noha:
   configfile: no-ha_onos_heat_ceilometer_scenario_0.0.2.yaml
 
-os_kvm_ha:
+os-nosdn-kvm-ha:
   configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.1.yaml
 
-os_kvm_no-ha:
+os-nosdn-kvm-noha:
   configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.1.yaml
 
-os_ovs_ha:
+os-nosdn-ovs-ha:
   configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.1.yaml
 
-os_ovs_no-ha:
+os-nosdn-ovs-noha:
   configfile: no-ha_nfv-ovs_heat_ceilometer_scenario_0.0.1.yaml
 
-os_kvm_ovs_ha:
+os-nosdn-kvm_ovs-ha:
   configfile:
 
-os_kvm_ovs_no-ha:
+os-nosdn-kvm_ovs-noha:
   configfile: no-ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario_0.0.1.yaml
