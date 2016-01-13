@@ -9,24 +9,23 @@
 Add a brief introduction to the methods of validating the installation
 according to this specific installer or feature.
 
+Fuel post installation procedures
+=================================
+
 Automated post installation activities
 --------------------------------------
-Describe specific post installation activities performed by the OPNFV
-deployment pipeline including testing activities and reports. Refer to
-the relevant testing guides, results, and release notes.
-
-note: this section should be singular and derived from the test projects
-once we have one test suite to run for all deploy tools.  This is not the
-case yet so each deploy tool will need to provide (hopefully very simillar)
-documentation of this.
+Fuel provides a fairly broad coverage of built in automated health checks.
+These validates the installation in terms of configuration, services,
+networking, storage, policies, etc.
+The evecution of the full range of health checks takes less than 30 minutes.
+For instructions on how to run helthchecks, please refer to the installation instructions: <TODO>
 
 <Project> post configuration procedures
---------------------------------------
-Describe any deploy tool or feature specific scripts, tests or procedures
-that should be carried out on the deployment post install and configuration
-in this section.
+---------------------------------------
+Consult the feature sections in this document for any post-install
+feature specific configurations.
 
 Platform components validation
----------------------------------
-Describe any component specific validation procedures necessary for your
-deployment tool in this section.
+------------------------------
+Consult the feature sections in this document for any post-install
+feature specific validation/health-checks.
