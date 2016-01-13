@@ -32,10 +32,10 @@ os_odl-l2_no-ha:
   configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
 
 os_onos_ha:
-  configfile: ha_onos_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_onos_heat_ceilometer_scenario_0.0.1.yaml
 
 os_onos_no-ha:
-  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.1.yaml
 
 os_kvm_ha:
   configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.1.yaml
