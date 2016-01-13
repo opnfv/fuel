@@ -19,6 +19,12 @@ os_ha:
 os_no-ha:
   configfile: no-ha_heat_ceilometer_scenario_0.0.1.yaml
 
+os_vlan_ha:
+  configfile: ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
+
+os_vlan_no-ha:
+  configfile: no-ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
+
 os_odl-l3_ha:
   configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
 
