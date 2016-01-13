@@ -1,22 +1,22 @@
-=============================================================================================================
+============================================================================================================
 OPNFV Installation instruction for the Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool
-=============================================================================================================
+============================================================================================================
 
 .. contents:: Table of Contents
    :backlinks: none
 
 Abstract
 ========
-This document describes how to install the Brahmaputra WP1 release of
+This document describes how to install the Brahmaputra release of
 OPNFV when using Fuel as a deployment tool covering it's limitations,
 dependencies and required system resources.
 
 License
 =======
-Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool
+Brahmaputra release of OPNFV when using Fuel as a deployment tool
 Docs (c) by Jonas Bjurel (Ericsson AB)
 
-Brahmaputra WP1 release of OPNFV when using Fuel as a deployment tool
+Brahmaputra release of OPNFV when using Fuel as a deployment tool
 Docs are licensed under a Creative Commons Attribution 4.0
 International License. You should have received a copy of the license
 along with this. If not, see
@@ -32,11 +32,15 @@ Version history
 |                    |                    | (Ericsson AB)      | instruction for    |
 |                    |                    |                    | the Arno release   |
 |		     |                    |                    |                    |
++--------------------+--------------------+--------------------+--------------------+
 | 2015-09-27	     | 1.1.0              | Daniel Smith       | ARNO SR1-RC1       |
 |                    |                    |  (Ericsson AB)     | update             |
 |		     |                    |                    |                    |
-|		     |                    |                    |                    |
++--------------------+--------------------+--------------------+--------------------+
 | 2015-11-19         | 2.0.0              | Daniel Smith       | B-Rel WP1 update   |
+|		     |                    |                    |                    |
++--------------------+--------------------+--------------------+--------------------+
+| 2016-02-02         | 2.0.1              | Jonas Bjurel       | Minor updates      |
 |		     |                    |                    |                    |
 +--------------------+--------------------+--------------------+--------------------+
 
@@ -149,18 +153,18 @@ installation of Brahmaputra WP1 using Fuel:
 | **HW Aspect**      | **Requirement**                                      |
 |                    |                                                      |
 +--------------------+------------------------------------------------------+
-| **# of nodes**     | Minimum 6 (3 for non redundant deployment):          |
+| **# of nodes**     | Minimum 5 (3 for non redundant deployment):          |
 |                    |                                                      |
 |                    | - 1 Fuel deployment master (may be virtualized)      |
 |                    |                                                      |
-|                    | - 3(1) Controllers                                   |
+|                    | - 3(1) Controllers (1 colocated mongo/ceilometer     |
+|                    |   role, 2 Ceph-OSD roles)                            |
 |                    |                                                      |
-|                    | - 1 Compute                                          |
+|                    | - 1 Compute (1 co-located Ceph-OSD role)             |
 |                    |                                                      |
-|                    | - 1 Ceilometer (VM option)                           |
 +--------------------+------------------------------------------------------+
 | **CPU**            | Minimum 1 socket x86_AMD64 with Virtualization       |
-|                    |   support                                            |
+|                    | support                                              |
 +--------------------+------------------------------------------------------+
 | **RAM**            | Minimum 16GB/server (Depending on VNF work load)     |
 |                    |                                                      |
@@ -173,12 +177,11 @@ installation of Brahmaputra WP1 using Fuel:
 |                    | 1 Un-Tagged VLAN for PXE Boot - ADMIN Network        |
 |                    |                                                      |
 |                    | note: These can be run on single NIC - or spread out |
-|                    |  over other nics as your hardware supports           |
+|                    | over other nics as your hardware supports            |
 +--------------------+------------------------------------------------------+
 
 Help with Hardware Requirements
 ===============================
-
 
 Calculate hardware requirements:
 
@@ -217,13 +220,13 @@ redundant 10GE switch pair for each of the three physically separated
 networks.
 
 The physical TOR switches are **not** automatically configured from
-the OPNFV reference platform. All the networks involved in the OPNFV
+the Fuel OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
 
-Manual configuration of the Brahmaputra WP1 hardware platform should
-be carried out according to the Pharos specification TODO-<insert link
-to Pharos ARNO SR1 Specification>
+Manual configuration of the Brahmaputra hardware platform should
+be carried out according to the Pharos specification:
+<https://wiki.opnfv.org/pharos/pharos_specification>
 
 OPNFV Software installation and deployment
 ==========================================
@@ -234,7 +237,7 @@ reference platform stack across a server cluster.
 
 Install Fuel master
 -------------------
-1. Mount the Brahmaputra WP1 ISO file as a boot device to the jump host server.
+1. Mount the Brahmaputra Fuel ISO file as a boot device to the jump host server.
 
 2. Reboot the jump host to establish the Fuel server.
 
@@ -288,7 +291,7 @@ values (example below):
 following fields to define a proxy.
 
         NOTE: cannot be used in tandem with local repo support
-        NOTE: not tested with ODL for support (plugin)
+        NOTE: not tested with any plugins, e.g. ODL.
 
    - Navigate to 'HTTP proxy' and input your http proxy address
 
@@ -330,7 +333,7 @@ Master can pick them up for control.
 13. Wait for the availability of nodes showing up in the Fuel GUI.
 
     - Connect to the FUEL UI via the URL provided in the Console
-      (default: http://10.20.0.2:8000)
+      (default: https://10.20.0.2:8443)
 
     - Wait until all nodes are displayed in top right corner of the
       Fuel GUI: <total number of server> TOTAL NODES and <total number
@@ -338,32 +341,28 @@ Master can pick them up for control.
 
 
 
-Install ODL Plugin on FUEL node
--------------------------------
-
-NOTE: CURRENTLY DISABLED IN B-REL WP1
+Install Aditional Plugins/Features on the FUEL node
+---------------------------------------------------
 
 14. SSH to your FUEL node   (e.g. root@10.20.0.2  pwd: r00tme)
 
-15. Verify the plugin exists at /opt/opnfv/opendaylight-0.6-0.6.1-1.noarch.rpm
+15. Select wanted plugins/features from the /opt/opnfv/ directory.
 
-16. Install the plugin with the command
+16. Install the wanted plugin with the command
 
-    - "fuel plugins --install /opt/opnfv/opendaylight-0.6-0.6.1-1.noarch.rpm"
+    - "fuel plugins --install /opt/opnfv/<plugin-name>-<version>.<arch>.rpm"
 
-    - Expected output: "Plugin opendaylight-0.6-0.6.1-1.noarch.rpm was
-      successfully installed."
+    - Expected output: "Plugin ....... was successfully installed."
 
 
 Create an OPNFV Environment
 ---------------------------
 
-17. Connect to Fuel WEB UI with a browser towards port http://<ip of
-fuel server>:8000 (login admin/admin)
+17. Connect to Fuel WEB UI with a browser (default: https://10.20.0.2:8443) (login admin/admin)
 
 18. Create and name a new OpenStack environment, to be installed.
 
-19. Select <Kilo on Ubuntu 14.04> and press "Next"
+19. Select <Liberty on Ubuntu 14.04> and press "Next"
 
 20. Select compute virtulization method.
 
@@ -498,20 +497,16 @@ Configure the OPNFV environment
 
     - Click Apply
 
-Enable ODL
-----------
-
-TODO: NOT UPDATED YET FOR WP1 - NOT AVAILABLE AT TIME OF EDIT
+Enable Plugins
+--------------
 
 35. In the FUEL UI of your Enviornment, click the "Settings" Tab
 
     - Enable OpenStack debug logging (in the Common Section) - optional
 
-    - Check the OpenDaylight Lithium Plugin Section
+    - Check wanted Plugins Sections
 
-    - Check to enable VXLAN
-
-    - Modify VNI and Port Range if desired
+    - Enable and configure the plugin according to plugin documentation.
 
     - Click "Save Settings" at the bottom to Save.
 
@@ -548,8 +543,8 @@ scroll to the Repositories Section.
 Verify Networks
 ---------------
 
-Its is important that Verify Networks be done as it will ensure that
-you can not only communicate on the networks you have setup, but can
+It is important that the Verify Networks action is performed be done as it will
+ensure that you can not only communicate on the networks you have setup, but can
 fetch the packages needed for a succesful deployment.
 
 37.  From the FUEL UI in your Environment, Select the Networks Tab
@@ -589,15 +584,6 @@ Installation health-check
 
     - Allow tests to run and investigate results where appropriate
 
-40. Verify that the OpenDaylight GUI is accessible
-
-TODO: Not available for WP1 Update at time of writing
-
-Point your browser to the following URL:
-http://{Controller-VIP}:8181/index.html> and login:
-
-    - Username: admin
-    - Password: admin
 
 References
 ==========
@@ -627,7 +613,7 @@ Fuel
 `Fuel documentation <https://wiki.openstack.org/wiki/Fuel>`_
 
 :Authors: Daniel Smith (Ericsson AB)
-:Version: 2.0.0
+:Version: 2.0.1
 
 **Documentation tracking**
 
