@@ -17,33 +17,8 @@ License
 =======
 Brahmaputra release of OPNFV when using Fuel as a deployment tool DOCs (c) by Jonas Bjurel (Ericsson AB) and others.
 
-Brahmaputra release of OPNFV when using Fuel as a deployment tool DOCs (c) are licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+This document is licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
-
-
-Version history
-===============
-
-+--------------------+--------------------+--------------------+----------------------+
-| **Date**           | **Ver.**           | **Author**         | **Comment**          |
-|                    |                    |                    |                      |
-+--------------------+--------------------+--------------------+----------------------+
-| 2015-06-03         | 1.0.0              | Jonas Bjurel       | Instruction for      |
-|                    |                    | (Ericsson AB)      | the Arno release     |
-+--------------------+--------------------+--------------------+----------------------+
-| 2015-09-24         | 1.1.0              | Jonas Bjurel       | Instruction for      |
-|                    |                    | (Ericsson AB)      | the Arno SR1 release |
-+--------------------+--------------------+--------------------+----------------------+
-| 2015-10-23         | 1.1.1              | Stefan Berg        | Added instruction    |
-|                    |                    | (Ericsson AB)      | for proxy builds     |
-+--------------------+--------------------+--------------------+----------------------+
-| 2015-12-03         | 1.2.0              | Stefan Berg        | Added instruction    |
-|                    |                    | (Ericsson AB)      | for plugin build     |
-|                    |                    |                    | selection            |
-+--------------------+--------------------+--------------------+----------------------+
-| 2016-01-20         | 1.2.1              | Daniel Smith       | Minor updates for    |
-|                    |                    |  (Ericsson AB)     | docker requirements  |
-+--------------------+--------------------+--------------------+----------------------+
 
 Introduction
 ============
@@ -51,9 +26,9 @@ Introduction
 This document describes the build system used to build the Fuel
 deployment tool for the Brahmaputra release of OPNFV, required
 dependencies and minimum requirements on the host to be used for the
-buildsystem.
+build system.
 
-The Fuel build system is desigened around Docker containers such that
+The Fuel build system is designed around Docker containers such that
 dependencies outside of the build system can be kept to a minimum. It
 also shields the host from any potential dangerous operations
 performed by the build system.
@@ -67,10 +42,6 @@ Requirements
 Minimum Hardware Requirements
 -----------------------------
 
-- An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed
-
-    - Note: Builds on Wily (Ubuntu 15.x) are not supportted currently
-
 - ~30 GB available disc
 
 - 4 GB RAM
@@ -82,9 +53,13 @@ The build host should run Ubuntu 14.04 operating system.
 
 On the host, the following packages must be installed:
 
-- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for
-  installation notes for Ubuntu 14.04. Note: only use the Ubuntu stock
-  distro of Docker (docker-engine).  Tested against ver 1.9.x and greater
+- An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed
+
+  - A kernel equal or later than 3.19 (Vivid) (simply available through sudo apt-get install linux-generic-lts-vivid)
+
+  - **Note:** Builds on Wily (Ubuntu 15.x) are currently not supported
+
+- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for installation notes for Ubuntu 14.04. Tested against ver 1.9.x and greater
 
 - git (simply available through sudo apt-get install git)
 
@@ -93,10 +68,10 @@ On the host, the following packages must be installed:
 - curl (simply available through sudo apt-get install curl)
 
 Preparations
-------------
+============
 
 Setting up the Docker build container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 After having installed Docker, add yourself to the docker group:
 
 <sudo usermod -a -G docker [userid]>
@@ -117,7 +92,7 @@ Setting up OPNFV Gerrit in order to being able to clone the code
   don't already have one), create one with ssh-keygen
 
 - Add your generated public key in OPNFV Gerrit <https://gerrit.opnfv.org/>
-  (this requires a linuxfoundation account, create one if you do not
+  (this requires a Linux foundation account, create one if you do not
   already have one)
 
 - Select "SSH Public Keys" to the left and then "Add Key" and paste
@@ -143,17 +118,6 @@ You can also opt to clone the code repository without a SSH key:
 <git clone https://gerrit.opnfv.org:29418/gerrit/fuel>
 
 Make sure to checkout the release tag as described above.
-
-
-Building
-========
-
-There are two methods available for building Fuel:
-
-- A low level method using Make
-
-- An abstracted method using build.sh
-
 
 Support for building behind a http/https/rsync proxy
 ----------------------------------------------------
@@ -230,7 +194,7 @@ access when installing the ISO artifact built as no Ubuntu package
 cache will be on the ISO!
 
 Configure your build environment
--------------------------------------
+--------------------------------
 
 ** Configuring the build environment should not be performed if building standard Brahmaputra release **
 
@@ -252,6 +216,15 @@ that this is not a full build.
 
 This method of plugin selection is not meant to be used from within
 Gerrit!
+
+Building
+========
+
+There are two methods available for building Fuel:
+
+- A low level method using Make
+
+- An abstracted method using build.sh
 
 Low level build method using make
 ---------------------------------
@@ -281,16 +254,18 @@ Following targets exist:
 
 - clean - this will remove all artifacts from earlier builds.
 
+- debug - this will simply enter the build container without starting a build, from here you can start a build by enter "make iso"
+
 If the build is successful, you will find the generated ISO file in
 the <fuel/build/release> subdirectory!
 
 Abstracted build method using build.sh
-======================================
+--------------------------------------
 The abstracted build method uses the <fuel/ci/build.sh> script which
 allows you to:
 
 - Create and use a build cache - significantly speeding up the
-  buildtime if upstream repositories have not changed.
+  build time if upstream repositories have not changed.
 
 - push/pull cache and artifacts to an arbitrary URI (http(s):, file:, ftp:)
 
@@ -308,13 +283,5 @@ The artifacts produced are:
 
 References
 ==========
+
 -
-
-:Authors: Jonas Bjurel (Ericsson), Stefan Berg (Ericsson)
-:Version: x.x.x
-
-**Documentation tracking**
-
-Revision:  _sha1_
-
-Build date:  _date_
