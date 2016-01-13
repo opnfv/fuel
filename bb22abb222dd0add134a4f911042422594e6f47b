@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_c59f524f",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-01-13T22:19:39Z",
+      "side": 0,
+      "message": "Maybe the detailed text here in this section should be part of the fuel docs and be referred here in links.  The details in this section are probably not to the level we want to carry in the central configguide doc, but it does depend on if they are needed for each deploy or if this is the \"optional config\" that can be done.  \nNot opposed to having it here if it\u0027s needed, it just feels a little heavy and might be better handled as a link to a fuel doc.",
+      "revId": "bb22abb222dd0add134a4f911042422594e6f47b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}

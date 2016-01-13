@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_a5ae9e83",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-01-13T22:19:39Z",
+      "side": 1,
+      "message": "Would be good to refer to the test result validation doc (does not exist yet) that runs post deploy.  The rest is cool, but I would like to see us using the testing projects docs and results pages as a reference for validation.",
+      "revId": "57570648dfbb51b4c4eff0446f942c7945f6f28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
