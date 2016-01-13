@@ -24,8 +24,8 @@ Contents:
    :maxdepth: 4
    :titlesonly:
 
-   build-instructions.rst
-   installation-instructions.rst
+   build-instruction.rst
+   installation-instruction.rst
    release-notes.rst
 
 * :ref:`search`
