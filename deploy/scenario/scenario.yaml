@@ -20,6 +20,14 @@
 # is different currently which needs to be aligned as well.
 ##############################################################################
 
+##############################################################################
+# Short scenario name convention to be followed:
+# os-<controller>-<feature>-<mode>[-<optional-parameter>]
+# controler: nosdn|odl|onos|ocl|...
+# feaure: nofeature | [vlan]_[kvm]_[ovs]_[vlan]_....
+# mode: ha|noha
+##############################################################################
+
 os-nosdn-nofeature-ha:
   configfile: ha_heat_ceilometer_scenario_0.0.1.yaml
 
@@ -45,10 +53,10 @@ os-odl_l2-nofeature-noha:
   configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
 
 os-onos-nofeature-ha:
-  configfile: ha_onos_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_onos_heat_ceilometer_scenario_0.0.1.yaml
 
 os-onos-nofeature-noha:
-  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.1.yaml
 
 os-nosdn-kvm-ha:
   configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.1.yaml
