@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_b45fed40",
+        "filename": "deploy/scenario/no-ha_odl-l2_bgpvpn_scenario_0.0.1.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-14T14:24:03Z",
+      "side": 1,
+      "message": "Please update meta-data",
+      "revId": "310b8595312a2f2a5f969fe2cc216a6fe1498345",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_945aa94e",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-14T14:24:03Z",
+      "side": 1,
+      "message": "Please use the short name notation stated in the beginning of this file",
+      "revId": "310b8595312a2f2a5f969fe2cc216a6fe1498345",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
