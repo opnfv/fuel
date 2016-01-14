@@ -1,0 +1,13 @@
+plugin-config-metadata:
+  title: BGPVPN fuel Plugin configuration template
+  version: 0.1
+  created: Wed Jan 13 2016
+  comment: None
+
+bgpvpn:
+  metadata:
+    enabled: true
+    restrictions:
+      - "cluster:net_provider != 'neutron'": "Only neutron is supported by BGPVPN-plugin"
+    label: "BGPVPN plugin"
+    weight: 90
