@@ -27,7 +27,7 @@ os-nosdn-nofeature-noha:
   configfile: no-ha_heat_ceilometer_scenario_0.0.1.yaml
 
 os-nosdn-vlan-ha:
-  configfile: ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: ha_vlan_heat_ceilometer_scenario_0.0.2.yaml
 
 os-nosdn-vlan-noha:
   configfile: no-ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
