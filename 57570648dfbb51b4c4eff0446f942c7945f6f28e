@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a5c5d37_ad6e802d",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-01-15T10:29:26Z",
+      "side": 1,
+      "message": "Wondering about \"describes providing\". Would it be enough with either describes or provides?",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 32
+      },
+      "revId": "57570648dfbb51b4c4eff0446f942c7945f6f28e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_a5ae9e83",
         "filename": "docs/configguide/installerconfig.rst",
         "patchSetId": 1
