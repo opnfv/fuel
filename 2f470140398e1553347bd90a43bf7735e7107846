@@ -67,6 +67,75 @@
       "revId": "2f470140398e1553347bd90a43bf7735e7107846",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_e302496e",
+        "filename": "deploy/dha_adapters/esxivirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-01-15T22:22:19Z",
+      "side": 1,
+      "message": "indentation should be done everywhere with 4 spaces not TAB, that\u0027s important in Python",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 12
+      },
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_c3f98581",
+        "filename": "deploy/environments/esxivirt_environment.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-01-15T22:22:19Z",
+      "side": 1,
+      "message": "please use inheritance, a bunch of code is duplicated\n\nclass EsxivirtEnvironment(LibvirtEnvironment)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_0300bd65",
+        "filename": "deploy/install_fuel_master_esxi.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-01-15T22:22:19Z",
+      "side": 1,
+      "message": "you could use inheritance here like\n\nclass InstallFuelMasterESXi(InstallFuelMaster)\n\notherwise a lots of code will be duplicated",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "2f470140398e1553347bd90a43bf7735e7107846",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
