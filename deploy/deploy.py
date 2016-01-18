@@ -38,6 +38,7 @@ FUEL_VM = 'fuel'
 PATCH_DIR = 'fuel_patch'
 WORK_DIR = '~/deploy'
 CWD = os.getcwd()
+ISO_LABEL = 'OPNFV_FUEL_2016-01-22_16-05-16'
 
 
 class cd:
@@ -151,8 +152,8 @@ class AutoDeploy(object):
             exec_cmd('mkisofs -quiet -r -J -R -b %s '
                      '-no-emul-boot -boot-load-size 4 '
                      '-boot-info-table -hide-rr-moved '
-                     '-x "lost+found:" -o %s .'
-                     % (iso_linux_bin, new_iso))
+                     '-x "lost+found:" -V %s -o %s .'
+                     % (iso_linux_bin, ISO_LABEL, new_iso))
 
     def update_fuel_isolinux(self, file):
         with io.open(file) as f:
@@ -161,8 +162,28 @@ class AutoDeploy(object):
             pattern = r'%s=[^ ]\S+' % key
             replace = '%s=%s' % (key, val)
             data = re.sub(pattern, replace, data)
+
+        netmask = self.fuel_conf['netmask']
+        data = self.append_kernel_param(data, 'netmask=%s' % netmask)
+
         with io.open(file, 'w') as f:
             f.write(data)
+
+    def append_kernel_param(self, data, kernel_param):
+        """Append the specified kernel parameter to a list of kernel
+        parameters. Do it only if it isn't already there.
+        """
+        data_final = ''
+        key = re.match(r'(.+?=)', kernel_param).group()
+
+        for line in data.splitlines():
+            data_final += line
+            if (re.search(r'append ', line) and
+                not re.search(key, line)):
+                data_final += ' ' + kernel_param
+            data_final += '\n'
+
+        return data_final
 
     def deploy_env(self):
         dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
