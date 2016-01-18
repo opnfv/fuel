@@ -1,19 +1,32 @@
-*** ks.cfg.orig	Wed Apr 15 21:47:09 2015
---- ks.cfg	Wed Apr 15 21:47:24 2015
+*** ks.cfg.orig	2016-01-14 16:18:12.141867565 +0100
+--- ks.cfg	2016-01-18 13:29:44.433881202 +0100
 ***************
-*** 35,41 ****
+*** 98,104 ****
   default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
   
   installdrive="undefined"
 ! forceformat="no"
-  for I in `cat /proc/cmdline`; do case "$I" in *=*) eval $I;; esac ; done
-  
-  set ${drives} ${removable_drives}
---- 35,41 ----
+  for I in $(cat /proc/cmdline); do
+    case "$I" in
+      *=*)
+--- 98,104 ----
   default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
   
   installdrive="undefined"
 ! forceformat="yes"
-  for I in `cat /proc/cmdline`; do case "$I" in *=*) eval $I;; esac ; done
+  for I in $(cat /proc/cmdline); do
+    case "$I" in
+      *=*)
+***************
+*** 564,573 ****
+  # Blacklist intel_rapl module for VirtualBox so it does not create kernel errors
+  (virt-what | fgrep -q "virtualbox") && echo "blacklist intel_rapl" > /etc/modprobe.d/blacklist-intel-rapl.conf
   
-  set ${drives} ${removable_drives}
+- # Disable sshd until after Fuel Setup if not running on VirtualBox
+- # TODO(mattymo): Remove VBox exception after LP#1487047 is fixed
+- (virt-what | fgrep -q "virtualbox") || systemctl disable sshd
+- 
+  %end
+  
+  
+--- 564,569 ----
