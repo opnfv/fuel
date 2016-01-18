@@ -84,17 +84,17 @@ $(ISOCACHE):
 	# Setup cgroups for docker-in-docker
 	sudo /root/enable_dockerx2
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_5.patch
-	# Patch for changing the second layer Docker --bip address
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_6.patch
+	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_5.patch
+	# Patch for using the Czech Fuel mirror
+	# cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_7.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
 	#
 	# Need to replace the old Docker v. 1.5.0 with a later version to be
 	# able to access the Docker remote repository!
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_docker_version.patch
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_docker_dns.patch
+	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_version.patch
+	# cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_dns.patch
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
@@ -185,6 +185,9 @@ debug:
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > .cachedata
 	sha1sum fuel-main*.patch >> .cachedata
+	sha1sum config.mk >> .cachedata
+	sha1sum Makefile >> .cachedata
+	$(CACHETOOL) getbiweek >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
 	# Not removing fuel-main as it is re-used in build
 
