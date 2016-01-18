@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_e3ffe465",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-18T15:32:08Z",
+      "side": 1,
+      "message": "Just so I get it, why the change of the deploy image to Mirantis Fuel? I think it makes more sense to keep the previous naming, for tracability...",
+      "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_833b8837",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-18T15:32:08Z",
+      "side": 1,
+      "message": "Just curious: Is this needed, shouldn\u0027t find on the next line simply spit out an error on stderr and nothing on stdin?",
+      "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_634ad4c6",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-18T15:32:08Z",
+      "side": 1,
+      "message": "... or consider a 2\u003e/dev/null in the find to avoid stderr messages if no plugin directory is there?",
+      "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
