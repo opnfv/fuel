@@ -92,7 +92,6 @@ $(ISOCACHE):
 	# Need to replace the old Docker v. 1.5.0 with a later version to be
 	# able to access the Docker remote repository!
 	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_version.patch
-	# cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_dns.patch
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
