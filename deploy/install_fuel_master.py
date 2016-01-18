@@ -117,6 +117,7 @@ class InstallFuelMaster(object):
         plugin_files = []
         with self.ssh as s:
             for plugin_location in [PLUGINS_DIR, LOCAL_PLUGIN_FOLDER]:
+                s.exec_cmd('mkdir -p %s' % plugin_location)
                 r = s.exec_cmd('find %s -type f -name \'*.rpm\''
                                % plugin_location)
                 plugin_files.extend(r.splitlines())
@@ -130,7 +131,7 @@ class InstallFuelMaster(object):
                                     'failed: %s' % (f, e))
 
     def wait_for_node_up(self):
-        WAIT_LOOP = 60
+        WAIT_LOOP = 240
         SLEEP_TIME = 10
         success = False
         for i in range(WAIT_LOOP):
