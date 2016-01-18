@@ -151,7 +151,8 @@ class AutoDeploy(object):
             exec_cmd('mkisofs -quiet -r -J -R -b %s '
                      '-no-emul-boot -boot-load-size 4 '
                      '-boot-info-table -hide-rr-moved '
-                     '-x "lost+found:" -o %s .'
+                     '-x "lost+found:" -V Mirantis_Fuel '
+                     '-o %s .'
                      % (iso_linux_bin, new_iso))
 
     def update_fuel_isolinux(self, file):
@@ -161,8 +162,29 @@ class AutoDeploy(object):
             pattern = r'%s=[^ ]\S+' % key
             replace = '%s=%s' % (key, val)
             data = re.sub(pattern, replace, data)
+
+        netmask = self.fuel_conf['netmask']
+        data = self.append_kernel_param(data, 'netmask=%s' % netmask)
+        data = self.append_kernel_param(data, 'showmenu=yes')
+
         with io.open(file, 'w') as f:
             f.write(data)
+
+    def append_kernel_param(self, data, kernel_param):
+        """Append the specified kernel parameter to a list of kernel
+        parameters. Do it only if it isn't already there.
+        """
+        data_final = ''
+        key = re.match(r'(.+?=)', kernel_param).group()
+
+        for line in data.splitlines():
+            data_final += line
+            if (re.search(r'append ', line) and
+                not re.search(key, line)):
+                data_final += ' ' + kernel_param
+            data_final += '\n'
+
+        return data_final
 
     def deploy_env(self):
         dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
