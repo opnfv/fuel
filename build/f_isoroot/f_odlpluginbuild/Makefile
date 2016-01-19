@@ -8,7 +8,7 @@
 ##############################################################################
 
 TOP := $(shell pwd)
-ODL_BRANCH=7.0
+ODL_BRANCH=brahmaputra-release
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
 .PHONY: all
