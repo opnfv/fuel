@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a5c5d37_f1a56ab5",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-19T07:01:24Z",
+      "side": 1,
+      "message": "We don\u0027t change it. The original label is \u0027Mirantis_Fuel\u0027. We need to specify it however, otherwise our .iso won\u0027t have a volume label and kickstart fails.",
+      "parentUuid": "9a5c5d37_e3ffe465",
+      "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5c5d37_833b8837",
         "filename": "deploy/install_fuel_master.py",
         "patchSetId": 3
