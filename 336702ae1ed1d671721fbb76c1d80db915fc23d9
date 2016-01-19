@@ -68,6 +68,24 @@
       "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5c5d37_b1aff293",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-19T07:07:42Z",
+      "side": 1,
+      "message": "The mkdir is really just a workarond, so deployment won\u0027t fail it the directory doesn\u0027t exist.\n\nThe problem with suppressing the error is that we\u0027ll still get an exception, as exec_cmd in common.py checks the return code of the command it executes.",
+      "parentUuid": "9a5c5d37_634ad4c6",
+      "revId": "336702ae1ed1d671721fbb76c1d80db915fc23d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
