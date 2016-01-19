@@ -42,8 +42,9 @@ class Deploy(object):
     def assign_roles_to_cluster_node_ids(self):
         self.node_roles_dict = {}
         for blade, node in self.blade_node_dict.iteritems():
-            roles = commafy(self.dea.get_node_role(blade))
-            self.node_roles_dict[node] = (roles, blade)
+            if self.dea.get_node_role(blade):
+                roles = commafy(self.dea.get_node_role(blade))
+                self.node_roles_dict[node] = (roles, blade)
 
     def configure_environment(self):
         release_list = parse(exec_cmd('fuel release -l'))
