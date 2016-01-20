@@ -202,6 +202,7 @@ set +x
 echo "Done!"
 
 ### OPNFV addition BEGIN
+fuelmenu
 shopt -s nullglob
 for script in /opt/opnfv/bootstrap/pre.d/*.sh
 do
@@ -315,7 +316,10 @@ build_ubuntu_bootstrap () {
         local ret=1
         echo ${bs_progress_message} >&2
         set_ui_bootstrap_error "${bs_progress_message}" >&2
-        if fuel-bootstrap -v --debug build --activate >>"$bs_build_log" 2>&1; then
+# OPNFV modification to turn off biosdevname on the line below (extend-kopts)
+        if fuel-bootstrap -v --debug build --activate \
+        --extend-kopts "biosdevname=0 net.ifnames=0 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8" \
+        >>"$bs_build_log" 2>&1; then
           ret=0
           fuel notify --topic "done" --send "${bs_done_message}"
         else
