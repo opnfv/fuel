@@ -20,14 +20,14 @@ SHELL = /bin/bash
 #Input args
 export ISOSRC = file:$(shell pwd)/fuel-7.0.iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
-export PRODNO = "OPNFV_BGS"
+export PRODNO = "OPNFV_FUEL"
 export REVSTATE = "P0000"
 
 ifdef BUILD_FUEL_PLUGINS
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
-export NEWISO = $(shell pwd)/release/unofficial-opnfv-${REVSTATE}.iso
+export NEWISO = $(shell pwd)/release/unofficial-opnfv-fuel-${REVSTATE}.iso
 else
-export NEWISO = $(shell pwd)/release/opnfv-${REVSTATE}.iso
+export NEWISO = $(shell pwd)/release/opnfv-fuel-${REVSTATE}.iso
 endif
 
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
@@ -99,8 +99,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
-	#
-	cd /tmp/fuel-main && sudo make iso
+	# Repeat build up to ten times
+	sudo ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 
 .PHONY: mount-origiso umount-origiso
@@ -184,7 +184,8 @@ debug:
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > .cachedata
-	sha1sum fuel-main*.patch >> .cachedata
+	sha1sum *.patch >> .cachedata
+	sha1sum fuel_build_loop >> .cachedata
 	sha1sum config.mk >> .cachedata
 	sha1sum Makefile >> .cachedata
 	$(CACHETOOL) getbiweek >> .cachedata

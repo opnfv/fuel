@@ -14,10 +14,12 @@ PLUGINS = f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfw
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.
 ifdef BUILD_FUEL_PLUGINS
-SUBDIRS = f_kscfg f_bootstrap f_repobuild $(BUILD_FUEL_PLUGINS)
+#SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux $(BUILD_FUEL_PLUGINS)
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
 else
-SUBDIRS = f_kscfg f_bootstrap f_repobuild $(PLUGINS)
+#SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux $(PLUGINS)
 endif
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
