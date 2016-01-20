@@ -41,6 +41,9 @@ Version history
 |                    |                    | (Ericsson AB)      | for plugin build     |
 |                    |                    |                    | selection            |
 +--------------------+--------------------+--------------------+----------------------+
+| 2016-01-20         | 1.2.1              | Daniel Smith       | Minor updates for    |
+|                    |                    |  (Ericsson AB)     | docker requirements  |
++--------------------+--------------------+--------------------+----------------------+
 
 Introduction
 ============
@@ -64,7 +67,9 @@ Requirements
 Minimum Hardware Requirements
 -----------------------------
 
-- An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed
+- An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed 
+     
+    - Note: Builds on Wily (Ubuntu 15.x) are not supportted currently
 
 - ~30 GB available disc
 
@@ -77,9 +82,9 @@ The build host should run Ubuntu 14.04 operating system.
 
 On the host, the following packages must be installed:
 
-- docker - see https://docs.docker.com/installation/ubuntulinux/ for
+- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for
   installation notes for Ubuntu 14.04. Note: only use the Ubuntu stock
-  distro of Docker (docker.io)
+  distro of Docker (docker-engine).  Tested against ver 1.9.x and greater
 
 - git (simply available through sudo apt-get install git)
 
@@ -94,16 +99,17 @@ Setting up the Docker build container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 After having installed Docker, add yourself to the docker group:
 
-<usermod -a -G docker [userid]>
+<sudo usermod -a -G docker [userid]>
 
 Also make sure to define relevant DNS servers part of the global dns chain in
-in your </etc/default/docker> configuration file, for example:
+in your </etc/default/docker> configuration file. Uncomment, modify the values appropriately
+and save and quit the file.  For example:
 
 <DOCKER_OPTS=" --dns=8.8.8.8 --dns=8.8.8.4">
 
 Then restart docker:
 
-<sudo service docker.io restart>
+<sudo service docker restart>
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
