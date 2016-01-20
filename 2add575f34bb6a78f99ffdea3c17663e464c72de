@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5c5d37_5cc6864a",
+        "filename": "build/f_isoroot/f_kscfg/ks.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-01-20T17:24:51Z",
+      "side": 1,
+      "message": "in my testing, i have removed this entirely, since this line doesnt allow us to (easily) setup a second (external) nic for FUEL - and while we can do it \"after\" FUEL is installed via the GUI - getting to the GUI in a nested environment can be a pain in the a$$.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 2
+      },
+      "revId": "2add575f34bb6a78f99ffdea3c17663e464c72de",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
