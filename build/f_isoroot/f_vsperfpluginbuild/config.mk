@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-VSPERF_BRANCH=4256eef4e237ce9409d8cbffe9237f37a315d513
-VSPERF_REPO=https://github.com/billyom/fuel-plugin-vsperf.git
+VSPERF_BRANCH=stable/brahmaputra
+VSPERF_REPO=https://gerrit.opnfv.org/gerrit/vswitchperf.git
 VSPERF_CHANGE=
