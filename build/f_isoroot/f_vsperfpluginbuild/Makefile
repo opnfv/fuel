@@ -34,19 +34,20 @@ release:.vsperfbuild
 	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .vsperfbuild:
-	@rm -rf fuel-plugin-vsperf
+	@rm -rf vswitchperf
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 	sudo pip install fuel-plugin-builder
 	../../docker/ubuntu-builder/install_docker.sh
-	git clone $(VSPERF_REPO)
-	cd fuel-plugin-vsperf; \
+	git clone $(VSPERF_REPO) vswitchperf
+	cd vswitchperf; \
 	git checkout $(VSPERF_BRANCH); \
 	if [ ! -z $(VSPERF_CHANGE) ]; then \
 	   git fetch $(VSPERF_REPO) $(VSPERF_CHANGE); \
 	   git checkout FETCH_HEAD; \
 	fi
+	cd vswitchperf; \
 	INCLUDE_DEPENDENCIES=true fpb --debug --build fuel-plugin-vsperf/
-	@mv fuel-plugin-vsperf/fuel-plugin-vsperf*.rpm .
+	@mv vswitchperf/fuel-plugin-vsperf/fuel-plugin-vsperf*.rpm .
 	$(REPOINFO) -r . > gitinfo_vsperf-plugin.txt
 	@rm -rf fuel-plugin-vsperf
 	@touch .vsperfbuild
