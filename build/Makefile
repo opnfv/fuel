@@ -97,8 +97,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
-	#
-	cd /tmp/fuel-main && sudo make iso
+	# Repeat build up to ten times
+	./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 
 .PHONY: mount-origiso umount-origiso
