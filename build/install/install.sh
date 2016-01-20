@@ -464,7 +464,7 @@ if [ $MODE = "iso" ]; then
     TMP_ISOPUPPET=`mktemp -d /tmp/XXXXXXX`
     ORIGISO=$2
     NEWISO=$3
-    VOLUMEID="$4 $5"
+    VOLUMEID="$4_$5"
     REPORTFILE="${NEWISO}.txt"
     echo "Opening reportfile at $REPORTFILE"
     touch $REPORTFILE
