@@ -1,5 +1,5 @@
 ##############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
+# Copyright (c) 2016 Ericsson AB and others.
 # stefan.k.berg@ericsson.com
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
@@ -12,11 +12,11 @@ TOP := $(shell pwd)
 
 .PHONY: all
 all:
-	@mkdir -p release
-	grep -q OpenStack_Fuel ks.cfgks.cfg
-	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" ks.cfg > ks.cfg.patched
-	@cp ks.cfg.patched release
-	@cp ks.cfg.orig release
+	@mkdir -p release/isolinux
+	grep -q OpenStack_Fuel isolinux.cfg
+	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" isolinux.cfg > isolinux.cfg.patched
+	@cp isolinux.cfg.patched release/isolinux/
+	@cp isolinux.cfg.orig release/isolinux/
 
 .PHONY: clean
 clean:
