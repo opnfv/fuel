@@ -43,6 +43,13 @@ export DOCKERIMG = opnfv.org/ubuntu-builder:14.04
 export TOPDIR := $(shell pwd)
 export REPOINFO  := $(BUILD_BASE)/repo_info.sh
 
+# Use snapshots
+# Use nearby repositories
+export MIRROR_UBUNTU := $(shell ./f_isoroot/f_repobuild/select_ubuntu_repo.sh)
+export MIRROR_MOS_UBUNTU := "mirror.seed-cz1.fuel-infra.org"
+export LATEST_TARGET := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/8.0.target.txt" | head -1)
+export MIRROR_MOS_UBUNTU_ROOT="/mos-repos/ubuntu/$(LATEST_TARGET)"
+
 #Build subclasses
 
 SUBDIRS := f_isoroot
