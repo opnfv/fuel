@@ -9,14 +9,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-LATEST_MIRROR_ID_URL=http://mirror.seed-cz1.fuel-infra.org
-
-LATEST_TARGET_UBUNTU=$(curl -sSf "${LATEST_MIRROR_ID_URL}/mos-repos/ubuntu/8.0.target.txt" | head -1)
-export MIRROR_MOS_UBUNTU_ROOT="/mos-repos/ubuntu/${LATEST_TARGET_UBUNTU}"
-
-LATEST_TARGET_CENTOS=$(curl -sSf "${LATEST_MIRROR_ID_URL}/mos-repos/centos/mos8.0-centos7-fuel/os.target.txt" | head -1)
-export MIRROR_FUEL="${LATEST_MIRROR_ID_URL}/mos-repos/centos/mos8.0-centos7-fuel/${LATEST_TARGET_CENTOS}/x86_64"
-
 echo "MIRROR_MOS_UBUNTU_ROOT=${MIRROR_MOS_UBUNTU_ROOT}"
 echo "MIRROR_FUEL=${MIRROR_FUEL}"
 
