@@ -115,6 +115,8 @@ $(ISOCACHE):
 	# cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_dns.patch
 	#
 	cd /tmp/fuel-main && ./prepare-build-env.sh
+	# Verify that Docker is alive
+	sudo docker info
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
 	# Repeat build up to ten times
