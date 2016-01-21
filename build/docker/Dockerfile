@@ -24,9 +24,12 @@ RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC_PROXY RSYNC_CONNECT_PROG npm_config_registry\"" > /etc/sudoers.d/keep-proxies
 # Keeping PWD is needed to build as root
 RUN echo "Defaults env_keep += \"PWD\"" > /etc/sudoers.d/keep-pwd
+# Keeping variables for ISO build
+RUN echo "Defaults env_keep += \"MIRROR_UBUNTU MIRROR_MOS_UBUNTU MIRROR_MOS_UBUNTU_ROOT\"" > /etc/sudoers.d/keep-mos
 RUN chmod 0440 /etc/sudoers.d/open-sudo
 RUN chmod 0440 /etc/sudoers.d/keep-proxies
 RUN chmod 0440 /etc/sudoers.d/keep-pwd
+RUN chmod 0440 /etc/sudoers.d/keep-mos
 RUN chmod 4755 /bin/fusermount
 
 ADD ./setcontext /root/setcontext
