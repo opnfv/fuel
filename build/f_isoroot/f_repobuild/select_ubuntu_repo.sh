@@ -11,6 +11,19 @@ RSYNC="rsync -4 --contimeout 5 --no-motd --list-only"
 # local mirror can be found after four attempts, the default archive
 # is returned instead.
 
+return_url=0
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -u | --url )   shift
+                       return_url=1
+                       ;;
+    # Shift all the parameters down by one
+    esac
+    shift
+done
+
+
 cnt=0
 while [ $cnt -lt 4 ]
 do
@@ -21,13 +34,22 @@ do
         then
             if ! $RSYNC "${host}::ubuntu/Archive-Update-in-Progress*" &> /dev/null
             then
-                echo "$host"
-                exit 0
+                if [ "$return_url" = "1" ]; then
+                    echo "$url"
+                    exit 0
+                else
+                    echo "$host"
+                    exit 0
+                fi
             fi
         fi
     done
     cnt=$[cnt + 1]
     sleep 15
 done
-echo "archive.ubuntu.com"
 
+if [ "$return_url" = "1" ]; then
+    echo "http://archive.ubuntu.com/ubuntu/"
+else
+    echo "archive.ubuntu.com"
+fi
