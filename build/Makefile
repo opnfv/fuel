@@ -25,9 +25,9 @@ export REVSTATE = "P0000"
 
 ifdef BUILD_FUEL_PLUGINS
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
-export NEWISO = $(shell pwd)/release/unofficial-opnfv-fuel-${REVSTATE}.iso
+export NEWISO = $(shell pwd)/release/unofficial-opnfv-${REVSTATE}.iso
 else
-export NEWISO = $(shell pwd)/release/opnfv-fuel-${REVSTATE}.iso
+export NEWISO = $(shell pwd)/release/opnfv-${REVSTATE}.iso
 endif
 
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
