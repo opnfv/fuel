@@ -49,7 +49,7 @@ export MIRROR_UBUNTU_URL := $(shell ./f_isoroot/f_repobuild/select_ubuntu_repo.s
 export MIRROR_UBUNTU := $(shell echo "$(MIRROR_UBUNTU_URL)" | cut -d'/' -f3 )
 export MIRROR_UBUNTU_ROOT := $(shell echo -n '/' ; echo "$(MIRROR_UBUNTU_URL)" | cut -d'/' -f4-)
 
-export LATEST_MIRROR_ID_URL := http://mirror.seed-us1.fuel-infra.org
+export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
 export MIRROR_MOS_UBUNTU := $(shell echo "$(LATEST_MIRROR_ID_URL)" | cut -d'/' -f3)
 export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/8.0.target.txt" | head -1)
