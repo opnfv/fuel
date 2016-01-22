@@ -121,6 +121,10 @@ $(ISOCACHE):
 	sudo ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 
+	# Attempt to store ISO in cache to speed up the next
+	# build attempt. If cache is not enabled no harm is done.
+	$(MAKE) -f Makefile put-cache
+
 .PHONY: mount-origiso umount-origiso
 mount-origiso: $(ISOCACHE)
 	@echo "Mounting original ISO in $(ORIGDIR)"
