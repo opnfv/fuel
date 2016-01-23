@@ -50,6 +50,9 @@ release:.ovsnfvbuild
 	$(REPOINFO) -r . > gitinfo_ovsnfv-dpdk-plugin.txt
 	@rm -rf fuel-plugin-ovsnfv
 	@touch .ovsnfvbuild
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh

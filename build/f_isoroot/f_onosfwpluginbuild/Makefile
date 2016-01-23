@@ -49,6 +49,9 @@ release:.onosbuild
 	$(REPOINFO) -r . > gitinfo_onos-plugin.txt
 	@rm -rf fuel-plugin-onos
 	@touch .onosbuild
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh
