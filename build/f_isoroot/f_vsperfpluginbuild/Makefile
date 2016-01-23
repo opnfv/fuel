@@ -50,6 +50,9 @@ release:.vsperfbuild
 	$(REPOINFO) -r . > gitinfo_vsperf-plugin.txt
 	@rm -rf fuel-plugin-vsperf
 	@touch .vsperfbuild
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh
