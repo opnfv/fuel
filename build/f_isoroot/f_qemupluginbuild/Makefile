@@ -50,6 +50,9 @@ release:.qemubuild
 	$(REPOINFO) -r . > gitinfo_qemu-plugin.txt
 	@rm -rf fuel-plugin-qemu
 	@touch .qemubuild
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
 #############################################################################
 # Cache operations - only used when building through ci/build.sh
