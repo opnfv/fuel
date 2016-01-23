@@ -200,7 +200,9 @@ debug:
 #   - The commit ID of the full Fuel repo structre
 #   - The contents of all local Fuel patches
 .cacheid:
-	cd /tmp && git clone $(FUEL_MAIN_REPO)
+	if [ ! -d /tmp/fuel-main ]; then \
+		cd /tmp && git clone $(FUEL_MAIN_REPO); \
+	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > .cachedata
