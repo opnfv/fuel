@@ -40,6 +40,10 @@ done
 shopt -u nullglob
 ### OPNFV addition END
 
+# Enable sshd
+systemctl enable sshd
+systemctl start sshd
+
 if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
   fuelmenu
   else
@@ -60,6 +64,13 @@ if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
     esac
   fi
 fi
+
+systemctl reload sshd
+
+# Enable iptables
+systemctl enable iptables.service
+systemctl start iptables.service
+
 
 if [ "$wait_for_external_config" == "yes" ]; then
   wait_timeout=3000
