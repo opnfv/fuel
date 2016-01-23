@@ -118,10 +118,9 @@ $(ISOCACHE):
 	# Repeat build up to ten times
 	sudo ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
-
-	# Attempt to store ISO in cache to speed up the next
-	# build attempt. If cache is not enabled no harm is done.
-	$(MAKE) -f Makefile put-cache
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
 .PHONY: mount-origiso umount-origiso
 mount-origiso: $(ISOCACHE)
