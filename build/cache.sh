@@ -19,7 +19,6 @@ exit_trap() {
 trap exit_trap EXIT
 
 CACHETRANSPORT=${CACHETRANSPORT:-"curl --silent"}
-CACHEBASE=${CACHEBASE:-"file://${HOME}/cache"}
 CACHEMAXAGE=${CACHEMAXAGE:-$[14*24*3600]}
 CACHEDEBUG=${CACHEDEBUG:-1}
 
@@ -55,7 +54,9 @@ put() {
     else
         debugmsg "Storing SHA1 $1 in cache"
         ${CACHETRANSPORT} -T - ${CACHEBASE}/$1.blob
+	echo "Result store blob: $?"
         echo "Expires: $[`date +"%s"` + $CACHEMAXAGE]" | ${CACHETRANSPORT} -T - ${CACHEBASE}/$1.meta
+	echo "Result store meta: $?"
     fi
     exit 0
 }
@@ -138,6 +139,12 @@ getcommitid() {
         git show $2 | head -1 | awk '{ print $2 }'
     fi
 }
+
+
+
+if [ -z "$CACHEBASE" ]; then
+  errorexit "CACHEBASE not set - exiting..."
+fi
 
 case $1 in
     getbiweek)
