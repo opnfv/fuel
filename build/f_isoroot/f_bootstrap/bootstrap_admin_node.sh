@@ -211,6 +211,10 @@ done
 shopt -u nullglob
 ### OPNFV addition END
 
+# Enable sshd
+systemctl enable sshd
+systemctl start sshd
+
 if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
   fuelmenu
   else
@@ -232,9 +236,7 @@ if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
   fi
 fi
 
-# Enable sshd
-systemctl enable sshd
-systemctl start sshd
+systemctl reload sshd
 
 # Enable iptables
 systemctl enable iptables.service
