@@ -9,7 +9,8 @@
 ##############################################################################
 
 # Add Fuel plugin build targets here
-PLUGINS = f_odlpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild f_bgpvpn-pluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild
+PLUGINS = f_odlpluginbuild
+#NON_8-0_REBASED_PLUGINS = f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_onosfwpluginbuild f_bgpvpn-pluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild
 
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.
