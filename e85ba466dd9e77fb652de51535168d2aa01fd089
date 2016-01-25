@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_f94a5f26",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-25T10:15:22Z",
+      "side": 1,
+      "message": "If you don\u0027t specify a volume label for mkisofs, it will be empty. Then kickstart won\u0027t find it by label. So, essentially I\u0027m keeping it.",
+      "parentUuid": "5a4e6583_d9c0c37e",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_b9bd0705",
         "filename": "deploy/deploy.py",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-25T10:12:10Z",
       "side": 1,
       "message": "showmeny\u003dyes is now also added in the Fuel@OPNFV image so it is not needed here (but no harm in having it I guess!).",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_d947a31c",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-25T10:15:22Z",
+      "side": 1,
+      "message": "I remove it then. No need for superfluous code.",
+      "parentUuid": "5a4e6583_b9bd0705",
       "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
