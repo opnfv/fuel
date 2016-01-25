@@ -16,6 +16,23 @@
       "revId": "4dd766e1d836412d9fdbc333815d68d72e1ca10f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_999b6b72",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-25T10:47:08Z",
+      "side": 1,
+      "message": "You need to pull the ISO label from the OPNFV ISO and reuse that.\n\nSomething like: isoinfo  -d -i \u003cOPNFV_FUEL\u003e.iso  | grep -i \"^Volume id: \" | sed \u0027s/.*: //\u0027",
+      "revId": "4dd766e1d836412d9fdbc333815d68d72e1ca10f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
