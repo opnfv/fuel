@@ -22,6 +22,30 @@
       "revId": "9b27fb1dc451ac8010c4c23164788c7bfde5d4d3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_998febcc",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-25T13:40:04Z",
+      "side": 1,
+      "message": "I mean, 1 colon in the volume, as we already have one in the line from isoinfo.",
+      "parentUuid": "5a4e6583_99f80b4b",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 88
+      },
+      "revId": "9b27fb1dc451ac8010c4c23164788c7bfde5d4d3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
