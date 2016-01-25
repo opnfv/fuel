@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_99f80b4b",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-25T13:37:10Z",
+      "side": 1,
+      "message": "I didn\u0027t use sed as it can\u0027t do non-greedy matches, and if, for some reason, we\u0027ll have 2 colons in the volume, sed would parse it incorrectly.",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 88
+      },
+      "revId": "9b27fb1dc451ac8010c4c23164788c7bfde5d4d3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
