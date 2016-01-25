@@ -1,5 +1,56 @@
 #!/bin/bash
-FUEL_RELEASE=$(grep release: /etc/fuel/version.yaml | cut -d: -f2 | tr -d '" ')
+mkdir -p /var/log/puppet
+exec > >(tee -i /var/log/puppet/bootstrap_admin_node.log)
+exec 2>&1
+
+FUEL_RELEASE=$(cat /etc/fuel_release)
+ASTUTE_YAML='/etc/fuel/astute.yaml'
+BOOTSTRAP_NODE_CONFIG="/etc/fuel/bootstrap_admin_node.conf"
+bs_build_log='/var/log/fuel-bootstrap-image-build.log'
+bs_status=0
+# Backup network configs to this folder. Folder will be created only if
+# backup process actually will be.
+bup_folder="/var/bootstrap_admin_node_bup_$(date +%Y-%m-%d-%H-%M-%S)/"
+### Long messages inside code makes them more complicated to read...
+# bootstrap messages
+# FIXME fix help links
+bs_skip_message="WARNING: Ubuntu bootstrap build has been skipped. \
+Please build and activate bootstrap manually with CLI command \
+\`fuel-bootstrap build --activate\`. \
+While you don't activate any bootstrap - new nodes cannot be discovered \
+and added to cluster. \
+For more information please visit \
+https://docs.mirantis.com/openstack/fuel/fuel-master/"
+bs_error_message="WARNING: Failed to build the bootstrap image, see $bs_build_log \
+for details. Perhaps your Internet connection is broken. Please fix the \
+problem and run \`fuel-bootstrap build --activate\`. \
+While you don\'t activate any bootstrap - new nodes cannot be discovered \
+and added to cluster. \
+For more information please visit \
+https://docs.mirantis.com/openstack/fuel/fuel-master/"
+bs_progress_message="There is no active bootstrap. Bootstrap image building \
+is in progress. Usually it takes 15-20 minutes. It depends on your internet \
+connection and hardware performance. Please reboot failed to discover nodes \
+after bootstrap image become available."
+bs_done_message="Default bootstrap image building done. Now you can boot new \
+nodes over PXE, they will be discovered and become available for installing \
+OpenStack on them"
+bs_centos_message="WARNING: Deprecated Centos bootstrap has been chosen \
+and activated. Now you can boot new nodes over PXE, they will be discovered \
+and become available for installing OpenStack on them."
+# Update issues messages
+update_warn_message="There is an issue connecting to the Fuel update repository. \
+Please fix your connection prior to applying any updates. \
+Once the connection is fixed, we recommend reviewing and applying \
+Maintenance Updates for this release of Mirantis OpenStack: \
+https://docs.mirantis.com/openstack/fuel/fuel-${FUEL_RELEASE}/\
+release-notes.html#maintenance-updates"
+update_done_message="We recommend reviewing and applying Maintenance Updates \
+for this release of Mirantis OpenStack: \
+https://docs.mirantis.com/openstack/fuel/fuel-${FUEL_RELEASE}/\
+release-notes.html#maintenance-updates"
+fuelmenu_fail_message="Fuelmenu was not able to generate '/etc/fuel/astute.yaml' file! \
+Please, restart it manualy using 'fuelmenu' command."
 
 function countdown() {
   local i
@@ -61,6 +112,18 @@ if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
   fi
 fi
 
+if [ ! -f "${ASTUTE_YAML}" ]; then
+  echo ${fuelmenu_fail_message}
+  fail
+fi
+
+systemctl reload sshd
+
+# Enable iptables
+systemctl enable iptables.service
+systemctl start iptables.service
+
+
 if [ "$wait_for_external_config" == "yes" ]; then
   wait_timeout=3000
   pidfile=/var/lock/wait_for_external_config
@@ -101,11 +164,30 @@ make_ubuntu_bootstrap_stub () {
 }
 
 get_bootstrap_flavor () {
-	local ASTUTE_YAML='/etc/fuel/astute.yaml'
 	python <<-EOF
-	from fuelmenu.fuelmenu import Settings
-	conf = Settings().read("$ASTUTE_YAML").get('BOOTSTRAP', {})
-	print(conf.get('flavor', 'centos'))
+	from yaml import safe_load
+	with open("$ASTUTE_YAML", 'r') as f:
+	    conf = safe_load(f).get('BOOTSTRAP', {})
+	print(conf.get('flavor', 'centos').lower())
+	EOF
+}
+
+get_bootstrap_skip () {
+	python <<-EOF
+	from yaml import safe_load
+	with open("$ASTUTE_YAML", 'r') as f:
+	    conf = safe_load(f).get('BOOTSTRAP', {})
+	print(conf.get('skip_default_img_build', False))
+	EOF
+}
+
+set_ui_bootstrap_error () {
+        # This notify can't be closed or removed by user.
+        # For remove notify - send empty string.
+        local message=$1
+        python <<-EOF
+	from fuel_bootstrap.utils import notifier
+	notifier.notify_webui('${message}')
 	EOF
 }
 

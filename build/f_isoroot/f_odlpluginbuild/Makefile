@@ -32,7 +32,8 @@ release:.odlbuild
 	sudo gem install fpm
 	sudo pip install fuel-plugin-builder
 	git clone -b $(ODL_BRANCH) $(ODL_REPO)
-	fpb --debug --build fuel-plugin-opendaylight/
+	# Temporary location of working Be snapshot
+	ODL_TARBALL_LOCATION=http://devel.opt.im/distribution-karaf-0.4.0-20160118.091622-3555.tar.gz fpb --debug --build fuel-plugin-opendaylight/
 	mv fuel-plugin-opendaylight/opendaylight*.rpm .
 	$(REPOINFO) -r . > gitinfo_odlplugin.txt
 	rm -rf fuel-plugin-opendaylight
