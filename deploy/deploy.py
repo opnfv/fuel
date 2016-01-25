@@ -38,7 +38,7 @@ FUEL_VM = 'fuel'
 PATCH_DIR = 'fuel_patch'
 WORK_DIR = '~/deploy'
 CWD = os.getcwd()
-ISO_LABEL = 'Mirantis_Fuel'
+ISO_LABEL = 'OPNFV_FUEL_2016-01-22_16-05-16'
 
 
 class cd:

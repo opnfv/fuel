@@ -1,24 +1,24 @@
-*** ks.cfg.orig	2016-01-14 16:18:12.141867565 +0100
---- ks.cfg	2016-01-18 13:29:44.433881202 +0100
+*** ks.cfg.orig	2016-01-25 08:56:16.406241267 +0100
+--- ks.cfg	2016-01-25 09:00:25.412161705 +0100
 ***************
 *** 98,104 ****
   default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
   
-  installdrive="undefined"
-! forceformat="no"
+  installdrive=${installdrive:-undefined}
+! forceformat=${forceformat:-no}
   for I in $(cat /proc/cmdline); do
     case "$I" in
       *=*)
 --- 98,104 ----
   default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
   
-  installdrive="undefined"
-! forceformat="yes"
+  installdrive=${installdrive:-undefined}
+! forceformat=${forceformat:-yes}
   for I in $(cat /proc/cmdline); do
     case "$I" in
       *=*)
 ***************
-*** 564,573 ****
+*** 581,590 ****
   # Blacklist intel_rapl module for VirtualBox so it does not create kernel errors
   (virt-what | fgrep -q "virtualbox") && echo "blacklist intel_rapl" > /etc/modprobe.d/blacklist-intel-rapl.conf
   
@@ -29,4 +29,4 @@
   %end
   
   
---- 564,569 ----
+--- 581,586 ----
