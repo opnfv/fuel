@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_d9c0c37e",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-25T10:12:10Z",
+      "side": 1,
+      "message": "Peter, I am patching the label of the ISO in the Fuel@OPNFV build so you should keep the original label and not change it here.",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_b9bd0705",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-25T10:12:10Z",
+      "side": 1,
+      "message": "showmeny\u003dyes is now also added in the Fuel@OPNFV image so it is not needed here (but no harm in having it I guess!).",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_99ba4b09",
+        "filename": "deploy/fuel_patch/ks.cfg.patch",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-01-25T10:12:10Z",
+      "side": 1,
+      "message": "Maybe this clashes with https://gerrit.opnfv.org/gerrit/#/c/7821/?",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
