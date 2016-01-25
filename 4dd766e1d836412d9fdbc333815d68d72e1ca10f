@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_f9949f45",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-25T10:46:52Z",
+      "side": 1,
+      "message": "Peter, I dont think it is possible to have a fix iso label. This will change from build to build. Extract the iso labe using isoinfo or similar.",
+      "revId": "4dd766e1d836412d9fdbc333815d68d72e1ca10f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
