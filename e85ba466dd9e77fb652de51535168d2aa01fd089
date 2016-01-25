@@ -86,6 +86,24 @@
       "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_19a41b56",
+        "filename": "deploy/fuel_patch/ks.cfg.patch",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-01-25T13:38:48Z",
+      "side": 1,
+      "message": "I removed it, but it also means that we can\u0027t test with the .iso made on Friday (Jan. 22nd).",
+      "parentUuid": "5a4e6583_99ba4b09",
+      "revId": "e85ba466dd9e77fb652de51535168d2aa01fd089",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
