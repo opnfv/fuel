@@ -29,61 +29,46 @@
 ##############################################################################
 
 os-nosdn-nofeature-ha:
-  configfile: ha_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-nofeature-noha:
-  configfile: no-ha_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_heat_ceilometer_scenario_0.0.2.yaml
 
 os-nosdn-vlan-ha:
-  configfile: ha_vlan_heat_ceilometer_scenario_0.0.2.yaml
 
 os-nosdn-vlan-noha:
-  configfile: no-ha_vlan_heat_ceilometer_scenario_0.0.1.yaml
 
 os-odl_l3-nofeature-ha:
-  configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.4.yaml
 
 os-odl_l3-nofeature-noha:
-  configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.3.yaml
 
 os-odl_l2-nofeature-ha:
-  configfile: ha_odl-l2_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_odl-l2_heat_ceilometer_scenario_0.0.3.yaml
 
 os-odl_l2-nofeature-noha:
-  configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.2.yaml
 
 os-onos-nofeature-ha:
-  configfile: ha_onos_heat_ceilometer_scenario_0.0.3.yaml
+  configfile: ha_onos_heat_ceilometer_scenario_0.0.4.yaml
 
 os-onos-nofeature-noha:
-  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.1.yaml
-
-os-onos-nofeature-ha-virtual:
-  configfile: ha_onos_heat_ceilometer_scenario_0.0.2.yaml
-
-os-onos-nofeature-noha-virtual:
-  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-kvm-ha:
-  configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-kvm-noha:
-  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.2.yaml
 
 os-nosdn-ovs-ha:
-  configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-ovs-noha:
-  configfile: no-ha_nfv-ovs_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_nfv-ovseat_ceilometer_scenario_0.0.2.yaml
 
-os-nosdn-kvm_ovs-ha:
-  configfile:
-
-os-nosdn-kvm_ovs-noha:
-  configfile: no-ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario_0.0.1.yaml
 
 os-odl_l2-bgpvpn-ha:
-  configfile: ha_odl-l2_bgpvpn_scenario_0.0.1.yaml
 
 os-odl_l2-bgpvpn-noha:
-  configfile: no-ha_odl-l2_bgpvpn_scenario_0.0.1.yaml
