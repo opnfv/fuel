@@ -1,18 +1,16 @@
 dea-base-config-metadata:
   title: 'Deployment Environment Adapter Base configuration'
   # DEA API version supported
-  version: '0.1'
-  created: 'Mon Dec 28 2015'
-  comment: 'None'
+  version: '0.2'
+  created: 'Mon Jan 26 2016'
+  comment: 'Rebased for Fuel 8'
 environment:
-  mode: ha
   net_segment_type: tun
-wanted_release: Kilo on Ubuntu 14.04
 fuel:
   FUEL_ACCESS:
     password: admin
     user: admin
-  HOSTNAME: fuel
+wanted_release: Liberty on Ubuntu 14.04
 settings:
   editable:
     access:
@@ -26,6 +24,7 @@ settings:
         value: admin@localhost
         weight: 40
       metadata:
+        group: general
         label: Access
         weight: 10
       password:
@@ -42,7 +41,7 @@ settings:
         label: Tenant
         regex:
           error: Invalid tenant name
-          source: ^(?!services$)(?!nova$)(?!glance$)(?!keystone$)(?!neutron$)(?!cinder$)(?!swift$)(?!ceph$)(?![Gg]uest$)(?!.*
+          source: ^(?!services$)(?!nova$)(?!glance$)(?!keystone$)(?!neutron$)(?!cinder$)(?!swift$)(?!ceph$)(?!ironic$)(?![Gg]uest$)(?!.*
             +.*$).+
         type: text
         value: admin
@@ -52,7 +51,7 @@ settings:
         label: Username
         regex:
           error: Invalid username
-          source: ^(?!services$)(?!nova$)(?!glance$)(?!keystone$)(?!neutron$)(?!cinder$)(?!swift$)(?!ceph$)(?![Gg]uest$)(?!.*
+          source: ^(?!services$)(?!nova$)(?!glance$)(?!keystone$)(?!neutron$)(?!cinder$)(?!swift$)(?!ceph$)(?!ironic$)(?![Gg]uest$)(?!.*
             +.*$).+
         type: text
         value: admin
@@ -62,15 +61,27 @@ settings:
         description: If selected, Ceilometer component will be installed
         label: Install Ceilometer
         type: checkbox
-        value: false
-        weight: 40
+        value: true
+        weight: 60
       heat:
         description: ''
         label: ''
         type: hidden
         value: true
-        weight: 30
+        weight: 50
+      ironic:
+        description: If selected, Ironic component will be installed
+        label: Install Ironic
+        restrictions:
+        - cluster:net_provider != 'neutron' or networking_parameters:segmentation_type != 'vlan': Ironic
+            requires Neutron with VLAN segmentation.
+        - settings:storage.images_ceph.value == true and settings:storage.objects_ceph.value == false: Ironic
+            requires Swift or RadosGW for Glance images.
+        type: checkbox
+        value: false
+        weight: 80
       metadata:
+        group: openstack_services
         label: Additional Components
         weight: 20
       mongo:
@@ -80,13 +91,35 @@ settings:
         - settings:additional_components.ceilometer.value == false
         type: checkbox
         value: false
-        weight: 40
+        weight: 70
       murano:
         description: If selected, Murano component will be installed
         label: Install Murano
         type: checkbox
         value: false
         weight: 20
+      murano-cfapi:
+        description: If selected, Murano service broker will be installed
+        label: Install Murano service broker for Cloud Foundry
+        restrictions:
+        - condition: settings:additional_components.murano.value == false
+          message: Murano should be enabled
+        - action: hide
+          condition: not ('experimental' in version:feature_groups)
+        type: checkbox
+        value: false
+        weight: 30
+      murano_glance_artifacts_plugin:
+        description: If selected glance artifact repository will be enabled
+        label: Enable glance artifact repository
+        restrictions:
+        - condition: settings:additional_components.murano.value == false
+          message: Murano should be enabled
+        - action: hide
+          condition: not ('experimental' in version:feature_groups)
+        type: checkbox
+        value: false
+        weight: 40
       sahara:
         description: If selected, Sahara component will be installed
         label: Install Sahara
@@ -96,6 +129,7 @@ settings:
     common:
       auth_key:
         description: Public key(s) to include in authorized_keys on deployed nodes
+        group: security
         label: Public Key
         type: textarea
         value: ''
@@ -103,6 +137,7 @@ settings:
       auto_assign_floating_ip:
         description: If selected, OpenStack will automatically assign a floating IP
           to a new instance
+        group: network
         label: Auto assign floating IP
         restrictions:
         - action: hide
@@ -113,11 +148,13 @@ settings:
       debug:
         description: Debug logging mode provides more information, but requires more
           disk space.
+        group: logging
         label: OpenStack debug logging
         type: checkbox
-        value: false
+        value: true
         weight: 20
       libvirt_type:
+        group: compute
         label: Hypervisor type
         type: radio
         value: kvm
@@ -132,17 +169,19 @@ settings:
         weight: 30
       metadata:
         label: Common
-        weight: 30
+        weight: 10
       nova_quota:
         description: Quotas are used to limit CPU and memory usage for tenants. Enabling
           quotas will increase load on the Nova database.
+        group: compute
         label: Nova quotas
         type: checkbox
         value: false
-        weight: 25
+        weight: 30
       puppet_debug:
         description: Debug puppet logging mode provides more information, but requires
           more disk space.
+        group: logging
         label: Puppet debug logging
         type: checkbox
         value: true
@@ -153,21 +192,32 @@ settings:
           previous state. If the guest was running a restart will be attempted when
           nova-compute starts. If the guest was not running previously, a restart
           will not be attempted.
+        group: compute
         label: Resume guests state on host boot
         type: checkbox
         value: true
-        weight: 60
+        weight: 50
+      task_deploy:
+        description: Enables new deployment engine based on cross-node dependencies
+          for deployment tasks which allows to deploy all nodes simultaneously. Works
+          only for deployment tasks with version >= 2.0.0.
+        label: Enable task based deploy
+        restrictions:
+        - action: hide
+          condition: not ('experimental' in version:feature_groups)
+        type: checkbox
+        value: false
+        weight: 11
       use_cow_images:
         description: For most cases you will want qcow format. If it's disabled, raw
           image format will be used to run VMs. OpenStack with raw format currently
           does not support snapshotting.
+        group: storage
         label: Use qcow format for images
         type: checkbox
         value: true
-        weight: 50
+        weight: 60
       use_vcenter:
-        restrictions:
-        - condition: cluster:net_provider == 'nova_network'
         type: hidden
         value: false
         weight: 30
@@ -179,6 +229,7 @@ settings:
         value: 226.94.1.1
         weight: 10
       metadata:
+        group: general
         label: Corosync
         restrictions:
         - action: hide
@@ -207,6 +258,7 @@ settings:
         value: ''
         weight: 30
       metadata:
+        group: openstack_services
         label: External MongoDB
         restrictions:
         - action: hide
@@ -253,12 +305,13 @@ settings:
         label: Initial parameters
         type: text
         value: console=tty0 net.ifnames=0 biosdevname=0 rootdelay=90 nomodeset
-        weight: 45
       metadata:
+        group: general
         label: Kernel parameters
-        weight: 40
+        weight: 60
     murano_settings:
       metadata:
+        group: openstack_services
         label: Murano Settings
         restrictions:
         - action: hide
@@ -273,11 +326,12 @@ settings:
         weight: 10
     neutron_advanced_configuration:
       metadata:
+        group: network
         label: Neutron Advanced Configuration
         restrictions:
         - action: hide
           condition: cluster:net_provider != 'neutron'
-        weight: 45
+        weight: 20
       neutron_dvr:
         description: Enable Distributed Virtual Routers in Neutron
         label: Neutron DVR
@@ -297,9 +351,24 @@ settings:
         type: checkbox
         value: false
         weight: 10
+      neutron_l3_ha:
+        description: 'Enable High Availability features for Virtual Routers in Neutron
+
+          Requires at least 2 Controller nodes to function properly
+
+          '
+        label: Neutron L3 HA
+        restrictions:
+        - condition: settings:neutron_advanced_configuration.neutron_dvr.value ==
+            true
+          message: Neutron DVR must be disabled in order to use Neutron L3 HA
+        type: checkbox
+        value: false
+        weight: 30
     neutron_mellanox:
       metadata:
         enabled: true
+        group: network
         label: Mellanox Neutron components
         restrictions:
         - action: hide
@@ -343,6 +412,7 @@ settings:
         weight: 70
     provision:
       metadata:
+        group: general
         label: Provision
         restrictions:
         - action: hide
@@ -360,11 +430,12 @@ settings:
         value: true
         weight: 10
       metadata:
+        group: network
         label: Public network assignment
         restrictions:
         - action: hide
           condition: cluster:net_provider != 'neutron'
-        weight: 50
+        weight: 10
     public_ssl:
       cert_data:
         description: Certificate and private key data, concatenated into a single
@@ -414,6 +485,7 @@ settings:
         value: public.fuel.local
         weight: 50
       metadata:
+        group: security
         label: Public TLS
         weight: 110
       services:
@@ -425,6 +497,7 @@ settings:
     repo_setup:
       metadata:
         always_editable: true
+        group: general
         label: Repositories
         weight: 50
       repos:
@@ -438,7 +511,7 @@ settings:
           Please make sure your Fuel master node has Internet access to the repository
           before attempting to create a mirror.
 
-          For more details, please refer to the documentation (https://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html#external-ubuntu-ops).
+          For more details, please refer to the documentation (https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html#external-ubuntu-ops).
 
           '
         extra_priority: null
@@ -446,52 +519,52 @@ settings:
         value:
         - name: ubuntu
           priority: null
-          section: main
+          section: main universe multiverse
           suite: trusty
           type: deb
-          uri: http://10.20.0.2:8080/ubuntu-part
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: ubuntu-updates
           priority: null
-          section: main
-          suite: trusty
+          section: main universe multiverse
+          suite: trusty-updates
           type: deb
-          uri: http://10.20.0.2:8080/ubuntu-part
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: ubuntu-security
           priority: null
-          section: main
-          suite: trusty
+          section: main universe multiverse
+          suite: trusty-security
           type: deb
-          uri: http://10.20.0.2:8080/ubuntu-part
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: mos
           priority: 1050
           section: main restricted
-          suite: mos7.0
+          suite: mos8.0
           type: deb
-          uri: http://10.20.0.2:8080/2015.1.0-7.0/ubuntu/x86_64
+          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/x86_64
         - name: mos-updates
           priority: 1050
           section: main restricted
-          suite: mos7.0-updates
+          suite: mos8.0-updates
           type: deb
-          uri: http://10.20.0.2:8080/mos-ubuntu
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
         - name: mos-security
           priority: 1050
           section: main restricted
-          suite: mos7.0-security
+          suite: mos8.0-security
           type: deb
-          uri: http://10.20.0.2:8080/mos-ubuntu
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
         - name: mos-holdback
           priority: 1100
           section: main restricted
-          suite: mos7.0-holdback
+          suite: mos8.0-holdback
           type: deb
-          uri: http://10.20.0.2:8080/mos-ubuntu
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
         - name: Auxiliary
           priority: 1150
           section: main restricted
           suite: auxiliary
           type: deb
-          uri: http://10.20.0.2:8080/2015.1.0-7.0/ubuntu/auxiliary
+          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/auxiliary
     storage:
       ephemeral_ceph:
         description: Configures Nova to store ephemeral volumes in RBD. This works
@@ -500,7 +573,7 @@ settings:
           only work with VMs launched from Cinder volumes).
         label: Ceph RBD for ephemeral volumes (Nova)
         type: checkbox
-        value: true
+        value: false
         weight: 75
       images_ceph:
         description: Configures Glance to use the Ceph RBD backend to store images.
@@ -510,12 +583,12 @@ settings:
         - settings:storage.images_vcenter.value == true: Only one Glance backend could
             be selected.
         type: checkbox
-        value: true
+        value: false
         weight: 30
       images_vcenter:
         description: Configures Glance to use the vCenter/ESXi backend to store images.
           If enabled, this option will prevent Swift from installing.
-        label: VMWare vCenter/ESXi datastore for images (Glance)
+        label: VMware vCenter/ESXi datastore for images (Glance)
         restrictions:
         - action: hide
           condition: settings:common.use_vcenter.value != true
@@ -538,16 +611,15 @@ settings:
         value: false
         weight: 11
       metadata:
-        label: Storage
+        group: storage
+        label: Storage Backends
         weight: 60
       objects_ceph:
         description: Configures RadosGW front end for Ceph RBD. This exposes S3 and
           Swift API Interfaces. If enabled, this option will prevent Swift from installing.
         label: Ceph RadosGW for objects (Swift API)
-        restrictions:
-        - settings:storage.images_ceph.value == false
         type: checkbox
-        value: true
+        value: false
         weight: 80
       osd_pool_size:
         description: Configures the default number of object replicas in Ceph. This
@@ -558,13 +630,23 @@ settings:
           error: Invalid number
           source: ^[1-9]\d*$
         type: text
-        value: '2'
+        value: '3'
         weight: 85
+      volumes_block_device:
+        description: High performance block device storage. It is recommended to have
+          at least one Storage - Cinder Block Device
+        label: Cinder Block device driver
+        restrictions:
+        - settings:storage.volumes_ceph.value == true
+        type: checkbox
+        value: false
+        weight: 15
       volumes_ceph:
         description: Configures Cinder to store volumes in Ceph RBD images.
         label: Ceph RBD for volumes (Cinder)
         restrictions:
-        - settings:storage.volumes_lvm.value == true
+        - settings:storage.volumes_lvm.value == true or settings:storage.volumes_block_device.value
+          == true
         type: checkbox
         value: true
         weight: 20
@@ -581,6 +663,7 @@ settings:
         type: hidden
         value: true
       metadata:
+        group: general
         label: Workloads Collector User
         restrictions:
         - action: hide
@@ -588,7 +671,7 @@ settings:
         weight: 10
       password:
         type: password
-        value: YqvwqNhL
+        value: AqEF1Aid1T5vGhP2WE7K5Yxx
       tenant:
         type: text
         value: services
