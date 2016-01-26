@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-QEMU_BRANCH=77933feb081ae8668865b7a4db5549b44865a154
+QEMU_BRANCH=dcb7040adfb1c9efe5e93bbb37ea4090f577604c
 QEMU_REPO=https://review.openstack.org/openstack/fuel-plugin-qemu
 QEMU_CHANGE=
