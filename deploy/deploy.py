@@ -158,9 +158,27 @@ class AutoDeploy(object):
         with io.open(file) as f:
             data = f.read()
         for key, val in self.fuel_conf.iteritems():
+            # skip replacing these keys, as the format is custom
+            if key in ['ip', 'gw', 'netmask', 'hostname']:
+                continue
+
             pattern = r'%s=[^ ]\S+' % key
             replace = '%s=%s' % (key, val)
             data = re.sub(pattern, replace, data)
+
+        # process networking parameters
+        ip = ':'.join([self.fuel_conf['ip'],
+                      '',
+                      self.fuel_conf['gw'],
+                      self.fuel_conf['netmask'],
+                      self.fuel_conf['hostname'],
+                      'eth0:off:::'])
+
+        data = re.sub(r'ip=[^ ]\S+', 'ip=%s' % ip, data)
+
+        netmask = self.fuel_conf['netmask']
+        data = self.append_kernel_param(data, 'netmask=%s' % netmask)
+
         with io.open(file, 'w') as f:
             f.write(data)
 
