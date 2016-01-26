@@ -1,37 +1,32 @@
 dea-pod-override-config-metadata:
   title: 'Deployment Environment Adapter POD override for Development Pipeline - Huawei-China version'
-  version: '0.1'
-  created: 'Sun 10 2016'
-  comment: 'None'
+  version: '0.2'
+  created: 'Jan 26 2016'
+  comment: 'Rebased to Fuel8'
 environment:
-  name: opnfv_virt
+  name: MyVirtFuel8
 fuel:
   ADMIN_NETWORK:
-    cidr: 10.20.0.0/24
-    dhcp_gateway: 10.20.0.2
     dhcp_pool_end: 10.20.0.254
     dhcp_pool_start: 10.20.0.3
     ipaddress: 10.20.0.2
-    netmask: 255.255.0.0
-  DNS_DOMAIN: opnfvericsson.se
-  DNS_SEARCH: opnfvericsson.se
+    netmask: 255.255.255.0
+  DNS_DOMAIN: opnfv.org
+  DNS_SEARCH: opnfv.org
   DNS_UPSTREAM: 114.114.114.114
-  FUEL_ACCESS:
-    password: admin
-    user: admin
   HOSTNAME: opnfv_virt
   NTP1: 202.120.2.101
   NTP2: 83.168.200.199
   NTP3: 81.170.152.66
 interfaces_1:
-  eth0:
+  ens3:
   - fuelweb_admin
   - management
-  eth1:
+  ens4:
   - storage
-  eth2:
+  ens5:
   - private
-  eth3:
+  ens6:
   - public
 transformations_1:
   transformations:
@@ -56,28 +51,49 @@ transformations_1:
     name: br-mesh
   - action: add-port
     bridge: br-fw-admin
-    name: eth0
+    name: ens3
   - action: add-port
     bridge: br-mgmt
-    name: eth0.101
+    name: ens3.101
   - action: add-port
     bridge: br-storage
-    name: eth1.102
+    name: ens4.102
   - action: add-port
     bridge: br-mesh
-    name: eth2.103
+    name: ens5.103
   - action: add-port
     bridge: br-ex
-    name: eth3
+    name: ens6
+transformations_2:
+  transformations:
+  - action: add-br
+    name: br-fw-admin
+  - action: add-br
+    name: br-mgmt
+  - action: add-br
+    name: br-storage
+  - action: add-br
+    name: br-mesh
+  - action: add-port
+    bridge: br-fw-admin
+    name: ens3
+  - action: add-port
+    bridge: br-mgmt
+    name: ens3.101
+  - action: add-port
+    bridge: br-storage
+    name: ens4.102
+  - action: add-port
+    bridge: br-mesh
+    name: ens5.103
 network:
-  management_vip: 192.168.0.2
-  management_vrouter_vip: 192.168.0.1
   networking_parameters:
     base_mac: fa:16:3e:00:00:00
     configuration_template: null
     dns_nameservers:
     - 8.8.8.8
     - 114.114.114.114
+    floating_name: admin_floating_net
     floating_ranges:
     - - 172.16.0.130
       - 172.16.0.254
@@ -86,6 +102,7 @@ network:
     - 65535
     internal_cidr: 192.168.111.0/24
     internal_gateway: 192.168.111.1
+    internal_name: admin_internal_net
     net_l23_provider: ovs
     segmentation_type: tun
     vlan_range:
@@ -116,6 +133,23 @@ network:
       vlan_start: null
     name: public
     vlan_start: null
+  - cidr: 192.168.1.0/24
+    gateway: null
+    ip_ranges:
+    - - 192.168.1.1
+      - 192.168.1.254
+    meta:
+      cidr: 192.168.1.0/24
+      configurable: true
+      map_priority: 2
+      name: storage
+      notation: cidr
+      render_addr_mask: storage
+      render_type: cidr
+      use_gateway: false
+      vlan_start: 102
+    name: storage
+    vlan_start: 102
   - cidr: 192.168.0.0/24
     gateway: null
     ip_ranges:
@@ -136,23 +170,6 @@ network:
       vlan_start: 101
     name: management
     vlan_start: 101
-  - cidr: 192.168.1.0/24
-    gateway: null
-    ip_ranges:
-    - - 192.168.1.1
-      - 192.168.1.254
-    meta:
-      cidr: 192.168.1.0/24
-      configurable: true
-      map_priority: 2
-      name: storage
-      notation: cidr
-      render_addr_mask: storage
-      render_type: cidr
-      use_gateway: false
-      vlan_start: 102
-    name: storage
-    vlan_start: 102
   - cidr: 192.168.2.0/24
     gateway: null
     ip_ranges:
@@ -171,7 +188,7 @@ network:
       vlan_start: 103
     name: private
     vlan_start: 103
-  - cidr: 10.20.0.0/16
+  - cidr: 10.20.0.0/24
     gateway: 10.20.0.2
     ip_ranges:
     - - 10.20.0.3
@@ -186,37 +203,6 @@ network:
       use_gateway: true
     name: fuelweb_admin
     vlan_start: null
-  public_vip: 172.16.0.3
-  public_vrouter_vip: 172.16.0.2
-  vips:
-    management:
-      ipaddr: 192.168.0.2
-      namespace: haproxy
-      network_role: mgmt/vip
-      node_roles:
-      - controller
-      - primary-controller
-    public:
-      ipaddr: 172.16.0.3
-      namespace: haproxy
-      network_role: public/vip
-      node_roles:
-      - controller
-      - primary-controller
-    vrouter:
-      ipaddr: 192.168.0.1
-      namespace: vrouter
-      network_role: mgmt/vip
-      node_roles:
-      - controller
-      - primary-controller
-    vrouter_pub:
-      ipaddr: 172.16.0.2
-      namespace: vrouter
-      network_role: public/vip
-      node_roles:
-      - controller
-      - primary-controller
 settings:
   editable:
     external_dns:
@@ -230,12 +216,14 @@ settings:
         value: 114.114.114.114, 8.8.8.8, 8.8.4.4
         weight: 10
       metadata:
+        group: network
         label: Host OS DNS Servers
-        weight: 90
+        weight: 30
     external_ntp:
       metadata:
+        group: network
         label: Host OS NTP Servers
-        weight: 100
+        weight: 40
       ntp_list:
         description: List of upstream NTP servers, separated by comma
         label: NTP server list
@@ -247,7 +235,10 @@ settings:
         weight: 10
     syslog:
       metadata:
+        enabled: false
+        group: logging
         label: Syslog
+        toggleable: true
         weight: 50
       syslog_port:
         description: Remote syslog port
@@ -261,6 +252,9 @@ settings:
       syslog_server:
         description: Remote syslog hostname
         label: Hostname
+        regex:
+          error: Invalid hostname
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
         type: text
         value: ''
         weight: 10
