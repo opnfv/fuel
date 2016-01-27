@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_44a50303",
+        "filename": "deploy/scenario/no-ha_odl-l3_heat_ceilometer_scenario_0.0.2.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-01-27T12:44:34Z",
+      "side": 1,
+      "message": "We should use standard fuel transformation here, so in this case I believe it will be transformations_1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "520ab5a2e318c0979c4ef4727d2851d4e3d35954",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
