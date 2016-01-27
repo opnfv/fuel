@@ -34,9 +34,6 @@ class DeploymentEnvironmentAdapter(object):
     def get_env_name(self):
         return self.get_property('environment')['name']
 
-    def get_env_mode(self):
-        return self.get_property('environment')['mode']
-
     def get_env_net_segment_type(self):
         return self.get_property('environment')['net_segment_type']
 

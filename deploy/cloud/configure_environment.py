@@ -46,14 +46,11 @@ class ConfigureEnvironment(object):
         delete(self.yaml_config_dir)
         create_dir_if_not_exists(self.yaml_config_dir)
         env_name = self.dea.get_env_name()
-        env_mode = self.dea.get_env_mode()
         env_net_segment_type = self.dea.get_env_net_segment_type()
-        log('Creating environment %s release %s, mode %s, network-mode neutron'
-            ', net-segment-type %s'
-            % (env_name, self.release_id, env_mode, env_net_segment_type))
-        exec_cmd('fuel env create --name %s --release %s --mode %s '
-                 '--network-mode neutron --net-segment-type %s'
-                 % (env_name, self.release_id, env_mode, env_net_segment_type))
+        log('Creating environment %s release %s net-segment-type %s'
+            % (env_name, self.release_id, env_net_segment_type))
+        exec_cmd('fuel env create --name %s --release %s --net-segment-type %s'
+                 % (env_name, self.release_id, env_net_segment_type))
 
         if not self.env_exists(env_name):
             err('Failed to create environment %s' % env_name)
