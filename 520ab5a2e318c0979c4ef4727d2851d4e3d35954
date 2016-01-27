@@ -22,6 +22,30 @@
       "revId": "520ab5a2e318c0979c4ef4727d2851d4e3d35954",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_84e9bb1c",
+        "filename": "deploy/scenario/no-ha_odl-l3_heat_ceilometer_scenario_0.0.2.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-27T13:17:56Z",
+      "side": 1,
+      "message": "Michal, in some environments we reap we get two transformations while in others only one. So I decided to always have two transformations, and in those cases where two transformations wasn\u0027t generated/reaped I colone transformation_1 to transformation_2, I.e they are identical.",
+      "parentUuid": "5a4e6583_44a50303",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "520ab5a2e318c0979c4ef4727d2851d4e3d35954",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
