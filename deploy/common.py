@@ -18,9 +18,8 @@ import stat
 import errno
 
 N = {'id': 0, 'status': 1, 'name': 2, 'cluster': 3, 'ip': 4, 'mac': 5,
-     'roles': 6, 'pending_roles': 7, 'online': 8}
-E = {'id': 0, 'status': 1, 'name': 2, 'mode': 3, 'release_id': 4,
-     'changes': 5, 'pending_release_id': 6}
+     'roles': 6, 'pending_roles': 7, 'online': 8, 'group_id': 9}
+E = {'id': 0, 'status': 1, 'name': 2, 'release_id': 3, 'pending_release_id': 4}
 R = {'id': 0, 'name': 1, 'state': 2, 'operating_system': 3, 'version': 4}
 RO = {'name': 0, 'conflicts': 1}
 CWD = os.getcwd()
