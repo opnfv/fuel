@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_6787e162",
+        "filename": "build/f_isoroot/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-01-27T18:17:59Z",
+      "side": 1,
+      "message": "Billy, can you put it on the above line space separated.\nPLUGINS \u003d f_odlpluginbuild f_ovsnfv-dpdk-pluginbuild\nBR/Jonas",
+      "revId": "84fe20f9a7b365ec2e7fbba9924da6029a3de6d7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
