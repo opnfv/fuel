@@ -1,0 +1,75 @@
+---
+  root_ssh_authorized_file: /root/.ssh/id_rsa.pub
+  extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
+  extra_dirs:
+    - /usr/share/fuel_bootstrap_cli/files/trusty
+  output_dir: /tmp/
+  kernel_flavor: linux-image-generic-lts-trusty
+  packages:
+    - vim
+    - mc
+    - openssh-client
+    - openssh-server
+    - ntp
+    - mcollective
+    - nailgun-agent
+    - nailgun-mcagents
+    - network-checker
+    - fuel-agent
+    - ubuntu-minimal
+    - live-boot
+    - live-boot-initramfs-tools
+    - wget
+    - linux-firmware
+    - linux-firmware-nonfree
+    - linux-headers-generic
+    - hpsa-dkms
+    - i40e-dkms
+    - xz-utils
+    - squashfs-tools
+    - msmtp-mta
+  bootstrap_images_dir: /var/www/nailgun/bootstraps
+  active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
+  flavor: ubuntu
+  http_proxy: ""
+  https_proxy: ""
+  repos:
+    - name: ubuntu
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty
+      type: deb
+    - name: ubuntu-updates
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty-updates
+      type: deb
+    - name: ubuntu-security
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty-security
+      type: deb
+    - name: mos
+      section: "main restricted"
+      uri: "http://127.0.0.1:8080/ubuntu/x86_64"
+      priority: 1050
+      suite: mos8.0
+      type: deb
+    - name: mos-updates
+      section: "main restricted"
+      uri: "http://127.0.0.1:8080/mirrors/mos-repos/ubuntu/8.0"
+      priority: 1050
+      suite: mos8.0-updates
+      type: deb
+    - name: mos-security
+      section: "main restricted"
+      uri: "http://127.0.0.1:8080/mirrors/mos-repos/ubuntu/8.0"
+      priority: 1050
+      suite: mos8.0-security
+      type: deb
+  skip_default_img_build: true
+  direct_repo_addresses:
+    - "127.0.0.1"

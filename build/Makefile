@@ -53,7 +53,7 @@ export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
 export MIRROR_MOS_UBUNTU := $(shell echo "$(LATEST_MIRROR_ID_URL)" | cut -d'/' -f3)
 export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/8.0.target.txt" | head -1)
-export MIRROR_MOS_UBUNTU_ROOT := "/mos-repos/ubuntu/$(LATEST_TARGET_UBUNTU)"
+export MIRROR_MOS_UBUNTU_ROOT := /mos-repos/ubuntu/$(LATEST_TARGET_UBUNTU)
 
 export LATEST_TARGET_CENTOS := $(shell curl -sSf "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos8.0-centos7-fuel/os.target.txt" | head -1)
 export MIRROR_FUEL := "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos8.0-centos7-fuel/$(LATEST_TARGET_CENTOS)/x86_64"
