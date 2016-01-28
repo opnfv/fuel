@@ -414,6 +414,16 @@ rmdir /var/log/remote && ln -s /var/log/docker-logs/remote /var/log/remote
 dockerctl check || fail
 bash /etc/rc.local
 
+### OPNFV addition BEGIN
+shopt -s nullglob
+for script in /opt/opnfv/bootstrap/post.d/*.sh
+do
+  echo "Post script: $script" >> /root/post.log 2>&1
+  $script >> /root/post.log 2>&1
+done
+shopt -u nullglob
+### OPNFV addition END
+
 if [ "`get_bootstrap_flavor`" = "ubuntu" ]; then
   if [ "`get_bootstrap_skip`" = "False" ]; then
     build_ubuntu_bootstrap bs_status || true
@@ -426,15 +436,6 @@ else
   bs_status=3
 fi
 
-### OPNFV addition BEGIN
-shopt -s nullglob
-for script in /opt/opnfv/bootstrap/post.d/*.sh
-do
-  echo "Post script: $script" >> /root/post.log 2>&1
-  $script >> /root/post.log 2>&1
-done
-shopt -u nullglob
-### OPNFV addition END
 
 # Enable updates repository
 cat > /etc/yum.repos.d/mos${FUEL_RELEASE}-updates.repo << EOF
