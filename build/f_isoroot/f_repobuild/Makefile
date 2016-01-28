@@ -10,41 +10,34 @@
 
 SHELL := /bin/bash
 TOP := $(shell pwd)
-RSYNC_HOST := $(shell ./select_ubuntu_repo.sh)
-DEPENDENCIES_FILE := /etc/fuel-createmirror/requirements-deb.txt
+UBUNTU_DIR := $(shell dirname $(MIRROR_UBUNTU_ROOT))
+
+export MOS_VERSION = 8.0
+export OPENSTACK_VERSION = liberty-8.0
 
 
 .PHONY: all
 all: nailgun
 
 nailgun:
-#	If RSYNC_CONNECT_PROG is set we need to do some magic to copy the
-#	keys. Make sure to have the username set in the SSH_CONNECT_PROG
-#	as well!
-	@if [ -n "${RSYNC_CONNECT_PROG}" -a ! -d /root/.ssh ]; then \
-		sudo mkdir -p /root/.ssh; \
-		test -d ${HOME}/.ssh && sudo find ${HOME}/.ssh -maxdepth 1 -type f -exec cp {} /root/.ssh \; ; \
-		sudo bash -c "echo StrictHostKeyChecking=no > /root/.ssh/config"; \
-		sudo chmod 700 /root/.ssh; \
-	fi
-	sudo apt-get install -y rsync python python-yaml dpkg-dev openssl
-	rm -rf tmpiso tmpdir
-	mkdir tmpiso
-	fuseiso ${ISOCACHE} tmpiso
-	cp tmpiso/ubuntu/pool/main/f/fuel-createmirror/fuel-createmirror_*.deb .
-	fusermount -u tmpiso
-	rm -rf tmpiso
-	sudo dpkg -i fuel-createmirror_*.deb
-	sudo sed -i 's/DOCKER_MODE=true/DOCKER_MODE=false/' /etc/fuel-createmirror/common.cfg
-	sudo sed -i 's/DEBUG="no"/DEBUG="yes"/' /etc/fuel-createmirror/ubuntu.cfg
-	sudo sed -i "s/MIRROR_UBUNTU_HOST=\".*\"/MIRROR_UBUNTU_HOST=\"$(RSYNC_HOST)\"/" /etc/fuel-createmirror/common.cfg
-	# Add dependencies from plugins. With awk help try add only unique packages.
-	sudo bash -c 'find ../ -name requirements-deb.txt -print0 | xargs -0 -I% awk '\''NR == FNR {first[$$0];next}; ! ($$0 in first)'\'' "${DEPENDENCIES_FILE}" "%" >> "${DEPENDENCIES_FILE}"'
+	sudo apt-get install -y git libxml2-dev libxslt-dev python-dev  python-pip libz-dev libyaml-dev createrepo python-yaml
 	rm -Rf nailgun
-	sudo mkdir -p /var/www
-	sudo su - -c /opt/fuel-createmirror-*/fuel-createmirror
+	sudo mkdir -p /var/www/nailgun
+	git clone -b stable/8.0 https://github.com/openstack/fuel-mirror
+	sudo pip install -U -r ./fuel-mirror/requirements.txt
+	sudo pip install ./fuel-mirror
+	sudo pip install ./fuel-mirror/contrib/fuel_mirror
+	cd $(TOP)
+	./opnfv_mirror_conf.py
+	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group mos ubuntu --pattern=ubuntu
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
+	mv nailgun/mirrors$(MIRROR_MOS_UBUNTU_ROOT) nailgun/mirrors/mos-repos/ubuntu/$(MOS_VERSION)
+	rmdir nailgun/mirrors/mos-repos/ubuntu/snapshots
+	if [ "$(UBUNTU_DIR)" != "/" ]; then \
+	  mv nailgun/mirrors$(UBUNTU_DIR)/ubuntu naligun/mirros/ubuntu;\
+	  rm -rf nailgun/mirrors$(UBUNTU_DIR);\
+	fi
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
 	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
