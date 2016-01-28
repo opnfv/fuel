@@ -54,12 +54,22 @@ class ConfigureSettings(object):
         backup(settings_yaml)
         settings = self.dea.get_property('settings')
         # Copy fuel defined plugin_id's to user defined settings
+        # From Fuel 8.0 chosen_id was added because it is now
+        # possible to install many version of the same plugin
+        # but we will install only one version
         for plugin in orig_dea['editable']:
-            if 'metadata' in orig_dea['editable'][plugin] and 'plugin_id' in orig_dea['editable'][plugin]['metadata']:
-                if not plugin in settings['editable']:
-                    settings['editable'][plugin] = orig_dea['editable'][plugin]
-                else:
-                    settings['editable'][plugin]["metadata"]["plugin_id"] = orig_dea['editable'][plugin]["metadata"]["plugin_id"]
+            if 'metadata' in orig_dea['editable'][plugin]:
+                if 'plugin_id' in orig_dea['editable'][plugin]['metadata']:
+                    if not plugin in settings['editable']:
+                        settings['editable'][plugin] = orig_dea['editable'][plugin]
+                    else:
+                        settings['editable'][plugin]["metadata"]["plugin_id"] = orig_dea['editable'][plugin]["metadata"]["plugin_id"]
+                elif 'chosen_id' in orig_dea['editable'][plugin]['metadata']:
+                    if not plugin in settings['editable']:
+                        settings['editable'][plugin] = orig_dea['editable'][plugin]
+                    else:
+                        settings['editable'][plugin]['metadata']['chosen_id'] = orig_dea['editable'][plugin]['metadata']['chosen_id']
+                        settings['editable'][plugin]['metadata']['versions'][0]['metadata']['plugin_id'] = orig_dea['editable'][plugin]['metadata']['versions'][0]['metadata']['plugin_id']
 
         with io.open(settings_yaml, 'w') as stream:
             yaml.dump(settings, stream, default_flow_style=False)
