@@ -277,10 +277,6 @@ rmdir /var/log/remote && ln -s /var/log/docker-logs/remote /var/log/remote
 dockerctl check || fail
 bash /etc/rc.local
 
-if [ "`get_bootstrap_flavor`" = "ubuntu" ]; then
-	build_ubuntu_bootstrap || true
-fi
-
 ### OPNFV addition BEGIN
 shopt -s nullglob
 for script in /opt/opnfv/bootstrap/post.d/*.sh
@@ -290,6 +286,11 @@ do
 done
 shopt -u nullglob
 ### OPNFV addition END
+
+if [ "`get_bootstrap_flavor`" = "ubuntu" ]; then
+	build_ubuntu_bootstrap || true
+fi
+
 
 # Enable updates repository
 cat > /etc/yum.repos.d/mos${FUEL_RELEASE}-updates.repo << EOF
