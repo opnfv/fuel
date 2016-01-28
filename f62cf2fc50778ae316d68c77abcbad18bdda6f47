@@ -16,6 +16,24 @@
       "revId": "f62cf2fc50778ae316d68c77abcbad18bdda6f47",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_b81cd8c2",
+        "filename": "deploy/cloud/configure_settings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-01-28T17:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4e6583_7830a056",
+      "revId": "f62cf2fc50778ae316d68c77abcbad18bdda6f47",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
