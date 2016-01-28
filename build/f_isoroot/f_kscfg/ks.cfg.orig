@@ -296,14 +296,49 @@ yum-plugin-priorities
 # POSTINSTALL SECTION
 # HERE ARE COMMANDS THAT WILL BE LAUNCHED JUST AFTER
 # INSTALLATION ITSELF COMPLETED
-%post
-echo -e "modprobe nf_conntrack_ipv4\nmodprobe nf_conntrack_ipv6\nmodprobe nf_conntrack_tftp\nmodprobe nf_nat_tftp" >> /etc/rc.modules
-chmod +x /etc/rc.modules
-echo -e "net.nf_conntrack_max=1048576" >> /etc/sysctl.conf
-mkdir -p /var/log/coredump
-echo -e "kernel.core_pattern=/var/log/coredump/core.%e.%p.%h.%t" >> /etc/sysctl.conf
-chmod 777 /var/log/coredump
-echo -e "* soft core unlimited\n* hard core unlimited" >> /etc/security/limits.conf
+
+
+# Parse /proc/cmdline and save for next steps
+%post --log=/root/anaconda-parse-cmdline.log
+#!/bin/bash
+set -x
+
+# Parse cmdline to alter keys which contains dot in their names
+# Such keys can't be used as variables in bash,
+# so every dot is replaced with double underscore.
+# Double underscore needed to avoid possible naming collisions.
+for item in $(cat /proc/cmdline); do
+  if [[ "${item}" =~ '=' ]]; then
+    key="${item%%=*}"
+    value="${item#*=}"
+  else
+    key="${item}"
+    value='yes'
+  fi
+  key="${key//\./__}"
+  value="${value:-'yes'}"
+  echo "${key}=${value}" >> /root/anaconda.cmdline.vars
+done
+
+source /root/anaconda.cmdline.vars
+
+if [[ ! -z $ifname ]]; then
+  echo "adminif=$(udevadm info --query=property -p /sys/class/net/${ifname%%:*} | \
+    awk -F\= '$1 == "ID_NET_NAME_ONBOARD" {s=$2; exit}; $1 == "ID_NET_NAME_SLOT" {s=$2; exit}; $1 == "ID_NET_NAME_PATH" {s=$2; next}; END {print s}')" >> /root/anaconda.cmdline.vars
+fi
+
+# Add self entry to /etc/hosts
+ipaddr=$(echo $ip | cut -d: -f1)
+hostname=$(echo $ip | cut -d: -f5)
+# Use default hostname if missing from parameters
+[ -z "$hostname" ] && hostname="fuel.domain.tld"
+short=$(echo $hostname | cut -d. -f1)
+echo -e "${ipaddr}       ${hostname} ${short}" >> /etc/hosts
+%end
+
+
+
+
 
 # Mount installation media in chroot
 %post --nochroot --log=/mnt/sysimage/root/anaconda-post-before-chroot.log
