@@ -17,12 +17,10 @@ PLUGINS = f_odlpluginbuild f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsper
 # Temporarilu disabling f_repobuild that currently have some issues on
 # Fuel 8.
 ifdef BUILD_FUEL_PLUGINS
-#SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
-SUBDIRS = f_kscfg f_bootstrap f_isolinux $(BUILD_FUEL_PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
 else
-#SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
-SUBDIRS = f_kscfg f_bootstrap f_isolinux $(PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
 endif
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
