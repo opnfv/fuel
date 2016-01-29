@@ -1,18 +1,19 @@
-*** prepare-build-env.sh.orig	Fri Dec 18 15:04:43 2015
---- prepare-build-env.sh	Fri Dec 18 15:05:01 2015
+*** prepare-build-env.sh.orig	2016-01-11 14:55:50.615286910 +0100
+--- prepare-build-env.sh	2016-01-11 14:59:44.775308422 +0100
 ***************
-*** 104,110 ****
+*** 102,108 ****
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
     # Install docker
     sudo apt-get update
-    sudo sh -c 'echo DOCKER_OPTS=\"--dns 8.8.8.8 --dns 8.8.4.4 --bip 172.45.0.1/24\" > /etc/default/docker'
-!   sudo apt-get -y -o Dpkg::Options::="--force-confold" install lxc-docker-1.5.0
+!   sudo apt-get -y install lxc-docker-1.5.0
   fi
   
   # Install software
---- 104,110 ----
+--- 102,109 ----
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
     # Install docker
     sudo apt-get update
-    sudo sh -c 'echo DOCKER_OPTS=\"--dns 8.8.8.8 --dns 8.8.4.4 --bip 172.45.0.1/24\" > /etc/default/docker'
+!   sudo sh -c 'echo DOCKER_OPTS=\"--bip 172.45.0.1/24\" > /etc/default/docker'
 !   sudo apt-get -y -o Dpkg::Options::="--force-confold" install lxc-docker-1.7.1
   fi
   

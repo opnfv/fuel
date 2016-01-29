@@ -33,6 +33,13 @@ errorexit () {
     exit 1
 }
 
+# Generate a unique number every two weeks - a service routine that
+# can be used when generating the SHA1 to make sure that the cache is
+# rebuilt bi-weekly even if no pruning of the cache is taking place.
+getbiweek () {
+  echo "$(date +'%G')$[$(date +'%V')/2]"
+}
+
 # Get a SHA1 based on what's piped into the cache command
 getid() {
     debugmsg "Generating sha1sum"
@@ -138,6 +145,12 @@ if [ -z "$CACHEBASE" ]; then
 fi
 
 case $1 in
+    getbiweek)
+        if [ $# -ne 1 ]; then
+            errorexit "No arguments can be given to getbiweek!"
+        fi
+        getbiweek
+        ;;
     getcommitid)
         if [ $# -ne 3 ]; then
             errorexit "Arg 1 needs to be URI and arg 2 tag/branch/commit"

@@ -34,7 +34,5 @@ RUN chmod 4755 /bin/fusermount
 
 ADD ./setcontext /root/setcontext
 RUN chmod +x /root/setcontext
-ADD ./enable_dockerx2 /root/enable_dockerx2
-RUN chmod +x /root/enable_dockerx2
 
 VOLUME /var/lib/docker

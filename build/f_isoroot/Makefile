@@ -15,6 +15,8 @@ export PLUGINS
 
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.
+# Temporarilu disabling f_repobuild that currently have some issues on
+# Fuel 8.
 ifdef BUILD_FUEL_PLUGINS
 export BUILD_FUEL_PLUGINS
 SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
