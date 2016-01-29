@@ -45,6 +45,9 @@ nailgun:
 	sudo su - -c /opt/fuel-createmirror-*/fuel-createmirror
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
+	# Store artifact in cache straight away if caching is enabled
+	# (no .cacheid will be present unless this is a cached build)
+	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
 .PHONY: clean
 clean:
