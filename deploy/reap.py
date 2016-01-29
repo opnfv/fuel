@@ -75,8 +75,8 @@ DHA_2 = '''
 '''
 
 DISKS = {'fuel': '50G',
-         'controller': '60G',
-         'compute': '50G'}
+         'controller': '100G',
+         'compute': '100G'}
 
 
 class Reap(object):
@@ -221,13 +221,8 @@ class Reap(object):
                         % (self.temp_dir, self.env_id))
         network = self.read_yaml(network_file)
 
-        # ha_compact not understood by Fuel when deploying...OD
-        if self.env[E['mode']] == 'ha_compact':
-            self.env[E['mode']] = 'ha'
-
         env = {'environment':
                    {'name': self.env[E['name']],
-                    'mode': self.env[E['mode']],
                     'net_segment_type':
                         network['networking_parameters']['segmentation_type']}}
         self.write_yaml(self.dea_file, env)
