@@ -1,0 +1,24 @@
+plugin-config-metadata:
+  title: ONOS fuel Plugin configuration template
+  version: 0.2
+  created: Fre Jan 29 2016
+  comment: None
+
+onos:
+  metadata:
+    # chosen_id: Assigned during installation
+    class: plugin
+    default: false
+    enabled: true
+    label: onos plugin
+    toggleable: true
+    versions:
+    - metadata:
+        always_editable: false
+        # plugin_id: Assigned during installation
+        plugin_version: 0.8.0
+        restrictions:
+        - cluster:net_provider != 'neutron': Neutron only
+        - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign
+            public network to all nodes
+    weight: 70
