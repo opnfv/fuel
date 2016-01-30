@@ -52,25 +52,21 @@ dea-override-config:
   - id: 2
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_2
+    transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_2
+    transformations: transformations_1
   - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_2
+    transformations: transformations_1
   settings:
     editable:
-      common:
-        libvirt_type:
-          # ONOS requires QEMU
-          value: qemu
       public_network_assignment:
         assign_to_all_nodes:
-          # ONOS should not have public network assignment to all nodes
-          value: false
+          value: true
+
 dha-override-config:
 #  disks:
 #    contrail: 500G
