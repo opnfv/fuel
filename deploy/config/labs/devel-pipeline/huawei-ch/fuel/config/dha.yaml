@@ -1,7 +1,7 @@
 dha-pod-config-metadata:
   title: Deployment Hardware Adapter (DHA) for fuel development pipeline - default version
-  version: 0.0.2
-  created: Jan 26 2015
+  version: 0.0.3
+  created: Feb 2 2015
   comment: Huawei-Ch Fuel8 version
 
 # Adapter to use for this definition
@@ -33,6 +33,6 @@ nodes:
 virtNetConfDir: templates/virtual_environment/networks
 
 disks:
-  fuel: 50G
+  fuel: 100G
   controller: 100G
   compute: 100G
