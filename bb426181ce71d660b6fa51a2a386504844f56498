@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_1003b7b9",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "Thanks Michal",
+      "parentUuid": "5a4e6583_b03ce394",
+      "range": {
+        "startLine": 291,
+        "startChar": 54,
+        "endLine": 291,
+        "endChar": 58
+      },
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_9041e70d",
         "filename": "docs/configguide/postinstall.rst",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_f0fffba8",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "Thanks Michal",
+      "parentUuid": "5a4e6583_9041e70d",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_558921c9",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-02-02T15:47:26Z",
       "side": 1,
       "message": "I assume that the version history is removed in the final version? Or is there a reason for keeping it?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_702b0b31",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "Thats a good question Sofia!\nI guess version history from previous releases should be removed!?\nWhat about version history for this release and upcomming follow-up releases - just dont know? Chris - any oppinion?",
+      "parentUuid": "5a4e6583_558921c9",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -106,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_d02cff4c",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "Thanks Michal, I will do a complete re-run verification of a manual install before I release this document! But thanks for the tips!!!!!!",
+      "parentUuid": "5a4e6583_50f92fc7",
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_9058c7fb",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 2
@@ -129,6 +219,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_b03183a4",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "I will follow your advise Michal - thanks!",
+      "parentUuid": "5a4e6583_9058c7fb",
+      "range": {
+        "startLine": 494,
+        "startChar": 1,
+        "endLine": 496,
+        "endChar": 27
+      },
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_705d4be9",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 2
@@ -140,6 +254,30 @@
       "writtenOn": "2016-02-02T21:41:30Z",
       "side": 1,
       "message": "unnecessary here",
+      "range": {
+        "startLine": 546,
+        "startChar": 61,
+        "endLine": 546,
+        "endChar": 68
+      },
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_90268767",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-02T22:21:42Z",
+      "side": 1,
+      "message": "Hahah, I\u0027m word blind!\nThanks!",
+      "parentUuid": "5a4e6583_705d4be9",
       "range": {
         "startLine": 546,
         "startChar": 61,
