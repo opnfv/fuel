@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_50f92fc7",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-02T21:50:53Z",
+      "side": 1,
+      "message": "Sorry this command is about \u0027Select network mode\u0027, lines 371-375",
+      "parentUuid": "5a4e6583_b063c3b0",
+      "revId": "bb426181ce71d660b6fa51a2a386504844f56498",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_9058c7fb",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 2
