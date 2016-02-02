@@ -1,6 +1,0 @@
-attributes:
-    use_dpdk:
-      type: "checkbox"
-      weight: 20
-      value: false
-      label: "Use dpdk"

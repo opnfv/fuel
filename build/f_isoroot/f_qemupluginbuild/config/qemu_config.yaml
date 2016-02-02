@@ -1,6 +1,0 @@
-attributes:
-    metadata:
-      enabled: false
-      label: fuel-plugin-qemu
-      toggleable: true
-      weight: 70
