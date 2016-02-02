@@ -51,4 +51,4 @@ nodes:
   password: r00tme
 
 disks:
-  fuel: 50G
+  fuel: 100G
