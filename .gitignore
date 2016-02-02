@@ -3,8 +3,3 @@
 .pydevproject
 ci/config/
 deploy/autodeploy.log
-*~
-.*.sw?
-/docs_build/
-/docs_output/
-/releng/
