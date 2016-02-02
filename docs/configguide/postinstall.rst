@@ -1,3 +1,9 @@
+.. This document is protected/licensed under the following conditions
+.. (c) Jonas Bjurel (Ericsson AB)
+.. Licensed under a Creative Commons Attribution 4.0 International License.
+.. You should have received a copy of the license along with this work.
+.. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+
 <Project> post installation procedures
 ======================================
 Add a brief introduction to the methods of validating the installation

@@ -6,22 +6,10 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-
-plugin-config-metadata:
-  title: NFV QEMU-KVM fuel Plugin configuration template
-  version: 0.1
-  created: Wed Jan 6 2016
-  comment: None
-
-fuel-plugin-qemu:
-  metadata:
-    enabled: true
-    label: fuel-plugin-qemu
-    # plugin_id: Assigned during installation
-    toggleable: true
-    weight: 70
-  use_kvm:
-    label: 'EXPERIMENTAL: KVM enhancements for NFV'
-    type: checkbox
-    value: true
-    weight: 20
+attributes:
+  fuel-plugin-vsperf_text:
+    value: 'Set default value'
+    label: 'Text field'
+    description: 'Description for text field'
+    weight: 25
+    type: "text"
