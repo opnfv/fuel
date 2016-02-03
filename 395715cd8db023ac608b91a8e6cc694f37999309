@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_863bedea",
+        "filename": "LICENSE.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "licesed -\u003e licensed",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_6640f156",
+        "filename": "LICENSE.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "Capital L?",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_2622f9b9",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "licesed -\u003e licensed",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_062ffda2",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "Capital L?",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e62bc192",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "licesed -\u003e licensed",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_c618c586",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "Capital L?",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a61dc975",
+        "filename": "docs/index.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "licesed -\u003e licensed",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_8612cd60",
+        "filename": "docs/index.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "Capital L?",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_460cd542",
+        "filename": "onboarding.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "licesed -\u003e licensed",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_2609d931",
+        "filename": "onboarding.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-03T22:08:18Z",
+      "side": 1,
+      "message": "Capital L?",
+      "revId": "395715cd8db023ac608b91a8e6cc694f37999309",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
