@@ -1,5 +1,0 @@
-*.pyc
-.project
-.pydevproject
-ci/config/
-deploy/autodeploy.log
