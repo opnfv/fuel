@@ -13,8 +13,10 @@ import os
 import io
 import re
 import sys
-import netaddr
 import yaml
+import errno
+import signal
+import netaddr
 
 from dea import DeploymentEnvironmentAdapter
 from dha import DeploymentHardwareAdapter
@@ -38,6 +40,7 @@ FUEL_VM = 'fuel'
 PATCH_DIR = 'fuel_patch'
 WORK_DIR = '~/deploy'
 CWD = os.getcwd()
+MOUNT_STATE_VAR = 'AUTODEPLOY_ISO_MOUNTED'
 
 
 class cd:
@@ -118,6 +121,7 @@ class AutoDeploy(object):
             self.patch(tmp_new_dir, new_iso)
         except Exception as e:
             exec_cmd('fusermount -u %s' % tmp_orig_dir, False)
+            os.environ.pop(MOUNT_STATE_VAR, None)
             delete(self.tmp_dir)
             err(e)
 
@@ -126,9 +130,11 @@ class AutoDeploy(object):
         os.makedirs(tmp_orig_dir)
         os.makedirs(tmp_new_dir)
         exec_cmd('fuseiso %s %s' % (self.iso_file, tmp_orig_dir))
+        os.environ[MOUNT_STATE_VAR] = tmp_orig_dir
         with cd(tmp_orig_dir):
             exec_cmd('find . | cpio -pd %s' % tmp_new_dir)
         exec_cmd('fusermount -u %s' % tmp_orig_dir)
+        os.environ.pop(MOUNT_STATE_VAR, None)
         delete(tmp_orig_dir)
         exec_cmd('chmod -R 755 %s' % tmp_new_dir)
 
@@ -355,7 +361,28 @@ def parse_arguments():
     return kwargs
 
 
+def handle_signals(signal_num, frame):
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+
+    log('Caught signal %s, cleaning up and exiting.' % signal_num)
+
+    mount_point = os.environ.get(MOUNT_STATE_VAR)
+    if mount_point:
+        log('Unmounting ISO from "%s"' % mount_point)
+        # Prevent 'Device or resource busy' errors when unmounting
+        os.chdir('/')
+        exec_cmd('fusermount -u %s' % mount_point, True)
+        # Be nice and remove our environment variable, even though the OS would
+        # would clean it up anyway
+        os.environ.pop(MOUNT_STATE_VAR)
+
+    sys.exit(1)
+
+
 def main():
+    signal.signal(signal.SIGINT, handle_signals)
+    signal.signal(signal.SIGTERM, handle_signals)
     kwargs = parse_arguments()
     d = AutoDeploy(**kwargs)
     sys.exit(d.run())
