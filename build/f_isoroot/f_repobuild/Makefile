@@ -11,6 +11,7 @@
 SHELL := /bin/bash
 TOP := $(shell pwd)
 UBUNTU_DIR := $(shell dirname $(MIRROR_UBUNTU_ROOT))
+TMP_ROOT_DIR := $(shell echo "$(UBUNTU_DIR)" | cut -d "/" -f2)
 
 include ../../config.mk
 
@@ -35,8 +36,8 @@ nailgun:
 	mv nailgun/mirrors$(MIRROR_MOS_UBUNTU_ROOT) nailgun/mirrors/mos-repos/ubuntu/$(MOS_VERSION)
 	rmdir nailgun/mirrors/mos-repos/ubuntu/snapshots
 	if [ "$(UBUNTU_DIR)" != "/" ]; then \
-	  mv nailgun/mirrors$(UBUNTU_DIR)/ubuntu naligun/mirros/ubuntu;\
-	  rm -rf nailgun/mirrors$(UBUNTU_DIR);\
+	  mv nailgun/mirrors$(UBUNTU_DIR)/ubuntu nailgun/mirrors/ubuntu;\
+	  rm -rf nailgun/mirrors/$(TMP_ROOT_DIR);\
 	fi
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
