@@ -74,7 +74,7 @@ DHA_2 = '''
 # which may not be correct - please adjust as needed.
 '''
 
-DISKS = {'fuel': '50G',
+DISKS = {'fuel': '100G',
          'controller': '100G',
          'compute': '100G'}
 
