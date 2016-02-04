@@ -531,43 +531,25 @@ settings:
           section: main universe multiverse
           suite: trusty
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/mirrors/ubuntu/
         - name: ubuntu-updates
           priority: null
           section: main universe multiverse
           suite: trusty-updates
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/mirrors/ubuntu/
         - name: ubuntu-security
           priority: null
           section: main universe multiverse
           suite: trusty-security
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/mirrors/ubuntu/
         - name: mos
           priority: 1050
           section: main restricted
           suite: mos8.0
           type: deb
           uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/x86_64
-        - name: mos-updates
-          priority: 1050
-          section: main restricted
-          suite: mos8.0-updates
-          type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
-        - name: mos-security
-          priority: 1050
-          section: main restricted
-          suite: mos8.0-security
-          type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
-        - name: mos-holdback
-          priority: 1100
-          section: main restricted
-          suite: mos8.0-holdback
-          type: deb
-          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/8.0/
         - name: Auxiliary
           priority: 1150
           section: main restricted
@@ -576,7 +558,7 @@ settings:
           uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/auxiliary
     storage:
       ephemeral_ceph:
-        description: Configures Nova to store ephemeral volumes in RBD. This works
+                  description: Configures Nova to store ephemeral volumes in RBD. This works
           best if Ceph is enabled for volumes and images, too. Enables live migration
           of all types of Ceph backed VMs (without this option, live migration will
           only work with VMs launched from Cinder volumes).
