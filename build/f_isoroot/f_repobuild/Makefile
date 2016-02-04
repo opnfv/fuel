@@ -30,11 +30,9 @@ nailgun:
 	sudo pip install ./fuel-mirror
 	sudo pip install ./fuel-mirror/contrib/fuel_mirror
 	./opnfv_mirror_conf.py
-	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group mos ubuntu --pattern=ubuntu
+	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group ubuntu --pattern=ubuntu
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
-	mv nailgun/mirrors$(MIRROR_MOS_UBUNTU_ROOT) nailgun/mirrors/mos-repos/ubuntu/$(MOS_VERSION)
-	rmdir nailgun/mirrors/mos-repos/ubuntu/snapshots
 	if [ "$(UBUNTU_DIR)" != "/" ]; then \
 	  mv nailgun/mirrors$(UBUNTU_DIR)/ubuntu nailgun/mirrors/ubuntu;\
 	  rm -rf nailgun/mirrors/$(TMP_ROOT_DIR);\

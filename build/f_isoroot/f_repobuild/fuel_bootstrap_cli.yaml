@@ -58,18 +58,6 @@
       priority: 1050
       suite: mos8.0
       type: deb
-    - name: mos-updates
-      section: "main restricted"
-      uri: "http://127.0.0.1:8080/mirrors/mos-repos/ubuntu/8.0"
-      priority: 1050
-      suite: mos8.0-updates
-      type: deb
-    - name: mos-security
-      section: "main restricted"
-      uri: "http://127.0.0.1:8080/mirrors/mos-repos/ubuntu/8.0"
-      priority: 1050
-      suite: mos8.0-security
-      type: deb
   skip_default_img_build: true
   direct_repo_addresses:
     - "127.0.0.1"
