@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_4126ff17",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config/opendaylight_config.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-04T08:22:56Z",
+      "side": 1,
+      "message": "Is this file is still used for something, or we only use deploy/config files?",
+      "revId": "408a4278de5bdee50f3e6bfc0e20dbbefdb74f3c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
