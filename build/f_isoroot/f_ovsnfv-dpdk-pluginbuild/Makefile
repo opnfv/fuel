@@ -31,7 +31,6 @@ release:.ovsnfvbuild
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-ovsnfv*.rpm ../release/opnfv/
 	cp gitinfo_ovsnfv-dpdk-plugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .ovsnfvbuild:
 	@rm -rf fuel-plugin-ovsnfv

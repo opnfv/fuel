@@ -31,7 +31,6 @@ release:.onosbuild
 	@mkdir -p ../release/opnfv
 	@cp onos*.rpm ../release/opnfv/
 	cp gitinfo_onos-plugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .onosbuild:
 	@rm -rf fuel-plugin-onos
