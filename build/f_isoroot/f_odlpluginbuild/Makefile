@@ -25,7 +25,6 @@ release:.odlbuild
 	@mkdir -p ../release/opnfv
 	@cp opendaylight*.rpm ../release/opnfv/
 	cp gitinfo_odlplugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev

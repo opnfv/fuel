@@ -32,7 +32,6 @@ release:.bgpvpnbuild
 	@mkdir -p ../release/bgpvpn
 	@cp bgpvpn*.rpm ../release/opnfv/
 	cp gitinfo_bgpvpnplugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .bgpvpnbuild:
 	rm -rf fuel-plugin-bgpvpn

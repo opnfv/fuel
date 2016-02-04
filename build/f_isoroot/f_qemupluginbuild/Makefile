@@ -31,7 +31,6 @@ release:.qemubuild
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-qemu*.rpm ../release/opnfv/
 	cp gitinfo_qemu-plugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .qemubuild:
 	@rm -rf fuel-plugin-qemu
