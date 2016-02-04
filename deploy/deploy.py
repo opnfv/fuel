@@ -148,10 +148,10 @@ class AutoDeploy(object):
             delete('.rr_moved')
             isolinux = 'isolinux/isolinux.cfg'
             log('isolinux.cfg before: %s'
-                % exec_cmd('grep netmask %s' % isolinux))
+                % exec_cmd('grep ip= %s' % isolinux))
             self.update_fuel_isolinux(isolinux)
             log('isolinux.cfg after: %s'
-                % exec_cmd('grep netmask %s' % isolinux))
+                % exec_cmd('grep ip= %s' % isolinux))
 
             iso_label = self.parse_iso_volume_label(self.iso_file)
             log('Volume label: %s' % iso_label)
@@ -167,7 +167,7 @@ class AutoDeploy(object):
         with io.open(file) as f:
             data = f.read()
         for key, val in self.fuel_conf.iteritems():
-            # skip replacing these keys, as the format is custom
+            # skip replacing these keys, as the format is different
             if key in ['ip', 'gw', 'netmask', 'hostname']:
                 continue
 
@@ -185,27 +185,8 @@ class AutoDeploy(object):
 
         data = re.sub(r'ip=[^ ]\S+', 'ip=%s' % ip, data)
 
-        netmask = self.fuel_conf['netmask']
-        data = self.append_kernel_param(data, 'netmask=%s' % netmask)
-
         with io.open(file, 'w') as f:
             f.write(data)
-
-    def append_kernel_param(self, data, kernel_param):
-        """Append the specified kernel parameter to a list of kernel
-        parameters. Do it only if it isn't already there.
-        """
-        data_final = ''
-        key = re.match(r'(.+?=)', kernel_param).group()
-
-        for line in data.splitlines():
-            data_final += line
-            if (re.search(r'append ', line) and
-                not re.search(key, line)):
-                data_final += ' ' + kernel_param
-            data_final += '\n'
-
-        return data_final
 
     def parse_iso_volume_label(self, iso_filename):
         label_line = exec_cmd('isoinfo -d -i %s | grep -i "Volume id: "' % iso_filename)
