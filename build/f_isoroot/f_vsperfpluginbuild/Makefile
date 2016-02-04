@@ -31,7 +31,6 @@ release:.vsperfbuild
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-vsperf*.rpm ../release/opnfv/
 	cp gitinfo_vsperf-plugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .vsperfbuild:
 	@rm -rf vswitchperf

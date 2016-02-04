@@ -31,7 +31,6 @@ release:.ovsbuild
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-ovs*.rpm ../release/opnfv/
 	cp gitinfo_ovs-nsh-dpdk-plugin.txt $(BUILD_BASE)
-	cd $(BUILD_BASE) && mkdir -p ../deploy/templates/plugins && cp -rf $(TOP)/config/* ../deploy/templates/plugins
 
 .ovsbuild:
 	@rm -rf fuel-plugin-ovs
