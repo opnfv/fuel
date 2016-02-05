@@ -9,7 +9,7 @@
 ##############################################################################
 
 FUEL_MAIN_REPO := https://github.com/openstack/fuel-main
-FUEL_MAIN_TAG = stable/8.0
+FUEL_MAIN_TAG = a365f05b903368225da3fea9aa42afc1d50dc9b4
 MOS_VERSION = 8.0
 OPENSTACK_VERSION = liberty-8.0
 
