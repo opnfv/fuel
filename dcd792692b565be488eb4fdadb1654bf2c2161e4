@@ -16,6 +16,24 @@
       "revId": "dcd792692b565be488eb4fdadb1654bf2c2161e4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_cf6d7506",
+        "filename": "deploy/config/dea_base.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-05T10:20:08Z",
+      "side": 1,
+      "message": "I think that our primary goal here is to just deploy fuel, and in some cases do this in offline environment. At the date of B release probably there will be no packages in mos-updates / mos-security and just relaying on mos packages already included on ISO help us reduce it size. If you user will want to use environment for long term then he can add additional repositories manually",
+      "parentUuid": "5a4e6583_8fb09d8c",
+      "revId": "dcd792692b565be488eb4fdadb1654bf2c2161e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
