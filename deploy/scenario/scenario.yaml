@@ -66,7 +66,7 @@ os-nosdn-ovs-ha:
   configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-ovs-noha:
-  configfile: no-ha_nfv-ovseat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_nfv-ovs_heat_ceilometer_scenario_0.0.2.yaml
 
 
 os-odl_l2-bgpvpn-ha:
