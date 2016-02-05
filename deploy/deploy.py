@@ -141,10 +141,10 @@ class AutoDeploy(object):
     def patch(self, tmp_new_dir, new_iso):
         log('Patching...')
         patch_dir = '%s/%s' % (CWD, PATCH_DIR)
-        ks_path = '%s/ks.cfg.patch' % patch_dir
+        ks_path = '%s/autodeploy.patch' % patch_dir
 
         with cd(tmp_new_dir):
-            exec_cmd('cat %s | patch -p0' % ks_path)
+            exec_cmd('cat %s | patch -p1' % ks_path)
             delete('.rr_moved')
             isolinux = 'isolinux/isolinux.cfg'
             log('isolinux.cfg before: %s'

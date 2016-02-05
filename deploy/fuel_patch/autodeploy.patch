@@ -1,0 +1,23 @@
+diff -ruN a/isolinux/isolinux.cfg b/isolinux/isolinux.cfg
+--- a/isolinux/isolinux.cfg	2016-02-01 15:07:22.000000000 +0100
++++ b/isolinux/isolinux.cfg	2016-02-02 15:40:36.090776657 +0100
+@@ -1,6 +1,6 @@
+ default vesamenu.c32
+ #prompt 1
+-timeout 300
++timeout 30
+ 
+ display boot.msg
+ 
+diff -ruN a/ks.cfg b/ks.cfg
+--- a/ks.cfg	2016-02-01 15:07:22.000000000 +0100
++++ b/ks.cfg	2016-02-02 15:40:14.250393761 +0100
+@@ -98,7 +98,7 @@
+ default_drive=`echo ${drives} ${removable_drives} | awk '{print $1}'`
+ 
+ installdrive=${installdrive:-undefined}
+-forceformat=${forceformat:-no}
++forceformat=${forceformat:-yes}
+ for I in $(cat /proc/cmdline); do
+   case "$I" in
+     *=*)
