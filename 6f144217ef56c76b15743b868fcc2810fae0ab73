@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_6f3c4130",
+        "filename": "deploy/config/dea_base.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-05T08:27:16Z",
+      "side": 1,
+      "message": "http://www.yamllint.com/ saying that this additional indent is not a proper syntax",
+      "revId": "6f144217ef56c76b15743b868fcc2810fae0ab73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
