@@ -70,5 +70,7 @@ os-nosdn-ovs-noha:
 
 
 os-odl_l2-bgpvpn-ha:
+  configfile: ha_odl-l2_bgpvpn_scenario_0.0.2.yaml
 
 os-odl_l2-bgpvpn-noha:
+  configfile: no-ha_odl-l2_bgpvpn_scenario_0.0.2.yaml
