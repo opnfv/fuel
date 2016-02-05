@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_8fb09d8c",
+        "filename": "deploy/config/dea_base.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-05T10:11:00Z",
+      "side": 1,
+      "message": "Michal told me, that there will be mos-updates and mos-security. His mirroring routine is aligned doing these mirrors.",
+      "revId": "dcd792692b565be488eb4fdadb1654bf2c2161e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
