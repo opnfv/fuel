@@ -34,7 +34,7 @@ deployment-scenario-metadata:
 stack-extensions:
    - module: opendaylight
      module-config-name: fuel-odl
-     module-config-version: 0.0.1
+     module-config-version: 0.0.2
      module-config-override:
        # Module config overrides
        rest_api_port:
@@ -47,7 +47,7 @@ stack-extensions:
          value: false
    - module: bgpvpn
      module-config-name: fuel-bgpvpn
-     module-config-version: 0.0.1
+     module-config-version: 0.0.2
      module-config-override:
 
 
