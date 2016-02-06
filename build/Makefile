@@ -105,8 +105,6 @@ $(ISOCACHE):
 	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
-	# Lock down the exact Fuel repo versions
-	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_repo_versions.patch
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for using the Czech Fuel mirror
