@@ -106,7 +106,10 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
 	# Lock down the exact Fuel repo versions
-	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_repo_versions.patch
+	if [ ! -f /tmp/fuel-main/.versions-applied ]; then \
+		cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_repo_versions.patch; \
+		touch /tmp/fuel-main/.versions-applied; \
+	fi
 	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
 	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for using the Czech Fuel mirror
@@ -210,6 +213,11 @@ debug:
 .cacheid:
 	cd /tmp && git clone $(FUEL_MAIN_REPO)
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
+	# Lock down the exact Fuel repo versions
+	if [ ! -f /tmp/fuel-main/.versions-applied ]; then \
+		cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_repo_versions.patch; \
+		touch /tmp/fuel-main/.versions-applied; \
+	fi
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > .cachedata
 	sha1sum *.patch >> .cachedata
