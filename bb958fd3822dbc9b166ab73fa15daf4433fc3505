@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_1805157a",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-06T23:56:02Z",
+      "side": 1,
+      "message": "So this \u0027-E\u0027 option here is a nice shortcut compare to what env variables we define in Dockerfile? Or this operate on different nesting level?",
+      "revId": "bb958fd3822dbc9b166ab73fa15daf4433fc3505",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
