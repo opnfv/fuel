@@ -57,10 +57,10 @@ os-onos-nofeature-noha:
   configfile: no-ha_onos_heat_ceilometer_scenario_0.0.4.yaml
 
 os-nosdn-kvm-ha:
-  configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.3.yaml
+  configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.4.yaml
 
 os-nosdn-kvm-noha:
-  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.3.yaml
 
 os-nosdn-ovs-ha:
   configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.3.yaml
