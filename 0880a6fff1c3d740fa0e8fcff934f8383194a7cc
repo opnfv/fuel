@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a4e6583_b20cdd95",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-09T13:59:25Z",
+      "side": 1,
+      "message": "Maybe I dont understand so I need to ask,\nThe first section is saying \"The following minimun hardware requirements must be....\". Then in the other section it says \"Following high level hardware reqiurements must be.....\" and refers to info in the table. Whats the difference between the first section and the second?",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "0880a6fff1c3d740fa0e8fcff934f8383194a7cc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_125f3110",
         "filename": "docs/configguide/installerconfig.rst",
         "patchSetId": 3
