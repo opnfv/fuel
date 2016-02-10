@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_8bb9a8eb",
+        "filename": "docs/release-notes/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-10T20:23:42Z",
+      "side": 1,
+      "message": "Chris, dont understand what is wrong with this - this is how we did it all the time?",
+      "parentUuid": "5a4e6583_88bbee71",
+      "revId": "f08c2d509a7f8250215b09c6597ff158eae111bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_a8b6aa88",
         "filename": "docs/release-notes/index.rst",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-10T14:05:49Z",
       "side": 1,
       "message": "This should specify the project given it\u0027s in the Fuel repo",
+      "revId": "f08c2d509a7f8250215b09c6597ff158eae111bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_6bce6c85",
+        "filename": "docs/release-notes/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-10T20:23:42Z",
+      "side": 1,
+      "message": "Please clarify",
+      "parentUuid": "5a4e6583_a8b6aa88",
       "revId": "f08c2d509a7f8250215b09c6597ff158eae111bd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
