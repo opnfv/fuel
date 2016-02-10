@@ -5,23 +5,18 @@ OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a dep
 .. contents:: Table of Contents
    :backlinks: none
 
+License
+=======
+
+This work is licensed under a Creative Commons Attribution 4.0 International
+License. .. http://creativecommons.org/licenses/by/4.0 ..
+(c) Jonas Bjurel (Ericsson AB) and others
+
 Abstract
 ========
 
 This document compiles the release notes for the Brahmaputra release of
 OPNFV when using Fuel as a deployment tool.
-
-License
-=======
-
-Brahmaputra release with the Fuel deployment tool Docs (c) by Jonas
-Bjurel (Ericsson AB)
-
-This document is licensed under a Creative Commons Attribution 4.0
-International License.
-
-You should have received a copy of the license along with this document.
-If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
 Important notes
 ===============
@@ -33,7 +28,7 @@ The goal of the Brahmaputra release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
-Carefully follow the installation-instructions.
+Carefully follow the installation-instructions provided in *Reference 13*.
 
 Summary
 =======
@@ -84,13 +79,13 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | fuel/<TODO>                          |
+| **Repo/tag**                         | brahmaputra.1.0                      |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Release designation**              | Brahmaputra base release             |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | <TODO>                               |
+| **Release date**                     | February 25 2016                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Brahmaputra base release             |
@@ -109,7 +104,7 @@ following upstream versions:
 
 - OpenStack Liberty release
 
-- OpenDaylight Beryllium pre-release
+- OpenDaylight Beryllium pre-release <TODO>
 
 - ONOS Drake release
 
@@ -118,11 +113,11 @@ Document changes
 This is the third tracked version of the fuel installer for OPNFV. It
 comes with the following documentation:
 
-- OPNFV Installation instructions for Brahmaputra with Fuel as deployment tool - **Changed**
+- Installation instructions - *Reference 13* - **Changed**
 
-- OPNFV Release Notes for Brahmaputra use of Fuel as deployment tool - **Changed**
+- Build instructions - *Reference 14* - **Changed**
 
-- OPNFV Build instructions for Brahmaputra with Fuel as deployment tool - **Changed**
+- Release notes - *Reference 15* - **Changed** (This document)
 
 Reason for version
 ------------------
@@ -146,17 +141,16 @@ Deliverables
 Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~
 
-Fuel-based installer iso file <TODO>
+Fuel-based installer iso file found in *Reference 2*
 
 Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- OPNFV Installation instructions for Brahmaputra release with the Fuel deployment tool
+- Installation instructions - *Reference 13*
 
-- OPNFV Build instructions for Brahmaputra release with the Fuel deployment
-  tool
+- Build instructions - *Reference 14*
 
-- OPNFV Release Note for Brahmaputra release with the Fuel deployment tool - (this document)
+- Release notes - *Reference 15* (This document)
 
 Known Limitations, Issues and Workarounds
 =========================================
@@ -194,4 +188,48 @@ runs with the following results:
 References
 ==========
 For more information on the OPNFV Brahmaputra release, please see
-<TODO>
+
+OPNFV
+-----
+
+1) `OPNFV Home Page <www.opnfv.org>`_
+
+2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
+
+OpenStack
+---------
+
+3) `OpenStack Liberty Release artifacts <http://www.openstack.org/software/liberty>`_
+
+4) `OpenStack documentation <http://docs.openstack.org>`_
+
+OpenDaylight
+------------
+
+5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_
+
+Fuel
+----
+
+6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
+
+7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-7.0/#guides>`_
+
+8) `Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>`_
+
+9) `Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>`_
+
+10) `Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>`_
+
+11) `Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>`_
+
+12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
+
+Fuel in OPNFV
+-------------
+
+13) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+14) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+15) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
