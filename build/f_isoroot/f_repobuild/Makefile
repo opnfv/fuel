@@ -10,8 +10,7 @@
 
 SHELL := /bin/bash
 TOP := $(shell pwd)
-UBUNTU_DIR := $(shell dirname $(MIRROR_UBUNTU_ROOT))
-TMP_ROOT_DIR := $(shell echo "$(UBUNTU_DIR)" | cut -d "/" -f2)
+TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 # Enable use of exact repo commit if defined, else use Fuel main branch
 FUEL_MIRROR_COMMIT?=$(FUEL_MAIN_TAG)
 
@@ -36,9 +35,11 @@ nailgun:
 	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group ubuntu --pattern=ubuntu
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
-	if [ "$(UBUNTU_DIR)" != "/" ]; then \
-	  mv nailgun/mirrors$(UBUNTU_DIR)/ubuntu nailgun/mirrors/ubuntu;\
-	  rm -rf nailgun/mirrors/$(TMP_ROOT_DIR);\
+	# On the end we want to have ubuntu repository in mirrors/ubuntu directory
+	-if [ "$(MIRROR_UBUNTU_ROOT)" != "/ubuntu/" ]; then \
+	  mkdir -p nailgun/mirrors/ubuntu;\
+	  mv nailgun/mirrors$(MIRROR_UBUNTU_ROOT)* nailgun/mirrors/ubuntu;\
+	  [ "$(MIRROR_UBUNTU_ROOT)" != "/" ] && rm -rf nailgun/mirrors/$(TMP_ROOT_DIR);\
 	fi
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
