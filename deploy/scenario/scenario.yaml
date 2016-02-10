@@ -34,10 +34,6 @@ os-nosdn-nofeature-ha:
 os-nosdn-nofeature-noha:
   configfile: no-ha_heat_ceilometer_scenario_0.0.2.yaml
 
-os-nosdn-vlan-ha:
-
-os-nosdn-vlan-noha:
-
 os-odl_l3-nofeature-ha:
   configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.4.yaml
 
@@ -68,7 +64,12 @@ os-nosdn-ovs-ha:
 os-nosdn-ovs-noha:
   configfile: no-ha_nfv-ovs_heat_ceilometer_scenario_0.0.2.yaml
 
-
 os-odl_l2-bgpvpn-ha:
 
 os-odl_l2-bgpvpn-noha:
+
+os-odl_l2-sfc-ha:
+  configfile: ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml
+
+os-odl_l2-sfc-noha:
+  configfile: no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml
