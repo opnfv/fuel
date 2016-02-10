@@ -6,12 +6,13 @@
 
 Fuel configuration
 ==================
-This section provides brief guidelines on how to install and
+This section provides guidelines on how to install and
 configure the Brahmaputra release of OPNFV when using Fuel as a
 deployment tool including required software and hardware
 configurations.
 
-For detailed instructions on how to install the Brahmaputra release using Fuel, see:<TODO>
+For detailed instructions on how to install the Brahmaputra release using
+Fuel, see *Reference 13* in section *"Fuel associated references"* below.
 
 Pre-configuration activities
 ----------------------------
@@ -25,12 +26,13 @@ done.
 Familiarize yourself with the Fuel by reading the
 following documents:
 
-- Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>
+- Fuel planning guide, please see *Reference: 8* in section *"Fuel associated references"* below.
 
-- Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>
+- Fuel user guide, please see *Reference: 9* in section *"Fuel associated references"* below.
 
-- Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>
+- Fuel operations guide, please see *Reference: 10* in section *"Fuel associated references"* below.
 
+- Fuel Plugin Developers Guide, please see *Reference: 11* in section *"Fuel associated references"* below.
 
 Before the installation can start, a number of deployment specific parameters must be collected, those are:
 
@@ -54,12 +56,11 @@ Before the installation can start, a number of deployment specific parameters mu
 Retrieving the ISO image
 ^^^^^^^^^^^^^^^^^^^^^^^^
 First of all, the Fuel deployment ISO image needs to be retrieved, the
-.iso image of the Brahmaputra release of OPNFV when using Fuel as
-a deployment tool can be found at: <TODO>
+Fuel .iso image of the Brahmaputra release can be found at *Reference: 2*
 
 Alternatively, you may build the .iso from source by cloning the
 opnfv/fuel git repository. Detailed instructions on how to build
-a Fuel OPNFV .iso can be found here: <TODO>
+a Fuel OPNFV .iso can be found in *Reference: 14* at section *"Fuel associated references"* below.
 
 Hardware requirements
 ---------------------
@@ -96,15 +97,14 @@ Following high level hardware requirements must be met:
 |                    | over other nics as your hardware supports            |
 +--------------------+------------------------------------------------------+
 
-For a detailed hardware compatibility matrix - please see:
-<https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list/>
+For information on compatible hardware types available for use, please see *Reference: 11* in section *"Fuel associated references"* below.
 
 Top of the rack (TOR) Configuration requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The switching infrastructure provides connectivity for the OPNFV
 infrastructure operations, tenant networks (East/West) and provider
 connectivity (North/South); it also provides needed
-connectivity for the storage Area Network (SAN). To avoid traffic
+connectivity for the Storage Area Network (SAN). To avoid traffic
 congestion, it is strongly suggested that three physically separated
 networks are used, that is: 1 physical network for administration and
 control, one physical network for tenant private and public networks,
@@ -117,9 +117,6 @@ The physical TOR switches are **not** automatically configured from
 the OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
-
-Manual configuration of the Brahmaputra hardware platform should
-be carried out according to the OPNFV Pharos specification <TODO>
 
 Jumphost configuration
 ----------------------
@@ -134,8 +131,8 @@ and another for jump-host communication with the OPNFV cluster.
 Install the Fuel jump-host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 Mount the Fuel Brahmaputra ISO file as a boot device to the jump host
-server, reboot it, and install the Fuel Jumphost in accordance with the
-instructions found here: <TODO>
+server, reboot it, and install the Fuel Jumphost in accordance with installation instructions, see *Reference 13* in section *"Fuel associated references"*
+below.
 
 
 Platform components configuration
@@ -218,7 +215,8 @@ developed by OPNFV:
 for compatibility information**
 
 The plugins come prepackaged, ready to install. To do so follow the
-instructions provided here: <TODO>
+installation instructions provided in *Reference 13* provided in section
+*"Fuel associated references"* below.
 
 Fuel environment
 ^^^^^^^^^^^^^^^^
@@ -226,16 +224,17 @@ A Fuel environment is an OpenStack instance managed by Fuel,
 one Fuel instance can manage several OpenStack instances/environments
 with different configurations, etc.
 
-To create a Fuel instance, follow the instructions provided
-here: <TODO>
+To create a Fuel instance, follow the instructions provided in the installation
+instructions, see *Reference 13* in section *"Fuel associated references"* below..
 
 Provisioning of aditional features and services
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Although the plugins have already previously been installed,
 they are not per default enabled for the environment we just created.
-The plugins of you choice need to be enabled and configured.
+The plugins of your choice need to be enabled and configured.
 
-To enable a plugin, follow the instructions in the installation instructions <TODO>
+To enable a plugin, follow the installation instructions found in
+*Reference 13*, provided in section *"Fuel associated references"* below..
 
 For configuration of the plugins, please refer to the corresponding feature in the ????? <TODO>
 
@@ -252,7 +251,8 @@ All the networking aspects need to be configured in terms of:
 - etc.
 
 For guidelines on how to configure networking, please refer to the
-installation instructions here: <TODO>
+installation instructions found in *Reference 13* provided in section
+*"Fuel associated references"* below..
 
 Node allocation
 ^^^^^^^^^^^^^^^
@@ -262,7 +262,7 @@ while others don't; Some roles may be co-located with other roles, while
 others may not. The Fuel GUI will guide you in the allocation of roles and
 will not permit you to perform invalid allocations.
 
-For detailed guide-lines on node allocation, please refer to the installation instructions: <TODO>
+For detailed guide-lines on node allocation, please refer to the installation instructions found in *Reference 13*, provided in section *"Fuel associated references"* below..
 
 Off-line deployment
 ^^^^^^^^^^^^^^^^^^^
@@ -271,11 +271,61 @@ repositories (default) or off-line using built-in local repositories on the
 Fuel jump-start server.
 
 For instructions on how to configure Fuel for off-line deployment, please
-refer to the installation instructions: <TODO>
+refer to the installation instructions found in, *Reference 13*, provided
+in section *"Fuel associated references"* below.
 
 Deployment
 ^^^^^^^^^^
 You should now be ready to deploy your OPNFV Brahmaputra environment - but before doing so you may want to verify your network settings.
 
 For further details on network verification and deployment, please refer to
-the installation instructions: <TODO>
+the installation instructions found in, *Reference 13*, provided in section
+*"Fuel associated references"* below..
+
+Fuel associated references
+--------------------------
+
+OPNFV
+~~~~~
+
+1) `OPNFV Home Page <www.opnfv.org>`_
+
+2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
+
+OpenStack
+~~~~~~~~~
+
+3) `OpenStack Liberty Release artifacts <http://www.openstack.org/software/liberty>`_
+
+4) `OpenStack documentation <http://docs.openstack.org>`_
+
+OpenDaylight
+~~~~~~~~~~~~
+
+5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_
+
+Fuel
+~~~~
+
+6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
+
+7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-7.0/#guides>`_
+
+8) `Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>`_
+
+9) `Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>`_
+
+10) `Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>`_
+
+11) `Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>`_
+
+12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
+
+Fuel in OPNFV
+~~~~~~~~~~~~~
+
+13) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+14) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+15) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
