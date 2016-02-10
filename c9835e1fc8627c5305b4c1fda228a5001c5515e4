@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_a87c6a73",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-02-10T07:29:06Z",
+      "side": 1,
+      "message": "validate",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "c9835e1fc8627c5305b4c1fda228a5001c5515e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
