@@ -8,3 +8,5 @@
 ##############################################################################
 packages:
   - "openjdk-7-jre-headless"
+  - "crudini"
+  - "python-iniparse"
