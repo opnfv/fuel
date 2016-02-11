@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a4e6583_26bb0b10",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "Please move the license part to the top of the document in accordance to information from Chris,\n.. This work is licensed under a Creative Commons Attribution 4.0 International License.\n.. http://creativecommons.org/licenses/by/4.0\n.. (c) \u003coptionally add copywriters name\u003e",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_e6a053f6",
         "filename": "docs/build-instruction.rst",
         "patchSetId": 2
@@ -41,6 +64,167 @@
         "startChar": 0,
         "endLine": 194,
         "endChar": 25
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_c641d70c",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "Redundant word?",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_6648e32d",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "capital letter?",
+      "range": {
+        "startLine": 107,
+        "startChar": 21,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_2652ebdd",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "of your?",
+      "range": {
+        "startLine": 236,
+        "startChar": 12,
+        "endLine": 236,
+        "endChar": 18
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_c658b7fc",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "validates?",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_8672bf7a",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "Please move the license part to the top of the document in accordance to information from Chris,\n.. This work is licensed under a Creative Commons Attribution 4.0 International License.\n.. http://creativecommons.org/licenses/by/4.0\n.. (c) \u003coptionally add copywriters name\u003e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_666fc393",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "capital letter?",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 5
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a65dbbeb",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-11T10:33:05Z",
+      "side": 1,
+      "message": "Please move the license part to the top of the document in accordance to information from Chris,\n.. This work is licensed under a Creative Commons Attribution 4.0 International License.\n.. http://creativecommons.org/licenses/by/4.0\n.. (c) \u003coptionally add copywriters name\u003e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
       },
       "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
