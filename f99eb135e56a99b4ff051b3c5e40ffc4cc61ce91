@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_e6a053f6",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-11T08:27:26Z",
+      "side": 1,
+      "message": "rsync was used by fuel-createmirror, but fuel-mirror downloads packages using http protocol. We still use rsync for checking status of repositories in select_ubuntu_repo.sh script but even if we don\u0027t modify this logic, build still should end with success. I tested this with 873 port blocked on firewall.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_666583e0",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-11T08:27:26Z",
+      "side": 1,
+      "message": "In 03_install_repo.sh post script we define local mirrors as a source of packages for bootstrap image build. If env is deployed manually then it can be changed by end user but in case of automatic deployment it will faill. As described above probably there is no need to disable r_repobuild tasks.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 25
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
