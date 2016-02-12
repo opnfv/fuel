@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_bc7cac73",
+        "filename": "deploy/README_SFC_%2B_Tacker.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-12T13:11:58Z",
+      "side": 1,
+      "message": "I would suggest removing plus sign from filename.",
+      "revId": "0df924fa1b5733284f536e74613fb6895e773392",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_9c81f04c",
+        "filename": "deploy/poc.tacker-up.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-12T13:11:58Z",
+      "side": 1,
+      "message": "both packages are available in ubuntu repositories, packages.yaml file can be used to include them to local mirrors on fuel master: https://gerrit.opnfv.org/gerrit/#/c/8359/",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 96
+      },
+      "revId": "0df924fa1b5733284f536e74613fb6895e773392",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_7c963496",
+        "filename": "deploy/poc.tacker-up.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-12T13:11:58Z",
+      "side": 1,
+      "message": "python-jsonrpclib package in ubuntu repositories is too old?",
+      "revId": "0df924fa1b5733284f536e74613fb6895e773392",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
