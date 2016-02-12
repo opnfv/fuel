@@ -25,6 +25,74 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_0190f941",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-12T08:30:09Z",
+      "side": 1,
+      "message": "Please add cpu requirements. Portions of the code uses DPDK and docker, so the processor should be a core2 variant suporting VT-x, VT-d, and MSI-x",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e194bd38",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-12T08:30:09Z",
+      "side": 1,
+      "message": "as an alternative the user may do a clean netinstall deploy from here: http://cdimage.ubuntu.com/netboot/14.04/ both wivid and willy kernels are acceptable. As an addition: this link https://docs.docker.com/engine/installation/linux/ubuntulinux/ describes the official docker setup, docker 1.10 will be deployed, what is not prone the aufs bug.",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_c199c16f",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-12T08:30:09Z",
+      "side": 1,
+      "message": "If You are behind a proxy but your DNS name resolution is correct anyway this may cause a problem,",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a19ec554",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-12T08:30:09Z",
+      "side": 1,
+      "message": "as an alternative, you may have a followin setup in ~/.ssh/config:\n\nHost opnfv\n     Hostname gerrit.opnfv.org\n     IdentityFile id_rsa.opnfv\n\nif you do so the cloning command will be:\n\ngit clone ssh://opnfv:29418/fuel",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_e6a053f6",
         "filename": "docs/build-instruction.rst",
         "patchSetId": 2
@@ -157,6 +225,23 @@
         "endLine": 13,
         "endChar": 14
       },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_81a3c99d",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-12T08:30:09Z",
+      "side": 1,
+      "message": "Behind health checks it performs smoke tests, too",
       "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
