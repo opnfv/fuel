@@ -47,15 +47,15 @@ dea-override-config:
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: controller
+    role: mongo,controller
     transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
-    role: mongo,controller
+    role: controller
     transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
-    role: compute
+    role: controller
     transformations: transformations_1
   - id: 4
     interfaces: interfaces_1
