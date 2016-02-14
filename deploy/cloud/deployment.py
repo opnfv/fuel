@@ -96,7 +96,7 @@ class Deployment(object):
                     print(log_msg + '\n')
 
     def run_deploy(self):
-        WAIT_LOOP = 180
+        WAIT_LOOP = 240
         SLEEP_TIME = 60
         LOG_FILE = 'cloud.log'
 
