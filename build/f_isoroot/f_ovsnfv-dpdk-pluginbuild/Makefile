@@ -22,18 +22,20 @@ all: .ovsnfvbuild
 
 .PHONY: clean
 clean:
-	@rm -f .ovsnfvbuild ../release/opnfv/fuel-plugin-ovsnfv*.rpm fuel-plugin-ovsnfv*.rpm
+	@rm -f .ovsnfvbuild ../release/opnfv/fuel-plugin-ovsnfv-*.rpm fuel-plugin-ovsnfv-*.rpm
 	@rm -f $(BUILD_BASE)/gitinfo_ovsnfv-dpdk-plugin.txt gitinfo_ovsnfv-dpdk-plugin.txt
 
 .PHONY: release
 release:.ovsnfvbuild
-	@rm -f ../release/opnfv/fuel-plugin-ovsnfv*.rpm
+	@rm -f ../release/opnfv/fuel-plugin-ovsnfv-*.rpm
 	@mkdir -p ../release/opnfv
+	echo "COPYING OVSNFV ARTIFACT TO RELEASE DIR"
 	@cp fuel-plugin-ovsnfv*.rpm ../release/opnfv/
+	sleep 240
 	cp gitinfo_ovsnfv-dpdk-plugin.txt $(BUILD_BASE)
 
 .ovsnfvbuild:
-	@rm -rf fuel-plugin-ovsnfv
+	@rm -rf ovsnfv
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 	sudo pip install fuel-plugin-builder
 	git clone $(OVSNFV_DPDK_REPO) ovsnfv
@@ -47,7 +49,7 @@ release:.ovsnfvbuild
 	INCLUDE_DEPENDENCIES=true fpb --debug --build $(OVSNFV_DPDK_DIR)
 	@mv ovsnfv/$(OVSNFV_DPDK_DIR)/fuel-plugin-ovsnfv*.rpm .
 	$(REPOINFO) -r . > gitinfo_ovsnfv-dpdk-plugin.txt
-	@rm -rf fuel-plugin-ovsnfv
+	@rm -rf ovsnfv
 	@touch .ovsnfvbuild
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
