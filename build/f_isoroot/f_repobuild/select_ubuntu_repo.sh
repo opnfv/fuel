@@ -18,6 +18,11 @@ RSYNC="rsync -4 --contimeout 5 --no-motd --list-only"
 # local mirror can be found after four attempts, the default archive
 # is returned instead.
 
+# Some Ubuntu mirrors seem less reliable for this type of mirroring -
+# as they are discoved they can be added to the blacklist below in order
+# for them not to be considered.
+BLACKLIST="mirrors.se.eu.kernel.org"
+
 return_url=0
 
 while [ "$1" != "" ]; do
@@ -30,12 +35,12 @@ while [ "$1" != "" ]; do
     shift
 done
 
-
 cnt=0
 while [ $cnt -lt 4 ]
 do
     for url in $(curl -s http://mirrors.ubuntu.com/mirrors.txt)
     do
+	echo ${BLACKLIST} | grep -q $(echo $url | sed 's/.*\/\///' | sed 's/\/.*//') && continue
         host=$(echo $url | cut -d'/' -f3)
         if $RSYNC "${host}::ubuntu/." &> /dev/null
         then
