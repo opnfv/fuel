@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_5d4b7187",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Agree - have done so for all Fuel documents - THX!",
+      "parentUuid": "5a4e6583_26bb0b10",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_0190f941",
         "filename": "docs/build-instruction.rst",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_3d50b531",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Ference, this is the Build machine requirements, so I dont think VT-x etc is a necessary requirement.",
+      "parentUuid": "5a4e6583_0190f941",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_e194bd38",
         "filename": "docs/build-instruction.rst",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2016-02-12T08:30:09Z",
       "side": 1,
       "message": "as an alternative the user may do a clean netinstall deploy from here: http://cdimage.ubuntu.com/netboot/14.04/ both wivid and willy kernels are acceptable. As an addition: this link https://docs.docker.com/engine/installation/linux/ubuntulinux/ describes the official docker setup, docker 1.10 will be deployed, what is not prone the aufs bug.",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_1d45f96f",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Thanks Ference - I will try that!",
+      "parentUuid": "5a4e6583_e194bd38",
       "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -116,6 +176,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_fd49fd8b",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Thanks Michal, Does it hurt stating this little more stringent requirement?",
+      "parentUuid": "5a4e6583_e6a053f6",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_666583e0",
         "filename": "docs/build-instruction.rst",
         "patchSetId": 2
@@ -127,6 +211,30 @@
       "writtenOn": "2016-02-11T08:27:26Z",
       "side": 1,
       "message": "In 03_install_repo.sh post script we define local mirrors as a source of packages for bootstrap image build. If env is deployed manually then it can be changed by end user but in case of automatic deployment it will faill. As described above probably there is no need to disable r_repobuild tasks.",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 25
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_dd5e4145",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Thx Michal!",
+      "parentUuid": "5a4e6583_666583e0",
       "range": {
         "startLine": 179,
         "startChar": 0,
@@ -162,6 +270,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_bd5b8553",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Yep, removed!",
+      "parentUuid": "5a4e6583_c641d70c",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_6648e32d",
         "filename": "docs/configguide/installerconfig.rst",
         "patchSetId": 2
@@ -173,6 +305,30 @@
       "writtenOn": "2016-02-11T10:33:05Z",
       "side": 1,
       "message": "capital letter?",
+      "range": {
+        "startLine": 107,
+        "startChar": 21,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_9d58c957",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Yep, done!",
+      "parentUuid": "5a4e6583_6648e32d",
       "range": {
         "startLine": 107,
         "startChar": 21,
@@ -208,6 +364,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_7d550d1c",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Well spotted - fixed",
+      "parentUuid": "5a4e6583_2652ebdd",
+      "range": {
+        "startLine": 236,
+        "startChar": 12,
+        "endLine": 236,
+        "endChar": 18
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_c1b6618a",
         "filename": "docs/configguide/installerconfig.rst",
         "patchSetId": 2
@@ -219,6 +399,30 @@
       "writtenOn": "2016-02-12T10:30:31Z",
       "side": 1,
       "message": "nit, but please remove this whitespace",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 1
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_5d325111",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Hahahaha Ryota, you spotted it. This was the white space needed to bring up this untouched file for a final review!\nBR/Jonas",
+      "parentUuid": "5a4e6583_c1b6618a",
       "range": {
         "startLine": 282,
         "startChar": 0,
@@ -254,6 +458,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_3d379501",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Nope Sofia - should be validate - Peter B (z0d) rightly pointed out that it should be validate - in the previous patch it was validates :-)",
+      "parentUuid": "5a4e6583_c658b7fc",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_81a3c99d",
         "filename": "docs/configguide/postinstall.rst",
         "patchSetId": 2
@@ -271,6 +499,24 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_fd40dd57",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Ferenc, I dont know what is the difference?",
+      "parentUuid": "5a4e6583_81a3c99d",
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_61ad6d31",
         "filename": "docs/configguide/postinstall.rst",
         "patchSetId": 2
@@ -282,6 +528,30 @@
       "writtenOn": "2016-02-12T10:30:31Z",
       "side": 1,
       "message": "remove this trailing white space",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_1d3cd9e1",
+        "filename": "docs/configguide/postinstall.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Yep, again needed to bring this untouched file to a public review!",
+      "parentUuid": "5a4e6583_61ad6d31",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -317,6 +587,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_dd2521c3",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Sure - done!",
+      "parentUuid": "5a4e6583_8672bf7a",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_666fc393",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 2
@@ -328,6 +622,30 @@
       "writtenOn": "2016-02-11T10:33:05Z",
       "side": 1,
       "message": "capital letter?",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 5
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_bd2265b7",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Yep - done!",
+      "parentUuid": "5a4e6583_666fc393",
       "range": {
         "startLine": 173,
         "startChar": 4,
@@ -363,6 +681,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_9d2fa9a1",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Thanks Ryota, I will remove this from all the Fuel Docs.",
+      "parentUuid": "5a4e6583_61744dcf",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 19
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_a65dbbeb",
         "filename": "docs/release-notes.rst",
         "patchSetId": 2
@@ -374,6 +716,30 @@
       "writtenOn": "2016-02-11T10:33:05Z",
       "side": 1,
       "message": "Please move the license part to the top of the document in accordance to information from Chris,\n.. This work is licensed under a Creative Commons Attribution 4.0 International License.\n.. http://creativecommons.org/licenses/by/4.0\n.. (c) \u003coptionally add copywriters name\u003e",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "f99eb135e56a99b4ff051b3c5e40ffc4cc61ce91",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_7d2cedab",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-15T22:30:19Z",
+      "side": 1,
+      "message": "Thans Sofia - done!\nBR/Jonas",
+      "parentUuid": "5a4e6583_a65dbbeb",
       "range": {
         "startLine": 14,
         "startChar": 0,
