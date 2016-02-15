@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_fd88dde8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 50
+      },
+      "writtenOn": "2016-02-15T20:11:31Z",
+      "side": 1,
+      "message": "Minor nit. Why have you changed the order of the name. The project name is \"ovsnfv\" rather than \"nfvovs\". I dont think this should block anything though.",
+      "revId": "6dd9f2cda829e3e86a177c7b9b5cf8ca742bf2f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
