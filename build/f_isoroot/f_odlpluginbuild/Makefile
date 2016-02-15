@@ -11,6 +11,9 @@ TOP := $(shell pwd)
 ODL_BRANCH=brahmaputra-release
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
+export USE_JAVA8=true
+export JAVA8_URL=https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa/+files/openjdk-8-jre-headless_8u72-b15-1~trusty1_amd64.deb
+
 .PHONY: all
 all: .odlbuild
 
