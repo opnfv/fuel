@@ -22,12 +22,12 @@ all: .ovsbuild
 
 .PHONY: clean
 clean:
-	@rm -f .ovsbuild ../release/opnfv/fuel-plugin-ovs*.rpm fuel-plugin-ovs*.rpm
+	@rm -f .ovsbuild ../release/opnfv/fuel-plugin-ovs-*.rpm fuel-plugin-ovs-*.rpm
 	@rm -f $(BUILD_BASE)/gitinfo_ovs-nsh-dpdk-plugin.txt gitinfo_ovs-nsh-dpdk-plugin.txt
 
 .PHONY: release
 release:.ovsbuild
-	@rm -f ../release/opnfv/fuel-plugin-ovs*.rpm
+	@rm -f ../release/opnfv/fuel-plugin-ovs-*.rpm
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-ovs*.rpm ../release/opnfv/
 	cp gitinfo_ovs-nsh-dpdk-plugin.txt $(BUILD_BASE)
