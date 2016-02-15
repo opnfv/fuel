@@ -33,20 +33,7 @@ you will have to modify them according to your needs
 - If wou wish to deploy OPNFV cloud environment on top of KVM/Libvirt
   virtualization use as example the following configuration files:
 
-  * SR1 configuration files
-
   =>   templates/virtual_environment/conf/ha
-                dea.yaml
-                dha.yaml
-
-
-  * ARNO configuration files
-
-  =>   templates/virtual_environment/old_conf/ha
-                dea.yaml
-                dha.yaml
-
-  =>   templates/virtual_environment/old_conf/multinode
                 dea.yaml
                 dha.yaml
 
@@ -54,9 +41,7 @@ you will have to modify them according to your needs
 - If you wish to deploy OPNFV cloud environment on hardware
   use as example the following configuration files:
 
-  * SR1 configuration files
-
-  =>   templates/hardware_environment/conf/ericsson_montreal_lab/ha
+  =>   templates/hardware_environment/conf/ericsson_montreal_lab/pod1/ha
                 dea.yaml
                 dha.yaml
 
@@ -65,25 +50,6 @@ you will have to modify them according to your needs
                 dha.yaml
 
   =>   templates/hardware_environment/conf/linux_foundation_lab/pod2/ha
-                dea.yaml
-                dha.yaml
-
-
-  * ARNO configuration files
-
-  =>   templates/hardware_environment/old_conf/ericsson_montreal_lab/ha
-                dea.yaml
-                dha.yaml
-
-  =>   templates/hardware_environment/old_conf/ericsson_montreal_lab/multinode
-                dea.yaml
-                dha.yaml
-
-  =>   templates/hardware_environment/old_conf/linux_foundation_lab/ha
-                dea.yaml
-                dha.yaml
-
-  =>   templates/hardware_environment/old_conf/linux_foundation_lab/multinode
                 dea.yaml
                 dha.yaml
 
