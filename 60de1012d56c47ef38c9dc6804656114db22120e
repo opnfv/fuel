@@ -203,6 +203,29 @@
       "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_60bd6268",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-16T12:39:07Z",
+      "side": 1,
+      "message": "Pretty please,\nadd your references in alphabetical order",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 26
+      },
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
