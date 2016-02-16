@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_80ee1eeb",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-16T09:21:56Z",
+      "side": 1,
+      "message": "Haven\u0027t looked at the generated document - I guess that a link without a resource (http:) will work?",
+      "revId": "35c83f9a2143f0ad93f0da76d4ddc89651fa1b1d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_40c02650",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-16T09:21:56Z",
+      "side": 1,
+      "message": "Same comment again about no resource - hopefully a non-issue.",
+      "revId": "35c83f9a2143f0ad93f0da76d4ddc89651fa1b1d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_00ba2ede",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-16T09:21:56Z",
+      "side": 1,
+      "message": "... and again. Better to nit-pick than to be silent, right? :)",
+      "revId": "35c83f9a2143f0ad93f0da76d4ddc89651fa1b1d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
