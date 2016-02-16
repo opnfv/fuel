@@ -1,24 +1,23 @@
-============================================================================
-OPNFV Build instruction for the Fuel deployment tool
-============================================================================
+================================================================================================
+OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+================================================================================================
 
 .. contents:: Table of Contents
    :backlinks: none
+
+License
+=======
+
+This work is licensed under a Creative Commons Attribution 4.0
+International License. .. http://creativecommons.org/licenses/by/4.0 ..
+(c) Jonas Bjurel (Ericsson AB) and others
 
 Abstract
 ========
 
 This document describes how to build the Fuel deployment tool for the
-B release of OPNFV - the build system, dependencies and required
+Brahmaputra release of OPNFV build system, dependencies and required
 system resources.
-
-
-License
-=======
-Brahmaputra release of OPNFV when using Fuel as a deployment tool DOCs (c) by Jonas Bjurel (Ericsson AB) and others.
-
-This document is licensed under a Creative Commons Attribution 4.0 International License. You should have received a copy of the license along with this. If not, see <http://creativecommons.org/licenses/by/4.0/>.
-
 
 Introduction
 ============
@@ -55,17 +54,17 @@ On the host, the following packages must be installed:
 
 - An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed
 
-  - A kernel equal or later than 3.19 (Vivid) (simply available through sudo apt-get install linux-generic-lts-vivid)
+  - A kernel equal- or later than 3.19 (Vivid) (simply available through sudo apt-get install linux-generic-lts-vivid)
 
   - **Note:** Builds on Wily (Ubuntu 15.x) are currently not supported
 
-- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for installation notes for Ubuntu 14.04. Tested against ver 1.9.x and greater
+- docker - see https://docs.docker.com/engine/installation/ubuntulinux/ for installation notes for Ubuntu 14.04. Tested against version 1.9.x and greater
 
-- git (simply available through sudo apt-get install git)
+- git (simply available through $ sudo apt-get install git)
 
-- make (simply available through sudo apt-get install make)
+- make (simply available through $ sudo apt-get install make)
 
-- curl (simply available through sudo apt-get install curl)
+- curl (simply available through $ sudo apt-get install curl)
 
 Preparations
 ============
@@ -74,17 +73,21 @@ Setting up the Docker build container
 -------------------------------------
 After having installed Docker, add yourself to the docker group:
 
-<sudo usermod -a -G docker [userid]>
+$ sudo usermod -a -G docker [userid]
 
-Also make sure to define relevant DNS servers part of the global dns chain in
-in your </etc/default/docker> configuration file. Uncomment, modify the values appropriately
-and save and quit the file.  For example:
+Also make sure to define relevant DNS servers part of the global
+DNS chain in your </etc/default/docker> configuration file.
+Uncomment, and modify the values appropriately.
+
+For example:
 
 <DOCKER_OPTS=" --dns=8.8.8.8 --dns=8.8.8.4">
 
 Then restart docker:
 
-<sudo service docker restart>
+.. code-block:: console
+
+$ sudo service docker restart
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,20 +105,20 @@ Clone the OPNFV code Git repository with your SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Now it is time to clone the code repository:
 
-<git clone ssh://'Linux foundation user'@gerrit.opnfv.org:29418/fuel>
+$ git clone ssh://<Linux foundation user>@gerrit.opnfv.org:29418/fuel
 
 Now you should have the OPNFV fuel repository with the Fuel
 directories stored locally on your build host.
 
 Check out the Brahmaputra release:
-<cd fuel>
-<git checkout insert-b-release-tag-here0>
+$ cd fuel
+$ git checkout brahmaputra.1.0
 
 Clone the OPNFV code Git repository without a SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can also opt to clone the code repository without a SSH key:
 
-<git clone https://gerrit.opnfv.org:29418/gerrit/fuel>
+$ git clone https://gerrit.opnfv.org:29418/gerrit/fuel
 
 Make sure to checkout the release tag as described above.
 
@@ -168,9 +171,9 @@ Using a ssh proxy for the rsync connection
 If the proxy setup is not allowing the rsync protocol, an alternative
 solution is to use a SSH tunnel to a machine capable of accessing the
 outbound port 873. Set the RSYNC_CONNECT_PROG according to the rsync
-manual page (for example to "ssh <username>@<hostname> nc %H 873") to enable
-this. Also note that netcat needs to be installed on the remote
-system!
+manual page (for example to "ssh <username>@<hostname> nc %H 873")
+to enable this. Also note that netcat needs to be installed on the
+remote system!
 
 Make sure that the ssh command also refers to the user on the remote
 system, as the command itself will be run from the Docker build container
@@ -196,9 +199,11 @@ cache will be on the ISO!
 Configure your build environment
 --------------------------------
 
-** Configuring the build environment should not be performed if building standard Brahmaputra release **
+** Configuring the build environment should not be performed if building
+standard Brahmaputra release **
 
-Select the versions of the components you want to build by editing the fuel/build/config.mk file.
+Select the versions of the components you want to build by editing the
+fuel/build/config.mk file.
 
 Non official build: Selecting which plugins to build
 ----------------------------------------------------
@@ -211,7 +216,7 @@ Only the plugin targets from fuel/build/f_isoroot/Makefile that are
 specified in the environment variable will then be built. In order to
 completely disable the building of plugins, the environment variable
 is set to " ". When using this functionality, the resulting iso file
-will be prepended with the prefix "unofficial-" to clearly indiciate
+will be prepended with the prefix "unofficial-" to clearly indicate
 that this is not a full build.
 
 This method of plugin selection is not meant to be used from within
@@ -236,13 +241,11 @@ Following targets exist:
 
 - none/all -  this will:
 
-  - If not already existing, initialize the docker build environment
+  - Initialize the docker build environment
 
-  - If not already done, build OpenDaylight from upstream (as defined
-    by fuel-build config-spec)
+  - Build Fuel from upstream (as defined by fuel-build/config-spec)
 
-  - If not already done, build fuel from upstream (as defined by
-    fuel-build/config-spec)
+  - Build the OPNFV defined plugins/features from upstream
 
   - Build the defined additions to fuel (as defined by the structure
     of this framework)
@@ -284,4 +287,8 @@ The artifacts produced are:
 References
 ==========
 
--
+1) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+2) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+
+3) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
