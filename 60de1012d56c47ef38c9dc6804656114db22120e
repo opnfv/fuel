@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_c03c1632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "with*",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_401826d3",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "line should be wrapped for easier reading",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_e026f215",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "would the code block directive be useful here?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_200d2a91",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "trailing white space - and line wrapping throughout",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_00122eb1",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "should use code bock directive throughout the file?\n\n.. code-block:: console\n\n     $ sudo service docker restart",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_801dfebf",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "line wrapping was correct before?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_607a02f3",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "--white space",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_00890eeb",
+        "filename": "docs/build-instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "will there be links to these docs or the intention is that they will be used as a reference?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_a077da01",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "line wrapping",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_4066e652",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "below.. typo?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_205bea88",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "below.. typo?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_0060ee30",
+        "filename": "docs/configguide/installerconfig.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-02-16T11:23:30Z",
+      "side": 1,
+      "message": "below.. typo?",
+      "revId": "60de1012d56c47ef38c9dc6804656114db22120e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
