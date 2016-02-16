@@ -9,4 +9,4 @@
 
 BGPVPN_BRANCH=master
 BGPVPN_REPO="https://github.com/openstack/fuel-plugin-bgpvpn.git"
-BGPVPN_CHANGE=27c8f609472b74a9205d244e4d93378b5a9ebfae
+BGPVPN_CHANGE=fa803b03e768925428a719c7b1825e7bf7bb9f11
