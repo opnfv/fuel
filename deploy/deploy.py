@@ -61,7 +61,7 @@ class AutoDeploy(object):
     def __init__(self, no_fuel, fuel_only, no_health_check, cleanup_only,
                  cleanup, storage_dir, pxe_bridge, iso_file, dea_file,
                  dha_file, fuel_plugins_dir, fuel_plugins_conf_dir,
-                 no_plugins):
+                 no_plugins, deploy_timeout):
         self.no_fuel = no_fuel
         self.fuel_only = fuel_only
         self.no_health_check = no_health_check
@@ -75,6 +75,7 @@ class AutoDeploy(object):
         self.fuel_plugins_dir = fuel_plugins_dir
         self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.no_plugins = no_plugins
+        self.deploy_timeout = deploy_timeout
         self.dea = (DeploymentEnvironmentAdapter(dea_file)
                     if not cleanup_only else None)
         self.dha = DeploymentHardwareAdapter(dha_file)
@@ -197,7 +198,7 @@ class AutoDeploy(object):
         dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
                           self.fuel_username, self.fuel_password,
                           self.dea_file, self.fuel_plugins_conf_dir,
-                          WORK_DIR, self.no_health_check)
+                          WORK_DIR, self.no_health_check, self.deploy_timeout)
         return dep.deploy()
 
     def setup_execution_environment(self):
@@ -313,6 +314,9 @@ def parse_arguments():
                         help='Fuel Plugins Configuration directory')
     parser.add_argument('-np', dest='no_plugins', action='store_true',
                         default=False, help='Do not install Fuel Plugins')
+    parser.add_argument('-dt', dest='deploy_timeout', action='store',
+                        default=240, help='Deployment timeout (in minutes) '
+                        '[default: 240]')
 
     args = parser.parse_args()
     log(args)
@@ -338,7 +342,8 @@ def parse_arguments():
               'dha_file': args.dha_file,
               'fuel_plugins_dir': args.fuel_plugins_dir,
               'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir,
-              'no_plugins': args.no_plugins}
+              'no_plugins': args.no_plugins,
+              'deploy_timeout': args.deploy_timeout}
     return kwargs
 
 
