@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_c0cbf670",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-16T09:25:30Z",
+      "side": 1,
+      "message": "For ubuntu repositories path is: /mirrors/ubuntu/\n\nUser should leave main mos repository: http://\u003cip-of-fuel-server\u003e:8080/liberty-8.0/ubuntu/x86_64\nand remove other mos-* repositories.\n\nHere is an example of configuration for local mirrors: https://gist.github.com/michalskalski/98c65006b6fdfa96b5e8",
+      "range": {
+        "startLine": 522,
+        "startChar": 1,
+        "endLine": 536,
+        "endChar": 104
+      },
+      "revId": "35c83f9a2143f0ad93f0da76d4ddc89651fa1b1d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_40c02650",
         "filename": "docs/installation-instruction.rst",
         "patchSetId": 4
