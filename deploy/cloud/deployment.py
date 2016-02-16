@@ -31,12 +31,13 @@ LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
 class Deployment(object):
 
     def __init__(self, dea, yaml_config_dir, env_id, node_id_roles_dict,
-                 no_health_check):
+                 no_health_check, deploy_timeout):
         self.dea = dea
         self.yaml_config_dir = yaml_config_dir
         self.env_id = env_id
         self.node_id_roles_dict = node_id_roles_dict
         self.no_health_check = no_health_check
+        self.deploy_timeout = deploy_timeout
         self.pattern = re.compile(
             '\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d')
 
@@ -96,7 +97,6 @@ class Deployment(object):
                     print(log_msg + '\n')
 
     def run_deploy(self):
-        WAIT_LOOP = 240
         SLEEP_TIME = 60
         LOG_FILE = 'cloud.log'
 
@@ -105,7 +105,7 @@ class Deployment(object):
                  % (self.env_id, LOG_FILE))
 
         ready = False
-        for i in range(WAIT_LOOP):
+        for i in range(int(self.deploy_timeout)):
             env = parse(exec_cmd('fuel env --env %s' % self.env_id))
             log('Environment status: %s' % env[0][E['status']])
             r, _ = exec_cmd('tail -2 %s | head -1' % LOG_FILE, False)
