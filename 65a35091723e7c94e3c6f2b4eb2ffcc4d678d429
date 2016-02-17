@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_71ee56ee",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:59:08Z",
+      "side": 1,
+      "message": "It will duplicated features defined inside ovs group, which is always included. I think it will be better to remove this feature from here.",
+      "revId": "65a35091723e7c94e3c6f2b4eb2ffcc4d678d429",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_31321ea8",
         "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
         "patchSetId": 4
