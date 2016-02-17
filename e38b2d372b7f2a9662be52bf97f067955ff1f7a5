@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_31645eb8",
+        "filename": "deploy/scenario/tempest-test.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-02-17T17:17:41Z",
+      "side": 1,
+      "message": "I guess by increasing the floating ip range is enough. but we could also increase this one if it doesn\u0027t harm... the jumphost has the ip 10.118.101.19, so for example  from 10.118.101.20 to 10.118.101.190.",
+      "revId": "e38b2d372b7f2a9662be52bf97f067955ff1f7a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
