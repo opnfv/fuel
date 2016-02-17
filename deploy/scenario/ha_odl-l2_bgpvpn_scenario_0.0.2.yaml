@@ -55,10 +55,7 @@ stack-extensions:
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
 dea-override-config:
-  environment:
-    mode: ha
-    net_segment_type: tun
-  wanted_release: Liberty on Ubuntu 14.04
+
   nodes:
   - id: 1
     interfaces: interfaces_1
@@ -83,6 +80,7 @@ dea-override-config:
   settings:
     editable:
       bgpvpn:
+        metadata:
           class: plugin
           default: false
           enabled: true
