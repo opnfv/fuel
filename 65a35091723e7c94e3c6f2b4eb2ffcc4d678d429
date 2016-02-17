@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_911af215",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1499
+      },
+      "writtenOn": "2016-02-17T17:52:36Z",
+      "side": 1,
+      "message": "There appears to be an extra period at the end that needs to be removed.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 40
+      },
+      "revId": "65a35091723e7c94e3c6f2b4eb2ffcc4d678d429",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_51d47a1f",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1499
+      },
+      "writtenOn": "2016-02-17T17:52:36Z",
+      "side": 1,
+      "message": "I still dont think we need VPN.",
+      "range": {
+        "startLine": 138,
+        "startChar": 16,
+        "endLine": 138,
+        "endChar": 19
+      },
+      "revId": "65a35091723e7c94e3c6f2b4eb2ffcc4d678d429",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_31321ea8",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1499
+      },
+      "writtenOn": "2016-02-17T17:52:36Z",
+      "side": 1,
+      "message": "There appears to be an extra period at the end that needs to be removed.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 40
+      },
+      "revId": "65a35091723e7c94e3c6f2b4eb2ffcc4d678d429",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_11272266",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1499
+      },
+      "writtenOn": "2016-02-17T17:52:36Z",
+      "side": 1,
+      "message": "I still dont think we need VPN for SFC.",
+      "range": {
+        "startLine": 135,
+        "startChar": 16,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "65a35091723e7c94e3c6f2b4eb2ffcc4d678d429",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
