@@ -74,3 +74,6 @@ os-odl_l2-bgpvpn-ha:
 
 os-odl_l2-bgpvpn-noha:
   configfile: no-ha_odl-l2_bgpvpn_scenario_0.0.2.yaml
+
+os-nosdn-tempesttest-ha:
+  configfile: tempest-test.yaml
