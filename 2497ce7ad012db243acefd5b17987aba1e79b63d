@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_f12b662e",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:54:43Z",
+      "side": 1,
+      "message": "odl-restconf-all is defined in ovs group which is by default enabled, it is always included.",
+      "parentUuid": "5a4e6583_7169b68a",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 23
+      },
+      "revId": "2497ce7ad012db243acefd5b17987aba1e79b63d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_b16f2e92",
         "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
         "patchSetId": 3
@@ -59,6 +83,30 @@
       "writtenOn": "2016-02-17T17:23:31Z",
       "side": 1,
       "message": "We also need odl-groupbasedpolicy-neutronmapper",
+      "range": {
+        "startLine": 117,
+        "startChar": 16,
+        "endLine": 117,
+        "endChar": 19
+      },
+      "revId": "2497ce7ad012db243acefd5b17987aba1e79b63d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_11de0240",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:54:43Z",
+      "side": 1,
+      "message": "I will also update this in plugin repository",
+      "parentUuid": "5a4e6583_b16f2e92",
       "range": {
         "startLine": 117,
         "startChar": 16,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "5a4e6583_f1e24602",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:54:43Z",
+      "side": 1,
+      "message": "I will also update this in plugin repository",
+      "parentUuid": "5a4e6583_916c329e",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 43
+      },
+      "revId": "2497ce7ad012db243acefd5b17987aba1e79b63d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a4e6583_f15da6ea",
         "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
         "patchSetId": 3
@@ -105,6 +177,30 @@
       "writtenOn": "2016-02-17T17:23:31Z",
       "side": 1,
       "message": "This feature no longer exists in Beryllium. Instead of this, it should be odl-sfc-model, odl-sfc-provider, and odl-sfc-provider-rest.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 30
+      },
+      "revId": "2497ce7ad012db243acefd5b17987aba1e79b63d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_d1e74a11",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:54:43Z",
+      "side": 1,
+      "message": "I will also update this in plugin repository",
+      "parentUuid": "5a4e6583_f15da6ea",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -151,6 +247,30 @@
       "writtenOn": "2016-02-17T17:23:31Z",
       "side": 1,
       "message": "We dont need the vpn features for SFC.",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 19
+      },
+      "revId": "2497ce7ad012db243acefd5b17987aba1e79b63d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a4e6583_b1e4ce0d",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-02-17T17:54:43Z",
+      "side": 1,
+      "message": "This group of features is activated only when bgpvpn plugin is present",
+      "parentUuid": "5a4e6583_5106bacf",
       "range": {
         "startLine": 133,
         "startChar": 16,
