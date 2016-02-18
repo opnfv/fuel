@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_714bf6b0",
+        "filename": "deploy/config/plugins/fuel-nshovs_0.0.1.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-02-18T03:15:05Z",
+      "side": 1,
+      "message": "It Should be ens5, even if not in use, since dpdk is disabled",
+      "revId": "fd28ff15dcf266c93c230b84d5b0eac152320c7c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
