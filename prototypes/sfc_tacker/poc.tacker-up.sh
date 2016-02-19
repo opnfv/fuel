@@ -58,7 +58,7 @@ ____EOF
 # Function setting up the build/deploy environment
 function envSetup () {
     apt-get update
-    apt-get install -y git python-pip python-all debhelper crudini
+    apt-get install -y git python-pip python-all debhelper
     chkPPkg stdeb
     chkCrudini
 }
@@ -326,7 +326,7 @@ EOF
 export LC_ALL=C
 export OS_NO_CACHE='true'
 export OS_TENANT_NAME='${service_tenant}'
-export OS_PROJECT_NAME='${service_tenant}''
+export OS_PROJECT_NAME='${service_tenant}'
 export OS_USERNAME='tacker'
 export OS_PASSWORD='tacker'
 export OS_AUTH_URL='${auth_uri}'
