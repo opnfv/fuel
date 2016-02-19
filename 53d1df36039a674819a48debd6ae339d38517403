@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a4e6583_0327d365",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-02-19T10:30:09Z",
+      "side": 1,
+      "message": "wget -q google.com",
+      "range": {
+        "startLine": 88,
+        "startChar": 33,
+        "endLine": 88,
+        "endChar": 70
+      },
+      "revId": "53d1df36039a674819a48debd6ae339d38517403",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
