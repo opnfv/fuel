@@ -58,7 +58,7 @@ ____EOF
 # Function setting up the build/deploy environment
 function envSetup () {
     apt-get update
-    apt-get install -y git python-pip python-all debhelper crudini
+    apt-get install -y git python-pip python-all debhelper
     chkPPkg stdeb
     chkCrudini
 }
