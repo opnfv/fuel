@@ -247,9 +247,9 @@ function populate_client() {
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
             echo "installing $CLIENT on $anode"
-            sshpass -p "r00tme" scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
-            sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
-            sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
+            scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
+            ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
+            ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
         fi
     done
 }
@@ -347,7 +347,7 @@ function populate_rc() {
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
             echo "populating seetings  to  $anode"
-            sshpass -p "r00tme" scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
+            scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
         fi
     done
 }
