@@ -58,7 +58,7 @@ ____EOF
 # Function setting up the build/deploy environment
 function envSetup () {
     apt-get update
-    apt-get install -y git python-pip python-all debhelper crudini
+    apt-get install -y git python-pip python-all debhelper
     chkPPkg stdeb
     chkCrudini
 }
@@ -242,15 +242,14 @@ function populate_client() {
     dpkg -i deb &&\
     rm deb
 
-    sshpass -p "r00tme" scp ${SSH_OPTIONS[@]}  root@10.20.0.2:.ssh/id_rsa ${HOME}/.ssh/id_rsa
-    clusternodes=$(ssh ${SSH_OPTIONS[@]} root@10.20.0.2 fuel node | cut -d '|' -f 5 | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" )
+    clusternodes=$(sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} root@10.20.0.2 fuel node | cut -d '|' -f 5 | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" )
     myaddr=$(ifconfig br-fw-admin | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
             echo "installing $CLIENT on $anode"
-            scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
-            ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
-            ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
+            sshpass -p "r00tme" scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
+            sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
+            sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
         fi
     done
 }
@@ -326,7 +325,7 @@ EOF
 export LC_ALL=C
 export OS_NO_CACHE='true'
 export OS_TENANT_NAME='${service_tenant}'
-export OS_PROJECT_NAME='${service_tenant}''
+export OS_PROJECT_NAME='${service_tenant}'
 export OS_USERNAME='tacker'
 export OS_PASSWORD='tacker'
 export OS_AUTH_URL='${auth_uri}'
@@ -343,13 +342,12 @@ function populate_rc() {
     dpkg -i deb &&\
     rm deb
 
-    sshpass -p "r00tme" scp ${SSH_OPTIONS[@]}  root@10.20.0.2:.ssh/id_rsa ${HOME}/.ssh/id_rsa
-    clusternodes=$(ssh ${SSH_OPTIONS[@]} root@10.20.0.2 fuel node | cut -d '|' -f 5 | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" )
+    clusternodes=$(sshpass -p "r00tme" ssh ${SSH_OPTIONS[@]} root@10.20.0.2 fuel node | cut -d '|' -f 5 | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" )
     myaddr=$(ifconfig br-fw-admin | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
             echo "populating seetings  to  $anode"
-            scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
+            sshpass -p "r00tme" scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
         fi
     done
 }
