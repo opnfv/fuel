@@ -9,7 +9,7 @@
 ##############################################################################
 
 FUEL_MAIN_REPO := https://github.com/openstack/fuel-main
-FUEL_MAIN_TAG = 9.0
+FUEL_MAIN_TAG := 9.0
 MOS_VERSION = 9.0
 OPENSTACK_VERSION = mitaka-9.0
 
