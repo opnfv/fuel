@@ -85,7 +85,7 @@ all:
 	KERNEL_VER="$${KERNEL_VER%.*-*}"; \
 	KERNEL_VER="$${KERNEL_VER//.}"; \
         [ $$KERNEL_VER -ge 319 ] || (echo 'Kernel version must be 3.19 or newer'; exit 1)
-	@docker/runcontext $(DOCKERIMG) ping -c 1 www.google.com > /dev/null 2>&1 || (echo 'No docker network connectivity or name server - check your network- and docker settings'; exit 1)
+	@docker/runcontext $(DOCKERIMG) wget -q www.google.com > /dev/null 2>&1 || (echo 'No docker network connectivity or name server - check your network- and docker settings'; exit 1)
 	@docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) iso
 
 
