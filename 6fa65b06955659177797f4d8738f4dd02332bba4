@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_831c1ec3",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-22T10:09:49Z",
+      "side": 1,
+      "message": "-q only turns off wget output, you will get an index.html file on disk. Suggest that you pipe to stdout with \"wget -q -O - http:///www.google.com | \u0026\u003e/dev/null\" instead.",
+      "revId": "6fa65b06955659177797f4d8738f4dd02332bba4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
