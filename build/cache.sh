@@ -37,7 +37,10 @@ errorexit () {
 # can be used when generating the SHA1 to make sure that the cache is
 # rebuilt bi-weekly even if no pruning of the cache is taking place.
 getbiweek () {
-  echo "$(date +'%G')$[$(date +'%V')/2]"
+  local year=$(date +'%G')
+  local week=$(date +"%V" | sed 's/^0*//')
+ 
+  echo "${year}$[$[week]/2]"
 }
 
 # Get a SHA1 based on what's piped into the cache command
