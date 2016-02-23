@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_0c729be5",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "RC1 as ... - seems like there should be a continuation there?",
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ec5dff49",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "Common comment for this paragraph - what does **Changed** denote, maybe should be explained?",
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_29d1c9cd",
         "filename": "docs/release-notes.rst",
         "patchSetId": 2
@@ -59,6 +93,47 @@
         "endLine": 129,
         "endChar": 106
       },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ac2ee7a3",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "When formatting this to PDF using rst2pdf, I get two working links, one with the text \"New features\" and one with the actual URL in \u0027\u0027. Assuming that the duplicated link and the end of the line should be removed!",
+      "parentUuid": "1a486d77_491d2573",
+      "range": {
+        "startLine": 129,
+        "startChar": 63,
+        "endLine": 129,
+        "endChar": 106
+      },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_4c1d3373",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "When formatting this to PDF using rst2pdf, I get two working links, one with the text \"Bug-fixes\" and one with the actual URL in \u0027\u0027. Assuming that the duplicated link and the end of the line should be removed!",
       "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -122,6 +197,47 @@
         "endLine": 175,
         "endChar": 107
       },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_2c12f762",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "When formatting this to PDF using rst2pdf, I get two working links, one with the text \"Known issues\" and one with the actual URL in \u0027\u0027. Assuming that the duplicated link and the end of the line should be removed!",
+      "parentUuid": "1a486d77_e90bb129",
+      "range": {
+        "startLine": 175,
+        "startChar": 15,
+        "endLine": 175,
+        "endChar": 58
+      },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_8ca68b52",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-02-23T13:10:18Z",
+      "side": 1,
+      "message": "Will 13 - 15 get links automagically created?",
       "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
