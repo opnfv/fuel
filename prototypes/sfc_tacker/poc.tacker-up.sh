@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #
 # POC Script to build/install/deploy/orchestrate Tacker on an OPNFV Brhamaputra Fuel cluster
 #         Script assuming it runs on the openstack primary controller (where is opendaylight
@@ -11,10 +10,9 @@
 #
 #         (c) 2016 Telefonaktiebolaget L. M. ERICSSON
 #
-#         All rights reserved. This program and the accompanying materials
-#         are made available under the terms of the Apache License, Version 2.0
-#         which accompanies this distribution, and is available at
-#         http://www.apache.org/licenses/LICENSE-2.0
+#         All rights reserved. This program and the accompanying materials are made available
+#         under the terms of the Apache License, Version 2.0 which accompanies this distribution,
+#         and is available at http://www.apache.org/licenses/LICENSE-2.0
 #
 
 
@@ -34,7 +32,7 @@ function chkCrudini () {
     if [[ ! -f '/usr/bin/crudini' ]]; then
         wget -N http://mirrors.kernel.org/ubuntu/pool/universe/p/python-iniparse/python-iniparse_0.4-2.1build1_all.deb
         wget -N http://archive.ubuntu.com/ubuntu/pool/universe/c/crudini/crudini_0.3-1_amd64.deb
-        dpkg -i python-iniparse_0.4-2.1build1_all.deb crudini_0.3-1_amd64.deb crudini_0.3-1_amd64.deb
+        dpkg -i python-iniparse_0.4-2.1build1_all.deb crudini_0.3-1_amd64.deb
     fi
 }
 
@@ -212,17 +210,6 @@ function deployTackerClient() {
     dpkg --purge python-tackerclient
     git clone -b 'SFC_refactor' https://github.com/trozet/python-tackerclient.git $CLIREPO
     cd $CLIREPO
-#    patch -p 1 <<EOFCSC
-#--- a/setup.cfg	2016-02-09 08:51:48.424937110 +0000
-#+++ b/setup.cfg	2016-02-09 08:52:17.084938135 +0000
-#@@ -1,5 +1,5 @@
-# [metadata]
-#-name = python-tackerclient
-#+name = tackerclient
-# summary = CLI and Client Library for OpenStack Networking
-# description-file =
-#     README.rst
-#EOFCSC
     python setup.py --command-packages=stdeb.command bdist_deb
     cd "deb_dist"
     cp $CLIENT $MYDIR
@@ -246,7 +233,7 @@ function populate_client() {
     myaddr=$(ifconfig br-fw-admin | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
-            echo "installing $CLIENT on $anode"
+            echo "Installing $CLIENT on $anode"
             scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
             ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
             ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
@@ -263,21 +250,27 @@ function orchestarte () {
     popd
 
     ### Facts ###
+
+    # Port(s)   Protocol ServiceDetails Source
+    # 8805-8872 tcp,udp  Unassigned     IANA
+    bind_port='8808'
+
     auth_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'auth_uri')
     identity_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'identity_uri')
-    database_connection="mysql://tacker:tacker@$(hiera database_vip)/tacker"
+    mgmt_addr=$(ifconfig br-mgmt | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
+    pub_addr=$(ifconfig br-ex-lnx | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     rabbit_host=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_hosts'| cut -d ':' -f 1)
     rabbit_password=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_password')
     sql_host=$(hiera database_vip)
-    admin_url="http://$(hiera management_vip):8888/"
-    public_url="http://$(hiera public_vip):8888/"
+    database_connection="mysql://tacker:tacker@${sql_host}/tacker"
+    admin_url="http://${mgmt_addr}:${bind_port}"
+    public_url="http://${pub_addr}:${bind_port}"
     heat_api_vip=$(crudini --get '/etc/heat/heat.conf' 'heat_api' 'bind_host')
-    mgmt_addr=$(ifconfig br-mgmt | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
-    allowed_hosts="[ '${HOSTNAME}', 'localhost', '127.0.0.1',  '%' ]"
+    allowed_hosts="[ '${sql_host}', '${HOSTNAME%%.domain.tld}', 'localhost', '127.0.0.1', '%' ]"
     heat_uri="http://${heat_api_vip}:8004/v1"
     odl_port='8282'
     service_tenant='services'
-    myRegion='regionOne'
+    myRegion='RegionOne'
     myPassword='tacker'
 
     cat > configure_tacker.pp << EOF
@@ -289,7 +282,7 @@ function orchestarte () {
    class { 'tacker':
      package_ensure        => 'absent',
      client_package_ensure => 'absent',
-     bind_host             => '${mgmt_addr}',
+     bind_port             => '${bind_port}',
      keystone_password     => '${myPassword}',
      keystone_tenant       => '${service_tenant}',
      auth_uri              => '${auth_uri}',
@@ -304,7 +297,11 @@ function orchestarte () {
 
    class { 'tacker::db::mysql':
        password      => '${myPassword}',
-       host          => '${sql_host}',
+       dbname        => 'tacker',
+       user          => 'tacker',
+       host          => '127.0.0.1',
+       charset       => 'utf8',
+       collate       => 'utf8_general_ci',
        allowed_hosts => ${allowed_hosts},
    }
 
@@ -346,7 +343,7 @@ function populate_rc() {
     myaddr=$(ifconfig br-fw-admin | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
-            echo "populating seetings  to  $anode"
+            echo "Populating seetings to $anode"
             scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
         fi
     done
