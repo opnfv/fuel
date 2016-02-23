@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_772678bc",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-23T15:50:12Z",
+      "side": 1,
+      "message": "Will fix, thanks!",
+      "parentUuid": "1a486d77_0c729be5",
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_ec5dff49",
         "filename": "docs/release-notes.rst",
         "patchSetId": 2
@@ -53,6 +71,24 @@
       "writtenOn": "2016-02-23T13:10:18Z",
       "side": 1,
       "message": "Common comment for this paragraph - what does **Changed** denote, maybe should be explained?",
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_3720009b",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-23T15:50:12Z",
+      "side": 1,
+      "message": "It means changed in this version.\nWill clarify",
+      "parentUuid": "1a486d77_ec5dff49",
       "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -227,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_b754f0ca",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-23T15:50:12Z",
+      "side": 1,
+      "message": "No my intention is that you should also see the url, in case you have a printed copy.",
+      "parentUuid": "1a486d77_2c12f762",
+      "range": {
+        "startLine": 175,
+        "startChar": 15,
+        "endLine": 175,
+        "endChar": 58
+      },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_8ca68b52",
         "filename": "docs/release-notes.rst",
         "patchSetId": 2
@@ -238,6 +298,24 @@
       "writtenOn": "2016-02-23T13:10:18Z",
       "side": 1,
       "message": "Will 13 - 15 get links automagically created?",
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9751f4da",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-23T15:50:12Z",
+      "side": 1,
+      "message": "Unfortunately not, and I dont have the URL where they will be stored, and there is no way currently to link to other documents. Too bad!",
+      "parentUuid": "1a486d77_8ca68b52",
       "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
