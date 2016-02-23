@@ -1,15 +1,12 @@
-================================================================================================
+=================================================================================================
 OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
-================================================================================================
-
-.. contents:: Table of Contents
-   :backlinks: none
+=================================================================================================
 
 License
 =======
 
-This work is licensed under a Creative Commons Attribution 4.0
-International License. .. http://creativecommons.org/licenses/by/4.0 ..
+This work is licensed under a Creative Commons Attribution 4.0 International
+License. See <http://creativecommons.org/licenses/by/4.0>.
 (c) Jonas Bjurel (Ericsson AB) and others
 
 Abstract

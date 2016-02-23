@@ -69,7 +69,7 @@ Following high level hardware requirements must be met:
 +--------------------+------------------------------------------------------+
 | **HW Aspect**      | **Requirement**                                      |
 |                    |                                                      |
-+--------------------+------------------------------------------------------+
++====================+======================================================+
 | **# of nodes**     | Minimum 5 (3 for non redundant deployment):          |
 |                    |                                                      |
 |                    | - 1 Fuel deployment master (may be virtualized)      |
@@ -155,7 +155,7 @@ developed by OPNFV:
 +--------------------+------------------------------------------------------+
 |  **Plugin name**   | **Short description**                                |
 |                    |                                                      |
-+--------------------+------------------------------------------------------+
++====================+======================================================+
 | OpenDaylight       | OpenDaylight provides an open-source SDN Controller  |
 |                    | providing networking features such as L2 and L3      |
 |                    | network control, "Service Function Chaining",        |
