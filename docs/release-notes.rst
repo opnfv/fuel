@@ -104,7 +104,7 @@ following upstream versions:
 
 - OpenStack Liberty release
 
-- OpenDaylight Beryllium pre-release <TODO>
+- OpenDaylight Beryllium release
 
 - ONOS Drake release
 
@@ -126,14 +126,14 @@ Feature additions
 
 **JIRA TICKETS:**
 
-`New features <https://jira.opnfv.org/browse/FUEL-81?jql=project%20%3D%20FUEL%20AND%20issuetype%20in%20%28Improvement%2C%20%22New%20Feature%22%2C%20Story%2C%20Sub-task%29%20AND%20status%20in%20%28Resolved%2C%20Closed%29%20AND%20resolution%20%3D%20Fixed%20AND%20labels%20in%20%28Fuel-B-WP1%2C%20R2%2C%20brahmaputra%29>`_
+`New features <https://jira.opnfv.org/issues/?filter=11002>`_ 'https://jira.opnfv.org/issues/?filter=11002'
 
 Bug corrections
 ~~~~~~~~~~~~~~~
 
 **JIRA TICKETS:**
 
-`Bug-fixes <https://jira.opnfv.org/browse/FUEL-96?jql=project%20%3D%20FUEL%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20%28Resolved%2C%20Closed%29%20AND%20resolution%20%3D%20Fixed%20AND%20labels%20in%20%28Fuel-B-WP1%2C%20R2%2C%20brahmaputra%29>`_
+`Bug-fixes <https://jira.opnfv.org/browse/FUEL-99?filter=11001>`_ 'https://jira.opnfv.org/browse/FUEL-99?filter=11001'
 
 Deliverables
 ------------
@@ -162,7 +162,7 @@ System Limitations
 
 - **Min number of blades:** 1 Fuel master, 1 Controller, 1 Compute blade
 
-- **Storage:** Ceph is the only supported storage configuration.
+- **Storage:** Ceph is the only supported storage configuration
 
 - **Max number of networks:** 65k
 
@@ -172,22 +172,21 @@ Known issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/browse/FUEL-99?jql=project%20%3D%20FUEL%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29>`_
+`Known issues <https://jira.opnfv.org/issues/?filter=11000>`_ 'https://jira.opnfv.org/issues/?filter=11000'
 
 Workarounds
 -----------
 
--
+
 
 Test results
 ============
 The Brahmaputra release with the Fuel deployment tool has undergone QA test
-runs with the following results:
-<TODO>
+runs, see separate test results.
 
 References
 ==========
-For more information on the OPNFV Brahmaputra release, please see
+For more information on the OPNFV Brahmaputra release, please see:
 
 OPNFV
 -----
