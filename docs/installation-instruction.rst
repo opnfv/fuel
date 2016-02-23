@@ -2,9 +2,6 @@
 OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
 ========================================================================================================
 
-.. contents:: Table of Contents
-   :backlinks: none
-
 License
 =======
 
@@ -111,7 +108,7 @@ installation of Brahmaputra using Fuel:
 +--------------------+------------------------------------------------------+
 | **HW Aspect**      | **Requirement**                                      |
 |                    |                                                      |
-+--------------------+------------------------------------------------------+
++====================+======================================================+
 | **# of nodes**     | Minimum 5 (3 for non redundant deployment):          |
 |                    |                                                      |
 |                    | - 1 Fuel deployment master (may be virtualized)      |
