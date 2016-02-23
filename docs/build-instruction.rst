@@ -1,9 +1,6 @@
-================================================================================================
+=================================================================================================
 OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
-================================================================================================
-
-.. contents:: Table of Contents
-   :backlinks: none
+=================================================================================================
 
 License
 =======
@@ -87,7 +84,7 @@ Then restart docker:
 
 .. code-block:: console
 
-$ sudo service docker restart
+    $ sudo service docker restart
 
 Setting up OPNFV Gerrit in order to being able to clone the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

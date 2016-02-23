@@ -2,9 +2,6 @@
 OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
 ============================================================================================
 
-.. contents:: Table of Contents
-   :backlinks: none
-
 License
 =======
 
@@ -121,6 +118,7 @@ comes with the following documentation:
 
 Reason for version
 ------------------
+
 Feature additions
 ~~~~~~~~~~~~~~~~~
 
