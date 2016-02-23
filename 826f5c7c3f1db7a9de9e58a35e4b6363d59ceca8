@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a486d77_8c732b15",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-02-23T12:53:24Z",
+      "side": 1,
+      "message": "Please move the license part to the top of the document.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 7
+      },
+      "revId": "826f5c7c3f1db7a9de9e58a35e4b6363d59ceca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_29d1c9cd",
         "filename": "docs/release-notes.rst",
         "patchSetId": 2
