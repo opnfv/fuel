@@ -212,8 +212,7 @@ developed by OPNFV:
 
 *Additional third-party plugins can be found here:*
 *https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/*
-**Note: Plugins are not necessarilly compatible with each other, see <TODO>
-for compatibility information**
+**Note: Plugins are not necessarilly compatible with each other, see separate matrix in this document for compatibility information**
 
 The plugins come prepackaged, ready to install. To do so follow the
 installation instructions provided in *Reference 13* provided in section
@@ -237,7 +236,7 @@ The plugins of your choice need to be enabled and configured.
 To enable a plugin, follow the installation instructions found in
 *Reference 13*, provided in section *"Fuel associated references"* below.
 
-For configuration of the plugins, please refer to the corresponding feature in the ????? <TODO>
+For configuration of the plugins, please refer to the corresponding feature descriptions in this document.
 
 Networking
 ^^^^^^^^^^
