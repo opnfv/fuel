@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_122512ab",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-02-23T19:54:45Z",
+      "side": 1,
+      "message": "settings",
+      "revId": "66ef68e18fc88c6ba692d9861477b52c27c0cb38",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
