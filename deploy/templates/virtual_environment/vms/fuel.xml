@@ -61,6 +61,4 @@
     <memballoon model='virtio'>
     </memballoon>
   </devices>
-  <seclabel type='dynamic' model='apparmor' relabel='yes'/>
 </domain>
-
