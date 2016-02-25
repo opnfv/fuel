@@ -55,7 +55,7 @@ class VirtualFuel(ExecutionEnvironment):
         disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
-        exec_cmd('fallocate -l %s %s' % (disk_size, disk_path))
+        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
         temp_vm_file = '%s/%s' % (temp_dir, vm_name)
         exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
