@@ -97,7 +97,8 @@ class LibvirtAdapter(HardwareAdapter):
                     disk_file = source.get('file')
                     disk_size = exec_cmd('ls -l %s' % disk_file).split()[4]
                     delete(disk_file)
-                    exec_cmd('fallocate -l %s %s' % (disk_size, disk_file))
+                    exec_cmd('qemu-img create -f qcow2 %s %sG' % (disk_file,
+                                                                  disk_size))
 
     def node_eject_iso(self, node_id):
         vm_name = self.get_node_property(node_id, 'libvirtName')

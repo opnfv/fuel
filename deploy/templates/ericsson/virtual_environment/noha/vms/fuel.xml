@@ -56,7 +56,7 @@
       <readonly/>
     </disk>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='raw'/>
+      <driver name='qemu' type='qcwo2'/>
       <source file='disk.raw'/>
       <target dev='vda' bus='virtio'/>
     </disk>
