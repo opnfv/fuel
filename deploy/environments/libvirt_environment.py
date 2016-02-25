@@ -40,7 +40,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
             roles = self.dea.get_node_role(node_id)
             role = 'controller' if 'controller' in roles else 'compute'
             disk_size = disk_sizes[role]
-        exec_cmd('fallocate -l %s %s' % (disk_size, disk_path))
+        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
 
     def create_vms(self):
         temp_dir = tempfile.mkdtemp()
