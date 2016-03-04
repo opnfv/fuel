@@ -58,3 +58,8 @@ class HardwareAdapter(object):
 
     def get_disks(self):
         return self.dha_struct['disks']
+
+    def get_number_cpus(self, role):
+        cpus = self.dha_struct.get('number_cpus')
+        if cpus:
+            return cpus.get(role)
