@@ -50,7 +50,7 @@ class ExecutionEnvironment(object):
         for file in disk_files:
             delete(file)
 
-    def define_vm(self, vm_name, temp_vm_file, disk_path):
+    def define_vm(self, vm_name, temp_vm_file, disk_path, number_cpus):
         log('Creating VM %s with disks %s' % (vm_name, disk_path))
         with open(temp_vm_file) as f:
             vm_xml = etree.parse(f)
@@ -60,10 +60,14 @@ class ExecutionEnvironment(object):
         uuids = vm_xml.xpath('/domain/uuid')
         for uuid in uuids:
             uuid.getparent().remove(uuid)
+        if number_cpus:
+            vcpus = vm_xml.xpath('/domain/vcpu')
+            for vcpu in vcpus:
+                vcpu.text = str(number_cpus)
         disks = vm_xml.xpath('/domain/devices/disk')
         for disk in disks:
             if (disk.get('type') == 'file' and
-                disk.get('device') == 'disk'):
+                    disk.get('device') == 'disk'):
                 sources = disk.xpath('source')
                 for source in sources:
                     disk.remove(source)

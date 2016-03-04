@@ -36,3 +36,8 @@ disks:
   fuel: 100G
   controller: 100G
   compute: 100G
+
+number_cpus:
+  # Entry is not mandatory! If it is left empty
+  # the default is 2 cpus per node
+  controller: 2

@@ -65,8 +65,14 @@ class DeploymentEnvironmentAdapter(object):
             if node['id'] == node_id and property_name in node:
                 return node[property_name]
 
-    def get_node_role(self, node_id):
+    def get_node_roles(self, node_id):
         return self.get_node_property(node_id, 'role')
+
+    def get_node_main_role(self, node_id, fuel_node_id):
+        if node_id == fuel_node_id:
+            return 'fuel'
+        roles = self.get_node_roles(node_id)
+        return 'controller' if 'controller' in roles else 'compute'
 
     def get_node_ids(self):
         node_ids = []
