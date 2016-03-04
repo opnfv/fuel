@@ -55,11 +55,12 @@ class VirtualFuel(ExecutionEnvironment):
         disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
+        number_cpus = self.dha.get_number_cpus('fuel')
         exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
         temp_vm_file = '%s/%s' % (temp_dir, vm_name)
         exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
-        self.define_vm(vm_name, temp_vm_file, disk_path)
+        self.define_vm(vm_name, temp_vm_file, disk_path, number_cpus)
         delete(temp_dir)
 
     def setup_environment(self):

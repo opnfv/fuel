@@ -34,12 +34,8 @@ class LibvirtEnvironment(ExecutionEnvironment):
         self.net_names = self.collect_net_names()
 
     def create_storage(self, node_id, disk_path, disk_sizes):
-        if node_id == self.fuel_node_id:
-            disk_size = disk_sizes['fuel']
-        else:
-            roles = self.dea.get_node_role(node_id)
-            role = 'controller' if 'controller' in roles else 'compute'
-            disk_size = disk_sizes[role]
+        role = self.dha.get_node_main_role(node_id, self.fuel_node_id)
+        disk_size = disk_sizes[role]
         exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
 
     def create_vms(self):
@@ -53,9 +49,11 @@ class LibvirtEnvironment(ExecutionEnvironment):
             check_file_exists(vm_template)
             disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
             self.create_storage(node_id, disk_path, disk_sizes)
+            number_cps = self.dha.get_number_cpus(
+                self.dha.get_node_main_role(node_id, self.fuel_node_id))
             temp_vm_file = '%s/%s' % (temp_dir, vm_name)
             exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
-            self.define_vm(vm_name, temp_vm_file, disk_path)
+            self.define_vm(vm_name, temp_vm_file, disk_path, number_cps)
         delete(temp_dir)
 
     def start_vms(self):
