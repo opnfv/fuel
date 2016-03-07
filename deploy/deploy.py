@@ -61,7 +61,7 @@ class AutoDeploy(object):
     def __init__(self, no_fuel, fuel_only, no_health_check, cleanup_only,
                  cleanup, storage_dir, pxe_bridge, iso_file, dea_file,
                  dha_file, fuel_plugins_dir, fuel_plugins_conf_dir,
-                 no_plugins, deploy_timeout):
+                 no_plugins, deploy_timeout, no_deploy_environment):
         self.no_fuel = no_fuel
         self.fuel_only = fuel_only
         self.no_health_check = no_health_check
@@ -76,6 +76,7 @@ class AutoDeploy(object):
         self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.no_plugins = no_plugins
         self.deploy_timeout = deploy_timeout
+        self.no_deploy_environment = no_deploy_environment
         self.dea = (DeploymentEnvironmentAdapter(dea_file)
                     if not cleanup_only else None)
         self.dha = DeploymentHardwareAdapter(dha_file)
@@ -198,7 +199,8 @@ class AutoDeploy(object):
         dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
                           self.fuel_username, self.fuel_password,
                           self.dea_file, self.fuel_plugins_conf_dir,
-                          WORK_DIR, self.no_health_check, self.deploy_timeout)
+                          WORK_DIR, self.no_health_check, self.deploy_timeout,
+                          self.no_deploy_environment)
         return dep.deploy()
 
     def setup_execution_environment(self):
@@ -236,6 +238,7 @@ class AutoDeploy(object):
                 self.cleanup_execution_environment()
             return deploy_success
         return True
+
 
 def check_bridge(pxe_bridge, dha_path):
     with io.open(dha_path) as yaml_file:
@@ -318,6 +321,12 @@ def parse_arguments():
                         default=240, help='Deployment timeout (in minutes) '
                         '[default: 240]')
 
+    parser.add_argument('-nde', dest='no_deploy_environment',
+                        action='store_true', default=False,
+                        help=('Stop at Environment deployment. '
+                              'Do everything except the Environment '
+                              'deployment.'))
+
     args = parser.parse_args()
     log(args)
 
@@ -343,7 +352,8 @@ def parse_arguments():
               'fuel_plugins_dir': args.fuel_plugins_dir,
               'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir,
               'no_plugins': args.no_plugins,
-              'deploy_timeout': args.deploy_timeout}
+              'deploy_timeout': args.deploy_timeout,
+              'no_deploy_environment': args.no_deploy_environment}
     return kwargs
 
 
