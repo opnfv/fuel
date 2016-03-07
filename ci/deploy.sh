@@ -38,6 +38,7 @@ OPTIONS:
   -B  PXE Bridge for booting of Fuel master
   -d  Dry-run
   -f  Deploy on existing Fuel master
+  -e  Donot launch environment deployment
   -F  Do only create a Fuel master
   -H  No health check
   -l  Lab-name
@@ -59,6 +60,7 @@ Input parameters to the build script is:
 -d Dry-run - Produces deploy config files (config/dea.yaml and
    config/dha.yaml), but does not execute deploy
 -f Deploy on existing Fuel master
+-e Donot launch environment deployment
 -F Do only create a Fuel master
 -H Do not run fuel built in health-check after successfull deployment
 -l Lab name as defined in the configuration directory, e.g. lf
@@ -104,6 +106,7 @@ PXE_BRIDGE=''
 NO_HEALTH_CHECK=''
 USE_EXISTING_FUEL=''
 FUEL_CREATION_ONLY=''
+NO_DEPLOY_ENVIRONMENT=''
 STORAGE_DIR=''
 DRY_RUN=0
 #
@@ -113,7 +116,7 @@ DRY_RUN=0
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:B:dfFHl:p:s:S:i:h" OPTION
+while getopts "b:B:dfFHl:p:s:S:i:h:e" OPTION
 do
     case $OPTION in
         b)
@@ -138,6 +141,9 @@ do
             ;;
         F)
             FUEL_CREATION_ONLY='-fo'
+            ;;
+        e)
+            NO_DEPLOY_ENVIRONMENT='-nde'
             ;;
         H)
             NO_HEALTH_CHECK='-nh'
@@ -224,8 +230,8 @@ if [ $DRY_RUN -eq 0 ]; then
         ISO=${SCRIPT_PATH}/ISO/image.iso
     fi
     # Start deployment
-    echo "python deploy.py -s $STORAGE_DIR -b $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
-    python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
+    echo "python deploy.py -s $STORAGE_DIR -b $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
+    python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 fi
 popd > /dev/null
 
