@@ -22,6 +22,7 @@ from common import (
     check_file_exists,
     commafy,
     ArgParser,
+    log,
 )
 
 YAML_CONF_DIR = '/var/lib/opnfv'
@@ -29,9 +30,12 @@ YAML_CONF_DIR = '/var/lib/opnfv'
 
 class Deploy(object):
 
-    def __init__(self, dea_file, no_health_check):
+    def __init__(self, dea_file, no_health_check, deploy_timeout,
+                 no_deploy_environment):
         self.dea = DeploymentEnvironmentAdapter(dea_file)
         self.no_health_check = no_health_check
+        self.deploy_timeout = deploy_timeout
+        self.no_deploy_environment = no_deploy_environment
         self.macs_per_blade = {}
         self.blades = self.dea.get_node_ids()
         self.blade_node_dict = self.dea.get_blade_node_map()
@@ -59,8 +63,12 @@ class Deploy(object):
 
     def deploy_cloud(self):
         dep = Deployment(self.dea, YAML_CONF_DIR, self.env_id,
-                         self.node_roles_dict, self.no_health_check)
-        dep.deploy()
+                         self.node_roles_dict, self.no_health_check,
+                         self.deploy_timeout)
+        if not self.no_deploy_environment:
+            dep.deploy()
+        else:
+            log('Configuration is done. Deployment is not launched.')
 
     def deploy(self):
 
@@ -76,13 +84,22 @@ def parse_arguments():
     parser.add_argument('-nh', dest='no_health_check', action='store_true',
                         default=False,
                         help='Don\'t run health check after deployment')
+    parser.add_argument('-dt', dest='deploy_timeout', action='store',
+                        default=240, help='Deployment timeout (in minutes) '
+                        '[default: 240]')
+    parser.add_argument('-nde', dest='no_deploy_environment',
+                        action='store_true', default=False,
+                        help=('Do not launch environment deployment'))
     parser.add_argument('dea_file', action='store',
                         help='Deployment Environment Adapter: dea.yaml')
+
     args = parser.parse_args()
     check_file_exists(args.dea_file)
 
     kwargs = {'dea_file': args.dea_file,
-              'no_health_check': args.no_health_check}
+              'no_health_check': args.no_health_check,
+              'deploy_timeout': args.deploy_timeout,
+              'no_deploy_environment': args.no_deploy_environment}
     return kwargs
 
 

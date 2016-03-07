@@ -34,7 +34,8 @@ BLADE_RESTART_TIMES = 3
 class CloudDeploy(object):
 
     def __init__(self, dea, dha, fuel_ip, fuel_username, fuel_password,
-                 dea_file, fuel_plugins_conf_dir, work_dir, no_health_check):
+                 dea_file, fuel_plugins_conf_dir, work_dir, no_health_check,
+                 deploy_timeout, no_deploy_environment):
         self.dea = dea
         self.dha = dha
         self.fuel_ip = fuel_ip
@@ -48,6 +49,8 @@ class CloudDeploy(object):
         self.fuel_plugins_conf_dir = fuel_plugins_conf_dir
         self.work_dir = work_dir
         self.no_health_check = no_health_check
+        self.deploy_timeout = deploy_timeout
+        self.no_deploy_environment = no_deploy_environment
         self.file_dir = os.path.dirname(os.path.realpath(__file__))
         self.ssh = SSHClient(self.fuel_ip, self.fuel_username,
                              self.fuel_password)
@@ -103,8 +106,13 @@ class CloudDeploy(object):
         deploy_app = '%s/%s' % (self.work_dir, deploy_app)
         dea_file = '%s/%s' % (self.work_dir, os.path.basename(self.dea_file))
         with self.ssh as s:
-            status = s.run('python %s %s %s' % (
-                deploy_app, ('-nh' if self.no_health_check else ''), dea_file))
+            status = s.run('python %s %s %s %s %s' % (
+                deploy_app,
+                ('-nh' if self.no_health_check else ''),
+                ('-dt %s' %
+                 self.deploy_timeout if self.deploy_timeout else ''),
+                ('-nde' if self.no_deploy_environment else ''),
+                dea_file))
         return status
 
     def check_supported_release(self):
