@@ -224,7 +224,8 @@ class AutoDeploy(object):
             self.install_fuel_master()
         if not self.fuel_only:
             return self.deploy_env()
-        return True
+        # Exit status
+        return 0
 
     def run(self):
         check_if_root()
@@ -235,7 +236,8 @@ class AutoDeploy(object):
             if self.cleanup:
                 self.cleanup_execution_environment()
             return deploy_success
-        return True
+        # Exit status
+        return 0
 
 def check_bridge(pxe_bridge, dha_path):
     with io.open(dha_path) as yaml_file:
