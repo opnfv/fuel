@@ -23,9 +23,9 @@ MYREPO="tacker-server"
 CLIREPO="tacker-client"
 DEPREPO="jsonrpclib"
 
-CLIENT="python-python-tackerclient_0.0.1~dev48-1_all.deb"
-JSONRPC="python-jsonrpclib_0.1.7-1_all.deb"
-SERVER="python-tacker_2014.2.0~dev177-1_all.deb"
+CLIENT=$(echo python-python-tackerclient_*_all.deb)
+JSONRPC=$(echo python-jsonrpclib_*_all.deb)
+SERVER=$(echo python-tacker_*_all.deb)
 
 # Function checks whether crudini is available, if not - installs
 function chkCrudini () {
@@ -74,6 +74,7 @@ function deployJsonrpclib () {
     dpkg --purge python-jsonrpclib
     python setup.py --command-packages=stdeb.command bdist_deb
     cd "deb_dist"
+    JSONRPC=$(echo python-jsonrpclib_*_all.deb)
     cp $JSONRPC $MYDIR
     dpkg -i $JSONRPC
 }
@@ -117,6 +118,9 @@ EOFSCP
 
 # Function corrects and installs the Tacker-server debian package
 function blessPackage () {
+    pushd "${MYDIR}/${MYREPO}/deb_dist"
+    SERVER=$(echo python-tacker_*_all.deb)
+    popd
     DEBFILE="${MYDIR}/${MYREPO}/deb_dist/${SERVER}"
     TMPDIR=$(mktemp -d /tmp/deb.XXXXXX) || exit 1
     OUTPUT=$(basename "$DEBFILE")
@@ -144,9 +148,9 @@ diff -ruN a/DEBIAN/control b/DEBIAN/control
 EOFDC
     cd "$MYDIR"
     echo "Patching  deb..."
-    dpkg -b "$TMPDIR" "${MYDIR}/${OUTPUT}"
+    dpkg -b "$TMPDIR" "${MYDIR}/${SERVER}"
     rm -r "$TMPDIR"
-    dpkg -i "${MYDIR}/${OUTPUT}"
+    dpkg -i "${MYDIR}/${SERVER}"
 }
 
 # Function deploys Tacker-server (installs missing mandatory files: upstart, default)
@@ -212,8 +216,9 @@ function deployTackerClient() {
     cd $CLIREPO
     python setup.py --command-packages=stdeb.command bdist_deb
     cd "deb_dist"
+    CLIENT=$(echo python-python-tackerclient_*_all.deb)
     cp $CLIENT $MYDIR
-    dpkg -i $CLIENT
+    dpkg -i "${MYDIR}/${CLIENT}"
 }
 
 # Function removes the cloned git repositories
@@ -297,11 +302,6 @@ function orchestarte () {
 
    class { 'tacker::db::mysql':
        password      => '${myPassword}',
-       dbname        => 'tacker',
-       user          => 'tacker',
-       host          => '127.0.0.1',
-       charset       => 'utf8',
-       collate       => 'utf8_general_ci',
        allowed_hosts => ${allowed_hosts},
    }
 
@@ -324,11 +324,12 @@ export OS_NO_CACHE='true'
 export OS_TENANT_NAME='${service_tenant}'
 export OS_PROJECT_NAME='${service_tenant}'
 export OS_USERNAME='tacker'
-export OS_PASSWORD='tacker'
+export OS_PASSWORD='${myPassword}'
 export OS_AUTH_URL='${auth_uri}'
 export OS_DEFAULT_DOMAIN='default'
 export OS_AUTH_STRATEGY='keystone'
-export OS_REGION_NAME='RegionOne'
+export OS_REGION_NAME='${myRegion}'
+export TACKER_ENDPOINT_TYPE='internalURL'
 EOFRC
     chmod +x tackerc
 }
