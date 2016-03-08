@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_09d83bee",
+        "filename": "deploy/scenario/no-ha_odl-bgpvpn_scenario_0.0.1.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-03-08T18:13:26Z",
+      "side": 1,
+      "message": "Nikolas, have you tested this? I\u0027 m not sure that override with arrays work? Does it?",
+      "revId": "e45c05ebbe0fe43b8871113b4580153e779564a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
