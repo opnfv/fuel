@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_c9e1039c",
+        "filename": "deploy/config/labs/devel-pipeline/elx/fuel/config/dha.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-03-08T18:25:57Z",
+      "side": 1,
+      "message": "Not mandatory",
+      "revId": "9ed97980ddc318e77a5df7595ccd6047f20e34f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
