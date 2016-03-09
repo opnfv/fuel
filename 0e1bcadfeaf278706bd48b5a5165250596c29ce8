@@ -162,6 +162,30 @@
       "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_cf47c34a",
+        "filename": "deploy/environments/virtual_fuel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-03-09T17:26:01Z",
+      "side": 1,
+      "message": "That is the reason I give the statement the it is not mandatory. At the moment only the controller is specified. You can if you which specify fuel as well but just:\ncpus:\n  fuel:4",
+      "parentUuid": "1a486d77_6f57af03",
+      "range": {
+        "startLine": 58,
+        "startChar": 48,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
