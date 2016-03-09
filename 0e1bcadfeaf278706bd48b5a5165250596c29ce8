@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_6f20cf9b",
+        "filename": "deploy/config/labs/devel-pipeline/elx/fuel/config/dha.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:19:56Z",
+      "side": 1,
+      "message": "I think it\u0027s just better to remove the comment, it\u0027s easy to understand by just reading the yaml content",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_2f3ad7cd",
+        "filename": "deploy/dha_adapters/hardware_adapter.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:19:56Z",
+      "side": 1,
+      "message": "please rename it to \u003d\u003e role_cpus_dict",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 12
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_0f371be5",
+        "filename": "deploy/dha_adapters/hardware_adapter.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:19:56Z",
+      "side": 1,
+      "message": "please rename it to \u003d\u003e role_cpus_dict",
+      "range": {
+        "startLine": 64,
+        "startChar": 11,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_ef339ff4",
+        "filename": "deploy/dha_adapters/hardware_adapter.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:19:56Z",
+      "side": 1,
+      "message": "please rename it to \u003d\u003e role_cpus_dict",
+      "range": {
+        "startLine": 65,
+        "startChar": 19,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
