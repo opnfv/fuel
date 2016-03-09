@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_6f7c4f73",
+        "filename": "deploy/cloud/deploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:51:14Z",
+      "side": 1,
+      "message": "Configuration is done. Deployment is not launched.",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 48
+      },
+      "revId": "25e94214da9cbc897b79023878d83b07fd700183",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_8f878b61",
+        "filename": "deploy/cloud/deploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:51:14Z",
+      "side": 1,
+      "message": "Don\u0027t launch deployment",
+      "range": {
+        "startLine": 94,
+        "startChar": 31,
+        "endLine": 96,
+        "endChar": 42
+      },
+      "revId": "25e94214da9cbc897b79023878d83b07fd700183",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_af824750",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:51:14Z",
+      "side": 1,
+      "message": "Don\u0027t launch deployment",
+      "range": {
+        "startLine": 326,
+        "startChar": 31,
+        "endLine": 328,
+        "endChar": 42
+      },
+      "revId": "25e94214da9cbc897b79023878d83b07fd700183",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
