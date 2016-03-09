@@ -91,6 +91,29 @@
       "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_6f57af03",
+        "filename": "deploy/environments/virtual_fuel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:22:57Z",
+      "side": 1,
+      "message": "I couldn\u0027t find fuel in number_cpus dictionary in dha.yaml\nAlso make sure you add this new yaml entry to all existing dha.yaml files",
+      "range": {
+        "startLine": 58,
+        "startChar": 48,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
