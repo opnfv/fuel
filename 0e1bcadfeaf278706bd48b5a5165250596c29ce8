@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a486d77_ef4a7f54",
+        "filename": "deploy/config/labs/devel-pipeline/elx/fuel/config/dha.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:28:45Z",
+      "side": 1,
+      "message": "okay, you\u0027re right",
+      "parentUuid": "1a486d77_8f52eb11",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a486d77_2f3ad7cd",
         "filename": "deploy/dha_adapters/hardware_adapter.py",
         "patchSetId": 7
@@ -177,6 +201,30 @@
       "side": 1,
       "message": "That is the reason I give the statement the it is not mandatory. At the moment only the controller is specified. You can if you which specify fuel as well but just:\ncpus:\n  fuel:4",
       "parentUuid": "1a486d77_6f57af03",
+      "range": {
+        "startLine": 58,
+        "startChar": 48,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "0e1bcadfeaf278706bd48b5a5165250596c29ce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_4f73d3b1",
+        "filename": "deploy/environments/virtual_fuel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-09T17:28:45Z",
+      "side": 1,
+      "message": "okay I got it",
+      "parentUuid": "1a486d77_cf47c34a",
       "range": {
         "startLine": 58,
         "startChar": 48,
