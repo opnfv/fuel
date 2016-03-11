@@ -128,7 +128,9 @@ do
             fi
             ;;
         B)
-            PXE_BRIDGE="-b ${OPTARG}"
+            if [[ ${OPTARG} ]]; then
+                PXE_BRIDGE="-b ${OPTARG}"
+            fi
             ;;
         d)
             DRY_RUN=1
@@ -152,7 +154,9 @@ do
             DEPLOY_SCENARIO=${OPTARG}
             ;;
         S)
-            STORAGE_DIR="-s ${OPTARG}"
+            if [[ ${OPTARG} ]]; then
+                STORAGE_DIR="-s ${OPTARG}"
+            fi
             ;;
         i)
             ISO=${OPTARG}
@@ -164,7 +168,6 @@ do
                 usage
                 exit 1
             fi
-
             ;;
         h)
             usage
@@ -183,8 +186,8 @@ do
 done
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
+    echo "This script must be run as root" 1>&2
+    exit 1
 fi
 
 if [ -z $BASE_CONFIG_URI ] || [ -z $TARGET_LAB ] || \
@@ -224,7 +227,7 @@ if [ $DRY_RUN -eq 0 ]; then
         ISO=${SCRIPT_PATH}/ISO/image.iso
     fi
     # Start deployment
-    echo "python deploy.py -s $STORAGE_DIR -b $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
+    echo "python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
     python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 fi
 popd > /dev/null
