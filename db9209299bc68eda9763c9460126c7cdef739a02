@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_5ef942c7",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-03-11T10:42:30Z",
+      "side": 1,
+      "message": "extra space should be deleted",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 0
+      },
+      "revId": "db9209299bc68eda9763c9460126c7cdef739a02",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
