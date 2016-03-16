@@ -78,6 +78,13 @@ def parse_arguments():
               'output_path': args.output_path}
     return kwargs
 
+def warning(msg):
+    red = '\033[0;31m'
+    NC = '\033[0m'
+    print('%(red)s WARNING: %(msg)s %(NC)s' % {'red': red,
+                                               'msg': msg,
+                                               'NC': NC})
+
 def setup_yaml():
   represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
   yaml.add_representer(collections.OrderedDict, represent_dict_order)
@@ -90,14 +97,52 @@ def sha_uri(uri):
     sha1.update(data)
     return sha1.hexdigest()
 
+def merge_fuel_plugin_version_list(list1, list2):
+    final_list = []
+    # When the plugin version in not there in list1 it will
+    # not be copied
+    for e_l1 in list1:
+        plugin_version = e_l1.get('metadata',
+                                  {'plugin_version', None}).get('plugin_version')
+        plugin_version_found = False
+        for e_l2 in list2:
+            if plugin_version == e_l2.get('metadata',
+                                          {'plugin_version',
+                                           None}).get('plugin_version'):
+                final_list.append(dict(mergedicts(e_l1, e_l2)))
+                plugin_version_found = True
+        if not plugin_version_found:
+            final_list.append(e_l1)
+    return final_list
+
+def merge_lists(list1, list2):
+    if list1 and list2:
+        if isinstance(list1[0], dict):
+            if 'plugin_version' in list1[0].get('metadata', {}):
+                return merge_fuel_plugin_version_list(list1, list2)
+            else:
+                warning("Lists with dics inside are not merge able! "
+                                "List2 will overwrite List1. "
+                                "List1: %s; List2: %s"
+                                % (list1, list2))
+                return list2
+        else:
+            return list2
+    elif list1:
+        return list1
+    else:
+        return list2
+
 def mergedicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
             if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
                 yield (k, dict(mergedicts(dict1[k], dict2[k])))
+            elif isinstance(dict1[k], list) and isinstance(dict2[k], list):
+                yield (k, merge_lists(dict1[k], dict2[k]))
             else:
-                # If one of the values is not a dict, you can't continue
-                # merging it.
+                # If one of the values is not a dict nor a list,
+                # you can't continue merging it.
                 # Value from second dict overrides one in first and we move on.
                 yield (k, dict2[k])
         elif k in dict1:
@@ -194,7 +239,7 @@ if deploy_scenario_conf["stack-extensions"]:
         module_comments.append(str(module_conf['plugin-config-metadata']['comment']))
         module_conf.pop('plugin-config-metadata')
         final_dea_conf['settings']['editable'].update(module_conf)
-        scenario_module_override_conf = module['module-config-override']
+        scenario_module_override_conf = module.get('module-config-override')
         if scenario_module_override_conf:
             dea_scenario_module_override_conf = {}
             dea_scenario_module_override_conf['settings'] = {}
