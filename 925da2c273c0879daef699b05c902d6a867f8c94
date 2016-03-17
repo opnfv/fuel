@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_f28fffca",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.4.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-03-17T08:11:01Z",
+      "side": 1,
+      "message": "false?",
+      "revId": "925da2c273c0879daef699b05c902d6a867f8c94",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_d2bc036f",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.4.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-03-17T08:11:01Z",
+      "side": 1,
+      "message": "true",
+      "revId": "925da2c273c0879daef699b05c902d6a867f8c94",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
