@@ -49,11 +49,12 @@ class LibvirtEnvironment(ExecutionEnvironment):
             check_file_exists(vm_template)
             disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
             self.create_storage(node_id, disk_path, disk_sizes)
-            number_cpus = self.dha.get_number_cpus(
-                self.dea.get_node_main_role(node_id, self.fuel_node_id))
             temp_vm_file = '%s/%s' % (temp_dir, vm_name)
             exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
-            self.define_vm(vm_name, temp_vm_file, disk_path, number_cpus)
+            vm_definition_overwrite = self.dha.get_vm_definition(
+                 self.dea.get_node_main_role(node_id, self.fuel_node_id))
+            self.define_vm(vm_name, temp_vm_file, disk_path,
+                           vm_definition_overwrite)
         delete(temp_dir)
 
     def start_vms(self):
