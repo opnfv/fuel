@@ -59,7 +59,7 @@ class HardwareAdapter(object):
     def get_disks(self):
         return self.dha_struct['disks']
 
-    def get_number_cpus(self, role):
-        role_cpus_dict = self.dha_struct.get('number_cpus')
-        if role_cpus_dict:
-            return role_cpus_dict.get(role)
+    def get_vm_definition(self, role):
+        vm_definition = self.dha_struct.get('define_vms')
+        if vm_definition:
+            return vm_definition.get(role)
