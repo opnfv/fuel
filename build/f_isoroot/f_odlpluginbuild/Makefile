@@ -8,7 +8,7 @@
 ##############################################################################
 
 TOP := $(shell pwd)
-ODL_BRANCH=brahmaputra-release
+ODL_BRANCH=brahmaputra-sr2
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
 export USE_JAVA8=true
