@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_88589cfb",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-03-21T11:32:59Z",
+      "side": 1,
+      "message": "This needs Python 3 or the \u0027future\u0027 module",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 39
+      },
+      "revId": "17197a108d777eea8c178980de7ba1bd7246f5f4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
