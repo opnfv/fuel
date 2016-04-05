@@ -50,7 +50,30 @@ class ExecutionEnvironment(object):
         for file in disk_files:
             delete(file)
 
-    def define_vm(self, vm_name, temp_vm_file, disk_path, number_cpus):
+    def overwrite_xml(self, vm_xml, vm_definition_overwrite):
+        for key, value in vm_definition_overwrite.iteritems():
+            if key == 'attribute_equlas':
+                continue
+            if key == 'value':
+                vm_xml.text = str(value)
+                return
+            if key == 'attribute':
+                for attr_key, attr_value in value.iteritems():
+                    vm_xml.set(attr_key, str(attr_value))
+                return
+
+            if isinstance(value, dict):
+                only_when_attribute = value.get('attribute_equlas')
+            for xml_element in vm_xml.xpath(key):
+                if only_when_attribute:
+                    for attr_key, attr_value in \
+                            only_when_attribute.iteritems():
+                        if attr_value != xml_element.get(attr_key):
+                            continue
+                self.overwrite_xml(xml_element, value)
+
+    def define_vm(self, vm_name, temp_vm_file, disk_path,
+                  vm_definition_overwrite):
         log('Creating VM %s with disks %s' % (vm_name, disk_path))
         with open(temp_vm_file) as f:
             vm_xml = etree.parse(f)
@@ -60,10 +83,8 @@ class ExecutionEnvironment(object):
         uuids = vm_xml.xpath('/domain/uuid')
         for uuid in uuids:
             uuid.getparent().remove(uuid)
-        if number_cpus:
-            vcpus = vm_xml.xpath('/domain/vcpu')
-            for vcpu in vcpus:
-                vcpu.text = str(number_cpus)
+        self.overwrite_xml(vm_xml.xpath('/domain')[0],
+                           vm_definition_overwrite)
         disks = vm_xml.xpath('/domain/devices/disk')
         for disk in disks:
             if (disk.get('type') == 'file' and

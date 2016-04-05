@@ -37,7 +37,47 @@ disks:
   controller: 100G
   compute: 100G
 
-number_cpus:
-  # Entry is not mandatory! If it is left empty
-  # the default is 2 cpus per node
-  controller: 2
+# Here the infrastructure VMs can be defined.
+# The entries are not mandatory! If it is left empty
+# the default defined in deploy/templates will
+# be used.
+define_vms:
+  fuel:
+    vcpu:
+      value: 2
+    memory:
+      attribute_equlas:
+        unit: KiB
+      value: 8388608
+    currentMemory:
+      attribute_equlas:
+        unit: KiB
+      value: 8388608
+    devices:
+      interface:
+        # With attribute_equlas someone can define which
+        # interface type is meant
+        attribute_equlas:
+          type: network
+        # This will overwrite the type of the model of
+        # the interface
+        model:
+          attribute:
+            type: e1000
+  controller:
+    devices:
+      interface:
+        attribute_equlas:
+          type: network
+        model:
+          attribute:
+            type: e1000
+  compute:
+    devices:
+      interface:
+        attribute_equlas:
+          type: network
+        model:
+          attribute:
+            type: e1000
+
