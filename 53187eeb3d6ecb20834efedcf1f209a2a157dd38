@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_3c31e1ec",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-04-05T15:16:07Z",
+      "side": 1,
+      "message": "i think you mean \"discs\" or maybe you mean \"dicts\" (dictinoaries?).",
+      "range": {
+        "startLine": 124,
+        "startChar": 36,
+        "endLine": 124,
+        "endChar": 40
+      },
+      "revId": "53187eeb3d6ecb20834efedcf1f209a2a157dd38",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
