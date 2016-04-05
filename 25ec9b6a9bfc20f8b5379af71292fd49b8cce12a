@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_dc576d01",
+        "filename": "deploy/config/labs/devel-pipeline/elx/fuel/config/dha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-04-05T15:17:50Z",
+      "side": 1,
+      "message": "You will need to add keep in mind that the defaults for the cpu_mode and model\u003dcustom and host-model\u003daa yy zz  could change, and there is numa stuff coming, you might want to build this into your file now (take a look at any COMPUTE.xml on a nested setup for the flags).\n\nJust a suggestion :)",
+      "revId": "25ec9b6a9bfc20f8b5379af71292fd49b8cce12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
