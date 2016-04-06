@@ -51,6 +51,8 @@ class ExecutionEnvironment(object):
             delete(file)
 
     def overwrite_xml(self, vm_xml, vm_definition_overwrite):
+        if not vm_definition_overwrite:
+            return
         for key, value in vm_definition_overwrite.iteritems():
             if key == 'attribute_equlas':
                 continue
