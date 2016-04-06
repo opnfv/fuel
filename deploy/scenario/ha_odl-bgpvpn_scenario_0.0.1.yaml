@@ -21,10 +21,10 @@
 ##############################################################################
 # deployment configuration meta-data
 deployment-scenario-metadata:
-   title: ODL-L2 No-HA BGPVPN deployment
+   title: ODL HA BGPVPN deployment
    version: 0.0.1
-   created: Jan 14 2016
-   comment: Fuel ODL-L2 No HA with Ceph, Ceilometer, Heat and BGPVPN
+   created: 04.03.2016
+   comment: Fuel ODL HA with BGPVPN, Ceph, Ceilometer and Heat Rebased for Fuel8
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -32,92 +32,75 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-   - module: opendaylight
-     module-config-name: fuel-odl
-     module-config-version: 0.0.1
-     module-config-override:
-       # Module config overrides
-       rest_api_port:
-         value: '8282'
-       enable_gbp:
-         value: false
-       enable_l3_odl:
-         value: false
-       enable_sfc:
-         value: false
-   - module: bgpvpn
-     module-config-name: fuel-bgpvpn
-     module-config-version: 0.0.1
-     module-config-override:
+  - module: opendaylight
+    module-config-name: fuel-odl
+    module-config-version: 0.0.3
+    module-config-override:
+      metadata:
+        versions:
+          - enable_bgpvpn:
+              value: true
+            metadata:
+              plugin_version: 0.8.1
 
+  - module: bgpvpn
+    module-config-name: fuel-bgpvpn
+    module-config-version: 0.0.3
+
+  - module: fuel-plugin-ovs
+    module-config-name: fuel-nshovs
+    module-config-version: 0.0.1
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
 dea-override-config:
-  environment:
-    mode: ha
-    net_segment_type: tun
-  wanted_release: Liberty on Ubuntu 14.04
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: mongo,controller,opendaylight
+    role: controller,opendaylight
     transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: mongo,controller
     transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: ceph-osd,controller
     transformations: transformations_1
   - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
     transformations: transformations_1
-  settings:
-    editable:
-      additional_components:
-        ceilometer:
-          description: If selected, Ceilometer component will be installed
-          label: Install Ceilometer
-          type: checkbox
-          value: true
-          weight: 40
-        heat:
-          description: ''
-          label: ''
-          type: hidden
-          value: true
-          weight: 30
-        metadata:
-          label: Additional Components
-          weight: 20
-      storage:
-        ephemeral_ceph:
-          description: Configures Nova to store ephemeral volumes in RBD. This works
-            best if Ceph is enabled for volumes and images, too. Enables live migration
-            of all types of Ceph backed VMs (without this option, live migration will
-            only work with VMs launched from Cinder volumes).
-          label: Ceph RBD for ephemeral volumes (Nova)
-          type: checkbox
-          value: true
-          weight: 75
-        images_ceph:
-          description: Configures Glance to use the Ceph RBD backend to store images.
-            If enabled, this option will prevent Swift from installing.
-          label: Ceph RBD for images (Glance)
-          restrictions:
-          - settings:storage.images_vcenter.value == true: Only one Glance backend could
-              be selected.
-          type: checkbox
-          value: true
-          weight: 30
+  - id: 5
+    interfaces: interfaces_1
+    role: ceph-osd,compute
+    transformations: transformations_1
+
 
 dha-override-config:
-#  disks:
-#    contrail: 500G
+  nodes:
+  - id: 1
+    libvirtName: controller1
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 2
+    libvirtName: controller2
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 3
+    libvirtName: controller3
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 4
+    libvirtName: compute1
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 5
+    libvirtName: compute2
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 6
+    libvirtName: fuel-master
+    libvirtTemplate: templates/virtual_environment/vms/fuel.xml
+    isFuel: yes
+    username: root
+    password: r00tme
 
 ##############################################################################
 # The verification pipeline may populate the section below with arbitrary
