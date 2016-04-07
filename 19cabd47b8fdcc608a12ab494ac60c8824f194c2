@@ -16,6 +16,24 @@
       "revId": "19cabd47b8fdcc608a12ab494ac60c8824f194c2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_13b6133e",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-04-07T12:58:35Z",
+      "side": 1,
+      "message": "ahh ok now I understand. but I can point to any config file or. The naming can change there or?",
+      "parentUuid": "1a486d77_50924158",
+      "revId": "19cabd47b8fdcc608a12ab494ac60c8824f194c2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
