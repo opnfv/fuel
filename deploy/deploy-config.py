@@ -90,7 +90,6 @@ def setup_yaml():
   yaml.add_representer(collections.OrderedDict, represent_dict_order)
 
 def sha_uri(uri):
-    import hashlib
     response = urllib2.urlopen(uri)
     data = response.read()
     sha1 = hashlib.sha1()
