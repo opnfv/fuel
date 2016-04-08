@@ -86,8 +86,8 @@ def warning(msg):
                                                'NC': NC})
 
 def setup_yaml():
-  represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
-  yaml.add_representer(collections.OrderedDict, represent_dict_order)
+    represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
+    yaml.add_representer(collections.OrderedDict, represent_dict_order)
 
 def sha_uri(uri):
     import hashlib
