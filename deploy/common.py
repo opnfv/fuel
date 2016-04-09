@@ -133,8 +133,8 @@ def commafy(comma_separated_list):
 
 
 def check_if_root():
-    r = exec_cmd('whoami')
-    if r != 'root':
+    uid = os.getuid()
+    if uid != 0:
         err('You need be root to run this application')
 
 
