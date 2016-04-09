@@ -13,6 +13,7 @@ FROM ubuntu:14.04
 ENV http_proxy INSERT_HTTP_PROXY
 ENV https_proxy INSERT_HTTPS_PROXY
 ENV no_proxy INSERT_NO_PROXY
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties \
