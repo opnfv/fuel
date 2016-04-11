@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_24aae770",
+        "filename": "build/f_isoroot/f_odlpluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-11T13:21:39Z",
+      "side": 1,
+      "message": "You need to enter to repo directory: cd fuel-plugin-opendaylight; \\",
+      "revId": "3d84734a50a16a108dc83c72918bd27df37520de",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_04b7ebd9",
+        "filename": "build/f_isoroot/f_odlpluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-11T13:21:39Z",
+      "side": 1,
+      "message": "since we use the same repository address then we can do this in one command: git checkout $(ODL_CHANGE)",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "3d84734a50a16a108dc83c72918bd27df37520de",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
