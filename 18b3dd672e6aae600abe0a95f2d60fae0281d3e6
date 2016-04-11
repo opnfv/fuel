@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_44772303",
+        "filename": "build/f_isoroot/f_odlpluginbuild/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-04-11T14:38:41Z",
+      "side": 1,
+      "message": "You need to make the same change here for the caching logic (ODL_BRANCH -\u003e ODL_CHANGE).",
+      "revId": "18b3dd672e6aae600abe0a95f2d60fae0281d3e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
