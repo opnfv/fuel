@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_c45af382",
+        "filename": "build/f_isoroot/f_odlpluginbuild/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-04-11T14:47:52Z",
+      "side": 1,
+      "message": "Missing \"; \\\" at the end?",
+      "revId": "a2a5a88ca9d38bed6da4b2c1155982043ed06361",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
