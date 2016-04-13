@@ -121,10 +121,10 @@ def merge_lists(list1, list2):
                 return merge_fuel_plugin_version_list(list1, list2)
             else:
                 warning("Lists with dictionary inside are not merge able! "
-                                "List2 will overwrite List1. "
+                                "List1 will overwrite List2. "
                                 "List1: %s; List2: %s"
                                 % (list1, list2))
-                return list2
+                return list1
         else:
             return list2
     elif list1:

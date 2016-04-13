@@ -8,6 +8,7 @@
 ###############################################################################
 
 
+import os.path
 from lxml import etree
 from dha_adapters.libvirt_adapter import LibvirtAdapter
 
@@ -100,3 +101,9 @@ class ExecutionEnvironment(object):
         with open(temp_vm_file, 'w') as f:
             vm_xml.write(f, pretty_print=True, xml_declaration=True)
         exec_cmd('virsh define %s' % temp_vm_file)
+
+    def get_abs_path(self, path):
+        if os.path.isabs(path):
+            return path
+
+        return '{}/{}'.format(self.root_dir, path)

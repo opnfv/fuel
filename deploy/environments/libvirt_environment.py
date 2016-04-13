@@ -28,8 +28,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
         super(LibvirtEnvironment, self).__init__(
             storage_dir, dha_file, root_dir)
         self.dea = dea
-        self.network_dir = '%s/%s' % (self.root_dir,
-                                      self.dha.get_virt_net_conf_dir())
+        self.network_dir = self.get_abs_path(self.dha.get_virt_net_conf_dir())
         self.node_ids = self.dha.get_all_node_ids()
         self.net_names = self.collect_net_names()
 
@@ -43,8 +42,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
         disk_sizes = self.dha.get_disks()
         for node_id in self.node_ids:
             vm_name = self.dha.get_node_property(node_id, 'libvirtName')
-            vm_template = '%s/%s' % (self.root_dir,
-                                     self.dha.get_node_property(
+            vm_template = self.get_abs_path(self.dha.get_node_property(
                                          node_id, 'libvirtTemplate'))
             check_file_exists(vm_template)
             disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
