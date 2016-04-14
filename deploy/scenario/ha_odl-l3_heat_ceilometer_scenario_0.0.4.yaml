@@ -87,12 +87,7 @@ dea-override-config:
           label: OpenDaylight plugin
           toggleable: true
           versions:
-          - enable_gbp:
-              label: GBP features
-              type: checkbox
-              value: false
-              weight: 14
-            enable_l3_odl:
+          - enable_l3_odl:
               label: Use ODL to manage L3 traffic
               restrictions:
               - networking_parameters:segmentation_type == 'vlan': Use tunneling segmentation type.
@@ -105,6 +100,53 @@ dea-override-config:
               type: checkbox
               value: false
               weight: 13
+            sfc_class:
+              description: 'Classifier determines what traffic needs to be chained based
+              on policy based on yang model. The OpenDayLight actually supports the
+              OVSDB NetVirt and the GBP classifier in case of SFC.
+
+              '
+              label: Classifier used by SFC
+              restrictions:
+              - action: hide
+                condition: settings:opendaylight.enable_sfc.value == false
+              type: select
+              value: ncr
+              values:
+              - data: ncr
+                label: NetVirt
+              - data: gcr
+                label: GBP
+              weight: 14
+            enable_bgpvpn:
+              description: 'This enables the bgpvpn extension of neutron togethere with
+                the corresponding sdnvpn features in odl. This feature will disable the
+                standart ovsdb feature from ODL.
+
+                '
+              label: BGPVPN extensions
+              restrictions:
+              - networking_parameters:segmentation_type == 'vlan': This feature works only with segmentation_type != vlan
+              - condition: settings:bgpvpn == null or settings:bgpvpn.metadata.enabled == false
+                message: BGPVPN (fuel-plugin-bgpvpn) plugin must be installed and enabled.
+                strict: false
+              - condition: settings:fuel-plugin-ovs == null or settings:fuel-plugin-ovs.metadata.enabled == false
+                message: Openvswitch with NSH support (fuel-plugin-ovs) must be installed and enabled.
+                strict: false
+              type: checkbox
+              value: false
+              weight: 15
+            bgpvpn_gateway:
+              description: Define the default gateway for BGPVPN
+              label: Default Gateway
+              regex:
+                error: Invalid ip number
+                source: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+              restrictions:
+              - settings:opendaylight.enable_bgpvpn.value == false: Only needed if BGPVPN is enabled.
+              type: text
+              value: 0.0.0.0
+              weight: 16
             metadata:
               always_editable: false
               odl_features:
@@ -116,31 +158,30 @@ dea-override-config:
                 - kar
                 - ssh
                 - management
-                gbp:
-                - odl-groupbasedpolicy-base
-                - odl-groupbasedpolicy-ofoverlay
-                ovs:
-                - odl-ovsdb-openstack
+                odl-default:
                 - odl-restconf-all
                 - odl-aaa-authn
                 - odl-dlux-all
+                gcr:
+                - odl-groupbasedpolicy-ovssfc
+                ncr:
+                - odl-ovsdb-sfc
+                - odl-ovsdb-sfc-rest
+                ovs:
+                - odl-ovsdb-openstack
                 sfc:
-                - odl-sfc-core
+                - odl-sfc-model
+                - odl-sfc-provider
+                - odl-sfc-provider-rest
                 - odl-sfc-sb-rest
                 - odl-sfc-ui
                 - odl-sfc-netconf
                 - odl-sfc-ovs
                 - odl-sfcofl2
-                - odl-sfc-test-consumer
                 vpn:
-                - odl-vpnservice-api
-                - odl-vpnservice-impl
-                - odl-vpnservice-impl-rest
-                - odl-vpnservice-impl-ui
-                - odl-vpnservice-core
                 - odl-vpnservice-openstack
               # plugin_id: Assigned during installation
-              plugin_version: 0.8.0
+              plugin_version: 0.8.1
               restrictions:
               - cluster:net_provider != 'neutron': Only neutron is supported by OpenDaylight
             rest_api_port:
