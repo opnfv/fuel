@@ -8,7 +8,7 @@
 ##############################################################################
 
 ODL_BRANCH=brahmaputra-sr2
-ODL_CHANGE=d8e3f7963d3fcc6427e61dde6f160832f989b30d
+ODL_CHANGE=ec9474c1178e7451ec75f6e306ac84424a84a28a
 ODL_REPO="https://github.com/openstack/fuel-plugin-opendaylight.git"
 
 export USE_JAVA8=true
