@@ -49,7 +49,7 @@ class ConfigureEnvironment(object):
         env_net_segment_type = self.dea.get_env_net_segment_type()
         log('Creating environment %s release %s net-segment-type %s'
             % (env_name, self.release_id, env_net_segment_type))
-        exec_cmd('fuel env create --name %s --release %s --net-segment-type %s'
+        exec_cmd('fuel env create --name "%s" --release %s --net-segment-type %s'
                  % (env_name, self.release_id, env_net_segment_type))
 
         if not self.env_exists(env_name):
