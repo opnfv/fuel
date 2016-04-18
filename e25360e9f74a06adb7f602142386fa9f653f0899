@@ -16,6 +16,24 @@
       "revId": "e25360e9f74a06adb7f602142386fa9f653f0899",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_dc7763d3",
+        "filename": "deploy/cloud/configure_environment.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-04-18T07:45:52Z",
+      "side": 1,
+      "message": "with \\\" the shell would then interpret the quote marks as part of the name, and we would have to escape the spaces and other quote marks in %s too.\n\nIdeally, we would need something like this, I guess:\nhttps://docs.python.org/dev/library/shlex.html#shlex.quote",
+      "parentUuid": "1a486d77_fcbb3f70",
+      "revId": "e25360e9f74a06adb7f602142386fa9f653f0899",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
