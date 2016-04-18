@@ -22,6 +22,24 @@
       "revId": "5254b676b7ac3a287dd1e3da94dbdafb6f77f8ad",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_dc89a3cb",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-04-18T06:37:09Z",
+      "side": 1,
+      "message": "Brady,\nWe have one plugin settings yaml tied to the plugin. The BGPVPN extensions settings is now part of the plugin configuration. Since it\u0027s an SFC scenario , BGPVPN extension settings  is turned off \u0027value: false\u0027. Note that enable_bgpvpn and sfc_class are separate options.",
+      "parentUuid": "1a486d77_fced7f8c",
+      "revId": "5254b676b7ac3a287dd1e3da94dbdafb6f77f8ad",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
