@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_fced7f8c",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1499
+      },
+      "writtenOn": "2016-04-18T05:40:39Z",
+      "side": 1,
+      "message": "Im curious why bgpvpn is now included with the SFC classifier options.",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 25
+      },
+      "revId": "5254b676b7ac3a287dd1e3da94dbdafb6f77f8ad",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
