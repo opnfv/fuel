@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_1c6e1b02",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-18T07:43:58Z",
+      "side": 1,
+      "message": "In that case url will not begin with http*, script will treat this as local file.",
+      "range": {
+        "startLine": 16,
+        "startChar": 28,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "8071aca63a571da8644b63a0187038a1e6de8416",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
