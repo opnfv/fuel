@@ -109,6 +109,8 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for using the Czech Fuel mirror
 	# cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_7.patch
+	# Patch to counteract new cpio behavior
+	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_cpio.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
