@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_419e3258",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario_0.0.5.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-04-25T10:08:58Z",
+      "side": 1,
+      "message": "Just a question! It is intended to have a dha-override for virtual environments here?\n\nNothing new, it was the same in the previous version of the file.",
+      "revId": "4f337cf81e3e4a7b2925fe240de175c3d6bbf2c1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
