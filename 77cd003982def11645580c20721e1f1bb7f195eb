@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_24445c73",
+        "filename": "deploy/fuel_patch/autodeploy.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-04-26T15:25:14Z",
+      "side": 1,
+      "message": "delete spaces please",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "77cd003982def11645580c20721e1f1bb7f195eb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
