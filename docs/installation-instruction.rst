@@ -601,16 +601,15 @@ OpenDaylight
 
 Fuel
 ----
-
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
 
-7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-7.0/#guides>`_
+7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/>`_
 
-8) `Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>`_
+8) `Fuel planning guide <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/mos-planning-guide.html>`_
 
-9) `Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>`_
+9) `Fuel quick start guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/quickstart-guide.html>`_
 
-10) `Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>`_
+10) `Fuel operations guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html>`_
 
 11) `Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>`_
 
@@ -619,8 +618,8 @@ Fuel
 Fuel in OPNFV
 -------------
 
-13) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+13) `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html>`_
 
-14) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+14) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
 
-15) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+15) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_

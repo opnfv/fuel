@@ -14,7 +14,8 @@ These validate the installation in terms of configuration, services,
 networking, storage, policies, etc.
 The execution of the full range of health checks takes less than 30 minutes.
 
-For instructions on how to run health-checks, please refer to the Fuel installation instructions.
+For instructions on how to run health-checks, please read the Fuel installation
+instructions.
 
 Platform components validation
 ------------------------------
