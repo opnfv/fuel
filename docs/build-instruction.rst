@@ -284,8 +284,8 @@ The artifacts produced are:
 References
 ==========
 
-1) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+1)  `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html`_
 
-2) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+2) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
 
-3) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+3) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_

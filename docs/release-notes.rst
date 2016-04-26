@@ -1,5 +1,5 @@
 ============================================================================================
-OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+OPNFV Release Note for the Brahmaputra 3.0 release of OPNFV when using Fuel as a deployment tool
 ============================================================================================
 
 License
@@ -12,14 +12,14 @@ License. .. http://creativecommons.org/licenses/by/4.0 ..
 Abstract
 ========
 
-This document compiles the release notes for the Brahmaputra release of
+This document compiles the release notes for the Brahmaputra 3.0 release of
 OPNFV when using Fuel as a deployment tool.
 
 Important notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Brahmaputra release of OPNFV.
+tool for the Brahmaputra 3.0 release of OPNFV.
 
 The goal of the Brahmaputra release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
@@ -33,7 +33,7 @@ Summary
 For Brahmaputra, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
-- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Berylium RC1 as"
+- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Berylium SR1"
 
 - `ONOS <http://onosproject.org/>`_ version "Drake"
 
@@ -68,7 +68,6 @@ OPNFV CI pipeline including:
 
 - Automated validation of the Brahmaputra deployment
 
-
 Release Data
 ============
 
@@ -76,16 +75,23 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | brahmaputra.1.0                      |
+| **Repo/tag**                         | brahmaputra.3.0                      |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Brahmaputra base release             |
+| **Release designation**              | Brahmaputra 3.0 follow-up release    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | February 25 2016                     |
+| **Release date**                     | April 28 2016                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Brahmaputra base release             |
+| **Purpose of the delivery**          | Brahmaputra alignment to Released    |
+|                                      | Fuel 8.0 baseline + Bug-fixes for    |
+|                                      | the following feaures/scenarios:     |
+|                                      | - NFV Hypervisors-KVM                |
+|                                      | - Open vSwitch for NFV               |
+|                                      | - OpenDaylight SR1                   |
+|                                      | - SDN distributed routing and VPN    |
+|                                      | - Service function chaining          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -94,20 +100,20 @@ Version change
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-This is the second tracked release of genesis/fuel. It is based on
+This is a follow-up release to Brahmaputra 1.0. It is based on
 following upstream versions:
 
-- Fuel 8.0 pre-release
+- Fuel 8.0 Base release
 
 - OpenStack Liberty release
 
-- OpenDaylight Beryllium release
+- OpenDaylight Beryllium SR1 release
 
 - ONOS Drake release
 
 Document changes
 ~~~~~~~~~~~~~~~~
-This is the third tracked version of the fuel installer for OPNFV. It
+This is a follow-up release to Brahmaputra 1.0. It
 comes with the following documentation:
 
 - Installation instructions - *Reference 13* - **Changed**
@@ -124,14 +130,16 @@ Feature additions
 
 **JIRA TICKETS:**
 
-`New features <https://jira.opnfv.org/issues/?filter=11002>`_ 'https://jira.opnfv.org/issues/?filter=11002'
+-
 
 Bug corrections
 ~~~~~~~~~~~~~~~
 
 **JIRA TICKETS:**
 
-`Bug-fixes <https://jira.opnfv.org/browse/FUEL-99?filter=11001>`_ 'https://jira.opnfv.org/browse/FUEL-99?filter=11001'
+https://jira.opnfv.org/browse/FUEL-105?filter=11121
+
+(Also See respective Integrated feature project's bug tracking)
 
 Deliverables
 ------------
@@ -170,16 +178,22 @@ Known issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=11000>`_ 'https://jira.opnfv.org/issues/?filter=11000'
+`Known issues <https://jira.opnfv.org/issues/?filter=11000>`_ 'https://jira.opnfv.org/browse/FUEL-109?filter=11119'
+
+(Also See respective Integrated feature project's bug tracking)
 
 Workarounds
 -----------
 
+**JIRA TICKETS:**
 
+`Workarounds <https://jira.opnfv.org/browse/FUEL-108?filter=11120>`_ 'https://jira.opnfv.org/browse/FUEL-108?filter=11120'
+
+(Also See respective Integrated feature project's bug tracking)
 
 Test results
 ============
-The Brahmaputra release with the Fuel deployment tool has undergone QA test
+The Brahmaputra 3.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
@@ -210,13 +224,13 @@ Fuel
 
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
 
-7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-7.0/#guides>`_
+7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/>`_
 
-8) `Fuel planning guide <https://docs.mirantis.com/openstack/fuel/fuel-7.0/planning-guide.html>`_
+8) `Fuel planning guide <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/mos-planning-guide.html>`_
 
-9) `Fuel user guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html>`_
+9) `Fuel quick start guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/quickstart-guide.html>`_
 
-10) `Fuel operations guide <http://docs.mirantis.com/openstack/fuel/fuel-7.0/operations.html>`_
+10) `Fuel operations guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html>`_
 
 11) `Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>`_
 
@@ -225,8 +239,8 @@ Fuel
 Fuel in OPNFV
 -------------
 
-13) OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+13) `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html`_
 
-14) OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+14) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
 
-15) OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+15) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_
