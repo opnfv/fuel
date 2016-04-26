@@ -1,0 +1,273 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+############################################################################### # Description:
+# This .yaml configuration file defines the configuration of the fuel
+# deployment and is passed as an argument to deploy.sh
+# eg. deploy.sh -c https://artifact.opnfv.org/fuel/config
+# This will make build.sh fetch this configuration file and configure the
+# deployment accordingly.
+# After the deployment, a copy of this file gets uploaded to fuel:
+# /root/deploy-config.yaml, as well as the sha-1 sum of this file:
+# /root/deploy-config.sha1
+##############################################################################
+
+##############################################################################
+# deployment configuration meta-data
+deployment-scenario-metadata:
+   title: NFV OVS HA deployment
+   version: 0.0.5
+   created: Apr 20 2016
+   comment: Rebased to Fuel8
+
+##############################################################################
+# Stack extentions are opnfv added value features in form of a fuel-plugin
+# plug-ins listed below will be enabled and configured according to the
+# <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
+# It does so by copying the config file to the local plugin config directory
+stack-extensions:
+   - module: fuel-plugin-ovsnfv
+     module-config-name: fuel-nfvovs
+     module-config-version: 0.0.2
+     module-config-override:
+       # Module config overrides
+
+##############################################################################
+# By editing the override-config sections below, you can override arbitrary
+# configuration name-space settings
+dea-override-config:
+  environment:
+    net_segment_type: vlan
+  nodes:
+  - id: 1
+    interfaces: interfaces_1
+    role: controller
+    transformations: transformations_1
+  - id: 2
+    interfaces: interfaces_1
+    role: mongo,controller
+    transformations: transformations_1
+  - id: 3
+    interfaces: interfaces_1
+    role: ceph-osd,controller
+    transformations: transformations_1
+  - id: 4
+    interfaces: interfaces_1
+    role: ceph-osd,compute
+    transformations: transformations_1
+  - id: 5
+    interfaces: interfaces_1
+    role: ceph-osd,compute
+    transformations: transformations_1
+
+  transformations_1:
+    transformations:
+    - action: add-br
+      name: br-fw-admin
+    - action: add-br
+      name: br-mgmt
+    - action: add-br
+      name: br-storage
+    - action: add-br
+      name: br-ex
+    - action: add-br
+      name: br-floating
+      provider: ovs
+    - action: add-patch
+      bridges:
+      - br-floating
+      - br-ex
+      mtu: 65000
+      provider: ovs
+    - action: add-br
+      name: br-prv
+      provider: ovs
+    - action: add-br
+      name: br-aux
+    - action: add-patch
+      bridges:
+      - br-prv
+      - br-aux
+      mtu: 65000
+      provider: ovs
+    - action: add-port
+      bridge: br-fw-admin
+      name: eno49
+    - action: add-port
+      bridge: br-mgmt
+      name: ens1f0.100
+    - action: add-port
+      bridge: br-storage
+      name: ens1f0.200
+    - action: add-port
+      bridge: br-aux
+      name: ens1f0
+    - action: add-port
+      bridge: br-ex
+      name: ens1f0.753
+  transformations_2:
+    transformations:
+    - action: add-br
+      name: br-fw-admin
+    - action: add-br
+      name: br-mgmt
+    - action: add-br
+      name: br-storage
+    - action: add-br
+      name: br-prv
+      provider: ovs
+    - action: add-br
+      name: br-aux
+    - action: add-patch
+      bridges:
+      - br-prv
+      - br-aux
+      mtu: 65000
+      provider: ovs
+    - action: add-port
+      bridge: br-fw-admin
+      name: eno49
+    - action: add-port
+      bridge: br-mgmt
+      name: ens1f0.100
+    - action: add-port
+      bridge: br-storage
+      name: ens1f0.200
+    - action: add-port
+      bridge: br-aux
+      name: ens1f0
+
+  network:
+    networking_parameters:
+      segmentation_type: vlan
+      vlan_range:
+      - 1000
+      - 1030
+    networks:
+    - cidr: null
+      gateway: null
+      ip_ranges: []
+      meta:
+        configurable: false
+        map_priority: 2
+        name: private
+        neutron_vlan_range: true
+        notation: null
+        render_addr_mask: null
+        render_type: null
+        seg_type: vlan
+        use_gateway: false
+        vlan_start: null
+      name: private
+      vlan_start: null
+    - cidr: 10.118.101.0/24
+      gateway: 10.118.101.1
+      ip_ranges:
+      - - 10.118.101.180
+        - 10.118.101.190
+      meta:
+        cidr: 172.16.0.0/24
+        configurable: true
+        floating_range_var: floating_ranges
+        ip_range:
+        - 172.16.0.2
+        - 172.16.0.126
+        map_priority: 1
+        name: public
+        notation: ip_ranges
+        render_addr_mask: public
+        render_type: null
+        use_gateway: true
+        vips:
+        - haproxy
+        - vrouter
+        vlan_start: null
+      name: public
+      vlan_start: 753
+    - cidr: 192.168.20.0/24
+      gateway: null
+      ip_ranges:
+      - - 192.168.20.1
+        - 192.168.20.254
+      meta:
+        cidr: 192.168.1.0/24
+        configurable: true
+        map_priority: 2
+        name: storage
+        notation: cidr
+        render_addr_mask: storage
+        render_type: cidr
+        use_gateway: false
+        vlan_start: 102
+      name: storage
+    - cidr: 192.168.10.0/24
+      gateway: null
+      ip_ranges:
+      - - 192.168.10.1
+        - 192.168.10.254
+      meta:
+        cidr: 192.168.0.0/24
+        configurable: true
+        map_priority: 2
+        name: management
+        notation: cidr
+        render_addr_mask: internal
+        render_type: cidr
+        use_gateway: false
+        vips:
+        - haproxy
+        - vrouter
+        vlan_start: 101
+      name: management
+      vlan_start: 100
+    - cidr: 10.20.0.0/24
+      gateway: 10.20.0.2
+      ip_ranges:
+      - - 10.20.0.3
+        - 10.20.0.254
+      meta:
+        configurable: false
+        map_priority: 0
+        notation: ip_ranges
+        render_addr_mask: null
+        render_type: null
+        unmovable: true
+        use_gateway: true
+      name: fuelweb_admin
+      vlan_start: null
+
+dha-override-config:
+  nodes:
+  - id: 1
+    libvirtName: controller1
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 2
+    libvirtName: controller2
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 3
+    libvirtName: controller3
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 4
+    libvirtName: compute1
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 5
+    libvirtName: compute2
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 6
+    libvirtName: fuel-master
+    libvirtTemplate: templates/virtual_environment/vms/fuel.xml
+    isFuel: yes
+    username: root
+    password: r00tme
+
+##############################################################################
+# The verification pipeline may populate the section below with arbitrary
+# testing information, which post deploy can be retreived from the fuel master:
+# /root/deploy-config.yaml
+test:
