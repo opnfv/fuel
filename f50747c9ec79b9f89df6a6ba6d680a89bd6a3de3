@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_62ffb802",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-27T12:06:26Z",
+      "side": 1,
+      "message": "Jira notification: \"The requested filter doesn\u0027t exist or is private.\"",
+      "range": {
+        "startLine": 140,
+        "startChar": 14,
+        "endLine": 140,
+        "endChar": 57
+      },
+      "revId": "f50747c9ec79b9f89df6a6ba6d680a89bd6a3de3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_82043c16",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-27T12:06:26Z",
+      "side": 1,
+      "message": "Jira notification: \"The requested filter doesn\u0027t exist or is private.\"",
+      "range": {
+        "startLine": 181,
+        "startChar": 15,
+        "endLine": 181,
+        "endChar": 58
+      },
+      "revId": "f50747c9ec79b9f89df6a6ba6d680a89bd6a3de3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_2209b02c",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-27T12:06:26Z",
+      "side": 1,
+      "message": "Jira notification: \"The requested filter doesn\u0027t exist or is private.\"",
+      "range": {
+        "startLine": 190,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 57
+      },
+      "revId": "f50747c9ec79b9f89df6a6ba6d680a89bd6a3de3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
