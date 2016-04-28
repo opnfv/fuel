@@ -11,6 +11,8 @@ IRC: Server:freenode.net Channel:#opnfv-fuel
 Repository: fuel
 
 Committers:
+gelkinbard@mirantis.com
+nikolas.hermanns@ericsson.com
 jonas.bjurel@ericsson.com
 stefan.k.berg@ericsson.com
 daniel.smith@ericsson.com
