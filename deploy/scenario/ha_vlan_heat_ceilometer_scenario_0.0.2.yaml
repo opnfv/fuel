@@ -41,7 +41,6 @@ dea-override-config:
     mode: ha
     net_segment_type: vlan
     name: opnfv-vlan-noha
-  wanted_release: Kilo on Ubuntu 14.04
   nodes:
   - id: 1
     interfaces: interfaces_1
