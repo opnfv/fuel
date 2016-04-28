@@ -29,49 +29,49 @@
 ##############################################################################
 
 os-nosdn-nofeature-ha:
-  configfile: ha_heat_ceilometer_scenario_0.0.3.yaml
+  configfile: ha_heat_ceilometer_scenario.yaml
 
 os-nosdn-nofeature-noha:
-  configfile: no-ha_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_heat_ceilometer_scenario.yaml
 
 os-odl_l3-nofeature-ha:
-  configfile: ha_odl-l3_heat_ceilometer_scenario_0.0.4.yaml
+  configfile: ha_odl-l3_heat_ceilometer_scenario.yaml
 
 os-odl_l3-nofeature-noha:
-  configfile: no-ha_odl-l3_heat_ceilometer_scenario_0.0.3.yaml
+  configfile: no-ha_odl-l3_heat_ceilometer_scenario.yaml
 
 os-odl_l2-nofeature-ha:
-  configfile: ha_odl-l2_heat_ceilometer_scenario_0.0.3.yaml
+  configfile: ha_odl-l2_heat_ceilometer_scenario.yaml
 
 os-odl_l2-nofeature-noha:
-  configfile: no-ha_odl-l2_heat_ceilometer_scenario_0.0.2.yaml
+  configfile: no-ha_odl-l2_heat_ceilometer_scenario.yaml
 
 os-onos-nofeature-ha:
-  configfile: ha_onos_heat_ceilometer_scenario_0.0.5.yaml
+  configfile: ha_onos_heat_ceilometer_scenario.yaml
 
 os-onos-nofeature-noha:
-  configfile: no-ha_onos_heat_ceilometer_scenario_0.0.4.yaml
+  configfile: no-ha_onos_heat_ceilometer_scenario.yaml
 
 os-nosdn-kvm-ha:
-  configfile: ha_nfv-kvm_heat_ceilometer_scenario_0.0.5.yaml
+  configfile: ha_nfv-kvm_heat_ceilometer_scenario.yaml
 
 os-nosdn-kvm-noha:
-  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario_0.0.4.yaml
+  configfile: no-ha_nfv-kvm_heat_ceilometer_scenario.yaml
 
 os-nosdn-ovs-ha:
-  configfile: ha_nfv-ovs_heat_ceilometer_scenario_0.0.5.yaml
+  configfile: ha_nfv-ovs_heat_ceilometer_scenario.yaml
 
 os-nosdn-ovs-noha:
-  configfile: no-ha_nfv-ovs_heat_ceilometer_scenario_0.0.4.yaml
+  configfile: no-ha_nfv-ovs_heat_ceilometer_scenario.yaml
 
 os-odl_l2-bgpvpn-ha:
-  configfile: ha_odl-bgpvpn_scenario_0.0.1.yaml
+  configfile: ha_odl-bgpvpn_scenario.yaml
 
 os-odl_l2-bgpvpn-noha:
-  configfile: no-ha_odl-bgpvpn_scenario_0.0.1.yaml
+  configfile: no-ha_odl-bgpvpn_scenario.yaml
 
 os-odl_l2-sfc-ha:
-  configfile: ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: ha_odl-l2_sfc_heat_ceilometer_scenario.yaml
 
 os-odl_l2-sfc-noha:
-  configfile: no-ha_odl-l2_sfc_heat_ceilometer_scenario_0.0.1.yaml
+  configfile: no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml

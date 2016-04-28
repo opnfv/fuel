@@ -20,7 +20,7 @@ Creating a new plugin
 ---------------------
 Creating a new plugin involves creating a plugin config yaml file in
 /deploy/config/plugins. The filename should comply to following structure:
-fuel-<plugin_name>_<version>.yaml.
+fuel-<plugin_name>.yaml.
 The plugin configuration must include plugin configuration metadata as below:
 
 plugin-config-metadata:
@@ -42,7 +42,7 @@ Creating a new deployment scenario
 ----------------------------------
 Creating a new deployment scenario involve creating a deployment scenario
 yaml file under deploy/scenario/. The filename should comply to following
-format: <ha | no-ha>_<SDN Controller>_<feature-1>_..._<feature-n>_<version>.yaml
+format: <ha | no-ha>_<SDN Controller>_<feature-1>_..._<feature-n>.yaml
 
 The deployment configuration file must contain configuration metadata as stated
 below:
@@ -89,7 +89,6 @@ dea-override-config:
   environment:
     mode: ha
     net_segment_type: tun
-  wanted_release: Kilo on Ubuntu 14.04
   nodes:
   - id: 1
     interfaces: interfaces_1
