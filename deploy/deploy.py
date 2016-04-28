@@ -335,9 +335,10 @@ def parse_arguments():
         check_file_exists(args.dea_file)
         check_fuel_plugins_dir(args.fuel_plugins_dir)
 
+    iso_abs_path = os.path.abspath(args.iso_file)
     if not args.no_fuel and not args.cleanup_only:
-        log('Using OPNFV ISO file: %s' % args.iso_file)
-        check_file_exists(args.iso_file)
+        log('Using OPNFV ISO file: %s' % iso_abs_path)
+        check_file_exists(iso_abs_path)
         log('Using image directory: %s' % args.storage_dir)
         create_dir_if_not_exists(args.storage_dir)
         check_bridge(args.pxe_bridge, args.dha_file)
@@ -346,7 +347,7 @@ def parse_arguments():
               'no_health_check': args.no_health_check,
               'cleanup_only': args.cleanup_only, 'cleanup': args.cleanup,
               'storage_dir': args.storage_dir, 'pxe_bridge': args.pxe_bridge,
-              'iso_file': args.iso_file, 'dea_file': args.dea_file,
+              'iso_file': iso_abs_path, 'dea_file': args.dea_file,
               'dha_file': args.dha_file,
               'fuel_plugins_dir': args.fuel_plugins_dir,
               'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir,
