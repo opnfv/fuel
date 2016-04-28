@@ -21,10 +21,10 @@
 ##############################################################################
 # deployment configuration meta-data
 deployment-scenario-metadata:
-   title: NFV OVS HA deployment
+   title: OpenStack-only, No-HA deployment with VLAN segmentation
    version: 0.0.1
-   created: Jan 6 2016
-   comment: NFV OVS HA
+   created: Jan 12 2016
+   comment: Fuel OpenStack-only with VLAN segmentation, Ceph, Ceilometer and Heat, No-HA deployment
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -32,11 +32,6 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-   - module: fuel-plugin-ovsnfv
-     module-config-name: fuel-nfvovs
-     module-config-version: 0.0.1
-     module-config-override:
-       # Module config overrides
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
@@ -44,8 +39,8 @@ stack-extensions:
 dea-override-config:
   environment:
     mode: ha
-    net_segment_type: tun
-  wanted_release: Kilo on Ubuntu 14.04
+    net_segment_type: vlan
+    name: opnfv-vlan-noha
   nodes:
   - id: 1
     interfaces: interfaces_1
@@ -53,17 +48,13 @@ dea-override-config:
     transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
-    role: mongo,controller
+    role: ceph-osd,compute
     transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
-    role: mongo,controller
-    transformations: transformations_1
-  - id: 4
-    interfaces: interfaces_1
     role: ceph-osd,compute
     transformations: transformations_1
-  - id: 5
+  - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
     transformations: transformations_1
@@ -107,8 +98,7 @@ dea-override-config:
           weight: 30
 
 dha-override-config:
-#  disks:
-#    contrail: 500G
+# These overrides only take effect for virtual deployment scenarios
 
 ##############################################################################
 # The verification pipeline may populate the section below with arbitrary
