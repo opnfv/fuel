@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_53eda48a",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-04-28T14:40:12Z",
+      "side": 1,
+      "message": "It looks like this tarball is no longer available, but for example 0.4.2 can be downloaded from here https://nexus.opendaylight.org/content/repositories/staging/org/opendaylight/integration/distribution-karaf/0.4.2-Beryllium-SR2/distribution-karaf-0.4.2-Beryllium-SR2.tar.gz",
+      "revId": "c39bf8969eaf8f7c59df837df85e6371171559d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
