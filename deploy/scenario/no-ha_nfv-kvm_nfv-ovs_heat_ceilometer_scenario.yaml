@@ -21,10 +21,10 @@
 ##############################################################################
 # deployment configuration meta-data
 deployment-scenario-metadata:
-   title: NFV KVM NO-HA deployment
+   title: NFV KVM and OVS No-HA deployment
    version: 0.0.1
    created: Jan 6 2016
-   comment: NFV KVM NO-HA
+   comment: NFV KVM and OVS
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -38,6 +38,12 @@ stack-extensions:
      module-config-override:
        # Module config overrides
 
+   - module: fuel-plugin-ovsnfv
+     module-config-name: fuel-nfvovs
+     module-config-version: 0.0.1
+     module-config-override:
+       # Module config overrides
+
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
@@ -45,7 +51,6 @@ dea-override-config:
   environment:
     mode: ha
     net_segment_type: tun
-  wanted_release: Kilo on Ubuntu 14.04
   nodes:
   - id: 1
     interfaces: interfaces_1
@@ -54,15 +59,15 @@ dea-override-config:
   - id: 2
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_2
   - id: 3
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_2
   - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_2
   settings:
     editable:
       additional_components:
