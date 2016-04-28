@@ -49,7 +49,7 @@ dea-override-config:
     net_segment_type: tun
     name: onos_no-ha
 
-  wanted_release: Kilo on Ubuntu 14.04
+  wanted_release: Mitaka on Ubuntu 14.04
   nodes:
   - id: 1
     interfaces: interfaces_1
