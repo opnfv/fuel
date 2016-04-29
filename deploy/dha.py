@@ -15,6 +15,7 @@ from dha_adapters.libvirt_adapter import LibvirtAdapter
 from dha_adapters.ipmi_adapter import IpmiAdapter
 from dha_adapters.hp_adapter import HpAdapter
 from dha_adapters.amt_adapter import AmtAdapter
+from dha_adapters.zte_adapter import ZteAdapter
 
 class DeploymentHardwareAdapter(object):
 
@@ -32,4 +33,6 @@ class DeploymentHardwareAdapter(object):
                 return HpAdapter(yaml_path)
             if type == 'amt':
                 return AmtAdapter(yaml_path)
+            if type == 'zte':
+                return ZteAdapter(yaml_path)
         return super(DeploymentHardwareAdapter, cls).__new__(cls)

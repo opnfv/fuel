@@ -31,7 +31,7 @@ class ExecutionEnvironment(object):
             if type == 'libvirt':
                 return LibvirtEnvironment(storage_dir, dha_path, dea, root_dir)
 
-            if type in ['ipmi', 'hp', 'amt']:
+            if type in ['ipmi', 'hp', 'amt', 'zte']:
                 return VirtualFuel(storage_dir, pxe_bridge, dha_path, root_dir)
 
         return super(ExecutionEnvironment, cls).__new__(cls)
