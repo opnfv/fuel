@@ -2,8 +2,8 @@ Project: Fuel based OPNFV installer (Fuel@OPNFV)
 Project Creation Date: 2015.07.07
 Project Category: Integration and testing
 Lifecycle State: Incubation
-Primary Contact:  jonas.bjurel@ericsson.com
-Project Lead: jonas.bjurel@ericsson.com
+Primary Contact: gelkinbard@mirantis.com
+Project Lead: gelkinbard@mirantis.com
 Jira Project Name: Fuel based OPNFV installer
 Jira Project Prefix: FUEL
 Mailing list tag: [fuel]
@@ -21,4 +21,4 @@ mskalski@mirantis.com
 ruijing.guo@intel.com
 
 Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-07-07-13.59.log.html
-Link(s) to approval of additional committers:
+Link(s) to approval of additional committers: http://ircbot.wl.linuxfoundation.org/meetings/opnfv-fuel/2016/opnfv-fuel.2016-04-28-11.49.html
