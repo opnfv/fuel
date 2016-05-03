@@ -101,8 +101,8 @@ class Deployment(object):
         LOG_FILE = 'cloud.log'
 
         log('Starting deployment of environment %s' % self.env_id)
-        run_proc('fuel --env %s deploy-changes | strings | tee %s'
-                 % (self.env_id, LOG_FILE))
+        p = run_proc('fuel --env %s deploy-changes | strings > %s'
+                     % (self.env_id, LOG_FILE))
 
         ready = False
         for i in range(int(self.deploy_timeout)):
@@ -119,7 +119,13 @@ class Deployment(object):
                 break
             else:
                 time.sleep(SLEEP_TIME)
-        delete(LOG_FILE)
+
+        p.poll()
+        if p.returncode == None:
+            log('The process deploying the changes has not yet finished.')
+            log('''The file %s won't be deleted''' % LOG_FILE)
+        else:
+            delete(LOG_FILE)
 
         if ready:
             log('Environment %s successfully deployed' % self.env_id)
