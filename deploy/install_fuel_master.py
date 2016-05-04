@@ -54,8 +54,12 @@ class InstallFuelMaster(object):
 
         self.dha.node_power_off(self.fuel_node_id)
 
-        log('Zero the MBR')
-        self.dha.node_zero_mbr(self.fuel_node_id)
+        if os.environ.get('LIBVIRT_DEFAULT_URI'):
+            log('Upload ISO to pool')
+            self.iso_file = self.dha.upload_iso(self.iso_file)
+        else:
+            log('Zero the MBR')
+            self.dha.node_zero_mbr(self.fuel_node_id)
 
         self.dha.node_set_boot_order(self.fuel_node_id, ['disk', 'iso'])
 
