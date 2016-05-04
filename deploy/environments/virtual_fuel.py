@@ -51,15 +51,20 @@ class VirtualFuel(ExecutionEnvironment):
         with open(temp_vm_file, 'w') as f:
             vm_xml.write(f, pretty_print=True, xml_declaration=True)
 
+    def create_image(self, disk_path, disk_size):
+        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+
     def create_vm(self):
         vm_template = '%s/%s' % (self.root_dir,
                                  self.dha.get_node_property(
                                      self.fuel_node_id, 'libvirtTemplate'))
         check_file_exists(vm_template)
+
         disk_path = '%s/%s.raw' % (self.storage_dir, self.vm_name)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
-        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+        self.create_image(disk_path, disk_size)
+
         temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
         exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
