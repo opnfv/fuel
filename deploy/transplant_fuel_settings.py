@@ -11,10 +11,14 @@
 import sys
 import io
 import yaml
+import re
+import os
 from dea import DeploymentEnvironmentAdapter
 
 from common import (
     check_file_exists,
+    exec_cmd,
+    log,
 )
 
 ASTUTE_YAML = '/etc/fuel/astute.yaml'
@@ -36,15 +40,45 @@ def parse_arguments():
     check_file_exists(dea_file)
     return dea_file
 
+def write_ifcfg_file(key, fuel_conf):
+    config = ('BOOTPROTO=none\n'
+              'ONBOOT=yes\n'
+              'TYPE=Ethernet\n'
+              'NM_CONTROLLED=yes\n')
+    for skey in ('ipaddress', 'device', 'netmask', 'gateway'):
+        if not fuel_conf[key].get(skey):
+            log('Warning: missing key %s for %s' % (skey, key))
+            config += '%s=\n' % skey.upper()
+        elif skey == 'ipaddress':
+            config += 'IPADDR=%s\n' % fuel_conf[key][skey]
+        else:
+            config += '%s=%s\n' % (skey.upper(), fuel_conf[key][skey])
+
+    fname = os.path.join('/etc/sysconfig/network-scripts/',
+                         key.lower().replace('_','-'))
+    with open(fname, 'wc') as f:
+        f.write(config)
 
 def transplant(dea, astute):
     fuel_conf = dea.get_fuel_config()
+    require_network_restart = False
     for key in fuel_conf.iterkeys():
         if key == 'ADMIN_NETWORK':
             for skey in fuel_conf[key].iterkeys():
                 astute[key][skey] = fuel_conf[key][skey]
+        elif re.match('^IFCFG', key):
+            log('Adding interface configuration for: %s' % key.lower())
+            require_network_restart = True
+            write_ifcfg_file(key, fuel_conf)
+            if astute.has_key(key):
+                astute.pop(key, None)
         else:
             astute[key] = fuel_conf[key]
+    if require_network_restart:
+        admin_ifcfg = '/etc/sysconfig/network-scripts/ifcfg-eth0'
+        exec_cmd('echo "DEFROUTE=no" >> %s' % admin_ifcfg)
+        log('At least one interface was reconfigured, restart network manager')
+        exec_cmd('systemctl restart network')
     return astute
 
 
@@ -62,11 +96,14 @@ def main():
     check_file_exists(ASTUTE_YAML)
     check_file_exists(FUEL_BOOTSTRAP_CLI_YAML)
     dea = DeploymentEnvironmentAdapter(dea_file)
+    log('Reading astute file %s' % ASTUTE_YAML)
     with io.open(ASTUTE_YAML) as stream:
         astute = yaml.load(stream)
+    log('Initiating transplant')
     transplant(dea, astute)
     with io.open(ASTUTE_YAML, 'w') as stream:
         yaml.dump(astute, stream, default_flow_style=False)
+    log('Transplant done')
     # Update bootstrap config yaml with info from DEA/astute.yaml
     with io.open(FUEL_BOOTSTRAP_CLI_YAML) as stream:
         fuel_bootstrap_cli = yaml.load(stream)
