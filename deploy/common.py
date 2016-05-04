@@ -38,20 +38,20 @@ LOG.addHandler(out_handler)
 os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
 def exec_cmd(cmd, check=True):
-    nul_f = open(os.devnull, 'w')
     process = subprocess.Popen(cmd,
                                stdout=subprocess.PIPE,
-                               stderr=nul_f,
+                               stderr=subprocess.PIPE,
                                shell=True)
-    nul_f.close()
-    response = process.communicate()[0].strip()
+    (response, stderr) = process.communicate()
     return_code = process.returncode
+    response = response.strip()
     if check:
         if return_code > 0:
+            stderr = stderr.strip()
             print "Failed command: " + str(cmd)
-            print "Command returned response: " + str(response)
+            print "Command returned response: " + str(stderr)
             print "Command return code: " + str(return_code)
-            raise Exception(response)
+            raise Exception(stderr)
         else:
             print "Command: " + str(cmd)
             print str(response)
