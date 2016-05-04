@@ -28,6 +28,10 @@ class VirtualFuel(ExecutionEnvironment):
         self.temp_dir = tempfile.mkdtemp()
         self.vm_name = self.dha.get_node_property(self.fuel_node_id,
                                                   'libvirtName')
+        self.vm_template = '%s/%s' % (self.root_dir,
+                                      self.dha.get_node_property(
+                                          self.fuel_node_id, 'libvirtTemplate'))
+        check_file_exists(self.vm_template)
 
     def __del__(self):
         delete(self.temp_dir)
@@ -55,18 +59,13 @@ class VirtualFuel(ExecutionEnvironment):
         exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
 
     def create_vm(self):
-        vm_template = '%s/%s' % (self.root_dir,
-                                 self.dha.get_node_property(
-                                     self.fuel_node_id, 'libvirtTemplate'))
-        check_file_exists(vm_template)
-
         disk_path = '%s/%s.raw' % (self.storage_dir, self.vm_name)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
         self.create_image(disk_path, disk_size)
 
         temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
-        exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
+        exec_cmd('cp %s %s' % (self.vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
         vm_definition_overwrite = self.dha.get_vm_definition('fuel')
         self.define_vm(self.vm_name, temp_vm_file, disk_path,
