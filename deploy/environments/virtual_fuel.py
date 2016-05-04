@@ -11,14 +11,34 @@
 from lxml import etree
 from execution_environment import ExecutionEnvironment
 import tempfile
+import os
+import re
+import time
 
 from common import (
     exec_cmd,
     check_file_exists,
     check_if_root,
     delete,
+    log,
 )
 
+vol_xml_template = '''<volume type='file'>
+  <name>%s</name>
+  <capacity unit='%s'>%s</capacity>
+  <target>
+    <format type='%s'/>
+  </target>
+</volume>'''
+
+def get_size_and_unit(s):
+    p = re.compile('^(\d+)\s*(\D+)')
+    m = p.match(s)
+    if m == None:
+        return None, None
+    size = m.groups()[0]
+    unit = m.groups()[1]
+    return size, unit
 
 class VirtualFuel(ExecutionEnvironment):
 
@@ -55,14 +75,41 @@ class VirtualFuel(ExecutionEnvironment):
         with open(temp_vm_file, 'w') as f:
             vm_xml.write(f, pretty_print=True, xml_declaration=True)
 
+    def create_volume(self, pool, name, su, img_type='qcow2'):
+        log('Creating image using Libvirt volumes in pool %s, name: %s' %
+            (pool, name))
+        size, unit = get_size_and_unit(su)
+        if size == None:
+            err('Could not determine size and unit of %s' % s)
+
+        vol_xml = vol_xml_template % (name, unit, str(size), img_type)
+        fname = os.path.join(self.temp_dir, '%s_vol.xml' % name)
+        with file(fname, 'w') as f:
+            f.write(vol_xml)
+
+        exec_cmd('virsh vol-create --pool %s %s' % (pool, fname))
+        vol_path = exec_cmd('virsh vol-path --pool %s %s' % (pool, name))
+
+        delete(fname)
+
+        return vol_path
+
     def create_image(self, disk_path, disk_size):
-        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+        if os.environ.get('LIBVIRT_DEFAULT_URI') == None:
+            exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+        else:
+            pool = 'jenkins' # FIXME
+            name = os.path.basename(disk_path)
+            disk_path = self.create_volume(pool, name, disk_size)
+
+        return disk_path
 
     def create_vm(self):
-        disk_path = '%s/%s.raw' % (self.storage_dir, self.vm_name)
+        stamp = time.strftime("%Y%m%d%H%M%S")
+        disk_path = '%s/%s-%s.raw' % (self.storage_dir, self.vm_name, stamp)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
-        self.create_image(disk_path, disk_size)
+        disk_path = self.create_image(disk_path, disk_size)
 
         temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
         exec_cmd('cp %s %s' % (self.vm_template, temp_vm_file))

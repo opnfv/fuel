@@ -243,6 +243,11 @@ class AutoDeploy(object):
 
 
 def check_bridge(pxe_bridge, dha_path):
+    # Assume that bridges on remote nodes exists, we could ssh but
+    # the remote user might not have a login shell.
+    if os.environ.get('LIBVIRT_DEFAULT_URI'):
+        return
+
     with io.open(dha_path) as yaml_file:
         dha_struct = yaml.load(yaml_file)
     if dha_struct['adapter'] != 'libvirt':
