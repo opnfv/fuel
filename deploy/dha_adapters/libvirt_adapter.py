@@ -11,6 +11,7 @@
 from lxml import etree
 from hardware_adapter import HardwareAdapter
 import tempfile
+import os
 
 from common import (
     log,
@@ -23,6 +24,15 @@ DEV = {'pxe': 'network',
        'disk': 'hd',
        'iso': 'cdrom'}
 
+VOL_XML_TEMPLATE = '''<volume type='file'>
+  <name>{name}</name>
+  <capacity unit='{unit}'>{size!s}</capacity>
+  <target>
+    <format type='{format_type}'/>
+  </target>
+</volume>'''
+
+DEFAULT_POOL = 'jenkins'
 
 class LibvirtAdapter(HardwareAdapter):
 
@@ -140,3 +150,24 @@ class LibvirtAdapter(HardwareAdapter):
 
     def get_virt_net_conf_dir(self):
         return self.dha_struct['virtNetConfDir']
+
+    def upload_iso(self, iso_file):
+        size = os.path.getsize(iso_file)
+        vol_name = os.path.basename(iso_file)
+        vol_xml = VOL_XML_TEMPLATE.format(name=vol_name, unit='bytes',
+                                          size=size, format_type='raw')
+        fd, fname = tempfile.mkstemp(text=True, suffix='deploy')
+        os.write(fd, vol_xml)
+        os.close(fd)
+
+        log(vol_xml)
+        pool = DEFAULT_POOL # FIXME
+        exec_cmd('virsh vol-create --pool %s %s' % (pool, fname))
+        vol_path = exec_cmd('virsh vol-path --pool %s %s' % (pool, vol_name))
+
+        exec_cmd('virsh vol-upload %s %s' % (vol_path, iso_file),
+                 attempts=5, delay=10, verbose=True)
+
+        delete(fname)
+
+        return vol_path
