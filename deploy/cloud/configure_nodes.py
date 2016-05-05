@@ -11,6 +11,7 @@
 import yaml
 import io
 import glob
+import copy
 
 from common import (
     exec_cmd,
@@ -114,5 +115,31 @@ class ConfigureNodes(object):
                     net['name'] = net_name
                     interface['assigned_networks'].append(net)
 
+        for node in self.dea.dea_struct['nodes']:
+            if node['id'] == roles_blade[1] and 'bonds' in node:
+                log('Modify bond config for node %s' % node_id)
+                self.modify_node_bond_interface(roles_blade, net_name_id, interfaces, interface_config)
+
         with io.open(interface_yaml, 'w') as stream:
             yaml.dump(interfaces, stream, default_flow_style=False)
+
+    def modify_node_bond_interface(self, roles_blade, net_name_id, interfaces, interface_config):
+        bond_type = self.dea.get_node_property(roles_blade[1], 'bonds')
+        bond_config = copy.deepcopy(self.dea.get_property(bond_type))
+
+        for bond in bond_config:
+            bond_interface = copy.deepcopy(bond)
+            bond_interface['assigned_networks'] = []
+            if bond['name'] in interface_config:
+                for net_name in interface_config[bond['name']]:
+                    net = {}
+                    net['id'] = net_name_id[net_name]
+                    net['name'] = net_name
+                    bond_interface['assigned_networks'].append(net)
+            for interface in interfaces:
+                if bond['slaves'][0] == interface['name']:
+                    bond_interface['offloading_modes'] = copy.deepcopy(interface['offloading_modes'])
+            bond_interface['bond_properties'] = {'mode': bond['mode'], 'type__': 'linux'}
+            bond_interface['type'] = 'bond'
+            interfaces.append(bond_interface)
+        return interfaces
