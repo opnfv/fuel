@@ -41,7 +41,6 @@ from common import (
     check_file_exists,
     create_dir_if_not_exists,
     delete,
-    check_if_root,
     ArgParser,
 )
 

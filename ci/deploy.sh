@@ -81,9 +81,6 @@ Input parameters to the build script is:
 -i .iso image to be deployed (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
-NOTE: Root priviledges are needed for this script to run
-
-
 Examples:
 sudo `basename $0` -b file:///home/jenkins/lab-config -l lf -p pod1 -s ha_odl-l3_heat_ceilometer -i file:///home/jenkins/myiso.iso
 EOF
@@ -201,11 +198,6 @@ do
     esac
 done
 
-if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root" 1>&2
-    exit 1
-fi
-
 if [ -z $BASE_CONFIG_URI ] || [ -z $TARGET_LAB ] || \
    [ -z $TARGET_POD ] || [ -z $DEPLOY_SCENARIO ] || \
    [ -z $ISO ]; then
@@ -219,9 +211,6 @@ fi
 
 # Enable the automatic exit trap
 trap do_exit SIGINT SIGTERM EXIT
-
-# Set no restrictive umask so that Jenkins can removeeee any residuals
-umask 0000
 
 clean
 

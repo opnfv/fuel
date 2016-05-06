@@ -18,7 +18,6 @@ import time
 from common import (
     exec_cmd,
     check_file_exists,
-    check_if_root,
     delete,
     log,
 )
@@ -135,7 +134,6 @@ class VirtualFuel(ExecutionEnvironment):
                        vm_definition_overwrite)
 
     def setup_environment(self):
-        check_if_root()
         self.cleanup_environment()
         self.create_vm()
 

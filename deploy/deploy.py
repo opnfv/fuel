@@ -33,7 +33,6 @@ from common import (
     check_dir_exists,
     create_dir_if_not_exists,
     delete,
-    check_if_root,
     ArgParser,
 )
 
@@ -235,7 +234,6 @@ class AutoDeploy(object):
         return 0
 
     def run(self):
-        check_if_root()
         if self.cleanup_only:
             self.cleanup_execution_environment()
         else:
