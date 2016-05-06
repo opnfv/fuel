@@ -58,7 +58,10 @@ and provides a fairly simple mechanism to execute a deployment.
 Input parameters to the build script is:
 -b Base URI to the configuration directory (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
--B PXE Bridge for booting of Fuel master, default is pxebr
+-B PXE Bridge for booting of Fuel master. It can be specified several times,
+   or as a comma separated list of bridges, or both: -B br1 -B br2,br3
+   One NIC connected to each specified bridge will be created in the Fuel VM,
+   in the same order as provided in the command line. The default is pxebr.
 -d Dry-run - Produces deploy config files (config/dea.yaml and
    config/dha.yaml), but does not execute deploy
 -f Deploy on existing Fuel master
@@ -135,9 +138,9 @@ do
             fi
             ;;
         B)
-            if [[ ${OPTARG} ]]; then
-                PXE_BRIDGE="-b ${OPTARG}"
-            fi
+            for bridge in ${OPTARG//,/ }; do
+                PXE_BRIDGE+=" -b $bridge"
+            done
             ;;
         d)
             DRY_RUN=1
