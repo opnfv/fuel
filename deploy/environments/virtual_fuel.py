@@ -125,7 +125,8 @@ class VirtualFuel(ExecutionEnvironment):
         disk_path = self.create_image(disk_path, disk_size)
 
         self.del_vm_nics()
-        self.add_vm_nic(self.pxe_bridge)
+        for bridge in self.pxe_bridge:
+            self.add_vm_nic(bridge)
         self.update_vm_template_file()
 
         vm_definition_overwrite = self.dha.get_vm_definition('fuel')
