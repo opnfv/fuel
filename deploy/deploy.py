@@ -318,8 +318,8 @@ def parse_arguments():
     parser.add_argument('-s', dest='storage_dir', action='store',
                         default='%s/images' % CWD,
                         help='Storage Directory [default: images]')
-    parser.add_argument('-b', dest='pxe_bridge', action='store',
-                        default='pxebr',
+    parser.add_argument('-b', dest='pxe_bridge', action='append',
+                        default=[],
                         help='Linux Bridge for booting up the Fuel Master VM '
                              '[default: pxebr]')
     parser.add_argument('-p', dest='fuel_plugins_dir', action='store',
@@ -338,6 +338,9 @@ def parse_arguments():
                         action='store', default='../ci/.',
                         help=('Path and name of the deployment log archive'))
 
+    if not args.pxe_bridge:
+        args.pxe_bridge = ['pxebr']
+
     args = parser.parse_args()
     log(args)
 
@@ -355,7 +358,8 @@ def parse_arguments():
         check_file_exists(iso_abs_path)
         log('Using image directory: %s' % args.storage_dir)
         create_dir_if_not_exists(args.storage_dir)
-        check_bridge(args.pxe_bridge, args.dha_file)
+        for bridge in args.pxe_bridge:
+            check_bridge(bridge, args.dha_file)
 
 
     kwargs = {'no_fuel': args.no_fuel, 'fuel_only': args.fuel_only,
