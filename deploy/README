@@ -56,25 +56,34 @@ you will have to modify them according to your needs
 
 --- Step.2 Run Autodeployment ---
 
-usage: python deploy.py [-h] [-nf] [-nh] [-fo] [-co] [-c] [-iso [ISO_FILE]]
-                        [-dea [DEA_FILE]] [-dha [DHA_FILE]] [-s STORAGE_DIR]
-                        [-b PXE_BRIDGE] [-p FUEL_PLUGINS_DIR]
+usage: python ./deploy.py [-h] [-nf] [-nh] [-fo] [-co] [-c] [-iso [ISO_FILE]]
+                          [-dea [DEA_FILE]] [-dha [DHA_FILE]] [-s STORAGE_DIR]
+                          [-b PXE_BRIDGE] [-p FUEL_PLUGINS_DIR]
+                          [-pc FUEL_PLUGINS_CONF_DIR] [-np]
+                          [-dt DEPLOY_TIMEOUT] [-nde]
 
 optional arguments:
-  -h, --help           show this help message and exit
-  -nf                  Do not install Fuel Master (and Node VMs when using libvirt)
-  -nh                  Don't run health check after deployment
-  -fo                  Install Fuel Master only (and Node VMs when using libvirt)
-  -co                  Cleanup VMs and Virtual Networks according to what is
-                       defined in DHA
-  -c                   Cleanup after deploy
-  -iso [ISO_FILE]      ISO File [default: OPNFV.iso]
-  -dea [DEA_FILE]      Deployment Environment Adapter: dea.yaml
-  -dha [DHA_FILE]      Deployment Hardware Adapter: dha.yaml
-  -s STORAGE_DIR       Storage Directory [default: images]
-  -b PXE_BRIDGE        Linux Bridge for booting up the Fuel Master VM
-                       [default: pxebr]
-  -p FUEL_PLUGINS_DIR  Fuel Plugins directory
+  -h, --help            show this help message and exit
+  -nf                   Do not install Fuel Master (and Node VMs when using
+                        libvirt)
+  -nh                   Don't run health check after deployment
+  -fo                   Install Fuel Master only (and Node VMs when using
+                        libvirt)
+  -co                   Cleanup VMs and Virtual Networks according to what is
+                        defined in DHA
+  -c                    Cleanup after deploy
+  -iso [ISO_FILE]       ISO File [default: OPNFV.iso]
+  -dea [DEA_FILE]       Deployment Environment Adapter: dea.yaml
+  -dha [DHA_FILE]       Deployment Hardware Adapter: dha.yaml
+  -s STORAGE_DIR        Storage Directory [default: images]
+  -b PXE_BRIDGE         Linux Bridge for booting up the Fuel Master VM
+                        [default: pxebr]
+  -p FUEL_PLUGINS_DIR   Fuel Plugins directory
+  -pc FUEL_PLUGINS_CONF_DIR
+                        Fuel Plugins Configuration directory
+  -np                   Do not install Fuel Plugins
+  -dt DEPLOY_TIMEOUT    Deployment timeout (in minutes) [default: 240]
+  -nde                  Do not launch environment deployment
 
 
 * EXAMPLES:
