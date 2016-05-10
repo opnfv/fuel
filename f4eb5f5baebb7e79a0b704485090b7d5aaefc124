@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_ad3124a4",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-05-10T16:53:22Z",
+      "side": 1,
+      "message": "You have wiped out the envSetup call. Without that tacker-server building/deployemnt/orchestation will fail.",
+      "revId": "f4eb5f5baebb7e79a0b704485090b7d5aaefc124",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
