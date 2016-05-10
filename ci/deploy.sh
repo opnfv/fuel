@@ -40,6 +40,7 @@ OPTIONS:
   -f  Deploy on existing Fuel master
   -e  Do not launch environment deployment
   -F  Do only create a Fuel master
+  -h  Print this message and exit
   -H  No health check
   -l  Lab-name
   -p  Pod-name
@@ -62,6 +63,7 @@ Input parameters to the build script is:
 -f Deploy on existing Fuel master
 -e Do not launch environment deployment
 -F Do only create a Fuel master
+-h Print this message and exit
 -H Do not run fuel built in health-check after successfull deployment
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
@@ -116,7 +118,7 @@ DRY_RUN=0
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:B:dfFHl:p:s:S:i:h:e" OPTION
+while getopts "b:B:dfFHl:p:s:S:i:he" OPTION
 do
     case $OPTION in
         b)
