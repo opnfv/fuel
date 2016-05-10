@@ -350,7 +350,14 @@ function populate_rc() {
     done
 }
 
-envSetup
+
+#Configure ODL so that it allows the coexistence between Netvirt and SFC
+function coexistence() {
+    curl -i -u admin:admin -H 'Content-type: application/json' -X PUT -d '{"netvirt-providers-config":{"table-offset":"1"}}' http://${mgmt_addr}:${odl_port}/restconf/config/netvirt-providers-config:netvirt-providers-config
+
+    curl -i -u admin:admin -H 'Content-type: application/json' -X PUT -d '{"sfc-of-renderer-config":{"sfc-of-table-offset":"150","sfc-of-app-egress-table-offset":"11"}}' http://${mgmt_addr}:${odl_port}/restconf/config/sfc-of-renderer:sfc-of-renderer-config
+}
+
 deployTackerClient
 deployJsonrpclib
 buildTackerServer
@@ -359,6 +366,7 @@ deployTackerServer
 populate_client
 orchestarte
 populate_rc
+coexistence
 
 remove_repo "$MYREPO"
 remove_repo "$DEPREPO"
