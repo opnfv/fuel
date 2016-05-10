@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_32cb3174",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-05-10T09:46:03Z",
+      "side": 1,
+      "message": "line \u003c 80 chars",
+      "revId": "fa01fd7b1af4ddbef0d2f5828de8e4d678926711",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_d2c76563",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-05-10T09:46:03Z",
+      "side": 1,
+      "message": "is it possible to retrieve it out of some config file?\n\nI think this whole file is a bit of a hack so it seems to me you cannot make it worse :-D",
+      "revId": "fa01fd7b1af4ddbef0d2f5828de8e4d678926711",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
