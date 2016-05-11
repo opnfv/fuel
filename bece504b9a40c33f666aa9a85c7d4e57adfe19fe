@@ -70,6 +70,24 @@
       "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_d463d0af",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-05-11T13:18:03Z",
+      "side": 1,
+      "message": "hey there..but you arent checking .19, you are check again .1 - cause .19 doesnt exist in the second element - only a 1 so if you got a kernel that was 3.18 and you checked you are going to have equivalency noy? cause you would have .18 being bigger than .1 [1]?   Just wondering if you wont have to change this alot.. you know better than me :)",
+      "parentUuid": "9a91bd0f_f4bdb403",
+      "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
