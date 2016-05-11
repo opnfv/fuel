@@ -17,8 +17,6 @@ all:
 	@mkdir -p release/usr/local/sbin
 	@cp pre-scripts/* release/opnfv/bootstrap/pre.d
 	@cp post-scripts/* release/opnfv/bootstrap/post.d
-	@cp bootstrap_admin_node.sh release
-	@cp bootstrap_admin_node.sh.orig release
 
 .PHONY: clean
 clean:
