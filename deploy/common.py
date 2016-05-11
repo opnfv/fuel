@@ -89,8 +89,10 @@ def clean(lines):
     return parsed if len(parsed_list) == 1 else parsed_list
 
 
-def err(message):
+def err(message, fun = NULL, *args):
     LOG.error('%s\n' % message)
+    if fun is not None:
+        fun(*args)
     sys.exit(1)
 
 

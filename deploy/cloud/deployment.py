@@ -126,7 +126,19 @@ class Deployment(object):
         else:
             self.collect_error_logs()
             err('Deployment failed, environment %s is not operational'
-                % self.env_id)
+                % self.env_id, self.collect_logs)
+
+    def collect_logs(self):
+        log('Cleaning out any previous deployment logs')
+        exec_cmd('rm -f /var/log/remote/fuel-snapshot-*', False)
+        exec_cmd('rm -f /root/deploy-*', False)
+        log('Generating Fuel deploy snap-shot')
+        r, _ = exec_cmd('fuel snapshot', False)
+        log(r)
+        exec_cmd('mv /root/deploy/fuel-snapshot* /var/log/remote/', False)
+        log('Collecting all Fuel Snapshot & deploy log files')
+        r, _ = exec_cmd('tar -cvzhf /root/deploy-%s.log.tar.gz /var/log/remote' % time.strftime("%Y%m%d-%H%M%S"), False))
+        log(r)
 
     def verify_node_status(self):
         node_list = parse(exec_cmd('fuel node list'))
@@ -139,7 +151,7 @@ class Deployment(object):
             summary = ''
             for node, status in failed_nodes:
                 summary += '[node %s, status %s]\n' % (node, status)
-            err('Deployment failed: %s' % summary)
+            err('Deployment failed: %s' % summary, self.collect_logs)
 
     def health_check(self):
         log('Now running sanity and smoke health checks')
@@ -147,10 +159,11 @@ class Deployment(object):
                      % self.env_id)
         log(r)
         if 'failure' in r:
-            err('Healthcheck failed!')
+            err('Healthcheck failed!', self.collect_logs)
 
     def deploy(self):
         self.run_deploy()
         self.verify_node_status()
         if not self.no_health_check:
             self.health_check()
+        self.collect_logs()

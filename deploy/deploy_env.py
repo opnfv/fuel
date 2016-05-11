@@ -255,6 +255,11 @@ class CloudDeploy(object):
         self.set_boot_order(['pxe', 'disk'])
         self.power_on_nodes()
 
+    def get_put_deploy_log(self):
+        with self.ssh as s:
+            s.scp_get('deploy-*')
+            exec_cmd('mv deploy-* %s' % self.deploy_log)
+
     def deploy(self):
 
         self.set_boot_order_nodes()
@@ -271,4 +276,8 @@ class CloudDeploy(object):
 
         delete(self.updated_dea_file)
 
-        return self.run_cloud_deploy(CLOUD_DEPLOY_FILE)
+        rc = self.run_cloud_deploy(CLOUD_DEPLOY_FILE)
+
+        self.get_put_deploy_log()
+
+        return rc
