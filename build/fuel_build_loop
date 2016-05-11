@@ -12,7 +12,7 @@
 echo "MIRROR_MOS_UBUNTU_ROOT=${MIRROR_MOS_UBUNTU_ROOT}"
 echo "MIRROR_FUEL=${MIRROR_FUEL}"
 
-maxcount=10
+maxcount=2
 cnt=0
 rc=1
 while [ $cnt -lt $maxcount ] && [ $rc -ne 0 ]

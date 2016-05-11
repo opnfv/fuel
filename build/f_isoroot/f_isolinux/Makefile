@@ -11,16 +11,19 @@
 TOP := $(shell pwd)
 
 .PHONY: all
-all:
+all: isolinux.cfg.iso
 	@mkdir -p release/isolinux
-	grep -q OpenStack_Fuel isolinux.cfg
-	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" isolinux.cfg > isolinux.cfg.patched
-	@cp isolinux.cfg.patched release/isolinux/isolinux.cfg
-	@cp isolinux.cfg.orig release/isolinux/
+	grep -q OpenStack_Fuel isolinux.cfg.iso
+	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" isolinux.cfg.iso > isolinux.cfg
+	@cp isolinux.cfg release/isolinux/isolinux.cfg
+	@cp isolinux.cfg.iso release/isolinux/isolinux.cfg.orig
+
+isolinux.cfg.iso:
+	7z -so x $(ISOCACHE) isolinux/isolinux.cfg > isolinux.cfg.iso
 
 .PHONY: clean
 clean:
-	@rm -rf release isolinux.cfg.patched
+	@rm -rf release isolinux.cfg.iso isolinux.cfg
 
 .PHONY: release
 release: all

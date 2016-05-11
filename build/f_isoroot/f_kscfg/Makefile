@@ -11,16 +11,20 @@
 TOP := $(shell pwd)
 
 .PHONY: all
-all:
+all:	ks.cfg.iso
 	@mkdir -p release
-	grep -q OpenStack_Fuel ks.cfg
-	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" ks.cfg > ks.cfg.patched
-	@cp ks.cfg.patched release/ks.cfg
-	@cp ks.cfg.orig release
+	grep -q OpenStack_Fuel ks.cfg.iso
+	sed "s/OpenStack_Fuel/$(PRODNO)_$(REVSTATE)/g" ks.cfg.iso > ks.cfg
+	/usr/bin/patch -p0 < ks.cfg.patch
+	@cp ks.cfg.iso release/ks.cfg.orig
+	@cp ks.cfg release/ks.cfg
+
+ks.cfg.iso:
+	7z -so x $(ISOCACHE) ks.cfg > ks.cfg.iso
 
 .PHONY: clean
 clean:
-	@rm -rf release ks.cfg.patched
+	@rm -rf release ks.cfg.iso ks.cfg
 
 .PHONY: release
 release: all
