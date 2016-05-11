@@ -102,20 +102,27 @@ Clone the OPNFV code Git repository with your SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Now it is time to clone the code repository:
 
-$ git clone ssh://<Linux foundation user>@gerrit.opnfv.org:29418/fuel
+.. code-block:: bash
+
+    $ git clone ssh://<Linux foundation user>@gerrit.opnfv.org:29418/fuel
 
 Now you should have the OPNFV fuel repository with the Fuel
 directories stored locally on your build host.
 
 Check out the Brahmaputra release:
-$ cd fuel
-$ git checkout brahmaputra.1.0
+
+.. code-block:: bash
+
+    $ cd fuel
+    $ git checkout brahmaputra.1.0
 
 Clone the OPNFV code Git repository without a SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can also opt to clone the code repository without a SSH key:
 
-$ git clone https://gerrit.opnfv.org:29418/gerrit/fuel
+.. code-block:: bash
+
+    $ git clone https://gerrit.opnfv.org/gerrit/fuel
 
 Make sure to checkout the release tag as described above.
 
