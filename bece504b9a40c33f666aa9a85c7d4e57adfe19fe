@@ -34,6 +34,24 @@
       "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_b4372cb0",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-05-11T13:08:15Z",
+      "side": 1,
+      "message": "Also - why not just do simple \"float\" comparison?  cast them to floats and then use \u003c\u003e \n\n(static)min_ver\u003d4.0\nKERNEL_VER\u003d$${uname -r);\nfloat_kerver \u003d float(KERNEL_VER)\n\n\nif float_kerver \u003c min_ver then\n\n\nperhaps a bit more python - but you are donig number comparison, why use string operator",
+      "parentUuid": "9a91bd0f_74ca04a3",
+      "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
