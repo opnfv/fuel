@@ -61,7 +61,7 @@ class AutoDeploy(object):
     def __init__(self, no_fuel, fuel_only, no_health_check, cleanup_only,
                  cleanup, storage_dir, pxe_bridge, iso_file, dea_file,
                  dha_file, fuel_plugins_dir, fuel_plugins_conf_dir,
-                 no_plugins, deploy_timeout, no_deploy_environment):
+                 no_plugins, deploy_timeout, no_deploy_environment, deploy_log):
         self.no_fuel = no_fuel
         self.fuel_only = fuel_only
         self.no_health_check = no_health_check
@@ -77,6 +77,7 @@ class AutoDeploy(object):
         self.no_plugins = no_plugins
         self.deploy_timeout = deploy_timeout
         self.no_deploy_environment = no_deploy_environment
+        self.deploy_log = deploy_log
         self.dea = (DeploymentEnvironmentAdapter(dea_file)
                     if not cleanup_only else None)
         self.dha = DeploymentHardwareAdapter(dha_file)
@@ -325,6 +326,9 @@ def parse_arguments():
     parser.add_argument('-nde', dest='no_deploy_environment',
                         action='store_true', default=False,
                         help=('Do not launch environment deployment'))
+    parser.add_argument('-log', dest='deploy_log',
+                        action='store', default='../ci/.',
+                        help=('Path and name of the deployment log archive'))
 
     args = parser.parse_args()
     log(args)
@@ -353,7 +357,8 @@ def parse_arguments():
               'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir,
               'no_plugins': args.no_plugins,
               'deploy_timeout': args.deploy_timeout,
-              'no_deploy_environment': args.no_deploy_environment}
+              'no_deploy_environment': args.no_deploy_environment,
+              'deploy_log': args.deploy_log}
     return kwargs
 
 
