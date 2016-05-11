@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_74ca04a3",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-05-11T13:02:10Z",
+      "side": 1,
+      "message": "A question if you are using . as the seperator above, will you not end up with a 3 element array?  [0]\u003d3. [1]\u003d1. [2]\u003d9 and thus your second check in the OR \"-lt 19\" will that work?  Or does the seperator only do the first delimiter \".\"?",
+      "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
