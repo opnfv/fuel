@@ -30,6 +30,7 @@ from common import (
     err,
     warn,
     check_file_exists,
+    check_dir_exists,
     create_dir_if_not_exists,
     delete,
     check_if_root,
@@ -61,7 +62,7 @@ class AutoDeploy(object):
     def __init__(self, no_fuel, fuel_only, no_health_check, cleanup_only,
                  cleanup, storage_dir, pxe_bridge, iso_file, dea_file,
                  dha_file, fuel_plugins_dir, fuel_plugins_conf_dir,
-                 no_plugins, deploy_timeout, no_deploy_environment):
+                 no_plugins, deploy_timeout, no_deploy_environment, deploy_log):
         self.no_fuel = no_fuel
         self.fuel_only = fuel_only
         self.no_health_check = no_health_check
@@ -77,6 +78,7 @@ class AutoDeploy(object):
         self.no_plugins = no_plugins
         self.deploy_timeout = deploy_timeout
         self.no_deploy_environment = no_deploy_environment
+        self.deploy_log = deploy_log
         self.dea = (DeploymentEnvironmentAdapter(dea_file)
                     if not cleanup_only else None)
         self.dha = DeploymentHardwareAdapter(dha_file)
@@ -202,7 +204,7 @@ class AutoDeploy(object):
                           self.fuel_username, self.fuel_password,
                           self.dea_file, self.fuel_plugins_conf_dir,
                           WORK_DIR, self.no_health_check, self.deploy_timeout,
-                          self.no_deploy_environment)
+                          self.no_deploy_environment, self.deploy_log)
         return dep.deploy()
 
     def setup_execution_environment(self):
@@ -332,11 +334,16 @@ def parse_arguments():
     parser.add_argument('-nde', dest='no_deploy_environment',
                         action='store_true', default=False,
                         help=('Do not launch environment deployment'))
+    parser.add_argument('-log', dest='deploy_log',
+                        action='store', default='../ci/.',
+                        help=('Path and name of the deployment log archive'))
 
     args = parser.parse_args()
     log(args)
 
     check_file_exists(args.dha_file)
+
+    check_dir_exists(os.path.dirname(args.deploy_log))
 
     if not args.cleanup_only:
         check_file_exists(args.dea_file)
@@ -350,6 +357,7 @@ def parse_arguments():
         create_dir_if_not_exists(args.storage_dir)
         check_bridge(args.pxe_bridge, args.dha_file)
 
+
     kwargs = {'no_fuel': args.no_fuel, 'fuel_only': args.fuel_only,
               'no_health_check': args.no_health_check,
               'cleanup_only': args.cleanup_only, 'cleanup': args.cleanup,
@@ -360,7 +368,8 @@ def parse_arguments():
               'fuel_plugins_conf_dir': args.fuel_plugins_conf_dir,
               'no_plugins': args.no_plugins,
               'deploy_timeout': args.deploy_timeout,
-              'no_deploy_environment': args.no_deploy_environment}
+              'no_deploy_environment': args.no_deploy_environment,
+              'deploy_log': args.deploy_log}
     return kwargs
 
 
