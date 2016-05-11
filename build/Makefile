@@ -18,10 +18,12 @@ SHELL = /bin/bash
 # BEGIN of variables to customize
 #
 #Input args
-export ISOSRC = file:$(shell pwd)/fuel-8.0.iso
+export MOSVERSION = 9.0
+export ISOSRC = file:$(shell pwd)/fuel-$(MOSVERSION).iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_FUEL"
 export REVSTATE = "P0000"
+export USER ?= $(shell whoami)
 
 ifdef BUILD_FUEL_PLUGINS
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
@@ -52,11 +54,11 @@ export MIRROR_UBUNTU_ROOT := $(shell echo -n '/' ; echo "$(MIRROR_UBUNTU_URL)" |
 export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
 export MIRROR_MOS_UBUNTU := $(shell echo "$(LATEST_MIRROR_ID_URL)" | cut -d'/' -f3)
-export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/8.0.target.txt" | head -1)
+export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/$(MOSVERSION).target.txt" | head -1)
 export MIRROR_MOS_UBUNTU_ROOT := /mos-repos/ubuntu/$(LATEST_TARGET_UBUNTU)
 
-export LATEST_TARGET_CENTOS := $(shell curl -sSf "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos8.0-centos7-fuel/os.target.txt" | head -1)
-export MIRROR_FUEL := "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos8.0-centos7-fuel/$(LATEST_TARGET_CENTOS)/x86_64"
+export LATEST_TARGET_CENTOS := $(shell curl -sSf "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos$(MOSVERSION)-centos7/os.target.txt" | head -1)
+export MIRROR_FUEL := "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos$(MOSVERSION)-centos7/$(LATEST_TARGET_CENTOS)/x86_64"
 
 # uncomment and use: make print-VARIABLE
 #print-%  : ; @echo $* = $($*)
@@ -104,26 +106,39 @@ $(ISOCACHE):
 	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
-	# Patch for adding dosfstools, as Fuel 6.1 is running mkfs.vfat
-	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_5.patch
 	# Patch for using the Czech Fuel mirror
-	# cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_7.patch
-	# Patch to counteract new cpio behavior
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/fuel-main_cpio.patch
+	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/repo-mirror-cz.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
 	#
 	# Need to replace the old Docker v. 1.5.0 with a later version to be
 	# able to access the Docker remote repository!
-	cd /tmp/fuel-main && patch -f -p0 < $(TOPDIR)/fuel-main_docker_version.patch
-	#
+	sudo apt-get install apt-transport-https ca-certificates -y
+	sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+	echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+	sudo apt-get update -y
+	sudo apt-get install docker-engine -y
+	sudo sh -c 'echo DOCKER_OPTS=\"--bip 172.45.0.1/24\" > /etc/default/docker'
+	sudo service docker stop || exit 0
+	sudo service docker start
+
 	cd /tmp/fuel-main && ./prepare-build-env.sh
 	# Verify that Docker is alive
 	sudo docker info
 	cd /tmp/fuel-main && make repos
 	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
-	# Repeat build up to ten times
+	# OPNFV patches at Fuel build time
+	# Need to be commited in order for them to be considered by the Fuel
+	# build system
+	cd /tmp/fuel-main/iso && git config user.name "Fuel OPNFV"
+	cd /tmp/fuel-main/iso && git config user.email "fuel@opnfv.org"
+	cd /tmp/fuel-main/iso && patch -p0 < $(TOPDIR)/bootstrap_admin_node.sh.patch
+	cd /tmp/fuel-main/iso && git add -u bootstrap_admin_node.sh
+	cd /tmp/fuel-main/iso/isolinux && patch -p0 <  $(TOPDIR)/isolinux.cfg.patch
+	cd /tmp/fuel-main/iso/isolinux && git add -u isolinux.cfg
+	cd /tmp/fuel-main/iso && git commit -m "Added OPNFV patches"
+	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
 	# Store artifact in cache straight away if caching is enabled
