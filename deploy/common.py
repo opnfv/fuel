@@ -67,6 +67,17 @@ def run_proc(cmd):
     return process
 
 
+def run_proc_wait_terminated(process):
+    response = process.communicate()[0].strip()
+    return_code = process.returncode
+    return response, return_code
+
+
+def run_proc_kill(process):
+    response = process.kill()
+    return response
+
+
 def parse(printout):
     parsed_list = []
     lines = printout.splitlines()
@@ -89,8 +100,10 @@ def clean(lines):
     return parsed if len(parsed_list) == 1 else parsed_list
 
 
-def err(message):
+def err(message, fun = None, *args):
     LOG.error('%s\n' % message)
+    if fun is not None:
+        fun(*args)
     sys.exit(1)
 
 
@@ -103,6 +116,13 @@ def check_file_exists(file_path):
         file_path = '%s/%s' % (CWD, file_path)
     if not os.path.isfile(file_path):
         err('ERROR: File %s not found\n' % file_path)
+
+
+def check_dir_exists(dir_path):
+    if not os.path.exists(dir_path):
+        err('ERROR: Log path %s not found\n' % dir_path)
+    if not os.path.isdir(dir_path):
+        err('ERROR: Log path %s is not a directory\n' % dir_path)
 
 
 def check_dir_exists(dir_path):
