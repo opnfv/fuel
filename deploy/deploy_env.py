@@ -20,6 +20,7 @@ from ssh_client import SSHClient
 from common import (
     err,
     log,
+    exec_cmd,
     parse,
     N,
     E,
@@ -35,7 +36,7 @@ class CloudDeploy(object):
 
     def __init__(self, dea, dha, fuel_ip, fuel_username, fuel_password,
                  dea_file, fuel_plugins_conf_dir, work_dir, no_health_check,
-                 deploy_timeout, no_deploy_environment):
+                 deploy_timeout, no_deploy_environment, deploy_log):
         self.dea = dea
         self.dha = dha
         self.fuel_ip = fuel_ip
@@ -51,6 +52,7 @@ class CloudDeploy(object):
         self.no_health_check = no_health_check
         self.deploy_timeout = deploy_timeout
         self.no_deploy_environment = no_deploy_environment
+        self.deploy_log = deploy_log
         self.file_dir = os.path.dirname(os.path.realpath(__file__))
         self.ssh = SSHClient(self.fuel_ip, self.fuel_username,
                              self.fuel_password)
@@ -255,6 +257,10 @@ class CloudDeploy(object):
         self.set_boot_order(['pxe', 'disk'])
         self.power_on_nodes()
 
+    def get_put_deploy_log(self):
+        with self.ssh as s:
+            s.scp_get("deploy-*", local=self.deploy_log)
+
     def deploy(self):
 
         self.set_boot_order_nodes()
@@ -271,4 +277,8 @@ class CloudDeploy(object):
 
         delete(self.updated_dea_file)
 
-        return self.run_cloud_deploy(CLOUD_DEPLOY_FILE)
+        rc = self.run_cloud_deploy(CLOUD_DEPLOY_FILE)
+
+        self.get_put_deploy_log()
+
+        return rc
