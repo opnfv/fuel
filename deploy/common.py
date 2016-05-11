@@ -67,6 +67,17 @@ def run_proc(cmd):
     return process
 
 
+def run_proc_wait_terminated(process):
+    response = process.communicate()[0].strip()
+    return_code = process.returncode
+    return response, return_code
+
+
+def run_proc_kill(process):
+    response = process.kill()
+    return response
+
+
 def parse(printout):
     parsed_list = []
     lines = printout.splitlines()
@@ -89,8 +100,10 @@ def clean(lines):
     return parsed if len(parsed_list) == 1 else parsed_list
 
 
-def err(message):
+def err(message, fun = None, *args):
     LOG.error('%s\n' % message)
+    if fun:
+        fun(*args)
     sys.exit(1)
 
 

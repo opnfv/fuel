@@ -43,6 +43,7 @@ OPTIONS:
   -h  Print this message and exit
   -H  No health check
   -l  Lab-name
+  -L  Deployment log path and file name
   -p  Pod-name
   -s  Deploy-scenario short-name/base-file-name
   -S  Storage dir for VM images
@@ -66,6 +67,7 @@ Input parameters to the build script is:
 -h Print this message and exit
 -H Do not run fuel built in health-check after successfull deployment
 -l Lab name as defined in the configuration directory, e.g. lf
+-L Deployment log path and name, eg. -L /home/jenkins/logs/job888.log.tar.gz
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a deployment/test scenario file as
    defined in the configuration directory:
@@ -118,7 +120,7 @@ DRY_RUN=0
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:B:dfFHl:p:s:S:i:he" OPTION
+while getopts "b:B:dfFHl:L:p:s:S:i:he" OPTION
 do
     case $OPTION in
         b)
@@ -154,6 +156,9 @@ do
             ;;
         l)
             TARGET_LAB=${OPTARG}
+            ;;
+        L)
+            DEPLOY_LOG="-log ${OPTARG}"
             ;;
         p)
             TARGET_POD=${OPTARG}
@@ -235,8 +240,8 @@ if [ $DRY_RUN -eq 0 ]; then
         ISO=${SCRIPT_PATH}/ISO/image.iso
     fi
     # Start deployment
-    echo "python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
-    python deploy.py $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
+    echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
+    python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
 fi
 popd > /dev/null
 
