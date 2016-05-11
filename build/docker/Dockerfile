@@ -19,7 +19,7 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties \
     make python-setuptools python-all dpkg-dev debhelper \
     fuseiso git genisoimage bind9-host wget curl lintian tmux lxc iptables \
-    ca-certificates sudo apt-utils lsb-release dosfstools debmirror
+    ca-certificates sudo apt-utils lsb-release dosfstools debmirror p7zip-full
 
 RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC_PROXY RSYNC_CONNECT_PROG npm_config_registry\"" > /etc/sudoers.d/keep-proxies

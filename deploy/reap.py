@@ -135,9 +135,8 @@ class Reap(object):
 
     def reap_transformation(self, node_id, roles, transformations):
         main_role = 'controller' if 'controller' in roles else 'compute'
-        node_file = glob.glob('%s/deployment_%s/*%s_%s.yaml'
-                              % (self.temp_dir, self.env_id,
-                                 main_role, node_id))
+        node_file = glob.glob('%s/deployment_%s/%s.yaml'
+                              % (self.temp_dir, self.env_id, node_id))
         tr_name = None
         with open(node_file[0]) as f:
             node_config = yaml.load(f)
