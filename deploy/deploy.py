@@ -124,22 +124,14 @@ class AutoDeploy(object):
             self.copy(tmp_orig_dir, tmp_new_dir)
             self.patch(tmp_new_dir, new_iso)
         except Exception as e:
-            exec_cmd('fusermount -u %s' % tmp_orig_dir, False)
-            os.environ.pop(MOUNT_STATE_VAR, None)
             delete(self.tmp_dir)
             err(e)
 
     def copy(self, tmp_orig_dir, tmp_new_dir):
         log('Copying...')
-        os.makedirs(tmp_orig_dir)
         os.makedirs(tmp_new_dir)
-        exec_cmd('fuseiso %s %s' % (self.iso_file, tmp_orig_dir))
-        os.environ[MOUNT_STATE_VAR] = tmp_orig_dir
-        with cd(tmp_orig_dir):
-            exec_cmd('find . | cpio -pd %s' % tmp_new_dir)
-        exec_cmd('fusermount -u %s' % tmp_orig_dir)
-        os.environ.pop(MOUNT_STATE_VAR, None)
-        delete(tmp_orig_dir)
+        # we are running as root so use same-owner
+        exec_cmd('bsdtar -C %s --same-owner -xvpf %s' % (tmp_new_dir, self.iso_file))
         exec_cmd('chmod -R 755 %s' % tmp_new_dir)
 
     def patch(self, tmp_new_dir, new_iso):
@@ -383,16 +375,6 @@ def handle_signals(signal_num, frame):
     signal.signal(signal.SIGTERM, signal.SIG_IGN)
 
     log('Caught signal %s, cleaning up and exiting.' % signal_num)
-
-    mount_point = os.environ.get(MOUNT_STATE_VAR)
-    if mount_point:
-        log('Unmounting ISO from "%s"' % mount_point)
-        # Prevent 'Device or resource busy' errors when unmounting
-        os.chdir('/')
-        exec_cmd('fusermount -u %s' % mount_point, True)
-        # Be nice and remove our environment variable, even though the OS would
-        # would clean it up anyway
-        os.environ.pop(MOUNT_STATE_VAR)
 
     sys.exit(1)
 
