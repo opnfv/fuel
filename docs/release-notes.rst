@@ -203,7 +203,7 @@ For more information on the OPNFV Brahmaputra release, please see:
 OPNFV
 -----
 
-1) `OPNFV Home Page <www.opnfv.org>`_
+1) `OPNFV Home Page <http://www.opnfv.org>`_
 
 2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
 
