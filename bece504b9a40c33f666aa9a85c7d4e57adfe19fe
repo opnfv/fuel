@@ -88,6 +88,24 @@
       "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_945d48ec",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-05-11T13:19:49Z",
+      "side": 1,
+      "message": "This approach would require define new function float to casting string \"4.2.0-35-generic\" to number representation, since as far as I know bash do not have this build in. I tried to keep one-liner spirit here ;)",
+      "parentUuid": "9a91bd0f_b4372cb0",
+      "revId": "bece504b9a40c33f666aa9a85c7d4e57adfe19fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
