@@ -9,9 +9,9 @@
 ##############################################################################
 
 FUEL_MAIN_REPO := https://github.com/openstack/fuel-main
-FUEL_MAIN_TAG = stable/8.0
-MOS_VERSION = 8.0
-OPENSTACK_VERSION = liberty-8.0
+FUEL_MAIN_TAG = stable/mitaka
+MOS_VERSION = mitaka
+OPENSTACK_VERSION = mitaka
 
 DOCKER_REPO := http://get.docker.com/builds/Linux/x86_64
 DOCKER_TAG := docker-latest
