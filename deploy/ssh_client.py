@@ -85,14 +85,14 @@ class SSHClient(object):
 
     def scp_get(self, remote, local='.', dir=False):
         try:
-            with scp.SCPClient(self.client.get_transport()) as _scp:
+            with scp.SCPClient(self.client.get_transport(), sanitize=lambda x: x) as _scp:
                 _scp.get(remote, local, dir)
         except Exception as e:
             err(e)
 
     def scp_put(self, local, remote='.', dir=False):
         try:
-            with scp.SCPClient(self.client.get_transport()) as _scp:
+            with scp.SCPClient(self.client.get_transport(), sanitize=lambda x: x) as _scp:
                 _scp.put(local, remote, dir)
         except Exception as e:
             err(e)

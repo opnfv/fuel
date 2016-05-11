@@ -7,7 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-
 import time
 import re
 
@@ -16,6 +15,8 @@ from common import (
     E,
     exec_cmd,
     run_proc,
+    run_proc_wait_terminated,
+    run_proc_kill,
     parse,
     err,
     log,
@@ -30,6 +31,7 @@ LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
 
 class Deployment(object):
 
+
     def __init__(self, dea, yaml_config_dir, env_id, node_id_roles_dict,
                  no_health_check, deploy_timeout):
         self.dea = dea
@@ -40,6 +42,7 @@ class Deployment(object):
         self.deploy_timeout = deploy_timeout
         self.pattern = re.compile(
             '\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d')
+
 
     def collect_error_logs(self):
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
@@ -96,13 +99,14 @@ class Deployment(object):
                 for log_msg in log_list:
                     print(log_msg + '\n')
 
+
     def run_deploy(self):
         SLEEP_TIME = 60
         LOG_FILE = 'cloud.log'
 
         log('Starting deployment of environment %s' % self.env_id)
-        p = run_proc('fuel --env %s deploy-changes | strings > %s'
-                     % (self.env_id, LOG_FILE))
+        deploy_proc = run_proc('fuel --env %s deploy-changes | strings > %s'
+                               % (self.env_id, LOG_FILE))
 
         ready = False
         for i in range(int(self.deploy_timeout)):
@@ -120,19 +124,37 @@ class Deployment(object):
             else:
                 time.sleep(SLEEP_TIME)
 
-        p.poll()
-        if p.returncode == None:
-            log('The process deploying the changes has not yet finished.')
-            log('''The file %s won't be deleted''' % LOG_FILE)
-        else:
-            delete(LOG_FILE)
+        if (env[0][E['status']] <> 'operational') and
+           (env[0][E['status']] <> 'error') and
+           (env[0][E['status']] <> 'stopped'):
+            err('Deployment timed out, environment %s is not operational, snapshot will not be performed'
+                % self.env_id, self.collect_logs)
+
+        run_proc_wait_terminated(deploy_proc)
+        delete(LOG_FILE)
 
         if ready:
             log('Environment %s successfully deployed' % self.env_id)
         else:
             self.collect_error_logs()
             err('Deployment failed, environment %s is not operational'
-                % self.env_id)
+                % self.env_id, self.collect_logs)
+
+
+    def collect_logs(self):
+        log('Cleaning out any previous deployment logs')
+        exec_cmd('rm -f /var/log/remote/fuel-snapshot-*', False)
+        exec_cmd('rm -f /root/deploy-*', False)
+        log('Generating Fuel deploy snap-shot')
+        if exec_cmd('fuel snapshot < /dev/null &> snapshot.log', False)[1] <> 0:
+            log('Could not create a Fuel snapshot')
+        else:
+            exec_cmd('mv /root/fuel-snapshot* /var/log/remote/', False)
+
+        log('Collecting all Fuel Snapshot & deploy log files')
+        r, _ = exec_cmd('tar -czhf /root/deploy-%s.log.tar.gz /var/log/remote' % time.strftime("%Y%m%d-%H%M%S"), False)
+        log(r)
+
 
     def verify_node_status(self):
         node_list = parse(exec_cmd('fuel node list'))
@@ -145,18 +167,20 @@ class Deployment(object):
             summary = ''
             for node, status in failed_nodes:
                 summary += '[node %s, status %s]\n' % (node, status)
-            err('Deployment failed: %s' % summary)
+            err('Deployment failed: %s' % summary, self.collect_logs)
+
 
     def health_check(self):
         log('Now running sanity and smoke health checks')
-        r = exec_cmd('fuel health --env %s --check sanity,smoke --force'
-                     % self.env_id)
+        r = exec_cmd('fuel health --env %s --check sanity,smoke --force' % self.env_id)
         log(r)
         if 'failure' in r:
-            err('Healthcheck failed!')
+            err('Healthcheck failed!', self.collect_logs)
+
 
     def deploy(self):
         self.run_deploy()
         self.verify_node_status()
         if not self.no_health_check:
             self.health_check()
+        self.collect_logs()
