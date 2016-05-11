@@ -7,6 +7,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
+import subprocess
+import sys
+import os
 
 import time
 import re
@@ -16,6 +19,8 @@ from common import (
     E,
     exec_cmd,
     run_proc,
+    run_proc_wait_terminated,
+    run_proc_kill,
     parse,
     err,
     log,
@@ -38,6 +43,7 @@ class Deployment(object):
         self.node_id_roles_dict = node_id_roles_dict
         self.no_health_check = no_health_check
         self.deploy_timeout = deploy_timeout
+        self.snap_timeout = 20
         self.pattern = re.compile(
             '\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d')
 
@@ -101,8 +107,8 @@ class Deployment(object):
         LOG_FILE = 'cloud.log'
 
         log('Starting deployment of environment %s' % self.env_id)
-        p = run_proc('fuel --env %s deploy-changes | strings > %s'
-                     % (self.env_id, LOG_FILE))
+        deploy_proc = run_proc('fuel --env %s deploy-changes | strings > %s'
+                               % (self.env_id, LOG_FILE))
 
         ready = False
         for i in range(int(self.deploy_timeout)):
@@ -132,7 +138,40 @@ class Deployment(object):
         else:
             self.collect_error_logs()
             err('Deployment failed, environment %s is not operational'
-                % self.env_id)
+                % self.env_id, self.collect_logs)
+
+        run_proc_wait_terminated(deploy_proc)
+
+
+    def collect_logs(self):
+        SLEEP_TIME = 60
+        log('Cleaning out any previous deployment logs')
+        exec_cmd('rm -f /var/log/remote/fuel-snapshot-*', False)
+        exec_cmd('rm -f /root/deploy-*', False)
+        log('Generating Fuel deploy snap-shot')
+        for i in range(int(self.snap_timeout)):
+            snap_proc = run_proc('fuel snapshot')
+            PID = snap_proc.pid
+            trace_proc = run_proc('timeout 10 strace -fp %s' % PID)
+            trace_output, _ = trace_proc.communicate()
+            log(trace_output)
+            time.sleep(SLEEP_TIME)
+
+            if exec_cmd('fuel task | grep dump | grep running', False)[1] <> 0:
+                results, _ = exec_cmd('fuel task', False)
+                log (results)
+                log('Retrying')
+                run_proc_kill(snap_proc)
+            else:
+                break
+
+        r, _ = run_proc_wait_terminated(snap_proc)
+        log(r)
+        exec_cmd('mv /root/fuel-snapshot* /var/log/remote/', False)
+        log('Collecting all Fuel Snapshot & deploy log files')
+        r, _ = exec_cmd('tar -cvzhf /root/deploy-%s.log.tar.gz /var/log/remote' % time.strftime("%Y%m%d-%H%M%S"), False)
+        log(r)
+
 
     def verify_node_status(self):
         node_list = parse(exec_cmd('fuel node list'))
@@ -145,18 +184,18 @@ class Deployment(object):
             summary = ''
             for node, status in failed_nodes:
                 summary += '[node %s, status %s]\n' % (node, status)
-            err('Deployment failed: %s' % summary)
+            err('Deployment failed: %s' % summary, self.collect_logs)
 
     def health_check(self):
         log('Now running sanity and smoke health checks')
-        r = exec_cmd('fuel health --env %s --check sanity,smoke --force'
-                     % self.env_id)
+        r = exec_cmd('fuel health --env %s --check sanity,smoke --force' % self.env_id)
         log(r)
         if 'failure' in r:
-            err('Healthcheck failed!')
+            err('Healthcheck failed!', self.collect_logs)
 
     def deploy(self):
         self.run_deploy()
         self.verify_node_status()
         if not self.no_health_check:
             self.health_check()
+        self.collect_logs()
