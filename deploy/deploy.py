@@ -13,6 +13,7 @@ import os
 import io
 import re
 import sys
+import time
 import yaml
 import errno
 import signal
@@ -103,8 +104,9 @@ class AutoDeploy(object):
 
     def install_fuel_master(self):
         log('Install Fuel Master')
-        new_iso = ('%s/deploy-%s'
-                   % (self.tmp_dir, os.path.basename(self.iso_file)))
+        stamp = time.strftime("%Y%m%d%H%M%S")
+        new_iso = ('%s/deploy-%s-%s'
+                   % (self.tmp_dir, stamp, os.path.basename(self.iso_file)))
         self.patch_iso(new_iso)
         self.iso_file = new_iso
         self.install_iso()
