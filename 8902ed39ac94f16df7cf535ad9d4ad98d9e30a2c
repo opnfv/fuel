@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_1a207af6",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-18T02:52:46Z",
+      "side": 1,
+      "message": "\"sudo apt-get update -y\"?",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_3a1d3ebe",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-18T02:52:46Z",
+      "side": 1,
+      "message": "We may enhance later:\n1. patch file format is 00_pacht1.patch, 01_patch2.patch\n2. loop all patch files and apply patches and commit",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_9a832acc",
+        "filename": "build/f_isoroot/f_kscfg/ks.cfg.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-18T02:52:46Z",
+      "side": 1,
+      "message": "cp ${SOURCE}/gitinfo.txt /opt/opnfv",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_ba886ee8",
+        "filename": "build/ks.cfg.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-05-18T02:52:46Z",
+      "side": 1,
+      "message": "cp ${SOURCE}/gitinfo.txt /opt/opnfv",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
