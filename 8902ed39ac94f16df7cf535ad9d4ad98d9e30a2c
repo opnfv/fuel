@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "9a91bd0f_ddd0cc55",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-05-18T10:21:39Z",
+      "side": 1,
+      "message": "+1 since init.d script exits with \"Docker is managed via upstart, try using service docker stop\"",
+      "parentUuid": "9a91bd0f_7a518661",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_3a1d3ebe",
         "filename": "build/Makefile",
         "patchSetId": 3
