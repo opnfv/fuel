@@ -27,9 +27,6 @@ release:.odlbuild
 	cp gitinfo_odlplugin.txt $(BUILD_BASE)
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo gem install fpm
-	sudo pip install fuel-plugin-builder
 	git clone -b $(ODL_BRANCH) $(ODL_REPO)
 	cd fuel-plugin-opendaylight; \
 	if [ -n $(ODL_CHANGE) ]; then \

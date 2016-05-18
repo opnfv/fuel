@@ -19,7 +19,11 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties \
     make python-setuptools python-all dpkg-dev debhelper \
     fuseiso git genisoimage bind9-host wget curl lintian tmux lxc iptables \
-    ca-certificates sudo apt-utils lsb-release dosfstools debmirror
+    ca-certificates sudo apt-utils lsb-release dosfstools debmirror \
+    apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
+
+RUN gem install fpm
+RUN pip install fuel-plugin-builder
 
 RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC_PROXY RSYNC_CONNECT_PROG npm_config_registry\"" > /etc/sudoers.d/keep-proxies
