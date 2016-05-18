@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a91bd0f_7a7426cf",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-05-18T06:52:20Z",
+      "side": 1,
+      "message": "Where we use this variable?",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_1a207af6",
         "filename": "build/Makefile",
         "patchSetId": 3
