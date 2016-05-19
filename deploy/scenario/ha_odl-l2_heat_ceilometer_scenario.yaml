@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: ODL-L2 HA deployment
-   version: 0.0.3
-   created: Jan 26 2016
-   comment: Rebased to Fuel8
+   version: 0.0.4
+   created: Jun 02 2016
+   comment: Rebased to Fuel9
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -84,16 +84,35 @@ dea-override-config:
           label: OpenDaylight plugin
           toggleable: true
           versions:
-          - enable_gbp:
-              label: GBP features
+          - bgpvpn_gateway:
+              description: Define the default gateway for BGPVPN
+              label: Default Gateway
+              regex:
+                error: Invalid ip number
+                source: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+              restrictions:
+              - settings:opendaylight.enable_bgpvpn.value == false: Only needed if BGPVPN
+                  is enabled.
+              type: text
+              value: 0.0.0.0
+              weight: 16
+            enable_bgpvpn:
+              description: 'This enables the bgpvpn extension of neutron togethere with
+                the corresponding sdnvpn features in odl. This feature will disable the
+                standart ovsdb feature from ODL.
+
+                '
+              label: BGPVPN extensions
               type: checkbox
               value: false
-              weight: 14
+              weight: 15
             enable_l3_odl:
               label: Use ODL to manage L3 traffic
               restrictions:
-              - networking_parameters:segmentation_type == 'vlan': Use tunneling segmentation type.
-              - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign public network to all nodes
+              - networking_parameters:segmentation_type == 'vlan': Use tunneling segmentation
+                  type.
+              - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign
+                  public network to all nodes
               type: checkbox
               value: false
               weight: 12
@@ -103,8 +122,14 @@ dea-override-config:
               value: false
               weight: 13
             metadata:
-              always_editable: false
+              default_credentials:
+                password: admin
+                user: admin
+              hot_pluggable: false
+              jetty_port: 8181
               odl_features:
+                cluster:
+                - odl-jolokia
                 default:
                 - config
                 - standard
@@ -113,33 +138,38 @@ dea-override-config:
                 - kar
                 - ssh
                 - management
-                gbp:
-                - odl-groupbasedpolicy-base
-                - odl-groupbasedpolicy-ofoverlay
-                ovs:
-                - odl-ovsdb-openstack
+                gcr:
+                - odl-groupbasedpolicy-ovssfc
+                ncr:
+                - odl-ovsdb-sfc
+                - odl-ovsdb-sfc-rest
+                odl-default:
                 - odl-restconf-all
                 - odl-aaa-authn
                 - odl-dlux-all
+                ovs:
+                - odl-ovsdb-openstack
                 sfc:
-                - odl-sfc-core
+                - odl-sfc-model
+                - odl-sfc-provider
+                - odl-sfc-provider-rest
                 - odl-sfc-sb-rest
                 - odl-sfc-ui
                 - odl-sfc-netconf
                 - odl-sfc-ovs
                 - odl-sfcofl2
-                - odl-sfc-test-consumer
                 vpn:
-                - odl-vpnservice-api
-                - odl-vpnservice-impl
-                - odl-vpnservice-impl-rest
-                - odl-vpnservice-impl-ui
-                - odl-vpnservice-core
                 - odl-vpnservice-openstack
               # plugin_id: Assigned during installation
-              plugin_version: 0.8.0
+              plugin_version: 0.9.0
               restrictions:
               - cluster:net_provider != 'neutron': Only neutron is supported by OpenDaylight
+            odl_v2:
+              description: V2 version is considered as experimental
+              label: Use V2 ML2 driver
+              type: checkbox
+              value: false
+              weight: 17
             rest_api_port:
               description: Port on which ODL REST API will be available.
               label: Port number
@@ -149,6 +179,24 @@ dea-override-config:
               type: text
               value: '8282'
               weight: 40
+            sfc_class:
+              description: 'Classifier determines what traffic needs to be chained based
+                on policy based on yang model. The OpenDayLight actually supports the
+                OVSDB NetVirt and the GBP classifier in case of SFC.
+
+                '
+              label: Classifier used by SFC
+              restrictions:
+              - action: hide
+                condition: settings:opendaylight.enable_sfc.value == false
+              type: select
+              value: ncr
+              values:
+              - data: ncr
+                label: NetVirt
+              - data: gcr
+                label: GBP
+              weight: 14
           weight: 70
 
 dha-override-config:
