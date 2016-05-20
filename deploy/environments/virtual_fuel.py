@@ -67,22 +67,25 @@ class VirtualFuel(ExecutionEnvironment):
         with open(self.temp_vm_file, "wc") as f:
             self.vm_xml.write(f, pretty_print=True, xml_declaration=True)
 
-    def set_vm_nic(self):
+    def del_vm_nics(self):
         interfaces = self.vm_xml.xpath('/domain/devices/interface')
         for interface in interfaces:
             interface.getparent().remove(interface)
+
+    def add_vm_nic(self, bridge):
         interface = etree.Element('interface')
         interface.set('type', 'bridge')
         source = etree.SubElement(interface, 'source')
-        source.set('bridge', self.pxe_bridge)
+        source.set('bridge', bridge)
         model = etree.SubElement(interface, 'model')
         model.set('type', 'virtio')
+
         devices = self.vm_xml.xpath('/domain/devices')
         if devices:
             device = devices[0]
             device.append(interface)
-
-        self.update_vm_template_file()
+        else:
+            err('No devices!')
 
     def create_volume(self, pool, name, su, img_type='qcow2'):
         log('Creating image using Libvirt volumes in pool %s, name: %s' %
@@ -121,11 +124,13 @@ class VirtualFuel(ExecutionEnvironment):
         disk_size = disk_sizes['fuel']
         disk_path = self.create_image(disk_path, disk_size)
 
-        temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
-        exec_cmd('cp %s %s' % (self.vm_template, temp_vm_file))
-        self.set_vm_nic()
+        self.del_vm_nics()
+        self.add_vm_nic(self.pxe_bridge)
+        self.update_vm_template_file()
+
         vm_definition_overwrite = self.dha.get_vm_definition('fuel')
-        self.define_vm(self.vm_name, temp_vm_file, disk_path,
+
+        self.define_vm(self.vm_name, self.temp_vm_file, disk_path,
                        vm_definition_overwrite)
 
     def setup_environment(self):
