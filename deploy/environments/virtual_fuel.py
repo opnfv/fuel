@@ -54,14 +54,21 @@ class VirtualFuel(ExecutionEnvironment):
                                       self.dha.get_node_property(
                                           self.fuel_node_id, 'libvirtTemplate'))
         check_file_exists(self.vm_template)
+        with open(self.vm_template) as f:
+            self.vm_xml = etree.parse(f)
+
+        self.temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
+        self.update_vm_template_file()
 
     def __del__(self):
         delete(self.temp_dir)
 
-    def set_vm_nic(self, temp_vm_file):
-        with open(temp_vm_file) as f:
-            vm_xml = etree.parse(f)
-        interfaces = vm_xml.xpath('/domain/devices/interface')
+    def update_vm_template_file(self):
+        with open(self.temp_vm_file, "wc") as f:
+            self.vm_xml.write(f, pretty_print=True, xml_declaration=True)
+
+    def set_vm_nic(self):
+        interfaces = self.vm_xml.xpath('/domain/devices/interface')
         for interface in interfaces:
             interface.getparent().remove(interface)
         interface = etree.Element('interface')
@@ -70,12 +77,12 @@ class VirtualFuel(ExecutionEnvironment):
         source.set('bridge', self.pxe_bridge)
         model = etree.SubElement(interface, 'model')
         model.set('type', 'virtio')
-        devices = vm_xml.xpath('/domain/devices')
+        devices = self.vm_xml.xpath('/domain/devices')
         if devices:
             device = devices[0]
             device.append(interface)
-        with open(temp_vm_file, 'w') as f:
-            vm_xml.write(f, pretty_print=True, xml_declaration=True)
+
+        self.update_vm_template_file()
 
     def create_volume(self, pool, name, su, img_type='qcow2'):
         log('Creating image using Libvirt volumes in pool %s, name: %s' %
