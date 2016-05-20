@@ -92,8 +92,10 @@ class Reap(object):
 
     def get_env(self):
         env_list = parse(exec_cmd('fuel env'))
-        if len(env_list) > 1:
-            err('Not exactly one environment')
+        if len(env_list) == 0:
+            err('No environment deployed')
+        elif len(env_list) > 1:
+            err('More than 1 environment deployed')
         self.env = env_list[0]
         self.env_id = self.env[E['id']]
 
