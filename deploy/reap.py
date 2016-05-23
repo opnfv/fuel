@@ -57,6 +57,8 @@ adapter:
 #       ipmiIp
 #       ipmiUser
 #       ipmiPass
+#     and you *MAY* provide (optional, not added by reap.py):
+#       ipmiPort
 #   - libvirt adapter you need to provide:
 #       libvirtName: <whatever>
 #       libvirtTemplate: [libvirt/vms/controller.xml | libvirt/vms/compute.xml]

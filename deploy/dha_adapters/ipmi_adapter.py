@@ -27,12 +27,15 @@ class IpmiAdapter(HardwareAdapter):
         ip = self.get_node_property(node_id, 'ipmiIp')
         username = self.get_node_property(node_id, 'ipmiUser')
         password = self.get_node_property(node_id, 'ipmiPass')
-        return ip, username, password
+        ipmiport = self.get_node_property(node_id, 'ipmiPort')
+        return ip, username, password, ipmiport
 
     def ipmi_cmd(self, node_id):
-        ip, username, password = self.get_access_info(node_id)
+        ip, username, password, ipmiport = self.get_access_info(node_id)
         cmd = 'ipmitool -I lanplus -A password'
         cmd += ' -H %s -U %s -P %s' % (ip, username, password)
+        if ipmiport:
+            cmd += ' -p %d' % int(ipmiport)
         return cmd
 
     def get_node_pxe_mac(self, node_id):
