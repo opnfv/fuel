@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_41f132cc",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-05-25T15:01:54Z",
+      "side": 1,
+      "message": "is that realy needed?",
+      "range": {
+        "startLine": 118,
+        "startChar": 11,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "18f8e859c3289d3005e4a476d6eebbdcd15a025c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_61eeb6ee",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-05-25T15:01:54Z",
+      "side": 1,
+      "message": "why do you need to override this?",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 112,
+        "endChar": 22
+      },
+      "revId": "18f8e859c3289d3005e4a476d6eebbdcd15a025c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
