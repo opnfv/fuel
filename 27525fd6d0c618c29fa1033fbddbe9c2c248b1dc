@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_01324a10",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-05-25T23:00:51Z",
+      "side": 1,
+      "message": "Just a question is there any want to instead of deleting previous run, keep the archive, just a thought  -its really good Jonas!) from /root/deploy-* tarball that is created - an option to \u0027retain\u0027 maybe?",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
