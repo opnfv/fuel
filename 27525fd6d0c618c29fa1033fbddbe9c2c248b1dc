@@ -22,6 +22,30 @@
       "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_c13b02ea",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-25T23:10:29Z",
+      "side": 1,
+      "message": "Daniel, this limitation is only valid if you re-deploy on an existing installed Fuel with previous deployments.\nI don\u0027t think we have that usecase, and I don\u0027t think that use- case is even working (having an env id \u003c\u003e 1). This is just passive programming practice.",
+      "parentUuid": "9a91bd0f_01324a10",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
