@@ -46,6 +46,30 @@
       "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_8125fac3",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-05-25T23:24:18Z",
+      "side": 1,
+      "message": "Very good.\n\ni was wondering about what would happen if/when someone decided to change the ration and go 1 FUEL:X envs (or maybe as the person asked in opnfv-users - they want to use deploy.sh to expand a given environment).\n\nUnderstand the (good) passive practice.. makes sense to me..\n\nwhy did the verify fail?",
+      "parentUuid": "9a91bd0f_c13b02ea",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
