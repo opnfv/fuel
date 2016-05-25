@@ -70,6 +70,30 @@
       "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a91bd0f_612c76ac",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-25T23:34:38Z",
+      "side": 1,
+      "message": "The multi-VIM/Environment support is a very good point that is coming up in Colorado, but that is a bigger issue beyond this patch - but again very relevant.\nVerify fails for 2 reasons:\n1) Fuel 8 needs rebasing - I feel that would be a waste of time as I hope Fuel 9 is at max two days away, ZoD is working on the final of this.\n2) OVSNFV plugin build is failing, will be removed as build target when Fuel 9 is introduced - until it has been rebased towards Fuel 9/Mitaka.\nBR/Jonas",
+      "parentUuid": "9a91bd0f_8125fac3",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "27525fd6d0c618c29fa1033fbddbe9c2c248b1dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
