@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_758d2831",
+        "filename": "build/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:05:07Z",
+      "side": 1,
+      "message": "Good idea, will do that!",
+      "parentUuid": "9a91bd0f_d5b6588a",
+      "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_35c224ea",
         "filename": "build/Makefile",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-28T10:46:47Z",
       "side": 1,
       "message": "git am to keep 1 commit per patch? Or git apply instead of patch?\nSame for patch above, which would require moving git config earlier.",
+      "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3587b011",
+        "filename": "build/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:05:07Z",
+      "side": 1,
+      "message": "I need to have this patch commited as the Fuel build system won\u0027t pick up the change otherwise - it only considers changes in the repository. So this is a \"one off\" as patches go, as it is done in the Fuel repo clone itself.\n\nBut you\u0027re right, should look into git apply here instead perhaps.",
+      "parentUuid": "9a91bd0f_35c224ea",
       "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_959ec462",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:05:07Z",
+      "side": 1,
+      "message": "Hi Szilard,\n\nUnfortunately hard to fix as they are in the original file. :)",
+      "parentUuid": "9a91bd0f_ef5dcdea",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_b5add433",
         "filename": "build/ks.cfg.patch",
         "patchSetId": 4
@@ -70,6 +130,24 @@
       "writtenOn": "2016-05-28T10:46:47Z",
       "side": 1,
       "message": "This patch is identical to f_isoroot/f_kscfg/ks.cfg.patch, although this one does not seem to be used?",
+      "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1582b400",
+        "filename": "build/ks.cfg.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:05:07Z",
+      "side": 1,
+      "message": "Good catch! Removing!",
+      "parentUuid": "9a91bd0f_b5add433",
       "revId": "28c3634e3ed06e886f46aa362786e586410fa404",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
