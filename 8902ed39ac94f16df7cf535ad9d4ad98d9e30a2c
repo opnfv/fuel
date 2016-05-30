@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_f578582d",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:10:56Z",
+      "side": 1,
+      "message": "Michal, it simplified my debug builds when I had no USER set, and should only kick in at such a situation...",
+      "parentUuid": "9a91bd0f_7a7426cf",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_1a207af6",
         "filename": "build/Makefile",
         "patchSetId": 3
@@ -89,6 +107,42 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_b572e047",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:10:56Z",
+      "side": 1,
+      "message": "Right! Fixing!",
+      "parentUuid": "9a91bd0f_7a518661",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_558fcc23",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:10:56Z",
+      "side": 1,
+      "message": "Agree, fixing!",
+      "parentUuid": "9a91bd0f_ddd0cc55",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_3a1d3ebe",
         "filename": "build/Makefile",
         "patchSetId": 3
@@ -100,6 +154,24 @@
       "writtenOn": "2016-05-18T02:52:46Z",
       "side": 1,
       "message": "We may enhance later:\n1. patch file format is 00_pacht1.patch, 01_patch2.patch\n2. loop all patch files and apply patches and commit",
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1599546e",
+        "filename": "build/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:10:56Z",
+      "side": 1,
+      "message": "Well, I have been in disagreement with myself on this. :) I started out with that, but found it hard to remember which patch did what - and what to do if a patch is removed and another added - should the sequence number be reused or ++...?\n\nRight now I redid it to make patch names more descriptive instead, but should perhaps move all patches into a subdirectory of themselves under build.",
+      "parentUuid": "9a91bd0f_3a1d3ebe",
       "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -151,6 +223,30 @@
       "writtenOn": "2016-05-19T07:37:47Z",
       "side": 1,
       "message": "Minor style comment: this can be moved to the previous line",
+      "range": {
+        "startLine": 140,
+        "startChar": 33,
+        "endLine": 140,
+        "endChar": 42
+      },
+      "revId": "8902ed39ac94f16df7cf535ad9d4ad98d9e30a2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_55882c22",
+        "filename": "deploy/reap.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-05-30T09:10:56Z",
+      "side": 1,
+      "message": "Sure, why not.",
+      "parentUuid": "9a91bd0f_b0872f0f",
       "range": {
         "startLine": 140,
         "startChar": 33,
