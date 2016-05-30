@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_9557a426",
+        "filename": "build/f_isoroot/f_odlpluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-05-30T16:29:25Z",
+      "side": 1,
+      "message": "I want to come back to installing fpb trough pip as soon as version available there will include required changes. It is temporary solution and I not assumed that FPB_CHANGE will not be set. Do you have that case in armband project?\n\nodl plugin will not be cloned to fuel-plugins directory, changing directory happens in sub-shell.",
+      "parentUuid": "9a91bd0f_30531219",
+      "revId": "d298d0af716d3df2803bb7dc8c8c8f9f28577475",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_d0574601",
         "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-29T11:03:12Z",
       "side": 1,
       "message": "Question: we (armband) override these vars frequently, which requires us to carry and rebase a lot of patches just making the *_{CHANGE,BRANCH etc} vars overrideable (s/\u003d/:\u003d/).\nWould such a change make sense to propose to fuel@OPNFV or should it remain hard set like this?",
+      "revId": "d298d0af716d3df2803bb7dc8c8c8f9f28577475",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_f55a984f",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-05-30T16:29:25Z",
+      "side": 1,
+      "message": "Of course I can change this to what more fits for you. Since you mentioned you override this variables shouldn\u0027t I use \u0027?\u003d\u0027 here?",
+      "parentUuid": "9a91bd0f_d0574601",
       "revId": "d298d0af716d3df2803bb7dc8c8c8f9f28577475",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
