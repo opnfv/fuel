@@ -9,20 +9,24 @@
 ##############################################################################
 
 # Add Fuel plugin build targets here
-PLUGINS = f_odlpluginbuild f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_bgpvpn-pluginbuild
+# Plugins disabled for the Fuel Mitaka uplift. Please re-enable your plugin as you have
+# verified it!
+PLUGINS =
+#PLUGINS = f_odlpluginbuild f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild f_qemupluginbuild f_ovs-nsh-dpdk-pluginbuild f_bgpvpn-pluginbuild
 export PLUGINS
 #NON_8-0_REBASED_PLUGINS = f_bgpvpn-pluginbuild
 
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.
 # Temporarilu disabling f_repobuild that currently have some issues on
-# Fuel 8.
+# Fuel Mitaka.
 ifdef BUILD_FUEL_PLUGINS
 export BUILD_FUEL_PLUGINS
-SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
+#SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux $(BUILD_FUEL_PLUGINS)
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
 else
-SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux $(PLUGINS)
 endif
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
