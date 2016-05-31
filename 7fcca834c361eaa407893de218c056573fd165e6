@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_db88ebc8",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T18:07:22Z",
+      "side": 1,
+      "message": "Joseph, the timeout loop is not to monitor the process it self, the but the progress of the deployment, it does so by tailing the log file. Even when the log-file shows success, the process will continue to run for a while (probably some house keeping). It has shown to be problematic to continue with fuel snapshot before the fuel deploy process has terminated. That\u0027s why I synchronize with run_proc_wait_terminated.\n\nI dont get your second comment. While deploying it will loop in the for loop (line 109), until 1 of three things happen.\n1) The log file indicates Success (Line 115) after which ready is set to true and the for loop is broken.\n2) The log file indicates error/stop (Line 118) after which the for-loop is broken and ready remains false.\n3) Foor-loop time out, ready remains false\n\nAfter any of these events, we need to synck-up with the termination of the fuel deploy process (line 124).\n\nOne issue though, if the fuel deploy process is hanging, this script will remain hanging. For now I would want Jenkins to handle that case, by the regular Jenkins deploy-timeout.",
+      "parentUuid": "5a7ca5a3_98f11998",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_f8228d00",
         "filename": "deploy/cloud/deployment.py",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-31T09:33:08Z",
       "side": 1,
       "message": "probably verbose output is not needed",
+      "range": {
+        "startLine": 146,
+        "startChar": 31,
+        "endLine": 146,
+        "endChar": 32
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_fb85a7ad",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T18:07:22Z",
+      "side": 1,
+      "message": "I agree, I will remove verbosity",
+      "parentUuid": "5a7ca5a3_f8228d00",
       "range": {
         "startLine": 146,
         "startChar": 31,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_9b9273f5",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T18:07:22Z",
+      "side": 1,
+      "message": "../ci should always exist since the context of this autodeployer is ci/cd where the entire repo is cloned.\nI will fix the check to see if the terget directory exists.",
+      "parentUuid": "5a7ca5a3_18350946",
+      "range": {
+        "startLine": 330,
+        "startChar": 49,
+        "endLine": 330,
+        "endChar": 56
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_78175da4",
         "filename": "deploy/deploy_env.py",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2016-05-31T09:33:08Z",
       "side": 1,
       "message": "maybe s.scp_get(\"deploy-*\", local_path\u003dself.deploy_log)",
+      "range": {
+        "startLine": 262,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 70
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_bb8f2fcc",
+        "filename": "deploy/deploy_env.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T18:07:22Z",
+      "side": 1,
+      "message": "Agree :-)",
+      "parentUuid": "5a7ca5a3_78175da4",
       "range": {
         "startLine": 262,
         "startChar": 12,
