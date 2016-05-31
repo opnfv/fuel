@@ -51,7 +51,7 @@ Building the ISO image
 Alternatively, you may build the Fuel .iso from source by cloning the
 opnfv/fuel git repository.  To retrieve the repository for the Brahmaputra release use the following command:
 
-$git clone https://<linux foundation uid>@gerrit.opnf.org/gerrit/fuel
+$ git clone https://gerrit.opnfv.org/gerrit/fuel
 
 Check-out the Brahmaputra release tag to set the HEAD to the
 baseline required to replicate the Brahmaputra release:
@@ -335,7 +335,7 @@ Create an OpenStack Environment
 
 #. Select "additional services" you wish to install.
 
-   - Check option "Install Celiometer (OpenStack Telemetry)" and press <Next>
+   - Check option "Install Ceilometer (OpenStack Telemetry)" and press <Next>
 
 #. Create the new environment.
 
