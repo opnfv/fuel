@@ -96,6 +96,29 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_3bbb1f74",
+        "filename": "deploy/common.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T18:33:57Z",
+      "side": 1,
+      "message": "this is better\u003d\u003e if fun:",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 22
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_18350946",
         "filename": "deploy/deploy.py",
         "patchSetId": 7
@@ -180,6 +203,29 @@
       "parentUuid": "5a7ca5a3_78175da4",
       "range": {
         "startLine": 262,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 70
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_9ba91327",
+        "filename": "deploy/deploy_env.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T18:33:57Z",
+      "side": 1,
+      "message": "maybe we could use shutil.move(src, dst) in the future",
+      "range": {
+        "startLine": 263,
         "startChar": 12,
         "endLine": 263,
         "endChar": 70
