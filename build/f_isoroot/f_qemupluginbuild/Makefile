@@ -34,8 +34,6 @@ release:.qemubuild
 
 .qemubuild:
 	@rm -rf fuel-plugin-qemu
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo pip install fuel-plugin-builder
 	../../docker/ubuntu-builder/install_docker.sh
 	git clone $(QEMU_REPO)
 	cd fuel-plugin-qemu; \

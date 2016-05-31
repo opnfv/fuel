@@ -34,8 +34,6 @@ release:.vsperfbuild
 
 .vsperfbuild:
 	@rm -rf vswitchperf
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo pip install fuel-plugin-builder
 	../../docker/ubuntu-builder/install_docker.sh
 	git clone $(VSPERF_REPO) vswitchperf
 	cd vswitchperf; \
