@@ -15,7 +15,7 @@ FPB_BRANCH ?= master
 FPB_CHANGE ?= 82191ca16b40021e445e854fad37c65cd8e70b0c
 FPB_REPO ?= https://github.com/openstack/fuel-plugins
 
-export USE_JAVA8=true
-export JAVA8_URL=https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa/+files/openjdk-8-jre-headless_8u72-b15-1~trusty1_amd64.deb
-export ODL_TARBALL_LOCATION=https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.4.2-Beryllium-SR2/distribution-karaf-0.4.2-Beryllium-SR2.tar.gz
-export ODL_VERSION_NUMBER=0.4.2
+export USE_JAVA8?=true
+export JAVA8_URL?=https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa/+files/openjdk-8-jre-headless_8u72-b15-1~trusty1_amd64.deb
+export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.4.2-Beryllium-SR2/distribution-karaf-0.4.2-Beryllium-SR2.tar.gz
+export ODL_VERSION_NUMBER?=0.4.2
