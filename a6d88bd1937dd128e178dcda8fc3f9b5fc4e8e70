@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_7bd51742",
+        "filename": "deploy/dha_adapters/libvirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T13:32:50Z",
+      "side": 1,
+      "message": "capital letters",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "a6d88bd1937dd128e178dcda8fc3f9b5fc4e8e70",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_bbe3af32",
+        "filename": "deploy/dha_adapters/libvirt_adapter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T13:32:50Z",
+      "side": 1,
+      "message": "this is const, should be with capital letter and place at the beginning of file",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 12
+      },
+      "revId": "a6d88bd1937dd128e178dcda8fc3f9b5fc4e8e70",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1bcae3a1",
+        "filename": "deploy/environments/virtual_fuel.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T13:32:50Z",
+      "side": 1,
+      "message": "capital letters",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "a6d88bd1937dd128e178dcda8fc3f9b5fc4e8e70",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3bcf9fb2",
+        "filename": "deploy/environments/virtual_fuel.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-05-31T13:32:50Z",
+      "side": 1,
+      "message": "constant, capital letters, placed at the beginning of file",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "a6d88bd1937dd128e178dcda8fc3f9b5fc4e8e70",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
