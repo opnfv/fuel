@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_5ee92919",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T20:34:12Z",
+      "side": 1,
+      "message": "Josep, the balance trick here is whether we want consistent deployment logs for troubleshooting with the risk of the script never terminating (Jenkins will terminate it with no logs). Or if we after timeout, we just bluntly terminate the script with an error, trying to - best effort retrieve (possibly inconsistant) logs?\nI don\u0027t have a strong feeling about it, I could do either or.\nI do have a strong feeling about that this deployment logging functionality is needed ASAP, for the sake of our plugin developers, and for the sake of avoiding Pipeline stand-still!",
+      "parentUuid": "5a7ca5a3_5e74c99b",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_f8228d00",
         "filename": "deploy/cloud/deployment.py",
         "patchSetId": 7
@@ -202,6 +226,30 @@
       "side": 1,
       "message": "But we are requiring the user to be in fuel/deploy/ to run the script. It\u0027s an unnecessary requirement, and not documented, someone could be calling the script while in fuel/ as \"python deploy/deploy.py\" for all we know...",
       "parentUuid": "5a7ca5a3_9b9273f5",
+      "range": {
+        "startLine": 330,
+        "startChar": 49,
+        "endLine": 330,
+        "endChar": 56
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_5e828953",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T20:34:12Z",
+      "side": 1,
+      "message": "I could look in to it - but in reality the only supported method is calling ci/deploy.sh. Nothing else is supported at this time.\nMy idea was to - unless a log destination is specified, it gets dumped to a known location by CI, always given that we\u0027re in the CI context - which this is all about.\nIf all agree, I can remove default and not generating any logs unless explicitly defined by args.\nBR/Jonas",
+      "parentUuid": "5a7ca5a3_3e730db3",
       "range": {
         "startLine": 330,
         "startChar": 49,
