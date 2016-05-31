@@ -114,6 +114,30 @@
       "revId": "7fcca834c361eaa407893de218c056573fd165e6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1b9f4305",
+        "filename": "deploy/ssh_client.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-05-31T17:47:30Z",
+      "side": 1,
+      "message": "Peter, the lambda function is there to enable regexp.",
+      "parentUuid": "5a7ca5a3_18abc98a",
+      "range": {
+        "startLine": 88,
+        "startChar": 60,
+        "endLine": 88,
+        "endChar": 80
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
