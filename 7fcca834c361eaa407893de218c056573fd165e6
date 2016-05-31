@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_5e74c99b",
+        "filename": "deploy/cloud/deployment.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-05-31T20:08:06Z",
+      "side": 1,
+      "message": "My comment was regarding the case 3 you listed above.\n\nAs you point out, in this case it\u0027s not that the process has succeeded with the deploy (status\u003d\u003doperational), or has failed (status\u003derror|stopped), the loop just timed out, but the deploy process may still be deploying just fine, it is only taking longer than expected.\n\nThe purpose of the timeout loop, I thought, was to guard against deployment jobs that exceeded a certain predetermined amount of time. At least this is the current behavior. With the introduced change, this won\u0027t be the case anymore. Now we will monitor the log file for the configured amount of time, but after that we will sit and wait for the process to end, which may or may not happen at a later point in time.\nI\u0027m not sure this is the desired behavior, and if it is I don\u0027t understand it, why not keep monitoring until the process finishes, i.e. until deploy_proc.poll() !\u003d None?\n\nAnd since we wait for the process to end by itself anyway, then the timeout given in the command line by the user is not honored.\n\nMy second comment, still in case 3, is for the case when the deploy process actually ends with a deployed environment after the loop. This will happen inside function run_proc_wait_terminated(). It took longer than expected (as per the timeout), but it finally managed to deploy successfully. However, since we don\u0027t check the return values of run_proc_wait_terminated(), we won\u0027t know. And because ready\u003d\u003dFalse, we will assume the deployment failed although it didn\u0027t.\n\n\nIn short, I would suggest that if you want Jenkins to automatically kill the deployment job instead of the script giving up after a while, then disregard the command line timeout value, and just create a monitoring loop that repeats while deploy_proc.poll() \u003d\u003d None.",
+      "parentUuid": "5a7ca5a3_db88ebc8",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_f8228d00",
         "filename": "deploy/cloud/deployment.py",
         "patchSetId": 7
@@ -154,6 +178,30 @@
       "side": 1,
       "message": "../ci should always exist since the context of this autodeployer is ci/cd where the entire repo is cloned.\nI will fix the check to see if the terget directory exists.",
       "parentUuid": "5a7ca5a3_18350946",
+      "range": {
+        "startLine": 330,
+        "startChar": 49,
+        "endLine": 330,
+        "endChar": 56
+      },
+      "revId": "7fcca834c361eaa407893de218c056573fd165e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3e730db3",
+        "filename": "deploy/deploy.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-05-31T20:08:06Z",
+      "side": 1,
+      "message": "But we are requiring the user to be in fuel/deploy/ to run the script. It\u0027s an unnecessary requirement, and not documented, someone could be calling the script while in fuel/ as \"python deploy/deploy.py\" for all we know...",
+      "parentUuid": "5a7ca5a3_9b9273f5",
       "range": {
         "startLine": 330,
         "startChar": 49,
