@@ -1,0 +1,5 @@
+<network>
+  <name>api</name>
+  <bridge name='api' stp='off' delay='0'/>
+</network>
+

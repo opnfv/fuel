@@ -29,19 +29,23 @@
     </controller>
     <controller type='pci' index='0' model='pci-root'/>
     <interface type='network'>
-      <source network='fuel1'/>
+      <source network='admin'/>
       <model type='e1000'/>
     </interface>
     <interface type='network'>
-      <source network='fuel2'/>
+      <source network='storage'/>
       <model type='e1000'/>
     </interface>
     <interface type='network'>
-      <source network='fuel3'/>
+      <source network='tenant'/>
       <model type='e1000'/>
     </interface>
     <interface type='network'>
-      <source network='fuel4'/>
+      <source network='external'/>
+      <model type='e1000'/>
+    </interface>
+    <interface type='network'>
+      <source network='api'/>
       <model type='e1000'/>
     </interface>
     <serial type='pty'>

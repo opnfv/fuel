@@ -1,0 +1,5 @@
+<network>
+  <name>storage</name>
+  <bridge name='storage' stp='off' delay='0'/>
+</network>
+

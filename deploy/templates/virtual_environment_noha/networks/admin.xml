@@ -1,0 +1,11 @@
+<network>
+  <name>admin</name>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='admin' stp='off' delay='0'/>
+  <ip address='10.20.0.1' netmask='255.255.255.0'/>
+</network>
+

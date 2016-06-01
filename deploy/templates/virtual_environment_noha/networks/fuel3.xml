@@ -1,5 +1,0 @@
-<network>
-  <name>fuel3</name>
-  <bridge name='fuel3' stp='on' delay='0'/>
-</network>
-

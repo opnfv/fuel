@@ -1,0 +1,5 @@
+<network>
+  <name>tenant</name>
+  <bridge name='tenant' stp='off' delay='0'/>
+</network>
+
