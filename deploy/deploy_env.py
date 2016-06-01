@@ -216,7 +216,8 @@ class CloudDeploy(object):
     def node_discovery(self, node_list, discovered_macs):
         for node in node_list:
             if (node[N['status']] == 'discover' and
-                node[N['online']] == 'True' and
+                (node[N['online']] == 'True' or
+                node[N['online']] == '1') and
                 node[N['mac']] not in discovered_macs):
                 discovered_macs.append(node[N['mac']])
                 blade = self.find_mac_in_dict(node[N['mac']])
