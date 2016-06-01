@@ -1,0 +1,5 @@
+<network>
+  <name>external</name>
+  <bridge name='external' stp='off' delay='0'/>
+</network>
+

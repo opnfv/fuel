@@ -1,0 +1,6 @@
+<network>
+  <name>admin</name>
+  <bridge name='admin' stp='off' delay='0'/>
+  <ip address='10.20.0.253' netmask='255.255.255.0' />
+</network>
+
