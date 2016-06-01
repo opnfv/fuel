@@ -165,6 +165,8 @@ class AutoDeploy(object):
                      '-x "lost+found:" -V %s -o %s .'
                      % (iso_linux_bin, iso_label, new_iso))
 
+        delete(tmp_new_dir)
+
     def update_fuel_isolinux(self, file):
         with io.open(file) as f:
             data = f.read()
