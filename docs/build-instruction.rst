@@ -63,6 +63,8 @@ On the host, the following packages must be installed:
 
 - curl (simply available through $ sudo apt-get install curl)
 
+- p7zip-full (simply available through $ sudo apt-get install p7zip-full)
+
 Preparations
 ============
 
