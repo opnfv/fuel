@@ -19,7 +19,7 @@ fuel:
   FUEL_ACCESS:
     password: admin
     user: admin
-wanted_release: Mitaka on Ubuntu 14.04
+wanted_release: Mitaka on Ubuntu 14.04   
 settings:
   editable:
     access:
