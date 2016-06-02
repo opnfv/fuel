@@ -312,9 +312,9 @@ def parse_arguments():
                         default='%s/images' % CWD,
                         help='Storage Directory [default: images]')
     parser.add_argument('-b', dest='pxe_bridge', action='store',
-                        default='pxebr',
+                        default='admin',
                         help='Linux Bridge for booting up the Fuel Master VM '
-                             '[default: pxebr]')
+                             '[default: admin]')
     parser.add_argument('-p', dest='fuel_plugins_dir', action='store',
                         help='Fuel Plugins directory')
     parser.add_argument('-pc', dest='fuel_plugins_conf_dir', action='store',

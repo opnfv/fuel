@@ -77,7 +77,7 @@ optional arguments:
   -dha [DHA_FILE]       Deployment Hardware Adapter: dha.yaml
   -s STORAGE_DIR        Storage Directory [default: images]
   -b PXE_BRIDGE         Linux Bridge for booting up the Fuel Master VM
-                        [default: pxebr]
+                        [default: admin]
   -p FUEL_PLUGINS_DIR   Fuel Plugins directory
   -pc FUEL_PLUGINS_CONF_DIR
                         Fuel Plugins Configuration directory
@@ -90,7 +90,7 @@ optional arguments:
 
 - Install Fuel Master and deploy OPNFV Cloud from scratch on Hardware Environment:
 
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b admin
 
 
 - Install Fuel Master and deploy OPNFV Cloud from scratch on Virtual Environment:
@@ -118,7 +118,7 @@ optional arguments:
     sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images
 
     => for hardware environment:
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b admin
 
 
 - Cleanup a running OPNFV environment:
@@ -131,7 +131,7 @@ optional arguments:
 =>  If optional argument -s <storage_dir> is not specified, Autodeployment will use
 "<current_working_dir>/images" as default, and it will create it, if it hasn't been created before
 
-=>  If optional argument -b <pxe_bridge> is not specified, Autodeployment will use "pxebr" as default,
+=>  If optional argument -b <pxe_bridge> is not specified, Autodeployment will use "admin" as default,
 if the bridge does not exist, the application will terminate with an error message
 
 =>  If argument -iso [ISO_FILE] is not specified, Autodeployment will use "<current_working_dir>/OPNFV.iso"
