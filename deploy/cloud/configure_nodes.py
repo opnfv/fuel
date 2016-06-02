@@ -43,12 +43,18 @@ class ConfigureNodes(object):
                 exec_cmd('fuel node set --node-id %s --role %s --env %s'
                          % (node_id, roles_blade[0], self.env_id))
 
+        # Download the unmodified default deployment configuration, because we
+        # need it for the network config.
         self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
             self.download_interface_config(node_id)
             self.modify_node_interface(node_id, roles_blade)
             self.modify_node_network_schemes(node_id, roles_blade)
             self.upload_interface_config(node_id)
+
+        # Download our modified deployment configuration, which includes our
+        # changes to network topology etc.
+        self.download_deployment_config()
         self.upload_deployment_config()
 
     def modify_node_network_schemes(self, node_id, roles_blade):
