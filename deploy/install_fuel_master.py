@@ -21,7 +21,7 @@ from common import (
 )
 
 TRANSPLANT_FUEL_SETTINGS = 'transplant_fuel_settings.py'
-BOOTSTRAP_ADMIN = '/usr/local/sbin/bootstrap_admin_node'
+BOOTSTRAP_ADMIN = 'bootstrap_admin_node'
 FUEL_CLIENT_CONFIG = '/etc/fuel/client/config.yaml'
 PLUGINS_DIR = '~/plugins'
 LOCAL_PLUGIN_FOLDER = '/opt/opnfv'
