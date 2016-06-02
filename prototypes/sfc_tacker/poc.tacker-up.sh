@@ -350,6 +350,15 @@ function populate_rc() {
     done
 }
 
+function tacker_changes() {
+    initctl stop tacker
+    sed -i 's/1, 66535/0, 66535/g' /usr/lib/python2.7/dist-packages/tacker/api/v1/attributes.py
+    sed -i 's/if value/if value is not None/g' /usr/lib/python2.7/dist-packages/tacker/sfc_classifier/drivers/netvirtsfc.py
+    sed -i 's/if entry\[key\]/if entry\[key\] is not None/g' /usr/lib/python2.7/dist-packages/tacker/db/sfc_classifier/sfc_classifier_db.py
+    initctl start tacker
+    git clone https://github.com/trozet/sfc-random.git
+}
+
 envSetup
 deployTackerClient
 deployJsonrpclib
@@ -359,6 +368,7 @@ deployTackerServer
 populate_client
 orchestarte
 populate_rc
+tacker_changes
 
 remove_repo "$MYREPO"
 remove_repo "$DEPREPO"
