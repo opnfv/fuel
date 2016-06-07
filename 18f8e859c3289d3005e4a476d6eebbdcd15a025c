@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_37356b46",
+        "filename": "deploy/scenario/ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-06-07T17:42:44Z",
+      "side": 1,
+      "message": "Nikolas these are our working and tested base configurations",
+      "parentUuid": "9a91bd0f_41f132cc",
+      "range": {
+        "startLine": 118,
+        "startChar": 11,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "18f8e859c3289d3005e4a476d6eebbdcd15a025c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a91bd0f_61eeb6ee",
         "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-25T15:01:54Z",
       "side": 1,
       "message": "why do you need to override this?",
+      "range": {
+        "startLine": 93,
+        "startChar": 7,
+        "endLine": 112,
+        "endChar": 22
+      },
+      "revId": "18f8e859c3289d3005e4a476d6eebbdcd15a025c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_173cef2e",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-06-07T17:42:44Z",
+      "side": 1,
+      "message": "The time when i made this commit dha override feature didnt existed, you are right it might be superflous",
+      "parentUuid": "9a91bd0f_61eeb6ee",
       "range": {
         "startLine": 93,
         "startChar": 7,
