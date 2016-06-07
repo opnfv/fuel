@@ -1,33 +1,37 @@
 ---
   root_ssh_authorized_file: /root/.ssh/id_rsa.pub
   extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
+  ubuntu_release: trusty
   extra_dirs:
     - /usr/share/fuel_bootstrap_cli/files/trusty
   output_dir: /tmp/
   kernel_flavor: linux-image-generic-lts-trusty
   packages:
-    - vim
-    - mc
-    - openssh-client
-    - openssh-server
-    - ntp
-    - mcollective
-    - nailgun-agent
-    - nailgun-mcagents
-    - network-checker
     - fuel-agent
-    - ubuntu-minimal
-    - live-boot
-    - live-boot-initramfs-tools
-    - wget
+    - hwloc
+    - hpsa-dkms
+    - i40e-dkms
     - linux-firmware
     - linux-firmware-nonfree
     - linux-headers-generic
-    - hpsa-dkms
-    - i40e-dkms
-    - xz-utils
-    - squashfs-tools
+    - live-boot
+    - live-boot-initramfs-tools
+    - mc
+    - mcollective
     - msmtp-mta
+    - multipath-tools
+    - multipath-tools-boot
+    - nailgun-agent
+    - nailgun-mcagents
+    - network-checker
+    - ntp
+    - openssh-client
+    - openssh-server
+    - squashfs-tools
+    - ubuntu-minimal
+    - vim
+    - wget
+    - xz-utils
   bootstrap_images_dir: /var/www/nailgun/bootstraps
   active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
   flavor: ubuntu
@@ -56,8 +60,8 @@
       section: "main restricted"
       uri: "http://127.0.0.1:8080/ubuntu/x86_64"
       priority: 1050
-      suite: mos8.0
+      suite: mos9.0
       type: deb
-  skip_default_img_build: true
+  skip_default_img_build: false
   direct_repo_addresses:
     - "127.0.0.1"

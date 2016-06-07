@@ -47,7 +47,7 @@ nailgun:
 
 .PHONY: clean
 clean:
-	@rm -rf ../release/opnfv/nailgun nailgun fuel-mirror
+	@rm -rf ../release/opnfv/nailgun nailgun fuel-mirror opnfv-config.yaml ubuntu.yaml
 
 .PHONY: release
 release:nailgun
