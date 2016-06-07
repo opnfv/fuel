@@ -34,6 +34,28 @@
     # Give user 15 seconds to enter fuelmenu or else continue
     echo
 ***************
+*** 360,368 ****
+    fi
+  fi
+
+  # Enable online base MOS repos (security, updates) if we run an ISO installation
+! [ -f /etc/fuel_build_id ] && \
+!   yum-config-manager --enable mos${FUEL_RELEASE}-security mos${FUEL_RELEASE}-updates --save
+
+  if [ ! -f "${ASTUTE_YAML}" ]; then
+    echo ${fuelmenu_fail_message}
+--- 360,369 ----
+    fi
+  fi
+
++ # OPNFV: Disabled to speedup installation in offline env.
+  # Enable online base MOS repos (security, updates) if we run an ISO installation
+! #[ -f /etc/fuel_build_id ] && \
+! #  yum-config-manager --enable mos${FUEL_RELEASE}-security mos${FUEL_RELEASE}-updates --save
+
+  if [ ! -f "${ASTUTE_YAML}" ]; then
+    echo ${fuelmenu_fail_message}
+***************
 *** 374,382 ****
   [ ! -f /etc/fuel_build_id ] && \
     sed -i "s|127.0.0.1:8080/ubuntu/x86_64|mirror.fuel-infra.org/mos-repos/ubuntu/${FUEL_RELEASE}|g" "${ASTUTE_YAML}"

@@ -1,63 +1,78 @@
 ---
-  root_ssh_authorized_file: /root/.ssh/id_rsa.pub
-  extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
-  extra_dirs:
-    - /usr/share/fuel_bootstrap_cli/files/trusty
-  output_dir: /tmp/
-  kernel_flavor: linux-image-generic-lts-trusty
-  packages:
-    - vim
-    - mc
-    - openssh-client
-    - openssh-server
-    - ntp
-    - mcollective
-    - nailgun-agent
-    - nailgun-mcagents
-    - network-checker
-    - fuel-agent
-    - ubuntu-minimal
-    - live-boot
-    - live-boot-initramfs-tools
-    - wget
-    - linux-firmware
-    - linux-firmware-nonfree
-    - linux-headers-generic
-    - hpsa-dkms
-    - i40e-dkms
-    - xz-utils
-    - squashfs-tools
-    - msmtp-mta
-  bootstrap_images_dir: /var/www/nailgun/bootstraps
-  active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
-  flavor: ubuntu
-  http_proxy: ""
-  https_proxy: ""
-  repos:
-    - name: ubuntu
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty
-      type: deb
-    - name: ubuntu-updates
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-updates
-      type: deb
-    - name: ubuntu-security
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-security
-      type: deb
-    - name: mos
-      section: "main restricted"
-      uri: "http://127.0.0.1:8080/ubuntu/x86_64"
-      priority: 1050
-      suite: mos8.0
-      type: deb
-  skip_default_img_build: true
-  direct_repo_addresses:
-    - "127.0.0.1"
+# User can pass any type of executable script
+#post_script_file: /tmp/my_custom_script
+root_ssh_authorized_file: /root/.ssh/id_rsa.pub
+# Extended kernel PXE options
+extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
+# Choose the Ubuntu release (currently supports only trusty). Keep in mind,
+# that you also should fix 'kernel_flavor' parameter.
+ubuntu_release: trusty
+# Directory that will be injected to the image
+# root filesystem. **NOTE** Files/packages will be
+# injected after installing all packages, but before
+# generating system initramfs - thus it's possible to
+# adjust initramfs
+extra_dirs:
+  - /usr/share/fuel_bootstrap_cli/files/trusty
+# Save generated bootstrap container to
+output_dir: /tmp/
+# Defines kernel version
+kernel_flavor: linux-image-generic-lts-trusty
+# Define packages list
+packages:
+  - fuel-agent
+  - hwloc
+  - hpsa-dkms
+  - i40e-dkms
+  - linux-firmware
+  - linux-firmware-nonfree
+  - linux-headers-generic
+  - live-boot
+  - live-boot-initramfs-tools
+  - mc
+  - mcollective
+  - msmtp-mta
+  - multipath-tools
+  - multipath-tools-boot
+  - nailgun-agent
+  - nailgun-mcagents
+  - network-checker
+  - ntp
+  - openssh-client
+  - openssh-server
+  - squashfs-tools
+  - ubuntu-minimal
+  - vim
+  - wget
+  - xz-utils
+active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
+flavor: ubuntu
+http_proxy: ""
+https_proxy: ""
+repos:
+  - name: ubuntu
+    section: "main universe multiverse"
+    uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+    priority:
+    suite: trusty
+    type: deb
+  - name: ubuntu-updates
+    section: "main universe multiverse"
+    uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+    priority:
+    suite: trusty-updates
+    type: deb
+  - name: ubuntu-security
+    section: "main universe multiverse"
+    uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+    priority:
+    suite: trusty-security
+    type: deb
+  - name: mos
+    section: "main restricted"
+    uri: "http://127.0.0.1:8080/ubuntu/x86_64"
+    priority: 1050
+    suite: mos9.0
+    type: deb
+direct_repo_addresses:
+  - "127.0.0.1"

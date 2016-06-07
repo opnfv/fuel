@@ -23,10 +23,10 @@ export PLUGINS
 ifdef BUILD_FUEL_PLUGINS
 export BUILD_FUEL_PLUGINS
 #SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
-SUBDIRS = f_kscfg f_bootstrap f_isolinux $(BUILD_FUEL_PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
 $(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
 else
-SUBDIRS = f_kscfg f_bootstrap f_isolinux $(PLUGINS)
+SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
 endif
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
