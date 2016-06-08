@@ -86,7 +86,7 @@ all:
 	@KERNEL_VER=$$(uname -r); \
 	KERNEL_ARRAY=($${KERNEL_VER//./ }); \
 	if [ $${KERNEL_ARRAY[0]} -lt 3  ] || [[ $${KERNEL_ARRAY[0]} -eq 3 && $${KERNEL_ARRAY[1]} -lt 19  ]] ; then (echo 'Kernel version must be 3.19 or newer'; exit 1) ; fi
-	@docker/runcontext $(DOCKERIMG) wget -q www.google.com > /dev/null 2>&1 || (echo 'No docker network connectivity or name server - check your network- and docker settings'; exit 1)
+	@docker/runcontext $(DOCKERIMG) wget -q www.google.com -O /dev/null || (echo 'No docker network connectivity or name server - check your network- and docker settings'; exit 1)
 	@docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) iso
 
 
