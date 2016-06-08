@@ -7,5 +7,5 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-ONOS_BRANCH=Liberty
+ONOS_BRANCH=Mitaka
 ONOS_REPO=git://git.openstack.org/openstack/fuel-plugin-onos
