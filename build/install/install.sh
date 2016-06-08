@@ -172,7 +172,7 @@ make_live() {
 prep_make_iso() {
     DEST=$TOP/newiso
     REPO=$DEST/ubuntu
-    echo "Making ISO..."
+    echo "Preparing ISO..."
     echo "Unpack of old ISO..."
     if [ -d newiso ]; then
         chmod -R 755 newiso
@@ -201,6 +201,7 @@ make_iso_image() {
         -no-emul-boot \
         -boot-load-size 4 -boot-info-table \
         --hide-rr-moved \
+        --joliet-long \
         -x "lost+found" -o $NEWISO .
 
     isoinfo -d -i $NEWISO
