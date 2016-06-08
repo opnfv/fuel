@@ -21,10 +21,10 @@
 ##############################################################################
 # deployment configuration meta-data
 deployment-scenario-metadata:
-   title: ONOS No-HA deployment
-   version: 0.0.4
-   created: Feb 1 2016
-   comment: ONOS No HA with Ceph, Ceilometer and Heat - Rebased for Fuel8
+   title: ONOS HA deployment
+   version: 0.0.6
+   created: Jun 08 2016
+   comment: Rebased to Fuel9
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -34,7 +34,7 @@ deployment-scenario-metadata:
 stack-extensions:
    - module: onos
      module-config-name: fuel-onos
-     module-config-version: 0.0.2
+     module-config-version: 0.0.3
      module-config-override:
 
 ##############################################################################
@@ -43,21 +43,24 @@ stack-extensions:
 dea-override-config:
   environment:
     net_segment_type: tun
-    name: onos_no-ha
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: mongo,controller,onos
+    role: controller,onos
     transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: mongo,controller
     transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: ceph-osd,controller
     transformations: transformations_1
   - id: 4
+    interfaces: interfaces_1
+    role: ceph-osd,compute
+    transformations: transformations_1
+  - id: 5
     interfaces: interfaces_1
     role: ceph-osd,compute
     transformations: transformations_1
@@ -67,8 +70,28 @@ dea-override-config:
         assign_to_all_nodes:
           value: true
 dha-override-config:
-#  disks:
-#    contrail: 500G
+  nodes:
+  - id: 1
+    libvirtName: controller1
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 2
+    libvirtName: controller2
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 3
+    libvirtName: controller3
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 4
+    libvirtName: compute1
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 5
+    libvirtName: compute2
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 6
+    libvirtName: fuel-master
+    libvirtTemplate: templates/virtual_environment/vms/fuel.xml
+    isFuel: yes
+    username: root
+    password: r00tme
 
 ##############################################################################
 # The verification pipeline may populate the section below with arbitrary
