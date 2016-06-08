@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_12dddd70",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-06-08T09:06:05Z",
+      "side": 1,
+      "message": "I recommend either\n- coordinate this with Tim Rozet\n- place as a patch to buildTackerServer()",
+      "revId": "12770ba9f31f0b415e1099d157e3a7ba27edcb22",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_32da5979",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-06-08T09:06:05Z",
+      "side": 1,
+      "message": "If you need the test-vnfd.yaml only you can do wget https://raw.githubusercontent.com/trozet/sfc-random/master/test-vnfd.yaml",
+      "revId": "12770ba9f31f0b415e1099d157e3a7ba27edcb22",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
