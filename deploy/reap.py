@@ -244,7 +244,7 @@ class Reap(object):
             fuel[key] = data[key]
         for key in fuel['ADMIN_NETWORK'].keys():
             if key not in ['ipaddress', 'netmask',
-                           'dhcp_pool_start', 'dhcp_pool_end']:
+                           'dhcp_pool_start', 'dhcp_pool_end', 'ssh_network']:
                 del fuel['ADMIN_NETWORK'][key]
         self.write_yaml(self.dea_file, {'fuel': fuel})
 
