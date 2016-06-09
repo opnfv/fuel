@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_6d5f9073",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-06-09T14:02:47Z",
+      "side": 1,
+      "message": "Thought you may like to override whole BUILD_ID bellow but sure can change this also. I already asked how you override variables but not sure if I remember correctly that you put them in command line? If yes is there a difference between \u0027\u003d\u0027 and \u0027:\u003d\u0027 when you run \u0027make OPNFV_GIT_SHA\u003dsomething all\u0027?",
+      "parentUuid": "5a7ca5a3_4df3b40a",
+      "revId": "938878fd2eb0d8b0e8a433fb1b005dcc8bb67894",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_0d961c95",
         "filename": "build/f_isoroot/Makefile",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-06-08T16:36:16Z",
       "side": 1,
       "message": "This is definately not the place to discuss this, but would arch-qualifier support make sense here? e.g. `pkg-name [amd64]` would be installed only on amd64? I could take a look at writing such a thing.",
+      "revId": "938878fd2eb0d8b0e8a433fb1b005dcc8bb67894",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_cda90426",
+        "filename": "build/f_isoroot/f_repobuild/fuel_bootstrap_cli.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-06-09T14:02:47Z",
+      "side": 1,
+      "message": "I am thinking about removing this file and leave this configuration for user or dea file.",
+      "parentUuid": "5a7ca5a3_adee0821",
       "revId": "938878fd2eb0d8b0e8a433fb1b005dcc8bb67894",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
