@@ -547,15 +547,15 @@ settings:
         - name: mos
           priority: 1050
           section: main restricted
-          suite: mos8.0
+          suite: mos9.0
           type: deb
-          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/x86_64
+          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/x86_64
         - name: Auxiliary
           priority: 1150
           section: main restricted
           suite: auxiliary
           type: deb
-          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/auxiliary
+          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/auxiliary
     storage:
       ephemeral_ceph:
         description: Configures Nova to store ephemeral volumes in RBD. This works
