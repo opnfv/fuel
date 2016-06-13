@@ -10,9 +10,9 @@
 dea-base-config-metadata:
   title: 'Deployment Environment Adapter Base configuration'
   # DEA API version supported
-  version: '0.3'
-  created: 'Tue Feb 2 2016'
-  comment: 'Rebased for Fuel 8'
+  version: '0.4'
+  created: 'Jun 13 2016'
+  comment: 'Rebased for Fuel 9'
 environment:
   net_segment_type: tun
 fuel:
@@ -34,7 +34,7 @@ settings:
         weight: 40
       metadata:
         group: general
-        label: Access
+        label: OpenStack Access
         weight: 10
       password:
         description: Password for Administrator
@@ -67,8 +67,8 @@ settings:
         weight: 10
     additional_components:
       ceilometer:
-        description: If selected, Ceilometer component will be installed
-        label: Install Ceilometer
+        description: If selected, Ceilometer and Aodh components will be installed
+        label: Install Ceilometer and Aodh
         type: checkbox
         value: true
         weight: 60
@@ -92,12 +92,14 @@ settings:
       metadata:
         group: openstack_services
         label: Additional Components
-        weight: 20
+        weight: 10
       mongo:
         description: If selected, You can use external Mongo DB as ceilometer backend
         label: Use external Mongo DB
         restrictions:
-        - settings:additional_components.ceilometer.value == false
+        - settings:additional_components.ceilometer.value == false: External Mongo aims
+            to be an external backend for Ceilometer. Without Ceilometer enabled, External
+            Mongo is useless and should not be installed.
         type: checkbox
         value: false
         weight: 70
@@ -135,12 +137,21 @@ settings:
         type: checkbox
         value: false
         weight: 10
+    cgroups:
+      metadata:
+        always_editable: true
+        group: general
+        label: Cgroups conguration for services
+        restrictions:
+        - action: hide
+          condition: 'true'
+        weight: 90
     common:
       auth_key:
         description: Public key(s) to include in authorized_keys on deployed nodes
         group: security
         label: Public Key
-        type: textarea
+        type: hidden
         value: ''
         weight: 70
       auto_assign_floating_ip:
@@ -166,7 +177,7 @@ settings:
         group: compute
         label: Hypervisor type
         type: radio
-        value: kvm
+        value: qemu
         values:
         - data: kvm
           description: Choose this type of hypervisor if you run OpenStack on hardware
@@ -199,22 +210,18 @@ settings:
         description: Whether to resume previous guests state when the host reboots.
           If enabled, this option causes guests assigned to the host to resume their
           previous state. If the guest was running a restart will be attempted when
-          nova-compute starts. If the guest was not running previously, a restart
-          will not be attempted.
+          nova-compute starts. If the guest was not running previously, a restart will
+          not be attempted.
         group: compute
         label: Resume guests state on host boot
         type: checkbox
         value: true
         weight: 50
       task_deploy:
-        description: Enables new deployment engine based on cross-node dependencies
-          for deployment tasks which allows to deploy all nodes simultaneously. Works
-          only for deployment tasks with version >= 2.0.0.
+        description: The new deployment engine based on cross-node dependencies for
+          deployment tasks.
         label: Enable task based deploy
-        restrictions:
-        - action: hide
-          condition: not ('experimental' in version:feature_groups)
-        type: checkbox
+        type: hidden
         value: false
         weight: 11
       use_cow_images:
@@ -274,7 +281,7 @@ settings:
           condition: settings:additional_components.mongo.value == false
           message: Ceilometer and MongoDB are not enabled on the Additional Components
             section
-        weight: 20
+        weight: 30
       mongo_db_name:
         description: Mongo database name
         label: Database name
@@ -362,63 +369,69 @@ settings:
         weight: 10
       neutron_l3_ha:
         description: 'Enable High Availability features for Virtual Routers in Neutron
-
+  
           Requires at least 2 Controller nodes to function properly
-
+  
           '
         label: Neutron L3 HA
         restrictions:
-        - condition: settings:neutron_advanced_configuration.neutron_dvr.value ==
-            true
+        - condition: settings:neutron_advanced_configuration.neutron_dvr.value == true
           message: Neutron DVR must be disabled in order to use Neutron L3 HA
         type: checkbox
         value: false
         weight: 30
-    neutron_mellanox:
-      metadata:
-        enabled: true
-        group: network
-        label: Mellanox Neutron components
-        restrictions:
-        - action: hide
-          condition: not ('experimental' in version:feature_groups)
-        toggleable: false
-        weight: 50
-      plugin:
-        label: Mellanox drivers and SR-IOV plugin
-        type: radio
-        value: disabled
-        values:
-        - data: disabled
-          description: If selected, Mellanox drivers, Neutron and Cinder plugin will
-            not be installed.
-          label: Mellanox drivers and plugins disabled
-          restrictions:
-          - settings:storage.iser.value == true
-        - data: drivers_only
-          description: If selected, Mellanox Ethernet drivers will be installed to
-            support networking over Mellanox NIC. Mellanox Neutron plugin will not
-            be installed.
-          label: Install only Mellanox drivers
-          restrictions:
-          - settings:common.libvirt_type.value != 'kvm'
-        - data: ethernet
-          description: If selected, both Mellanox Ethernet drivers and Mellanox network
-            acceleration (Neutron) plugin will be installed.
-          label: Install Mellanox drivers and SR-IOV plugin
-          restrictions:
-          - settings:common.libvirt_type.value != 'kvm' or not (cluster:net_provider
-            == 'neutron' and networking_parameters:segmentation_type == 'vlan')
-        weight: 60
-      vf_num:
-        description: Note that one virtual function will be reserved to the storage
-          network, in case of choosing iSER.
-        label: Number of virtual NICs
-        restrictions:
-        - settings:neutron_mellanox.plugin.value != 'ethernet'
+      neutron_qos:
+        description: Enable Neutron QoS advanced service plug-in
+        label: Neutron QoS
+        type: checkbox
+        value: false
+        weight: 40
+
+    operator_user:
+      authkeys:
+        description: Public SSH keys to include to operator user's authorized keys,
+          one per line.
+        label: Authorized SSH keys
+        type: textarea
+        value: ''
+        weight: 80
+      homedir:
+        description: Home directory for operator user
+        label: Home directory
+        regex:
+          error: Invalid path
+          source: ^/\S
         type: text
-        value: '16'
+        value: /home/fueladmin
         weight: 70
+      metadata:
+        group: general
+        label: Operating System Access
+        weight: 15
+      name:
+        description: Username for operator user
+        label: Username
+        regex:
+          error: Empty username
+          source: \S
+        type: text
+        value: fueladmin
+        weight: 50
+      password:
+        description: Password for operator user
+        label: Password
+        regex:
+          error: Empty password
+          source: \S
+        type: password
+        value: UWYDWri9oUEZzBNQbG6E1xtN
+        weight: 60
+      sudo:
+        description: Sudoers configuration directives for operator user, one per line.
+        label: Sudoers configuration
+        type: textarea
+        value: 'ALL=(ALL) NOPASSWD: ALL'
+        weight: 90
     provision:
       metadata:
         group: general
@@ -430,10 +443,60 @@ settings:
       method:
         type: hidden
         value: image
+      packages:
+        label: Initial packages
+        type: textarea
+        value: 'acl
+          anacron
+          bash-completion
+          bridge-utils
+          bsdmainutils
+          build-essential
+          cloud-init
+          curl
+          daemonize
+          debconf-utils
+          gdisk
+          grub-pc
+          hpsa-dkms
+          hwloc
+          i40e-dkms
+          linux-firmware
+          linux-firmware-nonfree
+          linux-headers-generic-lts-trusty
+          linux-image-generic-lts-trusty
+          lvm2
+          mcollective
+          mdadm
+          multipath-tools
+          multipath-tools-boot
+          nailgun-agent
+          nailgun-mcagents
+          network-checker
+          ntp
+          openssh-client
+          openssh-server
+          puppet
+          python-amqp
+          ruby-augeas
+          ruby-ipaddress
+          ruby-json
+          ruby-netaddr
+          ruby-openstack
+          ruby-shadow
+          ruby-stomp
+          telnet
+          ubuntu-minimal
+          ubuntu-standard
+          uuid-runtime
+          vim
+          virt-what
+          vlan
+          '
+        weight: 10
     public_network_assignment:
       assign_to_all_nodes:
-        description: When disabled, public network will be assigned to controllers
-          only
+        description: When disabled, public network will be assigned to controllers only
         label: Assign public network to all nodes
         type: checkbox
         value: true
@@ -447,14 +510,12 @@ settings:
         weight: 10
     public_ssl:
       cert_data:
-        description: Certificate and private key data, concatenated into a single
-          file
+        description: Certificate and private key data, concatenated into a single file
         label: Certificate
         restrictions:
         - action: hide
-          condition: (settings:public_ssl.cert_source.value != 'user_uploaded') or
-            (settings:public_ssl.horizon.value == false and settings:public_ssl.services.value
-            == false)
+          condition: (settings:public_ssl.cert_source.value != 'user_uploaded') or (settings:public_ssl.horizon.value
+            == false and settings:public_ssl.services.value == false)
         type: file
         value: ''
         weight: 40
@@ -469,8 +530,8 @@ settings:
         value: self_signed
         values:
         - data: self_signed
-          description: Generate private key and certificate that will be signed by
-            this key
+          description: Generate private key and certificate that will be signed by this
+            key
           label: Self-signed
         - data: user_uploaded
           description: Use pre-generated key and certificate
@@ -479,9 +540,12 @@ settings:
       horizon:
         description: Secure access to Horizon enabling HTTPS instead of HTTP
         label: HTTPS for Horizon
+        restrictions:
+        - settings:public_ssl.services.value == false: TLS for OpenStack public endpoints
+            should be enabled
         type: checkbox
         value: false
-        weight: 10
+        weight: 20
       hostname:
         description: Your DNS entries should point to this name. Self-signed certificates
           also will use this hostname
@@ -502,7 +566,7 @@ settings:
         label: TLS for OpenStack public endpoints
         type: checkbox
         value: false
-        weight: 20
+        weight: 10
     repo_setup:
       metadata:
         always_editable: true
@@ -512,16 +576,16 @@ settings:
       repos:
         description: 'Please note: the first repository will be considered the operating
           system mirror that will be used during node provisioning.
-
+  
           To create a local repository mirror on the Fuel master node, please follow
           the instructions provided by running "fuel-createmirror --help" on the Fuel
           master node.
-
+  
           Please make sure your Fuel master node has Internet access to the repository
           before attempting to create a mirror.
-
-          For more details, please refer to the documentation (https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html#external-ubuntu-ops).
-
+  
+          For more details, please refer to the documentation (https://docs.mirantis.com/openstack/fuel/fuel-9.0/operations.html#external-ubuntu-ops).
+  
           '
         extra_priority: null
         type: custom_repo_configuration
@@ -547,25 +611,57 @@ settings:
         - name: mos
           priority: 1050
           section: main restricted
-          suite: mos8.0
+          suite: mos9.0
           type: deb
-          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/x86_64
+          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/x86_64
         - name: Auxiliary
           priority: 1150
           section: main restricted
           suite: auxiliary
           type: deb
-          uri: http://10.20.0.2:8080/liberty-8.0/ubuntu/auxiliary
+          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/auxiliary
+    service_user:
+      homedir:
+        type: hidden
+        value: /var/lib/fuel
+      metadata:
+        group: general
+        label: Service user account
+        restrictions:
+        - action: hide
+          condition: 'true'
+        weight: 10
+      name:
+        type: hidden
+        value: fuel
+      password:
+        type: hidden
+        value: xAY2NY2Iw13BDSMEEqqbe0Wl
+      root_password:
+        type: hidden
+        value: r00tme
+      sudo:
+        type: hidden
+        value: 'ALL=(ALL) NOPASSWD: ALL'
     storage:
+      admin_key:
+        type: hidden
+        value: AQBHzlxXAAAAABAANFz641fDuiWlDviSw8bZUA==
+      bootstrap_osd_key:
+        type: hidden
+        value: AQBHzlxXAAAAABAA4KzILhVBxCyjTVeRzTHnpw==
       ephemeral_ceph:
-        description: Configures Nova to store ephemeral volumes in RBD. This works
-          best if Ceph is enabled for volumes and images, too. Enables live migration
-          of all types of Ceph backed VMs (without this option, live migration will
-          only work with VMs launched from Cinder volumes).
+        description: Configures Nova to store ephemeral volumes in RBD. This works best
+          if Ceph is enabled for volumes and images, too. Enables live migration of
+          all types of Ceph backed VMs (without this option, live migration will only
+          work with VMs launched from Cinder volumes).
         label: Ceph RBD for ephemeral volumes (Nova)
         type: checkbox
         value: false
         weight: 75
+      fsid:
+        type: hidden
+        value: 464171de-55c3-4b3b-9180-43eb8a1a4f55
       images_ceph:
         description: Configures Glance to use the Ceph RBD backend to store images.
           If enabled, this option will prevent Swift from installing.
@@ -588,23 +684,13 @@ settings:
         type: checkbox
         value: false
         weight: 35
-      iser:
-        description: 'High performance block storage: Cinder volumes over iSER protocol
-          (iSCSI over RDMA). This feature requires SR-IOV capabilities in the NIC,
-          and will use a dedicated virtual function for the storage network.'
-        label: iSER protocol for volumes (Cinder)
-        restrictions:
-        - settings:storage.volumes_lvm.value != true or settings:common.libvirt_type.value
-          != 'kvm'
-        - action: hide
-          condition: not ('experimental' in version:feature_groups)
-        type: checkbox
-        value: false
-        weight: 11
       metadata:
         group: storage
         label: Storage Backends
         weight: 60
+      mon_key:
+        type: hidden
+        value: AQBHzlxXAAAAABAAMzn4TPdL6/6jqDapqfUbAg==
       objects_ceph:
         description: Configures RadosGW front end for Ceph RBD. This exposes S3 and
           Swift API Interfaces. If enabled, this option will prevent Swift from installing.
@@ -614,8 +700,7 @@ settings:
         weight: 80
       osd_pool_size:
         description: Configures the default number of object replicas in Ceph. This
-          number must be equal to or lower than the number of deployed 'Storage -
-          Ceph OSD' nodes.
+          number must be equal to or lower than the number of deployed 'Ceph OSD' nodes.
         label: Ceph object replication factor
         regex:
           error: Invalid number
@@ -623,9 +708,12 @@ settings:
         type: text
         value: '3'
         weight: 85
+      radosgw_key:
+        type: hidden
+        value: AQBHzlxXAAAAABAADC0bslLyouDP2C8n3Wihqg==
       volumes_block_device:
         description: High performance block device storage. It is recommended to have
-          at least one Storage - Cinder Block Device
+          at least one Cinder Block Device
         label: Cinder Block device driver
         restrictions:
         - settings:storage.volumes_ceph.value == true
@@ -642,7 +730,7 @@ settings:
         value: true
         weight: 20
       volumes_lvm:
-        description: It is recommended to have at least one Storage - Cinder LVM node.
+        description: It is recommended to have at least one Cinder node.
         label: Cinder LVM over iSCSI for volumes
         restrictions:
         - settings:storage.volumes_ceph.value == true
@@ -662,10 +750,12 @@ settings:
         weight: 10
       password:
         type: password
-        value: AqEF1Aid1T5vGhP2WE7K5Yxx
+        value: XGIDfia8BI0htQlaMqvfyUnX
       tenant:
         type: text
         value: services
       user:
         type: text
         value: fuel_stats_user
+  
+
