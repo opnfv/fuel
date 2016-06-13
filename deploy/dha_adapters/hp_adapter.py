@@ -15,7 +15,7 @@ from common import (
     log,
 )
 
-DEV = {'pxe': 'bootsource5',
+DEV = {'pxe': 'bootsource4',
        'disk': 'bootsource3',
        'iso': 'bootsource1'}
 
