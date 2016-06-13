@@ -9,11 +9,11 @@
 
 dea-pod-override-config-metadata:
   title: 'Deployment Environment Adapter POD override for Development Pipeline - Default version'
-  version: '0.3'
-  created: 'Jan 26 2016'
-  comment: 'Rebased for Fuel8'
+  version: '0.4'
+  created: 'Jun 13 2016'
+  comment: 'Rebased for Fuel 9'
 environment:
-  name: MyVirtFuel8
+  name: MyVirtFuel9
 fuel:
   ADMIN_NETWORK:
     dhcp_pool_end: 10.20.0.254
@@ -23,7 +23,7 @@ fuel:
   DNS_DOMAIN: opnfv.org
   DNS_SEARCH: opnfv.org
   DNS_UPSTREAM: 8.8.8.8, 8.8.4.4
-  HOSTNAME: opnfv_virt
+  HOSTNAME: opnfv-virt
   NTP1: 0.ubuntu.pool.ntp.org
   NTP2: 1.ubuntu.pool.ntp.org
   NTP3: 2.ubuntu.pool.ntp.org
@@ -216,13 +216,16 @@ settings:
   editable:
     external_dns:
       dns_list:
-        description: List of upstream DNS servers, separated by comma
+        description: List of upstream DNS servers
         label: DNS list
+        max: 3
         regex:
-          error: Invalid IP address list
-          source: ^\*$|^(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3}(?:\s*,\s*(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3})*$
-        type: text
-        value: 8.8.8.8,8.8.4.4
+          error: Invalid IP address
+          source: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+        type: text_list
+        value:
+        - 8.8.8.8
+        - 8.8.4.4
         weight: 10
       metadata:
         group: network
@@ -234,13 +237,16 @@ settings:
         label: Host OS NTP Servers
         weight: 40
       ntp_list:
-        description: List of upstream NTP servers, separated by comma
+        description: List of upstream NTP servers
         label: NTP server list
         regex:
-          error: Invalid NTP server list
-          source: ^\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(?:\.\d{1,3}){3})\s*(?:,\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(\.\d{1,3}){3})\s*)*$
-        type: text
-        value: 0.ubuntu.pool.ntp.org,1.ubuntu.pool.ntp.org,2.ubuntu.pool.ntp.org
+          error: Invalid NTP server
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
+        type: text_list
+        value:
+        - 0.ubuntu.pool.ntp.org
+        - 1.ubuntu.pool.ntp.org
+        - 2.ubuntu.pool.ntp.org
         weight: 10
     syslog:
       metadata:
