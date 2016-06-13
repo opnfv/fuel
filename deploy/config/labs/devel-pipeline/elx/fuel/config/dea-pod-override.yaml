@@ -10,9 +10,9 @@
 
 dea-pod-override-config-metadata:
   title: 'Deployment Environment Adapter POD override for Development Pipeline - Ericsson ELX version'
-  version: '0.2'
-  created: 'Mon Jan 26 2016'
-  comment: 'Rebased for Fuel8'
+  version: '0.3'
+  created: 'Fri Jun 10 2016'
+  comment: 'Rebased for Fuel 9'
 environment:
   name: opnfv_virt
 interfaces_1:
@@ -71,9 +71,6 @@ fuel:
   DNS_DOMAIN: domain.tld
   DNS_SEARCH: domain.tld
   DNS_UPSTREAM: 147.214.6.234
-  FUEL_ACCESS:
-    password: admin
-    user: admin
   HOSTNAME: fuel
   NTP1: time1.ericsson.se
   NTP2: time2.ericsson.se
