@@ -2,7 +2,7 @@ dha-pod-config-metadata:
   title: Deployment Hardware Adapter (DHA) for fuel development pipeline - Ericsson ELX version
   version: 0.0.3
   created: Feb 2 2016
-  comment: ELX Fuel8 version
+  comment: ELX Fuel 9 version
 
 # Adapter to use for this definition
 adapter: libvirt
