@@ -164,7 +164,7 @@ settings:
         group: compute
         label: Hypervisor type
         type: radio
-        value: qemu
+        value: kvm
         values:
         - data: kvm
           description: Choose this type of hypervisor if you run OpenStack on hardware
