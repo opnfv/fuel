@@ -45,13 +45,13 @@ class IpmiAdapter(HardwareAdapter):
         SLEEP_TIME = 3
         log('Power ON Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
-        state = exec_cmd('%s chassis power status' % cmd_prefix)
+        state = exec_cmd('%s chassis power status' % cmd_prefix, hide_args=True)
         if state == 'Chassis Power is off':
-            exec_cmd('%s chassis power on' % cmd_prefix)
+            exec_cmd('%s chassis power on' % cmd_prefix, hide_args=True)
             done = False
             for i in range(WAIT_LOOP):
                 state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
-                                    False)
+                                    check=False, hide_args=True)
                 if state == 'Chassis Power is on':
                     done = True
                     break
@@ -65,13 +65,13 @@ class IpmiAdapter(HardwareAdapter):
         SLEEP_TIME = 3
         log('Power OFF Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
-        state = exec_cmd('%s chassis power status' % cmd_prefix)
+        state = exec_cmd('%s chassis power status' % cmd_prefix, hide_args=True)
         if state == 'Chassis Power is on':
             done = False
-            exec_cmd('%s chassis power off' % cmd_prefix)
+            exec_cmd('%s chassis power off' % cmd_prefix, hide_args=True)
             for i in range(WAIT_LOOP):
                 state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
-                                    False)
+                                    check=False, hide_args=True)
                 if state == 'Chassis Power is off':
                     done = True
                     break
@@ -84,14 +84,14 @@ class IpmiAdapter(HardwareAdapter):
         WAIT_LOOP = 600
         log('RESET Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
-        state = exec_cmd('%s chassis power status' % cmd_prefix)
+        state = exec_cmd('%s chassis power status' % cmd_prefix, hide_args=True)
         if state == 'Chassis Power is on':
             was_shut_off = False
             done = False
             exec_cmd('%s chassis power reset' % cmd_prefix)
             for i in range(WAIT_LOOP):
                 state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
-                                    False)
+                                    check=False, hide_args=True)
                 if state == 'Chassis Power is off':
                     was_shut_off = True
                 elif state == 'Chassis Power is on' and was_shut_off:
@@ -111,9 +111,9 @@ class IpmiAdapter(HardwareAdapter):
         for dev in boot_order_list:
             if dev == 'pxe':
                 exec_cmd('%s chassis bootdev pxe options=persistent'
-                         % cmd_prefix)
+                         % cmd_prefix, hide_args=True)
             elif dev == 'iso':
-                exec_cmd('%s chassis bootdev cdrom' % cmd_prefix)
+                exec_cmd('%s chassis bootdev cdrom' % cmd_prefix, hide_args=True)
             elif dev == 'disk':
                 exec_cmd('%s chassis bootdev disk options=persistent'
-                         % cmd_prefix)
+                         % cmd_prefix, hide_args=True)

@@ -37,7 +37,7 @@ out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
 os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
-def exec_cmd(cmd, check=True):
+def exec_cmd(cmd, check=True, hide_args=False):
     process = subprocess.Popen(cmd,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
@@ -45,6 +45,8 @@ def exec_cmd(cmd, check=True):
     (response, stderr) = process.communicate()
     return_code = process.returncode
     response = response.strip()
+    if hide_args:
+        cmd = cmd.split(' ')[0] + ' ...'
     if check:
         if return_code > 0:
             stderr = stderr.strip()
