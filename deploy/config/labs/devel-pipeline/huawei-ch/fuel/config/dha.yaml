@@ -1,8 +1,8 @@
 dha-pod-config-metadata:
   title: Deployment Hardware Adapter (DHA) for fuel development pipeline - default version
-  version: 0.0.3
-  created: Feb 2 2015
-  comment: Huawei-Ch Fuel8 version
+  version: 0.0.4
+  created: Jun 14 2016
+  comment: Huawei-Ch Fuel9 version
 
 # Adapter to use for this definition
 adapter: libvirt

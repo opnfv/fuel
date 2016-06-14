@@ -1,5 +1,6 @@
 ##############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
+# stefan.k.berg@ericsson.com
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -9,24 +10,11 @@
 
 dea-pod-override-config-metadata:
   title: 'Deployment Environment Adapter POD override for Development Pipeline - Huawei-China version'
-  version: '0.2'
-  created: 'Jan 26 2016'
-  comment: 'Rebased to Fuel8'
+  version: '0.3'
+  created: 'Jun 14 2016'
+  comment: 'Rebased for Fuel 9'
 environment:
-  name: MyVirtFuel8
-fuel:
-  ADMIN_NETWORK:
-    dhcp_pool_end: 10.20.0.254
-    dhcp_pool_start: 10.20.0.3
-    ipaddress: 10.20.0.2
-    netmask: 255.255.255.0
-  DNS_DOMAIN: opnfv.org
-  DNS_SEARCH: opnfv.org
-  DNS_UPSTREAM: 114.114.114.114
-  HOSTNAME: opnfv_virt
-  NTP1: 202.120.2.101
-  NTP2: 83.168.200.199
-  NTP3: 81.170.152.66
+  name: opnfv_virt
 interfaces_1:
   ens3:
   - fuelweb_admin
@@ -73,34 +61,25 @@ transformations_1:
   - action: add-port
     bridge: br-ex
     name: ens6
-transformations_2:
-  transformations:
-  - action: add-br
-    name: br-fw-admin
-  - action: add-br
-    name: br-mgmt
-  - action: add-br
-    name: br-storage
-  - action: add-br
-    name: br-mesh
-  - action: add-port
-    bridge: br-fw-admin
-    name: ens3
-  - action: add-port
-    bridge: br-mgmt
-    name: ens3.101
-  - action: add-port
-    bridge: br-storage
-    name: ens4.102
-  - action: add-port
-    bridge: br-mesh
-    name: ens5.103
+fuel:
+  ADMIN_NETWORK:
+    dhcp_pool_end: 10.20.0.254
+    dhcp_pool_start: 10.20.0.3
+    ipaddress: 10.20.0.2
+    netmask: 255.255.255.0
+    ssh_network: 10.20.0.0/24
+  DNS_DOMAIN: domain.tld
+  DNS_SEARCH: domain.tld
+  DNS_UPSTREAM: 114.114.114.114
+  HOSTNAME: fuel
+  NTP1: 0.fuel.pool.ntp.org
+  NTP2: 1.fuel.pool.ntp.org
+  NTP3: 2.fuel.pool.ntp.org
 network:
   networking_parameters:
     base_mac: fa:16:3e:00:00:00
     configuration_template: null
     dns_nameservers:
-    - 8.8.8.8
     - 114.114.114.114
     floating_name: admin_floating_net
     floating_ranges:
@@ -118,30 +97,6 @@ network:
     - 1000
     - 1030
   networks:
-  - cidr: 172.16.0.0/24
-    gateway: 172.16.0.1
-    ip_ranges:
-    - - 172.16.0.2
-      - 172.16.0.126
-    meta:
-      cidr: 172.16.0.0/24
-      configurable: true
-      floating_range_var: floating_ranges
-      ip_range:
-      - 172.16.0.2
-      - 172.16.0.126
-      map_priority: 1
-      name: public
-      notation: ip_ranges
-      render_addr_mask: public
-      render_type: null
-      use_gateway: true
-      vips:
-      - haproxy
-      - vrouter
-      vlan_start: null
-    name: public
-    vlan_start: null
   - cidr: 192.168.1.0/24
     gateway: null
     ip_ranges:
@@ -197,6 +152,30 @@ network:
       vlan_start: 103
     name: private
     vlan_start: 103
+  - cidr: 172.16.0.0/24
+    gateway: 172.16.0.1
+    ip_ranges:
+    - - 172.16.0.2
+      - 172.16.0.126
+    meta:
+      cidr: 172.16.0.0/24
+      configurable: true
+      floating_range_var: floating_ranges
+      ip_range:
+      - 172.16.0.2
+      - 172.16.0.126
+      map_priority: 1
+      name: public
+      notation: ip_ranges
+      render_addr_mask: public
+      render_type: null
+      use_gateway: true
+      vips:
+      - haproxy
+      - vrouter
+      vlan_start: null
+    name: public
+    vlan_start: null
   - cidr: 10.20.0.0/24
     gateway: 10.20.0.2
     ip_ranges:
@@ -216,13 +195,15 @@ settings:
   editable:
     external_dns:
       dns_list:
-        description: List of upstream DNS servers, separated by comma
+        description: List of upstream DNS servers
         label: DNS list
+        max: 3
         regex:
-          error: Invalid IP address list
-          source: ^\*$|^(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3}(?:\s*,\s*(?:\d|1?\d\d|2[0-4]\d|25[0-5])(?:\.(?:\d|1?\d\d|2[0-4]\d|25[0-5])){3})*$
-        type: text
-        value: 114.114.114.114, 8.8.8.8, 8.8.4.4
+          error: Invalid IP address
+          source: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+        type: text_list
+        value:
+        - 114.114.114.114
         weight: 10
       metadata:
         group: network
@@ -234,13 +215,16 @@ settings:
         label: Host OS NTP Servers
         weight: 40
       ntp_list:
-        description: List of upstream NTP servers, separated by comma
+        description: List of upstream NTP servers
         label: NTP server list
         regex:
-          error: Invalid NTP server list
-          source: ^\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(?:\.\d{1,3}){3})\s*(?:,\s*(?:(?:\w+(?:-+\w+)*\.)+[a-z]+|\d{1,3}(\.\d{1,3}){3})\s*)*$
-        type: text
-        value: 202.120.2.101, 81.170.152.66, 83.168.200.199
+          error: Invalid NTP server
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
+        type: text_list
+        value:
+        - 0.fuel.pool.ntp.org
+        - 1.fuel.pool.ntp.org
+        - 2.fuel.pool.ntp.org
         weight: 10
     syslog:
       metadata:
@@ -279,3 +263,4 @@ settings:
           description: ''
           label: TCP
         weight: 30
+
