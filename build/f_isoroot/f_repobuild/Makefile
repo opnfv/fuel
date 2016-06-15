@@ -12,6 +12,7 @@ SHELL := /bin/bash
 TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 # Enable use of exact repo commit if defined, else use Fuel main branch
+FUEL_MIRROR_REPO?=https://github.com/openstack/fuel-mirror
 FUEL_MIRROR_COMMIT?=$(FUEL_MAIN_TAG)
 
 include ../../config.mk
@@ -26,7 +27,7 @@ nailgun:
 	sudo apt-get install -y git libxml2-dev libxslt-dev python-dev  python-pip libz-dev libyaml-dev createrepo python-yaml
 	rm -Rf nailgun
 	sudo mkdir -p /var/www/nailgun
-	git clone https://github.com/openstack/fuel-mirror
+	git clone $(FUEL_MIRROR_REPO)
 	cd fuel-mirror && git checkout -q $(FUEL_MIRROR_COMMIT)
 	sudo pip install -U -r ./fuel-mirror/requirements.txt
 	sudo pip install ./fuel-mirror
