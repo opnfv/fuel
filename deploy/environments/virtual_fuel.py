@@ -25,6 +25,16 @@ class VirtualFuel(ExecutionEnvironment):
     def __init__(self, storage_dir, pxe_bridge, dha_file, root_dir):
         super(VirtualFuel, self).__init__(storage_dir, dha_file, root_dir)
         self.pxe_bridge = pxe_bridge
+        self.temp_dir = tempfile.mkdtemp()
+        self.vm_name = self.dha.get_node_property(self.fuel_node_id,
+                                                  'libvirtName')
+        self.vm_template = '%s/%s' % (self.root_dir,
+                                      self.dha.get_node_property(
+                                          self.fuel_node_id, 'libvirtTemplate'))
+        check_file_exists(self.vm_template)
+
+    def __del__(self):
+        delete(self.temp_dir)
 
     def set_vm_nic(self, temp_vm_file):
         with open(temp_vm_file) as f:
@@ -45,24 +55,21 @@ class VirtualFuel(ExecutionEnvironment):
         with open(temp_vm_file, 'w') as f:
             vm_xml.write(f, pretty_print=True, xml_declaration=True)
 
+    def create_image(self, disk_path, disk_size):
+        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+
     def create_vm(self):
-        temp_dir = tempfile.mkdtemp()
-        vm_name = self.dha.get_node_property(self.fuel_node_id, 'libvirtName')
-        vm_template = '%s/%s' % (self.root_dir,
-                                 self.dha.get_node_property(
-                                     self.fuel_node_id, 'libvirtTemplate'))
-        check_file_exists(vm_template)
-        disk_path = '%s/%s.raw' % (self.storage_dir, vm_name)
+        disk_path = '%s/%s.raw' % (self.storage_dir, self.vm_name)
         disk_sizes = self.dha.get_disks()
         disk_size = disk_sizes['fuel']
-        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
-        temp_vm_file = '%s/%s' % (temp_dir, vm_name)
-        exec_cmd('cp %s %s' % (vm_template, temp_vm_file))
+        self.create_image(disk_path, disk_size)
+
+        temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
+        exec_cmd('cp %s %s' % (self.vm_template, temp_vm_file))
         self.set_vm_nic(temp_vm_file)
         vm_definition_overwrite = self.dha.get_vm_definition('fuel')
-        self.define_vm(vm_name, temp_vm_file, disk_path,
+        self.define_vm(self.vm_name, temp_vm_file, disk_path,
                        vm_definition_overwrite)
-        delete(temp_dir)
 
     def setup_environment(self):
         check_if_root()
