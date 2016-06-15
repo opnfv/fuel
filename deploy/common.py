@@ -16,6 +16,7 @@ import argparse
 import shutil
 import stat
 import errno
+import time
 
 N = {'id': 0, 'status': 1, 'name': 2, 'cluster': 3, 'ip': 4, 'mac': 5,
      'roles': 6, 'pending_roles': 7, 'online': 8, 'group_id': 9}
@@ -37,13 +38,22 @@ out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
 os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
-def exec_cmd(cmd, check=True):
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               shell=True)
-    (response, stderr) = process.communicate()
-    return_code = process.returncode
+def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False):
+    # a negative value means forever
+    while attempts != 0:
+        attempts = attempts - 1
+        process = subprocess.Popen(cmd,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   shell=True)
+        (response, stderr) = process.communicate()
+        return_code = process.returncode
+        if return_code == 0 or attempts == 0:
+            break
+        time.sleep(delay)
+        if verbose:
+            log('%d attempts left: %s' % (attempts, cmd))
+
     response = response.strip()
     if check:
         if return_code > 0:
