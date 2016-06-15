@@ -29,7 +29,7 @@ release:.odlbuild
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo gem install fpm
+	sudo gem query -i -n fpm >/dev/null 2>&1 || sudo gem install fpm
 	#Temporary fpb needs to be build from sources
 	git clone -b $(FPB_BRANCH) $(FPB_REPO)
 	cd fuel-plugins; \
