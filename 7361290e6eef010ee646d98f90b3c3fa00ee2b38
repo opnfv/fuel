@@ -16,6 +16,24 @@
       "revId": "7361290e6eef010ee646d98f90b3c3fa00ee2b38",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1d95e53f",
+        "filename": "deploy/README",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-06-16T06:49:23Z",
+      "side": 1,
+      "message": "pip pyyaml needs a header file (yaml.h), which is in libyaml-dev",
+      "parentUuid": "5a7ca5a3_ddf0cdcb",
+      "revId": "7361290e6eef010ee646d98f90b3c3fa00ee2b38",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
