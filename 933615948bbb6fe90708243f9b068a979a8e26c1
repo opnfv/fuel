@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_98602337",
+        "filename": "deploy/common.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-06-16T12:35:53Z",
+      "side": 1,
+      "message": "knowing the exact position of the argument might be a bit cumbersome, and it will not work if arguments have whitespaces, like -p \"my password has spaces in it\".\n\nWould it make sense to mask certain strings instead?\n exec_cmd(..., mask\u003d[\"mypassword\",\"myip\"])\n\nthen just plain replace those in the cmd string...\nalthough this suggestion is prone to false positives...",
+      "range": {
+        "startLine": 54,
+        "startChar": 67,
+        "endLine": 54,
+        "endChar": 78
+      },
+      "revId": "933615948bbb6fe90708243f9b068a979a8e26c1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
