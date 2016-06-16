@@ -326,13 +326,6 @@ class Reap(object):
         self.finale()
 
 
-def usage():
-    print '''
-    Usage:
-    python reap.py <dea_file> <dha_file> <comment>
-    '''
-
-
 def parse_arguments():
     parser = ArgParser(prog='python %s' % __file__)
     parser.add_argument('dea_file', nargs='?', action='store',
