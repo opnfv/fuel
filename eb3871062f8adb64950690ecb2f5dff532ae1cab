@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b894ff37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-06-16T12:01:09Z",
+      "side": 1,
+      "message": "ipmitool :)",
+      "revId": "eb3871062f8adb64950690ecb2f5dff532ae1cab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
