@@ -37,7 +37,7 @@ if os.path.isfile(LOGFILE):
 out_handler = logging.FileHandler(LOGFILE, mode='w')
 out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
-os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+os.chmod(LOGFILE, 0664)
 
 
 def mask_arguments(cmd, mask_args, mask_str):
