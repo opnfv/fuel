@@ -63,6 +63,7 @@ class IpmiAdapter(HardwareAdapter):
 
         attempts = self.attempts
         while attempts:
+            time.sleep(self.delay)
             state = self.node_get_state(node_id)
             attempts -= 1
             if state == expected:
