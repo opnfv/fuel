@@ -49,7 +49,8 @@ class IpmiAdapter(HardwareAdapter):
     def node_get_state(self, node_id):
         state = exec_cmd('%s chassis power status' % self.ipmi_cmd(node_id),
                          attempts=self.attempts, delay=self.delay,
-                         verbose=True)
+                         verbose=True,
+                         mask_args=[8,10])
         return state
 
     def _node_power_cmd(self, node_id, cmd):
@@ -59,7 +60,8 @@ class IpmiAdapter(HardwareAdapter):
 
         pow_cmd = '%s chassis power %s' % (self.ipmi_cmd(node_id), cmd)
         exec_cmd(pow_cmd, attempts=self.attempts, delay=self.delay,
-                 verbose=True)
+                 verbose=True,
+                 mask_args=[8,10])
 
         attempts = self.attempts
         while attempts:
@@ -70,7 +72,7 @@ class IpmiAdapter(HardwareAdapter):
             elif attempts != 0:
                 # reinforce our will, but allow the command to fail,
                 # we know our message got across once already...
-                exec_cmd(pow_cmd, check=False)
+                exec_cmd(pow_cmd, check=False, mask_args=[8,10])
 
         err('Could not set chassis %s for node %s' % (cmd, node_id))
 
@@ -85,7 +87,9 @@ class IpmiAdapter(HardwareAdapter):
     def node_reset(self, node_id):
         log('RESET Node %s' % node_id)
         cmd = '%s chassis power reset' % self.ipmi_cmd(node_id)
-        exec_cmd(cmd, attempts=self.attempts, delay=self.delay, verbose=True)
+        exec_cmd(cmd, attempts=self.attempts, delay=self.delay,
+                 verbose=True,
+                 mask_args=[8,10])
 
     def node_set_boot_order(self, node_id, boot_order_list):
         log('Set boot order %s on Node %s' % (boot_order_list, node_id))
@@ -95,11 +99,15 @@ class IpmiAdapter(HardwareAdapter):
             if dev == 'pxe':
                 exec_cmd('%s chassis bootdev pxe options=persistent'
                          % cmd_prefix, attempts=self.attempts, delay=self.delay,
-                         verbose=True)
+                         verbose=True,
+                         mask_args=[8,10])
             elif dev == 'iso':
                 exec_cmd('%s chassis bootdev cdrom' % cmd_prefix,
-                         attempts=self.attempts, delay=self.delay, verbose=True)
+                         attempts=self.attempts, delay=self.delay,
+                         verbose=True,
+                         mask_args=[8,10])
             elif dev == 'disk':
                 exec_cmd('%s chassis bootdev disk options=persistent'
                          % cmd_prefix, attempts=self.attempts, delay=self.delay,
-                         verbose=True)
+                         verbose=True,
+                         mask_args=[8,10])
