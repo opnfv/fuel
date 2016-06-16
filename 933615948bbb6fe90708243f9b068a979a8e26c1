@@ -22,6 +22,30 @@
       "revId": "933615948bbb6fe90708243f9b068a979a8e26c1",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_385b0f56",
+        "filename": "deploy/common.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-06-16T13:31:24Z",
+      "side": 1,
+      "message": "Yes, I was thinking about embedded spaces but there\u0027s no perfect solution to this.\n\nPersonally, I\u0027m more concerned about false positives than embedded spaces, but if you guys think it should be strings and not positions, I\u0027ll rewrite it.",
+      "parentUuid": "5a7ca5a3_98602337",
+      "range": {
+        "startLine": 54,
+        "startChar": 67,
+        "endLine": 54,
+        "endChar": 78
+      },
+      "revId": "933615948bbb6fe90708243f9b068a979a8e26c1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
