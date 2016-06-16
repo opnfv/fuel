@@ -1,6 +1,7 @@
 ###############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # szilard.cserey@ericsson.com
+# peter.barabas@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -38,7 +39,21 @@ out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
 os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
 
-def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False):
+
+def mask_arguments(cmd, mask_args, mask_str):
+    cmd_line = cmd.split()
+    for pos in mask_args:
+        # Don't mask the actual command; also check if we don't reference
+        # beyond bounds
+        if pos == 0 or pos >= len(cmd_line):
+            continue
+        cmd_line[pos] = mask_str
+    return ' '.join(cmd_line)
+
+
+def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False, mask_args=[], mask_str='*****'):
+    masked_cmd = mask_arguments(cmd, mask_args, mask_str)
+
     # a negative value means forever
     while attempts != 0:
         attempts = attempts - 1
@@ -52,18 +67,18 @@ def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False):
             break
         time.sleep(delay)
         if verbose:
-            log('%d attempts left: %s' % (attempts, cmd))
+            log('%d attempts left: %s' % (attempts, masked_cmd))
 
     response = response.strip()
     if check:
         if return_code > 0:
             stderr = stderr.strip()
-            print "Failed command: " + str(cmd)
+            print "Failed command: " + str(masked_cmd)
             print "Command returned response: " + str(stderr)
             print "Command return code: " + str(return_code)
             raise Exception(stderr)
         else:
-            print "Command: " + str(cmd)
+            print "Command: " + str(masked_cmd)
             print str(response)
             return response
     return response, return_code
