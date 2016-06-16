@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_ddf0cdcb",
+        "filename": "deploy/README",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-06-16T06:35:41Z",
+      "side": 1,
+      "message": "Hi Peter! Just a question.\n\nI just noted that on my test testup (Ubuntu 14.04)  I don\u0027t have libyaml-dev installed, but libyaml-0-2.\n\nI do have python-yaml installed though from the base Ubuntu repos and that has a dependency to libyaml-0-2.\n\nBelow pyaml is pip installed instead I see, so I guess that\u0027s why it\u0027s the libyaml-dev package that\u0027s needed?\n\nAnd as a short explanation, libyaml-dev has a package dependency to libyaml-0-2. The latter provides the versioned so-files, the former install the non-versioned symlink).",
+      "revId": "7361290e6eef010ee646d98f90b3c3fa00ee2b38",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
