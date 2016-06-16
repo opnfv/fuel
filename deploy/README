@@ -84,41 +84,41 @@ optional arguments:
   -np                   Do not install Fuel Plugins
   -dt DEPLOY_TIMEOUT    Deployment timeout (in minutes) [default: 240]
   -nde                  Do not launch environment deployment
-
+  -log [LOG_FILE]      Deployment log path and file name
 
 * EXAMPLES:
 
 - Install Fuel Master and deploy OPNFV Cloud from scratch on Hardware Environment:
 
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr -log ~/Deployment-888.log.tar.gz
 
 
 - Install Fuel Master and deploy OPNFV Cloud from scratch on Virtual Environment:
 
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images -log ~/Deployment-888.log.tar.gz
 
 
 - Deploy OPNFV Cloud on an already active Environment where Fuel Master VM is running so no need to install Fuel again:
 
-    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml
+    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -log ~/Deployment-888.log.tar.gz
 
     => with plugin installation
-    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml
+    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -log ~/Deployment-888.log.tar.gz
 
     => with cleanup after deployment is finished
-    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -c
+    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -c -log ~/Deployment-888.log.tar.gz
 
     => no healthcheck after deployment is completed
-    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -nh
+    sudo python deploy.py -nf -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -nh -log ~/Deployment-888.log.tar.gz
 
 
 - Install Fuel Master only (and Node VMs when using virtual environment):
 
     => for virtual environment:
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/virtual/dea.yaml -dha ~/CONF/virtual/dha.yaml -s /mnt/images -log ~/Deployment-888.log.tar.gz
 
     => for hardware environment:
-    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr
+    sudo python deploy.py -iso ~/ISO/opnfv.iso -dea ~/CONF/hardware/dea.yaml -dha ~/CONF/hardware/dha.yaml -s /mnt/images -b pxebr -log ~/Deployment-888.log.tar.gz
 
 
 - Cleanup a running OPNFV environment:
