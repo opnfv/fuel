@@ -36,7 +36,7 @@ if os.path.isfile(LOGFILE):
 out_handler = logging.FileHandler(LOGFILE, mode='w')
 out_handler.setFormatter(formatter)
 LOG.addHandler(out_handler)
-os.chmod(LOGFILE, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+os.chmod(LOGFILE, 0664)
 
 def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False):
     # a negative value means forever
