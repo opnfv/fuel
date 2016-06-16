@@ -27,14 +27,15 @@ class ZteAdapter(IpmiAdapter):
         WAIT_LOOP = 600
         log('RESET Node %s' % node_id)
         cmd_prefix = self.ipmi_cmd(node_id)
-        state = exec_cmd('%s chassis power status' % cmd_prefix)
+        state = exec_cmd('%s chassis power status' % cmd_prefix, mask_args=[8,10])
         if state == 'Chassis Power is on':
             was_shut_off = False
             done = False
-            exec_cmd('%s chassis power cycle' % cmd_prefix)
+            exec_cmd('%s chassis power cycle' % cmd_prefix, mask_args=[8,10])
             for i in range(WAIT_LOOP):
                 state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
-                                    False)
+                                    check=False,
+                                    mask_args=[8,10])
                 if state == 'Chassis Power is off':
                     was_shut_off = True
                 elif state == 'Chassis Power is on' and was_shut_off:
