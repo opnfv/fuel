@@ -109,9 +109,9 @@ $(ISOCACHE):
 		cd /tmp && git clone $(FUEL_MAIN_REPO); \
 	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
-	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
-	# Patch for using the Czech Fuel mirror
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/repo-mirror-cz.patch
+	@echo "fuel" `git -C /tmp/fuel-main rev-parse HEAD` >> $(VERSION_FILE)
+	# Patch for using the Czech Fuel mirror (non-committed)
+	cd /tmp/fuel-main && git apply $(TOPDIR)/repo-mirror-cz.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
@@ -135,13 +135,10 @@ $(ISOCACHE):
 	# OPNFV patches at Fuel build time
 	# Need to be commited in order for them to be considered by the Fuel
 	# build system
-	cd /tmp/fuel-main/iso && git config user.name "Fuel OPNFV"
-	cd /tmp/fuel-main/iso && git config user.email "fuel@opnfv.org"
-	cd /tmp/fuel-main/iso && patch -p0 < $(TOPDIR)/bootstrap_admin_node.sh.patch
-	cd /tmp/fuel-main/iso && git add -u bootstrap_admin_node.sh
-	cd /tmp/fuel-main/iso/isolinux && patch -p0 <  $(TOPDIR)/isolinux.cfg.patch
-	cd /tmp/fuel-main/iso/isolinux && git add -u isolinux.cfg
-	cd /tmp/fuel-main/iso && git commit -m "Added OPNFV patches"
+	cd /tmp/fuel-main && git config user.name "Fuel OPNFV"
+	cd /tmp/fuel-main && git config user.email "fuel@opnfv.org"
+	cd /tmp/fuel-main && git am $(TOPDIR)/bootstrap_admin_node.sh.patch
+	cd /tmp/fuel-main && git am $(TOPDIR)/isolinux.cfg.patch
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
