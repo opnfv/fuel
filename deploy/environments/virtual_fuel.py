@@ -123,7 +123,7 @@ class VirtualFuel(ExecutionEnvironment):
 
         temp_vm_file = '%s/%s' % (self.temp_dir, self.vm_name)
         exec_cmd('cp %s %s' % (self.vm_template, temp_vm_file))
-        self.set_vm_nic(temp_vm_file)
+        self.set_vm_nic()
         vm_definition_overwrite = self.dha.get_vm_definition('fuel')
         self.define_vm(self.vm_name, temp_vm_file, disk_path,
                        vm_definition_overwrite)
