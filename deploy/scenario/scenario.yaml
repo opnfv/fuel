@@ -46,6 +46,12 @@ os-odl_l2-nofeature-ha:
 os-odl_l2-nofeature-noha:
   configfile: no-ha_odl-l2_heat_ceilometer_scenario.yaml
 
+os-onos-nofeature-ha:
+  configfile: ha_onos_nofeature_heat_ceilometer_scenario.yaml
+
+os-onos-nofeature-noha:
+  configfile: no-ha_onos_nofeature_heat_ceilometer_scenario.yaml
+
 os-onos-sfc-ha:
   configfile: ha_onos_sfc_heat_ceilometer_scenario.yaml 
 
