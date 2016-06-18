@@ -30,7 +30,7 @@ RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC
 # Keeping PWD is needed to build as root
 RUN echo "Defaults env_keep += \"PWD\"" > /etc/sudoers.d/keep-pwd
 # Keeping variables for ISO build
-RUN echo "Defaults env_keep += \"MIRROR_UBUNTU MIRROR_UBUNTU_ROOT MIRROR_MOS_UBUNTU MIRROR_MOS_UBUNTU_ROOT MIRROR_FUEL LATEST_TARGET_UBUNTU\"" > /etc/sudoers.d/keep-mos
+RUN echo "Defaults env_keep += \"MIRROR_UBUNTU MIRROR_UBUNTU_ROOT MIRROR_MOS_UBUNTU MIRROR_MOS_UBUNTU_ROOT MIRROR_FUEL LATEST_TARGET_UBUNTU UBUNTU_ARCH\"" > /etc/sudoers.d/keep-mos
 RUN chmod 0440 /etc/sudoers.d/open-sudo
 RUN chmod 0440 /etc/sudoers.d/keep-proxies
 RUN chmod 0440 /etc/sudoers.d/keep-pwd

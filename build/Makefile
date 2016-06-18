@@ -135,6 +135,7 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && git am $(TOPDIR)/bootstrap_admin_node.sh.patch
 	cd /tmp/fuel-main && git am $(TOPDIR)/isolinux.cfg.patch
 	cd /tmp/fuel-main/build/repos/fuel-nailgun && git am $(TOPDIR)/Mark-Intel-82599-10-Gigabit-NIC-as-DPDK-capable.patch
+	cd /tmp/fuel-main && git am $(TOPDIR)/repo-multi-arch-local-mirrors.patch
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
