@@ -20,8 +20,8 @@ from common import (
 
 class ZteAdapter(IpmiAdapter):
 
-    def __init__(self, yaml_path):
-        super(ZteAdapter, self).__init__(yaml_path)
+    def __init__(self, yaml_path, attempts=100):
+        super(ZteAdapter, self).__init__(yaml_path, attempts)
 
     def node_reset(self, node_id):
         WAIT_LOOP = 600
