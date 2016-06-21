@@ -22,18 +22,21 @@ all: .ovsbuild
 
 .PHONY: clean
 clean:
+	sudo rm -rf /home/jenkins/opnfv/slave_root/workspace/fuel-verify-build-master/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/fuel-plugin-ovs/ovs-nsh/ovn-host_2.5.90-1.nsh_amd64.deb
 	@rm -f .ovsbuild ../release/opnfv/fuel-plugin-ovs-*.rpm fuel-plugin-ovs-*.rpm
 	@rm -f $(BUILD_BASE)/gitinfo_ovs-nsh-dpdk-plugin.txt gitinfo_ovs-nsh-dpdk-plugin.txt
 
 .PHONY: release
 release:.ovsbuild
+	sudo rm -rf /home/jenkins/opnfv/slave_root/workspace/fuel-verify-build-master/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/fuel-plugin-ovs/ovs-nsh/ovn-host_2.5.90-1.nsh_amd64.deb
 	@rm -f ../release/opnfv/fuel-plugin-ovs-*.rpm
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-ovs*.rpm ../release/opnfv/
 	cp gitinfo_ovs-nsh-dpdk-plugin.txt $(BUILD_BASE)
 
 .ovsbuild:
-	@rm -rf fuel-plugin-ovs
+	sudo rm -rf /home/jenkins/opnfv/slave_root/workspace/fuel-verify-build-master/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/fuel-plugin-ovs/ovs-nsh/ovn-host_2.5.90-1.nsh_amd64.deb
+	@sudo rm -rf fuel-plugin-ovs
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 	sudo pip install fuel-plugin-builder
 	../../docker/ubuntu-builder/install_docker.sh
@@ -74,6 +77,7 @@ release:.ovsbuild
 # Clean local data related to caching - called prior to ordinary build
 .PHONY: clean-cache
 clean-cache: clean
+	sudo rm -rf /home/jenkins/opnfv/slave_root/workspace/fuel-verify-build-master/build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/fuel-plugin-ovs/ovs-nsh/ovn-host_2.5.90-1.nsh_amd64.deb
 	@rm -f .cachedata .cacheid
 
 # Try to download cache - called prior to ordinary build
