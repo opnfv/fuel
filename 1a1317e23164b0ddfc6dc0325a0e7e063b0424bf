@@ -22,6 +22,30 @@
       "revId": "1a1317e23164b0ddfc6dc0325a0e7e063b0424bf",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_603ea9ba",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-06-21T13:29:24Z",
+      "side": 1,
+      "message": "I just transformed one patch format to another :)\nThis change is coming from OPNFV, unless I did something wrong in this patch (?).",
+      "parentUuid": "5a7ca5a3_003495dc",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 22
+      },
+      "revId": "1a1317e23164b0ddfc6dc0325a0e7e063b0424bf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
