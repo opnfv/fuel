@@ -33,7 +33,7 @@ release:.ovsbuild
 	cp gitinfo_ovs-nsh-dpdk-plugin.txt $(BUILD_BASE)
 
 .ovsbuild:
-	@rm -rf fuel-plugin-ovs
+	@sudo rm -rf fuel-plugin-ovs
 	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 	sudo pip install fuel-plugin-builder
 	../../docker/ubuntu-builder/install_docker.sh
