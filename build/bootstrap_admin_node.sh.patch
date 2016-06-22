@@ -10,7 +10,7 @@ index 3197c91..e035145 100755
 @@ -339,8 +339,22 @@ fuelmenu --save-only --iface=$ADMIN_INTERFACE || fail
  set +x
  echo "Done!"
- 
+
 +### OPNFV addition BEGIN
 +shopt -s nullglob
 +for script in /opt/opnfv/bootstrap/pre.d/*.sh
@@ -34,31 +34,31 @@ index 3197c91..e035145 100755
 @@ -360,9 +374,10 @@ else
    fi
  fi
- 
+
 +# OPNFV: Disabled to speedup installation in offline env.
  # Enable online base MOS repos (security, updates) if we run an ISO installation
 -[ -f /etc/fuel_build_id ] && \
 -  yum-config-manager --enable mos${FUEL_RELEASE}-security mos${FUEL_RELEASE}-updates --save
 +#[ -f /etc/fuel_build_id ] && \
 +#  yum-config-manager --enable mos${FUEL_RELEASE}-security mos${FUEL_RELEASE}-updates --save
- 
+
  if [ ! -f "${ASTUTE_YAML}" ]; then
    echo ${fuelmenu_fail_message}
 @@ -377,9 +392,7 @@ if [ ! -f /etc/fuel_build_id ]; then
  [ ! -f /etc/fuel_build_id ] && \
    sed -i "s|127.0.0.1:8080/ubuntu/x86_64|mirror.fuel-infra.org/mos-repos/ubuntu/${FUEL_RELEASE}|g" "${ASTUTE_YAML}"
- 
+
 -# Enable sshd
 -systemctl enable sshd
 -systemctl start sshd
 +systemctl reload sshd
- 
+
  # Enable iptables
  systemctl enable iptables.service
 @@ -532,6 +545,16 @@ systemctl start ntpd
- 
+
  bash /etc/rc.local
- 
+
 +### OPNFV addition BEGIN
 +shopt -s nullglob
 +for script in /opt/opnfv/bootstrap/post.d/*.sh
@@ -71,4 +71,15 @@ index 3197c91..e035145 100755
 +
  if [ "`get_bootstrap_skip`" = "False" ]; then
    build_ubuntu_bootstrap bs_status || true
+ else
+@@ -571,8 +571,8 @@
+ fi
+
+ #Check if repo is accessible
+-echo "Checking for access to updates repository..."
+-repourl=$(yum repolist all -v | awk '{if ($1 ~ "baseurl" && $3 ~ "updates") print $3}' | head -1)
++echo "Checking for access to updates repository/mirrorlist..."
++repourl=$(yum repolist all -v | awk '{if ($1 ~ "baseurl|mirrors" && $3 ~ "updates") print $3}' | head -1)
+ if urlaccesscheck check "$repourl" ; then
+   UPDATE_ISSUES=0
  else
