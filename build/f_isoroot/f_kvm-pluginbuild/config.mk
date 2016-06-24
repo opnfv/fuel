@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-QEMU_BRANCH=c35ce3377bcf382a4e36f1df49758100cd2910b1
-QEMU_REPO=https://review.openstack.org/openstack/fuel-plugin-qemu
-QEMU_CHANGE=
+KVMFORNFV_BRANCH=c715b6029fd5b4eaf323f5efde4ec5db5ba0a9b4
+KVMFORNFV_REPO=https://gerrit.opnfv.org/gerrit/kvmfornfv
+KVMFORNFV_CHANGE=
