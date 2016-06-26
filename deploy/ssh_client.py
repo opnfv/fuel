@@ -1,6 +1,7 @@
 ###############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # szilard.cserey@ericsson.com
+# peter.barabas@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -85,14 +86,18 @@ class SSHClient(object):
 
     def scp_get(self, remote, local='.', dir=False):
         try:
-            with scp.SCPClient(self.client.get_transport(), sanitize=lambda x: x) as _scp:
+            with scp.SCPClient(self.client.get_transport(),
+                               sanitize=lambda x: x,
+                               socket_timeout=TIMEOUT) as _scp:
                 _scp.get(remote, local, dir)
         except Exception as e:
             err(e)
 
     def scp_put(self, local, remote='.', dir=False):
         try:
-            with scp.SCPClient(self.client.get_transport(), sanitize=lambda x: x) as _scp:
+            with scp.SCPClient(self.client.get_transport(),
+                               sanitize=lambda x: x,
+                               socket_timeout=TIMEOUT) as _scp:
                 _scp.put(local, remote, dir)
         except Exception as e:
             err(e)
