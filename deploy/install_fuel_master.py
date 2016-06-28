@@ -156,13 +156,12 @@ class InstallFuelMaster(object):
     def wait_until_fuel_menu_up(self):
         WAIT_LOOP = 60
         SLEEP_TIME = 10
-        CMD = 'ps -ef'
-        SEARCH = 'fuelmenu'
+        CMD = 'pgrep -f fuelmenu'
         fuel_menu_pid = None
         with self.ssh:
             for i in range(WAIT_LOOP):
                 ret = self.ssh.exec_cmd(CMD)
-                fuel_menu_pid = self.get_fuel_menu_pid(ret, SEARCH)
+                fuel_menu_pid = ret.strip()
                 if not fuel_menu_pid:
                     time.sleep(SLEEP_TIME)
                 else:
@@ -170,11 +169,6 @@ class InstallFuelMaster(object):
         if not fuel_menu_pid:
             raise Exception('Could not find the Fuel Menu Process ID')
         return fuel_menu_pid
-
-    def get_fuel_menu_pid(self, printout, search):
-        for line in printout.splitlines():
-            if line.endswith(search):
-                return clean(line)[1]
 
     def ssh_exec_cmd(self, cmd, check=True):
         with self.ssh:
@@ -198,7 +192,7 @@ class InstallFuelMaster(object):
     def wait_until_installation_completed(self):
         WAIT_LOOP = 360
         SLEEP_TIME = 10
-        CMD = 'ps -ef | grep %s | grep -v grep' % BOOTSTRAP_ADMIN
+        CMD = 'pgrep -f %s' % BOOTSTRAP_ADMIN
 
         install_completed = False
         with self.ssh:
