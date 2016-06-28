@@ -13,7 +13,9 @@ TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 # Enable use of exact repo commit if defined, else use Fuel main branch
 FUEL_MIRROR_REPO?=https://github.com/openstack/fuel-mirror
-FUEL_MIRROR_COMMIT?=$(FUEL_MAIN_TAG)
+# Point to the commit where 302 redirects are handled
+# https://bugs.launchpad.net/fuel/mitaka/+bug/1593674
+FUEL_MIRROR_COMMIT?=192a3d9f8f993afb12c5108dd9339c6688c23e11 #$(FUEL_MAIN_TAG)
 
 include ../../config.mk
 
