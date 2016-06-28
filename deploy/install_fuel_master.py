@@ -198,7 +198,7 @@ class InstallFuelMaster(object):
     def wait_until_installation_completed(self):
         WAIT_LOOP = 360
         SLEEP_TIME = 10
-        CMD = 'ps -ef | grep %s | grep -v grep' % BOOTSTRAP_ADMIN
+        CMD = 'pgrep -f %s' % BOOTSTRAP_ADMIN
 
         install_completed = False
         with self.ssh:
