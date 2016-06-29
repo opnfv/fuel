@@ -35,9 +35,6 @@ release:.bgpvpnbuild
 
 .bgpvpnbuild:
 	rm -rf fuel-plugin-bgpvpn
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo gem install fpm
-	sudo pip install fuel-plugin-builder
 	git clone $(BGPVPN_REPO)
 	cd fuel-plugin-bgpvpn; \
 	git checkout $(BGPVPN_BRANCH); \

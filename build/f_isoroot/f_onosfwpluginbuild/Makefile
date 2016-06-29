@@ -34,8 +34,6 @@ release:.onosbuild
 
 .onosbuild:
 	@rm -rf fuel-plugin-onos
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo pip install fuel-plugin-builder
 	git clone $(ONOS_REPO)
 	cd fuel-plugin-onos; \
 	git checkout $(ONOS_BRANCH); \

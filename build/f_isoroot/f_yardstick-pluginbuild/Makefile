@@ -35,8 +35,6 @@ release:.yardstickbuild
 
 .yardstickbuild:
 	@rm -rf yardstick
-	sudo apt-get -y install build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
-	sudo pip install fuel-plugin-builder
 	git clone $(YARDSTICK_REPO) yardstick
 	cd yardstick; \
 	git checkout $(YARDSTICK_BRANCH); \
