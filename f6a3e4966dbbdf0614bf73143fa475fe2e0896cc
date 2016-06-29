@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b9b07bde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 50
+      },
+      "writtenOn": "2016-06-29T09:42:35Z",
+      "side": 1,
+      "message": "I\u0027m ok with this as long as support OVS-DPDK remains in coloardo through Fuel 9. Just documenting that concern here even though Ruijing has told me this is the case :)",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "f6a3e4966dbbdf0614bf73143fa475fe2e0896cc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
