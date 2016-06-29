@@ -8,7 +8,7 @@
 ##############################################################################
 
 ODL_BRANCH ?= master
-ODL_CHANGE ?= ae7f56df70acb92f78150c5461d84896e6aef1b4
+ODL_CHANGE ?= c539dc87d905e9c9992d6624c11814c4eda4c5ca
 ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
 FPB_BRANCH ?= master
