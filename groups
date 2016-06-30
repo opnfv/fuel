@@ -1,5 +1,6 @@
 # UUID                                  	Group Name
 #
+ac20ddc4c65a0370cac6b6b56a66f5d441b0cd68	Administrators
 global:Registered-Users                 	Registered Users
 ldap:cn=opnfv-gerrit-fuel-contributors,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-contributors
 ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-submitters
