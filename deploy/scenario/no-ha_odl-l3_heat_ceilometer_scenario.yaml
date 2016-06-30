@@ -34,6 +34,14 @@ deployment-scenario-metadata:
 # Note that the module substitionion does not support arrays
 # This is a quick fix
 stack-extensions:
+  - module: opendaylight
+    module-config-name: fuel-odl
+    module-config-version: 0.0.4
+    module-config-override:
+      metadata:
+        versions:
+          enable_l3_odl:
+            value: true
 #   - module: opendaylight
 #     module-config-name: fuel-odl
 #     module-config-version: 0.0.2
@@ -74,129 +82,6 @@ dea-override-config:
       public_network_assignment:
         assign_to_all_nodes:
           value: true
-      opendaylight:
-        metadata:
-          # chosen_id: Assigned during installation
-          class: plugin
-          default: false
-          enabled: true
-          label: OpenDaylight plugin
-          toggleable: true
-          versions:
-          - bgpvpn_gateway:
-              description: Define the default gateway for BGPVPN
-              label: Default Gateway
-              regex:
-                error: Invalid ip number
-                source: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
-              restrictions:
-              - settings:opendaylight.enable_bgpvpn.value == false: Only needed if BGPVPN
-                  is enabled.
-              type: text
-              value: 0.0.0.0
-              weight: 16
-            enable_bgpvpn:
-              description: 'This enables the bgpvpn extension of neutron togethere with
-                the corresponding sdnvpn features in odl. This feature will disable the
-                standart ovsdb feature from ODL.
-
-                '
-              label: BGPVPN extensions
-              type: checkbox
-              value: false
-              weight: 15
-            enable_l3_odl:
-              label: Use ODL to manage L3 traffic
-              restrictions:
-              - networking_parameters:segmentation_type == 'vlan': Use tunneling segmentation
-                  type.
-              - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign
-                  public network to all nodes
-              type: checkbox
-              value: true
-              weight: 12
-            enable_sfc:
-              label: SFC features
-              type: checkbox
-              value: false
-              weight: 13
-            metadata:
-              default_credentials:
-                password: admin
-                user: admin
-              hot_pluggable: false
-              jetty_port: 8181
-              odl_features:
-                cluster:
-                - odl-jolokia
-                default:
-                - config
-                - standard
-                - region
-                - package
-                - kar
-                - ssh
-                - management
-                gcr:
-                - odl-groupbasedpolicy-ovssfc
-                ncr:
-                - odl-ovsdb-sfc
-                - odl-ovsdb-sfc-rest
-                odl-default:
-                - odl-restconf-all
-                - odl-aaa-authn
-                - odl-dlux-all
-                ovs:
-                - odl-ovsdb-openstack
-                sfc:
-                - odl-sfc-model
-                - odl-sfc-provider
-                - odl-sfc-provider-rest
-                - odl-sfc-sb-rest
-                - odl-sfc-ui
-                - odl-sfc-netconf
-                - odl-sfc-ovs
-                - odl-sfcofl2
-                vpn:
-                - odl-vpnservice-openstack
-              # plugin_id: Assigned during installation
-              plugin_version: 0.9.0
-              restrictions:
-              - cluster:net_provider != 'neutron': Only neutron is supported by OpenDaylight
-            odl_v2:
-              description: V2 version is considered as experimental
-              label: Use V2 ML2 driver
-              type: checkbox
-              value: true
-              weight: 17
-            rest_api_port:
-              description: Port on which ODL REST API will be available.
-              label: Port number
-              regex:
-                error: Invalid port number
-                source: ^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$
-              type: text
-              value: '8282'
-              weight: 40
-            sfc_class:
-              description: 'Classifier determines what traffic needs to be chained based
-                on policy based on yang model. The OpenDayLight actually supports the
-                OVSDB NetVirt and the GBP classifier in case of SFC.
-
-                '
-              label: Classifier used by SFC
-              restrictions:
-              - action: hide
-                condition: settings:opendaylight.enable_sfc.value == false
-              type: select
-              value: ncr
-              values:
-              - data: ncr
-                label: NetVirt
-              - data: gcr
-                label: GBP
-              weight: 14
-          weight: 70
 
 dha-override-config:
 #  disks:
