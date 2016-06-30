@@ -16,6 +16,24 @@
       "revId": "484d866264c0023c33c3c7f3cb14e47d1cc11b78",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_4daddd87",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-06-30T18:30:04Z",
+      "side": 1,
+      "message": "A: For Boron default version number is 0.5.0 and deb package is called opendaylight-boron: https://github.com/openstack/fuel-plugin-opendaylight/blob/master/pre_build_hook#L32",
+      "parentUuid": "5a7ca5a3_0d904542",
+      "revId": "484d866264c0023c33c3c7f3cb14e47d1cc11b78",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
