@@ -8,7 +8,7 @@
 ##############################################################################
 
 ODL_BRANCH ?= master
-ODL_CHANGE ?= 8eb70403e009f1a1f5ea3d2a027165139029d597
+ODL_CHANGE ?= ae7f56df70acb92f78150c5461d84896e6aef1b4
 ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
 FPB_BRANCH ?= master
@@ -17,3 +17,4 @@ FPB_REPO ?= https://github.com/openstack/fuel-plugins
 
 export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.4.2-Beryllium-SR2/distribution-karaf-0.4.2-Beryllium-SR2.tar.gz
 export ODL_VERSION_NUMBER?=0.4.2
+export ODL_BORON_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/repositories/staging/org/opendaylight/integration/distribution-karaf/0.5.0-Boron/distribution-karaf-0.5.0-Boron.tar.gz
