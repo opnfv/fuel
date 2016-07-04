@@ -46,10 +46,12 @@ stack-extensions:
     module-config-override:
       metadata:
         versions:
-            enable_sfc:
+          - enable_sfc:
               value: true
             package_name:
               value: opendaylight-boron
+            metadata:
+              plugin_version: 0.9.0
 # Note that the module substitionion does not support arrays
 # This is a quick fix
 #   - module: opendaylight
