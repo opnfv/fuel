@@ -32,4 +32,6 @@ fuel-plugin-ovs:
         weight: 20
         value: false
         label: "Install NSH"
+      metadata:
+        plugin_version: 0.9.0
     weight: 70
