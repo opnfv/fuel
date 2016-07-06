@@ -17,6 +17,10 @@ FUEL_MAIN_TAG = master
 MOS_VERSION   = 10.0
 OPENSTACK_VERSION = newton-10.0
 
+# List of space-separated Ubuntu architectures supported with current build
+# Format: same as `dpkg-architecture -qDEB_HOST_ARCH`
+# NOTE: Currently only amd64 is supported by Fuel@OPNFV. Armband adds arm64.
+export UBUNTU_ARCH ?= amd64
 
 ##############################################################################
 # Fuel components pinning / remote tracking; use submodules from f_repos
