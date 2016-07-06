@@ -143,9 +143,10 @@ class InstallFuelMaster(object):
                 self.ssh.open()
                 success = True
                 break
-            except Exception:
-                log('Trying to SSH into Fuel VM %s ... sleeping %s seconds'
-                    % (self.fuel_ip, SLEEP_TIME))
+            except Exception as ex:
+                log(('Failed to SSH into Fuel VM %s ... sleeping %s seconds '
+                     'before trying again. Execption: %s')
+                    % (self.fuel_ip, SLEEP_TIME, ex.strerror ))
                 time.sleep(SLEEP_TIME)
             finally:
                 self.ssh.close()
