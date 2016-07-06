@@ -633,20 +633,8 @@ settings:
         value:
         - name: ubuntu
           priority: null
-          section: main universe multiverse
+          section: main
           suite: trusty
-          type: deb
-          uri: http://10.20.0.2:8080/mirrors/ubuntu/
-        - name: ubuntu-updates
-          priority: null
-          section: main universe multiverse
-          suite: trusty-updates
-          type: deb
-          uri: http://10.20.0.2:8080/mirrors/ubuntu/
-        - name: ubuntu-security
-          priority: null
-          section: main universe multiverse
-          suite: trusty-security
           type: deb
           uri: http://10.20.0.2:8080/mirrors/ubuntu/
         - name: mos
