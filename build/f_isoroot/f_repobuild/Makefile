@@ -1,7 +1,8 @@
 ##############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
+# Copyright (c) 2015,2016 Ericsson AB, Enea AB and others.
 # stefan.k.berg@ericsson.com
 # jonas.bjurel@ericsson.com
+# Alexandru.Avadanii@enea.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -10,41 +11,37 @@
 
 SHELL := /bin/bash
 TOP := $(shell pwd)
-TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 
 include ../../config.mk
+include config.mk
 
 export MOS_VERSION
-export OPENSTACK_VERSION
+export MIRROR_UBUNTU_OPNFV_PATH:=$(TOP)/nailgun/mirrors/ubuntu
 
 .PHONY: all
 all: nailgun
 
 nailgun:
-	sudo apt-get install -y git libxml2-dev libxslt-dev python-dev  python-pip libz-dev libyaml-dev createrepo python-yaml
-	rm -Rf nailgun
-	sudo mkdir -p /var/www/nailgun
-	ln -sf ${F_SUBMOD_DIR}/fuel-mirror fuel-mirror
-	sudo pip install -U -r ./fuel-mirror/requirements.txt
-	sudo pip install ./fuel-mirror
-	sudo pip install ./fuel-mirror/contrib/fuel_mirror
-	./opnfv_mirror_conf.py
-	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group ubuntu --pattern=ubuntu
-	sudo chmod -R 755 /var/www/nailgun
-	cp -Rp /var/www/nailgun .
-	# In the end we want to have ubuntu repository in mirrors/ubuntu directory
-	-if [ "$(MIRROR_UBUNTU_ROOT)" != "/ubuntu/" ]; then \
-	  mkdir -p nailgun/mirrors/ubuntu;\
-	  mv nailgun/mirrors$(MIRROR_UBUNTU_ROOT)* nailgun/mirrors/ubuntu;\
-	  [ "$(MIRROR_UBUNTU_ROOT)" != "/" ] && rm -rf nailgun/mirrors/$(TMP_ROOT_DIR);\
+	sudo apt-get install -y createrepo git libxml2-dev libxslt1-dev \
+		python-dev zlib1g-dev
+	rm -Rf nailgun packetary opnfv_config && mkdir opnfv_config
+	# We will analyze fuel-web's fixture files for package lists
+	ln -sf ${F_SUBMOD_DIR}/fuel-web fuel-web
+	git clone --quiet $(PACKETARY_REPO)
+	if [ -n $(PACKETARY_COMMIT) ]; then \
+		git -C packetary checkout $(PACKETARY_COMMIT); \
 	fi
+	sudo pip install -U -r ./packetary/requirements.txt
+	sudo pip install ./packetary
+	# Handle config and mirror build in one place
+	./opnfv_mirror_ubuntu.py
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
 	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
 .PHONY: clean
 clean:
-	@rm -rf ../release/opnfv/nailgun nailgun fuel-mirror opnfv-config.yaml ubuntu.yaml
+	@rm -rf ../release/opnfv/nailgun nailgun packetary fuel-web opnfv_config
 
 .PHONY: release
 release:nailgun
@@ -59,10 +56,12 @@ release:nailgun
 
 # Create a unique hash to be used for getting and putting cache, based on:
 #   - Year and week (causing the cache to be rebuilt weekly)
-#   - The contents of this Makefile
+#   - The contents of this Makefile + all sh,mk,py,yaml files in CWD
+#   - repo packages fingerprint
+#   - repo arch list
 .cacheid:
 	date +"Repocache %G%V" > .cachedata
-	sha1sum Makefile >> .cachedata
+	sha1sum Makefile *.{sh,mk,py,yaml} >> .cachedata
 	$(CACHETOOL) packages >> .cachedata
 	echo -n $(UBUNTU_ARCH) | sha1sum | awk {'print $$1'} >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
