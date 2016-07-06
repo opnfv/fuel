@@ -8,19 +8,18 @@
 ##############################################################################
 ---
   root_ssh_authorized_file: /root/.ssh/id_rsa.pub
-  extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
-  ubuntu_release: trusty
+  extend_kopts: "biosdevname=0 net.ifnames=1"
+  ubuntu_release: xenial
   extra_dirs:
-    - /usr/share/fuel_bootstrap_cli/files/trusty
+    - /usr/share/fuel_bootstrap_cli/files/xenial
   output_dir: /tmp/
-  kernel_flavor: linux-image-generic-lts-trusty
+  kernel_flavor: linux-image-generic-lts-xenial
   packages:
+    - daemonize
     - fuel-agent
     - hwloc
-    - hpsa-dkms
     - i40e-dkms
     - linux-firmware
-    - linux-firmware-nonfree
     - linux-headers-generic
     - live-boot
     - live-boot-initramfs-tools
@@ -33,13 +32,23 @@
     - nailgun-mcagents
     - network-checker
     - ntp
+    - ntpdate
     - openssh-client
     - openssh-server
+    - puppet
     - squashfs-tools
     - ubuntu-minimal
     - vim
     - wget
     - xz-utils
+    # NOTE(el): Packages required for new generation
+    # network checker to be run without an access
+    # to repositories.
+    - sysfsutils
+    - bridge-utils
+    - ifenslave
+    - irqbalance
+    - iputils-arping
   bootstrap_images_dir: /var/www/nailgun/bootstraps
   active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
   flavor: ubuntu
@@ -47,29 +56,19 @@
   https_proxy: ""
   repos:
     - name: ubuntu
-      section: "main universe multiverse"
+      section: "main"
       uri: "http://127.0.0.1:8080/mirrors/ubuntu"
       priority:
-      suite: trusty
-      type: deb
-    - name: ubuntu-updates
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-updates
-      type: deb
-    - name: ubuntu-security
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-security
+      suite: xenial
       type: deb
     - name: mos
       section: "main restricted"
       uri: "http://127.0.0.1:8080/ubuntu/x86_64"
       priority: 1050
-      suite: mos9.0
+      suite: mos10.0
       type: deb
   skip_default_img_build: false
   direct_repo_addresses:
     - "127.0.0.1"
+  # User can provide default hashed root password for bootstrap image
+  # hashed_root_password: "$6$IInX3Cqo$5xytL1VZbZTusOewFnG6couuF0Ia61yS3rbC6P5YbZP2TYclwHqMq9e3Tg8rvQxhxSlBXP1DZhdUamxdOBXK0."
