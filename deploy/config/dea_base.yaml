@@ -722,22 +722,10 @@ settings:
         value:
         - name: ubuntu
           priority: null
-          section: main universe multiverse
+          section: main
           suite: xenial
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
-        - name: ubuntu-updates
-          priority: null
-          section: main universe multiverse
-          suite: xenial-updates
-          type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
-        - name: ubuntu-security
-          priority: null
-          section: main universe multiverse
-          suite: xenial-security
-          type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: http://10.20.0.2:8080/mirrors/ubuntu/
         - name: mos
           priority: 1050
           section: main restricted

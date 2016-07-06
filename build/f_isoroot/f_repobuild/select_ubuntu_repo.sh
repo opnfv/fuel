@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BLACKLIST="http://mirrors.se.eu.kernel.org/ubuntu/"
+UBUNTU_DISTRO="xenial"
 #BLACKLIST+=" http://foo.bar"
 
 cleanup() {
@@ -28,26 +29,26 @@ blacklisted () {
 check_mirror () {
     mirror=$1
     status=0
-    for packdir in dists/trusty-updates/main/binary-amd64 \
-        dists/trusty-updates/restricted/binary-amd64 \
-        dists/trusty-updates/universe/binary-amd64 \
-        dists/trusty-updates/multiverse/binary-amd64 \
-        dists/trusty-security/main/binary-amd64 \
-        dists/trusty-security/restricted/binary-amd64 \
-        dists/trusty-security/universe/binary-amd64 \
-        dists/trusty-security/multiverse/binary-amd64 \
-        dists/trusty-proposed/main/binary-amd64 \
-        dists/trusty-proposed/restricted/binary-amd64 \
-        dists/trusty-proposed/universe/binary-amd64 \
-        dists/trusty-proposed/multiverse/binary-amd64 \
-        dists/trusty/main/binary-amd64 \
-        dists/trusty/restricted/binary-amd64 \
-        dists/trusty/universe/binary-amd64 \
-        dists/trusty/multiverse/binary-amd64 \
-        dists/trusty-backports/main/binary-amd64 \
-        dists/trusty-backports/restricted/binary-amd64 \
-        dists/trusty-backports/universe/binary-amd64 \
-        dists/trusty-backports/multiverse/binary-amd64
+    for packdir in dists/${UBUNTU_DISTRO}-updates/main/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-updates/restricted/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-updates/universe/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-updates/multiverse/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-security/main/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-security/restricted/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-security/universe/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-security/multiverse/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-proposed/main/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-proposed/restricted/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-proposed/universe/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-proposed/multiverse/binary-amd64 \
+        dists/${UBUNTU_DISTRO}/main/binary-amd64 \
+        dists/${UBUNTU_DISTRO}/restricted/binary-amd64 \
+        dists/${UBUNTU_DISTRO}/universe/binary-amd64 \
+        dists/${UBUNTU_DISTRO}/multiverse/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-backports/main/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-backports/restricted/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-backports/universe/binary-amd64 \
+        dists/${UBUNTU_DISTRO}-backports/multiverse/binary-amd64
     do
         for packfile in Release Packages.gz
         do
