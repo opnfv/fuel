@@ -1,0 +1,75 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 15 Jan 2017 00:40:15 +0100
+Subject: [PATCH] packages_tree: exact match trumps other providers
+
+Ubuntu frequently has multiple providers for the same package name,
+e.g. "vim" is provided by "vim", "vim-gnome" etc.
+
+Below is a sample dump of packetary's list of matches for a generic
+"vim" package requirement, without a version enforced, based on
+current Xenial repos:
+
+vim-gtk3-py2 (2:7.4.1689-3ubuntu1)
+vim-gnome (2:7.4.1689-3ubuntu1)
+vim-gtk (2:7.4.1689-3ubuntu1)
+vim-nox (2:7.4.1689-3ubuntu1)
+vim-gtk-py2 (2:7.4.1689-3ubuntu1)
+vim-gnome-py2 (2:7.4.1689-3ubuntu1)
+vim-nox-py2 (2:7.4.1689-3ubuntu1)
+vim (2:7.4.1689-3ubuntu1)
+vim-gtk3 (2:7.4.1689-3ubuntu1)
+vim-athena (2:7.4.1689-3ubuntu1)
+vim-athena-py2 (2:7.4.1689-3ubuntu1)
+vim-gtk (2:7.4.1689-3ubuntu1.2)
+vim-gnome-py2 (2:7.4.1689-3ubuntu1.2)
+vim-gtk-py2 (2:7.4.1689-3ubuntu1.2)
+vim-nox (2:7.4.1689-3ubuntu1.2)
+vim-nox-py2 (2:7.4.1689-3ubuntu1.2)
+vim-gtk3 (2:7.4.1689-3ubuntu1.2)
+vim (2:7.4.1689-3ubuntu1.2)
+vim-athena (2:7.4.1689-3ubuntu1.2)
+vim-athena-py2 (2:7.4.1689-3ubuntu1.2)
+vim-gnome (2:7.4.1689-3ubuntu1.2)
+vim-gtk3-py2 (2:7.4.1689-3ubuntu1.2)
+
+Currently, packetary solves the "vim" relation by using the last item
+in the sorted list, in this case "vim-gtk3-py2"; instead of using the
+exact package name match "vim".
+
+This leads to our final mirror clone missing the "vim" package, and
+inherintely failing to build bootstrap/target images using only the
+partial Ubuntu mirror in OPNFV ISO.
+
+The proposed fix is to first check the list for an exact name match,
+which would trump any secondary providers, even if they have a
+higher package version.
+
+Change-Id: I7279aa6526ff9133829be2e316932c9b052c7814
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ packetary/objects/packages_tree.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/packetary/objects/packages_tree.py b/packetary/objects/packages_tree.py
+index f02df59..6081fa9 100644
+--- a/packetary/objects/packages_tree.py
++++ b/packetary/objects/packages_tree.py
+@@ -18,6 +18,7 @@
+
+ from collections import defaultdict
+
++import re
+ import six
+
+ from packetary.objects.index import Index
+@@ -57,6 +58,10 @@ class PackagesTree(object):
+         """
+         candidates = self.find_all(name, version_range)
+         if len(candidates) > 0:
++            # exact pkg name match trumps other providers' versions
++            for candidate in reversed(candidates):
++                if re.match('{0}\s.*'.format(re.escape(name)), str(candidate)):
++                    return candidate
+             # we return candidates in sorted order, so let's take the highest
+             return candidates[-1]
+         return None
