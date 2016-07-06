@@ -47,22 +47,10 @@
   https_proxy: ""
   repos:
     - name: ubuntu
-      section: "main universe multiverse"
+      section: "main"
       uri: "http://127.0.0.1:8080/mirrors/ubuntu"
       priority:
       suite: trusty
-      type: deb
-    - name: ubuntu-updates
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-updates
-      type: deb
-    - name: ubuntu-security
-      section: "main universe multiverse"
-      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
-      priority:
-      suite: trusty-security
       type: deb
     - name: mos
       section: "main restricted"
