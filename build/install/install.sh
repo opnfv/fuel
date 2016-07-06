@@ -122,17 +122,17 @@ prep_make_live() {
     ssh-copy-id root@$FUELHOST
     sshfs root@1${FUELHOST}:/ $TMP_HOSTMOUNT
 
-    if [ -f  $REPO/dists/trusty/main/binary-amd64/Packages.backup ]; then
+    if [ -f  $REPO/dists/xenial/main/binary-amd64/Packages.backup ]; then
         echo "Error - found backup file for Packages!"
         exit 1
     fi
 
-    if [ -f  $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup ]; then
+    if [ -f  $REPO/dists/xenial/main/binary-amd64/Packages.gz.backup ]; then
         echo "Error - found backup file for Packages.gz!"
         exit 1
     fi
 
-    if [ -f  $REPO/dists/trusty/Release.backup ]; then
+    if [ -f  $REPO/dists/xenial/Release.backup ]; then
         echo "Error - found backup file for Release!"
         exit 1
     fi
@@ -142,9 +142,9 @@ prep_make_live() {
         exit 1
     fi
 
-    cp $REPO/dists/trusty/main/binary-amd64/Packages $REPO/dists/trusty/main/binary-amd64/Packages.backup
-    cp $REPO/dists/trusty/main/binary-amd64/Packages.gz $REPO/dists/trusty/main/binary-amd64/Packages.gz.backup
-    cp $REPO/dists/trusty/Release $REPO/dists/trusty/Release.backup
+    cp $REPO/dists/xenial/main/binary-amd64/Packages $REPO/dists/xenial/main/binary-amd64/Packages.backup
+    cp $REPO/dists/xenial/main/binary-amd64/Packages.gz $REPO/dists/xenial/main/binary-amd64/Packages.gz.backup
+    cp $REPO/dists/xenial/Release $REPO/dists/xenial/Release.backup
     cp -Rvp $DEST/etc/puppet $DEST/etc/puppet.backup
 }
 
@@ -443,7 +443,7 @@ copy_packages() {
     echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
 
     # Fuel also needs this index file
-    # cat dists/trusty/main/binary-amd64/Packages | \
+    # cat dists/xenial/main/binary-amd64/Packages | \
     #    awk '/^Package:/{pkg=$2}
     # /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
     # cp ubuntu-versions.yaml $DEST
