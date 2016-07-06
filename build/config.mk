@@ -17,6 +17,11 @@ FUEL_MAIN_TAG = 9.0.1
 MOS_VERSION   = 9.0
 OPENSTACK_VERSION = mitaka-9.0
 
+# List of space-separated Ubuntu architectures supported with current build
+# Format: same as `dpkg-architecture -qDEB_HOST_ARCH1`
+# NOTE: Currently only amd64 is supported by Fuel@OPNFV. Armband adds arm64.
+export UBUNTU_ARCH ?= "amd64"
+
 # FIXME(alav): Disable remote tracking for now, stick to submodule commits
 FUEL_TRACK_REMOTES =
 
