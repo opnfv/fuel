@@ -164,6 +164,7 @@ class AutoDeploy(object):
             exec_cmd('mkisofs -quiet -r -J -R -b %s '
                      '-no-emul-boot -boot-load-size 4 '
                      '-boot-info-table -hide-rr-moved '
+                     '-joliet-long '
                      '-x "lost+found:" -V %s -o %s .'
                      % (iso_linux_bin, iso_label, new_iso))
 
