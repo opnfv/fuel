@@ -16,6 +16,46 @@
       "revId": "272310b25eb79dd409d1f4be55454b41e13f0ca8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_d0cad84e",
+        "filename": "build/f_isoroot/f_collectd-ceilometer-pluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-11T10:07:13Z",
+      "side": 1,
+      "message": "I think this variable is not used in plugin.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "272310b25eb79dd409d1f4be55454b41e13f0ca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_30b6acda",
+        "filename": "build/f_isoroot/f_collectd-ceilometer-pluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-11T10:07:13Z",
+      "side": 1,
+      "message": "It\u0027s quite unusual to point to patch set in not yet merged change. I understand that further patch sets will not probably change the plugin code, but if we merge this in this form I would like to change this reference when it will be possible.",
+      "revId": "272310b25eb79dd409d1f4be55454b41e13f0ca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
