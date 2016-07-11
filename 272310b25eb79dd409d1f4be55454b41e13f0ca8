@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_b0c5dc5c",
+        "filename": "build/f_isoroot/f_collectd-ceilometer-pluginbuild/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 304
+      },
+      "writtenOn": "2016-07-11T08:54:57Z",
+      "side": 1,
+      "message": "Does the copyright year need to be extended?",
+      "revId": "272310b25eb79dd409d1f4be55454b41e13f0ca8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
