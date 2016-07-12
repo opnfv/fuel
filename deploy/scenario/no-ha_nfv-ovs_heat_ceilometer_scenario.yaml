@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: NFV OVS NO-HA deployment
-   version: 0.0.4
-   created: Apr 20 2016
-   comment: NFV OVS NO-HA Rebased for Fuel8
+   version: 0.9.0
+   created: Jul 12 2016
+   comment: NFV OVS NO-HA Rebased for Fuel9
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -32,16 +32,24 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-   - module: fuel-plugin-ovsnfv
-     module-config-name: fuel-nfvovs
-     module-config-version: 0.0.2
+   - module: fuel-plugin-ovs
+     module-config-name: fuel-nshovs
+     module-config-version: 0.9.0
      module-config-override:
-       # Module config overrides
+       metadata:
+         versions:
+         - install_dpdk:
+             value: true
+             metadata:
+               plugin_version: 0.9.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
 dea-override-config:
+  fuel:
+    FEATURE_GROUPS:
+    - experimental
   environment:
     net_segment_type: vlan
   nodes:
@@ -52,15 +60,36 @@ dea-override-config:
   - id: 2
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_dpdk
+    attributes: attributes_1
   - id: 3
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_dpdk
+    attributes: attributes_1
   - id: 4
     interfaces: interfaces_1
     role: ceph-osd,compute
-    transformations: transformations_1
+    transformations: transformations_dpdk
+    attributes: attributes_1
+
+  interfaces_1:
+    eno50:
+      - fuelweb_admin
+    ens1f0:
+      - public
+      - management
+      - storage
+    ens2f0:
+      - private
+
+  attributes_1:
+    hugepages:
+      dpdk:
+        value: 128
+      nova:
+        value:
+          '2048': 256
 
   transformations_1:
     transformations:
@@ -94,7 +123,7 @@ dea-override-config:
       provider: ovs
     - action: add-port
       bridge: br-fw-admin
-      name: eno49
+      name: eno50
     - action: add-port
       bridge: br-mgmt
       name: ens1f0.100
@@ -103,7 +132,7 @@ dea-override-config:
       name: ens1f0.200
     - action: add-port
       bridge: br-aux
-      name: ens1f0
+      name: ens2f0
     - action: add-port
       bridge: br-ex
       name: ens1f0.753
@@ -128,7 +157,7 @@ dea-override-config:
       provider: ovs
     - action: add-port
       bridge: br-fw-admin
-      name: eno49
+      name: eno50
     - action: add-port
       bridge: br-mgmt
       name: ens1f0.100
@@ -138,6 +167,46 @@ dea-override-config:
     - action: add-port
       bridge: br-aux
       name: ens1f0
+  transformations_dpdk:
+    transformations:
+    - action: add-br
+      name: br-fw-admin
+    - action: add-br
+      name: br-mgmt
+    - action: add-br
+      name: br-storage
+    - action: add-br
+      name: br-ex
+    - action: add-br
+      name: br-floating
+      provider: ovs
+    - action: add-patch
+      bridges:
+      - br-floating
+      - br-ex
+      mtu: 65000
+      provider: ovs
+    - action: add-br
+      name: br-prv
+      provider: ovs
+      vendor_specific:
+        datapath_type: netdev
+    - action: add-port
+      bridge: br-prv
+      name: ens2f0
+      provider: dpdkovs
+    - action: add-port
+      bridge: br-fw-admin
+      name: eno50
+    - action: add-port
+      bridge: br-mgmt
+      name: ens1f0.100
+    - action: add-port
+      bridge: br-storage
+      name: ens1f0.200
+    - action: add-port
+      bridge: br-ex
+      name: ens1f0.753
 
   network:
     networking_parameters:
@@ -168,12 +237,12 @@ dea-override-config:
       - - 10.118.101.180
         - 10.118.101.190
       meta:
-        cidr: 172.16.0.0/24
+        cidr: 10.118.101.0/24
         configurable: true
         floating_range_var: floating_ranges
         ip_range:
-        - 172.16.0.2
-        - 172.16.0.126
+        - 10.118.101.180
+        - 10.118.101.190
         map_priority: 1
         name: public
         notation: ip_ranges
