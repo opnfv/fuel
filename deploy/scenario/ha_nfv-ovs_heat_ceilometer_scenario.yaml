@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: NFV OVS HA deployment
-   version: 0.0.5
-   created: Apr 20 2016
-   comment: Rebased to Fuel8
+   version: 0.9.0
+   created: Jul 12 2016
+   comment: Rebased to Fuel9
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -32,16 +32,28 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-   - module: fuel-plugin-ovsnfv
-     module-config-name: fuel-nfvovs
-     module-config-version: 0.0.2
+   - module: fuel-plugin-ovs
+     module-config-name: fuel-nshovs
+     module-config-version: 0.9.0
      module-config-override:
-       # Module config overrides
+       metadata:
+         versions:
+         - install_dpdk:
+           value: true
+           metadata:
+             plugin_version: 0.9.0
+         - install_nsh:
+           value: true
+           metadata:
+             plugin_version: 0.9.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
 dea-override-config:
+  fuel:
+    FEATURE_GROUPS:
+    - experimental
   environment:
     net_segment_type: vlan
   nodes:
