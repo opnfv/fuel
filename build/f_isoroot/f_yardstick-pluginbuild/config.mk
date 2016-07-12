@@ -8,6 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-YARDSTICK_BRANCH?=675eef731a098f83aa98c2021b151b7e5ba1da7d
+YARDSTICK_BRANCH?=cd9d1296ab33b0193bfd37e77241291065d9a06b
 YARDSTICK_REPO?=https://gerrit.opnfv.org/gerrit/yardstick.git
 YARDSTICK_CHANGE?=
