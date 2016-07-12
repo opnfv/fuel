@@ -131,23 +131,11 @@ def merge_fuel_plugin_version_list(list1, list2):
     return final_list
 
 
-def merge_lists(list1, list2):
-    if list1 and list2:
-        if isinstance(list1[0], dict):
-            if 'plugin_version' in list1[0].get('metadata', {}):
-                return merge_fuel_plugin_version_list(list1, list2)
-            else:
-                warning("Lists with dictionary inside are not mergeable! "
-                        "List2 will overwrite List1. "
-                        "List1: %s\nList2: %s"
-                        % (list1, list2))
-                return list2
-        else:
-            return list2
-    elif list1:
-        return list1
-    else:
-        return list2
+def merge_networks(list_1, list_2):
+    new_nets = {x.get('name'): x for x in list_2}
+
+    return [new_nets.get(net.get('name'), net) for net in list_1]
+
 
 
 def merge_dicts(dict1, dict2):
@@ -156,7 +144,12 @@ def merge_dicts(dict1, dict2):
             if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
                 yield (k, dict(merge_dicts(dict1[k], dict2[k])))
             elif isinstance(dict1[k], list) and isinstance(dict2[k], list):
-                yield (k, merge_lists(dict1[k], dict2[k]))
+                if k == 'versions':
+                    yield (k,
+                           merge_fuel_plugin_version_list(dict1[k], dict2[k]))
+                if k == 'networks':
+                    yield (k,
+                           merge_networks(dict1[k], dict2[k]))
             else:
                 # If one of the values is not a dict nor a list,
                 # you can't continue merging it.
