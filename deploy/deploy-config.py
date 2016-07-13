@@ -168,6 +168,7 @@ dea_base_sha = sha_uri(kwargs["dea_base_uri"])
 dea_base_comment = dea_base_conf['dea-base-config-metadata']['comment']
 dea_base_conf.pop('dea-base-config-metadata')
 final_dea_conf = dea_base_conf
+dea_pod_override_nodes = None
 
 # Fetch dea-pod-override, extract and purge meta-data, merge with previous dea data structure
 print 'Parsing the dea-pod-override from: ' + kwargs["dea_pod_override_uri"] + "...."
@@ -181,6 +182,9 @@ if dea_pod_override_conf:
     dea_pod_comment = dea_pod_override_conf['dea-pod-override-config-metadata']['comment']
     print 'Merging dea-base and dea-pod-override configuration ....'
     dea_pod_override_conf.pop('dea-pod-override-config-metadata')
+    # Copy the list of original nodes, which holds info on their transformations
+    if 'nodes' in dea_pod_override_conf:
+        dea_pod_override_nodes = list(dea_pod_override_conf['nodes'])
     if dea_pod_override_conf:
         final_dea_conf = dict(mergedicts(final_dea_conf, dea_pod_override_conf))
 
@@ -245,6 +249,25 @@ if deploy_scenario_conf["stack-extensions"]:
             dea_scenario_module_override_conf['settings']['editable'] = {}
             dea_scenario_module_override_conf['settings']['editable'][module["module"]] = scenario_module_override_conf
             final_dea_conf = dict(mergedicts(final_dea_conf, dea_scenario_module_override_conf))
+
+def get_node_ifaces_and_trans(nodes, nid):
+    for node in nodes:
+        if node['id'] == nid:
+            if 'transformations' in node and 'interfaces' in node:
+                return (node['interfaces'], node['transformations'])
+            else:
+                return None
+
+    return None
+
+if dea_pod_override_nodes:
+    for node in final_dea_conf['nodes']:
+       data = get_node_ifaces_and_trans(dea_pod_override_nodes, node['id'])
+       if data:
+           print ("Honoring original interfaces and transformations for "
+                  "node %d to %s, %s" % (node['id'], data[0], data[1]))
+           node['interfaces'] = data[0]
+           node['transformations'] = data[1]
 
 # Dump final dea.yaml including configuration management meta-data to argument provided
 # directory
