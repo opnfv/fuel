@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_a9dd6e72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-07-15T02:22:13Z",
+      "side": 1,
+      "message": "suggest to support STDOUT when missing the 3rd parameters.",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "7415d7e61a2d9ba7f63b3b672b059b91c9e057e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_49effa1e",
+        "filename": "deploy/README.templater",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-07-15T02:22:13Z",
+      "side": 1,
+      "message": "example2 failed, for networks does not exist in the source yaml",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 25
+      },
+      "revId": "7415d7e61a2d9ba7f63b3b672b059b91c9e057e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_09f902e9",
+        "filename": "deploy/templater.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-07-15T02:22:13Z",
+      "side": 1,
+      "message": "suggest to support: standard output if missing the 3rd parameters, easy for debug",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 47
+      },
+      "revId": "7415d7e61a2d9ba7f63b3b672b059b91c9e057e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
