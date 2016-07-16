@@ -21,6 +21,7 @@ trap exit_trap EXIT
 CACHETRANSPORT=${CACHETRANSPORT:-"curl --silent"}
 CACHEMAXAGE=${CACHEMAXAGE:-$[14*24*3600]}
 CACHEDEBUG=${CACHEDEBUG:-1}
+PLUGINS_MATCH="${BUILD_BASE}/f_isoroot/*/"
 
 debugmsg () {
     if [ "$CACHEDEBUG" -eq 1 ]; then
@@ -138,7 +139,22 @@ getcommitid() {
     fi
 }
 
+packages() {
+    local PLUGINS_SHA1=''
 
+    # globbing expansion is alphabetical
+    for plugin in $PLUGINS_MATCH ; do
+        if [ -f "${plugin}packages.yaml" ]
+        then
+            PLUGINS_SHA1+=$(sha1sum ${plugin}packages.yaml)
+        fi
+    done
+
+    if [ -n "${PLUGINS_SHA1}" ]
+    then
+        echo -n $PLUGINS_SHA1 | sha1sum
+    fi
+}
 
 if [ -z "$CACHEBASE" ]; then
   errorexit "CACHEBASE not set - exiting..."
@@ -175,6 +191,12 @@ case $1 in
 
         $1 $2
         exit $rc
+        ;;
+    packages)
+        if [ $# -ne 1 ]; then
+            errorexit "No arguments can be given to packages!"
+        fi
+        packages
         ;;
     *)
         errorexit "I only know about getcommitid, getid, check, get and put!"

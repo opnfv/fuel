@@ -11,13 +11,9 @@
 SHELL := /bin/bash
 TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
-# Enable use of exact repo commit if defined, else use Fuel main branch
-FUEL_MIRROR_REPO?=https://github.com/openstack/fuel-mirror
-# Point to the commit where 302 redirects are handled
-# https://bugs.launchpad.net/fuel/mitaka/+bug/1593674
-FUEL_MIRROR_COMMIT?=192a3d9f8f993afb12c5108dd9339c6688c23e11 #$(FUEL_MAIN_TAG)
 
 include ../../config.mk
+include config.mk
 
 export MOS_VERSION
 export OPENSTACK_VERSION
@@ -69,6 +65,8 @@ release:nailgun
 .cacheid:
 	date +"Repocache %G%V" > .cachedata
 	sha1sum Makefile >> .cachedata
+	sha1sum config.mk >> .cachedata
+	$(CACHETOOL) packages >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
 
 # Clean local data related to caching - called prior to ordinary build
