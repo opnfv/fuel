@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_13e72ce6",
+        "filename": "deploy/README.templater",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-07-18T08:48:50Z",
+      "side": 1,
+      "message": "Fixed with my new commit. Thanks!",
+      "parentUuid": "5a7ca5a3_49effa1e",
+      "range": {
+        "startLine": 207,
+        "startChar": 6,
+        "endLine": 207,
+        "endChar": 25
+      },
+      "revId": "7415d7e61a2d9ba7f63b3b672b059b91c9e057e4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_09f902e9",
         "filename": "deploy/templater.py",
         "patchSetId": 8
