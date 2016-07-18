@@ -109,6 +109,20 @@ class AutoDeploy(object):
         self.iso_file = new_iso
         self.install_iso()
 
+    def delete_old_fuel_env(self):
+        log('Delete old Fuel Master environments if present')
+        try:
+            old_dep = CloudDeploy(self.dea, self.dha, self.fuel_conf['ip'],
+                                  self.fuel_username, self.fuel_password,
+                                  self.dea_file, self.fuel_plugins_conf_dir,
+                                  WORK_DIR, self.no_health_check,
+                                  self.deploy_timeout,
+                                  self.no_deploy_environment, self.deploy_log)
+            with old_dep.ssh:
+                old_dep.check_previous_installation()
+        except Exception as e:
+            log('Could not delete old env: %s' % str(e))
+
     def install_iso(self):
         fuel = InstallFuelMaster(self.dea_file, self.dha_file,
                                  self.fuel_conf['ip'], self.fuel_username,
@@ -226,6 +240,7 @@ class AutoDeploy(object):
     def deploy(self):
         self.collect_fuel_info()
         if not self.no_fuel:
+            self.delete_old_fuel_env()
             self.setup_execution_environment()
             self.create_tmp_dir()
             self.install_fuel_master()
