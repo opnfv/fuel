@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1c265969",
+        "filename": "deploy/common.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-19T14:35:31Z",
+      "side": 1,
+      "message": "I prefer this (test myself and works)\n\nU_RW \u003d stat.S_IRUSR | stat.S_IWUSR\nG_RW \u003d stat.S_IRGRP | stat.S_IWGRP\nO_R \u003d S_IROTH\n\nos.chmod(LOGFILE, U_RW | G_RW | O_R)",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 23
+      },
+      "revId": "29cf33f525b401e791332690ed373806b7a3d243",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
