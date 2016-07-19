@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dc4a2127",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-19T14:14:39Z",
+      "side": 1,
+      "message": "Exception",
+      "range": {
+        "startLine": 148,
+        "startChar": 43,
+        "endLine": 148,
+        "endChar": 52
+      },
+      "revId": "bf06fbca4a2a10497a64f1a739b544c1dcc3a071",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
