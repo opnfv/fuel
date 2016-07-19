@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_7cee6d24",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-19T14:07:06Z",
+      "side": 1,
+      "message": "I prefer:\n\nif \u0027transformations\u0027 in node and \u0027interfaces\u0027 in node:",
+      "range": {
+        "startLine": 256,
+        "startChar": 15,
+        "endLine": 256,
+        "endChar": 77
+      },
+      "revId": "0051d971e9bb1f78b9d830632950b7c1721b00dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5ce93119",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-19T14:07:06Z",
+      "side": 1,
+      "message": "I prefer this:\n\nprint (\"Honoring original interfaces and transformations for \"\n       \"node %d to %s, %s\" % (node[\u0027id\u0027], data[0], data[1]))",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 69
+      },
+      "revId": "0051d971e9bb1f78b9d830632950b7c1721b00dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
