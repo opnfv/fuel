@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_6dd0f953",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-07-20T16:52:24Z",
+      "side": 1,
+      "message": "Again would prefer to leave this off. And test NSH in it\u0027s own scenario - which I think already exists.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2d6e81ca",
         "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
         "patchSetId": 5
@@ -64,6 +87,29 @@
         "startChar": 1,
         "endLine": 218,
         "endChar": 18
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cde34d32",
+        "filename": "deploy/scenario/no-ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-07-20T16:52:24Z",
+      "side": 1,
+      "message": "I think we\u0027d prefer to not enable nsh for this scenario. That will keep things simpler and also install a newer version of OVS that if nsh is also enabled.",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 22
       },
       "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
