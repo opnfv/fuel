@@ -110,8 +110,6 @@ $(ISOCACHE):
 	fi
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main show | grep commit | head -1 | cut -d " " -f2` >> $(VERSION_FILE)
-	# Patch for using the Czech Fuel mirror
-	cd /tmp/fuel-main && patch -p0 < $(TOPDIR)/repo-mirror-cz.patch
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
