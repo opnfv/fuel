@@ -7,10 +7,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ###############################################################################
 
-
-import yaml
-import io
+import copy
 import glob
+import io
+
+import six
+import yaml
 
 from common import (
     exec_cmd,
@@ -51,6 +53,10 @@ class ConfigureNodes(object):
             self.modify_node_interface(node_id, roles_blade)
             self.modify_node_network_schemes(node_id, roles_blade)
             self.upload_interface_config(node_id)
+            # Modify attributes
+            self.download_attributes(node_id)
+            self.modify_node_attributes(node_id, roles_blade)
+            self.upload_attributes(node_id)
 
         # Download our modified deployment configuration, which includes our
         # changes to network topology etc.
@@ -93,6 +99,35 @@ class ConfigureNodes(object):
         exec_cmd('fuel node --env %s --node %s --network --upload '
                  '--dir %s' % (self.env_id, node_id, self.yaml_config_dir))
 
+    def download_attributes(self, node_id):
+        log('Download interface config for node %s' % node_id)
+        exec_cmd('fuel node --env %s --node %s --attributes --download '
+                 '--dir %s' % (self.env_id, node_id, self.yaml_config_dir))
+
+    def upload_attributes(self, node_id):
+        log('Upload interface config for node %s' % node_id)
+        exec_cmd('fuel node --env %s --node %s --attributes --upload '
+                 '--dir %s' % (self.env_id, node_id, self.yaml_config_dir))
+
+    def modify_node_attributes(self, node_id, roles_blade):
+        log('Modify node attributes for node {0}'.format(node_id))
+        dea_key = self.dea.get_node_property(roles_blade[1], 'attributes')
+        if not dea_key:
+            # Node attributes are not overridden. Nothing to do.
+            return
+        new_attributes = self.dea.get_property(dea_key)
+        attributes_yaml = ('%s/node_%s/attributes.yaml'
+                           % (self.yaml_config_dir, node_id))
+        check_file_exists(attributes_yaml)
+        backup('%s/node_%s' % (self.yaml_config_dir, node_id))
+
+        with open(attributes_yaml) as stream:
+            attributes = yaml.load(stream)
+        result_attributes = self._merge_dicts(attributes, new_attributes)
+
+        with open(attributes_yaml, 'w') as stream:
+            yaml.dump(result_attributes, stream, default_flow_style=False)
+
     def modify_node_interface(self, node_id, roles_blade):
         log('Modify interface config for node %s' % node_id)
         interface_yaml = ('%s/node_%s/interfaces.yaml'
@@ -122,3 +157,17 @@ class ConfigureNodes(object):
 
         with io.open(interface_yaml, 'w') as stream:
             yaml.dump(interfaces, stream, default_flow_style=False)
+
+    def _merge_dicts(self, dict1, dict2):
+        """Recursively merge dictionaries."""
+        result = copy.deepcopy(dict1)
+        for k, v in six.iteritems(dict2):
+            if isinstance(result.get(k), list) and isinstance(v, list):
+                result[k].extend(v)
+                continue
+            if isinstance(result.get(k), dict) and isinstance(v, dict):
+                result[k] = self._merge_dicts(result[k], v)
+                continue
+            result[k] = copy.deepcopy(v)
+        return result
+
