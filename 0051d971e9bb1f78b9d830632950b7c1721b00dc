@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a2fb8046",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-07-20T14:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_dcdc6177",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 45
+      },
+      "revId": "0051d971e9bb1f78b9d830632950b7c1721b00dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7cee6d24",
         "filename": "deploy/deploy-config.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c2f8fc4b",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-07-20T14:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_7cee6d24",
+      "range": {
+        "startLine": 256,
+        "startChar": 15,
+        "endLine": 256,
+        "endChar": 77
+      },
+      "revId": "0051d971e9bb1f78b9d830632950b7c1721b00dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5ce93119",
         "filename": "deploy/deploy-config.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-07-19T14:07:06Z",
       "side": 1,
       "message": "I prefer this:\n\nprint (\"Honoring original interfaces and transformations for \"\n       \"node %d to %s, %s\" % (node[\u0027id\u0027], data[0], data[1]))",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 69
+      },
+      "revId": "0051d971e9bb1f78b9d830632950b7c1721b00dc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_629568e3",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 486
+      },
+      "writtenOn": "2016-07-20T14:05:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_5ce93119",
       "range": {
         "startLine": 267,
         "startChar": 0,
