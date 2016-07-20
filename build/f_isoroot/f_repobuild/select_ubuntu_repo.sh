@@ -21,7 +21,7 @@ RSYNC="rsync -4 --contimeout 5 --no-motd --list-only"
 # Some Ubuntu mirrors seem less reliable for this type of mirroring -
 # as they are discoved they can be added to the blacklist below in order
 # for them not to be considered.
-BLACKLIST="mirrors.se.eu.kernel.org"
+BLACKLIST="mirrors.se.eu.kernel.org mirror.its.dal.ca"
 
 return_url=0
 
