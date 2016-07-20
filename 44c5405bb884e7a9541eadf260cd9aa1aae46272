@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2d6e81ca",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "We should verify first if this interface has vlan trunking configured and we will be able to use vlans from private network range.",
+      "range": {
+        "startLine": 90,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8d523512",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "Are you sure that br-aux bridge is needed? In deployment without dpdk this bridge has physical interface connected which is used for private network and another interface which connect br-aux with br-prv. Bellow you defined that interface used for private network (ens2f0) is directly connected to ovs br-prv bridge which is ok I guess. But then I don\u0027t understand why we need br-aux",
+      "range": {
+        "startLine": 201,
+        "startChar": 1,
+        "endLine": 202,
+        "endChar": 18
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cd47cd4a",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "br-aux bridge was usually used for private network, here you are adding interface on which we don\u0027t expect traffic from private network",
+      "range": {
+        "startLine": 216,
+        "startChar": 1,
+        "endLine": 218,
+        "endChar": 18
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ed6729e9",
+        "filename": "deploy/scenario/no-ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "We should verify first if this interface has vlan trunking configured and we will be able to use vlans from private network range.",
+      "range": {
+        "startLine": 87,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 15
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0d65c5e0",
+        "filename": "deploy/scenario/no-ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "Are you sure that br-aux bridge is needed? In deployment without dpdk this bridge has physical interface connected which is used for private network and another interface which connect br-aux with br-prv. Bellow you defined that interface used for private network (ens2f0) is directly connected to ovs br-prv bridge which is ok I guess. But then I don\u0027t understand why we need br-aux",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 18
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ad6131d5",
+        "filename": "deploy/scenario/no-ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-07-20T15:21:00Z",
+      "side": 1,
+      "message": "br-aux bridge was usually used for private network, here you are adding interface on which we don\u0027t expect traffic from private network",
+      "range": {
+        "startLine": 213,
+        "startChar": 1,
+        "endLine": 215,
+        "endChar": 18
+      },
+      "revId": "44c5405bb884e7a9541eadf260cd9aa1aae46272",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
