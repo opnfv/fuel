@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d268c589",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-22T11:47:30Z",
+      "side": 1,
+      "message": "can you please remove whitespace",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 1
+      },
+      "revId": "9f6745ae7bff8ef345310346e3643d8279629f46",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_720531c1",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-22T11:47:30Z",
+      "side": 1,
+      "message": "can you please remove whitespace",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 1
+      },
+      "revId": "9f6745ae7bff8ef345310346e3643d8279629f46",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_920a4dd1",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-22T11:47:30Z",
+      "side": 1,
+      "message": "can you please remove whitespace",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 1
+      },
+      "revId": "9f6745ae7bff8ef345310346e3643d8279629f46",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_320fb9e3",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-22T11:47:30Z",
+      "side": 1,
+      "message": "can you please remove whitespace",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 1
+      },
+      "revId": "9f6745ae7bff8ef345310346e3643d8279629f46",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5214b5f4",
+        "filename": "build/bootstrap_admin_node.sh.patch",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-07-22T11:47:30Z",
+      "side": 1,
+      "message": "can you please remove whitespace",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 1
+      },
+      "revId": "9f6745ae7bff8ef345310346e3643d8279629f46",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
