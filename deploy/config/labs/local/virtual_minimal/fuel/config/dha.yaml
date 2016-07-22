@@ -1,0 +1,32 @@
+dha-pod-config-metadata:
+  title: Deployment Hardware Adapter (DHA) for Ericsson Lab, virtual-kvm environment
+  version: 0.0.2
+  created: Feb 1 2016
+  comment: Config for Ericsson Montreal Lab, virtual-kvm environment
+
+# Adapter to use for this definition
+adapter: libvirt
+
+# Node list.
+# Mandatory property is id, all other properties are adapter specific.
+
+nodes:
+- id: 1
+  libvirtName: controller1
+  libvirtTemplate: templates/virtual_environment/vms/controller.xml
+- id: 2
+  libvirtName: compute1
+  libvirtTemplate: templates/virtual_environment/vms/compute.xml
+- id: 3
+  libvirtName: fuel-master
+  libvirtTemplate: templates/virtual_environment/vms/fuel.xml
+  isFuel: yes
+  username: root
+  password: r00tme
+
+virtNetConfDir: templates/virtual_environment/networks
+
+disks:
+  fuel: 100G
+  controller: 100G
+  compute: 100G

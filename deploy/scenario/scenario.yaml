@@ -81,3 +81,6 @@ os-odl_l2-sfc-ha:
 
 os-odl_l2-sfc-noha:
   configfile: no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml
+
+os-nosdn-nofeature-noha-minimal:
+  configfile: no-ha_minimal.yaml
