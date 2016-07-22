@@ -21,6 +21,7 @@
 # 2) deployment-scenario dha-override-config section
 ###############################################################################
 
+
 import os
 import yaml
 import sys
@@ -43,6 +44,7 @@ from common import (
     check_if_root,
     ArgParser,
 )
+
 
 def parse_arguments():
     parser = ArgParser(prog='python %s' % __file__)
@@ -78,6 +80,7 @@ def parse_arguments():
               'output_path': args.output_path}
     return kwargs
 
+
 def warning(msg):
     red = '\033[0;31m'
     NC = '\033[0m'
@@ -85,9 +88,11 @@ def warning(msg):
                                                'msg': msg,
                                                'NC': NC})
 
+
 def setup_yaml():
     represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
     yaml.add_representer(collections.OrderedDict, represent_dict_order)
+
 
 def sha_uri(uri):
     response = urllib2.urlopen(uri)
@@ -95,6 +100,7 @@ def sha_uri(uri):
     sha1 = hashlib.sha1()
     sha1.update(data)
     return sha1.hexdigest()
+
 
 def merge_fuel_plugin_version_list(list1, list2):
     final_list = []
@@ -108,11 +114,12 @@ def merge_fuel_plugin_version_list(list1, list2):
             if plugin_version == e_l2.get('metadata',
                                           {'plugin_version',
                                            None}).get('plugin_version'):
-                final_list.append(dict(mergedicts(e_l1, e_l2)))
+                final_list.append(dict(merge_dicts(e_l1, e_l2)))
                 plugin_version_found = True
         if not plugin_version_found:
             final_list.append(e_l1)
     return final_list
+
 
 def merge_lists(list1, list2):
     if list1 and list2:
@@ -132,11 +139,12 @@ def merge_lists(list1, list2):
     else:
         return list2
 
-def mergedicts(dict1, dict2):
+
+def merge_dicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
             if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
-                yield (k, dict(mergedicts(dict1[k], dict2[k])))
+                yield (k, dict(merge_dicts(dict1[k], dict2[k])))
             elif isinstance(dict1[k], list) and isinstance(dict2[k], list):
                 yield (k, merge_lists(dict1[k], dict2[k]))
             else:
@@ -148,6 +156,7 @@ def mergedicts(dict1, dict2):
             yield (k, dict1[k])
         else:
             yield (k, dict2[k])
+
 
 setup_yaml()
 kwargs = parse_arguments()
@@ -182,7 +191,7 @@ if dea_pod_override_conf:
     print 'Merging dea-base and dea-pod-override configuration ....'
     dea_pod_override_conf.pop('dea-pod-override-config-metadata')
     if dea_pod_override_conf:
-        final_dea_conf = dict(mergedicts(final_dea_conf, dea_pod_override_conf))
+        final_dea_conf = dict(merge_dicts(final_dea_conf, dea_pod_override_conf))
 
 # Fetch deployment-scenario, extract and purge meta-data, merge deployment-scenario/
 # dea-override-configith previous dea data structure
@@ -212,7 +221,7 @@ else:
 dea_scenario_override_conf = deploy_scenario_conf["dea-override-config"]
 if dea_scenario_override_conf:
     print 'Merging dea-base-, dea-pod-override- and deployment-scenario configuration into final dea.yaml configuration....'
-    final_dea_conf = dict(mergedicts(final_dea_conf, dea_scenario_override_conf))
+    final_dea_conf = dict(merge_dicts(final_dea_conf, dea_scenario_override_conf))
 
 # Fetch plugin-configuration configuration files, extract and purge meta-data,
 # merge/append with previous dea data structure, override plugin-configuration with
@@ -244,7 +253,7 @@ if deploy_scenario_conf["stack-extensions"]:
             dea_scenario_module_override_conf['settings'] = {}
             dea_scenario_module_override_conf['settings']['editable'] = {}
             dea_scenario_module_override_conf['settings']['editable'][module["module"]] = scenario_module_override_conf
-            final_dea_conf = dict(mergedicts(final_dea_conf, dea_scenario_module_override_conf))
+            final_dea_conf = dict(merge_dicts(final_dea_conf, dea_scenario_module_override_conf))
 
 # Dump final dea.yaml including configuration management meta-data to argument provided
 # directory
@@ -314,7 +323,7 @@ dha_scenario_override_conf = deploy_scenario_conf["dha-override-config"]
 # For Physical environments, dha.yaml overrides will be silently ignored
 if dha_scenario_override_conf and (final_dha_conf['adapter'] == 'libvirt' or final_dha_conf['adapter'] == 'esxi' or final_dha_conf['adapter'] == 'vbox'):
     print 'Merging dha-pod and deployment-scenario override information to final dha.yaml configuration....'
-    final_dha_conf = dict(mergedicts(final_dha_conf, dha_scenario_override_conf))
+    final_dha_conf = dict(merge_dicts(final_dha_conf, dha_scenario_override_conf))
 
 # Dump final dha.yaml to argument provided directory
 print 'Dumping final dha.yaml to ' + kwargs["output_path"] + '/dha.yaml....'
