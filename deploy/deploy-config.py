@@ -21,6 +21,7 @@
 # 2) deployment-scenario dha-override-config section
 ###############################################################################
 
+
 import os
 import yaml
 import sys
@@ -44,24 +45,38 @@ from common import (
     ArgParser,
 )
 
+
 def parse_arguments():
     parser = ArgParser(prog='python %s' % __file__)
     parser.add_argument('-dha', dest='dha_uri', action='store',
-                        default=False, help='dha configuration file FQDN URI', required=True)
-    parser.add_argument('-deab', dest='dea_base_uri', action='store',
-                        default=False, help='dea base configuration FQDN URI', required=True)
-    parser.add_argument('-deao', dest='dea_pod_override_uri', action='store',
-                        default=False, help='dea POD override configuration FQDN URI',
+                        default=False,
+                        help='dha configuration file FQDN URI',
                         required=True)
-    parser.add_argument('-scenario-base-uri', dest='scenario_base_uri', action='store',
-                        default=False, help='Deploymen scenario base directory URI',
+    parser.add_argument('-deab', dest='dea_base_uri', action='store',
+                        default=False,
+                        help='dea base configuration FQDN URI',
+                        required=True)
+    parser.add_argument('-deao', dest='dea_pod_override_uri',
+                        action='store',
+                        default=False,
+                        help='dea POD override configuration FQDN URI',
+                        required=True)
+    parser.add_argument('-scenario-base-uri',
+                        dest='scenario_base_uri',
+                        action='store',
+                        default=False,
+                        help='Deployment scenario base directory URI',
                         required=True)
     parser.add_argument('-scenario', dest='scenario', action='store',
-                        default=False, help='Deploymen scenario short-name (priority), or base file name (in the absense of a shortname defenition)',
+                        default=False,
+                        help=('Deployment scenario short-name (priority),'
+                              'or base file name (in the absense of a'
+                              'shortname defenition)'),
                         required=True)
 
     parser.add_argument('-plugins', dest='plugins_uri', action='store',
-                        default=False, help='Plugin configurations directory URI',
+                        default=False,
+                        help='Plugin configurations directory URI',
                         required=True)
     parser.add_argument('-output', dest='output_path', action='store',
                         default=False,
@@ -78,6 +93,7 @@ def parse_arguments():
               'output_path': args.output_path}
     return kwargs
 
+
 def warning(msg):
     red = '\033[0;31m'
     NC = '\033[0m'
@@ -85,9 +101,11 @@ def warning(msg):
                                                'msg': msg,
                                                'NC': NC})
 
+
 def setup_yaml():
-    represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
+    represent_dict_order = lambda self, data: self.represent_mapping('tag:yaml.org,2002:map', data.items())
     yaml.add_representer(collections.OrderedDict, represent_dict_order)
+
 
 def sha_uri(uri):
     response = urllib2.urlopen(uri)
@@ -95,6 +113,7 @@ def sha_uri(uri):
     sha1 = hashlib.sha1()
     sha1.update(data)
     return sha1.hexdigest()
+
 
 def merge_fuel_plugin_version_list(list1, list2):
     final_list = []
@@ -105,11 +124,12 @@ def merge_fuel_plugin_version_list(list1, list2):
         plugin_version_found = False
         for e_l2 in list2:
             if plugin_version == e_l2.get('metadata', {}).get('plugin_version'):
-                final_list.append(dict(mergedicts(e_l1, e_l2)))
+                final_list.append(dict(merge_dicts(e_l1, e_l2)))
                 plugin_version_found = True
         if not plugin_version_found:
             final_list.append(e_l1)
     return final_list
+
 
 def merge_lists(list1, list2):
     if list1 and list2:
@@ -117,10 +137,10 @@ def merge_lists(list1, list2):
             if 'plugin_version' in list1[0].get('metadata', {}):
                 return merge_fuel_plugin_version_list(list1, list2)
             else:
-                warning("Lists with dictionary inside are not merge able! "
-                                "List2 will overwrite List1. "
-                                "List1: %s; List2: %s"
-                                % (list1, list2))
+                warning("Lists with dictionary inside are not mergeable! "
+                        "List2 will overwrite List1. "
+                        "List1: %s\nList2: %s"
+                        % (list1, list2))
                 return list2
         else:
             return list2
@@ -129,11 +149,12 @@ def merge_lists(list1, list2):
     else:
         return list2
 
-def mergedicts(dict1, dict2):
+
+def merge_dicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
             if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
-                yield (k, dict(mergedicts(dict1[k], dict2[k])))
+                yield (k, dict(merge_dicts(dict1[k], dict2[k])))
             elif isinstance(dict1[k], list) and isinstance(dict2[k], list):
                 yield (k, merge_lists(dict1[k], dict2[k]))
             else:
@@ -145,6 +166,7 @@ def mergedicts(dict1, dict2):
             yield (k, dict1[k])
         else:
             yield (k, dict2[k])
+
 
 setup_yaml()
 kwargs = parse_arguments()
@@ -179,7 +201,7 @@ if dea_pod_override_conf:
     print 'Merging dea-base and dea-pod-override configuration ....'
     dea_pod_override_conf.pop('dea-pod-override-config-metadata')
     if dea_pod_override_conf:
-        final_dea_conf = dict(mergedicts(final_dea_conf, dea_pod_override_conf))
+        final_dea_conf = dict(merge_dicts(final_dea_conf, dea_pod_override_conf))
 
 # Fetch deployment-scenario, extract and purge meta-data, merge deployment-scenario/
 # dea-override-configith previous dea data structure
@@ -188,7 +210,9 @@ print 'Parsing deployment-scenario from: ' + kwargs["scenario"] + "...."
 response = urllib2.urlopen(kwargs["scenario_base_uri"] + "/scenario.yaml")
 scenario_short_translation_conf = yaml.load(response.read())
 if kwargs["scenario"] in scenario_short_translation_conf:
-    scenario_uri = kwargs["scenario_base_uri"] + "/" + scenario_short_translation_conf[kwargs["scenario"]]['configfile']
+    scenario_uri = (kwargs["scenario_base_uri"]
+                    + "/"
+                    + scenario_short_translation_conf[kwargs["scenario"]]['configfile'])
 else:
     scenario_uri = kwargs["scenario_base_uri"] + "/" + kwargs["scenario"]
 response = urllib2.urlopen(scenario_uri)
@@ -208,8 +232,9 @@ else:
 
 dea_scenario_override_conf = deploy_scenario_conf["dea-override-config"]
 if dea_scenario_override_conf:
-    print 'Merging dea-base-, dea-pod-override- and deployment-scenario configuration into final dea.yaml configuration....'
-    final_dea_conf = dict(mergedicts(final_dea_conf, dea_scenario_override_conf))
+    print('Merging dea-base-, dea-pod-override- and deployment-scenario '
+          'configuration into final dea.yaml configuration....')
+    final_dea_conf = dict(merge_dicts(final_dea_conf, dea_scenario_override_conf))
 
 # Fetch plugin-configuration configuration files, extract and purge meta-data,
 # merge/append with previous dea data structure, override plugin-configuration with
@@ -223,15 +248,32 @@ module_shas = []
 module_comments = []
 if deploy_scenario_conf["stack-extensions"]:
     for module in deploy_scenario_conf["stack-extensions"]:
-        print 'Loading configuration for module: ' + module["module"] + ' and merging it to final dea.yaml configuration....'
-        response = urllib2.urlopen(kwargs["plugins_uri"] + '/' + module["module-config-name"] + '_' + module["module-config-version"] + '.yaml')
+        print('Loading configuration for module: '
+              + module["module"]
+              + ' and merging it to final dea.yaml configuration....')
+        response = urllib2.urlopen(kwargs["plugins_uri"]
+                                   + '/'
+                                   + module["module-config-name"]
+                                   + '_'
+                                   + module["module-config-version"]
+                                   + '.yaml')
         module_conf = yaml.load(response.read())
         modules.append(module["module"])
-        module_uris.append(kwargs["plugins_uri"] + '/' + module["module-config-name"] + '_' + module["module-config-version"] + '.yaml')
+        module_uris.append(kwargs["plugins_uri"]
+                           + '/'
+                           + module["module-config-name"]
+                           + '_'
+                           + module["module-config-version"]
+                           + '.yaml')
         module_titles.append(str(module_conf['plugin-config-metadata']['title']))
         module_versions.append(str(module_conf['plugin-config-metadata']['version']))
         module_creations.append(str(module_conf['plugin-config-metadata']['created']))
-        module_shas.append(sha_uri(kwargs["plugins_uri"] + '/' + module["module-config-name"] + '_' + module["module-config-version"] + '.yaml'))
+        module_shas.append(sha_uri(kwargs["plugins_uri"]
+                                   + '/'
+                                   + module["module-config-name"]
+                                   + '_'
+                                   + module["module-config-version"]
+                                   + '.yaml'))
         module_comments.append(str(module_conf['plugin-config-metadata']['comment']))
         module_conf.pop('plugin-config-metadata')
         final_dea_conf['settings']['editable'].update(module_conf)
@@ -241,7 +283,7 @@ if deploy_scenario_conf["stack-extensions"]:
             dea_scenario_module_override_conf['settings'] = {}
             dea_scenario_module_override_conf['settings']['editable'] = {}
             dea_scenario_module_override_conf['settings']['editable'][module["module"]] = scenario_module_override_conf
-            final_dea_conf = dict(mergedicts(final_dea_conf, dea_scenario_module_override_conf))
+            final_dea_conf = dict(merge_dicts(final_dea_conf, dea_scenario_module_override_conf))
 
 # Dump final dea.yaml including configuration management meta-data to argument provided
 # directory
@@ -249,45 +291,48 @@ if not os.path.exists(kwargs["output_path"]):
     os.makedirs(kwargs["output_path"])
 print 'Dumping final dea.yaml to ' + kwargs["output_path"] + '/dea.yaml....'
 with open(kwargs["output_path"] + '/dea.yaml', "w") as f:
-    f.write("title: DEA.yaml file automatically generated from the configuration files stated in the \"configuration-files\" fragment below\n")
-    f.write("version: " + str(calendar.timegm(time.gmtime()))  + "\n")
-    f.write("created: " + str(time.strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S"))  + "\n")
-    f.write("comment: none\n")
+    f.write("\n".join([("title: DEA.yaml file automatically generated from the"
+                        'configuration files stated in the "configuration-files"'
+                        "fragment below"),
+                       "version: " + str(calendar.timegm(time.gmtime())),
+                       "created: " + str(time.strftime("%d/%m/%Y")) + " "
+                       + str(time.strftime("%H:%M:%S")),
+                       "comment: none\n"]))
 
-    f.write("configuration-files:\n")
-    f.write("  dea-base:\n")
-    f.write("    uri: " +  kwargs["dea_base_uri"] + "\n")
-    f.write("    title: " +  str(dea_base_title) + "\n")
-    f.write("    version: " +  str(dea_base_version) + "\n")
-    f.write("    created: " +  str(dea_base_creation) + "\n")
-    f.write("    sha1: " +  str(dea_base_sha) + "\n")
-    f.write("    comment: " +  str(dea_base_comment) + "\n")
+    f.write("\n".join(["configuration-files:",
+                       "  dea-base:",
+                       "    uri: " +  kwargs["dea_base_uri"],
+                       "    title: " + str(dea_base_title),
+                       "    version: " + str(dea_base_version),
+                       "    created: " + str(dea_base_creation),
+                       "    sha1: " + str(dea_base_sha),
+                       "    comment: " + str(dea_base_comment) + "\n"]))
 
-    f.write("  pod-override:\n")
-    f.write("    uri: " +  kwargs["dea_pod_override_uri"] + "\n")
-    f.write("    title: " +  str(dea_pod_title) + "\n")
-    f.write("    version: " +  str(dea_pod_version) + "\n")
-    f.write("    created: " +  str(dea_pod_creation) + "\n")
-    f.write("    sha1: " +  str(dea_pod_sha) + "\n")
-    f.write("    comment: " +  str(dea_pod_comment) + "\n")
+    f.write("\n".join(["  pod-override:",
+                       "    uri: " + kwargs["dea_pod_override_uri"],
+                       "    title: " + str(dea_pod_title),
+                       "    version: " + str(dea_pod_version),
+                       "    created: " + str(dea_pod_creation),
+                       "    sha1: " + str(dea_pod_sha),
+                       "    comment: " + str(dea_pod_comment) + "\n"]))
 
-    f.write("  deployment-scenario:\n")
-    f.write("    uri: " +  str(scenario_uri) + "\n")
-    f.write("    title: " +  str(deploy_scenario_title) + "\n")
-    f.write("    version: " +  str(deploy_scenario_version) + "\n")
-    f.write("    created: " +  str(deploy_scenario_creation) + "\n")
-    f.write("    sha1: " +  str(deploy_scenario_sha) + "\n")
-    f.write("    comment: " +  str(deploy_scenario_comment) + "\n")
+    f.write("\n".join(["  deployment-scenario:",
+                       "    uri: " + str(scenario_uri),
+                       "    title: " + str(deploy_scenario_title),
+                       "    version: " + str(deploy_scenario_version),
+                       "    created: " + str(deploy_scenario_creation),
+                       "    sha1: " + str(deploy_scenario_sha),
+                       "    comment: " + str(deploy_scenario_comment) + "\n"]))
 
     f.write("  plugin-modules:\n")
     for k in range(0,len(modules)):
-        f.write("  - module: " + modules[k] + "\n")
-        f.write("    uri: " + module_uris[k] + "\n")
-        f.write("    title: " + module_titles[k] + "\n")
-        f.write("    version: " + module_versions[k] + "\n")
-        f.write("    created: " + module_creations[k] + "\n")
-        f.write("    sha-1: " + module_shas[k] + "\n")
-        f.write("    comment: " + module_comments[k] + "\n")
+        f.write("\n".join(["  - module: " + modules[k],
+                           "    uri: " + module_uris[k],
+                           "    title: " + module_titles[k],
+                           "    version: " + module_versions[k],
+                           "    created: " + module_creations[k],
+                           "    sha-1: " + module_shas[k],
+                           "    comment: " + module_comments[k] + "\n"]))
 
     yaml.dump(final_dea_conf, f, default_flow_style=False)
 
@@ -309,33 +354,39 @@ dha_scenario_override_conf = deploy_scenario_conf["dha-override-config"]
 # is no way to programatically override a physical environment:
 # wireing, IPMI set-up, etc.
 # For Physical environments, dha.yaml overrides will be silently ignored
-if dha_scenario_override_conf and (final_dha_conf['adapter'] == 'libvirt' or final_dha_conf['adapter'] == 'esxi' or final_dha_conf['adapter'] == 'vbox'):
+if dha_scenario_override_conf and (final_dha_conf['adapter'] == 'libvirt'
+                                   or final_dha_conf['adapter'] == 'esxi'
+                                   or final_dha_conf['adapter'] == 'vbox'):
     print 'Merging dha-pod and deployment-scenario override information to final dha.yaml configuration....'
-    final_dha_conf = dict(mergedicts(final_dha_conf, dha_scenario_override_conf))
+    final_dha_conf = dict(merge_dicts(final_dha_conf, dha_scenario_override_conf))
 
 # Dump final dha.yaml to argument provided directory
 print 'Dumping final dha.yaml to ' + kwargs["output_path"] + '/dha.yaml....'
 with open(kwargs["output_path"] + '/dha.yaml', "w") as f:
-    f.write("title: DHA.yaml file automatically generated from the configuration files stated in the \"configuration-files\" fragment below\n")
-    f.write("version: " + str(calendar.timegm(time.gmtime()))  + "\n")
-    f.write("created: " + str(time.strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S"))  + "\n")
-    f.write("comment: none\n")
+    f.write("\n".join([("title: DHA.yaml file automatically generated from"
+                        "the configuration files stated in the"
+                        '"configuration-files" fragment below'),
+                       "version: " + str(calendar.timegm(time.gmtime())),
+                       "created: " + str(time.strftime("%d/%m/%Y")) + " "
+                       + str(time.strftime("%H:%M:%S")),
+                       "comment: none\n"]))
 
     f.write("configuration-files:\n")
 
-    f.write("  dha-pod-configuration:\n")
-    f.write("    uri: " +  kwargs["dha_uri"] + "\n")
-    f.write("    title: " +  str(dha_pod_title) + "\n")
-    f.write("    version: " +  str(dha_pod_version) + "\n")
-    f.write("    created: " +  str(dha_pod_creation) + "\n")
-    f.write("    sha-1: " +  str(dha_pod_sha) + "\n")
-    f.write("    comment: " +  str(dha_pod_comment) + "\n")
+    f.write("\n".join(["  dha-pod-configuration:",
+                       "    uri: " + kwargs["dha_uri"],
+                       "    title: " + str(dha_pod_title),
+                       "    version: " + str(dha_pod_version),
+                       "    created: " + str(dha_pod_creation),
+                       "    sha-1: " + str(dha_pod_sha),
+                       "    comment: " + str(dha_pod_comment) + "\n"]))
 
-    f.write("  deployment-scenario:\n")
-    f.write("    uri: " +  str(scenario_uri) + "\n")
-    f.write("    title: " +  str(deploy_scenario_title) + "\n")
-    f.write("    version: " +  str(deploy_scenario_version) + "\n")
-    f.write("    created: " +  str(deploy_scenario_creation) + "\n")
-    f.write("    sha-1: " +  str(deploy_scenario_sha) + "\n")
-    f.write("    comment: " +  str(deploy_scenario_comment) + "\n")
+    f.write("\n".join(["  deployment-scenario:",
+                       "    uri: " + str(scenario_uri),
+                       "    title: " + str(deploy_scenario_title),
+                       "    version: " + str(deploy_scenario_version),
+                       "    created: " + str(deploy_scenario_creation),
+                       "    sha-1: " + str(deploy_scenario_sha),
+                       "    comment: " + str(deploy_scenario_comment) + "\n"]))
+
     yaml.dump(final_dha_conf, f, default_flow_style=False)
