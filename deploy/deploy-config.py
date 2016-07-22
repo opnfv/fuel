@@ -21,6 +21,7 @@
 # 2) deployment-scenario dha-override-config section
 ###############################################################################
 
+
 import os
 import yaml
 import sys
@@ -43,6 +44,7 @@ from common import (
     check_if_root,
     ArgParser,
 )
+
 
 def parse_arguments():
     parser = ArgParser(prog='python %s' % __file__)
@@ -78,6 +80,7 @@ def parse_arguments():
               'output_path': args.output_path}
     return kwargs
 
+
 def warning(msg):
     red = '\033[0;31m'
     NC = '\033[0m'
@@ -85,9 +88,11 @@ def warning(msg):
                                                'msg': msg,
                                                'NC': NC})
 
+
 def setup_yaml():
     represent_dict_order = lambda self, data:  self.represent_mapping('tag:yaml.org,2002:map', data.items())
     yaml.add_representer(collections.OrderedDict, represent_dict_order)
+
 
 def sha_uri(uri):
     response = urllib2.urlopen(uri)
@@ -95,6 +100,7 @@ def sha_uri(uri):
     sha1 = hashlib.sha1()
     sha1.update(data)
     return sha1.hexdigest()
+
 
 def merge_fuel_plugin_version_list(list1, list2):
     final_list = []
@@ -114,6 +120,7 @@ def merge_fuel_plugin_version_list(list1, list2):
             final_list.append(e_l1)
     return final_list
 
+
 def merge_lists(list1, list2):
     if list1 and list2:
         if isinstance(list1[0], dict):
@@ -132,6 +139,7 @@ def merge_lists(list1, list2):
     else:
         return list2
 
+
 def mergedicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
@@ -148,6 +156,7 @@ def mergedicts(dict1, dict2):
             yield (k, dict1[k])
         else:
             yield (k, dict2[k])
+
 
 setup_yaml()
 kwargs = parse_arguments()
