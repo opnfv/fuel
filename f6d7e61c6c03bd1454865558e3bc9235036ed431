@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_30d811ef",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 50
+      },
+      "writtenOn": "2016-07-25T12:49:08Z",
+      "side": 1,
+      "message": "Can you change this?",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "f6d7e61c6c03bd1454865558e3bc9235036ed431",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
