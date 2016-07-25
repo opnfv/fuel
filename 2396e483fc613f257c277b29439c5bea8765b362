@@ -16,6 +16,24 @@
       "revId": "2396e483fc613f257c277b29439c5bea8765b362",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f0edb9f0",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-07-25T06:57:55Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "1a76adc5_92cc8d37",
+      "revId": "2396e483fc613f257c277b29439c5bea8765b362",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
