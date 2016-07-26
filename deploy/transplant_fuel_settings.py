@@ -18,6 +18,7 @@ from common import (
 )
 
 ASTUTE_YAML = '/etc/fuel/astute.yaml'
+FUEL_BOOTSTRAP_CLI_YAML = '/opt/opnfv/fuel_bootstrap_cli.yaml'
 
 
 def usage():
@@ -47,15 +48,31 @@ def transplant(dea, astute):
     return astute
 
 
+def transplant_bootstrap(astute, fuel_bootstrap_cli):
+    if 'BOOTSTRAP' in astute:
+        for skey in astute['BOOTSTRAP'].iterkeys():
+            # FIXME: astute.yaml repos point to public ones instead of
+            # local mirrors, this filter should be removed when in sync
+            if skey != 'repos':
+                fuel_bootstrap_cli[skey] = astute['BOOTSTRAP'][skey]
+    return fuel_bootstrap_cli
+
 def main():
     dea_file = parse_arguments()
     check_file_exists(ASTUTE_YAML)
+    check_file_exists(FUEL_BOOTSTRAP_CLI_YAML)
     dea = DeploymentEnvironmentAdapter(dea_file)
     with io.open(ASTUTE_YAML) as stream:
         astute = yaml.load(stream)
     transplant(dea, astute)
     with io.open(ASTUTE_YAML, 'w') as stream:
         yaml.dump(astute, stream, default_flow_style=False)
+    # Update bootstrap config yaml with info from DEA/astute.yaml
+    with io.open(FUEL_BOOTSTRAP_CLI_YAML) as stream:
+        fuel_bootstrap_cli = yaml.load(stream)
+    transplant_bootstrap(astute, fuel_bootstrap_cli)
+    with io.open(FUEL_BOOTSTRAP_CLI_YAML, 'w') as stream:
+        yaml.dump(fuel_bootstrap_cli, stream, default_flow_style=False)
 
 
 if __name__ == '__main__':
