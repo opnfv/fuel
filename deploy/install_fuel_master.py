@@ -84,8 +84,8 @@ class InstallFuelMaster(object):
         log('Wait until Fuel menu is up')
         fuel_menu_pid = self.wait_until_fuel_menu_up()
 
-        log('Inject our own astute.yaml settings')
-        self.inject_own_astute_yaml()
+        log('Inject our own astute.yaml and fuel_bootstrap_cli.yaml settings')
+        self.inject_own_astute_and_bootstrap_yaml()
 
         log('Let the Fuel deployment continue')
         log('Found FUEL menu as PID %s, now killing it' % fuel_menu_pid)
@@ -181,7 +181,7 @@ class InstallFuelMaster(object):
             ret = self.ssh.exec_cmd(cmd, check=check)
         return ret
 
-    def inject_own_astute_yaml(self):
+    def inject_own_astute_and_bootstrap_yaml(self):
         with self.ssh as s:
             s.exec_cmd('rm -rf %s' % self.work_dir, False)
             s.exec_cmd('mkdir %s' % self.work_dir)
