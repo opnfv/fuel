@@ -101,13 +101,10 @@ def merge_fuel_plugin_version_list(list1, list2):
     # When the plugin version in not there in list1 it will
     # not be copied
     for e_l1 in list1:
-        plugin_version = e_l1.get('metadata',
-                                  {'plugin_version', None}).get('plugin_version')
+        plugin_version = e_l1.get('metadata', {}).get('plugin_version')
         plugin_version_found = False
         for e_l2 in list2:
-            if plugin_version == e_l2.get('metadata',
-                                          {'plugin_version',
-                                           None}).get('plugin_version'):
+            if plugin_version == e_l2.get('metadata', {}).get('plugin_version'):
                 final_list.append(dict(mergedicts(e_l1, e_l2)))
                 plugin_version_found = True
         if not plugin_version_found:
