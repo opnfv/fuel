@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_410ce194",
+        "filename": "deploy/environments/execution_environment.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-07-27T06:26:18Z",
+      "side": 1,
+      "message": "can we use os.path.join?\n\n os.path.join(self.root_dir, path)\n\nor if path.join doesn\u0027t work for some reason\n\n  os.sep.join((self.root_dir, path))",
+      "revId": "1bbbd0a5df2ad135dac896c66890a1ba1525fe83",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7c0aedd3",
         "filename": "deploy/environments/libvirt_environment.py",
         "patchSetId": 1
