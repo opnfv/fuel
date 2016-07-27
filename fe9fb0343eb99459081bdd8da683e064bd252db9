@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_61ec7dc8",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-07-27T06:12:02Z",
+      "side": 1,
+      "message": "it might be slightly more proper to use collections.Mapping or collections.MutableMapping abstract base classes for type-checking.",
+      "revId": "fe9fb0343eb99459081bdd8da683e064bd252db9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_21ce855b",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-07-27T06:12:02Z",
+      "side": 1,
+      "message": "set takes an iterable, so we shouldn\u0027t need .keys()\n\n set(dict1).union(dict2)",
+      "revId": "fe9fb0343eb99459081bdd8da683e064bd252db9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c1da3117",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-07-27T06:12:02Z",
+      "side": 1,
+      "message": "can we use enumerate()?\n\n for k, _ in enumerate(modules):",
+      "revId": "fe9fb0343eb99459081bdd8da683e064bd252db9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
