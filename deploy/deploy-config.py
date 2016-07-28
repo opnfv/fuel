@@ -121,13 +121,7 @@ def merge_lists(list1, list2):
                                 "List2 will overwrite List1. "
                                 "List1: %s; List2: %s"
                                 % (list1, list2))
-                return list2
-        else:
-            return list2
-    elif list1:
-        return list1
-    else:
-        return list2
+    return list2
 
 def mergedicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
