@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0ec5b15a",
+        "filename": "deploy/deploy-config.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-07-28T17:19:04Z",
+      "side": 1,
+      "message": "can we use list comprehension?\n\n return [new_nets.get(net.get(\u0027name\u0027), net)) for net in \nlist_1]",
+      "revId": "e5e4f3919473c724885528eee7a9c39d7d4f44fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
