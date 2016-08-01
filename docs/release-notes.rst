@@ -1,5 +1,5 @@
 ============================================================================================
-OPNFV Release Note for the Brahmaputra 3.0 release of OPNFV when using Fuel as a deployment tool
+OPNFV Release Note for the Colorado 1.0 release of OPNFV when using Fuel as a deployment tool
 ============================================================================================
 
 License
@@ -12,16 +12,16 @@ License. .. http://creativecommons.org/licenses/by/4.0 ..
 Abstract
 ========
 
-This document compiles the release notes for the Brahmaputra 3.0 release of
+This document compiles the release notes for the Colorado 1.0 release of
 OPNFV when using Fuel as a deployment tool.
 
 Important notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Brahmaputra 3.0 release of OPNFV.
+tool for the Colorado 1.0 release of OPNFV.
 
-The goal of the Brahmaputra release and this Fuel-based deployment process is
+The goal of the Colorado release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
@@ -30,7 +30,7 @@ Carefully follow the installation-instructions provided in *Reference 13*.
 Summary
 =======
 
-For Brahmaputra, the typical use of Fuel as an OpenStack installer is
+For Colorado, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
 - `OpenDaylight <http://www.opendaylight.org/software>`_ version "Berylium SR1"
@@ -49,7 +49,7 @@ supplemented with OPNFV unique components such as:
 
 As well as OPNFV-unique configurations of the Hardware- and Software stack.
 
-This Brahmaputra artifact provides Fuel as the deployment stage tool in the
+This Colorado artifact provides Fuel as the deployment stage tool in the
 OPNFV CI pipeline including:
 
 - Documentation built by Jenkins
@@ -62,11 +62,11 @@ OPNFV CI pipeline including:
 
   - build-instructions
 
-- The Brahmaputra Fuel installer image (.iso) built by Jenkins
+- The Colorado Fuel installer image (.iso) built by Jenkins
 
-- Automated deployment of Brahmaputra with running on bare metal or a nested hypervisor environment (KVM)
+- Automated deployment of Colorado with running on bare metal or a nested hypervisor environment (KVM)
 
-- Automated validation of the Brahmaputra deployment
+- Automated validation of the Colorado deployment
 
 Release Data
 ============
@@ -75,16 +75,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | brahmaputra.3.0                      |
+| **Repo/tag**                         | colorado.1.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Brahmaputra 3.0 follow-up release    |
+| **Release designation**              | Colorado 1.0 follow-up release       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Release date**                     | April 28 2016                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Brahmaputra alignment to Released    |
+| **Purpose of the delivery**          | Colorado alignment to Released       |
 |                                      | Fuel 8.0 baseline + Bug-fixes for    |
 |                                      | the following feaures/scenarios:     |
 |                                      | - NFV Hypervisors-KVM                |
@@ -100,7 +100,7 @@ Version change
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-This is a follow-up release to Brahmaputra 1.0. It is based on
+This is a follow-up release to Colorado 1.0. It is based on
 following upstream versions:
 
 - Fuel 8.0 Base release
@@ -113,7 +113,7 @@ following upstream versions:
 
 Document changes
 ~~~~~~~~~~~~~~~~
-This is a follow-up release to Brahmaputra 1.0. It
+This is a follow-up release to Colorado 1.0. It
 comes with the following documentation:
 
 - Installation instructions - *Reference 13* - **Changed**
@@ -193,12 +193,12 @@ Workarounds
 
 Test results
 ============
-The Brahmaputra 3.0 release with the Fuel deployment tool has undergone QA test
+The Colorado 1.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
-For more information on the OPNFV Brahmaputra release, please see:
+For more information on the OPNFV Colorado release, please see:
 
 OPNFV
 -----
@@ -239,8 +239,8 @@ Fuel
 Fuel in OPNFV
 -------------
 
-13) `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html>`_
+13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
 
-14) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
+14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
 
-15) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_
+15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
