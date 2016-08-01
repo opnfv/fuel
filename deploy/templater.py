@@ -107,12 +107,28 @@ class Templater(object):
 
         return self.get_interface_from_network(interfaces, args[0])
 
+    def parse_include_tag(self, tag):
+        # Remove 'include(' prefix and trailing ')'
+        filename = tag[len('include('):].rstrip(')')
+
+        if not filename:
+            err('No argument for include().')
+
+        return filename
+
+    def include_file(self, filename):
+        fragment = self.load_yaml(filename)
+        return yaml.dump(fragment, default_flow_style=False)
+
     def parse_tag(self, tag, indent):
         fragment = ''
 
         if 'interface(' in tag:
             args = self.parse_interface_tag(tag)
             fragment = self.lookup_interface(args)
+        elif 'include(' in tag:
+            filename = self.parse_include_tag(tag)
+            fragment = self.include_file(filename)
         else:
             path = tag.split(DELIMITER)
             fragment = self.base
