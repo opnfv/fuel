@@ -91,15 +91,16 @@ class DeploymentEnvironmentAdapter(object):
     def get_network_names(self):
         return self.network_names
 
-    def get_dns_list(self):
+    def get_list_worker(self, setting):
         settings = self.get_property('settings')
-        dns_list = settings['editable']['external_dns']['dns_list']['value']
-        return [d.strip() for d in dns_list.split(',')]
+        editable = settings['editable']['external_dns'][setting]['value']
+        return [d.strip() for d in editable.split(',')]
+
+    def get_dns_list(self):
+        return get_list_worker('dns_list')
 
     def get_ntp_list(self):
-        settings = self.get_property('settings')
-        ntp_list = settings['editable']['external_ntp']['ntp_list']['value']
-        return [n.strip() for n in ntp_list.split(',')]
+        return get_list_worker('ntp_list')
 
     def get_blade_node_map(self):
         return self.dea_struct['blade_node_map']
