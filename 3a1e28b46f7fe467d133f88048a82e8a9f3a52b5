@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4e13a45c",
+        "filename": "deploy/reap.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-02T07:45:22Z",
+      "side": 1,
+      "message": "How about passing this as an arg instead?\nMaybe replace \"--create_dea_base\" bool arg with \"dea_base\" yaml path arg, which, if present, would imply the creation of dea_base?",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ee04f016",
+        "filename": "deploy/reap.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-02T07:45:22Z",
+      "side": 1,
+      "message": "I am not convinced these args should start with \"-\", since the other args use single dash.",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0e1dac66",
+        "filename": "deploy/templates/templater/base_dea_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-02T07:45:22Z",
+      "side": 1,
+      "message": "2016/author?",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
