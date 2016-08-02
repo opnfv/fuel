@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_2e8d087c",
+        "filename": "deploy/reap.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-08-02T08:33:42Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "1a76adc5_4e13a45c",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ee04f016",
         "filename": "deploy/reap.py",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_8e7c5c74",
+        "filename": "deploy/reap.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-08-02T08:33:42Z",
+      "side": 1,
+      "message": "This is a single dash argument. :-)",
+      "parentUuid": "1a76adc5_ee04f016",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0e1dac66",
         "filename": "deploy/templates/templater/base_dea_template.yaml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-08-02T07:45:22Z",
       "side": 1,
       "message": "2016/author?",
+      "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2eb6683e",
+        "filename": "deploy/templates/templater/base_dea_template.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-08-02T08:33:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0e1dac66",
       "revId": "3a1e28b46f7fe467d133f88048a82e8a9f3a52b5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
