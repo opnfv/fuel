@@ -1,7 +1,8 @@
 #!/usr/bin/python
 ###############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
+# Copyright (c) 2015, 2016 Ericsson AB and others.
 # szilard.cserey@ericsson.com
+# peter.barabas@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -76,6 +77,8 @@ DHA_2 = '''
 # which may not be correct - please adjust as needed.
 '''
 
+TEMPLATER = 'templater.py'
+
 DISKS = {'fuel': '100G',
          'controller': '100G',
          'compute': '100G'}
@@ -83,10 +86,12 @@ DISKS = {'fuel': '100G',
 
 class Reap(object):
 
-    def __init__(self, dea_file, dha_file, comment):
+    def __init__(self, dea_file, dha_file, comment, base_dea, template):
         self.dea_file = dea_file
         self.dha_file = dha_file
         self.comment = comment
+        self.base_dea = base_dea
+        self.template = template
         self.temp_dir = None
         self.env = None
         self.env_id = None
@@ -293,6 +298,7 @@ class Reap(object):
     def intro(self):
         delete(self.dea_file)
         delete(self.dha_file)
+
         self.temp_dir = tempfile.mkdtemp()
         date = time.strftime('%c')
         self.write(self.dea_file,
@@ -310,10 +316,16 @@ class Reap(object):
         self.download_config('settings')
         self.download_config('network')
 
+    def create_base_dea(self):
+        exec_cmd('python %s %s %s %s'
+                 % (TEMPLATER, self.dea_file, self.template, self.base_dea))
+
     def finale(self):
         log('DEA file is available at %s' % self.dea_file)
         log('DHA file is available at %s (this is just a template)'
             % self.dha_file)
+        if self.base_dea:
+            log('DEA base file is available at %s' % self.base_dea)
         shutil.rmtree(self.temp_dir)
 
     def reap(self):
@@ -323,6 +335,8 @@ class Reap(object):
         self.reap_fuel_settings()
         self.reap_network_settings()
         self.reap_settings()
+        if self.base_dea:
+            self.create_base_dea()
         self.finale()
 
 
@@ -335,14 +349,26 @@ def parse_arguments():
                         default='dha.yaml',
                         help='Deployment Hardware Adapter: dha.yaml')
     parser.add_argument('comment', nargs='?', action='store', help='Comment')
+    parser.add_argument('-base_dea',
+                        dest='base_dea',
+                        help='Create specified base DEA file from "dea_file"')
+    parser.add_argument('-template',
+                        dest='template',
+                        nargs='?',
+                        default='base_dea_template.yaml',
+                        help='Base DEA is generated from this template')
     args = parser.parse_args()
-    return (args.dea_file, args.dha_file, args.comment)
+    return (args.dea_file,
+            args.dha_file,
+            args.comment,
+            args.base_dea,
+            args.template)
 
 
 def main():
-    dea_file, dha_file, comment = parse_arguments()
+    dea_file, dha_file, comment, base_dea, template = parse_arguments()
 
-    r = Reap(dea_file, dha_file, comment)
+    r = Reap(dea_file, dha_file, comment, base_dea, template)
     r.reap()
 
 
