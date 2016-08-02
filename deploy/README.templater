@@ -49,6 +49,12 @@ syntax is described below:
 
    Specify a network type and a role as arguments to interface().
 
+5. File inclusion
+
+   %{include(templates/interfaces.yaml)}
+
+   Filename with absolute or relative path.
+
 
 ======== EXAMPLES ========
 
@@ -274,4 +280,92 @@ compute_private_if: ens5
 # Management interface of a mongo node
 mongo_mgmt_if: ens3
 controller_private_if: ens4
+
+
+--- Example 4 ---
+
+Template file:
+
+version: 1.1
+created: Mon Jun 13 19:39:35 2016
+comment: None
+%{include(environment.yaml)}
+
+
+environment.yaml:
+
+environment:
+  name: F9-NOSDN-NOFEATURE-VXLAN-BAREMETAL
+  net_segment_type: tun
+
+
+Result:
+
+version: 1.1
+created: Mon Jun 13 19:39:35 2016
+comment: None
+environment:
+  name: F9-NOSDN-NOFEATURE-VXLAN-BAREMETAL
+  net_segment_type: tun
+
+
+--- Example 5 ---
+
+Template file (except):
+
+settings:
+  editable:
+    access:
+      email:
+        description: Email address for Administrator
+        label: Email
+        regex:
+          error: Invalid email
+          source: ^\S+@\S+$
+        type: text
+        value: admin@localhost
+        weight: 40
+# ...
+# lines omitted for brevity
+    %{include(templates/cgroups.yaml)}
+
+
+cgroups.yaml:
+
+    cgroups:
+      metadata:
+        always_editable: true
+        group: general
+        label: Cgroups conguration for services
+        restrictions:
+        - action: hide
+          condition: 'true'
+        weight: 90
+
+
+Result:
+
+settings:
+  editable:
+    access:
+      email:
+        description: Email address for Administrator
+        label: Email
+        regex:
+          error: Invalid email
+          source: ^\S+@\S+$
+        type: text
+        value: admin@localhost
+        weight: 40
+# ...
+# again, lines omitted for brevity
+    cgroups:
+      metadata:
+        always_editable: true
+        group: general
+        label: Cgroups conguration for services
+        restrictions:
+        - action: hide
+          condition: 'true'
+        weight: 90
 
