@@ -27,6 +27,9 @@ CLIENT=$(echo python-python-tackerclient_*_all.deb)
 JSONRPC=$(echo python-jsonrpclib_*_all.deb)
 SERVER=$(echo python-tacker_*_all.deb)
 
+#fuel admin user name
+fadm="fadm"
+
 # Function checks whether crudini is available, if not - installs
 function chkCrudini () {
     if [[ ! -f '/usr/bin/crudini' ]]; then
@@ -87,7 +90,7 @@ function buildTackerServer () {
     fi
     cd $MYDIR
     rm -rf $MYREPO
-    git clone  -b 'SFC_brahmaputra' https://github.com/trozet/tacker.git $MYREPO
+    git clone  -b 'SFC_colorado' https://github.com/trozet/tacker.git $MYREPO
     cd $MYREPO
     patch -p  1 <<EOFSCP
 diff -ruN a/setup.cfg b/setup.cfg
@@ -239,9 +242,10 @@ function populate_client() {
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
             echo "Installing $CLIENT on $anode"
-            scp ${SSH_OPTIONS[@]} $CLIENT $anode:$CLIENT
-            ssh ${SSH_OPTIONS[@]} $anode dpkg -i $CLIENT
-            ssh ${SSH_OPTIONS[@]} $anode rm $CLIENT
+            scp ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${CLIENT} ${fadm}@${anode}:${CLIENT}
+            ssh ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${fadm}@${anode} sudo dpkg -i ${CLIENT}
+            ssh ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${fadm}@${anode} rm ${CLIENT}
+
         fi
     done
 }
@@ -262,12 +266,14 @@ function orchestarte () {
 
     auth_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'auth_uri')
     identity_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'identity_uri')
+    int_addr=$(ifconfig br-mesh | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     mgmt_addr=$(ifconfig br-mgmt | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     pub_addr=$(ifconfig br-ex-lnx | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     rabbit_host=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_hosts'| cut -d ':' -f 1)
     rabbit_password=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_password')
     sql_host=$(hiera database_vip)
     database_connection="mysql://tacker:tacker@${sql_host}/tacker"
+    internal_url="http://${int_addr}:${bind_port}"
     admin_url="http://${mgmt_addr}:${bind_port}"
     public_url="http://${pub_addr}:${bind_port}"
     heat_api_vip=$(crudini --get '/etc/heat/heat.conf' 'heat_api' 'bind_host')
@@ -309,12 +315,17 @@ function orchestarte () {
      password            => '${myPassword}',
      tenant              => '${service_tenant}',
      admin_url           => '${admin_url}',
-     internal_url        => '${admin_url}',
+     internal_url        => '${internal_url}',
      public_url          => '${public_url}',
      region              => '${myRegion}',
    }
 EOF
 
+    apt-get install -y mysql-client-5.5
+    cat > /usr/bin/tacker-manage <<EOFAKEMANAGE
+#!/bin/bash
+EOFAKEMANAGE
+    chmod +x /usr/bin/tacker-manage
     puppet apply configure_tacker.pp
     rm -f tackerc
     cat > tackerc <<EOFRC
@@ -344,8 +355,8 @@ function populate_rc() {
     myaddr=$(ifconfig br-fw-admin | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     for anode in $clusternodes ; do
         if [ "$anode" != "$myaddr" ] ; then
-            echo "Populating seetings to $anode"
-            scp ${SSH_OPTIONS[@]} tackerc $anode:tackerc
+            echo "Populating settings to $anode"
+            scp ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" tackerc ${fadm}@${anode}:tackerc
         fi
     done
 }
