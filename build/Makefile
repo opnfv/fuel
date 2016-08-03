@@ -105,6 +105,7 @@ include cache.mk
 
 $(ISOCACHE):
 	# Clone Fuel to non-persistent location and build
+	sudo rm -rf /tmp/fuel-main
 	if [ ! -d /tmp/fuel-main ]; then \
 		cd /tmp && git clone $(FUEL_MAIN_REPO); \
 	fi
@@ -137,6 +138,9 @@ $(ISOCACHE):
 	cd /tmp/fuel-main && git config user.email "fuel@opnfv.org"
 	cd /tmp/fuel-main && git am $(TOPDIR)/bootstrap_admin_node.sh.patch
 	cd /tmp/fuel-main && git am $(TOPDIR)/isolinux.cfg.patch
+	cd /tmp/fuel-main/build/repos/fuel-nailgun && git config user.name "Fuel OPNFV"
+	cd /tmp/fuel-main/build/repos/fuel-nailgun && git config user.email "fuel@opnfv.org"
+	cd /tmp/fuel-main/build/repos/fuel-nailgun && git am $(TOPDIR)/Mark-Intel-82599-10-Gigabit-NIC-as-DPDK-capable.patch
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
