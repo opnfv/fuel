@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f1e291d4",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T08:29:38Z",
+      "side": 1,
+      "message": "to be updated later?",
+      "revId": "196c337a03751aaebaa5307fb864293703cce57c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_91e79de4",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T08:29:38Z",
+      "side": 1,
+      "message": "should be SR2",
+      "revId": "196c337a03751aaebaa5307fb864293703cce57c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b1ec19c9",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T08:29:38Z",
+      "side": 1,
+      "message": "SR2",
+      "revId": "196c337a03751aaebaa5307fb864293703cce57c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
