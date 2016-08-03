@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c43795af",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T15:38:58Z",
+      "side": 1,
+      "message": "this make the below condition useless (always true)",
+      "revId": "0abf0db695ad78361e4c41b7a05ee7c04c7cf51d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a4461922",
+        "filename": "build/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T15:38:58Z",
+      "side": 1,
+      "message": "I think we could write these to a file and use `git config -f` instead.",
+      "revId": "0abf0db695ad78361e4c41b7a05ee7c04c7cf51d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_444b852b",
+        "filename": "build/Mark-Intel-82599-10-Gigabit-NIC-as-DPDK-capable.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-03T15:38:58Z",
+      "side": 1,
+      "message": "thse 2 lines + leading \"From\" could be stripepd",
+      "revId": "0abf0db695ad78361e4c41b7a05ee7c04c7cf51d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
