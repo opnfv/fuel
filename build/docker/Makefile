@@ -10,6 +10,15 @@
 
 SHELL = /bin/bash
 FILES = $(wildcard ubuntu-builder/*) runcontext
+DOCKER_VER := $(shell [[ "$$(docker version --format '{{.Client.Version}}')" =~ ([0-9]+)\.([0-9]+) ]] && echo $$(( $${BASH_REMATCH[1]} * 100 + $${BASH_REMATCH[2]} )))
+
+# Don't use -f flag when docker is newer than 1.9
+# https://docs.docker.com/engine/deprecated/#/f-flag-on-docker-tag
+ifeq ($(shell echo "$(DOCKER_VER)>109" | bc), 1)
+	tag_flags :=
+else
+	tag_flags := -f
+endif
 
 .PHONY: all
 all:	.docker
@@ -25,7 +34,7 @@ all:	.docker
 	test -n "${NO_PROXY}" && sed -i "s;INSERT_NO_PROXY;${NO_PROXY};" ubuntu-builder/Dockerfile || exit 0
 	sed -i '/INSERT_/d' ubuntu-builder/Dockerfile
 	/usr/bin/docker build --rm=true --no-cache=true -t opnfv.org/ubuntu-builder:14.04 ubuntu-builder
-	/usr/bin/docker tag -f opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
+	/usr/bin/docker tag ${tag_flags} opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
 	touch .docker
 
 .PHONY:	clean
