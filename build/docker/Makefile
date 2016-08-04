@@ -25,7 +25,7 @@ all:	.docker
 	test -n "${NO_PROXY}" && sed -i "s;INSERT_NO_PROXY;${NO_PROXY};" ubuntu-builder/Dockerfile || exit 0
 	sed -i '/INSERT_/d' ubuntu-builder/Dockerfile
 	/usr/bin/docker build --rm=true --no-cache=true -t opnfv.org/ubuntu-builder:14.04 ubuntu-builder
-	/usr/bin/docker tag -f opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
+	/usr/bin/docker tag opnfv.org/ubuntu-builder:14.04 opnfv.org/ubuntu-builder
 	touch .docker
 
 .PHONY:	clean
