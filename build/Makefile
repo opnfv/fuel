@@ -105,9 +105,8 @@ include cache.mk
 
 $(ISOCACHE):
 	# Clone Fuel to non-persistent location and build
-	if [ ! -d /tmp/fuel-main ]; then \
-		cd /tmp && git clone $(FUEL_MAIN_REPO); \
-	fi
+	sudo rm -rf /tmp/fuel-main
+	cd /tmp && git clone $(FUEL_MAIN_REPO)
 	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
 	@echo "fuel" `git -C /tmp/fuel-main rev-parse HEAD` >> $(VERSION_FILE)
 	# Remove Docker optimizations, otherwise multistrap will fail during
@@ -133,10 +132,9 @@ $(ISOCACHE):
 	# OPNFV patches at Fuel build time
 	# Need to be commited in order for them to be considered by the Fuel
 	# build system
-	cd /tmp/fuel-main && git config user.name "Fuel OPNFV"
-	cd /tmp/fuel-main && git config user.email "fuel@opnfv.org"
 	cd /tmp/fuel-main && git am $(TOPDIR)/bootstrap_admin_node.sh.patch
 	cd /tmp/fuel-main && git am $(TOPDIR)/isolinux.cfg.patch
+	cd /tmp/fuel-main/build/repos/fuel-nailgun && git am $(TOPDIR)/Mark-Intel-82599-10-Gigabit-NIC-as-DPDK-capable.patch
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
 	cp /tmp/fuel-main/build/artifacts/fuel*.iso .

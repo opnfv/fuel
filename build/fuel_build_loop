@@ -20,7 +20,6 @@ do
     cnt=$[cnt + 1]
     echo -e "\n\n\n*** Starting build attempt # $cnt"
     cd /tmp/fuel-main
-    make clean
     make iso
     rc=$?
     if [ $rc -ne 0 ]; then

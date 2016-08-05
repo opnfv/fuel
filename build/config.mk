@@ -28,6 +28,10 @@ export NETWORKCHECKER_COMMIT?=fcb47dd095a76288aacf924de574e39709e1f3ca
 export FUELUPGRADE_COMMIT?=c1c4bac6a467145ac4fac73e4a7dd2b00380ecfb
 export FUEL_UI_COMMIT?=90de7ef4477230cb7335453ed26ed4306ca6f04f
 
+# for the patches applying purposes
+export GIT_COMMITTER_NAME?=Fuel OPNFV
+export GIT_COMMITTER_EMAIL?=fuel@opnfv.org
+
 DOCKER_REPO := http://get.docker.com/builds/Linux/x86_64
 DOCKER_TAG := docker-latest
 
