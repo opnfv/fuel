@@ -8,6 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-COLLECTD_CEILOMETER_BRANCH?=efa17094249282eb0726b3d30dff190b86a97938
+COLLECTD_CEILOMETER_BRANCH?=3ddf95235ef62de5fb9a520b3aa8f120518b0077
 COLLECTD_CEILOMETER_REPO?=http://gerrit.opnfv.org/gerrit/fastpathmetrics
 COLLECTD_CEILOMETER_CHANGE?=
