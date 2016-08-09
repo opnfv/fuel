@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d773c0af",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T08:40:41Z",
+      "side": 1,
+      "message": "isn\u0027t it better to write a patch for that? sed is really not secure",
+      "range": {
+        "startLine": 366,
+        "startChar": 16,
+        "endLine": 371,
+        "endChar": 23
+      },
+      "revId": "ddd4e11bb8bc62b7e8b06d4b44a308293c2c3362",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
