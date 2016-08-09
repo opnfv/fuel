@@ -18,9 +18,9 @@ environment:
 interfaces_1:
   ens3:
   - fuelweb_admin
-  - management
-  ens4:
   - storage
+  ens4:
+  - management
   ens5:
   - private
   ens6:
@@ -51,10 +51,10 @@ transformations_1:
     name: ens3
   - action: add-port
     bridge: br-mgmt
-    name: ens3.101
+    name: ens4
   - action: add-port
     bridge: br-storage
-    name: ens4.102
+    name: ens3.102
   - action: add-port
     bridge: br-mesh
     name: ens5.103
@@ -119,7 +119,7 @@ network:
     gateway: null
     ip_ranges:
     - - 192.168.0.1
-      - 192.168.0.254
+      - 192.168.0.253
     meta:
       cidr: 192.168.0.0/24
       configurable: true
@@ -132,9 +132,9 @@ network:
       vips:
       - haproxy
       - vrouter
-      vlan_start: 101
+      vlan_start: null
     name: management
-    vlan_start: 101
+    vlan_start: null
   - cidr: 192.168.2.0/24
     gateway: null
     ip_ranges:
