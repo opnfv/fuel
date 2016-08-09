@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_57aa5071",
+        "filename": "deploy/config/labs/local/virtual_minimal/common/scripts/.gitkeep",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T11:15:22Z",
+      "side": 1,
+      "message": "ok understood but I don\u0027t think that this folder is still needed.",
+      "parentUuid": "1a76adc5_b7cac49f",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5374a5ce",
         "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yes this is a question I had when doing this. For instance it would be better to just have for the external_dns configuration:\n\n    external_dns:\n      dns_list:\n        value:  # TODO config for local env\n\nrather than repeating all the standardized parts such as the description, regex etc etc.\n\nWill that actually work, given the way the merge mechanism operates?",
       "parentUuid": "1a76adc5_5374a5ce",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f7b6fcdb",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T11:15:22Z",
+      "side": 1,
+      "message": "Actually I don\u0027t know. we would need to test it. I checked the main config file and did not find the entries directly. so not sure where this information comes from.",
+      "parentUuid": "1a76adc5_37beb400",
       "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -107,6 +143,30 @@
       "side": 1,
       "message": "Hi Nikolas,\n\ncould you maybe explain to me the relationship between \u0027labs/devel-pipeline\u0027 (which is new to me since the last time I delved in to this) and \u0027labs/local\u0027 which is what I expected to see - and what I base this patch on - though it seems have been removed from the repo at some point.\n\nThanks for this an other feedback, Billy.",
       "parentUuid": "1a76adc5_736d2104",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d7b500ce",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T11:15:22Z",
+      "side": 1,
+      "message": "Sorry I cannot explain it. I think they just renamed it. IT is qood that you are doing work on this. So all I want to say is: Please focus on the devel-pipeline.\n\nThanks you for contributing here. we are doing far to less so that newcomers can join.",
+      "parentUuid": "1a76adc5_b741640d",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -171,6 +231,30 @@
       "side": 1,
       "message": "I guess it makes sense that this is CI\u0027able although it wasn\u0027t my intention to try to supply a full new scenario - just a kind of quick and easy to play with opnfv@fuel.",
       "parentUuid": "1a76adc5_d368b5f7",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_97c78845",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T11:15:22Z",
+      "side": 1,
+      "message": "ok understood. lets take a action point in the fuel meeting to spread this. for the beginning I think we can just name it like that. Jonas should know the next steps.",
+      "parentUuid": "1a76adc5_17d61850",
       "range": {
         "startLine": 86,
         "startChar": 0,
