@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_b363b919",
+        "filename": "deploy/config/labs/local/virtual_minimal/common/scripts/.gitkeep",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T07:47:53Z",
+      "side": 1,
+      "message": "why is that needed.",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5374a5ce",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T07:47:53Z",
+      "side": 1,
+      "message": "Are all these configurations really needed? A minimal configuration should only consist of the minimal. I am not sure if we really need all this config, since we are in a overwrite config file.",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_736d2104",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T07:47:53Z",
+      "side": 1,
+      "message": "this is very iqual to the dha.yaml for devel-pipeline/default. May be a better idea is to change the devel-pipeline/default to this config. I don\u0027t think we should have 2 of them. Or we name it default-minimal in the same folder.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_13a70d51",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/scripts/.gitkeep",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T07:47:53Z",
+      "side": 1,
+      "message": "why is that needed?",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d368b5f7",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T07:47:53Z",
+      "side": 1,
+      "message": "we have to aling with all other installers about this new scenario name, so that CI can test it as well. Lets talk in the fuel meeting about it.\n\nI know the intention is not the this scenario is tested with CI. However it definitly makes sense to do so, so that we are shure that it is deploy able and newcomers which will use this will not run into problems.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
