@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b7cac49f",
+        "filename": "deploy/config/labs/local/virtual_minimal/common/scripts/.gitkeep",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-08-09T09:40:39Z",
+      "side": 1,
+      "message": "I copied the dir structure from an existing (or used to be existing \u0027virtual_kvm\u0027 configuration). The .gitkeep is (apparently - I never saw it before) standard trick to make git commit otherwise empty directories.",
+      "parentUuid": "1a76adc5_b363b919",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5374a5ce",
         "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_37beb400",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-08-09T09:40:39Z",
+      "side": 1,
+      "message": "Yes this is a question I had when doing this. For instance it would be better to just have for the external_dns configuration:\n\n    external_dns:\n      dns_list:\n        value:  # TODO config for local env\n\nrather than repeating all the standardized parts such as the description, regex etc etc.\n\nWill that actually work, given the way the merge mechanism operates?",
+      "parentUuid": "1a76adc5_5374a5ce",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_736d2104",
         "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dha.yaml",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2016-08-09T07:47:53Z",
       "side": 1,
       "message": "this is very iqual to the dha.yaml for devel-pipeline/default. May be a better idea is to change the devel-pipeline/default to this config. I don\u0027t think we should have 2 of them. Or we name it default-minimal in the same folder.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b741640d",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-08-09T09:40:39Z",
+      "side": 1,
+      "message": "Hi Nikolas,\n\ncould you maybe explain to me the relationship between \u0027labs/devel-pipeline\u0027 (which is new to me since the last time I delved in to this) and \u0027labs/local\u0027 which is what I expected to see - and what I base this patch on - though it seems have been removed from the repo at some point.\n\nThanks for this an other feedback, Billy.",
+      "parentUuid": "1a76adc5_736d2104",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -87,6 +147,30 @@
       "writtenOn": "2016-08-09T07:47:53Z",
       "side": 1,
       "message": "we have to aling with all other installers about this new scenario name, so that CI can test it as well. Lets talk in the fuel meeting about it.\n\nI know the intention is not the this scenario is tested with CI. However it definitly makes sense to do so, so that we are shure that it is deploy able and newcomers which will use this will not run into problems.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_17d61850",
+        "filename": "deploy/scenario/scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-08-09T09:40:39Z",
+      "side": 1,
+      "message": "I guess it makes sense that this is CI\u0027able although it wasn\u0027t my intention to try to supply a full new scenario - just a kind of quick and easy to play with opnfv@fuel.",
+      "parentUuid": "1a76adc5_d368b5f7",
       "range": {
         "startLine": 86,
         "startChar": 0,
