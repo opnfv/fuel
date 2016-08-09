@@ -16,6 +16,29 @@
       "revId": "068ee4e8801e90cb82092a413c68eb9d6731aaa2",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9a924d56",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-08-09T16:15:03Z",
+      "side": 1,
+      "message": "yep, sorry about that, forgot about it while waiting for wait_until_fuel_menu_up test.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "068ee4e8801e90cb82092a413c68eb9d6731aaa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
