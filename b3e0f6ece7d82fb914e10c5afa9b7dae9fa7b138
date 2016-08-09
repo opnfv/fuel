@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5a74b5fc",
+        "filename": "deploy/install_fuel_master.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-08-09T19:54:17Z",
+      "side": 1,
+      "message": "assumes there will be only one fuelmenu PID.  Is that usually the case?",
+      "revId": "b3e0f6ece7d82fb914e10c5afa9b7dae9fa7b138",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
