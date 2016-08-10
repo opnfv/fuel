@@ -2,6 +2,9 @@
   <name>compute</name>
   <memory unit='KiB'>8388608</memory>
   <currentMemory unit='KiB'>8388608</currentMemory>
+  <cpu mode='host-model'>
+    <model fallback='forbid'/>
+  </cpu>
   <vcpu placement='static'>2</vcpu>
   <os>
     <type arch='x86_64' machine='pc'>hvm</type>
