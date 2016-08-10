@@ -137,12 +137,12 @@ function blessPackage () {
     cd "$TMPDIR"
     patch -p 1 <<EOFDC
 diff -ruN a/DEBIAN/control b/DEBIAN/control
---- a/DEBIAN/control	2016-02-08 10:06:18.000000000 +0000
-+++ b/DEBIAN/control	2016-02-08 10:45:09.501373675 +0000
+--- a/DEBIAN/control	2016-08-09 05:13:13.000000000 -0400
++++ b/DEBIAN/control	2016-08-09 05:32:56.761035046 -0400
 @@ -4,7 +4,7 @@
  Architecture: all
  Maintainer: OpenStack <openstack-dev@lists.openstack.org>
- Installed-Size: 1575
+ Installed-Size: 1565
 -Depends: python (>= 2.7), python (<< 2.8), python:any (>= 2.7.1-0ubuntu2), python-pbr, python-paste, python-pastedeploy, python-routes, python-anyjson, python-babel, python-eventlet, python-greenlet, python-httplib2, python-requests, python-iso8601, python-jsonrpclib, python-jinja2, python-kombu, python-netaddr, python-sqlalchemy (>= 1.0~), python-sqlalchemy (<< 1.1), python-webob, python-heatclient, python-keystoneclient, alembic, python-six, python-stevedore, python-oslo.config, python-oslo.messaging-, python-oslo.rootwrap, python-novaclient
 +Depends: python (>= 2.7), python (<< 2.8), python:any (>= 2.7.1-0ubuntu2), python-pbr, python-paste, python-pastedeploy, python-routes, python-anyjson, python-babel, python-eventlet, python-greenlet, python-httplib2, python-requests, python-iso8601, python-jsonrpclib, python-jinja2, python-kombu, python-netaddr, python-sqlalchemy (>= 1.0~), python-sqlalchemy (<< 1.1), python-webob, python-heatclient, python-keystoneclient, alembic, python-six, python-stevedore, python-oslo.config, python-oslo.messaging, python-oslo.rootwrap, python-novaclient
  Section: python
@@ -245,7 +245,6 @@ function populate_client() {
             scp ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${CLIENT} ${fadm}@${anode}:${CLIENT}
             ssh ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${fadm}@${anode} sudo dpkg -i ${CLIENT}
             ssh ${SSH_OPTIONS[@]} -i "${MYDIR}/.ssh/id_rsa" ${fadm}@${anode} rm ${CLIENT}
-
         fi
     done
 }
