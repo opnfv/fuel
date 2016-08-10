@@ -51,16 +51,22 @@ Building the ISO image
 Alternatively, you may build the Fuel .iso from source by cloning the
 opnfv/fuel git repository.  To retrieve the repository for the Colorado release use the following command:
 
-$ git clone https://gerrit.opnfv.org/gerrit/fuel
+.. code-block:: bash
+
+    $ git clone https://gerrit.opnfv.org/gerrit/fuel
 
 Check-out the Colorado release tag to set the HEAD to the
 baseline required to replicate the Colorado release:
 
-$ git checkout colorado.1.0
+.. code-block:: bash
+
+    $ git checkout colorado.1.0
 
 Go to the fuel directory and build the .iso:
 
-$ cd fuel/build; make all
+.. code-block:: bash
+
+    $ cd fuel/build; make all
 
 For more information on how to build, please see *Reference: 14*
 
@@ -301,8 +307,17 @@ Install additional Plugins/Features on the FUEL node
 
 #. Select wanted plugins/features from the /opt/opnfv/ directory.
 
-#. Install the wanted plugin with the command "fuel plugins --install /opt/opnfv/<plugin-name>-<version>.<arch>.rpm"
-   Expected output: "Plugin ....... was successfully installed." (see figure below)
+#. Install the wanted plugin with the command
+
+    .. code-block:: bash
+
+        $ fuel plugins --install /opt/opnfv/<plugin-name>-<version>.<arch>.rpm
+
+    Expected output (see figure below):
+
+    .. code-block:: bash
+
+        Plugin ....... was successfully installed.
 
    .. figure:: img/plugin_install.png
 

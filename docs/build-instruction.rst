@@ -51,9 +51,12 @@ On the host, the following packages must be installed:
 
 - An x86_64 host (Bare-metal or VM) with Ubuntu 14.04 LTS installed
 
-  - A kernel equal- or later than 3.19 (Vivid) (simply available through sudo apt-get install linux-generic-lts-vivid)
-
   - **Note:** Builds on Wily (Ubuntu 15.x) are currently not supported
+  - A kernel equal- or later than 3.19 (Vivid), simply available through
+
+.. code-block:: bash
+
+    $ sudo apt-get install linux-generic-lts-vivid
 
 - docker - see https://docs.docker.com/installation/ubuntulinux/ for
   installation notes for Ubuntu 14.04. Note: use the latest version from
@@ -74,7 +77,9 @@ Setting up the Docker build container
 -------------------------------------
 After having installed Docker, add yourself to the docker group:
 
-$ sudo usermod -a -G docker [userid]
+.. code-block:: bash
+
+    $ sudo usermod -a -G docker [userid]
 
 Also make sure to define relevant DNS servers part of the global
 DNS chain in your </etc/default/docker> configuration file.
@@ -82,11 +87,13 @@ Uncomment, and modify the values appropriately.
 
 For example:
 
-<DOCKER_OPTS=" --dns=8.8.8.8 --dns=8.8.8.4">
+.. code-block:: bash
+
+    DOCKER_OPTS=" --dns=8.8.8.8 --dns=8.8.8.4"
 
 Then restart docker:
 
-.. code-block:: console
+.. code-block:: bash
 
     $ sudo service docker restart
 
@@ -148,7 +155,9 @@ for it to be able to pull the base Ubuntu 14.04 image from the Docker
 registry before invoking make! In Ubuntu this is done by adding a line
 like:
 
-export http_proxy="http://10.0.0.1:8888/"
+.. code-block:: bash
+
+    export http_proxy="http://10.0.0.1:8888/"
 
 to /etc/default/docker and restarting the Docker daemon.
 
@@ -159,19 +168,23 @@ The build system will make use the following environment variables
 that needs to be exported to subshells by using export (bash) or
 setenv (csh/tcsh).
 
-| http_proxy (or HTTP_PROXY)
-| https_proxy (or HTTP_PROXY)
-| no_proxy (or NO_PROXY)
-| RSYNC_PROXY
-| RSYNC_CONNECT_PROG
+.. code-block:: bash
+
+     http_proxy (or HTTP_PROXY)
+     https_proxy (or HTTP_PROXY)
+     no_proxy (or NO_PROXY)
+     RSYNC_PROXY
+     RSYNC_CONNECT_PROG
 
 As an example, these are the settings that were put in the user's
 .bashrc when verifying the proxy build functionality:
 
-| export RSYNC_PROXY=10.0.0.1:8888
-| export http_proxy=http://10.0.0.1:8888
-| export https_proxy=http://10.0.0.1:8888
-| export no_proxy=localhost,127.0.0.1,.consultron.com,.sock
+.. code-block:: bash
+
+    export RSYNC_PROXY=10.0.0.1:8888
+    export http_proxy=http://10.0.0.1:8888
+    export https_proxy=http://10.0.0.1:8888
+    export no_proxy=localhost,127.0.0.1,.consultron.com,.sock
 
 Using a ssh proxy for the rsync connection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
