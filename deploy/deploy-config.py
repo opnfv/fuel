@@ -143,22 +143,24 @@ def merge_dicts(dict1, dict2):
         if k in dict1 and k in dict2:
             if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
                 yield (k, dict(merge_dicts(dict1[k], dict2[k])))
-            elif isinstance(dict1[k], list) and isinstance(dict2[k], list):
+                continue
+            if isinstance(dict1[k], list) and isinstance(dict2[k], list):
                 if k == 'versions':
                     yield (k,
                            merge_fuel_plugin_version_list(dict1[k], dict2[k]))
+                    continue
                 if k == 'networks':
                     yield (k,
                            merge_networks(dict1[k], dict2[k]))
-            else:
-                # If one of the values is not a dict nor a list,
-                # you can't continue merging it.
-                # Value from second dict overrides one in first and we move on.
-                yield (k, dict2[k])
-        elif k in dict1:
-            yield (k, dict1[k])
-        else:
+                    continue
+
+            # If one of the values is not a dict nor a list,
+            # you can't continue merging it.
+            # Value from second dict overrides one in first if exists.
+        if k in dict2:
             yield (k, dict2[k])
+        else:
+            yield (k, dict1[k])
 
 
 setup_yaml()
