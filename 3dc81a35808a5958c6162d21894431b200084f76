@@ -22,6 +22,30 @@
       "revId": "3dc81a35808a5958c6162d21894431b200084f76",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2053cc18",
+        "filename": "deploy/scenario/ha_nfv-kvm_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 483
+      },
+      "writtenOn": "2016-08-10T11:00:52Z",
+      "side": 1,
+      "message": "yes!\n\nI have tested that it does not affect current scenario output files and can be override by lab specific settings.",
+      "parentUuid": "1a76adc5_00001000",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "3dc81a35808a5958c6162d21894431b200084f76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
