@@ -22,6 +22,30 @@
       "revId": "892d897bd800744c6b8997bffefbf1f313b6df28",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9dad6734",
+        "filename": "deploy/config/labs/devel-pipeline/default/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-10T09:02:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_5df90f4c",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 20
+      },
+      "revId": "892d897bd800744c6b8997bffefbf1f313b6df28",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
