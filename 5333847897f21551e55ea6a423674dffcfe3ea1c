@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_719c346a",
+        "filename": "deploy/scenario/ha_nfv-kvm_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-08-11T14:20:28Z",
+      "side": 1,
+      "message": "all options have to be listed here, both enabled and disabled ones, the Automatic Deployer takes the whole settings section and uploads it to Fuel. If something is missing here, the update procedure will not take effect, also you will not know whether the update was successful or not because Fuel will not complain. So these settings must me modified with huge care",
+      "parentUuid": "1a76adc5_4bdb891b",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "5333847897f21551e55ea6a423674dffcfe3ea1c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_c699d06f",
         "filename": "deploy/scenario/ha_nfv-kvm_heat_ceilometer_scenario.yaml",
         "patchSetId": 2
@@ -60,6 +84,24 @@
       "writtenOn": "2016-08-11T08:45:05Z",
       "side": 1,
       "message": "Since you increase number of ceph-osd you may want to change this value (default 3). BTW do we need 4 ceph-osd?",
+      "revId": "5333847897f21551e55ea6a423674dffcfe3ea1c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_51c81874",
+        "filename": "deploy/scenario/ha_nfv-kvm_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-08-11T14:20:28Z",
+      "side": 1,
+      "message": "Hi Michal, is it a problem having 4 ceph-osd?",
+      "parentUuid": "1a76adc5_c699d06f",
       "revId": "5333847897f21551e55ea6a423674dffcfe3ea1c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
