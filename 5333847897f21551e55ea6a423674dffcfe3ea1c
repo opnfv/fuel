@@ -46,6 +46,23 @@
       "revId": "5333847897f21551e55ea6a423674dffcfe3ea1c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c699d06f",
+        "filename": "deploy/scenario/ha_nfv-kvm_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-11T08:45:05Z",
+      "side": 1,
+      "message": "Since you increase number of ceph-osd you may want to change this value (default 3). BTW do we need 4 ceph-osd?",
+      "revId": "5333847897f21551e55ea6a423674dffcfe3ea1c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
