@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-VSPERF_BRANCH?=5e3b6ae0427963520357453728411327ac8efafe
+VSPERF_BRANCH?=5a0c6772d255aeb0ab1e6246c91bbeb56bb3a239
 VSPERF_REPO?=https://gerrit.opnfv.org/gerrit/vswitchperf.git
 VSPERF_CHANGE?=
