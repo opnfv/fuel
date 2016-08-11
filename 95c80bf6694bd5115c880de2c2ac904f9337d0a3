@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ac10334f",
+        "filename": "docs/installation-instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-08-11T15:51:01Z",
+      "side": 1,
+      "message": "Minor alignment issue, should have same offset as \"Expected output\"",
+      "revId": "95c80bf6694bd5115c880de2c2ac904f9337d0a3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
