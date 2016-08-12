@@ -1,5 +1,5 @@
 ========================================================================================================
-OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
+OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
 ========================================================================================================
 
 License
@@ -12,7 +12,7 @@ License. .. http://creativecommons.org/licenses/by/4.0 ..
 Abstract
 ========
 
-This document describes how to install the Brahmaputra release of
+This document describes how to install the Colorado release of
 OPNFV when using Fuel as a deployment tool, covering  it's usage,
 limitations, dependencies and required system resources.
 
@@ -20,14 +20,14 @@ Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the Brahmaputra release of OPNFV when using Fuel as a
+configure the Colorado release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options give a high degree of
 freedom in how the system is set-up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This instruction provides a
-step-by-step guide that results in an OPNFV Brahmaputra compliant
+step-by-step guide that results in an OPNFV Colorado compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge in
@@ -35,7 +35,7 @@ networking and Unix/Linux administration.
 
 Preface
 =======
-Before starting the installation of the Brahmaputra release of
+Before starting the installation of the Colorado release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -43,20 +43,20 @@ Retrieving the ISO image
 ------------------------
 
 First of all, the Fuel deployment ISO image needs to be retrieved, the
-Fuel .iso image of the Brahmaputra release can be found at *Reference: 2*
+Fuel .iso image of the Colorado release can be found at *Reference: 2*
 
 Building the ISO image
 ----------------------
 
 Alternatively, you may build the Fuel .iso from source by cloning the
-opnfv/fuel git repository.  To retrieve the repository for the Brahmaputra release use the following command:
+opnfv/fuel git repository.  To retrieve the repository for the Colorado release use the following command:
 
 $ git clone https://gerrit.opnfv.org/gerrit/fuel
 
-Check-out the Brahmaputra release tag to set the HEAD to the
-baseline required to replicate the Brahmaputra release:
+Check-out the Colorado release tag to set the HEAD to the
+baseline required to replicate the Colorado release:
 
-$ git checkout brahmaputra.1.0
+$ git checkout colorado.1.0
 
 Go to the fuel directory and build the .iso:
 
@@ -69,11 +69,11 @@ Other preparations
 
 Next, familiarize yourself with Fuel by reading the following documents:
 
-- Fuel planning guide, please see *Reference: 8*
+- Fuel Installation Guide, please see *Reference: 8*
 
-- Fuel user guide, please see *Reference: 9*
+- Fuel User Guide, please see *Reference: 9*
 
-- Fuel operations guide, please see *Reference: 10*
+- Fuel Developer Guide, please see *Reference: 10*
 
 - Fuel Plugin Developers Guide, please see *Reference: 11*
 
@@ -103,7 +103,7 @@ Hardware requirements
 =====================
 
 The following minimum hardware requirements must be met for the
-installation of Brahmaputra using Fuel:
+installation of Colorado using Fuel:
 
 +--------------------+------------------------------------------------------+
 | **HW Aspect**      | **Requirement**                                      |
@@ -176,7 +176,7 @@ the Fuel OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
 
-Manual configuration of the Brahmaputra hardware platform should
+Manual configuration of the Colorado hardware platform should
 be carried out according to the OPNFV Pharos specification:
 <https://wiki.opnfv.org/pharos/pharos_specification>
 
@@ -189,7 +189,7 @@ reference platform stack across a server cluster.
 
 Install Fuel master
 -------------------
-#. Mount the Brahmaputra Fuel ISO file/media as a boot device to the jump host server.
+#. Mount the Colorado Fuel ISO file/media as a boot device to the jump host server.
 
 #. Reboot the jump host to establish the Fuel server.
 
@@ -315,7 +315,7 @@ Create an OpenStack Environment
 
    .. figure:: img/newenv.png
 
-#. Select "<Liberty on Ubuntu 14.04>" and press <Next>
+#. Select "<Mitaka on Ubuntu 14.04>" and press <Next>
 
 #. Select "compute virtulization method".
 
@@ -528,9 +528,9 @@ that can be used for installation / deployment of openstack.
 
    - "ubuntu-updates" URI="deb http://<ip-of-fuel-server>:8080/mirrors/ubuntu/ trusty-updates main"
 
-   - "mos" URI="deb http://<ip-of-fuel-server>::8080/liberty-8.0/ubuntu/x86_64 mos8.0 main restricted"
+   - "mos" URI="deb http://<ip-of-fuel-server>::8080/mitaka-9.0/ubuntu/x86_64 mos8.0 main restricted"
 
-   - "Auxiliary" URI="deb http://<ip-of-fuel-server>:8080/liberty-8.0/ubuntu/auxiliary auxiliary main restricted"
+   - "Auxiliary" URI="deb http://<ip-of-fuel-server>:8080/mitaka-9.0/ubuntu/auxiliary auxiliary main restricted"
 
    - Click <Save Settings> at the bottom to Save your changes
 
@@ -639,7 +639,7 @@ OPNFV
 OpenStack
 ---------
 
-3) `OpenStack Liberty Release artifacts <http://www.openstack.org/software/liberty>`_
+3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_
 
 4) `OpenStack documentation <http://docs.openstack.org>`_
 
@@ -652,23 +652,23 @@ Fuel
 ----
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
 
-7) `Fuel documentation overview <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/>`_
+7) `Fuel documentation overview <http://docs.openstack.org/developer/fuel-docs>`_
 
-8) `Fuel planning guide <https://docs.fuel-infra.org/openstack/fuel/fuel-8.0/mos-planning-guide.html>`_
+8) `Fuel Installation Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-install-guide.html>`_
 
-9) `Fuel quick start guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/quickstart-guide.html>`_
+9) `Fuel User Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide.html>`_
 
-10) `Fuel operations guide <https://docs.mirantis.com/openstack/fuel/fuel-8.0/operations.html>`_
+10) `Fuel Developer Guide <http://docs.openstack.org/developer/fuel-docs/devdocs/develop.html>`_
 
-11) `Fuel Plugin Developers Guide <https://wiki.openstack.org/wiki/Fuel/Plugins>`_
+11) `Fuel Plugin Developers Guide <http://docs.openstack.org/developer/fuel-docs/plugindocs/fuel-plugin-sdk-guide.html>`_
 
 12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
 
 Fuel in OPNFV
 -------------
 
-13) `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html>`_
+13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
 
-14) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
+14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
 
-15) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_
+15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
