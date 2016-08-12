@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_76cbc572",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-12T14:12:38Z",
+      "side": 1,
+      "message": "One left ;)",
+      "range": {
+        "startLine": 36,
+        "startChar": 75,
+        "endLine": 36,
+        "endChar": 78
+      },
+      "revId": "4a60d714764ce44a9c3776da42e6fb281e40bd48",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_6320e949",
         "filename": "docs/release-notes.rst",
         "patchSetId": 3
