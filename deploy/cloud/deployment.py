@@ -157,10 +157,10 @@ class Deployment(object):
 
 
     def verify_node_status(self):
-        node_list = parse(exec_cmd('fuel node list'))
+        node_list = parse(exec_cmd('fuel --env %s node' % self.env_id))
         failed_nodes = []
         for node in node_list:
-            if node[N['status']] != 'ready' and node[N['cluster']] != 'None':
+            if node[N['status']] != 'ready':
                 failed_nodes.append((node[N['id']], node[N['status']]))
 
         if failed_nodes:
