@@ -1,6 +1,6 @@
-=================================================================================================
-OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool
-=================================================================================================
+==============================================================================================
+OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
+==============================================================================================
 
 License
 =======
@@ -13,14 +13,14 @@ Abstract
 ========
 
 This document describes how to build the Fuel deployment tool for the
-Brahmaputra release of OPNFV build system, dependencies and required
+Colorado release of OPNFV build system, dependencies and required
 system resources.
 
 Introduction
 ============
 
 This document describes the build system used to build the Fuel
-deployment tool for the Brahmaputra release of OPNFV, required
+deployment tool for the Colorado release of OPNFV, required
 dependencies and minimum requirements on the host to be used for the
 build system.
 
@@ -113,12 +113,12 @@ Now it is time to clone the code repository:
 Now you should have the OPNFV fuel repository with the Fuel
 directories stored locally on your build host.
 
-Check out the Brahmaputra release:
+Check out the Colorado release:
 
 .. code-block:: bash
 
     $ cd fuel
-    $ git checkout brahmaputra.1.0
+    $ git checkout colorado.1.0
 
 Clone the OPNFV code Git repository without a SSH key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,7 +208,7 @@ Configure your build environment
 --------------------------------
 
 ** Configuring the build environment should not be performed if building
-standard Brahmaputra release **
+standard Colorado release **
 
 Select the versions of the components you want to build by editing the
 fuel/build/config.mk file.
@@ -295,8 +295,8 @@ The artifacts produced are:
 References
 ==========
 
-1)  `OPNFV Installation instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/installation-instruction.html>`_
+1)  `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
 
-2) `OPNFV Build instruction for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/build-instruction.html>`_
+2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
 
-3) `OPNFV Release Note for the Brahmaputra release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/brahmaputra/docs/release-notes.html>`_
+3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
