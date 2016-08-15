@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8f3764e3",
+        "filename": "build/f_isoroot/f_doctor-pluginbuild/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4469
+      },
+      "writtenOn": "2016-08-15T12:13:34Z",
+      "side": 1,
+      "message": "all actions in Makefile should start with a tab. See http://stackoverflow.com/questions/16931770/makefile4-missing-separator-stop",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 4
+      },
+      "revId": "903d298c7eb9353f78f35d9da93775e23eec8a03",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
