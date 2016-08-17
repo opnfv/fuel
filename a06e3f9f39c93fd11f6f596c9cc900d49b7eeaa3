@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_29b16bf8",
+        "filename": "deploy/config/labs/devel-pipeline/default/fuel/config/dha.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-17T08:29:57Z",
+      "side": 1,
+      "message": "You may also consider https://gerrit.opnfv.org/gerrit/#/c/18809/",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "a06e3f9f39c93fd11f6f596c9cc900d49b7eeaa3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
