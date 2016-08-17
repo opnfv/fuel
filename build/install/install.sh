@@ -196,8 +196,12 @@ make_iso_image() {
     find . -name TRANS.TBL -exec rm {} \;
     rm -rf rr_moved
 
+    if [[ -z "$OPNFV_GIT_SHA" ]]; then
+        OPNFV_GIT_SHA=$(git rev-parse --verify HEAD)
+    fi
+
     mkisofs --quiet -r -V "$VOLUMEID" -publisher "$PUBLISHER" \
-        -p `git rev-parse --verify HEAD` -J -R -b isolinux/isolinux.bin \
+        -p "$OPNFV_GIT_SHA" -J -R -b isolinux/isolinux.bin \
         -no-emul-boot \
         -boot-load-size 4 -boot-info-table \
         --hide-rr-moved \
