@@ -40,7 +40,7 @@
     <controller type='pci' index='0' model='pci-root'/>
     <interface type='network'>
       <source network='fuel1'/>
-      <model type='e1000'/>
+      <model type='virtio'/>
     </interface>
     <serial type='pty'>
       <target port='0'/>
