@@ -1,5 +1,6 @@
 # UUID                                  	Group Name
 #
+global:Change-Owner                     	Change Owner
 global:Registered-Users                 	Registered Users
 ldap:cn=opnfv-gerrit-fuel-contributors,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-contributors
 ldap:cn=opnfv-gerrit-fuel-submitters,ou=Groups,dc=freestandards,dc=org	ldap/opnfv-gerrit-fuel-submitters
