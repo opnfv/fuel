@@ -1,8 +1,8 @@
 <domain type='kvm'>
   <name>controller</name>
-  <memory unit='KiB'>8388608</memory>
-  <currentMemory unit='KiB'>8388608</currentMemory>
-  <vcpu placement='static'>2</vcpu>
+  <memory unit='KiB'>10485760</memory>
+  <currentMemory unit='KiB'>10485760</currentMemory>
+  <vcpu placement='static'>4</vcpu>
   <os>
     <type arch='x86_64' machine='pc'>hvm</type>
     <boot dev='network'/>
