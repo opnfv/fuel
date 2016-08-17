@@ -63,7 +63,7 @@ define_vms:
         # the interface
         model:
           attribute:
-            type: e1000
+            type: virtio
   controller:
     devices:
       interface:
