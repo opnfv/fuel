@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_7d771903",
+        "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dea-pod-override.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 584
+      },
+      "writtenOn": "2016-08-18T14:52:18Z",
+      "side": 1,
+      "message": "Merge function in deploy-config.py will take care about\nmerging the configuration from dea_base.yaml and dea-pod-override.yaml into single final dea.yaml config\n\nYou have to make a diff between your (from this patch) dea-pod-override.yaml and dea_base.yaml and see which are the differences, and only put the difference into your dea-pod-override.yaml\nBut make sure that you don\u0027t disrupt the structure of the YAML tree, so you will still have to keep some of the common things like the tree structure of the YAML, otherwise the application will not be able to do it\u0027s job accordingly\n\nI tested the whole merge stuff and it works nicely, just be careful to preserve the structure of the yaml.",
+      "parentUuid": "1a76adc5_f7b6fcdb",
+      "revId": "5b22459a4f9439d7f1ad5b68b6bc3b1b1a7b42f7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_736d2104",
         "filename": "deploy/config/labs/local/virtual_minimal/fuel/config/dha.yaml",
         "patchSetId": 2
