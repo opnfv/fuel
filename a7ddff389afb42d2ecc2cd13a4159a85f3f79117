@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_d225fcc2",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-08-18T10:50:33Z",
+      "side": 1,
+      "message": "Verygood.. i was just wondering about persistence.  Meaining does the 1.0 docs persist after 2.0 and 3.0 are released - cause if they are overwritten, then maybe we should just say \"Colorado\" and not have to change things.\n\n:)",
+      "parentUuid": "1a76adc5_f25b5852",
+      "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_324a3081",
         "filename": "docs/releasenotes/release-notes.rst",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I guess you are right. But I guess we need to wait a bit until we know which features that made it and which that didnt.",
       "parentUuid": "1a76adc5_324a3081",
+      "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_721e6872",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-08-18T10:50:33Z",
+      "side": 1,
+      "message": "Agreed.. I think there is most likely a delta between \"participating\" and then Participating on Fuel as well.",
+      "parentUuid": "1a76adc5_9258e457",
       "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
