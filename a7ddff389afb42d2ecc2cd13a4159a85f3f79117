@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f25b5852",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-08-18T10:46:07Z",
+      "side": 1,
+      "message": "Daniel, I guess we plan with follow-up releases as appropriate. We will write a new release note for every follow up release we do.",
+      "parentUuid": "1a76adc5_7250a832",
+      "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_324a3081",
         "filename": "docs/releasenotes/release-notes.rst",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-18T10:40:51Z",
       "side": 1,
       "message": "this is the short list from before, do we want to maybe add the link to where all the features that are releasing on FUEL on Colorado are?",
+      "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9258e457",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-08-18T10:46:07Z",
+      "side": 1,
+      "message": "I guess you are right. But I guess we need to wait a bit until we know which features that made it and which that didnt.",
+      "parentUuid": "1a76adc5_324a3081",
       "revId": "a7ddff389afb42d2ecc2cd13a4159a85f3f79117",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
