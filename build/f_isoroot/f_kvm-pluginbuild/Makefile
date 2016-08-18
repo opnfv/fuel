@@ -33,8 +33,7 @@ release:.kvmbuild
 	cp gitinfo_kvm-plugin.txt $(BUILD_BASE)
 
 .kvmbuild:
-	# fix me
-	@sudo rm -rf kvmfornfv
+	@rm -rf kvmfornfv
 	../../docker/ubuntu-builder/install_docker.sh
 	git clone $(KVMFORNFV_REPO)
 	cd kvmfornfv; \
@@ -47,8 +46,7 @@ release:.kvmbuild
 	INCLUDE_DEPENDENCIES=true fpb --debug --build ./
 	@mv kvmfornfv/fuel-plugin/fuel-plugin-kvm*.rpm .
 	$(REPOINFO) -r . > gitinfo_kvm-plugin.txt
-	# fix me
-	@sudo rm -rf kvmfornfv
+	@rm -rf kvmfornfv
 	@touch .kvmbuild
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
