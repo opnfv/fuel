@@ -65,6 +65,16 @@ define_vms:
           attribute:
             type: virtio
   controller:
+    vcpu:
+      value: 4
+    memory:
+      attribute_equlas:
+        unit: KiB
+      value: 10485760
+    currentMemory:
+      attribute_equlas:
+        unit: KiB
+      value: 10485760
     devices:
       interface:
         attribute_equlas:
@@ -73,6 +83,14 @@ define_vms:
           attribute:
             type: e1000
   compute:
+    memory:
+      attribute_equlas:
+        unit: KiB
+      value: 6291456
+    currentMemory:
+      attribute_equlas:
+        unit: KiB
+      value: 6291456
     devices:
       interface:
         attribute_equlas:
@@ -80,4 +98,3 @@ define_vms:
         model:
           attribute:
             type: e1000
-
