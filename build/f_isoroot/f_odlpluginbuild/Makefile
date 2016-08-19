@@ -28,10 +28,10 @@ release:.odlbuild
 	cp gitinfo_odlplugin.txt $(BUILD_BASE)
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
-	git clone -b $(ODL_BRANCH) $(ODL_REPO)
+	git clone -b $(FUEL_PLUGIN_ODL_BRANCH) $(FUEL_PLUGIN_ODL_REPO)
 	cd fuel-plugin-opendaylight; \
-	if [ -n $(ODL_CHANGE) ]; then \
-	   git checkout $(ODL_CHANGE); \
+	if [ -n $(FUEL_PLUGIN_ODL_CHANGE) ]; then \
+	   git checkout $(FUEL_PLUGIN_ODL_CHANGE); \
 	fi
 	fpb --debug --build fuel-plugin-opendaylight/
 	mv fuel-plugin-opendaylight/opendaylight*.rpm .
@@ -48,13 +48,13 @@ release:.odlbuild
 
 
 # Create a unique hash to be used for getting and putting cache, based on:
-#   - The SHA1 hash of the HEAD on the plugin repo's $(ODL_BRANCH)
+#   - The SHA1 hash of the HEAD on the plugin repo's $(FUEL_PLUGIN_ODL_BRANCH)
 #   - The contents of this Makefile
 .cacheid:
-	if [ -n $(ODL_CHANGE) ]; then \
-	  $(CACHETOOL) getcommitid $(ODL_REPO) $(ODL_CHANGE) > .cachedata; \
+	if [ -n $(FUEL_PLUGIN_ODL_CHANGE) ]; then \
+	  $(CACHETOOL) getcommitid $(FUEL_PLUGIN_ODL_REPO) $(FUEL_PLUGIN_ODL_CHANGE) > .cachedata; \
 	else \
-	  $(CACHETOOL) getcommitid $(ODL_REPO) $(ODL_BRANCH) > .cachedata; \
+	  $(CACHETOOL) getcommitid $(FUEL_PLUGIN_ODL_REPO) $(FUEL_PLUGIN_ODL_BRANCH) > .cachedata; \
 	fi
 	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
 	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
