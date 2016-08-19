@@ -8,7 +8,7 @@
 ##############################################################################
 
 ODL_BRANCH ?= master
-ODL_CHANGE ?= b6aeb90c156d77bd3e100106d8501a50f756cacd
+ODL_CHANGE ?= 8cc22c4717d2da338135d854e1d13aac3ef75314
 ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
 export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/repositories/public/org/opendaylight/integration/distribution-karaf/0.4.3-Beryllium-SR3/distribution-karaf-0.4.3-Beryllium-SR3.tar.gz
