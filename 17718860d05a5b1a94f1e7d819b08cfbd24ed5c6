@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_28139cb9",
+        "filename": "deploy/scenario/no-ha_odl-bgpvpn_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-08-22T11:13:31Z",
+      "side": 1,
+      "message": "java processes like memory therefore I\u0027ve removed compute hypervisor to exclude race for resources.",
+      "parentUuid": "1a76adc5_2805dc79",
+      "revId": "17718860d05a5b1a94f1e7d819b08cfbd24ed5c6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_480a988b",
         "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-22T10:46:47Z",
       "side": 1,
       "message": "similar for here, and for the SFC scenario, i think you want to chain it through three \"nodes\" maybe?",
+      "range": {
+        "startLine": 84,
+        "startChar": 29,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "17718860d05a5b1a94f1e7d819b08cfbd24ed5c6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_481858d3",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-08-22T11:13:31Z",
+      "side": 1,
+      "message": "the same ... but I could leave it in place.",
+      "parentUuid": "1a76adc5_480a988b",
       "range": {
         "startLine": 84,
         "startChar": 29,
