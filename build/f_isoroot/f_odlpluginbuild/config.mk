@@ -7,9 +7,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-ODL_BRANCH ?= master
-ODL_CHANGE ?= 8cc22c4717d2da338135d854e1d13aac3ef75314
-ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
+FUEL_PLUGIN_ODL_BRANCH ?= master
+FUEL_PLUGIN_ODL_CHANGE ?= 8cc22c4717d2da338135d854e1d13aac3ef75314
+FUEL_PLUGIN_ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
 export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/repositories/public/org/opendaylight/integration/distribution-karaf/0.4.3-Beryllium-SR3/distribution-karaf-0.4.3-Beryllium-SR3.tar.gz
 export ODL_VERSION_NUMBER?=0.4.3
