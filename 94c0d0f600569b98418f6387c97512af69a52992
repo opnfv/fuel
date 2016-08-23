@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dcfe666b",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-23T19:11:03Z",
+      "side": 1,
+      "message": "\u0027\u003e\u0027 is missing",
+      "range": {
+        "startLine": 688,
+        "startChar": 171,
+        "endLine": 688,
+        "endChar": 173
+      },
+      "revId": "94c0d0f600569b98418f6387c97512af69a52992",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
