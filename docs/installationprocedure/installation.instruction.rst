@@ -1,6 +1,6 @@
-========================================================================================================
+=====================================================================================================
 OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
-========================================================================================================
+=====================================================================================================
 
 License
 =======
@@ -13,7 +13,7 @@ Abstract
 ========
 
 This document describes how to install the Colorado release of
-OPNFV when using Fuel as a deployment tool, covering  it's usage,
+OPNFV when using Fuel as a deployment tool, covering it's usage,
 limitations, dependencies and required system resources.
 
 Introduction
@@ -35,6 +35,7 @@ networking and Unix/Linux administration.
 
 Preface
 =======
+
 Before starting the installation of the Colorado release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
@@ -49,7 +50,8 @@ Building the ISO image
 ----------------------
 
 Alternatively, you may build the Fuel .iso from source by cloning the
-opnfv/fuel git repository.  To retrieve the repository for the Colorado release use the following command:
+opnfv/fuel git repository. To retrieve the repository for the Colorado
+release use the following command:
 
 .. code-block:: bash
 
@@ -97,9 +99,10 @@ Prior to installation, a number of deployment specific parameters must be collec
 
 #.     How many nodes and what roles you want to deploy (Controllers, Storage, Computes)
 
-#.     Monitoring options you want to deploy (Ceilometer, Syslog, erc.).
+#.     Monitoring options you want to deploy (Ceilometer, Syslog, etc.).
 
-#.     Other options not covered in the document are available in the links above
+#.     Other options not covered in the document are available in the links
+above
 
 
 This information will be needed for the configuration procedures
@@ -207,7 +210,7 @@ Install Fuel master
 
    .. figure:: img/grub-1.png
 
-#. Wait until screen Fuel setup is shown (Note: This can take up to 30 minutes).
+#. Wait until the Fuel setup screen is shown (Note: This can take up to 30 minutes).
 
 #. In the "Fuel User" section - Confirm/change the default password (See figure below)
 
@@ -274,7 +277,7 @@ Install Fuel master
 
    - Select Quit Setup and press Save and Quit.
 
-   - Installation starts, wait until the login screen is shown.
+   - The installation will now start, wait until the login screen is shown.
 
 
 Boot the Node Servers
@@ -282,12 +285,12 @@ Boot the Node Servers
 
 After the Fuel Master node has rebooted from the above steps and is at
 the login prompt, you should boot the Node Servers (Your
-Compute/Control/Storage blades (nested or real) with a PXE booting
+Compute/Control/Storage blades, nested or real) with a PXE booting
 scheme so that the FUEL Master can pick them up for control.
 
 #. Enable PXE booting
 
-   - For every controller and compute server: enable PXE Booting as the first boot device in the BIOS boot order menu and hard disk as the second boot device in the same menu.
+   - For every controller and compute server: enable PXE Booting as the first boot device in the BIOS boot order menu, and hard disk as the second boot device in the same menu.
 
 #. Reboot all the control and compute blades.
 
@@ -324,7 +327,7 @@ Install additional Plugins/Features on the FUEL node
 Create an OpenStack Environment
 -------------------------------
 
-#. Connect to Fuel WEB UI with a browser (default: https://10.20.0.2:8443) (login admin/admin)
+#. Connect to Fuel WEB UI with a browser (default: https://10.20.0.2:8443) (login: admin/admin)
 
 #. Create and name a new OpenStack environment, to be installed.
 
@@ -350,7 +353,7 @@ Create an OpenStack Environment
 
 #. Select "additional services" you wish to install.
 
-   - Check option "Install Ceilometer (OpenStack Telemetry)" and press <Next>
+   - Check option "Install Ceilometer and Aodh" and press <Next>
 
 #. Create the new environment.
 
@@ -361,7 +364,7 @@ Configure the network environment
 
 #. Open the environment you previously created.
 
-#. Open the networks tab and select the "default Node Networks group to" on the left pane (see figure below).
+#. Open the networks tab and select the "default" Node Networks group to on the left pane (see figure below).
 
    .. figure:: img/network.png
 
@@ -413,7 +416,7 @@ Configure the network environment
 
    - Set appropriate VLAN tag (default 103)
 
-#. Select the "Neutron L3 Node Networks group" on the left pane.
+#. Select the "Neutron L3" Node Networks group on the left pane.
 
    .. figure:: img/neutronl3.png
 
@@ -439,7 +442,7 @@ Configure the network environment
 
 #. Save Settings.
 
-#. Select the "Other Node Networks group" on the left pane(see figure below).
+#. Select the "Other" Node Networks group on the left pane (see figure below).
 
    .. figure:: img/other.png
 
@@ -460,7 +463,7 @@ Select Hypervisor type
 
 #. In the FUEL UI of your Environment, click the "Settings" Tab
 
-#. Select Compute on the left side pane (see figure below)
+#. Select "Compute" on the left side pane (see figure below)
 
    - Check the KVM box and press "Save settings"
 
@@ -488,7 +491,7 @@ Allocate nodes to environment and assign functional roles
 
     - Click on the <+Add Nodes> button
 
-    - Check <Controller>, <Telemetry - MongoDB>  and optionally an SDN Controller role (OpenDaylight controller/ONOS) in the Assign Roles Section.
+    - Check <Controller>, <Telemetry - MongoDB>  and optionally an SDN Controller role (OpenDaylight controller/ONOS) in the "Assign Roles" Section.
 
     - Check one node which you want to act as a Controller from the bottom half of the screen
 
@@ -518,8 +521,7 @@ Allocate nodes to environment and assign functional roles
 
     - Click <Configure Interfaces>
 
-    - Assign interfaces (bonded) for mgmt-, admin-, private-, public-
-      and storage networks
+    - Assign interfaces (bonded) for mgmt-, admin-, private-, public- and storage networks
 
     - Click <Apply>
 
@@ -529,7 +531,7 @@ Allocate nodes to environment and assign functional roles
 OPTIONAL - Set Local Mirror Repos
 ---------------------------------
 
-The following steps can be executed if you are in an environment with
+The following steps must be executed if you are in an environment with
 no connection to the Internet. The Fuel server delivers a local repo
 that can be used for installation / deployment of openstack.
 
@@ -617,7 +619,7 @@ packages needed for a successful deployment can be fetched.
 Deploy Your Environment
 -----------------------
 
-38. Deploy the environment.
+#. Deploy the environment.
 
     - In the Fuel GUI, click on the "Dashboard" Tab.
 
@@ -647,43 +649,43 @@ References
 OPNFV
 -----
 
-1) `OPNFV Home Page <http://www.opnfv.org>`_
+1) `OPNFV Home Page <http://www.opnfv.org>`_: http://www.opnfv.org
 
-2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
+2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_: https://www.opnfv.org/software/download
 
 OpenStack
 ---------
 
-3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_
+3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_: http://www.openstack.org/software/mitaka
 
-4) `OpenStack documentation <http://docs.openstack.org>`_
+4) `OpenStack documentation <http://docs.openstack.org>`_: http://docs.openstack.org
 
 OpenDaylight
 ------------
 
-5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_
+5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_: http://www.opendaylight.org/software/downloads
 
 Fuel
 ----
-6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
+6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_: https://wiki.openstack.org/wiki/Fuel
 
-7) `Fuel documentation overview <http://docs.openstack.org/developer/fuel-docs>`_
+7) `Fuel documentation overview <http://docs.openstack.org/developer/fuel-docs>`_: http://docs.openstack.org/developer/fuel-docs
 
-8) `Fuel Installation Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-install-guide.html>`_
+8) `Fuel Installation Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-install-guide.html>`_: http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-install-guide.html
 
-9) `Fuel User Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide.html>`_
+9) `Fuel User Guide <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide.html>`_: http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide.html
 
-10) `Fuel Developer Guide <http://docs.openstack.org/developer/fuel-docs/devdocs/develop.html>`_
+10) `Fuel Developer Guide <http://docs.openstack.org/developer/fuel-docs/devdocs/develop.html>`_: http://docs.openstack.org/developer/fuel-docs/devdocs/develop.html
 
-11) `Fuel Plugin Developers Guide <http://docs.openstack.org/developer/fuel-docs/plugindocs/fuel-plugin-sdk-guide.html>`_
+11) `Fuel Plugin Developers Guide <http://docs.openstack.org/developer/fuel-docs/plugindocs/fuel-plugin-sdk-guide.html>`_: http://docs.openstack.org/developer/fuel-docs/plugindocs/fuel-plugin-sdk-guide.html
 
-12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
+12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_: https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list
 
 Fuel in OPNFV
 -------------
 
-13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
+13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html
 
-14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
+14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html
 
-15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
+15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html
