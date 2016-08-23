@@ -13,7 +13,7 @@ Abstract
 ========
 
 This document describes how to install the Colorado release of
-OPNFV when using Fuel as a deployment tool, covering  it's usage,
+OPNFV when using Fuel as a deployment tool, covering it's usage,
 limitations, dependencies and required system resources.
 
 Introduction
@@ -35,6 +35,7 @@ networking and Unix/Linux administration.
 
 Preface
 =======
+
 Before starting the installation of the Colorado release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
@@ -49,7 +50,7 @@ Building the ISO image
 ----------------------
 
 Alternatively, you may build the Fuel .iso from source by cloning the
-opnfv/fuel git repository.  To retrieve the repository for the Colorado release use the following command:
+opnfv/fuel git repository. To retrieve the repository for the Colorado release use the following command:
 
 .. code-block:: bash
 
@@ -282,7 +283,7 @@ Boot the Node Servers
 
 After the Fuel Master node has rebooted from the above steps and is at
 the login prompt, you should boot the Node Servers (Your
-Compute/Control/Storage blades (nested or real) with a PXE booting
+Compute/Control/Storage blades, nested or real) with a PXE booting
 scheme so that the FUEL Master can pick them up for control.
 
 #. Enable PXE booting
@@ -350,7 +351,7 @@ Create an OpenStack Environment
 
 #. Select "additional services" you wish to install.
 
-   - Check option "Install Ceilometer (OpenStack Telemetry)" and press <Next>
+   - Check option "Install Ceilometer and Aodh" and press <Next>
 
 #. Create the new environment.
 
@@ -361,7 +362,7 @@ Configure the network environment
 
 #. Open the environment you previously created.
 
-#. Open the networks tab and select the "default Node Networks group to" on the left pane (see figure below).
+#. Open the networks tab and select the "default" Node Networks group to on the left pane (see figure below).
 
    .. figure:: img/network.png
 
@@ -413,7 +414,7 @@ Configure the network environment
 
    - Set appropriate VLAN tag (default 103)
 
-#. Select the "Neutron L3 Node Networks group" on the left pane.
+#. Select the "Neutron L3" Node Networks group on the left pane.
 
    .. figure:: img/neutronl3.png
 
@@ -439,7 +440,7 @@ Configure the network environment
 
 #. Save Settings.
 
-#. Select the "Other Node Networks group" on the left pane(see figure below).
+#. Select the "Other" Node Networks group on the left pane(see figure below).
 
    .. figure:: img/other.png
 
@@ -460,7 +461,7 @@ Select Hypervisor type
 
 #. In the FUEL UI of your Environment, click the "Settings" Tab
 
-#. Select Compute on the left side pane (see figure below)
+#. Select "Compute" on the left side pane (see figure below)
 
    - Check the KVM box and press "Save settings"
 
@@ -682,8 +683,8 @@ Fuel
 Fuel in OPNFV
 -------------
 
-13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
+13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html>`_
 
-14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
+14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html`_
 
-15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
+15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_
