@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8155eb1e",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2016-08-23T13:43:56Z",
+      "side": 1,
+      "message": "Do we want to put a Note about IRONIC option in here (on / off?)",
+      "revId": "0686cc44b0ff991699935ff7e5ea43fd2c8c4a28",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
