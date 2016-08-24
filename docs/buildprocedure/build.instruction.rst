@@ -308,8 +308,8 @@ The artifacts produced are:
 References
 ==========
 
-1)  `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
+1) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html
 
-2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
+2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html
 
-3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
+3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html
