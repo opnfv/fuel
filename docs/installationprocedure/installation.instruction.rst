@@ -1,7 +1,4 @@
-========================================================================================================
-OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
-========================================================================================================
-
+=======
 License
 =======
 
@@ -9,6 +6,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International
 License. .. http://creativecommons.org/licenses/by/4.0 ..
 (c) Jonas Bjurel (Ericsson AB) and others
 
+========
 Abstract
 ========
 
@@ -16,6 +14,7 @@ This document describes how to install the Colorado release of
 OPNFV when using Fuel as a deployment tool, covering it's usage,
 limitations, dependencies and required system resources.
 
+============
 Introduction
 ============
 
@@ -33,6 +32,7 @@ deployment.
 The audience of this document is assumed to have good knowledge in
 networking and Unix/Linux administration.
 
+=======
 Preface
 =======
 
@@ -41,13 +41,13 @@ OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
 Retrieving the ISO image
-------------------------
+========================
 
 First of all, the Fuel deployment ISO image needs to be retrieved, the
 Fuel .iso image of the Colorado release can be found at *Reference: 2*
 
 Building the ISO image
-----------------------
+======================
 
 Alternatively, you may build the Fuel .iso from source by cloning the
 opnfv/fuel git repository. To retrieve the repository for the Colorado
@@ -73,7 +73,7 @@ Go to the fuel directory and build the .iso:
 For more information on how to build, please see *Reference: 14*
 
 Other preparations
-------------------
+==================
 
 Next, familiarize yourself with Fuel by reading the following documents:
 
@@ -107,6 +107,7 @@ Prior to installation, a number of deployment specific parameters must be collec
 This information will be needed for the configuration procedures
 provided in this document.
 
+=====================
 Hardware requirements
 =====================
 
@@ -145,6 +146,7 @@ installation of Colorado using Fuel:
 |                    | supports.                                            |
 +--------------------+------------------------------------------------------+
 
+===============================
 Help with Hardware Requirements
 ===============================
 
@@ -163,7 +165,7 @@ environment, you should think about:
 
 - Networking -- Depends on the Choose Network Topology, the network bandwidth per virtual machine, and network storage.
 
-
+================================================
 Top of the rack (TOR) Configuration requirements
 ================================================
 
@@ -188,6 +190,7 @@ Manual configuration of the Colorado hardware platform should
 be carried out according to the OPNFV Pharos specification:
 <https://wiki.opnfv.org/pharos/pharos_specification>
 
+==========================================
 OPNFV Software installation and deployment
 ==========================================
 
@@ -196,7 +199,8 @@ server (Fuel master) as well as the deployment of the full OPNFV
 reference platform stack across a server cluster.
 
 Install Fuel master
--------------------
+===================
+
 #. Mount the Colorado Fuel ISO file/media as a boot device to the jump host server.
 
 #. Reboot the jump host to establish the Fuel server.
@@ -278,9 +282,8 @@ Install Fuel master
 
    - The installation will now start, wait until the login screen is shown.
 
-
 Boot the Node Servers
----------------------
+=====================
 
 After the Fuel Master node has rebooted from the above steps and is at
 the login prompt, you should boot the Node Servers (Your
@@ -301,9 +304,8 @@ scheme so that the FUEL Master can pick them up for control.
 
    .. figure:: img/nodes.png
 
-
 Install additional Plugins/Features on the FUEL node
-----------------------------------------------------
+====================================================
 
 #. SSH to your FUEL node (e.g. root@10.20.0.2  pwd: r00tme)
 
@@ -324,7 +326,7 @@ Install additional Plugins/Features on the FUEL node
    .. figure:: img/plugin_install.png
 
 Create an OpenStack Environment
--------------------------------
+===============================
 
 #. Connect to Fuel WEB UI with a browser (default: https://10.20.0.2:8443) (login: admin/admin)
 
@@ -359,7 +361,7 @@ Create an OpenStack Environment
    - Click <Create> Button
 
 Configure the network environment
----------------------------------
+=================================
 
 #. Open the environment you previously created.
 
@@ -458,7 +460,7 @@ Configure the network environment
    - Provide the NTP server settings
 
 Select Hypervisor type
-----------------------
+======================
 
 #. In the FUEL UI of your Environment, click the "Settings" Tab
 
@@ -469,7 +471,7 @@ Select Hypervisor type
    .. figure:: img/compute.png
 
 Enable Plugins
---------------
+==============
 
 #. In the FUEL UI of your Environment, click the "Settings" Tab
 
@@ -480,7 +482,7 @@ Enable Plugins
    .. figure:: img/plugins.png
 
 Allocate nodes to environment and assign functional roles
----------------------------------------------------------
+=========================================================
 
 #. Click on the "Nodes" Tab in the FUEL WEB UI (see figure below).
 
@@ -526,9 +528,8 @@ Allocate nodes to environment and assign functional roles
 
     .. figure:: img/interfaceconf.png
 
-
 OPTIONAL - Set Local Mirror Repos
----------------------------------
+=================================
 
 The following steps must be executed if you are in an environment with
 no connection to the Internet. The Fuel server delivers a local repo
@@ -551,7 +552,7 @@ that can be used for installation / deployment of openstack.
    - Click <Save Settings> at the bottom to Save your changes
 
 Target specific configuration
------------------------------
+=============================
 
 #. Set up targets for provisioning with non-default "Offloading Modes"
 
@@ -600,7 +601,7 @@ Target specific configuration
    - Repeat the step above for all affected nodes/interfaces in the POD.
 
 Verify Networks
----------------
+===============
 
 It is important that the Verify Networks action is performed as it will verify
 that communicate works for the networks you have setup, as well as check that
@@ -614,9 +615,8 @@ packages needed for a successful deployment can be fetched.
 
    .. figure:: img/verifynet.png
 
-
 Deploy Your Environment
------------------------
+=======================
 
 #. Deploy the environment.
 
@@ -629,6 +629,7 @@ Deploy Your Environment
     Wait for your deployment to complete, you can view the "Dashboard"
     Tab to see the progress and status of your deployment.
 
+=========================
 Installation health-check
 =========================
 
@@ -642,30 +643,32 @@ Installation health-check
 
     .. figure:: img/health.png
 
+==========
 References
 ==========
 
 OPNFV
------
+=====
 
 1) `OPNFV Home Page <http://www.opnfv.org>`_: http://www.opnfv.org
 
 2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_: https://www.opnfv.org/software/download
 
 OpenStack
----------
+=========
 
 3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_: http://www.openstack.org/software/mitaka
 
 4) `OpenStack documentation <http://docs.openstack.org>`_: http://docs.openstack.org
 
 OpenDaylight
-------------
+============
 
 5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_: http://www.opendaylight.org/software/downloads
 
 Fuel
-----
+====
+
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_: https://wiki.openstack.org/wiki/Fuel
 
 7) `Fuel documentation overview <http://docs.openstack.org/developer/fuel-docs>`_: http://docs.openstack.org/developer/fuel-docs
@@ -681,7 +684,7 @@ Fuel
 12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_: https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list
 
 Fuel in OPNFV
--------------
+=============
 
 13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html
 
