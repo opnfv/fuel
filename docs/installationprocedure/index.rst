@@ -4,9 +4,9 @@
 .. You should have received a copy of the license along with this work.
 .. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
-***********************************
-Fuel@OPNFV Installation Instruction
-***********************************
+*****************************************************************************************************
+OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
+*****************************************************************************************************
 
 .. toctree::
    :numbered:
