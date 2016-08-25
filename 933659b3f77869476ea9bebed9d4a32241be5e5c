@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_61ac4aa1",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 8
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2016-08-25T07:04:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"mos9.0\"?",
+      "range": {
+        "startLine": 547,
+        "startChar": 78,
+        "endLine": 547,
+        "endChar": 84
+      },
+      "revId": "933659b3f77869476ea9bebed9d4a32241be5e5c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
