@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c44e8c96",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "This is redundant, remove.  You have a good title in the index.rst",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6445386f",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "Raise all you header levels by one level.  (add \u003d\u003d\u003d\u003d\u003d above these)",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_245f4043",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "heading level (if the others are raised should be \u003d\u003d\u003d\u003d underneath)",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_84489488",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "Could we refer to the Pharos doc here instead?  Can keep this as spot info, but maybe after a \"read this doc first\" line.",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_445a7c51",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "Remove, redundant with the index.rst header.\nAlso change the heading levels in the document up one level.",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e4586858",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-25T23:27:05Z",
+      "side": 0,
+      "message": "Would prefer we referred to Pharos docs for this, especially in this level of detail.",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
