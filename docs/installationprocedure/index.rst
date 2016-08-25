@@ -4,9 +4,9 @@
 .. You should have received a copy of the license along with this work.
 .. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
-***********************************
-Fuel@OPNFV Installation Instruction
-***********************************
+************************************
+Fuel\@OPNFV Installation Instruction
+************************************
 
 .. toctree::
    :numbered:
