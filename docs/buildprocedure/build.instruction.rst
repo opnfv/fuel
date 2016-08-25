@@ -1,7 +1,4 @@
-==============================================================================================
-OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool
-==============================================================================================
-
+=======
 License
 =======
 
@@ -9,6 +6,7 @@ This work is licensed under a Creative Commons Attribution 4.0
 International License. .. http://creativecommons.org/licenses/by/4.0 ..
 (c) Jonas Bjurel (Ericsson AB) and others
 
+========
 Abstract
 ========
 
@@ -16,6 +14,7 @@ This document describes how to build the Fuel deployment tool for the
 Colorado release of OPNFV build system, dependencies and required
 system resources.
 
+============
 Introduction
 ============
 
@@ -32,18 +31,19 @@ performed by the build system.
 The audience of this document is assumed to have good knowledge in
 network and Unix/Linux administration.
 
+============
 Requirements
 ============
 
 Minimum Hardware Requirements
------------------------------
+=============================
 
 - ~30 GB available disc
 
 - 4 GB RAM
 
 Minimum Software Requirements
------------------------------
+=============================
 
 The build host should run Ubuntu 14.04 operating system.
 
@@ -70,11 +70,13 @@ On the host, the following packages must be installed:
 
 - p7zip-full (simply available through $ sudo apt-get install p7zip-full)
 
+============
 Preparations
 ============
 
 Setting up the Docker build container
--------------------------------------
+=====================================
+
 After having installed Docker, add yourself to the docker group:
 
 .. code-block:: bash
@@ -98,7 +100,8 @@ Then restart docker:
     $ sudo service docker restart
 
 Setting up OPNFV Gerrit in order to being able to clone the code
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------------------
+
 - Start setting up OPNFV gerrit by creating a SSH key (unless you
   don't already have one), create one with ssh-keygen
 
@@ -110,7 +113,8 @@ Setting up OPNFV Gerrit in order to being able to clone the code
   your public key in.
 
 Clone the OPNFV code Git repository with your SSH key
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------------
+
 Now it is time to clone the code repository:
 
 .. code-block:: bash
@@ -128,7 +132,8 @@ Check out the Colorado release:
     $ git checkout colorado.1.0
 
 Clone the OPNFV code Git repository without a SSH key
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------------
+
 You can also opt to clone the code repository without a SSH key:
 
 .. code-block:: bash
@@ -138,7 +143,7 @@ You can also opt to clone the code repository without a SSH key:
 Make sure to checkout the release tag as described above.
 
 Support for building behind a http/https/rsync proxy
-----------------------------------------------------
+====================================================
 
 The build system is able to make use of a web proxy setup if the
 http_proxy, https_proxy, no_proxy (if needed) and RSYNC_PROXY or
@@ -148,7 +153,7 @@ The proxy setup must permit port 80 (http), 443 (https) and 873
 (rsync).
 
 Important note about the host Docker daemon settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------------
 
 The Docker daemon on the host must be configured to use the http proxy
 for it to be able to pull the base Ubuntu 14.04 image from the Docker
@@ -162,7 +167,7 @@ like:
 to /etc/default/docker and restarting the Docker daemon.
 
 Setting proxy environment variables prior to build
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------------
 
 The build system will make use the following environment variables
 that needs to be exported to subshells by using export (bash) or
@@ -187,7 +192,7 @@ As an example, these are the settings that were put in the user's
     export no_proxy=localhost,127.0.0.1,.consultron.com,.sock
 
 Using a ssh proxy for the rsync connection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 If the proxy setup is not allowing the rsync protocol, an alternative
 solution is to use a SSH tunnel to a machine capable of accessing the
@@ -201,7 +206,7 @@ system, as the command itself will be run from the Docker build container
 as the root user (but with the invoking user's SSH keys).
 
 Disabling the Ubuntu repo cache if rsync is not allowed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------------------
 
 During the build phase, a local Ubuntu package repository is fetched
 from upstream in order to be added to the OPNFV Fuel ISO and for parts
@@ -218,7 +223,7 @@ access when installing the ISO artifact built as no Ubuntu package
 cache will be on the ISO!
 
 Configure your build environment
---------------------------------
+================================
 
 ** Configuring the build environment should not be performed if building
 standard Colorado release **
@@ -227,7 +232,8 @@ Select the versions of the components you want to build by editing the
 fuel/build/config.mk file.
 
 Non official build: Selecting which plugins to build
-----------------------------------------------------
+====================================================
+
 In order to cut the build time for unofficial builds (made by an
 individual developer locally), the selection if which Fuel plugins to
 build (if any) can be done by environment variable
@@ -243,6 +249,7 @@ that this is not a full build.
 This method of plugin selection is not meant to be used from within
 Gerrit!
 
+========
 Building
 ========
 
@@ -253,7 +260,8 @@ There are two methods available for building Fuel:
 - An abstracted method using build.sh
 
 Low level build method using make
----------------------------------
+=================================
+
 The low level method is based on Make:
 
 From the <fuel/build> directory, invoke <make [target]>
@@ -284,7 +292,8 @@ If the build is successful, you will find the generated ISO file in
 the <fuel/build/release> subdirectory!
 
 Abstracted build method using build.sh
---------------------------------------
+======================================
+
 The abstracted build method uses the <fuel/ci/build.sh> script which
 allows you to:
 
@@ -295,6 +304,7 @@ allows you to:
 
 For more info type <fuel/ci/build.sh -h>.
 
+=========
 Artifacts
 =========
 
@@ -305,6 +315,7 @@ The artifacts produced are:
 
 - <OPNFV_XXXX.iso.txt> - Which holds version metadata.
 
+==========
 References
 ==========
 
@@ -313,3 +324,4 @@ References
 2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html
 
 3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html
+
