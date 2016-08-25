@@ -1,20 +1,17 @@
-============================================================================================
-OPNFV Release Note for the Colorado 1.0 release of OPNFV when using Fuel as a deployment tool
-============================================================================================
+.. This document is protected/licensed under the following conditions
+.. (c) Jonas Bjurel (Ericsson AB)
+.. Licensed under a Creative Commons Attribution 4.0 International License.
+.. You should have received a copy of the license along with this work.
+.. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
-License
-=======
-
-This work is licensed under a Creative Commons Attribution 4.0 International
-License. .. http://creativecommons.org/licenses/by/4.0 ..
-(c) Jonas Bjurel (Ericsson AB) and others
-
+========
 Abstract
 ========
 
 This document compiles the release notes for the Colorado 1.0 release of
 OPNFV when using Fuel as a deployment tool.
 
+===============
 Important notes
 ===============
 
@@ -27,6 +24,7 @@ of the OPNFV infrastructure.
 
 Carefully follow the installation-instructions provided in *Reference 13*.
 
+=======
 Summary
 =======
 
@@ -68,6 +66,7 @@ OPNFV CI pipeline including:
 
 - Automated validation of the Colorado deployment
 
+============
 Release Data
 ============
 
@@ -96,10 +95,10 @@ Release Data
 +--------------------------------------+--------------------------------------+
 
 Version change
---------------
+==============
 
 Module version changes
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 This is a follow-up release to Colorado 1.0. It is based on
 following upstream versions:
 
@@ -112,7 +111,7 @@ following upstream versions:
 - ONOS Drake release
 
 Document changes
-~~~~~~~~~~~~~~~~
+----------------
 This is a follow-up release to Colorado 1.0. It
 comes with the following documentation:
 
@@ -123,17 +122,17 @@ comes with the following documentation:
 - Release notes - *Reference 15* - **Changed** (This document)
 
 Reason for version
-------------------
+==================
 
 Feature additions
-~~~~~~~~~~~~~~~~~
+-----------------
 
 **JIRA TICKETS:**
 
 -
 
 Bug corrections
-~~~~~~~~~~~~~~~
+---------------
 
 **JIRA TICKETS:**
 
@@ -142,15 +141,15 @@ Bug corrections
 (Also See respective Integrated feature project's bug tracking)
 
 Deliverables
-------------
+============
 
 Software deliverables
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Fuel-based installer iso file found in *Reference 2*
 
 Documentation deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 - Installation instructions - *Reference 13*
 
@@ -158,11 +157,12 @@ Documentation deliverables
 
 - Release notes - *Reference 15* (This document)
 
+=========================================
 Known Limitations, Issues and Workarounds
 =========================================
 
 System Limitations
-------------------
+==================
 
 - **Max number of blades:** 1 Fuel master, 3 Controllers, 20 Compute blades
 
@@ -174,7 +174,7 @@ System Limitations
 
 
 Known issues
-------------
+============
 
 **JIRA TICKETS:**
 
@@ -183,7 +183,7 @@ Known issues
 (Also See respective Integrated feature project's bug tracking)
 
 Workarounds
------------
+===========
 
 **JIRA TICKETS:**
 
@@ -191,36 +191,38 @@ Workarounds
 
 (Also See respective Integrated feature project's bug tracking)
 
+============
 Test results
 ============
 The Colorado 1.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
+==========
 References
 ==========
 For more information on the OPNFV Colorado release, please see:
 
 OPNFV
------
+=====
 
 1) `OPNFV Home Page <http://www.opnfv.org>`_
 
 2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
 
 OpenStack
----------
+=========
 
 3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_
 
 4) `OpenStack documentation <http://docs.openstack.org>`_
 
 OpenDaylight
-------------
+============
 
 5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_
 
 Fuel
-----
+====
 
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
 
@@ -237,7 +239,7 @@ Fuel
 12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
 
 Fuel in OPNFV
--------------
+=============
 
 13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
 
