@@ -1,20 +1,17 @@
-============================================================================================
-OPNFV Release Note for the Colorado 1.0 release of OPNFV when using Fuel as a deployment tool
-============================================================================================
+.. This document is protected/licensed under the following conditions
+.. (c) Jonas Bjurel (Ericsson AB)
+.. Licensed under a Creative Commons Attribution 4.0 International License.
+.. You should have received a copy of the license along with this work.
+.. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
-License
-=======
-
-This work is licensed under a Creative Commons Attribution 4.0 International
-License. .. http://creativecommons.org/licenses/by/4.0 ..
-(c) Jonas Bjurel (Ericsson AB) and others
-
+========
 Abstract
 ========
 
 This document compiles the release notes for the Colorado 1.0 release of
 OPNFV when using Fuel as a deployment tool.
 
+===============
 Important notes
 ===============
 
@@ -27,13 +24,14 @@ of the OPNFV infrastructure.
 
 Carefully follow the installation-instructions provided in *Reference 13*.
 
+=======
 Summary
 =======
 
 For Colorado, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
-- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Berylium SR3"
+- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Beryllium SR3" [1]_
 
 - `ONOS <http://onosproject.org/>`_ version "Drake"
 
@@ -68,6 +66,7 @@ OPNFV CI pipeline including:
 
 - Automated validation of the Colorado deployment
 
+============
 Release Data
 ============
 
@@ -89,17 +88,17 @@ Release Data
 |                                      | the following feaures/scenarios:     |
 |                                      | - NFV Hypervisors-KVM                |
 |                                      | - Open vSwitch for NFV               |
-|                                      | - OpenDaylight SR3                   |
+|                                      | - OpenDaylight                       |
 |                                      | - SDN distributed routing and VPN    |
 |                                      | - Service function chaining          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
 Version change
---------------
+==============
 
 Module version changes
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 This is a follow-up release to Colorado 1.0. It is based on
 following upstream versions:
 
@@ -107,12 +106,12 @@ following upstream versions:
 
 - OpenStack Mitaka release
 
-- OpenDaylight Beryllium SR3 release
+- OpenDaylight Beryllium SR3 release [1]_
 
 - ONOS Drake release
 
 Document changes
-~~~~~~~~~~~~~~~~
+----------------
 This is a follow-up release to Colorado 1.0. It
 comes with the following documentation:
 
@@ -123,17 +122,17 @@ comes with the following documentation:
 - Release notes - *Reference 15* - **Changed** (This document)
 
 Reason for version
-------------------
+==================
 
 Feature additions
-~~~~~~~~~~~~~~~~~
+-----------------
 
 **JIRA TICKETS:**
 
 -
 
 Bug corrections
-~~~~~~~~~~~~~~~
+---------------
 
 **JIRA TICKETS:**
 
@@ -142,15 +141,15 @@ Bug corrections
 (Also See respective Integrated feature project's bug tracking)
 
 Deliverables
-------------
+============
 
 Software deliverables
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Fuel-based installer iso file found in *Reference 2*
 
 Documentation deliverables
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 - Installation instructions - *Reference 13*
 
@@ -158,11 +157,12 @@ Documentation deliverables
 
 - Release notes - *Reference 15* (This document)
 
+=========================================
 Known Limitations, Issues and Workarounds
 =========================================
 
 System Limitations
-------------------
+==================
 
 - **Max number of blades:** 1 Fuel master, 3 Controllers, 20 Compute blades
 
@@ -174,7 +174,7 @@ System Limitations
 
 
 Known issues
-------------
+============
 
 **JIRA TICKETS:**
 
@@ -183,7 +183,7 @@ Known issues
 (Also See respective Integrated feature project's bug tracking)
 
 Workarounds
------------
+===========
 
 **JIRA TICKETS:**
 
@@ -191,36 +191,38 @@ Workarounds
 
 (Also See respective Integrated feature project's bug tracking)
 
+============
 Test results
 ============
 The Colorado 1.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
+==========
 References
 ==========
 For more information on the OPNFV Colorado release, please see:
 
 OPNFV
------
+=====
 
 1) `OPNFV Home Page <http://www.opnfv.org>`_
 
 2) `OPNFV documentation- and software downloads <https://www.opnfv.org/software/download>`_
 
 OpenStack
----------
+=========
 
 3) `OpenStack Mitaka Release artifacts <http://www.openstack.org/software/mitaka>`_
 
 4) `OpenStack documentation <http://docs.openstack.org>`_
 
 OpenDaylight
-------------
+============
 
 5) `OpenDaylight artifacts <http://www.opendaylight.org/software/downloads>`_
 
 Fuel
-----
+====
 
 6) `The Fuel OpenStack project <https://wiki.openstack.org/wiki/Fuel>`_
 
@@ -237,10 +239,12 @@ Fuel
 12) `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/products/openstack-drivers-and-plugins/hardware-compatibility-list>`_
 
 Fuel in OPNFV
--------------
+=============
 
 13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installation-instruction.html>`_
 
 14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/build-instruction.html>`_
 
 15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_
+
+.. [1] OpenDaylight Boron RC2 is used when Service Function Chaining is enabled in Fuel plugin.
