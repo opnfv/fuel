@@ -688,3 +688,4 @@ Fuel in OPNFV
 14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html
 
 15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html
+
