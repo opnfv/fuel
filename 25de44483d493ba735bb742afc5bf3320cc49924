@@ -22,6 +22,30 @@
       "revId": "25de44483d493ba735bb742afc5bf3320cc49924",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0f725d49",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-08-26T09:14:03Z",
+      "side": 1,
+      "message": "Michal,\nTacker should be on (openstack)primary, controller now, since it is a POC. If we will have it as a regular fuel plugin, it will bebahve as a reular openstack/fuel service. In february i was tring to get the adress from `hiera management_vip` didnt worked. Next week I intend to resolve this considering the impacts of  Michael\u0027s review as well, But Greory asked to have the CI job fixed asap.",
+      "parentUuid": "1a76adc5_2f7dd91c",
+      "range": {
+        "startLine": 305,
+        "startChar": 5,
+        "endLine": 305,
+        "endChar": 44
+      },
+      "revId": "25de44483d493ba735bb742afc5bf3320cc49924",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
