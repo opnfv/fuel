@@ -58,6 +58,7 @@ ____EOF
 
 # Function setting up the build/deploy environment
 function envSetup () {
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BCE5CC461FA22B08
     apt-get update
     apt-get install -y git python-pip python-all debhelper
     chkPPkg stdeb
@@ -136,13 +137,13 @@ function blessPackage () {
     dpkg-deb --control "$DEBFILE" "${TMPDIR}/DEBIAN"
     cd "$TMPDIR"
     patch -p 1 <<EOFDC
-diff -ruN a/DEBIAN/control b/DEBIAN/control
---- a/DEBIAN/control	2016-08-09 05:13:13.000000000 -0400
-+++ b/DEBIAN/control	2016-08-09 05:32:56.761035046 -0400
+diff -ruN DEBIAN/control DEBIAN/control
+--- a/DEBIAN/control      2016-08-19 11:53:10.000000000 +0000
++++ b/DEBIAN/control      2016-08-19 12:01:49.629096317 +0000
 @@ -4,7 +4,7 @@
  Architecture: all
  Maintainer: OpenStack <openstack-dev@lists.openstack.org>
- Installed-Size: 1565
+ Installed-Size: 1566
 -Depends: python (>= 2.7), python (<< 2.8), python:any (>= 2.7.1-0ubuntu2), python-pbr, python-paste, python-pastedeploy, python-routes, python-anyjson, python-babel, python-eventlet, python-greenlet, python-httplib2, python-requests, python-iso8601, python-jsonrpclib, python-jinja2, python-kombu, python-netaddr, python-sqlalchemy (>= 1.0~), python-sqlalchemy (<< 1.1), python-webob, python-heatclient, python-keystoneclient, alembic, python-six, python-stevedore, python-oslo.config, python-oslo.messaging-, python-oslo.rootwrap, python-novaclient
 +Depends: python (>= 2.7), python (<< 2.8), python:any (>= 2.7.1-0ubuntu2), python-pbr, python-paste, python-pastedeploy, python-routes, python-anyjson, python-babel, python-eventlet, python-greenlet, python-httplib2, python-requests, python-iso8601, python-jsonrpclib, python-jinja2, python-kombu, python-netaddr, python-sqlalchemy (>= 1.0~), python-sqlalchemy (<< 1.1), python-webob, python-heatclient, python-keystoneclient, alembic, python-six, python-stevedore, python-oslo.config, python-oslo.messaging, python-oslo.rootwrap, python-novaclient
  Section: python
@@ -250,7 +251,7 @@ function populate_client() {
 }
 
 # Function orchestrate the Tacker service
-function orchestarte () {
+function orchestrate () {
     rm -rf /etc/puppet/modules/tacker
     pushd /etc/puppet/modules
     git clone https://github.com/trozet/puppet-tacker.git tacker
@@ -266,7 +267,7 @@ function orchestarte () {
     auth_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'auth_uri')
     identity_uri=$(crudini --get '/etc/heat/heat.conf' 'keystone_authtoken' 'identity_uri')
     int_addr=$(ifconfig br-mesh | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
-    mgmt_addr=$(ifconfig br-mgmt | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
+    mgmt_addr=$(hiera management_vip)
     pub_addr=$(ifconfig br-ex-lnx | sed -n '/inet addr/s/.*addr.\([^ ]*\) .*/\1/p')
     rabbit_host=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_hosts'| cut -d ':' -f 1)
     rabbit_password=$(crudini --get '/etc/heat/heat.conf' 'oslo_messaging_rabbit' 'rabbit_password')
@@ -360,6 +361,7 @@ function populate_rc() {
     done
 }
 
+
 envSetup
 deployTackerClient
 deployJsonrpclib
@@ -367,8 +369,10 @@ buildTackerServer
 blessPackage
 deployTackerServer
 populate_client
-orchestarte
+orchestrate
 populate_rc
+
+git clone https://github.com/trozet/sfc-random.git
 
 remove_repo "$MYREPO"
 remove_repo "$DEPREPO"
