@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2f7dd91c",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-26T08:56:42Z",
+      "side": 1,
+      "message": "Can we also update this part to use management vip address for odl communication? this address is in hiera: hiera management_vip. There is a possibility that before C-release odl maybe deployed not on the same node as controller. This would also require change in releng project script to not deploy tacker on odl node but controller.",
+      "range": {
+        "startLine": 305,
+        "startChar": 5,
+        "endLine": 305,
+        "endChar": 44
+      },
+      "revId": "25de44483d493ba735bb742afc5bf3320cc49924",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
