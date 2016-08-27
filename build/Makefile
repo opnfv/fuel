@@ -80,6 +80,11 @@ ORIGDIR := $(TOPDIR)/origiso
 # END of variables to customize
 #############################################################################
 
+# Fuel-main destination path and fuel-* submodule patching, for full list check:
+# https://github.com/openstack/fuel-main/blob/stable/mitaka/repos.mk#L32-L44
+FUEL_MAIN_DIR := /tmp/fuel-main
+FUEL_PATCHES  := $(shell find $(BUILD_BASE)/patch-repos -name '*.patch' | sort)
+
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: all
@@ -105,10 +110,10 @@ include cache.mk
 
 $(ISOCACHE):
 	# Clone Fuel to non-persistent location and build
-	sudo rm -rf /tmp/fuel-main
-	cd /tmp && git clone $(FUEL_MAIN_REPO)
-	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
-	@echo "fuel" `git -C /tmp/fuel-main rev-parse HEAD` >> $(VERSION_FILE)
+	sudo rm -rf $(FUEL_MAIN_DIR)
+	git clone $(FUEL_MAIN_REPO) $(FUEL_MAIN_DIR)
+	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)
+	@echo "fuel" `git -C $(FUEL_MAIN_DIR) rev-parse HEAD` >> $(VERSION_FILE)
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
@@ -124,21 +129,23 @@ $(ISOCACHE):
 	sudo service docker stop || exit 0
 	sudo service docker start
 
-	cd /tmp/fuel-main && ./prepare-build-env.sh
+	cd $(FUEL_MAIN_DIR) && ./prepare-build-env.sh
 	# Verify that Docker is alive
 	sudo docker info
-	cd /tmp/fuel-main && make repos
-	$(REPOINFO) -r /tmp/fuel-main > gitinfo_fuel.txt
+	# fuel-main Makefiles do not like `make -C`
+	cd $(FUEL_MAIN_DIR) && make repos
+	$(REPOINFO) -r $(FUEL_MAIN_DIR) > gitinfo_fuel.txt
 	# OPNFV patches at Fuel build time
 	# Need to be commited in order for them to be considered by the Fuel
 	# build system
-	cd /tmp/fuel-main && git am $(TOPDIR)/bootstrap_admin_node.sh.patch
-	cd /tmp/fuel-main && git am $(TOPDIR)/isolinux.cfg.patch
-	cd /tmp/fuel-main/build/repos/fuel-nailgun && git am $(TOPDIR)/Mark-Intel-82599-10-Gigabit-NIC-as-DPDK-capable.patch
-	cd /tmp/fuel-main && git am $(TOPDIR)/repo-multi-arch-local-mirrors.patch
+	$(foreach patch,$(FUEL_PATCHES),git \
+		-C $(subst $(BUILD_BASE)/patch-repos,$(FUEL_MAIN_DIR),$(dir $(patch))) \
+		am --whitespace=nowarn --committer-date-is-author-date $(patch) || \
+		(echo 'Error: Failed patching Fuel repos!' ; exit 1);)
+
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
-	cp /tmp/fuel-main/build/artifacts/fuel*.iso .
+	cp $(FUEL_MAIN_DIR)/build/artifacts/fuel*.iso .
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
 	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
@@ -220,11 +227,11 @@ debug:
 #   - The commit ID of the full Fuel repo structre
 #   - The contents of all local Fuel patches
 .cacheid:
-	cd /tmp && git clone $(FUEL_MAIN_REPO)
-	cd /tmp/fuel-main && git checkout $(FUEL_MAIN_TAG)
-	cd /tmp/fuel-main && make repos
-	$(REPOINFO) -r /tmp/fuel-main > .cachedata
-	sha1sum *.patch >> .cachedata
+	git clone $(FUEL_MAIN_REPO) $(FUEL_MAIN_DIR)
+	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)
+	make -C $(FUEL_MAIN_DIR) repos
+	$(REPOINFO) -r $(FUEL_MAIN_DIR) > .cachedata
+	$(foreach patch,$(FUEL_PATCHES),sha1sum $(patch) >> .cachedata;)
 	sha1sum fuel_build_loop >> .cachedata
 	sha1sum config.mk >> .cachedata
 	sha1sum Makefile >> .cachedata
