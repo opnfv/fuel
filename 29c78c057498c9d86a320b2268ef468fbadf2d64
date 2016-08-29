@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d5bab4bf",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-08-29T10:51:13Z",
+      "side": 1,
+      "message": "do you create haproxy configuration for tacker? Changing address to management_vip for ODL is ok since there is fronted configured on haproxy, but I am not sure if tacker listen on ${mgmt_vip}:${bind_port}?",
+      "range": {
+        "startLine": 277,
+        "startChar": 22,
+        "endLine": 277,
+        "endChar": 34
+      },
+      "revId": "29c78c057498c9d86a320b2268ef468fbadf2d64",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
