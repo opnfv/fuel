@@ -22,6 +22,30 @@
       "revId": "29c78c057498c9d86a320b2268ef468fbadf2d64",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f5c49041",
+        "filename": "prototypes/sfc_tacker/poc.tacker-up.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1580
+      },
+      "writtenOn": "2016-08-29T11:34:38Z",
+      "side": 1,
+      "message": "Michal,\nit was the reason why originally the script didn\u0027t used the management_vip. For a POC i may not create haproxy setup, since it needs a tacker haproxy class.",
+      "parentUuid": "1a76adc5_d5bab4bf",
+      "range": {
+        "startLine": 277,
+        "startChar": 22,
+        "endLine": 277,
+        "endChar": 34
+      },
+      "revId": "29c78c057498c9d86a320b2268ef468fbadf2d64",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
