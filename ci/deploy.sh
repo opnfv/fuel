@@ -29,7 +29,7 @@ cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 `basename $0`: Deploys the Fuel@OPNFV stack
 
-usage: `basename $0` -b base-uri [-B PXE Bridge] [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario [-S image-dir] -i iso
+usage: `basename $0` -b base-uri [-B PXE Bridge] [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario [-S image-dir] [-T timeout] -i iso
        -s deployment-scenario [-S optional Deploy-scenario path URI]
        [-R optional local relen repo (containing deployment Scenarios]
 
@@ -47,6 +47,7 @@ OPTIONS:
   -p  Pod-name
   -s  Deploy-scenario short-name/base-file-name
   -S  Storage dir for VM images
+  -T  Timeout, in minutes, for the deploy.
   -i  iso url
 
 Description:
@@ -78,6 +79,8 @@ Input parameters to the build script is:
    or a deployment short-name as defined by scenario.yaml in the deployment
    scenario path.
 -S Storage dir for VM images, default is fuel/deploy/images
+-T Timeout, in minutes, for the deploy. It defaults to using the DEPLOY_TIMEOUT
+   environment variable when defined, or to the default in deploy.py otherwise
 -i .iso image to be deployed (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
@@ -116,6 +119,11 @@ FUEL_CREATION_ONLY=''
 NO_DEPLOY_ENVIRONMENT=''
 STORAGE_DIR=''
 DRY_RUN=0
+if ! [ -z $DEPLOY_TIMEOUT ]; then
+    DEPLOY_TIMEOUT="-dt $DEPLOY_TIMEOUT"
+else
+    DEPLOY_TIMEOUT=""
+fi
 #
 # END of variables to customize
 ############################################################################
@@ -123,7 +131,7 @@ DRY_RUN=0
 ############################################################################
 # BEGIN of main
 #
-while getopts "b:B:dfFHl:L:p:s:S:i:he" OPTION
+while getopts "b:B:dfFHl:L:p:s:S:T:i:he" OPTION
 do
     case $OPTION in
         b)
@@ -173,6 +181,9 @@ do
             if [[ ${OPTARG} ]]; then
                 STORAGE_DIR="-s ${OPTARG}"
             fi
+            ;;
+        T)
+            DEPLOY_TIMEOUT="-dt ${OPTARG}"
             ;;
         i)
             ISO=${OPTARG}
@@ -243,8 +254,8 @@ if [ $DRY_RUN -eq 0 ]; then
         ISO=${SCRIPT_PATH}/ISO/image.iso
     fi
     # Start deployment
-    echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO"
-    python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO
+    echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT"
+    python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT
 fi
 popd > /dev/null
 
