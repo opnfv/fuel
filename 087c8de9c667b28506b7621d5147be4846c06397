@@ -101,6 +101,40 @@
       "revId": "087c8de9c667b28506b7621d5147be4846c06397",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_90b44ad2",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-08-30T00:26:19Z",
+      "side": 0,
+      "message": "The title can be \"Fuel@OPNFV Installation Guide\"?",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_30cbf654",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1630
+      },
+      "writtenOn": "2016-08-30T00:26:19Z",
+      "side": 0,
+      "message": "Can we just reference to build guide?",
+      "revId": "087c8de9c667b28506b7621d5147be4846c06397",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
