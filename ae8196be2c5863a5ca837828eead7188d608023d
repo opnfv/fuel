@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4414b743",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-08-30T07:36:07Z",
+      "side": 0,
+      "message": "For backwards compatibility I\u0027d like to see us keeping this umask for a while - this was originally a fix for CI so that the cleanup phase (which was run as non-root) would succeed. Let\u0027s give people some time to convert to a non-root setup.",
+      "revId": "ae8196be2c5863a5ca837828eead7188d608023d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
