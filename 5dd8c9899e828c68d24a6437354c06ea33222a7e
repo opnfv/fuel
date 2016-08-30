@@ -16,6 +16,24 @@
       "revId": "5dd8c9899e828c68d24a6437354c06ea33222a7e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_44a4b7a5",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-08-30T10:53:52Z",
+      "side": 1,
+      "message": "Apparently, the title should now be in the index file and not the document itself. I have no idea why?\nThat is also why all the heading levels have poped one level.",
+      "parentUuid": "1a76adc5_d09f22b3",
+      "revId": "5dd8c9899e828c68d24a6437354c06ea33222a7e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
