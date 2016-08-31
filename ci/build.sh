@@ -111,7 +111,7 @@ SCRIPT_DIR=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 BUILD_BASE=$(readlink -e ${SCRIPT_DIR}/../build/)
 RESULT_DIR="${BUILD_BASE}/release"
 BUILD_SPEC="${BUILD_BASE}/config.mk"
-LOCAL_CACHE_ARCH_NAME="fuel-cache"
+LOCAL_CACHE_ARCH_NAME="${LOCAL_CACHE_ARCH_NAME:-fuel-cache}"
 
 #
 # END of variables to customize
