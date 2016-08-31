@@ -111,7 +111,13 @@ if [ -n "$CACHEBASE" ]; then
     fi
 fi
 
-RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE -e BUILD_FUEL_PLUGINS -e MIRROR_UBUNTU -e MIRROR_UBUNTU_ROOT -e MIRROR_MOS_UBUNTU -e MIRROR_MOS_UBUNTU_ROOT -e MIRROR_FUEL -e LATEST_TARGET_UBUNTU -u $USER_ID:$GROUP_ID -w $PWD -v $GITROOT:$GITROOT -v /sys/fs/cgroup:/sys/fs/cgroup:ro $CACHEMOUNT"
+RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm \
+    -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE \
+    -e BUILD_FUEL_PLUGINS -e MIRROR_UBUNTU -e MIRROR_UBUNTU_ROOT \
+    -e MIRROR_MOS_UBUNTU -e MIRROR_MOS_UBUNTU_ROOT -e MIRROR_FUEL \
+    -e LATEST_TARGET_UBUNTU -e UBUNTU_ARCH \
+    -u $USER_ID:$GROUP_ID -w $PWD \
+    -v $GITROOT:$GITROOT -v /sys/fs/cgroup:/sys/fs/cgroup:ro $CACHEMOUNT"
 
 # Passing "debug" puts up an interactive bash shell
 if [ "$1" == "debug" ]; then

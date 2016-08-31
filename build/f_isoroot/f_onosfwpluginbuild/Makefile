@@ -66,6 +66,7 @@ release:.onosbuild
 	fi
 	@sha1sum Makefile | awk {'print $$1'} >> .cachedata
 	@sha1sum config.mk | awk {'print $$1'} >> .cachedata
+	@echo -n $(UBUNTU_ARCH) | sha1sum | awk {'print $$1'} >> .cachedata
 	@cat .cachedata | $(CACHETOOL) getid > .cacheid
 
 # Clean local data related to caching - called prior to ordinary build
