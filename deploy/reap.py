@@ -16,6 +16,8 @@ import yaml
 import glob
 import shutil
 import tempfile
+import re
+import netaddr
 
 from common import (
     N,
@@ -253,6 +255,40 @@ class Reap(object):
             if key not in ['ipaddress', 'netmask',
                            'dhcp_pool_start', 'dhcp_pool_end', 'ssh_network']:
                 del fuel['ADMIN_NETWORK'][key]
+
+        ## FIXME(armband): Factor in support for adding public/other interfaces.
+        ## TODO: Following block expects interface name(s) to be lowercase only
+        interfaces_list = exec_cmd('ip -o -4 a | grep -e "e[nt][hopsx].*"')
+        for interface in re.split('\n', interfaces_list):
+            # Sample output line from above cmd:
+            # 3: eth1 inet 10.0.2.10/24 scope global eth1 valid_lft forever ...
+            ifcfg = re.split(r'\s+', interface)
+            ifcfg_name = ifcfg[1]
+            ifcfg_ipaddr = ifcfg[3]
+
+            # Filter out admin interface (device name is not known, match IP)
+            current_network = netaddr.IPNetwork(ifcfg_ipaddr)
+            if str(current_network.ip) == fuel['ADMIN_NETWORK']['ipaddress']:
+                continue
+
+            # Read ifcfg-* network interface config file, write IFCFG_<IFNAME>
+            ifcfg_sec = 'IFCFG_%s' % ifcfg_name.upper()
+            fuel[ifcfg_sec] = {}
+            ifcfg_data = {}
+            ifcfg_f = ('/etc/sysconfig/network-scripts/ifcfg-%s' % ifcfg_name)
+            with open(ifcfg_f) as f:
+                for line in f:
+                    if line.startswith('#'):
+                        continue
+                    (key, val) = line.split('=')
+                    ifcfg_data[key.lower()] = val.rstrip()
+
+            # Keep only needed info (e.g. filter-out type=Ethernet).
+            fuel[ifcfg_sec]['ipaddress'] = ifcfg_data['ipaddr']
+            fuel[ifcfg_sec]['device'] = ifcfg_data['device']
+            fuel[ifcfg_sec]['netmask'] = str(current_network.netmask)
+            fuel[ifcfg_sec]['gateway'] = ifcfg_data['gateway']
+
         self.write_yaml(self.dea_file, {'fuel': fuel})
 
     def reap_network_settings(self):
