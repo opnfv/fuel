@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_13bfdffc",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-09-01T08:04:48Z",
+      "side": 1,
+      "message": "These are rendered verbatim (\"Reference: 2\") in HTML and not as links.",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 70
+      },
+      "revId": "cef6664468e05f0e0cda284383a4b6153da2ff65",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
