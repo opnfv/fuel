@@ -60,11 +60,11 @@ dea-override-config:
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: mongo,controller,opendaylight
+    role: mongo,controller
     transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: ceph-osd,opendaylight
     transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
