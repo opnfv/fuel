@@ -13,4 +13,4 @@ FUEL_PLUGIN_ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.gi
 
 export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/repositories/public/org/opendaylight/integration/distribution-karaf/0.4.3-Beryllium-SR3/distribution-karaf-0.4.3-Beryllium-SR3.tar.gz
 export ODL_VERSION_NUMBER?=0.4.3
-export ODL_BORON_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/repositories/staging/org/opendaylight/integration/distribution-karaf/0.5.0-Boron/distribution-karaf-0.5.0-Boron.tar.gz
+export ODL_BORON_TARBALL_LOCATION?=http://artifacts.opnfv.org/fuel/colorado/distribution-karaf-0.5.0-Boron-RC2.tar.gz
