@@ -39,6 +39,24 @@
       "revId": "cf2e92b262a0008ff5b21008945610eee3cc8bbe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8d78ab90",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-02T10:37:37Z",
+      "side": 1,
+      "message": "Do you use the same version of fuel-mirror as fuel@opnfv use: https://gerrit.opnfv.org/gerrit/#/c/16051/ ? I thought that blacklisting mirrors.se.eu.kernel.org was leftover of problems which we have with redirects which somehow happened very often on se mirrors. It was fixed in fuel-mirror, but if you use the same version and you still observe problems I will restore this server to blacklist.",
+      "parentUuid": "1a76adc5_a916bc53",
+      "revId": "cf2e92b262a0008ff5b21008945610eee3cc8bbe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
