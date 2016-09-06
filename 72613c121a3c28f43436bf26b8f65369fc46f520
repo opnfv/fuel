@@ -22,6 +22,30 @@
       "revId": "72613c121a3c28f43436bf26b8f65369fc46f520",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c18e6cd0",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 204
+      },
+      "writtenOn": "2016-09-06T12:47:41Z",
+      "side": 0,
+      "message": "Michal, I have spelled the URL\u0027s out in case someone want to work on a printed version of the document. I should change the release notes for consistency.",
+      "parentUuid": "1a76adc5_a11a5015",
+      "range": {
+        "startLine": 309,
+        "startChar": 188,
+        "endLine": 309,
+        "endChar": 268
+      },
+      "revId": "72613c121a3c28f43436bf26b8f65369fc46f520",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
