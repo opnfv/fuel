@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_81671425",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-09-06T13:11:23Z",
+      "side": 1,
+      "message": "Just a minor suggestion:\n\nI would claim that the build *host* also can run Ubuntu 16.04 (as I\u0027ve tested that myself) - given that this is the current Ubuntu LTS, maybe we should indicate that version also/instead?\n\nNote however that the build *container* still is using Ubuntu 14.04.",
+      "revId": "e6ec4a3591352a5156800226bdb8688d0b18bc75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_614bd887",
+        "filename": "docs/installationprocedure/installation.instruction.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-09-06T13:11:23Z",
+      "side": 1,
+      "message": "If you can\u0027t contribute with something significant, let\u0027s nitpick :) it\u0027s -\u003e its",
+      "revId": "e6ec4a3591352a5156800226bdb8688d0b18bc75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
