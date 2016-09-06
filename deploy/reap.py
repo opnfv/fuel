@@ -18,6 +18,7 @@ import shutil
 import tempfile
 import re
 import netaddr
+import templater
 
 from common import (
     N,
@@ -78,8 +79,6 @@ DHA_2 = '''
 # Adding the Fuel node as node id {node_id}
 # which may not be correct - please adjust as needed.
 '''
-
-TEMPLATER = 'templater.py'
 
 DISKS = {'fuel': '100G',
          'controller': '100G',
@@ -353,8 +352,10 @@ class Reap(object):
         self.download_config('network')
 
     def create_base_dea(self):
-        exec_cmd('python %s %s %s %s'
-                 % (TEMPLATER, self.dea_file, self.template, self.base_dea))
+        templater = templater.Templater(self.dea_file,
+                                        self.template,
+                                        self.base_dea)
+        t.run()
 
     def finale(self):
         log('DEA file is available at %s' % self.dea_file)
