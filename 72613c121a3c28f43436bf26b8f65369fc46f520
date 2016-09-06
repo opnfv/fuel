@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a11a5015",
+        "filename": "docs/buildprocedure/build.instruction.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-06T09:59:38Z",
+      "side": 0,
+      "message": "Do we need to put explicit urls here and in installation instructions? Labels are already active links, in release notes we are not doing that.",
+      "range": {
+        "startLine": 309,
+        "startChar": 188,
+        "endLine": 309,
+        "endChar": 268
+      },
+      "revId": "72613c121a3c28f43436bf26b8f65369fc46f520",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
