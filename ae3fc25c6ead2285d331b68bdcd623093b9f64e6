@@ -22,6 +22,30 @@
       "revId": "ae3fc25c6ead2285d331b68bdcd623093b9f64e6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c2718a45",
+        "filename": "deploy/reap.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-09-07T10:53:10Z",
+      "side": 1,
+      "message": "That is indeed the case. Thanks! :-)",
+      "parentUuid": "1a76adc5_828cf236",
+      "range": {
+        "startLine": 358,
+        "startChar": 8,
+        "endLine": 358,
+        "endChar": 9
+      },
+      "revId": "ae3fc25c6ead2285d331b68bdcd623093b9f64e6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
