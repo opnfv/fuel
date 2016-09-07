@@ -70,6 +70,30 @@
       "revId": "9a3f6a38d708cbc3633d203e36e32bc91764ba20",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a26c8e9d",
+        "filename": "build/f_isoroot/f_ovs-nsh-dpdk-pluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-09-07T10:10:49Z",
+      "side": 1,
+      "message": "I\u0027d still like to see this changed merged asap as it should fix our current deployment failure. \n\nThat said I agree that if Fuel are good with a floating tag it is better as it will let us upstream changes faster.\n\nWe could add Fuel people to the fuel-plugin-ovs review which would allow them to see the actual changes rather than just the description.",
+      "parentUuid": "1a76adc5_8203920c",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "9a3f6a38d708cbc3633d203e36e32bc91764ba20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
