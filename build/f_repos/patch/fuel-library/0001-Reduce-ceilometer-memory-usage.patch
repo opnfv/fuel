@@ -1,0 +1,30 @@
+From 38315ee3945a5444de13918eb29e7771eb9927c7 Mon Sep 17 00:00:00 2001
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 8 Sep 2016 19:25:14 +0300
+Subject: [PATCH 1/1] Reduce ceilometer memory usage
+
+Change-Id: I8b1a97bd710c859a3543d1aed8226313f35f4f10
+---
+ .../manifests/ceilometer/controller.pp             |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp b/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
+index 2c63ff0..1dda109 100644
+--- a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
++++ b/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
+@@ -234,5 +234,12 @@ class openstack_tasks::ceilometer::controller {
+         Ceilometer_config<| title == 'oslo_messaging_rabbit/kombu_compression' |> { value => $kombu_compression }
+       }
+     }
++
++    # Reduce memory usage
++    ceilometer_config {
++      'DEFAULT/executor_thread_pool_size':               value => ceiling($service_workers*0.5);
++      'notification/pipeline_processing_queues':         value => ceiling($service_workers*1.5);
++      'oslo_messaging_rabbit/rabbit_qos_prefetch_count': value => 100;
++    }
+   }
+ }
+-- 
+1.7.9.5
+
