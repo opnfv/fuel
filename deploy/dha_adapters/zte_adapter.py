@@ -24,27 +24,9 @@ class ZteAdapter(IpmiAdapter):
         super(ZteAdapter, self).__init__(yaml_path, attempts)
 
     def node_reset(self, node_id):
-        WAIT_LOOP = 600
         log('RESET Node %s' % node_id)
-        cmd_prefix = self.ipmi_cmd(node_id)
-        state = exec_cmd('%s chassis power status' % cmd_prefix, mask_args=[8,10])
-        if state == 'Chassis Power is on':
-            was_shut_off = False
-            done = False
-            exec_cmd('%s chassis power cycle' % cmd_prefix, mask_args=[8,10])
-            for i in range(WAIT_LOOP):
-                state, _ = exec_cmd('%s chassis power status' % cmd_prefix,
-                                    check=False,
-                                    mask_args=[8,10])
-                if state == 'Chassis Power is off':
-                    was_shut_off = True
-                elif state == 'Chassis Power is on' and was_shut_off:
-                    done = True
-                    break
-                time.sleep(1)
-            if not done:
-                err('Could Not RESET Node %s' % node_id)
-        else:
-            err('Cannot RESET Node %s because it\'s not Active, state: %s'
-                % (node_id, state))
+        cmd = '%s chassis power cycle' % self.ipmi_cmd(node_id)
+        exec_cmd(cmd, attempts=self.attempts, delay=self.delay,
+                 verbose=True,
+                 mask_args=[8,10])
 
