@@ -18,6 +18,7 @@ import shutil
 import stat
 import errno
 import time
+import shlex
 
 N = {'id': 0, 'status': 1, 'name': 2, 'cluster': 3, 'ip': 4, 'mac': 5,
      'roles': 6, 'pending_roles': 7, 'online': 8, 'group_id': 9}
@@ -41,7 +42,7 @@ os.chmod(LOGFILE, 0664)
 
 
 def mask_arguments(cmd, mask_args, mask_str):
-    cmd_line = cmd.split()
+    cmd_line = shlex.split(cmd)
     for pos in mask_args:
         # Don't mask the actual command; also check if we don't reference
         # beyond bounds
