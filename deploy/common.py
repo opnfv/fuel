@@ -74,13 +74,13 @@ def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False, mask_args=[], 
     if check:
         if return_code > 0:
             stderr = stderr.strip()
-            print "Failed command: " + str(masked_cmd)
-            print "Command returned response: " + str(stderr)
-            print "Command return code: " + str(return_code)
+            print("Failed command: " + str(masked_cmd))
+            print("Command returned response: " + str(stderr))
+            print("Command return code: " + str(return_code))
             raise Exception(stderr)
         else:
-            print "Command: " + str(masked_cmd)
-            print str(response)
+            print("Command: " + str(masked_cmd))
+            print(str(response))
             return response
     return response, return_code
 
