@@ -247,4 +247,4 @@ Fuel in OPNFV
 
 15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/docs/release-notes.html'
 
-.. [1] OpenDaylight Boron RC2 is used when Service Function Chaining is enabled in Fuel plugin.
+.. [1] OpenDaylight Boron RC3.5 is used when Service Function Chaining is enabled in Fuel plugin.
