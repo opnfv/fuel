@@ -1,0 +1,5 @@
+  - module: opendaylight
+    module-config-name: fuel-odl
+    module-config-version: 0.9.0
+    module-config-override:
+

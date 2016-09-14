@@ -1,0 +1,5 @@
+   - module: onos
+     module-config-name: fuel-onos
+     module-config-version: 0.0.3
+     module-config-override:
+

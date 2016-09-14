@@ -1,0 +1,6 @@
+   - module: fuel-plugin-kvm
+     module-config-name: fuel-nfvkvm
+     module-config-version: 0.9.0
+     module-config-override:
+       # Module config overrides
+
