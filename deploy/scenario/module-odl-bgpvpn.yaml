@@ -1,0 +1,19 @@
+  - module: opendaylight
+    module-config-name: fuel-odl
+    module-config-version: 0.9.0
+    module-config-override:
+      metadata:
+        versions:
+          - enable_bgpvpn:
+              value: true
+            metadata:
+              plugin_version: 0.9.0
+
+  - module: bgpvpn
+    module-config-name: fuel-bgpvpn
+    module-config-version: 0.9.0
+
+  - module: fuel-plugin-ovs
+    module-config-name: fuel-nshovs
+    module-config-version: 0.9.0
+
