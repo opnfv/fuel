@@ -22,6 +22,30 @@
       "revId": "ff9c24257a2c62dd981297a92eecf712f6643617",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_996d379b",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-14T10:08:47Z",
+      "side": 1,
+      "message": "This variable is used for Beryllium, for Boron by default we set 0.5.0 https://github.com/openstack/fuel-plugin-opendaylight/blob/master/pre_build_hook#L43",
+      "parentUuid": "1a76adc5_d973af7e",
+      "range": {
+        "startLine": 15,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "ff9c24257a2c62dd981297a92eecf712f6643617",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
