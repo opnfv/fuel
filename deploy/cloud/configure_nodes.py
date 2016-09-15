@@ -45,9 +45,6 @@ class ConfigureNodes(object):
                 exec_cmd('fuel node set --node-id %s --role %s --env %s'
                          % (node_id, roles_blade[0], self.env_id))
 
-        # Download the unmodified default deployment configuration, because we
-        # need it for the network config.
-        self.download_deployment_config()
         for node_id, roles_blade in self.node_id_roles_dict.iteritems():
             # Modify node attributes
             self.download_attributes(node_id)
@@ -56,13 +53,14 @@ class ConfigureNodes(object):
             # Modify interfaces configuration
             self.download_interface_config(node_id)
             self.modify_node_interface(node_id, roles_blade)
-            self.modify_node_network_schemes(node_id, roles_blade)
             self.upload_interface_config(node_id)
 
         # Download our modified deployment configuration, which includes our
         # changes to network topology etc.
-        self.download_deployment_config()
-        self.upload_deployment_config()
+        #self.download_deployment_config()
+        #for node_id, roles_blade in self.node_id_roles_dict.iteritems():
+        #    self.modify_node_network_schemes(node_id, roles_blade)
+        #self.upload_deployment_config()
 
     def modify_node_network_schemes(self, node_id, roles_blade):
         log('Modify network transformations for node %s' % node_id)
@@ -71,14 +69,14 @@ class ConfigureNodes(object):
         deployment_dir = '%s/deployment_%s' % (
             self.yaml_config_dir, self.env_id)
         backup(deployment_dir)
-        for node_file in glob.glob(deployment_dir + '/*_%s.yaml' % node_id):
-            with io.open(node_file) as stream:
-                node = yaml.load(stream)
+        node_file = ('%s/%s.yaml' % (deployment_dir, node_id))
+        with io.open(node_file) as stream:
+            node = yaml.load(stream)
 
-            node['network_scheme'].update(transformations)
+        node['network_scheme'].update(transformations)
 
-            with io.open(node_file, 'w') as stream:
-                yaml.dump(node, stream, default_flow_style=False)
+        with io.open(node_file, 'w') as stream:
+            yaml.dump(node, stream, default_flow_style=False)
 
     def download_deployment_config(self):
         log('Download deployment config for environment %s' % self.env_id)
@@ -151,6 +149,9 @@ class ConfigureNodes(object):
             interface['assigned_networks'] = []
             if interface['name'] in interface_config:
                 for net_name in interface_config[interface['name']]:
+                    if net_name == 'enable_dpdk':
+                        interface['interface_properties']['dpdk']['enabled'] = True
+                        continue
                     net = {}
                     net['id'] = net_name_id[net_name]
                     net['name'] = net_name
