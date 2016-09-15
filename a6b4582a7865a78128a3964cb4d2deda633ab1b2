@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c8d75abe",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-09-15T15:28:20Z",
+      "side": 1,
+      "message": "Thanks for implementing this approach! It looks much more obvious for people who will look into scenario files.",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 27
+      },
+      "revId": "a6b4582a7865a78128a3964cb4d2deda633ab1b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a8dc5ee5",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-09-15T15:28:20Z",
+      "side": 1,
+      "message": "Spaces are preferred for indentation. And it\u0027s better to not mix different indentation types in one file.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 1
+      },
+      "revId": "a6b4582a7865a78128a3964cb4d2deda633ab1b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_68e646b6",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-09-15T15:28:20Z",
+      "side": 1,
+      "message": "Probably we could pop \u0027interface_properties\u0027 outside the loop. So we\u0027ll be able to avoid additional checks for each prop. What do you think?",
+      "range": {
+        "startLine": 178,
+        "startChar": 20,
+        "endLine": 184,
+        "endChar": 77
+      },
+      "revId": "a6b4582a7865a78128a3964cb4d2deda633ab1b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
