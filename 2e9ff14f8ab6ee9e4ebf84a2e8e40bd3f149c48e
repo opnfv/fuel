@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_94a09ea0",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-15T07:12:42Z",
+      "side": 0,
+      "message": "Download -\u003e modify -\u003e once more download which override changes -\u003e upload",
+      "revId": "2e9ff14f8ab6ee9e4ebf84a2e8e40bd3f149c48e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f491d252",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-15T07:12:42Z",
+      "side": 0,
+      "message": "This did not match any files, directory structure from `fuel deployment --download` command looks like this: deployment_25/137.yaml",
+      "range": {
+        "startLine": 74,
+        "startChar": 54,
+        "endLine": 74,
+        "endChar": 57
+      },
+      "revId": "2e9ff14f8ab6ee9e4ebf84a2e8e40bd3f149c48e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_748dc230",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-15T07:12:42Z",
+      "side": 0,
+      "message": "transformation are not needed if we define network to nic assignment and segmentation type.",
+      "revId": "2e9ff14f8ab6ee9e4ebf84a2e8e40bd3f149c48e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
