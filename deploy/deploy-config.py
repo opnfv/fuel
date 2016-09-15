@@ -137,7 +137,6 @@ def merge_networks(list_1, list_2):
     return [new_nets.get(net.get('name'), net) for net in list_1]
 
 
-
 def merge_dicts(dict1, dict2):
     for k in set(dict1).union(dict2):
         if k in dict1 and k in dict2:
