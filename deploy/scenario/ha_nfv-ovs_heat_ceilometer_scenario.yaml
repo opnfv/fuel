@@ -54,26 +54,21 @@ dea-override-config:
     net_segment_type: vlan
   nodes:
   - id: 1
-    interfaces: interfaces_dpdk
+    interfaces: interfaces_vlan
     role: controller
-    transformations: transformations_vlan
   - id: 2
-    interfaces: interfaces_dpdk
+    interfaces: interfaces_vlan
     role: mongo,controller
-    transformations: transformations_vlan
   - id: 3
-    interfaces: interfaces_dpdk
+    interfaces: interfaces_vlan
     role: ceph-osd,controller
-    transformations: transformations_vlan
   - id: 4
     interfaces: interfaces_dpdk
     role: ceph-osd,compute
-    transformations: transformations_dpdk
     attributes: attributes_1
   - id: 5
     interfaces: interfaces_dpdk
     role: ceph-osd,compute
-    transformations: transformations_dpdk
     attributes: attributes_1
 
   attributes_1:
