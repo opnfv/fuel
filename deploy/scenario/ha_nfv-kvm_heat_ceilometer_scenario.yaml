@@ -46,23 +46,18 @@ dea-override-config:
   - id: 1
     interfaces: interfaces_1
     role: controller,mongo
-    transformations: transformations_1
   - id: 2
     interfaces: interfaces_1
     role: controller
-    transformations: transformations_1
   - id: 3
     interfaces: interfaces_1
     role: controller
-    transformations: transformations_1
   - id: 4
     interfaces: interfaces_1
     role: compute,ceph-osd
-    transformations: transformations_1
   - id: 5
     interfaces: interfaces_1
     role: compute,ceph-osd
-    transformations: transformations_1
 
   settings:
     editable:
