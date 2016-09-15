@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_08ed528b",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-09-15T15:43:19Z",
+      "side": 1,
+      "message": "This is list, not a dict.",
+      "parentUuid": "1a76adc5_28eb6e14",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 154,
+        "endChar": 32
+      },
+      "revId": "3c16057d7d0b0d467526fec65d886a8bd01afdf4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_14848e0a",
         "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
         "patchSetId": 2
