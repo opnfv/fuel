@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_28eb6e14",
+        "filename": "deploy/cloud/configure_nodes.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-09-15T12:41:41Z",
+      "side": 1,
+      "message": "I don\u0027t like this approach. It looks like hack. The second one from JIRA ticket looks better.\n\nIt may looks like:\ninterface[\u0027interface_properties\u0027] \u003d \\\nself._merge_dicts(interface.get(\u0027interface_properties\u0027, {}),\n                              interface_config[interface[\u0027name\u0027]].pop(\u0027interface_properties\u0027, {}))",
+      "parentUuid": "1a76adc5_b49b5a71",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 154,
+        "endChar": 32
+      },
+      "revId": "3c16057d7d0b0d467526fec65d886a8bd01afdf4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_14848e0a",
         "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
         "patchSetId": 2
@@ -41,6 +65,29 @@
         "startChar": 16,
         "endLine": 57,
         "endChar": 31
+      },
+      "revId": "3c16057d7d0b0d467526fec65d886a8bd01afdf4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e8f496f3",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-09-15T12:41:41Z",
+      "side": 1,
+      "message": "should it be removed too?",
+      "range": {
+        "startLine": 62,
+        "startChar": 21,
+        "endLine": 62,
+        "endChar": 41
       },
       "revId": "3c16057d7d0b0d467526fec65d886a8bd01afdf4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
