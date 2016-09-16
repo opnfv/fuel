@@ -12,6 +12,7 @@
 import io
 import re
 import yaml
+import urllib2
 from common import(
     err,
     ArgParser,
@@ -29,10 +30,29 @@ class Templater(object):
         self.output_file = output_file
         self.base = self.load_yaml(base_file)
 
-    def load_yaml(self, filename):
+    def is_url(self, filespec):
+        regex = re.compile('^([^/:]+)://')
+        return re.search(regex, filespec)
+
+    def load_template(self, filespec):
         try:
-            with io.open(filename) as yaml_file:
-                return yaml.load(yaml_file)
+            if(self.is_url(filespec)):
+                response = urllib2.urlopen(filespec)
+                return response.read()
+            else:
+                with io.open(filespec) as f:
+                    return f.readlines()
+        except Exception as error:
+            err('Error opening template file: %s' % error)
+
+    def load_yaml(self, filespec):
+        try:
+            if(self.is_url(filespec)):
+                response = urllib2.urlopen(filespec)
+                return yaml.load(response)
+            else:
+                with io.open(filespec) as f:
+                    return yaml.load(f)
         except Exception as error:
             err('Error opening YAML file: %s' % error)
 
@@ -147,12 +167,11 @@ class Templater(object):
 
         regex = re.compile(re.escape(TAG_START) + r'([a-z].+)' + re.escape(TAG_END),
                            flags=re.IGNORECASE)
-        with io.open(self.template_file) as f:
-            for line in f:
-                indent = self.get_indent(line)
-                result += re.sub(regex,
-                                 lambda match: self.parse_tag(match.group(1), indent),
-                                 line)
+        for line in self.load_template(self.template_file):
+            indent = self.get_indent(line)
+            result += re.sub(regex,
+                             lambda match: self.parse_tag(match.group(1), indent),
+                             line)
 
         self.save_yaml(self.output_file, result)
 
@@ -164,9 +183,9 @@ template variable substitution and write the results to 'output_file'.'''
     parser = ArgParser(prog='python %s' % __file__,
                        description=description)
     parser.add_argument('base_file',
-                        help='Base YAML filename')
+                        help='Base YAML file or URL')
     parser.add_argument('template_file',
-                        help='Fragment filename')
+                        help='Template file or URL')
     parser.add_argument('output_file',
                         help='Output filename')
 
