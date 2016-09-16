@@ -31,9 +31,9 @@ Summary
 For Colorado, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
-- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Beryllium SR3" [1]_ - 'http://www.opendaylight.org/software'
+- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Beryllium SR3" [1]_ 'http://www.opendaylight.org/software'
 
-- `ONOS <http://onosproject.org/>`_ version "Drake" - 'http://onosproject.org/'
+- `ONOS <http://onosproject.org/>`_ version "Drake" 'http://onosproject.org/'
 
 - `Service function chaining <https://wiki.opnfv.org/service_function_chaining>`_ 'https://wiki.opnfv.org/service_function_chaining'
 
@@ -44,6 +44,12 @@ supplemented with OPNFV unique components such as:
 - `Open vSwitch for NFV <https://wiki.opnfv.org/ovsnfv>`_ 'https://wiki.opnfv.org/ovsnfv'
 
 - `VSPERF <https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases>`_ 'https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases'
+
+- `Promise <https://wiki.opnfv.org/display/promise>`_ 'https://wiki.opnfv.org/display/promise'
+
+- `Parser <https://wiki.opnfv.org/display/parser>`_ 'https://wiki.opnfv.org/display/parser'
+
+- `Doctor <https://wiki.opnfv.org/display/doctor>`_ 'https://wiki.opnfv.org/display/doctor'
 
 As well as OPNFV-unique configurations of the Hardware- and Software stack.
 
@@ -77,20 +83,25 @@ Release Data
 | **Repo/tag**                         | colorado.1.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado 1.0 follow-up release       |
+| **Release designation**              | Colorado 1.0 main release            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Release date**                     | September 22 2016                    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Colorado alignment to Released       |
-|                                      | Fuel 9.0 baseline + Bug-fixes for    |
-|                                      | the following feaures/scenarios:     |
+|                                      | Fuel 9.0 baseline + features and     |
+|                                      | bug-fixes for the following          |
+|                                      | feaures:                             |
 |                                      | - NFV Hypervisors-KVM                |
 |                                      | - Open vSwitch for NFV               |
 |                                      | - OpenDaylight                       |
+|                                      | - ONOS                               |
 |                                      | - SDN distributed routing and VPN    |
 |                                      | - Service function chaining          |
+|                                      | - Promise                            |
+|                                      | - Parser                             |
+|                                      | - Doctor                             |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 
@@ -99,8 +110,8 @@ Version change
 
 Module version changes
 ----------------------
-This is a follow-up release to Colorado 1.0. It is based on
-following upstream versions:
+This is the Colorado 1.0 main release.
+It is based on following upstream versions:
 
 - Fuel 9.0 Base release
 
@@ -112,8 +123,8 @@ following upstream versions:
 
 Document changes
 ----------------
-This is a follow-up release to Colorado 1.0. It
-comes with the following documentation:
+This is the Colorado 1.0 main release.
+It comes with the following documentation:
 
 - Installation instructions - *Reference 13* - **Changed**
 
@@ -129,14 +140,13 @@ Feature additions
 
 **JIRA TICKETS:**
 
--
 
 Bug corrections
 ---------------
 
 **JIRA TICKETS:**
 
-`Workarounds <https://jira.opnfv.org/issues/?filter=11121>`_ 'https://jira.opnfv.org/issues/?filter=11121'
+`Colorado 1.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11180>`_ 'https://jira.opnfv.org/issues/?filter=11180'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -178,7 +188,7 @@ Known issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=11119>`_ 'https://jira.opnfv.org/issues/?filter=11119'
+`Known issues <https://jira.opnfv.org/issues/?filter=11183>`_ 'https://jira.opnfv.org/issues/?filter=11183'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -187,7 +197,7 @@ Workarounds
 
 **JIRA TICKETS:**
 
-`Workarounds <https://jira.opnfv.org/issues/?filter=11120>`_ 'https://jira.opnfv.org/issues/?filter=11120'
+`Workarounds <https://jira.opnfv.org/issues/?filter=11181>`_ 'https://jira.opnfv.org/issues/?filter=11181'
 
 (Also See respective Integrated feature project's bug tracking)
 
