@@ -75,7 +75,7 @@ dea-override-config:
         value: 128
       nova:
         value:
-          '2048': 256
+          '2048': 1024
 
   network:
     networking_parameters:
