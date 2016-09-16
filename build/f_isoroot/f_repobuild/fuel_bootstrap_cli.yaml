@@ -1,3 +1,11 @@
+##############################################################################
+# Copyright (c) 2015,2016 Ericsson AB and others.
+# mskalski@mirantis.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 ---
   root_ssh_authorized_file: /root/.ssh/id_rsa.pub
   extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
