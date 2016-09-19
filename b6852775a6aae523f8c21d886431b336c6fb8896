@@ -16,6 +16,24 @@
       "revId": "b6852775a6aae523f8c21d886431b336c6fb8896",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6d1bb01b",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-09-19T12:25:49Z",
+      "side": 1,
+      "message": "We\u0027re looking for entries from \"list A\" which are also in \"list B\". Should an entry for some reason be duplicated *in* list A but not in list B (or the other way around) we could get a false positive.\n\nUgly, but safety first. :)",
+      "parentUuid": "1a76adc5_2d6058a4",
+      "revId": "b6852775a6aae523f8c21d886431b336c6fb8896",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
