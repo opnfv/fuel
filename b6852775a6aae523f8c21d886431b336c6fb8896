@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2d6058a4",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-09-19T12:22:03Z",
+      "side": 1,
+      "message": "Why do you sort twice? After \u0027uniq\u0027 they are still ordered, aren\u0027t they?",
+      "revId": "b6852775a6aae523f8c21d886431b336c6fb8896",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
