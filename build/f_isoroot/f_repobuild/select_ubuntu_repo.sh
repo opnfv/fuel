@@ -8,14 +8,20 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-# Try to choose close ubuntu mirror
+# Try to choose close ubuntu mirror from mirrors.txt, but "whitewash" this
+# against the full repo list to removed mirrors not up-to-date.
 
 # Some Ubuntu mirrors seem less reliable for this type of mirroring -
 # as they are discoved they can be added to the blacklist below in order
 # for them not to be considered.
-BLACKLIST="mirrors.se.eu.kernel.org mirror.its.dal.ca"
+BLACKLIST=""
 
-for url in $(curl -s http://mirrors.ubuntu.com/mirrors.txt)
+for url in $((curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
+              grep -P -B8 "statusUP|statusSIX" | \
+              grep -o -P "(f|ht)tp.*\""  | \
+              sed 's/"$//' | sort | uniq; \
+              curl -s http://mirrors.ubuntu.com/mirrors.txt | sort | uniq) | \
+              sort | uniq -d)
 do
     host=$(echo $url | cut -d'/' -f3)
     echo ${BLACKLIST} | grep -q ${host} && continue
