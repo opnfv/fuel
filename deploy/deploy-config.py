@@ -162,6 +162,17 @@ def merge_dicts(dict1, dict2):
             yield (k, dict1[k])
 
 
+def get_node_ifaces_and_trans(nodes, nid):
+    for node in nodes:
+        if node['id'] == nid:
+            if 'transformations' in node and 'interfaces' in node:
+                return (node['interfaces'], node['transformations'])
+            else:
+                return None
+
+    return None
+
+
 setup_yaml()
 kwargs = parse_arguments()
 
@@ -282,16 +293,6 @@ if deploy_scenario_conf["stack-extensions"]:
             dea_scenario_module_override_conf['settings']['editable'] = {}
             dea_scenario_module_override_conf['settings']['editable'][module["module"]] = scenario_module_override_conf
             final_dea_conf = dict(merge_dicts(final_dea_conf, dea_scenario_module_override_conf))
-
-def get_node_ifaces_and_trans(nodes, nid):
-    for node in nodes:
-        if node['id'] == nid:
-            if 'transformations' in node and 'interfaces' in node:
-                return (node['interfaces'], node['transformations'])
-            else:
-                return None
-
-    return None
 
 if dea_pod_override_nodes:
     for node in final_dea_conf['nodes']:
