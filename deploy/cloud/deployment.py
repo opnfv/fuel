@@ -9,6 +9,7 @@
 
 import time
 import re
+import json
 
 from common import (
     N,
@@ -28,6 +29,12 @@ LOG_FILE = '/var/log/puppet.log'
 GREP_LINES_OF_LEADING_CONTEXT = 100
 GREP_LINES_OF_TRAILING_CONTEXT = 100
 LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
+
+class DeployNotStart(Exception):
+    """Unable to start deployment"""
+
+class NodesGoOffline(Exception):
+    """Nodes goes offline during deployment"""
 
 class Deployment(object):
 
@@ -89,7 +96,7 @@ class Deployment(object):
                     log_msg += details
 
                 if log_msg:
-                   log_list.append(log_msg)
+                    log_list.append(log_msg)
 
             if log_list:
                 role = ('controller' if 'controller' in roles_blade[0]
@@ -99,47 +106,77 @@ class Deployment(object):
                 for log_msg in log_list:
                     print(log_msg + '\n')
 
-
     def run_deploy(self):
         SLEEP_TIME = 60
-        LOG_FILE = 'cloud.log'
+        abort_after = 60 * int(self.deploy_timeout)
+        start = time.time()
 
         log('Starting deployment of environment %s' % self.env_id)
-        deploy_proc = run_proc('fuel --env %s deploy-changes | strings > %s'
-                               % (self.env_id, LOG_FILE))
-
+        deploy_id = None
         ready = False
-        for i in range(int(self.deploy_timeout)):
-            env = parse(exec_cmd('fuel env --env %s' % self.env_id))
-            log('Environment status: %s' % env[0][E['status']])
-            r, _ = exec_cmd('tail -2 %s | head -1' % LOG_FILE, False)
-            if r:
-                log(r)
-            if env[0][E['status']] == 'operational':
-                ready = True
-                break
-            elif (env[0][E['status']] == 'error'
-                  or env[0][E['status']] == 'stopped'):
-                break
-            else:
+        timeout = False
+
+        attempts = 0
+        while attempts < 3:
+            try:
+                if time.time() > start + abort_after:
+                    timeout = True
+                    break
+                if not deploy_id:
+                    deploy_id = self._start_deploy_task()
+                sts, prg, msg = self._deployment_status(deploy_id)
+                if sts == 'error':
+                    log('Error during deployment: {}%'.format(msg))
+                    break
+                if sts == 'running':
+                    log('Environmnent deploymnet progress: {}%'.format(prg))
+                elif sts == 'ready':
+                    ready = True
+                    break
                 time.sleep(SLEEP_TIME)
+            except (DeployNotStart, NodesGoOffline) as e:
+                log(e)
+                attempts += 1
+                deploy_id = None
 
-        if (env[0][E['status']] <> 'operational'
-            and env[0][E['status']] <> 'error'
-            and env[0][E['status']] <> 'stopped'):
-            err('Deployment timed out, environment %s is not operational, snapshot will not be performed'
-                % self.env_id, self.collect_logs)
-
-        run_proc_wait_terminated(deploy_proc)
-        delete(LOG_FILE)
-
+        if timeout:
+            err('Deployment timed out, environment %s is not operational, snapshot will not be performed' 
+                    % self.env_id)
         if ready:
             log('Environment %s successfully deployed' % self.env_id)
         else:
             self.collect_error_logs()
             err('Deployment failed, environment %s is not operational'
-                % self.env_id, self.collect_logs)
+                    % self.env_id)
 
+    def _start_deploy_task(self):
+        out, _ = exec_cmd('fuel2 env deploy %s' % self.env_id, False)
+        id = self._deployment_task_id(out)
+        return id
+
+    def _deployment_task_id(self, response):
+        response = str(response)
+        if response.startswith('Deployment task with id'):
+            for s in response.split():
+                if s.isdigit():
+                    return int(s)
+        raise DeployNotStart('Unable to start deployment: %s' % response)
+
+    def _deployment_status(self, id):
+        task = self._task_fields(id)
+        if task['status'] == 'error':
+            if task['message'].endswith(
+                    'are offline. Remove them from environment and try again.'):
+                raise NodesGoOffline('Some nodes in offline state')
+        return task['status'], task['progress'], task['message']
+
+    def _task_fields(self, id):
+        out, _ = exec_cmd('fuel2 task show %s -f json' % id, False)
+        task_info = json.loads(out)
+        properties = {}
+        for d in task_info:
+                properties.update({d['Field']: d['Value']})
+        return properties
 
     def collect_logs(self):
         log('Cleaning out any previous deployment logs')
@@ -169,14 +206,12 @@ class Deployment(object):
                 summary += '[node %s, status %s]\n' % (node, status)
             err('Deployment failed: %s' % summary, self.collect_logs)
 
-
     def health_check(self):
         log('Now running sanity and smoke health checks')
         r = exec_cmd('fuel health --env %s --check sanity,smoke --force' % self.env_id)
         log(r)
         if 'failure' in r:
             err('Healthcheck failed!', self.collect_logs)
-
 
     def deploy(self):
         self.run_deploy()
