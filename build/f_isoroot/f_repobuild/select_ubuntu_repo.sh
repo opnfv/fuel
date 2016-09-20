@@ -16,22 +16,24 @@
 # for them not to be considered.
 BLACKLIST="mirror.clibre.uqam.ca"
 
-for url in $((curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
-              grep -P -B8 "statusUP|statusSIX" | \
-              grep -o -P "(f|ht)tp.*\""  | \
-              sed 's/"$//' | sort | uniq; \
-              curl -s http://mirrors.ubuntu.com/mirrors.txt | sort | uniq) | \
-              sort | uniq -d)
-do
-    host=$(echo $url | cut -d'/' -f3)
-    echo ${BLACKLIST} | grep -q ${host} && continue
-    if curl -s -o /dev/null --head --fail "$url"; then
-      echo $url
-      exit 0
-    else
-      continue
-    fi
-done
+#NOTE: For now the mirror selection is disabled due to issues not yet
+#      understood/resolved.
+#for url in $((curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
+#              grep -P -B8 "statusUP|statusSIX" | \
+#              grep -o -P "(f|ht)tp.*\""  | \
+#              sed 's/"$//' | sort | uniq; \
+#              curl -s http://mirrors.ubuntu.com/mirrors.txt | sort | uniq) | \
+#              sort | uniq -d)
+#do
+#    host=$(echo $url | cut -d'/' -f3)
+#    echo ${BLACKLIST} | grep -q ${host} && continue
+#    if curl -s -o /dev/null --head --fail "$url"; then
+#      echo $url
+#      exit 0
+#    else
+#      continue
+#    fi
+#done
 
 # If no suitable local mirror can be found,
 # the default archive is returned instead.
