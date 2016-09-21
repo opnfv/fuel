@@ -186,7 +186,7 @@ VLANs needs to be manually configured.
 
 Manual configuration of the Colorado hardware platform should
 be carried out according to the OPNFV Pharos specification:
-<https://wiki.opnfv.org/pharos/pharos_specification>
+<https://wiki.opnfv.org/display/pharos/Pharos+Specification>
 
 ==========================================
 OPNFV Software installation and deployment
