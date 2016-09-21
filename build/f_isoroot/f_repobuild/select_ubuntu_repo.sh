@@ -1,40 +1,82 @@
 #!/bin/bash
-##############################################################################
-# Copyright (c) 2015,2016 Ericsson AB and others.
-# mskalski@mirantis.com
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License, Version 2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-##############################################################################
+cleanup() {
+    rm -f $TMPFILE
+}
 
-# Try to choose close ubuntu mirror from mirrors.txt, but "whitewash" this
-# against the full repo list to removed mirrors not up-to-date.
+debugmsg() {
+    test -n "$DEBUG" && echo "$@" >&2
+}
 
-# Some Ubuntu mirrors seem less reliable for this type of mirroring -
-# as they are discoved they can be added to the blacklist below in order
-# for them not to be considered.
-BLACKLIST="mirror.clibre.uqam.ca"
+# Check mirror's integrity
+check_mirror () {
+    mirror=$1
+    status=0
+    for packdir in dists/trusty-updates/main/binary-amd64 \
+        dists/trusty-updates/restricted/binary-amd64 \
+        dists/trusty-updates/universe/binary-amd64 \
+        dists/trusty-updates/multiverse/binary-amd64 \
+        dists/trusty-security/main/binary-amd64 \
+        dists/trusty-security/restricted/binary-amd64 \
+        dists/trusty-security/universe/binary-amd64 \
+        dists/trusty-security/multiverse/binary-amd64 \
+        dists/trusty-proposed/main/binary-amd64 \
+        dists/trusty-proposed/restricted/binary-amd64 \
+        dists/trusty-proposed/universe/binary-amd64 \
+        dists/trusty-proposed/multiverse/binary-amd64 \
+        dists/trusty/main/binary-amd64 \
+        dists/trusty/restricted/binary-amd64 \
+        dists/trusty/universe/binary-amd64 \
+        dists/trusty/multiverse/binary-amd64 \
+        dists/trusty-backports/main/binary-amd64 \
+        dists/trusty-backports/restricted/binary-amd64 \
+        dists/trusty-backports/universe/binary-amd64 \
+        dists/trusty-backports/multiverse/binary-amd64
+    do
+        for packfile in Release Packages.gz
+        do
+            if [ $status -ne 1 ]; then
+                curl --output /dev/null --silent --head --fail \
+                    $mirror/$packdir/$packfile
+                if [ $? -ne 0 ]; then
+                    debugmsg "$mirror: Faulty (at least missing $packdir/$packfile)"
+                    status=1
+                fi
+            fi
+        done
+    done
+    return $status
+}
 
-#NOTE: For now the mirror selection is disabled due to issues not yet
-#      understood/resolved.
-#for url in $((curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
-#              grep -P -B8 "statusUP|statusSIX" | \
-#              grep -o -P "(f|ht)tp.*\""  | \
-#              sed 's/"$//' | sort | uniq; \
-#              curl -s http://mirrors.ubuntu.com/mirrors.txt | sort | uniq) | \
-#              sort | uniq -d)
-#do
-#    host=$(echo $url | cut -d'/' -f3)
-#    echo ${BLACKLIST} | grep -q ${host} && continue
-#    if curl -s -o /dev/null --head --fail "$url"; then
-#      echo $url
-#      exit 0
-#    else
-#      continue
-#    fi
-#done
+if [ "$1" == "-d" ]; then
+    DEBUG=1
+fi
 
-# If no suitable local mirror can be found,
-# the default archive is returned instead.
-echo "http://archive.ubuntu.com/ubuntu/"
+# Hardcode for testing purposes
+DEBUG=1
+
+TMPFILE=$(mktemp /tmp/mirrorsXXXXX)A
+trap cleanup exit
+
+# Generated a list of mirrors considered as "up"
+curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
+    grep -P -B8 "statusUP|statusSIX" | \
+    grep -o -P "(f|ht)tp.*\""  | \
+    sed 's/"$//' | sort | uniq > $TMPFILE
+
+# Iterate over "close" mirror, check that they are considered up
+# and sane.
+for url in $(curl -s http://mirrors.ubuntu.com/mirrors.txt)
+do
+    grep -q $url $TMPFILE || debugmsg "$url Faulty (detected by Ubuntu)"
+    if [ -z $BESTURL ]; then
+        if grep -q $url $TMPFILE && check_mirror $url; then
+            debugmsg "$url: OK (setting as primary URL)"
+            BESTURL=$url
+            test -z "$DEBUG" && break
+        fi
+    else
+        grep -q $url $TMPFILE && check_mirror $url && debugmsg "$url: OK"
+    fi
+done
+
+echo "$BESTURL"
