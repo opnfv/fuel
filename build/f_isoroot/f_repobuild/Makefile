@@ -13,7 +13,6 @@ TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 
 include ../../config.mk
-include config.mk
 
 export MOS_VERSION
 export OPENSTACK_VERSION
@@ -25,8 +24,7 @@ nailgun:
 	sudo apt-get install -y git libxml2-dev libxslt-dev python-dev  python-pip libz-dev libyaml-dev createrepo python-yaml
 	rm -Rf nailgun
 	sudo mkdir -p /var/www/nailgun
-	git clone $(FUEL_MIRROR_REPO)
-	cd fuel-mirror && git checkout -q $(FUEL_MIRROR_COMMIT)
+	ln -sf ${F_SUBMOD_DIR}/fuel-mirror fuel-mirror
 	sudo pip install -U -r ./fuel-mirror/requirements.txt
 	sudo pip install ./fuel-mirror
 	sudo pip install ./fuel-mirror/contrib/fuel_mirror
@@ -34,7 +32,7 @@ nailgun:
 	sudo fuel-mirror --debug --config ./opnfv-config.yaml create --group ubuntu --pattern=ubuntu
 	sudo chmod -R 755 /var/www/nailgun
 	cp -Rp /var/www/nailgun .
-	# On the end we want to have ubuntu repository in mirrors/ubuntu directory
+	# In the end we want to have ubuntu repository in mirrors/ubuntu directory
 	-if [ "$(MIRROR_UBUNTU_ROOT)" != "/ubuntu/" ]; then \
 	  mkdir -p nailgun/mirrors/ubuntu;\
 	  mv nailgun/mirrors$(MIRROR_UBUNTU_ROOT)* nailgun/mirrors/ubuntu;\
@@ -65,7 +63,6 @@ release:nailgun
 .cacheid:
 	date +"Repocache %G%V" > .cachedata
 	sha1sum Makefile >> .cachedata
-	sha1sum config.mk >> .cachedata
 	$(CACHETOOL) packages >> .cachedata
 	echo -n $(UBUNTU_ARCH) | sha1sum | awk {'print $$1'} >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
