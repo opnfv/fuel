@@ -224,20 +224,15 @@ debug:
 #############################################################################
 
 # Create a unique hash to be used for getting and putting cache, based on:
-#   - The commit ID of the full Fuel repo structre
+#   - The commit ID of the full Fuel repo structre (set in config.mk)
 #   - The contents of all local Fuel patches
 .cacheid:
-	git clone $(FUEL_MAIN_REPO) $(FUEL_MAIN_DIR)
-	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)
-	make -C $(FUEL_MAIN_DIR) repos
-	$(REPOINFO) -r $(FUEL_MAIN_DIR) > .cachedata
 	$(foreach patch,$(FUEL_PATCHES),sha1sum $(patch) >> .cachedata;)
 	sha1sum fuel_build_loop >> .cachedata
 	sha1sum config.mk >> .cachedata
 	sha1sum Makefile >> .cachedata
 	$(CACHETOOL) getbiweek >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
-	# Not removing fuel-main as it is re-used in build
 
 # Clean local data related to caching - called prior to ordinary build
 .PHONY: clean-cache
