@@ -1,6 +1,6 @@
 From: Stanislaw Kardach <stanislaw.kardach@cavium.com>
 Date: Thu, 25 Feb 2016 13:31:19 +0100
-Subject: repo mirror: Allow multi-arch local mirrors
+Subject: [PATCH] repo mirror: Allow multi-arch local mirrors
 
 This patch allows specifying multiple architectures via UBUNTU_ARCH in
 form of a list of space separated architectures. The first architecture
@@ -13,10 +13,23 @@ independent (which is true so far).
 Signed-off-by: Stanislaw Kardach <stanislaw.kardach@cavium.com>
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
+ config.mk               | 2 +-
  mirror/ubuntu/module.mk | 2 +-
  sandbox.mk              | 2 +-
- config.mk               | 2 +-
  3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/config.mk b/config.mk
+index 74ee039..45a3b30 100644
+--- a/config.mk
++++ b/config.mk
+@@ -49,7 +49,7 @@ UBUNTU_MINOR:=04
+ UBUNTU_RELEASE_NUMBER:=$(UBUNTU_MAJOR).$(UBUNTU_MINOR)
+ UBUNTU_KERNEL_FLAVOR?=lts-trusty
+ UBUNTU_NETBOOT_FLAVOR?=netboot
+-UBUNTU_ARCH:=amd64
++UBUNTU_ARCH?=amd64
+ UBUNTU_IMAGE_RELEASE:=$(UBUNTU_MAJOR)$(UBUNTU_MINOR)
+ SEPARATE_IMAGES?=/boot,ext2 /,ext4
 
 diff --git a/mirror/ubuntu/module.mk b/mirror/ubuntu/module.mk
 index 7a9466e..fe1ada2 100644
@@ -44,16 +57,3 @@ index 4bc3962..5ffddbd 100644
  if [ -e $(SANDBOX_UBUNTU)/etc/resolv.conf ]; then sudo cp -a $(SANDBOX_UBUNTU)/etc/resolv.conf $(SANDBOX_UBUNTU)/etc/resolv.conf.orig; fi
  sudo cp /etc/resolv.conf $(SANDBOX_UBUNTU)/etc/resolv.conf
  if [ -e $(SANDBOX_UBUNTU)/etc/hosts ]; then sudo cp -a $(SANDBOX_UBUNTU)/etc/hosts $(SANDBOX_UBUNTU)/etc/hosts.orig; fi
-diff --git a/config.mk b/config.mk
-index 74ee039..45a3b30 100644
---- a/config.mk
-+++ b/config.mk
-@@ -49,7 +49,7 @@ UBUNTU_MINOR:=04
- UBUNTU_RELEASE_NUMBER:=$(UBUNTU_MAJOR).$(UBUNTU_MINOR)
- UBUNTU_KERNEL_FLAVOR?=lts-trusty
- UBUNTU_NETBOOT_FLAVOR?=netboot
--UBUNTU_ARCH:=amd64
-+UBUNTU_ARCH?=amd64
- UBUNTU_IMAGE_RELEASE:=$(UBUNTU_MAJOR)$(UBUNTU_MINOR)
- SEPARATE_IMAGES?=/boot,ext2 /,ext4
-
