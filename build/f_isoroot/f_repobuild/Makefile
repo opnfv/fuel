@@ -13,7 +13,6 @@ TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 
 include ../../config.mk
-include config.mk
 
 export MOS_VERSION
 export OPENSTACK_VERSION
