@@ -80,10 +80,7 @@ ORIGDIR := $(TOPDIR)/origiso
 # END of variables to customize
 #############################################################################
 
-# Fuel-main destination path and fuel-* submodule patching, for full list check:
-# https://github.com/openstack/fuel-main/blob/stable/mitaka/repos.mk#L32-L44
 FUEL_MAIN_DIR := /tmp/fuel-main
-FUEL_PATCHES  := $(shell find $(BUILD_BASE)/patch-repos -name '*.patch' | sort)
 
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
@@ -111,9 +108,12 @@ include cache.mk
 $(ISOCACHE):
 	# Clone Fuel to non-persistent location and build
 	sudo rm -rf $(FUEL_MAIN_DIR)
+	$(MAKE) -C f_repos -f Makefile release
 	git clone $(FUEL_MAIN_REPO) $(FUEL_MAIN_DIR)
-	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)
-	@echo "fuel" `git -C $(FUEL_MAIN_DIR) rev-parse HEAD` >> $(VERSION_FILE)
+	# Save upstream ref, checkout OPNFV tag (upstream ref + patches)
+	@echo "fuel" `git -C $(FUEL_MAIN_DIR) \
+		rev-parse $(FUEL_MAIN_TAG)-root` >> $(VERSION_FILE)
+	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)-opnfv
 	# Remove Docker optimizations, otherwise multistrap will fail during
 	# Fuel build.
 	sudo rm -f /etc/apt/apt.conf.d/docker*
@@ -134,14 +134,7 @@ $(ISOCACHE):
 	sudo docker info
 	# fuel-main Makefiles do not like `make -C`
 	cd $(FUEL_MAIN_DIR) && make repos
-	$(REPOINFO) -r $(FUEL_MAIN_DIR) > gitinfo_fuel.txt
-	# OPNFV patches at Fuel build time
-	# Need to be commited in order for them to be considered by the Fuel
-	# build system
-	$(foreach patch,$(FUEL_PATCHES),git \
-		-C $(subst $(BUILD_BASE)/patch-repos,$(FUEL_MAIN_DIR),$(dir $(patch))) \
-		am --whitespace=nowarn --committer-date-is-author-date $(patch) || \
-		(echo 'Error: Failed patching Fuel repos!' ; exit 1);)
+	cp f_repos/.cachefuelinfo gitinfo_fuel.txt
 
 	# Repeat build up to three times
 	sudo -E ./fuel_build_loop
@@ -172,6 +165,7 @@ patch-packages:
 
 .PHONY: clean $(SUBCLEAN)
 clean:  $(SUBCLEAN)
+	$(MAKE) -C f_repos -f Makefile clean
 	$(MAKE) -C patch-packages -f Makefile clean
 	@rm -f *.iso
 	@rm -Rf release
@@ -182,7 +176,8 @@ clean:  $(SUBCLEAN)
 
 .PHONY: deepclean
 deepclean: clean clean-cache
-	make -C docker clean
+	$(MAKE) -C f_repos -f Makefile deepclean
+	$(MAKE) -C docker clean
 	docker rmi opnfv.org/ubuntu-builder:14.04 &>/dev/null || exit 0
 	docker rmi opnfv.org/ubuntu-builder:latest &>/dev/null || exit 0
 	docker rmi ubuntu:14.04 &>/dev/null || exit 0
@@ -224,24 +219,26 @@ debug:
 #############################################################################
 
 # Create a unique hash to be used for getting and putting cache, based on:
-#   - The commit ID of the full Fuel repo structre
+#   - The commit ID of the full Fuel repo structure
 #   - The contents of all local Fuel patches
+#   - Makefile, config and sensitive build scripts fingerprints
+# NOTE: Patching is deterministic, so we can fingerprint (submodule root commit
+#       info + OPNFV patches) at once, after patches-import.
+# NOTE: When git submodule remote tracking is active, `git submodule status`
+#       will point to the latest commits (remote/branch/HEAD) + OPNFV patches.
 .cacheid:
-	git clone $(FUEL_MAIN_REPO) $(FUEL_MAIN_DIR)
-	git -C $(FUEL_MAIN_DIR) checkout $(FUEL_MAIN_TAG)
-	make -C $(FUEL_MAIN_DIR) repos
-	$(REPOINFO) -r $(FUEL_MAIN_DIR) > .cachedata
-	$(foreach patch,$(FUEL_PATCHES),sha1sum $(patch) >> .cachedata;)
+	$(MAKE) -C f_repos -f Makefile get-cache release
+	git submodule status | cut -c2-41 > .cachedata
 	sha1sum fuel_build_loop >> .cachedata
 	sha1sum config.mk >> .cachedata
 	sha1sum Makefile >> .cachedata
 	$(CACHETOOL) getbiweek >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
-	# Not removing fuel-main as it is re-used in build
 
 # Clean local data related to caching - called prior to ordinary build
 .PHONY: clean-cache
 clean-cache: $(SUBCLEANCACHE)
+	$(MAKE) -C f_repos -f Makefile cleancache
 	rm -f .cachedata .cacheid
 
 # Try to download cache - called prior to ordinary build
