@@ -13,7 +13,6 @@ TOP := $(shell pwd)
 TMP_ROOT_DIR := $(shell echo "$(MIRROR_UBUNTU_ROOT)" | cut -d "/" -f2)
 
 include ../../config.mk
-include config.mk
 
 export MOS_VERSION
 export OPENSTACK_VERSION
@@ -65,7 +64,6 @@ release:nailgun
 .cacheid:
 	date +"Repocache %G%V" > .cachedata
 	sha1sum Makefile >> .cachedata
-	sha1sum config.mk >> .cachedata
 	$(CACHETOOL) packages >> .cachedata
 	echo -n $(UBUNTU_ARCH) | sha1sum | awk {'print $$1'} >> .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid

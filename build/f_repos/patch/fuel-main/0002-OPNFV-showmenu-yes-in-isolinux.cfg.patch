@@ -1,8 +1,11 @@
 From: Fuel OPNFV <fuel@opnfv.org>
 Date: Mon, 13 Jun 2016 22:23:57 +0200
-Subject: OPNFV: showmenu=yes in isolinux.cfg
+Subject: [PATCH] OPNFV: showmenu=yes in isolinux.cfg
 
 ---
+ iso/isolinux/isolinux.cfg | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 diff --git a/iso/isolinux/isolinux.cfg b/iso/isolinux/isolinux.cfg
 index c6b1ed9..77a4b18 100644
 --- a/iso/isolinux/isolinux.cfg
