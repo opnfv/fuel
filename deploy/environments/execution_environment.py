@@ -46,9 +46,7 @@ class ExecutionEnvironment(object):
                     disk_files.append(source_file)
         log('Deleting VM %s with disks %s' % (vm_name, disk_files))
         exec_cmd('virsh destroy %s' % vm_name, False)
-        exec_cmd('virsh undefine %s' % vm_name, False)
-        for file in disk_files:
-            delete(file)
+        exec_cmd('virsh undefine --managed-save --remove-all-storage %s' % vm_name, False)
 
     def overwrite_xml(self, vm_xml, vm_definition_overwrite):
         if not vm_definition_overwrite:
