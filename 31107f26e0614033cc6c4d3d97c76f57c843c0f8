@@ -22,6 +22,30 @@
       "revId": "31107f26e0614033cc6c4d3d97c76f57c843c0f8",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_52419aa7",
+        "filename": "deploy/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-09-27T15:30:50Z",
+      "side": 1,
+      "message": "Currently it is separated as binaries vs. libraries, but we can merge them.",
+      "parentUuid": "1a76adc5_d2912a48",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 79
+      },
+      "revId": "31107f26e0614033cc6c4d3d97c76f57c843c0f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
