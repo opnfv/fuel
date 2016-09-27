@@ -179,8 +179,13 @@ class Deployment(object):
             out, _ = exec_cmd('fuel2 task show {} -f json'.format(id), False)
             task_info = json.loads(out)
             properties = {}
-            for d in task_info:
-                    properties.update({d['Field']: d['Value']})
+            # for 9.0 this can be list of dicts or dict
+            # see https://bugs.launchpad.net/fuel/+bug/1625518
+            if isinstance(task_info, list):
+                for d in task_info:
+                        properties.update({d['Field']: d['Value']})
+            else:
+                return task_info
             return properties
         except ValueError as e:
             err('Unable to fetch task info: {}'.format(e))
