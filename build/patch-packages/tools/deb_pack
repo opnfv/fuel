@@ -39,7 +39,7 @@ revision_step ()
 {
     REV=$1
 
-    sed -i "s/^\(Version:.*$\)/\1-eri$REV/" package/DEBIAN/control
+    sed -i "s/^\(Version:.*$\)/\1-opnfv$REV/" package/DEBIAN/control
 }
 
 md5sum_gen ()
