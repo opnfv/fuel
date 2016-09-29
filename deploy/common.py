@@ -140,7 +140,7 @@ def warn(message):
 def check_file_exists(file_path):
     if not os.path.dirname(file_path):
         file_path = '%s/%s' % (CWD, file_path)
-    if not os.path.isfile(file_path):
+    if not os.access(file_path, os.R_OK):
         err('ERROR: File %s not found\n' % file_path)
 
 
