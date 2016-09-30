@@ -1,0 +1,6 @@
+<network>
+  <name>fuel2</name>
+  <bridge name='fuel2' stp='on' delay='0'/>
+  <ip address='192.168.0.254' netmask='255.255.255.0'/>
+</network>
+

@@ -1,3 +1,10 @@
+###########################################################################
+This document is protected/licensed under the following conditions
+(c) Jonas Bjurel (Ericsson AB)
+Licensed under a Creative Commons Attribution 4.0 International License.
+You should have received a copy of the license along with this work.
+If not, see <http://creativecommons.org/licenses/by/4.0/>.
+###########################################################################
 Get on board by filling this out and submitting it for review.
 This is all optional, it's just to give you a taste of the workflow.
 

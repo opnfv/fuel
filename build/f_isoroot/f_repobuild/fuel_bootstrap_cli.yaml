@@ -1,0 +1,75 @@
+##############################################################################
+# Copyright (c) 2015,2016 Ericsson AB and others.
+# mskalski@mirantis.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+  root_ssh_authorized_file: /root/.ssh/id_rsa.pub
+  extend_kopts: "biosdevname=0 net.ifnames=1 debug ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8"
+  ubuntu_release: trusty
+  extra_dirs:
+    - /usr/share/fuel_bootstrap_cli/files/trusty
+  output_dir: /tmp/
+  kernel_flavor: linux-image-generic-lts-trusty
+  packages:
+    - fuel-agent
+    - hwloc
+    - hpsa-dkms
+    - i40e-dkms
+    - linux-firmware
+    - linux-firmware-nonfree
+    - linux-headers-generic
+    - live-boot
+    - live-boot-initramfs-tools
+    - mc
+    - mcollective
+    - msmtp-mta
+    - multipath-tools
+    - multipath-tools-boot
+    - nailgun-agent
+    - nailgun-mcagents
+    - network-checker
+    - ntp
+    - openssh-client
+    - openssh-server
+    - squashfs-tools
+    - ubuntu-minimal
+    - vim
+    - wget
+    - xz-utils
+  bootstrap_images_dir: /var/www/nailgun/bootstraps
+  active_bootstrap_symlink: /var/www/nailgun/bootstraps/active_bootstrap
+  flavor: ubuntu
+  http_proxy: ""
+  https_proxy: ""
+  repos:
+    - name: ubuntu
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty
+      type: deb
+    - name: ubuntu-updates
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty-updates
+      type: deb
+    - name: ubuntu-security
+      section: "main universe multiverse"
+      uri: "http://127.0.0.1:8080/mirrors/ubuntu"
+      priority:
+      suite: trusty-security
+      type: deb
+    - name: mos
+      section: "main restricted"
+      uri: "http://127.0.0.1:8080/ubuntu/x86_64"
+      priority: 1050
+      suite: mos9.0
+      type: deb
+  skip_default_img_build: false
+  direct_repo_addresses:
+    - "127.0.0.1"
