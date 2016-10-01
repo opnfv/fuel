@@ -51,5 +51,5 @@ cache:
 		exit 1; \
 	fi
 	@docker version >/dev/null 2>&1 || (echo 'No Docker installation available'; exit 1)
-	@make -C docker
+	@make -C docker get-cache all
 	docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) cached-all
