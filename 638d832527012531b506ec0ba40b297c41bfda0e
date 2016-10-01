@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_424467b6",
+        "filename": "build/docker/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-10-01T18:23:34Z",
+      "side": 1,
+      "message": "This whole cache section only covers the corner case of:\n- changed environemnt variables (e.g. HTTP_PROXY);\n- cached build (CI build);\nIMO, this is more or less superfluous, as ENV vars are less likely to change between CI loops on the same host, so let me know if I should drop it.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "638d832527012531b506ec0ba40b297c41bfda0e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
