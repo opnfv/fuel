@@ -57,7 +57,7 @@ def exec_cmd(cmd, check=True, attempts=1, delay=5, verbose=False, mask_args=[], 
 
     # a negative value means forever
     while attempts != 0:
-        attempts = attempts - 1
+        attempts -= 1
         process = subprocess.Popen(cmd,
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
