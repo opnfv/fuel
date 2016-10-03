@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_d1dc4477",
+        "filename": "deploy/scenario/no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-10-03T12:13:12Z",
+      "side": 1,
+      "message": "I see the rest of the entries do not have spaces here, is this ok?",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "fbcc519f69456f30c126ae7bb19c44b4a8faa940",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
