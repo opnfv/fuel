@@ -22,6 +22,30 @@
       "revId": "638d832527012531b506ec0ba40b297c41bfda0e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_91331cf6",
+        "filename": "build/docker/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-10-03T07:38:42Z",
+      "side": 1,
+      "message": "This is likely just a copy-paste-in-all-Makefiles thing of mine!",
+      "parentUuid": "1a76adc5_424467b6",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "638d832527012531b506ec0ba40b297c41bfda0e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
