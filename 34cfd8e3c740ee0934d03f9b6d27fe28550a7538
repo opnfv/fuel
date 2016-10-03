@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_f13628e7",
+        "filename": "build/f_isoroot/f_tacker-pluginbuild/config.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-10-03T07:51:50Z",
+      "side": 1,
+      "message": "please point to specific commit (currently top of the master)",
+      "revId": "34cfd8e3c740ee0934d03f9b6d27fe28550a7538",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
