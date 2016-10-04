@@ -16,68 +16,37 @@ usage ()
 {
 cat | more << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-`basename $0`: Builds the Fuel@OPNFV stack
+`basename $0`: Builds Fuel@OPNFV plugins
 
-usage: `basename $0` [-p promotions-URI-1] [-p promotions-URI-2] .. [-p promotions-URI-N] [-b build-spec-uri] [-c cache-URI] [-l log-file] [-f flags]  [output-directory]
+usage: `basename $0` -r plugin-repo [-l log-file] [-b plugin-branch] [-c Plugin-commit] [-v ci-defined-revision] [-m ci-build-metadata] [-f flags] [output-directory]
 
 OPTIONS:
-  -p Promotions .yaml file URI. Provides CI promotion levels for Fuel core as
-     well as for all plug-ins. The schema for the promotions .yaml file can be
-     found in `$PWD`/examples/promotions.yaml. Several promotion .yaml URIs can
-     be provided, in this case the promotion fragments are merge, and the later
-     provided URIs gets presidence. In case -p is ommitted, the resulting .iso
-     will not contain any plugins.
-  -b Build spec .yaml file URI. Provides build-specific references to the
-     promotions .yaml file. -b can only be ommitted when rebuilding fuel-core
-     without any plugins (I.e. with -fp un-set). The schema for the build-spec
-     .yaml file can be found in `$PWD`/examples/build-spec.yaml.
-  -c cache base URI
-       specifies the base URI to a build cache to be used/updated, supported
-       methods are http://, ftp:// and file://
   -l log-file
        specifies the output log-file (stdout and stderr), if not specified
        logs are output to console as normal
-  -v
-       version tag to be applied to the build result
-  -r
-       alternative remote access method script/program. curl is default.
+  -v version tag to be applied to the build result
   -f flag[...]
        build flags:
           s: Do nothing, succeed
           f: Do nothing, fail
-          p: Repopulate .iso with plugins as defined in build-spec
           D: Debug mode
-          P: Clear the local cache before building. This flag is only
-             valid if the "-c cache-URI" options has been specified and
-             and the  method in the cache-URI is file:// (local cache).
-
+  -m JSON formatted CI Metada
+  -r Plugin repo URI
+  -b Plugin repo branch
+  -c Plugin repo commit/ref spec
   -h help, prints this help text
 
   output-directory, specifies the directory for the output artifacts
-  (.iso file). If no output-directory is specified, the current path
+  (.tar file). If no output-directory is specified, the current path
   when calling the script is used.
 
 
 Description:
 
-build.sh builds the opnfv .iso artifact.
-To reduce build time it uses build caches on a local or remote location. A
-cache is rebuilt and uploaded if either of the below conditions are met:
-1) The P(opulate) flag is set and the -c cache-base-URI is provided and set
-   to the method file:// , if -c is
-   not provided the cache will stay local.
-2) If a cache is invalidated by the make system - the exact logic is encoded
-   in the cache.mk of the different parts of the build.
-3) A valid cache does not exist on the specified -c cache-base-URI.
-
-A cache has a blob (binary data) and a meta file in the format of:
-   <SHA1>.blob
-   <SHA1>.meta
+build_plugin.sh builds Fuel@opnfv plugin artifacts.
 
 Logging is by default to console, but can be directed elsewhere with the -l
 option in which case both stdout and stderr is redirected to that destination.
-
-Built in unit testing of components is enabled by adding the t(est) flag.
 
 Return codes:
  - 0 Success!
@@ -87,11 +56,8 @@ Return codes:
  - 200 Build failure
 
 Examples:
-  build -c http://opnfv.org/artifactory/fuel/cache \
-        -d ~/jenkins/genesis/fuel/ci/output -f ti
+   plugin_build.sh -r https://github.com/openstack/fuel-plugin-bgpvpn.git -b master -c 3349842af5724be63a74a82c9060848d9d3d299e -v R1A02 -m '{"Jenkins-build-job-id":"1234","jenkins-build-url":http://jenkins.opnfv.org/1234}' -l ~/mylog.log ~/my_plugin_artifact_dir
 
-NOTE: At current the build scope is set to the git root of the repository, -d
-      destination locations outside that scope will not work!
 EOF
 }
 #
@@ -115,10 +81,8 @@ error_exit() {
 # BEGIN of shorthand variables for internal use
 #
 SCRIPT_DIR=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
-BUILD_BASE=$(readlink -e ${SCRIPT_DIR}/../build/)
+BUILD_BASE=$(readlink -e ${SCRIPT_DIR}/../build/f_plugin-build)
 RESULT_DIR="${BUILD_BASE}/release"
-BUILD_SPEC="${BUILD_BASE}/config.mk"
-LOCAL_CACHE_ARCH_NAME="${LOCAL_CACHE_ARCH_NAME:-fuel-cache}"
 
 #
 # END of variables to customize
@@ -127,12 +91,8 @@ LOCAL_CACHE_ARCH_NAME="${LOCAL_CACHE_ARCH_NAME:-fuel-cache}"
 ############################################################################
 # BEGIN of script assigned default variables
 #
-export CACHEBASE="file://$HOME/cache"
-export CACHETRANSPORT="curl --silent"
-CLEAR_CACHE=0
-REPOPULATE_PLUGINS=0
 MAKE_ARGS=""
-
+REPO_PROVIDED=0
 #
 # END of script assigned variables
 ############################################################################
@@ -142,36 +102,16 @@ build() {
     echo "SCRIPT_DIR = $SCRIPT_DIR"
     echo "BUILD_BASE = $BUILD_BASE"
     echo "RESULT_DIR = $RESULT_DIR"
-    echo "BUILD_SPEC = $BUILD_SPEC"
-    echo "LOCAL_CACHE_ARCH_NAME = $LOCAL_CACHE_ARCH_NAME"
-    echo "CLEAR_CACHE = $CLEAR_CACHE"
     echo "DEBUG = $DEBUG"
     echo "OUTPUT_DIR = $OUTPUT_DIR"
     echo "BUILD_LOG = $BUILD_LOG"
     echo "MAKE_ARGS = $MAKE_ARGS"
-    echo "CACHEBASE = $CACHEBASE"
-    echo "CACHETRANSPORT = $CACHETRANSPORT"
-
-
-    if [ "$CLEAR_CACHE" -eq 1 ]; then
-        echo $CACHEBASE | grep -q '^file://' $CACHE_BASE
-        if [ $? -ne 0 ]; then
-            error_exit "Can't clear a non-local cache!"
-        else
-            CACHEDIR=$(echo $CACHEBASE | sed 's;file://;;')
-            echo "Clearing local cache at $CACHEDIR..."
-            rm -rvf $CACHEDIR/*
-        fi
-    fi
-
-    echo make ${MAKE_ARGS} cache
 
     cd ${BUILD_BASE}
-    if make ${MAKE_ARGS} cache; then
+    if make ${MAKE_ARGS} all; then
         echo "Copying build result into $OUTPUT_DIR"
-        sort ${BUILD_BASE}/gitinfo*.txt > ${OUTPUT_DIR}/gitinfo.txt
-        cp ${RESULT_DIR}/*.iso ${OUTPUT_DIR}
-        cp ${RESULT_DIR}/*.iso.txt ${OUTPUT_DIR}
+        cp ${RESULT_DIR}/*.tar.gz ${OUTPUT_DIR}
+        cp ${RESULT_DIR}/*_metadata.yaml ${OUTPUT_DIR}
     else
         error_exit "Build failed"
     fi
@@ -180,30 +120,32 @@ build() {
 ############################################################################
 # BEGIN of main
 #
-while getopts "c:p:l:v:f:r:f:h" OPTION
+while getopts "l:v:m:r:b:c:f:h" OPTION
 do
     case $OPTION in
-        c)
-            # This value is used by cache.sh
-            export CACHEBASE=${OPTARG}
-            ;;
-        p)
-            MAKE_ARGS+="PROMOTIONS=$(curl ${OPTARG})"
-            # Merge logic TBD
-            ;;
-        b)
-            MAKE_ARGS+="BUILD_SPEC=$(curl ${OPTARG})"
-            ;;
         l)
             BUILD_LOG=$(readlink -f ${OPTARG})
             ;;
         v)
-            MAKE_ARGS+="REVSTATE=${OPTARG}"
+            MAKE_ARGS+="REVSTATE=${OPTARG} "
             ;;
+        m)
+            MAKE_ARGS+="CI_META=${OPTARG} "
+            ;;
+
         r)
-            # This value is used by cache.sh
-            export CACHETRANSPORT=${OPTARG}
+            MAKE_ARGS+="PLUGIN_REPO=${OPTARG} "
+            REPO_PROVIDED=1
             ;;
+
+        b)
+            MAKE_ARGS+="PLUGIN_BRANCH=${OPTARG} "
+            ;;
+
+        c)
+            MAKE_ARGS+="PLUGIN_CHANGE=${OPTARG} "
+            ;;
+
         h)
             usage
             rc=0
@@ -219,14 +161,6 @@ do
 
                     f)
                         exit 1
-                        ;;
-
-                    p)
-                        MAKE_ARGS+="PLUGINS_ONLY=YES"
-                        ;;
-
-                    P)
-                        CLEAR_CACHE=1
                         ;;
 
                     D)
@@ -263,9 +197,12 @@ case $# in
         error_exit "Too many arguments"
         ;;
 esac
+
+if [ $REPO_PROVIDED -eq 0 ]; then
+    error_exit "No Plugin repository or branch provided"
+fi
+
 mkdir -p $OUTPUT_DIR || error_exit "Could not access output directory $OUTPUT_DIR"
-
-
 if [ -n "${BUILD_LOG}" ]; then
     touch ${BUILD_LOG} || error_exit "Could not write to log file ${BUILD_LOG}"
     build 2>&1 | tee ${BUILD_LOG}

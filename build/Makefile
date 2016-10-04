@@ -23,18 +23,17 @@ export ISOSRC = file:$(shell pwd)/fuel-$(MOSVERSION).iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO = "OPNFV_FUEL"
 export REVSTATE = "P0000"
+export PLUGINS_ONLY = "NO"
+export PROMOTIONS =
+export BUILD_SPEC =
+
 export USER ?= $(shell whoami)
 export BUILD_DATE = $(shell date --utc +%Y-%m-%d:%H:%M)
 export OPNFV_GIT_SHA = $(shell git rev-parse HEAD)
 # Store in /etc/fuel_build_id on fuel master
 export BUILD_ID := $(PRODNO)_$(BUILD_DATE)_$(OPNFV_GIT_SHA)
 
-ifdef BUILD_FUEL_PLUGINS
-$(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
-export NEWISO = $(shell pwd)/release/unofficial-opnfv-${REVSTATE}.iso
-else
 export NEWISO = $(shell pwd)/release/opnfv-${REVSTATE}.iso
-endif
 
 # Note! Invoke with "make REVSTATE=RXXXX all" to make release build!
 # Invoke with ICOCACHE=/full/path/to/iso if cached ISO is in non-standard location.
@@ -96,8 +95,18 @@ all:
 	KERNEL_ARRAY=($${KERNEL_VER//./ }); \
 	if [ $${KERNEL_ARRAY[0]} -lt 3  ] || [[ $${KERNEL_ARRAY[0]} -eq 3 && $${KERNEL_ARRAY[1]} -lt 19  ]] ; then (echo 'Kernel version must be 3.19 or newer'; exit 1) ; fi
 	@docker/runcontext $(DOCKERIMG) wget -q www.google.com -O /dev/null || (echo 'No docker network connectivity or name server - check your network- and docker settings'; exit 1)
-	@docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) iso
-
+	if [ $(PLUGINS_ONLY) == "NO" ]; then \
+	   docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) iso; \
+	else; \
+	   fuel_branch=`echo "$(BUILD_SPEC)" | shyaml get-value Installers.fuel.Branch; \
+	   ISO_URI=`echo "$(BUILD_SPEC)" | shyaml get-value Installers.fuel.Promotion-level; \
+	   fuel_promotion_level=`echo "$(BUILD_SPEC)" | shyaml get-value Installers.fuel.Promotion-level; \
+	   ISO_URI=`cat "$(PROMOTIONS)" | shyaml get-value Installers.Branch.$${fuel_branch}.Promotion-level.$${fuel_promotion_level}.Artifact-uri; \
+	   ISO_NAME='basename $${ISO_URI}; \
+	   curl --silent -O $${ISO_URI}; \
+	   MAKEFLAGS+="ISOCACHE=$${PWD}/$${ISO_NAME}"; \
+	   docker/runcontext $(DOCKERIMG) $(MAKE) $(MAKEFLAGS) plugin; \
+	fi
 
 ############################################################################
 # BEGIN of Include definitions
@@ -210,6 +219,13 @@ setup-env:
 iso:	setup-env $(ISOCACHE) $(SUBDIRS) patch-packages
 	$(REPOINFO) . > gitinfo_main.txt
 	install/install.sh iso $(ISOCACHE) $(NEWISO) $(PRODNO) $(REVSTATE)
+	@printf "\n\nProduct ISO is $(NEWISO)\n\n"
+
+.PHONY: plugin
+plugin:	setup-env
+	make -C f_isoroot -f Makefile plugins
+	$(REPOINFO) . > gitinfo_main.txt
+	install/install.sh -p iso $(ISOCACHE) $(NEWISO) $(PRODNO) $(REVSTATE)
 	@printf "\n\nProduct ISO is $(NEWISO)\n\n"
 
 # Start a bash shell in docker for Makefile debugging
