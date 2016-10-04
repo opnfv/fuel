@@ -24,7 +24,7 @@ TRANSPLANT_FUEL_SETTINGS = 'transplant_fuel_settings.py'
 BOOTSTRAP_ADMIN = 'bootstrap_admin_node'
 FUEL_CLIENT_CONFIG = '/etc/fuel/client/config.yaml'
 PLUGINS_DIR = '~/plugins'
-LOCAL_PLUGIN_FOLDER = '/opt/opnfv'
+LOCAL_PLUGIN_FOLDER = '/opt/opnfv/plugins'
 IGNORABLE_FUEL_ERRORS = ['does not update installed package',
                          'Couldn\'t resolve host']
 

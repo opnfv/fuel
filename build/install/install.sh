@@ -183,7 +183,7 @@ prep_make_iso() {
     fuseiso -p $ORIGISO $TMP_OLDISO
     sleep 1
     cd $TMP_OLDISO
-    find . | cpio -pd $TOP/newiso
+    find . | grep -v ^./.rr_moved | cpio -pd $TOP/newiso
     cd ..
     fusermount -u $TMP_OLDISO
     rm -Rf $TMP_OLDISO
@@ -193,6 +193,7 @@ prep_make_iso() {
 make_iso_image() {
     echo "Making ISO..."
     cd $DEST
+    echo $(ls -l)
     find . -name TRANS.TBL -exec rm {} \;
     rm -rf rr_moved
 
@@ -252,6 +253,7 @@ iso_modify_image () {
     find $TOP/release/isoroot -type f -name '*.orig' -exec rm {} \;
 
     cd $TOP/release/isoroot
+    rm -rf $DEST/opnfv/plugins
     cp -Rvp . $DEST
 
     # Add all Git info files
@@ -261,8 +263,10 @@ iso_modify_image () {
 
 make_iso() {
     prep_make_iso
-    copy_packages
-    #iso_copy_puppet
+    if [ $MODE = "iso" ]; then
+        copy_packages
+        #iso_copy_puppet
+    fi
     iso_modify_image
     make_iso_image
 }
@@ -275,8 +279,8 @@ copy_packages() {
     do
         echo "   $udeb"
         cp $udeb $REPO/pool/debian-installer
-	echo "Did not expect a package here, not supported"
-	exit 1
+        echo "Did not expect a package here, not supported"
+        exit 1
     done
 
     cd $TOP/release/packages/ubuntu/pool/main
@@ -284,8 +288,8 @@ copy_packages() {
     do
         echo "   $deb"
         cp $deb $REPO/pool/main
-	echo "Did not expect a package here, not supported"
-	exit 1
+        echo "Did not expect a package here, not supported"
+        exit 1
     done
 
     echo "Running Fuel package patch file"
@@ -390,7 +394,7 @@ copy_packages() {
         for line in `cat $TOP/patch-packages/release/patch-replacements`
         do
             echo "Did not expect a line here, not supported"
-       	    exit 1
+            exit 1
             frompkg=`echo $line | cut -d ">" -f 1`
             topkg=`echo $line | cut -d ">" -f 2`
             echo "CM: Applying patch to $frompkg" | tee -a $REPORTFILE
@@ -459,7 +463,7 @@ CONF=`mktemp /tmp/XXXXXXX`
 MODE=$1
 TOP=`pwd`
 
-if [ $MODE = "iso" ]; then
+if [ $MODE = "iso" ] || [ $MODE = "plugin" ]; then
     PUBLISHER="OPNFV"
     TMP_OLDISO=`mktemp -d /tmp/XXXXXXX`
     TMP_ISOPUPPET=`mktemp -d /tmp/XXXXXXX`
@@ -474,7 +478,6 @@ if [ $MODE = "iso" ]; then
         rm $CONF
         exit 1
     fi
-
     make_iso
 else
     echo "Unknown mode: $MODE"

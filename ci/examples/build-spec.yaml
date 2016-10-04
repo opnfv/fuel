@@ -1,0 +1,57 @@
+##############################################################################
+# Copyright (c) 2016 Ericsson AB and others.
+# fatih.degirmenci@ericsson.com
+# stefan.k.berg@ericsson.com
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+# Hint: This file is produced by the OPNFV CI-pipeline. It should represent
+#       the build that Jenkins want's to spawn (with as little script-options/
+#       positional arguments a possible)
+#       It is reccomended that all versions of this file is captured and
+#       stored in an artifactory and that it can easily be retrieved by a
+#       well-known identifier - i.e. "Build-id" defined below.
+#
+# Hint "filename": Proposed file-name: Don't care
+
+# Hint: "Title:" A fixed title for the yaml - for orientation only
+Title: "Build_specification"
+# Hint "Schema-version:" Version of the .yaml schema - only updated if new
+# keys-, structs, or array/list definitions are introduced
+Schema-version: "1.0.0"
+# Hint: "Date:" A non space-delimited date indicating the time for when the
+# promotions file was last updated (UTC) - recommended format: date -u "+%F-%T"
+Date: 2016-10-07-17:21:43
+# Hint: "Build-id" An arbitrary "enough" indicator provided by the
+# clien/producer of this file - e.g a CI-pipeline.
+Build-id: 1234
+# Hint: "Promotions-id" The Promotions file identifier used for this build
+Promotion-id: 1234
+# Hint: "Promotions-id" The volatile Promotions file URL used for this build
+Promotion-URL: http://artifact.opnfv/promotions_1234
+
+Installers:
+  fuel:
+    Branch: master
+    Promotion-level: level-2
+
+Plugins:
+# Hint: Under "Plugins", all plugins that should be included in the .iso buld
+#       must be indicated.
+#       A plugin may be "no-officially" referenced as "Un-promoted" in which
+#       the "URI" following is used with no further validation/official-referencing.
+#       Plugins may also be referenced to a certain branch/promotion-level as
+#       defined by "Branch", "Promotion-level" - referencing the corresponding
+#       artifacts in "promotions.yaml"
+  bgp-vpn:
+    Un-promoted: "file:///home/uabjonb/projects/opnfv/fuel/ci/examples/plugins/bgpvpn-0.9-0.9.0-1.noarch.tar.gz"
+  sfc:
+    Branch: master
+    Promotion-level: level-1
+  odl:
+    Branch: master
+    Promotion-level: level-2

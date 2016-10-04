@@ -7,35 +7,51 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+shell=/bin/bash
 
-# Add Fuel plugin build targets here
-# Plugins disabled for the Fuel Mitaka uplift. Please re-enable your plugin as you have
-# verified it!
-PLUGINS ?= f_odlpluginbuild f_onosfwpluginbuild f_vsperfpluginbuild f_ovs-nsh-dpdk-pluginbuild f_yardstick-pluginbuild f_kvm-pluginbuild f_bgpvpn-pluginbuild f_collectd-ceilometer-pluginbuild
-#PLUGINS = f_odlpluginbuild f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild f_ovs-nsh-dpdk-pluginbuild f_bgpvpn-pluginbuild
-export PLUGINS
-#NON_8-0_REBASED_PLUGINS = f_bgpvpn-pluginbuild
-
-# If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
-# indicated therein.
-# Temporarilu disabling f_repobuild that currently have some issues on
-# Fuel Mitaka.
-ifdef BUILD_FUEL_PLUGINS
-export BUILD_FUEL_PLUGINS
-SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(BUILD_FUEL_PLUGINS)
-$(warning Overriding plugin build selection to $(BUILD_FUEL_PLUGINS))
-else
-SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild $(PLUGINS)
-endif
+SUBDIRS = f_kscfg f_bootstrap f_isolinux f_repobuild
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: all
-all:	$(SUBDIRS)
+all:	$(SUBDIRS) plugins
 
 .PHONY: $(SUBDIRS)
 $(SUBDIRS):
 	@mkdir -p release
 	$(MAKE) -C $@ -f Makefile release
+
+.PHONY: plugins
+plugins:
+#	TODO default no plugin-build if promotions- or build-spec aren't defined......
+#	TODO rather than operating on files in the make script, we should have BUILD_SPEC_YAML
+#	and PROMOTIONS_YAML representing JSON objects - expanded by ci/build.sh
+	@mkdir -p release/opnfv/plugins
+	PLUGINS=`curl $(BUILD_SPEC_YAML) | shyaml get-value Plugins | shyaml keys`; \
+	cd release/opnfv/plugins; \
+	for plugin in $${PLUGINS}; do \
+	   ARTIFACT_URI=`curl $(BUILD_SPEC_YAML) | shyaml get-value Plugins.$${plugin}.Un-promoted 2> /dev/null`; \
+	   if [ $$? -ne 0 ]; then \
+	      plugin_branch=`curl $(BUILD_SPEC_YAML) | shyaml get-value Plugins.$${plugin}.Branch 2> /dev/null`; \
+	      if [ $$? -ne 0 ]; then \
+	         echo "ERROR: Syntax error in build-spec for Plugin: $${plugin}, aborting build with errors..."; \
+                 exit 1; \
+	      fi; \
+	      plugin_promotion=`curl $(BUILD_SPEC_YAML) | shyaml get-value Plugins.$${plugin}.Promotion-level`; \
+	      if [ $$? -ne 0 ]; then \
+	         echo "ERROR: Syntax error in build-spec for Plugin: $${plugin}, aborting build with errors..."; \
+	         exit 1; \
+	      fi; \
+	      ARTIFACT_URI=`curl $(PROMOTIONS_YAML) | shyaml get-value Plugins.$${plugin}.Branch.$${plugin_branch}.Promotion-level.$${plugin_promotion}.Artifact-uri 2> /dev/null`; \
+	      if [ $$? -ne 0 ]; then \
+	         echo "ERROR: There is no plugin: $${plugin} promoted to: $${plugin_promotion} as defined by the build-spec, aborting build with errors..."; \
+	         exit 1; \
+	      fi; \
+	   fi; \
+	   curl -o $$(basename $${ARTIFACT_URI}) $${ARTIFACT_URI}; \
+	   tar -xf $$(basename $${ARTIFACT_URI}); \
+	   rm $$(basename $${ARTIFACT_URI}); \
+	done;
+	cp -Rvp release/* ../release/isoroot
 
 .PHONY: clean $(SUBCLEAN)
 clean: $(SUBCLEAN)

@@ -24,6 +24,7 @@ RUN apt-get install -y software-properties-common python-software-properties \
 
 RUN gem install fpm
 RUN pip install fuel-plugin-builder
+RUN pip install shyaml
 
 RUN echo "ALL ALL=NOPASSWD: ALL" > /etc/sudoers.d/open-sudo
 RUN echo "Defaults env_keep += \"ftp_proxy http_proxy https_proxy no_proxy RSYNC_PROXY RSYNC_CONNECT_PROG npm_config_registry\"" > /etc/sudoers.d/keep-proxies

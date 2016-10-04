@@ -18,13 +18,19 @@ cat | more << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 `basename $0`: Builds the Fuel@OPNFV stack
 
-usage: `basename $0` [-s spec-file] [-c cache-URI] [-l log-file] [-f flags]
-       [output-directory]
+usage: `basename $0` [-p promotions-URI-1] [-p promotions-URI-2] .. [-p promotions-URI-N] [-b build-spec-uri] [-c cache-URI] [-l log-file] [-f flags]  [output-directory]
 
 OPTIONS:
-  -s spec-file (NOTE! DEPRECATED!)
-      define the build-spec file, default ../build/config.mk. The script only
-      verifies that the spec-file exists.
+  -p Promotions .yaml file URI. Provides CI promotion levels for Fuel core as
+     well as for all plug-ins. The schema for the promotions .yaml file can be
+     found in `$PWD`/examples/promotions.yaml. Several promotion .yaml URIs can
+     be provided, in this case the promotion fragments are merge, and the later
+     provided URIs gets presidence. In case -p is ommitted, the resulting .iso
+     will not contain any plugins.
+  -b Build spec .yaml file URI. Provides build-specific references to the
+     promotions .yaml file. -b can only be ommitted when rebuilding fuel-core
+     without any plugins (I.e. with -fp un-set). The schema for the build-spec
+     .yaml file can be found in `$PWD`/examples/build-spec.yaml.
   -c cache base URI
        specifies the base URI to a build cache to be used/updated, supported
        methods are http://, ftp:// and file://
@@ -39,6 +45,7 @@ OPTIONS:
        build flags:
           s: Do nothing, succeed
           f: Do nothing, fail
+          p: Repopulate .iso with plugins as defined in build-spec
           D: Debug mode
           P: Clear the local cache before building. This flag is only
              valid if the "-c cache-URI" options has been specified and
@@ -123,7 +130,11 @@ LOCAL_CACHE_ARCH_NAME="${LOCAL_CACHE_ARCH_NAME:-fuel-cache}"
 export CACHEBASE="file://$HOME/cache"
 export CACHETRANSPORT="curl --silent"
 CLEAR_CACHE=0
+PLUGINS_ONLY=0
+REPOPULATE_PLUGINS=0
 MAKE_ARGS=""
+BUILD_SPEC_YAML=""
+PROMOTIONS=""
 
 #
 # END of script assigned variables
@@ -133,10 +144,12 @@ build() {
     echo "CI build parameters:"
     echo "SCRIPT_DIR = $SCRIPT_DIR"
     echo "BUILD_BASE = $BUILD_BASE"
+    echo "BUILD_SPEC_YAML = $BUILD_SPEC_YAML"
+    echo "PROMOTIONS = $PROMOTIONS"
     echo "RESULT_DIR = $RESULT_DIR"
-    echo "BUILD_SPEC = $BUILD_SPEC"
     echo "LOCAL_CACHE_ARCH_NAME = $LOCAL_CACHE_ARCH_NAME"
     echo "CLEAR_CACHE = $CLEAR_CACHE"
+    echo "ONLY RETROFIT PLUGINS = $PLUGINS_ONLY"
     echo "DEBUG = $DEBUG"
     echo "OUTPUT_DIR = $OUTPUT_DIR"
     echo "BUILD_LOG = $BUILD_LOG"
@@ -159,6 +172,7 @@ build() {
     echo make ${MAKE_ARGS} cache
 
     cd ${BUILD_BASE}
+    make ${MAKE_ARGS} clean
     if make ${MAKE_ARGS} cache; then
         echo "Copying build result into $OUTPUT_DIR"
         sort ${BUILD_BASE}/gitinfo*.txt > ${OUTPUT_DIR}/gitinfo.txt
@@ -172,25 +186,27 @@ build() {
 ############################################################################
 # BEGIN of main
 #
-while getopts "s:c:l:v:f:r:f:h" OPTION
+while getopts "c:b:p:l:v:f:r:f:h" OPTION
 do
     case $OPTION in
-        s)
-            BUILD_SPEC=${OPTARG}
-            if [ ! -f ${BUILD_SPEC} ]; then
-                echo "spec file does not exist: $BUILD_SPEC - exiting ...."
-                exit 100
-            fi
-            ;;
         c)
             # This value is used by cache.sh
             export CACHEBASE=${OPTARG}
+            ;;
+        p)
+            MAKE_ARGS+="PROMOTIONS_YAML=${OPTARG} "
+            PROMOTIONS="PROMOTIONS_YAML=${OPTARG}"
+            # Merge logic TBD
+            ;;
+        b)
+            MAKE_ARGS+="BUILD_SPEC_YAML=${OPTARG} "
+            BUILD_SPEC="BUILD_SPEC_YAML=${OPTARG}"
             ;;
         l)
             BUILD_LOG=$(readlink -f ${OPTARG})
             ;;
         v)
-            MAKE_ARGS+="REVSTATE=${OPTARG}"
+            MAKE_ARGS+="REVSTATE=${OPTARG} "
             ;;
         r)
             # This value is used by cache.sh
@@ -211,6 +227,11 @@ do
 
                     f)
                         exit 1
+                        ;;
+
+                    p)
+                        MAKE_ARGS+="PLUGINS_ONLY=YES "
+                        PLUGINS_ONLY=1
                         ;;
 
                     P)
