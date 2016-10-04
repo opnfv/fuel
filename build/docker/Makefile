@@ -45,7 +45,7 @@ all:	.docker
 	touch $@
 
 .docker: .dockercfg
-	@if test "$(shell ${DOCKER_EXPIRED})" -eq "0"; then \
+	@if test -f .cacheid -o "$(shell ${DOCKER_EXPIRED})" -eq "0"; then \
 		/usr/bin/docker build --rm=true --no-cache=true \
 			-t ${DOCKER_TAG} ubuntu-builder && \
 		/usr/bin/docker tag ${tag_flags} ${DOCKER_TAG} ${DOCKER_IMG}; \
