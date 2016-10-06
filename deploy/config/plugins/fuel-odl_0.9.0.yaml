@@ -118,9 +118,8 @@ opendaylight:
           vpn:
           - odl-vpnservice-openstack
         odl_deb: opendaylight
-        experimental_odl_deb: opendaylight-boron
+        experimental_odl_deb: opendaylight-experimental
         use_experimental_odl:
-          - enable_sfc
         #plugin_id: Assigned during installation
         plugin_version: 0.9.0
         restrictions:
