@@ -22,6 +22,7 @@ FUEL_TRACK_REMOTES =
 
 # git submodule & patch locations for Fuel components
 F_GIT_ROOT   := $(shell git rev-parse --show-toplevel)
+F_GIT_DIR    := $(shell git rev-parse --git-dir)
 F_SUBMOD_DIR := ${F_GIT_ROOT}/build/f_repos/sub
 F_PATCH_DIR  := ${F_GIT_ROOT}/build/f_repos/patch
 F_OPNFV_TAG  := ${FUEL_MAIN_TAG}-opnfv

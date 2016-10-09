@@ -149,7 +149,7 @@ get-cache: .cacheid
 	@if $(CACHETOOL) check $(shell cat .cacheid); then \
 		$(MAKE) clean && \
 		$(CACHETOOL) get $(shell cat .cacheid) | \
-			tar xf - -C ${F_GIT_ROOT}/.git; \
+			tar xf - -C ${F_GIT_DIR}; \
 	else \
 		echo "No cache item found for $(shell cat .cacheid)" ;\
 		exit 0;\
@@ -160,6 +160,6 @@ get-cache: .cacheid
 put-cache: .cacheid
 	@if ! $(CACHETOOL) check $(shell cat .cacheid); then \
 		$(MAKE) clean && \
-		tar cf - -C ${F_GIT_ROOT}/.git modules | \
+		tar cf - -C ${F_GIT_DIR} modules | \
 			$(CACHETOOL) put $(shell cat .cacheid); \
 	fi
