@@ -8,7 +8,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-# fuel-main tag checked out from upstream `fuel-main` repo before patching it
+# This tag is NOT checked out, it only serves a cosmetic purpose of hinting
+# what upstream Fuel components our submodules are bound to (while tracking
+# remotes, ALL submodules will point to remote branch HEAD).
+# NOTE: Pinning fuel-main or other submodules to a specific commit/tag is
+# done ONLY via git submodules.
 FUEL_MAIN_TAG = 9.0.1
 MOS_VERSION   = 9.0
 OPENSTACK_VERSION = mitaka-9.0

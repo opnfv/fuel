@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-SHELL = /bin/bash
+SHELL = /bin/sh
 REPOINFO = $(shell readlink -e ../repo_info.sh)
 FREPODIR = $(shell pwd)
 FPATCHES = $(shell find ${F_PATCH_DIR} -name '*.patch')
@@ -51,9 +51,9 @@ sub: .cachefuelinfo
 
 .cachefuelinfo:
 	@if [ -n "${FUEL_TRACK_REMOTES}" ]; then \
-		git submodule update --init --remote; \
+		git submodule update --init --remote 2>/dev/null; \
 	else \
-		git submodule update --init; \
+		git submodule update --init 2>/dev/null; \
 	fi
 	@rm -f $@
 	@git submodule -q foreach '${REPOINFO} . >> ${FREPODIR}/$@'
@@ -69,8 +69,9 @@ patches-export: sub
 			mkdir -p $$SUB_DIR/$${SUB_FEATURE} && \
 			git format-patch --no-signature --ignore-space-at-eol \
 				-o $$SUB_DIR/$$SUB_FEATURE -N $$F_TAG-root..$$F_TAG; \
+			sed -i -e "1{/From: /!d}" -e "s/[[:space:]]*$$//" \
+				$$SUB_DIR/$$SUB_FEATURE/*.patch; \
 		done'
-	@sed -i -e '1d' -e 's/[[:space:]]*$$//' ${FPATCHES}
 
 # Apply patches from patch/* to respective submodules
 # We rely on `make sub` and/or `make clean` to checkout correct base
@@ -100,9 +101,9 @@ patches-import: sub .cachepatched
 # Clean any changes made to submodules, checkout upstream Fuel root commit
 .PHONY: clean
 clean:
-	@git submodule -q foreach ' \
+	@cd ${F_GIT_ROOT} && git submodule -q foreach ' \
 		git am -q --abort > /dev/null 2>&1; \
-		git checkout -q ${F_OPNFV_TAG}-root > /dev/null 2>&1; \
+		git checkout -q -f ${F_OPNFV_TAG}-root > /dev/null 2>&1; \
 		git branch -q -D opnfv-fuel > /dev/null 2>&1; \
 		git tag | grep ${F_OPNFV_TAG} | xargs git tag -d > /dev/null 2>&1; \
 		git reset -q --hard HEAD; \
