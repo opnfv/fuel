@@ -9,6 +9,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+# Do not pollute (Jenkins) logs with color markers, since we don't parse them
+export TERM="vt220"
+
 ############################################################################
 # BEGIN of usage description
 #
