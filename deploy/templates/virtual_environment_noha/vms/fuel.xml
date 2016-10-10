@@ -24,7 +24,7 @@
   <devices>
     <emulator>/usr/bin/kvm</emulator>
     <disk type='block' device='cdrom'>
-      <driver name='qemu' type='qcow2'/>
+      <driver name='qemu' type='qcow2' cache='writeback'/>
       <target dev='hdc' bus='ide'/>
       <readonly/>
     </disk>
