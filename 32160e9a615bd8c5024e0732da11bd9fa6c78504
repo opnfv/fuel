@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad5f5cf_26b46cf1",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-10-11T13:24:51Z",
+      "side": 1,
+      "message": "How about `echo $BLACKLIST | grep -q \"$url\"` ?",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "32160e9a615bd8c5024e0732da11bd9fa6c78504",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
