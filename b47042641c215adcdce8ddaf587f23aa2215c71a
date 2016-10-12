@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Fedor Zhadaev <fzhadaev@mirantis.com>
+Code-Review+1: Jose Lausuch <jose.lausuch@ericsson.com>
+Code-Review+2: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Workflow+1: Michal Skalski <mskalski@mirantis.com>
+Submitted-by: Michal Skalski <mskalski@mirantis.com>
+Submitted-at: Wed, 12 Oct 2016 16:52:32 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/23007
+Project: fuel
+Branch: refs/heads/stable/colorado
