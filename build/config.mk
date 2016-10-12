@@ -13,12 +13,10 @@
 # remotes, ALL submodules will point to remote branch HEAD).
 # NOTE: Pinning fuel-main or other submodules to a specific commit/tag is
 # done ONLY via git submodules.
-FUEL_MAIN_TAG = 9.0.1
-MOS_VERSION   = 9.0
-OPENSTACK_VERSION = mitaka-9.0
+FUEL_MAIN_TAG = master
+MOS_VERSION   = 10.0
+OPENSTACK_VERSION = newton-10.0
 
-# FIXME(alav): Disable remote tracking for now, stick to submodule commits
-FUEL_TRACK_REMOTES =
 
 ##############################################################################
 # Fuel components pinning / remote tracking; use submodules from f_repos
@@ -34,6 +32,25 @@ F_OPNFV_TAG  := ${FUEL_MAIN_TAG}-opnfv
 # fuel-main repo location used by main Makefile ISO building, use submodule
 FUEL_MAIN_REPO := ${F_SUBMOD_DIR}/fuel-main
 
+
+
+# Settings for Fuel 10 BEGIN
+#
+# Currently it seems impossible to build Fuel 10 from upstream without
+# hard coding specific repositories. The Fuel Ubuntu mirror seems to not
+# have been fully populated.
+
+export MIRROR_UBUNTU?=cz.archive.ubuntu.com
+export MIRROR_UBUNTU_ROOT=/ubuntu/
+export MIRROR_MOS_UBUNTU?=mirror.seed-cz1.fuel-infra.org
+export MIRROR_MOS_UBUNTU_ROOT=/mos-repos/xenial//snapshots/master-2016-10-10-100022
+export MIRROR_CENTOS=http://mirror.seed-cz1.fuel-infra.org/pkgs/snapshots/centos-7.2.1511-2016-08-07-170016
+export MIRROR_FUEL=http://mirror.seed-cz1.fuel-infra.org//mos-repos/centos/mos-master-centos7//snapshots/os-2016-10-18-120021/x86_64
+
+export MIRROR_MOS_UBUNTU_SUITE=mos-master
+
+# Settings for Fuel 10 END
+
 export FUELLIB_REPO?=${F_SUBMOD_DIR}/fuel-library
 export NAILGUN_REPO?=${F_SUBMOD_DIR}/fuel-web
 export PYTHON_FUELCLIENT_REPO?=${F_SUBMOD_DIR}/python-fuelclient
@@ -41,11 +58,9 @@ export FUEL_AGENT_REPO?=${F_SUBMOD_DIR}/fuel-agent
 export FUEL_NAILGUN_AGENT_REPO?=${F_SUBMOD_DIR}/fuel-nailgun-agent
 export ASTUTE_REPO?=${F_SUBMOD_DIR}/fuel-astute
 export OSTF_REPO?=${F_SUBMOD_DIR}/fuel-ostf
-export FUEL_MIRROR_REPO?=${F_SUBMOD_DIR}/fuel-mirror
 export FUELMENU_REPO?=${F_SUBMOD_DIR}/fuel-menu
 export SHOTGUN_REPO?=${F_SUBMOD_DIR}/shotgun
 export NETWORKCHECKER_REPO?=${F_SUBMOD_DIR}/network-checker
-export FUELUPGRADE_REPO?=${F_SUBMOD_DIR}/fuel-upgrade
 export FUEL_UI_REPO?=${F_SUBMOD_DIR}/fuel-ui
 
 # OPNFV tags are automatically applied by `make -C f_repos patches-import`
