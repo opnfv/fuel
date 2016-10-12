@@ -46,6 +46,30 @@
       "revId": "32160e9a615bd8c5024e0732da11bd9fa6c78504",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_da721449",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-10-12T15:31:08Z",
+      "side": 1,
+      "message": "It\u0027s fine with me, but I would\u0027ve grep -q \"\\\u003c$url\\\u003e\" for that :)",
+      "parentUuid": "dad5f5cf_1a6f3c94",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "32160e9a615bd8c5024e0732da11bd9fa6c78504",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
