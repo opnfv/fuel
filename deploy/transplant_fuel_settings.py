@@ -94,7 +94,8 @@ def transplant_bootstrap(astute, fuel_bootstrap_cli):
 def main():
     dea_file = parse_arguments()
     check_file_exists(ASTUTE_YAML)
-    check_file_exists(FUEL_BOOTSTRAP_CLI_YAML)
+    # Temporarily disabled for Fuel 10.
+    # check_file_exists(FUEL_BOOTSTRAP_CLI_YAML)
     dea = DeploymentEnvironmentAdapter(dea_file)
     log('Reading astute file %s' % ASTUTE_YAML)
     with io.open(ASTUTE_YAML) as stream:
@@ -105,11 +106,12 @@ def main():
         yaml.dump(astute, stream, default_flow_style=False)
     log('Transplant done')
     # Update bootstrap config yaml with info from DEA/astute.yaml
-    with io.open(FUEL_BOOTSTRAP_CLI_YAML) as stream:
-        fuel_bootstrap_cli = yaml.load(stream)
-    transplant_bootstrap(astute, fuel_bootstrap_cli)
-    with io.open(FUEL_BOOTSTRAP_CLI_YAML, 'w') as stream:
-        yaml.dump(fuel_bootstrap_cli, stream, default_flow_style=False)
+    # Temporarily disabled for Fuel 10.
+    # with io.open(FUEL_BOOTSTRAP_CLI_YAML) as stream:
+    #     fuel_bootstrap_cli = yaml.load(stream)
+    # transplant_bootstrap(astute, fuel_bootstrap_cli)
+    # with io.open(FUEL_BOOTSTRAP_CLI_YAML, 'w') as stream:
+    #     yaml.dump(fuel_bootstrap_cli, stream, default_flow_style=False)
 
 
 if __name__ == '__main__':

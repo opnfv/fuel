@@ -390,6 +390,7 @@ copy_packages() {
     if [ -f $TOP/patch-packages/release/patch-replacements ]; then
         echo "Applying package patches" | tee -a $REPORTFILE
         pushd $REPO/pool/main > /dev/null
+	echo "CM: I am now in $(pwd)"
         printf "\n\n" | tee -a  $REPORTFILE
         for line in `cat $TOP/patch-packages/release/patch-replacements`
         do
@@ -447,8 +448,8 @@ copy_packages() {
     # /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
     # cp ubuntu-versions.yaml $DEST
 
-    apt-ftparchive -c "${APT_REL_CONF}" release dists/mos9.0/ > dists/mos9.0/Release
-    gzip -9cf dists/mos9.0/Release > dists/mos9.0/Release.gz
+    apt-ftparchive -c "${APT_REL_CONF}" release dists/mos10.0/ > dists/mos10.0/Release
+    gzip -9cf dists/mos10.0/Release > dists/mos10.0/Release.gz
 
     popd > /dev/null
 
