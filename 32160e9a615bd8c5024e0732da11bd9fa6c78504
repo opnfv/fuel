@@ -22,6 +22,30 @@
       "revId": "32160e9a615bd8c5024e0732da11bd9fa6c78504",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad5f5cf_1a6f3c94",
+        "filename": "build/f_isoroot/f_repobuild/select_ubuntu_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-10-12T12:58:28Z",
+      "side": 1,
+      "message": "Maybe overly cautious, but have been bitten by partial matching before so I tend to avoid it...",
+      "parentUuid": "dad5f5cf_26b46cf1",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "32160e9a615bd8c5024e0732da11bd9fa6c78504",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
