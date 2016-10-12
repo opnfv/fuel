@@ -18,7 +18,7 @@ SHELL = /bin/bash
 # BEGIN of variables to customize
 #
 #Input args
-export MOSVERSION = 9.0
+export MOSVERSION = 10.0
 export ISOSRC = file:$(shell pwd)/fuel-$(MOSVERSION).iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
 export PRODNO ?= "OPNFV_FUEL"
