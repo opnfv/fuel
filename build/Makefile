@@ -21,11 +21,11 @@ SHELL = /bin/bash
 export MOSVERSION = 9.0
 export ISOSRC = file:$(shell pwd)/fuel-$(MOSVERSION).iso
 export ISOCACHE = $(shell pwd)/$(shell basename $(ISOSRC))
-export PRODNO = "OPNFV_FUEL"
+export PRODNO ?= "OPNFV_FUEL"
 export REVSTATE = "P0000"
 export USER ?= $(shell whoami)
 export BUILD_DATE = $(shell date --utc +%Y-%m-%d:%H:%M)
-export OPNFV_GIT_SHA = $(shell git rev-parse HEAD)
+export OPNFV_GIT_SHA ?= $(shell git rev-parse HEAD)
 # Store in /etc/fuel_build_id on fuel master
 export BUILD_ID := $(PRODNO)_$(BUILD_DATE)_$(OPNFV_GIT_SHA)
 
