@@ -92,3 +92,30 @@ Sub-project maintenance
 
    $ git submodule -b stable/mitaka add --name fuel-web \
      https://github.com/openstack/fuel-web.git upstream/fuel-web
+
+2. Working with remote tracking for upgrading Fuel components
+   Enable remote tracking as described above, which at `make sub` will update
+   ALL submodules (fuel-main, fuel-library, ...) to remote branch (set in
+   .gitmodules) HEAD.
+
+   * If upstream has NOT already tagged a new version, we can still work on
+     our patches, make sure they apply etc., then check for new upstream
+     changes (and that our patches still apply on top of them) by:
+
+   $ make deepclean patches-import
+
+   * If upstream has already tagged a new version we want to pick up, checkout
+     the new tag in each submodule:
+
+   $ git submodule foreach 'git checkout <newtag>'
+
+   * Once satisfied with the patch and submodule changes, commit them:
+     - enforce FUEL_TRACK_REMOTES to "yes" if you want to constatly use the
+       latest remote branch HEAD (as soon as upstream pushes a change on that
+       branch, our next build will automatically include it - risk of our
+       patches colliding with new upstream changes);
+     - stage patch changes if any;
+     - if submodule tags have been updated (relevant when remote tracking is
+       disabled, i.e. we have a stable upstream baseline), add submodules:
+
+   $ make deepclean sub && git add -f sub/*

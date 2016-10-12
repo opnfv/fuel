@@ -111,7 +111,9 @@ if [ -n "$CACHEBASE" ]; then
     fi
 fi
 
+# FIXME: TERM is required because: https://github.com/docker/docker/issues/9299
 RUN_CONTEXT_OPT="--cidfile $CID_FILE --privileged=true --rm \
+    -e TERM=$TERM \
     -e HOME=$HOME -e CACHEDEBUG -e CACHETRANSPORT -e CACHEMAXAGE -e CACHEBASE \
     -e BUILD_FUEL_PLUGINS -e MIRROR_UBUNTU -e MIRROR_UBUNTU_ROOT \
     -e MIRROR_MOS_UBUNTU -e MIRROR_MOS_UBUNTU_ROOT -e MIRROR_FUEL \
