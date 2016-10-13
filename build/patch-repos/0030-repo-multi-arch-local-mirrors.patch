@@ -19,23 +19,23 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/mirror/ubuntu/module.mk b/mirror/ubuntu/module.mk
-index 7a9466e..fe1ada2 100644
+index 5f0dcce..1b4b5cd 100644
 --- a/mirror/ubuntu/module.mk
 +++ b/mirror/ubuntu/module.mk
-@@ -81,7 +81,7 @@ $(BUILD_DIR)/mirror/ubuntu/mirror.done:
- 	--root=$(MIRROR_MOS_UBUNTU_ROOT) \
- 	--dist=$(MIRROR_MOS_UBUNTU_SUITE) \
- 	--section=$(subst $(space),$(comma),$(MIRROR_MOS_UBUNTU_SECTION)) \
--	--arch=$(UBUNTU_ARCH) \
-+	--arch=$(shell echo $(UBUNTU_ARCH) | tr ' ' ',') \
- 	$(LOCAL_MIRROR_UBUNTU)/
- 	rm -rf $(LOCAL_MIRROR_UBUNTU)/.temp $(LOCAL_MIRROR_UBUNTU)/project
- 	$(ACTION.TOUCH)
+@@ -33,7 +33,7 @@ set -ex; ./debmirror --progress --checksums --nocleanup \
+   --root=$(MIRROR_MOS_UBUNTU_ROOT) \
+   --dist=$(MIRROR_MOS_UBUNTU_SUITE)$1 \
+   --section=$(subst $(space),$(comma),$(MIRROR_MOS_UBUNTU_SECTION)) \
+-  --arch=$(UBUNTU_ARCH) \
++  --arch=$(shell echo $(UBUNTU_ARCH) | tr ' ' ',') \
+   $(LOCAL_MIRROR_UBUNTU)/
+ endef
+
 diff --git a/sandbox.mk b/sandbox.mk
-index 4bc3962..5ffddbd 100644
+index 43d8d15..5cab9fa 100644
 --- a/sandbox.mk
 +++ b/sandbox.mk
-@@ -188,7 +188,7 @@ touch $(SANDBOX_UBUNTU)/etc/init.d/.legacy-bootordering
+@@ -199,7 +199,7 @@ touch $(SANDBOX_UBUNTU)/etc/init.d/.legacy-bootordering
  mkdir -p $(SANDBOX_UBUNTU)/usr/sbin
  cp -a $(BUILD_DIR)/policy-rc.d $(SANDBOX_UBUNTU)/usr/sbin
  echo "Running debootstrap"
@@ -44,8 +44,9 @@ index 4bc3962..5ffddbd 100644
  if [ -e $(SANDBOX_UBUNTU)/etc/resolv.conf ]; then sudo cp -a $(SANDBOX_UBUNTU)/etc/resolv.conf $(SANDBOX_UBUNTU)/etc/resolv.conf.orig; fi
  sudo cp /etc/resolv.conf $(SANDBOX_UBUNTU)/etc/resolv.conf
  if [ -e $(SANDBOX_UBUNTU)/etc/hosts ]; then sudo cp -a $(SANDBOX_UBUNTU)/etc/hosts $(SANDBOX_UBUNTU)/etc/hosts.orig; fi
+
 diff --git a/config.mk b/config.mk
-index 74ee039..45a3b30 100644
+index 319f1dd..6f67e2b 100644
 --- a/config.mk
 +++ b/config.mk
 @@ -49,7 +49,7 @@ UBUNTU_MINOR:=04
