@@ -59,12 +59,18 @@ export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
 export MIRROR_MOS_UBUNTU ?= $(shell echo "$(LATEST_MIRROR_ID_URL)" | cut -d'/' -f3)
 #export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/$(MOSVERSION).target.txt" | head -1)
-# Fuel 9.0
-export LATEST_TARGET_UBUNTU := snapshots/9.0-2016-06-23-164100-copy
+#Fuel 9.1
+export LATEST_TARGET_UBUNTU := snapshots/9.0-2016-10-12-105639
 export MIRROR_MOS_UBUNTU_ROOT := /mos-repos/ubuntu/$(LATEST_TARGET_UBUNTU)
 
 export LATEST_TARGET_CENTOS := $(shell curl -sSf "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos$(MOSVERSION)-centos7/os.target.txt" | head -1)
 export MIRROR_FUEL := "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos$(MOSVERSION)-centos7/$(LATEST_TARGET_CENTOS)/x86_64"
+
+# Add updates repo, content of this repo can be updated in future,
+# so point to specific snapshot, which should allow build fuel 9.1
+# See: https://bugs.launchpad.net/fuel/+bug/1625121
+export EXTRA_RPM_REPOS := "updates-mos9.1,$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos9.0-centos7/snapshots/updates-2016-10-12-105639/x86_64/"
+export EXTRA_RPM_BUILDDEP_REPO := "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos9.0-centos7/snapshots/updates-2016-10-12-105639/x86_64/"
 
 # uncomment and use: make print-VARIABLE
 #print-%  : ; @echo $* = $($*)
