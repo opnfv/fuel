@@ -1,4 +1,8 @@
 #!/bin/bash
+
+BLACKLIST="http://mirrors.se.eu.kernel.org/ubuntu/"
+#BLACKLIST+=" http://foo.bar"
+
 cleanup() {
     rm -f $TMPFILE
 }
@@ -6,6 +10,19 @@ cleanup() {
 debugmsg() {
     test -n "$DEBUG" && echo "$@" >&2
 }
+
+
+# Check if url is blacklisted in this script
+blacklisted () {
+  for blackurl in $BLACKLIST
+  do
+    if [ "$1" == "$blackurl" ]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 
 # Check mirror's integrity
 check_mirror () {
@@ -57,7 +74,7 @@ DEBUG=1
 TMPFILE=$(mktemp /tmp/mirrorsXXXXX)A
 trap cleanup exit
 
-# Generated a list of mirrors considered as "up"
+# Generate a list of mirrors considered as "up"
 curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
     grep -P -B8 "statusUP|statusSIX" | \
     grep -o -P "(f|ht)tp.*\""  | \
@@ -67,8 +84,11 @@ curl -s  https://launchpad.net/ubuntu/+archivemirrors | \
 # and sane.
 for url in $(curl -s http://mirrors.ubuntu.com/mirrors.txt)
 do
-    grep -q $url $TMPFILE || debugmsg "$url Faulty (detected by Ubuntu)"
-    if [ -z $BESTURL ]; then
+    if ! grep -q $url $TMPFILE; then
+        debugmsg "$url Faulty (detected by Ubuntu)"
+    elif blacklisted $url; then
+        debugmsg "$url blacklisted"
+    elif [ -z $BESTURL ]; then
         if grep -q $url $TMPFILE && check_mirror $url; then
             debugmsg "$url: OK (setting as primary URL)"
             BESTURL=$url
