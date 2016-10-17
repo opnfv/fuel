@@ -55,9 +55,9 @@ release:nailgun
 	@cp -Rp nailgun ../release/opnfv/nailgun
 	@cp fuel_bootstrap_cli.yaml ../release/opnfv/
 
-#############################################################################
+############################################################################
 # Cache operations - only used when building through ci/build.sh
-#############################################################################
+############################################################################
 
 # Create a unique hash to be used for getting and putting cache, based on:
 #   - Year and week (causing the cache to be rebuilt weekly)
