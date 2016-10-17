@@ -58,7 +58,9 @@ export MIRROR_UBUNTU_ROOT := $(shell echo -n '/' ; echo "$(MIRROR_UBUNTU_URL)" |
 export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
 export MIRROR_MOS_UBUNTU ?= $(shell echo "$(LATEST_MIRROR_ID_URL)" | cut -d'/' -f3)
-export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/$(MOSVERSION).target.txt" | head -1)
+#export LATEST_TARGET_UBUNTU := $(shell curl -sSf "$(MIRROR_MOS_UBUNTU)/mos-repos/ubuntu/$(MOSVERSION).target.txt" | head -1)
+# Fuel 9.0
+export LATEST_TARGET_UBUNTU := snapshots/9.0-2016-06-23-164100-copy
 export MIRROR_MOS_UBUNTU_ROOT := /mos-repos/ubuntu/$(LATEST_TARGET_UBUNTU)
 
 export LATEST_TARGET_CENTOS := $(shell curl -sSf "$(LATEST_MIRROR_ID_URL)/mos-repos/centos/mos$(MOSVERSION)-centos7/os.target.txt" | head -1)
