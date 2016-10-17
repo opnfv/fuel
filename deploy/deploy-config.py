@@ -354,37 +354,37 @@ class DeployConfig(object):
             f.write("\n".join(["configuration-files:",
                                "  dea-base:",
                                "    uri: " + self.kwargs["dea_base_uri"],
-                               "    title: " + self.dea_metadata['title'],
-                               "    version: " + self.dea_metadata['version'],
-                               "    created: " + self.dea_metadata['created'],
+                               "    title: " + str(self.dea_metadata['title']),
+                               "    version: " + str(self.dea_metadata['version']),
+                               "    created: " + str(self.dea_metadata['created']),
                                "    sha1: " + sha_uri(self.kwargs["dea_base_uri"]),
-                               "    comment: " + self.dea_metadata['comment'] + "\n"]))
+                               "    comment: " + str(self.dea_metadata['comment']) + "\n"]))
 
             f.write("\n".join(["  pod-override:",
                                "    uri: " + self.kwargs["dea_pod_override_uri"],
-                               "    title: " + self.dea_pod_ovr_metadata['title'],
-                               "    version: " + self.dea_pod_ovr_metadata['version'],
-                               "    created: " + self.dea_pod_ovr_metadata['created'],
+                               "    title: " + str(self.dea_pod_ovr_metadata['title']),
+                               "    version: " + str(self.dea_pod_ovr_metadata['version']),
+                               "    created: " + str(self.dea_pod_ovr_metadata['created']),
                                "    sha1: " + self.dea_pod_ovr_metadata['sha'],
-                               "    comment: " + self.dea_pod_ovr_metadata['comment'] + "\n"]))
+                               "    comment: " + str(self.dea_pod_ovr_metadata['comment']) + "\n"]))
 
             f.write("\n".join(["  deployment-scenario:",
                                "    uri: " + self.scenario_metadata['uri'],
-                               "    title: " + self.scenario_metadata['title'],
-                               "    version: " + self.scenario_metadata['version'],
-                               "    created: " + self.scenario_metadata['created'],
+                               "    title: " + str(self.scenario_metadata['title']),
+                               "    version: " + str(self.scenario_metadata['version']),
+                               "    created: " + str(self.scenario_metadata['created']),
                                "    sha1: " + self.scenario_metadata['sha'],
-                               "    comment: " + self.scenario_metadata['comment'] + "\n"]))
+                               "    comment: " + str(self.scenario_metadata['comment']) + "\n"]))
 
             f.write("  plugin-modules:\n")
             for k, _ in enumerate(self.modules):
                 f.write("\n".join(["  - module: " + self.modules[k],
                                    "    uri: " + self.module_uris[k],
-                                   "    title: " + self.module_titles[k],
-                                   "    version: " + self.module_versions[k],
-                                   "    created: " + self.module_createds[k],
+                                   "    title: " + str(self.module_titles[k]),
+                                   "    version: " + str(self.module_versions[k]),
+                                   "    created: " + str(self.module_createds[k]),
                                    "    sha-1: " + self.module_shas[k],
-                                   "    comment: " + self.module_comments[k] + "\n"]))
+                                   "    comment: " + str(self.module_comments[k]) + "\n"]))
 
             yaml.dump(self.dea_conf, f, default_flow_style=False)
 
@@ -433,19 +433,19 @@ class DeployConfig(object):
 
             f.write("\n".join(["  dha-pod-configuration:",
                                "    uri: " + self.kwargs["dha_uri"],
-                               "    title: " + self.dha_metadata['title'],
-                               "    version: " + self.dha_metadata['version'],
-                               "    created: " + self.dha_metadata['created'],
+                               "    title: " + str(self.dha_metadata['title']),
+                               "    version: " + str(self.dha_metadata['version']),
+                               "    created: " + str(self.dha_metadata['created']),
                                "    sha-1: " + self.dha_metadata['sha'],
-                               "    comment: " + self.dha_metadata['comment'] + "\n"]))
+                               "    comment: " + str(self.dha_metadata['comment']) + "\n"]))
 
             f.write("\n".join(["  deployment-scenario:",
                                "    uri: " + self.scenario_metadata['uri'],
-                               "    title: " + self.scenario_metadata['title'],
-                               "    version: " + self.scenario_metadata['version'],
-                               "    created: " + self.scenario_metadata['created'],
+                               "    title: " + str(self.scenario_metadata['title']),
+                               "    version: " + str(self.scenario_metadata['version']),
+                               "    created: " + str(self.scenario_metadata['created']),
                                "    sha-1: " + self.scenario_metadata['sha'],
-                               "    comment: " + self.scenario_metadata['comment'] + "\n"]))
+                               "    comment: " + str(self.scenario_metadata['comment']) + "\n"]))
 
             yaml.dump(self.dha_pod_conf, f, default_flow_style=False)
 
