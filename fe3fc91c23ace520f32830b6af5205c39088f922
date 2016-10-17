@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_32882ee7",
+        "filename": "build/f_isoroot/f_repobuild/Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-10-17T19:42:32Z",
+      "side": 1,
+      "message": "I wanted to rebuild local mirror cache, verify: no-cache would rebuild everything.",
+      "revId": "fe3fc91c23ace520f32830b6af5205c39088f922",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
