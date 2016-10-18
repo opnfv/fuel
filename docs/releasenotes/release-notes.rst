@@ -8,7 +8,7 @@
 Abstract
 ========
 
-This document compiles the release notes for the Colorado 1.0 release of
+This document compiles the release notes for the Colorado 2.0 release of
 OPNFV when using Fuel as a deployment tool.
 
 ===============
@@ -16,7 +16,7 @@ Important notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Colorado 1.0 release of OPNFV.
+tool for the Colorado 2.0 release of OPNFV.
 
 The goal of the Colorado release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
@@ -31,7 +31,7 @@ Summary
 For Colorado, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
-- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Beryllium SR3" [1]_ 'http://www.opendaylight.org/software'
+- `OpenDaylight <http://www.opendaylight.org/software>`_ version "Boron" [1]_ 'http://www.opendaylight.org/software'
 
 - `ONOS <http://onosproject.org/>`_ version "Drake" 'http://onosproject.org/'
 
@@ -80,13 +80,13 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | colorado.1.0                         |
+| **Repo/tag**                         | colorado.2.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado 1.0 main release            |
+| **Release designation**              | Colorado 2.0 follow-up release       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | September 22 2016                    |
+| **Release date**                     | November 10 2016                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Colorado alignment to Released       |
@@ -102,7 +102,7 @@ Release Data
 |                                      | - Promise                            |
 |                                      | - Parser                             |
 |                                      | - Doctor                             |
-|                                      |                                      |
+|                                      | - Tacker                             |
 +--------------------------------------+--------------------------------------+
 
 Version change
@@ -110,20 +110,20 @@ Version change
 
 Module version changes
 ----------------------
-This is the Colorado 1.0 main release.
+This is the Colorado 2.0 follow-up release.
 It is based on following upstream versions:
 
 - Fuel 9.0 Base release
 
 - OpenStack Mitaka release
 
-- OpenDaylight Beryllium SR3 release [1]_
+- OpenDaylight Boron release [1]_
 
 - ONOS Drake release
 
 Document changes
 ----------------
-This is the Colorado 1.0 main release.
+This is the Colorado 2.0 follow-up release.
 It comes with the following documentation:
 
 - Installation instructions - *Reference 13* - **Changed**
@@ -146,7 +146,7 @@ Bug corrections
 
 **JIRA TICKETS:**
 
-`Colorado 1.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11180>`_ 'https://jira.opnfv.org/issues/?filter=11180'
+`Colorado 2.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11203>`_ 'https://jira.opnfv.org/issues/?filter=11203'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -188,7 +188,7 @@ Known issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=11183>`_ 'https://jira.opnfv.org/issues/?filter=11183'
+`Known issues <https://jira.opnfv.org/issues/?filter=11205>`_ 'https://jira.opnfv.org/issues/?filter=11205'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -197,20 +197,20 @@ Workarounds
 
 **JIRA TICKETS:**
 
-`Workarounds <https://jira.opnfv.org/issues/?filter=11181>`_ 'https://jira.opnfv.org/issues/?filter=11181'
+`Workarounds <https://jira.opnfv.org/issues/?filter=11204>`_ 'https://jira.opnfv.org/issues/?filter=11204'
 
 (Also See respective Integrated feature project's bug tracking)
 
 ============
 Test results
 ============
-The Colorado 1.0 release with the Fuel deployment tool has undergone QA test
+The Colorado 2.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Colorado release, please see:
+For more information on the OPNFV Colorado 2.0 release, please see:
 
 OPNFV
 =====
@@ -251,10 +251,10 @@ Fuel
 Fuel in OPNFV
 =============
 
-13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/docs/installationprocedure/index.html'
+13) `OPNFV Installation instruction for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html'
 
-14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/docs/buildprocedure/index.html'
+14) `OPNFV Build instruction for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html'
 
-15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/docs/releasenotes/index.html'
+15) `OPNFV Release Note for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html'
 
-.. [1] OpenDaylight Boron RC3.5 is used when Service Function Chaining is enabled in Fuel plugin.
+.. [1] OpenDaylight Beryllium SR3 is used when BGP VPN is enabled in Fuel plugin.
