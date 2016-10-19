@@ -10,6 +10,7 @@
 
 import os
 import io
+import socket
 import yaml
 import glob
 import time
@@ -26,7 +27,7 @@ from common import (
     E,
     R,
     delete,
-)
+    warn)
 
 CLOUD_DEPLOY_FILE = 'deploy.py'
 BLADE_RESTART_TIMES = 3
@@ -205,7 +206,13 @@ class CloudDeploy(object):
         SLEEP_TIME = 10
         all_discovered = False
         for i in range(WAIT_LOOP):
-            node_list = parse(self.ssh.exec_cmd('fuel node list'))
+            try:
+                node_list = parse(self.ssh.exec_cmd('fuel node list'))
+            except (socket.timeout, socket.error) as e:
+                warn("ssh socket exception: %s", e)
+                self.ssh.close()
+                self.ssh.open()
+                node_list = []
             if node_list:
                 self.node_discovery(node_list, discovered_macs)
             if self.all_blades_discovered():
