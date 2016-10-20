@@ -16,6 +16,24 @@
       "revId": "df8e4ced929dfe02f0822fd3290d6a4ed3bcc4e7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_de53e96a",
+        "filename": "build/patch-packages/cirros_testvm/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-10-20T13:56:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_fe0fcd2c",
+      "revId": "df8e4ced929dfe02f0822fd3290d6a4ed3bcc4e7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
