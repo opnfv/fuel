@@ -1,4 +1,4 @@
-From e2b9485cbcf9e91cde0db025229b279af91d2a77 Mon Sep 17 00:00:00 2001
+From feb6582408ed13ec34e0f6450af121f5614d5dfb Mon Sep 17 00:00:00 2001
 From: Bogdan Dobrelya <bdobrelia@mirantis.com>
 Date: Fri, 30 Sep 2016 12:03:34 +0200
 Subject: [PATCH] Rework processorcount limits to os_workers
@@ -29,13 +29,13 @@ Signed-off-by: Bogdan Dobrelya <bdobrelia@mirantis.com>
  .../manifests/swift/proxy_storage.pp               |    2 +-
  .../puppet/osnailyfacter/lib/facter/os_workers.rb  |   20 ++++++++++++++++++++
  .../puppet/osnailyfacter/manifests/apache_mpm.pp   |    2 +-
- .../osnailyfacter/manifests/globals/globals.pp     |    4 ++--
+ .../osnailyfacter/manifests/globals/globals.pp     |    8 ++++----
  .../spec/classes/osnailyfacter_atop_spec.rb        |    2 ++
  .../noop/spec/hosts/ironic/ironic-compute_spec.rb  |    6 +++---
  tests/noop/spec/hosts/keystone/keystone_spec.rb    |    2 ++
  .../openstack-controller_spec.rb                   |    6 +++---
  tests/noop/spec/hosts/sahara/sahara_spec.rb        |    6 +++---
- 22 files changed, 59 insertions(+), 35 deletions(-)
+ 22 files changed, 61 insertions(+), 37 deletions(-)
  create mode 100644 deployment/puppet/osnailyfacter/lib/facter/os_workers.rb
 
 diff --git a/deployment/puppet/openstack/manifests/cinder.pp b/deployment/puppet/openstack/manifests/cinder.pp
@@ -304,10 +304,19 @@ index 9d0d4d5..9652064 100644
  
    $maxrequestsperchild = 0
 diff --git a/deployment/puppet/osnailyfacter/manifests/globals/globals.pp b/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
-index 854d297..89a55ff 100644
+index 854d297..c4d1cf7 100644
 --- a/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
 +++ b/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
-@@ -330,8 +330,8 @@ class osnailyfacter::globals::globals {
+@@ -323,15 +323,15 @@ class osnailyfacter::globals::globals {
+   # More services share the same node, more RAM ratio should be given to the workers.
+   # The default value assumes there are 20 different types of workers limited by 100Mb each.
+   $workers_ratio = hiera('workers_ratio', 2000)
+-  # Defines the maximum allowed number of workers for each service by RAM limits. Cannot exceed the value of 30.
+-  $workers_max = inline_template("<%= [(@memorysize_mb.to_i / @workers_ratio.to_i).floor + 1, 30].min %>")
++  # Defines the maximum allowed number of workers for each service by RAM limits. Cannot exceed the value of 10.
++  $workers_max = inline_template("<%= [(@memorysize_mb.to_i / @workers_ratio.to_i).floor + 1, 10].min %>")
+ 
+   $node_name_prefix_for_messaging = hiera('node_name_prefix_for_messaging', 'messaging-')
  
    # MySQL and SQLAlchemy backend configuration
    $custom_mysql_setup_class = hiera('custom_mysql_setup_class', 'galera')
