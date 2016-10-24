@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_9beece21",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-10-24T05:26:56Z",
+      "side": 1,
+      "message": "Fixed. Thanks, I really forgot to share it.",
+      "parentUuid": "9adffdf1_38d1e8cd",
+      "revId": "358ea685256c1f880d8ee3dbc3f650c41de03259",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_58d62cc7",
         "filename": "docs/releasenotes/release-notes.rst",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_3bf3220c",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-10-24T05:26:56Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "9adffdf1_58d62cc7",
+      "revId": "358ea685256c1f880d8ee3dbc3f650c41de03259",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_f8da80e8",
         "filename": "docs/releasenotes/release-notes.rst",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-23T20:32:36Z",
       "side": 1,
       "message": "I cant find this filter",
+      "revId": "358ea685256c1f880d8ee3dbc3f650c41de03259",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5bf866e5",
+        "filename": "docs/releasenotes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-10-24T05:26:56Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "9adffdf1_f8da80e8",
       "revId": "358ea685256c1f880d8ee3dbc3f650c41de03259",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
