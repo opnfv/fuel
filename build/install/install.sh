@@ -393,8 +393,7 @@ copy_packages() {
         printf "\n\n" | tee -a  $REPORTFILE
         for line in `cat $TOP/patch-packages/release/patch-replacements`
         do
-            echo "Did not expect a line here, not supported"
-       	    exit 1
+            echo "Processing $line ..."
             frompkg=`echo $line | cut -d ">" -f 1`
             topkg=`echo $line | cut -d ">" -f 2`
             echo "CM: Applying patch to $frompkg" | tee -a $REPORTFILE
@@ -414,9 +413,11 @@ copy_packages() {
                 exit 1
             else
                 echo "Adding $topkg to repo"
-                cp $TOP/patch-packages/release/packages/$topkg .
+                pkg_dest=$(dirname $frompkg)
+                cp $TOP/patch-packages/release/packages/$topkg $pkg_dest/
             fi
 
+            pushd $pkg_dest > /dev/null
             patchname=`get_deb_name $topkg`
             patchrev=`get_deb_rev $topkg`
             echo "Correcting dependencies towards $patchname rev $patchrev - old rev $oldrev" | tee -a $REPORTFILE
@@ -424,6 +425,7 @@ copy_packages() {
             if [ $PIPESTATUS -ne 0 ]; then
                 exit 1
             fi
+            popd > /dev/null
         done
         popd > /dev/null
     fi
@@ -436,9 +438,7 @@ copy_packages() {
     APT_DEB_CONF="$TOP/install/apt-ftparchive-deb.conf"
     APT_UDEB_CONF="$TOP/install/apt-ftparchive-udeb.conf"
 
-    echo Not running echo apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
-    echo Not running apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
-    echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
+    apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
     echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
 
     # Fuel also needs this index file
@@ -447,8 +447,8 @@ copy_packages() {
     # /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
     # cp ubuntu-versions.yaml $DEST
 
-    # apt-ftparchive -c "${APT_REL_CONF}" release dists/trusty/ > dists/trusty/Release
-    # gzip -9cf dists/trusty/Release > dists/trusty/Release.gz
+    apt-ftparchive -c "${APT_REL_CONF}" release dists/mos9.0/ > dists/mos9.0/Release
+    gzip -9cf dists/mos9.0/Release > dists/mos9.0/Release.gz
 
     popd > /dev/null
 

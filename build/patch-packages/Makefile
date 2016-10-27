@@ -8,7 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-SUBDIRS := 
+SUBDIRS := cirros_testvm
 SUBCLEAN = $(addsuffix .clean,$(SUBDIRS))
 
 .PHONY: $(SUBDIRS) $(SUBCLEAN) clean
