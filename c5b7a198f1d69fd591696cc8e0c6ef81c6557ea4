@@ -1,0 +1,10 @@
+Code-Review+1: Jonas Bjurel <jonas.bjurel@ericsson.com>
+Code-Review+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Gregory Elkinbard <elkinbar@gmail.com>
+Workflow+1: Gregory Elkinbard <elkinbar@gmail.com>
+Submitted-by: Gregory Elkinbard <elkinbar@gmail.com>
+Submitted-at: Thu, 27 Oct 2016 09:09:45 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/23717
+Project: fuel
+Branch: refs/heads/stable/colorado
