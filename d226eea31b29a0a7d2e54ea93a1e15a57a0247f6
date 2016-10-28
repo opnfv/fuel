@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f378682d",
+        "filename": "build/f_repos/patch/fuel-library/0004-Shift-public-ping-checker-into-deployment-stage.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-10-28T07:30:56Z",
+      "side": 1,
+      "message": "This\u0027s the output of \"git format-patch\" added as is.\n(the same for below comment)",
+      "parentUuid": "5ac10518_330ef035",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 70
+      },
+      "revId": "d226eea31b29a0a7d2e54ea93a1e15a57a0247f6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_1309742c",
         "filename": "build/f_repos/patch/fuel-library/0004-Shift-public-ping-checker-into-deployment-stage.patch",
         "patchSetId": 1
