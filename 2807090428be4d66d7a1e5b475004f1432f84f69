@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_f692969e",
+        "filename": "deploy/deploy_env.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-10-28T20:00:06Z",
+      "side": 1,
+      "message": "You can use warn() from common.py",
+      "range": {
+        "startLine": 213,
+        "startChar": 16,
+        "endLine": 213,
+        "endChar": 58
+      },
+      "revId": "2807090428be4d66d7a1e5b475004f1432f84f69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
