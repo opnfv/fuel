@@ -22,6 +22,30 @@
       "revId": "2807090428be4d66d7a1e5b475004f1432f84f69",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d6e67a16",
+        "filename": "deploy/deploy_env.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T01:40:34Z",
+      "side": 1,
+      "message": "Done.\n\nBut warn() is incorrect.  You aren\u0027t supposed to per-interpolate strings you pass to logging.  You are supposed to let logging defer interpolation.\n\nlogging.warning for example checks isEnabledFor for the log level and won\u0027t interpolate if the level is not enabled.\n\nhttps://github.com/python/cpython/blob/2.7/Lib/logging/__init__.py#L1178\n\n     def warning(self, msg, *args, **kwargs):\n        if self.isEnabledFor(WARNING):\n            self._log(WARNING, msg, args, **kwargs)\n\nbut logging actually waits to interpolates the string in LogRecord.getMessage()\n\nhttps://github.com/python/cpython/blob/2.7/Lib/logging/__init__.py#L328\n\n        if self.args:\n            msg \u003d msg % self.args\n\n\nI\u0027m also not sure why we are appending newline.  logging should do that for us.\n\nwarn should take *args and **kwargs and pass them onto logging.  **kwargs is important for using exc_info\u003dTrue.\n\ndef warn(msg, *args, **kwargs):\n   LOG.warning(msg, *args, **kwargs)\n\n\nBut then warn doesn\u0027t do anything and should be removed. \n\nI started a patch to replace all the logging wrappers with regular logging calls, but haven\u0027t had time to finish it.",
+      "parentUuid": "5ac10518_f692969e",
+      "range": {
+        "startLine": 213,
+        "startChar": 16,
+        "endLine": 213,
+        "endChar": 58
+      },
+      "revId": "2807090428be4d66d7a1e5b475004f1432f84f69",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
