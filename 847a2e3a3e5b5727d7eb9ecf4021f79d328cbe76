@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_76e226d7",
+        "filename": "build/f_plugin-build/common.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "please don\u0027t continue to wrap the logging functions.\n\nJust use LOG.debug so we can use deferred string interploation.\n\n\n  LOG.debug(msg, *args, **kwargs)\n\nsee https://gerrit.opnfv.org/gerrit/#/c/23775/",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b6c08e2b",
+        "filename": "build/f_plugin-build/yaml-parse.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "please use proper python module names.\n\npython  module names should be valid identifiers so they can be imported from unittests and other places using the normal import loader.\n\n\nyaml-parse is not a valid python identifier.  \u0027import yaml-parse\u0027 will fail.\n\nplease use yaml_parse.py",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_56ddaa13",
+        "filename": "build/f_plugin-build/yaml-parse.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "there seems to be a convention to call __super__ always in __init__ to support MRO and cooperative inheritance.\n\ninferred from  https://rhettinger.wordpress.com/2011/05/26/super-considered-super/",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f6c61649",
+        "filename": "build/f_plugin-build/yaml-parse.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "can we use context manager.\n\n with open(self.kwargs[\"yaml_file\"]) as stream:\n\nIt seems like every project re-implements yaml/json file loading.\n\nI saw a version once that got fancy with error handling.\n\n    try:\n        with open(yaml_f) as f_read:\n            return yaml.load(f_read)\n    except EnvironmentError as e:\n        if e.errno !\u003d errno.ENOENT:\n            logging.error(\"Could not find file: %s\", yaml_f)\n            raise\n        else:\n            return {}\n\n\nMight also need to handle decoding failures.",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d6c99a5b",
+        "filename": "build/f_plugin-build/yaml-parse.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "set will take an iterable, the default iterable of a dict is iterkeys()\n\n  set(dict.keys()) is not necessary\n\n set(self.arg_dict)",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_96c31238",
+        "filename": "build/f_plugin-build/yaml-parse.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1402
+      },
+      "writtenOn": "2016-10-30T20:29:00Z",
+      "side": 1,
+      "message": "we don\u0027t need the \u003d\u003d True\n\n  if yaml.parse.kwargs[\"write_yaml\"]:\n     ...\n\n\nunless we want exact comparison to the boolean True.  If so then check object identity.  \u0027if x is True:\u0027",
+      "revId": "847a2e3a3e5b5727d7eb9ecf4021f79d328cbe76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
