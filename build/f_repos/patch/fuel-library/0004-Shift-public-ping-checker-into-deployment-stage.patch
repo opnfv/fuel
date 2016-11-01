@@ -1,4 +1,4 @@
-From cfcc613a1eddb90fb5b5426a23e90c78a58be784 Mon Sep 17 00:00:00 2001
+From 60dbecc548b4a81b99d50feac96864ed42d9af4b Mon Sep 17 00:00:00 2001
 From: Michael Polenchuk <mpolenchuk@mirantis.com>
 Date: Wed, 26 Oct 2016 15:26:11 +0300
 Subject: [PATCH] Shift public ping checker into deployment stage
@@ -11,10 +11,10 @@ ain't stopped and remains on the last node where it was.
 
 Change-Id: I666fbbbe98d000c66f97cf4751f304a2da9aad67
 ---
- .../puppet/cluster/manifests/virtual_ip_ping.pp    |   10 +++++-----
- .../puppet/osnailyfacter/modular/astute/tasks.yaml |   15 ---------------
- .../osnailyfacter/modular/virtual_ips/tasks.yaml   |   14 ++++++++++++++
- 3 files changed, 19 insertions(+), 20 deletions(-)
+ .../puppet/cluster/manifests/virtual_ip_ping.pp    |   10 +++----
+ .../puppet/osnailyfacter/modular/astute/tasks.yaml |   15 ----------
+ .../osnailyfacter/modular/virtual_ips/tasks.yaml   |   30 ++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 20 deletions(-)
 
 diff --git a/deployment/puppet/cluster/manifests/virtual_ip_ping.pp b/deployment/puppet/cluster/manifests/virtual_ip_ping.pp
 index 3e49c09..7642422 100644
@@ -84,26 +84,42 @@ index 5e3e6ee..83242c4 100644
    type: puppet
    version: 2.1.0
 diff --git a/deployment/puppet/osnailyfacter/modular/virtual_ips/tasks.yaml b/deployment/puppet/osnailyfacter/modular/virtual_ips/tasks.yaml
-index 00d4306..b028c6e 100644
+index 00d4306..7420099 100644
 --- a/deployment/puppet/osnailyfacter/modular/virtual_ips/tasks.yaml
 +++ b/deployment/puppet/osnailyfacter/modular/virtual_ips/tasks.yaml
-@@ -34,3 +34,17 @@
+@@ -34,3 +34,33 @@
      cmd: ruby /etc/puppet/modules/osnailyfacter/modular/virtual_ips/conntrackd_pre.rb
    test_post:
      cmd: ruby /etc/puppet/modules/osnailyfacter/modular/virtual_ips/conntrackd_post.rb
 +
-+- id: public_vip_ping
++- id: primary_public_vip_ping
 +  type: puppet
 +  version: 2.1.0
-+  groups: [primary-controller, controller]
++  groups: [primary-controller]
 +  requires: [virtual_ips]
-+  required_for: [primary-cluster-haproxy, cluster-haproxy]
++  required_for: [primary-cluster-haproxy]
 +  condition:
-+    yaql_exp: "changed($.network_scheme) or changed($.get('run_ping_checker'))"
++    yaql_exp: &pub_viping "changed($.network_scheme) or changed($.get('run_ping_checker'))"
 +  parameters:
 +    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/virtual_ips/public_vip_ping.pp
 +    puppet_modules: /etc/puppet/modules
-+    timeout: 3600
++    timeout: 300
++    cwd: /
++
++- id: public_vip_ping
++  type: puppet
++  version: 2.1.0
++  groups: [controller]
++  requires: [virtual_ips]
++  required_for: [deploy_end]
++  condition:
++    yaql_exp: *pub_viping
++  cross-depends:
++    - name: primary_public_vip_ping
++  parameters:
++    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/virtual_ips/public_vip_ping.pp
++    puppet_modules: /etc/puppet/modules
++    timeout: 300
 +    cwd: /
 -- 
 1.7.9.5
