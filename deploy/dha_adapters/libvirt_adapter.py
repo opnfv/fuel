@@ -109,7 +109,7 @@ class LibvirtAdapter(HardwareAdapter):
                                          '%s |grep \"virtual size:\"'
                                          % disk_file).split()[2]
                     delete(disk_file)
-                    exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_file,
+                    exec_cmd('qemu-img create -f raw %s %s' % (disk_file,
                                                                  disk_size))
 
     def node_eject_iso(self, node_id):

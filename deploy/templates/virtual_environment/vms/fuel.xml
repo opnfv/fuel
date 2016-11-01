@@ -29,7 +29,7 @@
       <readonly/>
     </disk>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
+      <driver name='qemu' type='raw' cache='none' io='native'/>
       <source file='disk.raw'/>
       <target dev='vda' bus='virtio'/>
     </disk>

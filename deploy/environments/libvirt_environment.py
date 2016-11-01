@@ -36,7 +36,7 @@ class LibvirtEnvironment(ExecutionEnvironment):
     def create_storage(self, node_id, disk_path, disk_sizes):
         role = self.dea.get_node_main_role(node_id, self.fuel_node_id)
         disk_size = disk_sizes[role]
-        exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+        exec_cmd('qemu-img create -f raw %s %s' % (disk_path, disk_size))
 
     def create_vms(self):
         temp_dir = tempfile.mkdtemp()
