@@ -87,7 +87,7 @@ class VirtualFuel(ExecutionEnvironment):
         else:
             err('No devices!')
 
-    def create_volume(self, pool, name, su, img_type='qcow2'):
+    def create_volume(self, pool, name, su, img_type='raw'):
         log('Creating image using Libvirt volumes in pool %s, name: %s' %
             (pool, name))
         size, unit = get_size_and_unit(su)
@@ -109,7 +109,7 @@ class VirtualFuel(ExecutionEnvironment):
 
     def create_image(self, disk_path, disk_size):
         if os.environ.get('LIBVIRT_DEFAULT_URI') == None:
-            exec_cmd('qemu-img create -f qcow2 %s %s' % (disk_path, disk_size))
+            exec_cmd('qemu-img create -f raw %s %s' % (disk_path, disk_size))
         else:
             pool = DEFAULT_POOL # FIXME
             name = os.path.basename(disk_path)
