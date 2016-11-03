@@ -36,6 +36,11 @@ stack-extensions:
     module-config-name: fuel-odl
     module-config-version: 0.9.0
     module-config-override:
+
+  - module: fuel-plugin-ovs
+    module-config-name: fuel-nshovs
+    module-config-version: 0.9.0
+
 # Note that the module substitionion does not support arrays
 # This is a quick fix
 #   - module: opendaylight
