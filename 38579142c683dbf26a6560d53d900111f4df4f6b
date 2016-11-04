@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Jose Lausuch <jose.lausuch@ericsson.com>
+Code-Review+2: Michal Skalski <mskalski@mirantis.com>
+Workflow+1: Michal Skalski <mskalski@mirantis.com>
+Submitted-by: Michal Skalski <mskalski@mirantis.com>
+Submitted-at: Fri, 04 Nov 2016 15:30:27 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/23981
+Project: fuel
+Branch: refs/heads/master
