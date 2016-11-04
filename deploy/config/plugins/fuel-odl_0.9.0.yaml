@@ -129,7 +129,7 @@ opendaylight:
         description: V2 version is considered as experimental
         label: Use V2 ML2 driver
         type: checkbox
-        value: true
+        value: false
         weight: 60
       rest_api_port:
         description: Port on which ODL REST API will be available.
