@@ -130,7 +130,7 @@ class Deployment(object):
                     log('Error during deployment: {}'.format(msg))
                     break
                 if sts == 'running':
-                    log('Environmnent deploymnet progress: {}%'.format(prg))
+                    log('Environment deployment progress: {}%'.format(prg))
                 elif sts == 'ready':
                     ready = True
                     break
