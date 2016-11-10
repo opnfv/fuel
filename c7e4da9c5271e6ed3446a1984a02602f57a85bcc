@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_9e747b9d",
+        "filename": "build/config.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 652
+      },
+      "writtenOn": "2016-11-10T14:54:31Z",
+      "side": 1,
+      "message": "Hi Stefan, did you try maybe use latest from http://mirror.seed-cz1.fuel-infra.org/mos-repos/ubuntu/10.0.target.txt is this comment about not fully populated mirrors apply to this one?",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 83
+      },
+      "revId": "c7e4da9c5271e6ed3446a1984a02602f57a85bcc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
