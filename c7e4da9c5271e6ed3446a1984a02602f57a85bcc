@@ -22,6 +22,30 @@
       "revId": "c7e4da9c5271e6ed3446a1984a02602f57a85bcc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1e688bb9",
+        "filename": "build/config.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-11-10T15:03:05Z",
+      "side": 1,
+      "message": "It\u0027s the latter, packages are missing. I actually peeked into the fuel-infra Jenkins to find the workaround. Would love to use the \"normal\" way of building.",
+      "parentUuid": "5ac10518_9e747b9d",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 83
+      },
+      "revId": "c7e4da9c5271e6ed3446a1984a02602f57a85bcc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
