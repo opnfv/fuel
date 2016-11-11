@@ -70,6 +70,30 @@
       "revId": "f050ac66bf0c402e7c55d562051bf9ffe3f6cb5b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_a11278b2",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 679
+      },
+      "writtenOn": "2016-11-11T13:27:32Z",
+      "side": 1,
+      "message": "Hi Fedor,\n\nyou\u0027re right on the Fuel UI it says \"DPDK Huge Pages per NUMA node in MB\" so yes it is in MB. But it is also per numa node. So the 1024s should all match up.\n\nFor instance on the pod when the scneario is being run in the dea.yaml on the master we have.\n\nattributes_1:\n  hugepages:\n    dpdk:\n      value: 128\n\nAnd on the compute:/etc/astute.yaml we have:\ndpdk:\n  enabled: true\n  ovs_socket_mem:\n  - 128\n  - 128\n\nAnd also on the compute node we can see:\n\nroot@node-4:~# cat /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages\n1088\nroot@node-4:~# cat /sys/devices/system/node/node1/hugepages/hugepages-2048kB/*\n64\n\nSo in that case the 128 is in MB but as it is per numa node then 128 is still the value to be passed to ovs_socket_mem. \n\nActually could the explicit dpdk.ovs_socket_mem be omitted? Something in the fuel installer must already be generating that value already based on hugepages.dpdk.value. Or is 128 for ovs_socket_mem just a default value that by chance is  be set to the same as hugepages.dpdk.value?",
+      "parentUuid": "5ac10518_41f5d481",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f050ac66bf0c402e7c55d562051bf9ffe3f6cb5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
