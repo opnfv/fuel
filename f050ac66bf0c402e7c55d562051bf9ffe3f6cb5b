@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_a12cb84b",
+        "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-11-11T09:21:13Z",
+      "side": 1,
+      "message": "If i understand it right, here you mentioned that you need 1024 for each NUMA node. So totally you need 2048 bytes. But in 77th line you mentioned that the total amount is 1024. Looks like that something wrong.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f050ac66bf0c402e7c55d562051bf9ffe3f6cb5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
