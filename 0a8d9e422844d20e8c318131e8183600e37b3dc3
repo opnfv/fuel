@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_2f93cfa4",
+        "filename": "build/install/apt-ftparchive-release.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2689
+      },
+      "writtenOn": "2016-11-14T16:37:51Z",
+      "side": 1,
+      "message": "It should be Xenial, I suppose? :-)",
+      "range": {
+        "startLine": 18,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "0a8d9e422844d20e8c318131e8183600e37b3dc3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
