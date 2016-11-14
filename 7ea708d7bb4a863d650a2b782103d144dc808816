@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_0fc4d390",
+        "filename": "build/config.mk",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-11-14T17:27:27Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "5ac10518_8fd0c354",
+      "range": {
+        "startLine": 45,
+        "startChar": 24,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "7ea708d7bb4a863d650a2b782103d144dc808816",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_afd57f44",
         "filename": "build/f_repos/patch/fuel-main/0001-Patches-for-OPNFV.patch",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-14T17:20:21Z",
       "side": 1,
       "message": "safe to remove, as well as the git signature at the end / trailing ws",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 70
+      },
+      "revId": "7ea708d7bb4a863d650a2b782103d144dc808816",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2fc18f80",
+        "filename": "build/f_repos/patch/fuel-main/0001-Patches-for-OPNFV.patch",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-11-14T17:27:27Z",
+      "side": 1,
+      "message": "OK!",
+      "parentUuid": "5ac10518_afd57f44",
       "range": {
         "startLine": 1,
         "startChar": 0,
