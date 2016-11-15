@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_2a1dfd0f",
+        "filename": "build/config.mk",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 203
+      },
+      "writtenOn": "2016-11-15T14:31:02Z",
+      "side": 1,
+      "message": "Oh, it was me, I kept my head under my ARM :) all day yesterday. Last finishing touch coming up.",
+      "parentUuid": "5ac10518_aa632db0",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "8dc7d6191e4f0076336dbfb88f6857f10b2c603c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_4a5889fa",
         "filename": "build/config.mk",
         "patchSetId": 12
