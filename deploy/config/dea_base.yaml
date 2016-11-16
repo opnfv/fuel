@@ -12,14 +12,14 @@ dea-base-config-metadata:
   # DEA API version supported
   version: '0.4'
   created: 'Fri Jun 10 2016'
-  comment: 'Rebased for Fuel 9'
+  comment: 'Rebased for Fuel 10'
 environment:
   net_segment_type: tun
 fuel:
   FUEL_ACCESS:
     password: admin
     user: admin
-wanted_release: Mitaka on Ubuntu 14.04
+wanted_release: Newton on Ubuntu 16.04
 settings:
   editable:
     access:
