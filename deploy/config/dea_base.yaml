@@ -12,14 +12,14 @@ dea-base-config-metadata:
   # DEA API version supported
   version: '0.4'
   created: 'Fri Jun 10 2016'
-  comment: 'Rebased for Fuel 9'
+  comment: 'Rebased for Fuel 10'
 environment:
   net_segment_type: tun
 fuel:
   FUEL_ACCESS:
     password: admin
     user: admin
-wanted_release: Mitaka on Ubuntu 14.04
+wanted_release: Newton on Ubuntu 16.04
 settings:
   editable:
     access:
@@ -126,6 +126,49 @@ settings:
         type: checkbox
         value: false
         weight: 10
+    atop:
+      interval:
+        description: Interval between the snapshots in seconds
+        label: Interval between the snapshots
+        regex:
+          error: Should be a number of seconds
+          source: ^[1-9]\d*$
+        restrictions:
+        - action: hide
+          condition: settings:atop.service_enabled.value == false
+        type: text
+        value: '20'
+        weight: 20
+      metadata:
+        enabled: true
+        group: logging
+        label: Advanced System & Process Monitor (atop)
+        toggleable: false
+        weight: 60
+      rotate:
+        description: Number of days to keep log files
+        label: Rotate days
+        regex:
+          error: Should be a number of days
+          source: ^[1-9]\d*$
+        restrictions:
+        - action: hide
+          condition: settings:atop.service_enabled.value == false
+        type: text
+        value: '7'
+        weight: 30
+      service_enabled:
+        description: 'NOTE: When enabled, the service may generate logs up to a gigabyte
+          in size per day.
+
+          This should be taken into consideration when determining the correct size
+          for the log partition.
+
+          '
+        label: Enable atop service
+        type: checkbox
+        value: true
+        weight: 10
     cgroups:
       metadata:
         always_editable: true
@@ -208,6 +251,18 @@ settings:
         type: checkbox
         value: true
         weight: 50
+      run_ping_checker:
+        description: Uncheck this box if the public gateway will not be available
+          or will not respond to ICMP requests to the deployed cluster. If unchecked,
+          the controllers will not take public gateway availability into account as
+          part of the cluster health.  If the cluster will not have internet access,
+          you will need to make sure to provide proper offline mirrors for the deployment
+          to succeed.
+        group: network
+        label: Public Gateway is Available
+        type: checkbox
+        value: true
+        weight: 50
       task_deploy:
         type: hidden
         value: true
@@ -251,6 +306,22 @@ settings:
         type: checkbox
         value: false
         weight: 10
+    external_dns:
+      dns_list:
+        description: List of upstream DNS servers
+        label: DNS list
+        max: 3
+        regex:
+          error: Invalid IP address
+          source: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+        type: text_list
+        value:
+        - 10.20.0.1
+        weight: 10
+      metadata:
+        group: network
+        label: Host OS DNS Servers
+        weight: 30
     external_mongo:
       hosts_ip:
         description: IP Addresses of MongoDB. Use comma to split IPs
@@ -303,12 +374,29 @@ settings:
         type: text
         value: ceilometer
         weight: 30
+    external_ntp:
+      metadata:
+        group: network
+        label: Host OS NTP Servers
+        weight: 40
+      ntp_list:
+        description: List of upstream NTP servers
+        label: NTP server list
+        regex:
+          error: Invalid NTP server
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
+        type: text_list
+        value:
+        - 0.fuel.pool.ntp.org
+        - 1.fuel.pool.ntp.org
+        - 2.fuel.pool.ntp.org
+        weight: 10
     kernel_params:
       kernel:
         description: Default kernel parameters
         label: Initial parameters
         type: text
-        value: console=tty0 net.ifnames=0 biosdevname=0 rootdelay=90 nomodeset
+        value: console=tty0 net.ifnames=1 biosdevname=0 rootdelay=90 nomodeset
       metadata:
         group: general
         label: Kernel parameters
@@ -418,7 +506,7 @@ settings:
           error: Empty password
           source: \S
         type: password
-        value: mCKyMCwhzrt7d6E8WQzxg5WS
+        value: sD2hWNhXxB70SJIBBmaixvvt
         weight: 60
       sudo:
         description: Sudoers configuration directives for operator user, one per line.
@@ -464,19 +552,13 @@ settings:
 
           grub-pc
 
-          hpsa-dkms
-
           hwloc
-
-          i40e-dkms
 
           linux-firmware
 
-          linux-firmware-nonfree
+          linux-headers-generic-lts-xenial
 
-          linux-headers-generic-lts-trusty
-
-          linux-image-generic-lts-trusty
+          linux-image-generic-lts-xenial
 
           lvm2
 
@@ -495,6 +577,8 @@ settings:
           network-checker
 
           ntp
+
+          ntpdate
 
           openssh-client
 
@@ -593,6 +677,9 @@ settings:
         description: Your DNS entries should point to this name. Self-signed certificates
           also will use this hostname
         label: DNS hostname for public TLS endpoints
+        regex:
+          error: Invalid DNS hostname
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
         restrictions:
         - action: hide
           condition: settings:public_ssl.horizon.value == false and settings:public_ssl.services.value
@@ -634,33 +721,51 @@ settings:
         - name: ubuntu
           priority: null
           section: main universe multiverse
-          suite: trusty
+          suite: xenial
           type: deb
-          uri: http://10.20.0.2:8080/mirrors/ubuntu/
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: ubuntu-updates
           priority: null
           section: main universe multiverse
-          suite: trusty-updates
+          suite: xenial-updates
           type: deb
-          uri: http://10.20.0.2:8080/mirrors/ubuntu/
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: ubuntu-security
           priority: null
           section: main universe multiverse
-          suite: trusty-security
+          suite: xenial-security
           type: deb
-          uri: http://10.20.0.2:8080/mirrors/ubuntu/
+          uri: http://archive.ubuntu.com/ubuntu/
         - name: mos
           priority: 1050
           section: main restricted
-          suite: mos9.0
+          suite: mos10.0
           type: deb
-          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/x86_64
+          uri: http://10.20.0.2:8080/newton-10.0/ubuntu/x86_64
+        - name: mos-updates
+          priority: 1050
+          section: main restricted
+          suite: mos10.0-updates
+          type: deb
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/10.0/
+        - name: mos-security
+          priority: 1050
+          section: main restricted
+          suite: mos10.0-security
+          type: deb
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/10.0/
+        - name: mos-holdback
+          priority: 1100
+          section: main restricted
+          suite: mos10.0-holdback
+          type: deb
+          uri: http://mirror.fuel-infra.org/mos-repos/ubuntu/10.0/
         - name: Auxiliary
           priority: 1150
           section: main restricted
           suite: auxiliary
           type: deb
-          uri: http://10.20.0.2:8080/mitaka-9.0/ubuntu/auxiliary
+          uri: http://10.20.0.2:8080/newton-10.0/ubuntu/auxiliary
     service_user:
       homedir:
         type: hidden
@@ -677,20 +782,79 @@ settings:
         value: fuel
       password:
         type: hidden
-        value: sCTOC4CkNSTLuNKUQDNUV1Bp
+        value: 5rkDBE1Pddi75UQuohA6E2s4
       root_password:
         type: hidden
         value: r00tme
       sudo:
         type: hidden
         value: 'ALL=(ALL) NOPASSWD: ALL'
+    ssh:
+      brute_force_protection:
+        description: When enabled, the access from all networks (except the provided
+          ones) will be granted, but the networks will be checked against the brute
+          force attack.
+        label: Brute force protection
+        restrictions:
+        - action: hide
+          condition: settings:ssh.security_enabled.value == false
+        type: checkbox
+        value: false
+        weight: 30
+      metadata:
+        enabled: true
+        group: security
+        label: SSH security
+        toggleable: false
+        weight: 120
+      security_enabled:
+        description: 'NOTE: When enabled, provide at least one working IP address
+          (the Fuel Master node IP is already added).
+
+          We recommend adding new addresses instead of replacing the provided Fuel
+          Master node IP.
+
+          When disabled (by default), the admin, management, and storage networks
+          are only allowed to connect to the SSH service.
+
+          '
+        label: Restrict SSH service on network
+        type: checkbox
+        value: false
+        weight: 10
+      security_networks:
+        description: IPv4/CIDR address
+        label: Restrict access to
+        regex:
+          error: Invalid IPv4/CIDR address
+          source: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))*$
+        restrictions:
+        - action: hide
+          condition: settings:ssh.security_enabled.value == false
+        type: text_list
+        value:
+        - 10.20.0.2
+        weight: 20
     storage:
       admin_key:
         type: hidden
-        value: AQDir1pXAAAAABAAm8r2rR0FuVsV8LRo6u9GgQ==
+        value: AQAVkvxXAAAAABAAZzOFaGpPvF4oFOQlz7ud4g==
+      auth_s3_keystone_ceph:
+        description: This allows to authenticate S3 requests basing on EC2/S3 credentials
+          managed by Keystone. Please note that enabling the integration will increase
+          the latency of S3 requests as well as load on Keystone service. Please consult
+          with Mirantis Technical Bulletin 27 and Mirantis Support on mitigating the
+          risks related with load.
+        label: Enable S3 API Authentication via Keystone in Ceph RadosGW
+        restrictions:
+        - action: hide
+          condition: settings:storage.objects_ceph.value == false
+        type: checkbox
+        value: false
+        weight: 82
       bootstrap_osd_key:
         type: hidden
-        value: AQDir1pXAAAAABAAK5E2MNhWdIpOBzjXJTVqcg==
+        value: AQAVkvxXAAAAABAA9pOqDPq0En8Dh1Pi6fZENA==
       ephemeral_ceph:
         description: Configures Nova to store ephemeral volumes in RBD. This works
           best if Ceph is enabled for volumes and images, too. Enables live migration
@@ -702,7 +866,7 @@ settings:
         weight: 75
       fsid:
         type: hidden
-        value: 7a5db523-ae79-489d-b5d1-7a31fdaba6ef
+        value: 801bd64d-bec4-44cc-9126-16245e53f470
       images_ceph:
         description: Configures Glance to use the Ceph RBD backend to store images.
           If enabled, this option will prevent Swift from installing.
@@ -731,7 +895,7 @@ settings:
         weight: 60
       mon_key:
         type: hidden
-        value: AQDir1pXAAAAABAAp92Dw8/kmDdhMvpgaPMKiQ==
+        value: AQAVkvxXAAAAABAA9ZxWFYdRmV+DSwKr7BKKXg==
       objects_ceph:
         description: Configures RadosGW front end for Ceph RBD. This exposes S3 and
           Swift API Interfaces. If enabled, this option will prevent Swift from installing.
@@ -752,7 +916,7 @@ settings:
         weight: 85
       radosgw_key:
         type: hidden
-        value: AQDir1pXAAAAABAAUH+qP9FohG5wGr/+oQ2rFw==
+        value: AQAVkvxXAAAAABAA1pC6F8i40b7KVCnh5Fe2GQ==
       volumes_block_device:
         description: High performance block device storage. It is recommended to have
           at least one Cinder Block Device
@@ -779,7 +943,44 @@ settings:
         type: checkbox
         value: false
         weight: 10
-workloads_collector:
+    syslog:
+      metadata:
+        enabled: false
+        group: logging
+        label: Syslog
+        toggleable: true
+        weight: 50
+      syslog_port:
+        description: Remote syslog port
+        label: Port
+        regex:
+          error: Invalid syslog port
+          source: ^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$
+        type: text
+        value: '514'
+        weight: 20
+      syslog_server:
+        description: Remote syslog hostname
+        label: Hostname
+        regex:
+          error: Invalid hostname
+          source: ^[a-zA-Z\d]+[-\.\da-zA-Z]*$
+        type: text
+        value: ''
+        weight: 10
+      syslog_transport:
+        label: Syslog transport protocol
+        type: radio
+        value: tcp
+        values:
+        - data: udp
+          description: ''
+          label: UDP
+        - data: tcp
+          description: ''
+          label: TCP
+        weight: 30
+    workloads_collector:
       enabled:
         type: hidden
         value: true
@@ -792,7 +993,7 @@ workloads_collector:
         weight: 10
       password:
         type: password
-        value: JWMZX9JjUK1g4AsC7tHvpXvm
+        value: uuuegVGpIeAzHsAkf1o8KEzK
       tenant:
         type: text
         value: services
