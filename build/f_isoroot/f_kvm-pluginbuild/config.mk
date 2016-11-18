@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-KVMFORNFV_BRANCH=stable/colorado
+KVMFORNFV_BRANCH=master
 KVMFORNFV_REPO=https://gerrit.opnfv.org/gerrit/kvmfornfv
-KVMFORNFV_CHANGE=e6588d1d59d7ac24f25f644650e6845561dd441b
+KVMFORNFV_CHANGE=ec568fdb37d280371733cab5e9fad030557f6921
