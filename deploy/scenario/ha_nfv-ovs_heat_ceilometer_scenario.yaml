@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: NFV OVS HA deployment
-   version: 0.9.0
+   version: 1.0.0
    created: Jul 12 2016
-   comment: Rebased to Fuel9
+   comment: Rebased to Fuel10
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -32,16 +32,20 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-   - module: fuel-plugin-ovs
-     module-config-name: fuel-nshovs
-     module-config-version: 0.9.0
-     module-config-override:
-       metadata:
-         versions:
-           - install_dpdk:
-               value: true
-             metadata:
-               plugin_version: 0.9.0
+   #
+   # Disable this plugin since Fuel already has newer
+   # version of openvswitch out of the box
+   #
+   # - module: fuel-plugin-ovs
+   #   module-config-name: fuel-nshovs
+   #   module-config-version: 1.0.0
+   #   module-config-override:
+   #     metadata:
+   #       versions:
+   #         - install_dpdk:
+   #             value: true
+   #           metadata:
+   #             plugin_version: 1.0.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
