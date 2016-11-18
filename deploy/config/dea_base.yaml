@@ -554,6 +554,8 @@ settings:
 
           hwloc
 
+          i40e-dkms
+
           linux-firmware
 
           linux-headers-generic-lts-xenial
