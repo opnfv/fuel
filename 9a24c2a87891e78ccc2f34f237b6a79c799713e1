@@ -1,0 +1,9 @@
+Code-Review+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Ruijing Guo <ruijing.guo@intel.com>
+Workflow+1: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Submitted-by: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Submitted-at: Fri, 18 Nov 2016 08:01:25 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/24513
+Project: fuel
+Branch: refs/heads/stable/colorado
