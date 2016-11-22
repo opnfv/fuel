@@ -31,17 +31,7 @@ import time
 import collections
 import hashlib
 
-from functools import reduce
-from operator import or_
 from common import (
-    log,
-    exec_cmd,
-    err,
-    warn,
-    check_file_exists,
-    create_dir_if_not_exists,
-    delete,
-    check_if_root,
     ArgParser,
 )
 
