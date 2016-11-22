@@ -8,9 +8,6 @@
 ###############################################################################
 
 
-import yaml
-import io
-
 from dea import DeploymentEnvironmentAdapter
 from configure_environment import ConfigureEnvironment
 from deployment import Deployment

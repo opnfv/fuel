@@ -15,7 +15,6 @@ import os
 import logging
 import argparse
 import shutil
-import stat
 import errno
 import time
 import shlex
@@ -126,7 +125,7 @@ def clean(lines):
     return parsed if len(parsed_list) == 1 else parsed_list
 
 
-def err(message, fun = None, *args):
+def err(message, fun=None, *args):
     LOG.error('%s\n' % message)
     if fun:
         fun(*args)
