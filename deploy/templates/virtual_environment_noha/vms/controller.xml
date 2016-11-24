@@ -14,6 +14,11 @@
     <apic/>
     <pae/>
   </features>
+  <cpu mode='host-model'>
+    <model fallback='allow'/>
+    <feature policy='require' name='ssse3'/>
+    <feature policy='require' name='avx'/>
+  </cpu>
   <clock offset='utc'/>
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
