@@ -14,7 +14,7 @@
     <apic/>
     <pae/>
   </features>
-  <cpu mode='custom' match='exact'>
+  <cpu mode='custom' match='minimum'>
     <model fallback='allow'>SandyBridge</model>
     <vendor>Intel</vendor>
     <feature policy='require' name='vme'/>
@@ -40,6 +40,8 @@
     <feature policy='require' name='pbe'/>
     <feature policy='require' name='ds_cpl'/>
     <feature policy='require' name='rdrand'/>
+    <feature policy='require' name='ssse3'/>
+    <feature policy='require' name='avx'/>
   </cpu>
   <clock offset='utc'/>
   <on_poweroff>destroy</on_poweroff>
