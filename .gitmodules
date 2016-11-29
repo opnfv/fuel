@@ -51,7 +51,7 @@
 [submodule "network-checker"]
 	path = build/f_repos/sub/network-checker
 	url = https://github.com/openstack/network-checker.git
-	branch = master
+	branch = stable/newton
         ignore = all
 [submodule "fuel-ui"]
 	path = build/f_repos/sub/fuel-ui
