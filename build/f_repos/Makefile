@@ -34,8 +34,7 @@ include ../config.mk
 
 # To enable remote tracking, set the following var to any non-empty string.
 # Leaving this var empty will bind each git submodule to its saved commit.
-# NOTE: For non-stable branches, unless overriden, always track remotes
-FUEL_TRACK_REMOTES ?= $(shell git symbolic-ref --short HEAD | grep -v stable)
+FUEL_TRACK_REMOTES ?= yes
 
 .PHONY: all
 all: release
