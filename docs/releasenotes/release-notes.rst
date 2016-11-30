@@ -8,7 +8,7 @@
 Abstract
 ========
 
-This document compiles the release notes for the Colorado 2.0 release of
+This document compiles the release notes for the Colorado 3.0 release of
 OPNFV when using Fuel as a deployment tool.
 
 ===============
@@ -16,7 +16,7 @@ Important notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Colorado 2.0 release of OPNFV.
+tool for the Colorado 3.0 release of OPNFV.
 
 The goal of the Colorado release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
@@ -80,13 +80,13 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | colorado.2.0                         |
+| **Repo/tag**                         | colorado.3.0                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado 2.0 follow-up release       |
+| **Release designation**              | Colorado 3.0 follow-up release       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | November 10 2016                     |
+| **Release date**                     | December 05 2016                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Colorado alignment to Released       |
@@ -110,7 +110,7 @@ Version change
 
 Module version changes
 ----------------------
-This is the Colorado 2.0 follow-up release.
+This is the Colorado 3.0 follow-up release.
 It is based on following upstream versions:
 
 - Fuel 9.0 Base release
@@ -123,7 +123,7 @@ It is based on following upstream versions:
 
 Document changes
 ----------------
-This is the Colorado 2.0 follow-up release.
+This is the Colorado 3.0 follow-up release.
 It comes with the following documentation:
 
 - Installation instructions - *Reference 13* - **Changed**
@@ -146,7 +146,7 @@ Bug corrections
 
 **JIRA TICKETS:**
 
-`Colorado 2.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11203>`_ 'https://jira.opnfv.org/issues/?filter=11203'
+`Colorado 3.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11406>`_ 'https://jira.opnfv.org/issues/?filter=11406'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -188,7 +188,7 @@ Known issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=11205>`_ 'https://jira.opnfv.org/issues/?filter=11205'
+`Known issues <https://jira.opnfv.org/issues/?filter=11407>`_ 'https://jira.opnfv.org/issues/?filter=11407'
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -197,20 +197,20 @@ Workarounds
 
 **JIRA TICKETS:**
 
-`Workarounds <https://jira.opnfv.org/issues/?filter=11204>`_ 'https://jira.opnfv.org/issues/?filter=11204'
+`Workarounds <https://jira.opnfv.org/issues/?filter=11408>`_ 'https://jira.opnfv.org/issues/?filter=11408'
 
 (Also See respective Integrated feature project's bug tracking)
 
 ============
 Test results
 ============
-The Colorado 2.0 release with the Fuel deployment tool has undergone QA test
+The Colorado 3.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Colorado 2.0 release, please see:
+For more information on the OPNFV Colorado 3.0 release, please see:
 
 OPNFV
 =====
@@ -251,10 +251,10 @@ Fuel
 Fuel in OPNFV
 =============
 
-13) `OPNFV Installation instruction for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html'
+13) `OPNFV Installation instruction for the Colorado 3.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html'
 
-14) `OPNFV Build instruction for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html'
+14) `OPNFV Build instruction for the Colorado 3.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html'
 
-15) `OPNFV Release Note for the Colorado 2.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html'
+15) `OPNFV Release Note for the Colorado 3.0 release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html>`_ 'http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html'
 
 .. [1] OpenDaylight Beryllium SR3 is used when BGP VPN is enabled in Fuel plugin.

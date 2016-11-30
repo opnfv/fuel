@@ -60,7 +60,7 @@ baseline required to replicate the Colorado release:
 
 .. code-block:: bash
 
-    $ git checkout colorado.2.0
+    $ git checkout colorado.3.0
 
 Go to the fuel directory and build the .iso:
 
@@ -684,8 +684,8 @@ Fuel
 Fuel in OPNFV
 =============
 
-13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html
+13) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html
 
-14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html
+14) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html
 
-15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html
+15) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html
