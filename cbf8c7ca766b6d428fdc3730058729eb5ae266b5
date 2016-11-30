@@ -1,0 +1,9 @@
+Code-Review+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Fedor Zhadaev <fzhadaev@mirantis.com>
+Workflow+1: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-by: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-at: Wed, 30 Nov 2016 14:15:43 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/25247
+Project: fuel
+Branch: refs/heads/stable/colorado
