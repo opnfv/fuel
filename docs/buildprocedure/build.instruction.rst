@@ -125,7 +125,7 @@ Check out the Colorado release:
 .. code-block:: bash
 
     $ cd fuel
-    $ git checkout colorado.2.0
+    $ git checkout colorado.3.0
 
 Clone the OPNFV code Git repository without a SSH key
 -----------------------------------------------------
@@ -298,8 +298,8 @@ The artifacts produced are:
 References
 ==========
 
-1) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/installationprocedure/index.html
+1) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html
 
-2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/buildprocedure/index.html
+2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html
 
-3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/2.0/docs/releasenotes/index.html
+3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html
