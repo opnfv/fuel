@@ -261,7 +261,7 @@ settings:
         group: network
         label: Public Gateway is Available
         type: checkbox
-        value: true
+        value: false
         weight: 50
       task_deploy:
         type: hidden
