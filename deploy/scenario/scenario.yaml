@@ -81,3 +81,9 @@ os-odl_l2-sfc-ha:
 
 os-odl_l2-sfc-noha:
   configfile: no-ha_odl-l2_sfc_heat_ceilometer_scenario.yaml
+
+os-nosdn-kvm_ovs-ha:
+  configfile: ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml
+
+os-nosdn-kvm_ovs-noha:
+  configfile: no-ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml
