@@ -22,7 +22,7 @@
 ##############################################################################
 # deployment configuration meta-data
 deployment-scenario-metadata:
-   title: NFV KVM and OVS No-HA deployment
+   title: NFV KVM and OVS HA deployment
    version: 0.0.1
    created: Dec 2 2016
    comment: NFV KVM and OVS
@@ -49,23 +49,25 @@ stack-extensions:
 # By editing the override-config sections below, you can override arbitrary
 # configuration name-space settings
 dea-override-config:
-  environment:
-    net_segment_type: tun
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: mongo,controller
+    role: controller,mongo
   - id: 2
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: controller
   - id: 3
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: controller
   - id: 4
     interfaces: interfaces_1
-    role: ceph-osd,compute
+    role: compute,ceph-osd
+  - id: 5
+    interfaces: interfaces_1
+    role: compute,ceph-osd
+
   settings:
-    editable:             
+    editable:
       storage:
         ephemeral_ceph:
           description: Configures Nova to store ephemeral volumes in RBD. This works
@@ -85,7 +87,7 @@ dea-override-config:
               be selected.
           type: checkbox
           value: true
-          weight: 30        
+          weight: 30
         iser:
           description: 'High performance block storage: Cinder volumes over iSER protocol (iSCSI over RDMA). This feature requires SR-IOV capabilities in the NIC, and will use a dedicated virtual function for the storage network.'
           label: iSER protocol for volumes (Cinder)
@@ -96,10 +98,40 @@ dea-override-config:
           type: checkbox
           value: false
           weight: 11
-
+        osd_pool_size:
+          description: Configures the default number of object replicas in Ceph. This number must be equal to or lower than the number of deployed 'Storage - Ceph OSD' nodes.
+          label: Ceph object replication factor
+          regex:
+            error: Invalid number
+            source: ^[1-9]\d*$
+          type: text
+          value: '2'
+          weight: 85
+        
 dha-override-config:
-#  disks:
-#    contrail: 500G
+  nodes:
+  - id: 1
+    libvirtName: controller1
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 2
+    libvirtName: controller2
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 3
+    libvirtName: controller3
+    libvirtTemplate: templates/virtual_environment/vms/controller.xml
+  - id: 4
+    libvirtName: compute1
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 5
+    libvirtName: compute2
+    libvirtTemplate: templates/virtual_environment/vms/compute.xml
+  - id: 6
+    libvirtName: fuel-master
+    libvirtTemplate: templates/virtual_environment/vms/fuel.xml
+    isFuel: yes
+    username: root
+    password: r00tme
+
 
 ##############################################################################
 # The verification pipeline may populate the section below with arbitrary
