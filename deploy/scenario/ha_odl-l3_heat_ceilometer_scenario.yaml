@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: ODL-L3 HA deployment
-   version: 0.0.5
-   created: Jun 02 2016
-   comment: Rebased to Fuel9
+   version: 0.0.6
+   created: Dec 07 2016
+   comment: Rebased to Fuel10
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -43,25 +43,7 @@ stack-extensions:
           - enable_l3_odl:
               value: true
             metadata:
-              plugin_version: 0.9.0
-
-  - module: fuel-plugin-ovs
-    module-config-name: fuel-nshovs
-    module-config-version: 0.9.0
-
-#   - module: opendaylight
-#     module-config-name: fuel-odl
-#     module-config-version: 0.0.2
-#     module-config-override:
-#       # Module config overrides
-#       rest_api_port:
-#         value: '8282'
-#       enable_gbp:
-#         value: false
-#       enable_l3_odl:
-#         value: true
-#       enable_sfc:
-#         value: false
+              plugin_version: 1.0.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
