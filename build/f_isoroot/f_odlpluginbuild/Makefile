@@ -28,6 +28,7 @@ release:.odlbuild
 	cp gitinfo_odlplugin.txt $(BUILD_BASE)
 .odlbuild:
 	rm -rf fuel-plugin-opendaylight
+	../../docker/ubuntu-builder/install_docker.sh
 	git clone -b $(FUEL_PLUGIN_ODL_BRANCH) $(FUEL_PLUGIN_ODL_REPO)
 	cd fuel-plugin-opendaylight; \
 	if [ -n $(FUEL_PLUGIN_ODL_CHANGE) ]; then \

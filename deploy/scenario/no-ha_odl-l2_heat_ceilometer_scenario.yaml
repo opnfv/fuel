@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: ODL-L2 No-HA deployment
-   version: 0.0.3
-   created: Jun 02 2016
-   comment: Rebased to Fuel9
+   version: 0.0.4
+   created: Dec 07 2016
+   comment: Rebased to Fuel10
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -34,7 +34,7 @@ deployment-scenario-metadata:
 stack-extensions:
   - module: opendaylight
     module-config-name: fuel-odl
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
 # Note that the module substitionion does not support arrays
 # This is a quick fix

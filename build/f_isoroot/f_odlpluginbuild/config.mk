@@ -8,8 +8,8 @@
 ##############################################################################
 
 FUEL_PLUGIN_ODL_BRANCH ?= master
-FUEL_PLUGIN_ODL_CHANGE ?= 7281b0db9171e5aeda0c23ba655f086a909395a1
+FUEL_PLUGIN_ODL_CHANGE ?= 207f8627279cfd4aa2192c2d7ce39f3b00633bf5
 FUEL_PLUGIN_ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
-export ODL_TARBALL_LOCATION?=https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.5.0-Boron/distribution-karaf-0.5.0-Boron.tar.gz
-export ODL_VERSION_NUMBER?=0.5.0
+export OPNFV_BUILD?=true
+export ODL_VERSIONS?="5.0.0.1 5.2.0.1"
