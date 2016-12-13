@@ -41,7 +41,7 @@ index dbcac5f..1826390 100755
  # Enable sshd
 -systemctl enable sshd
 -systemctl start sshd
-+systemctl reload sshd
++systemctl restart sshd
  
  # Enable iptables
  systemctl enable iptables.service
