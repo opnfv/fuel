@@ -188,7 +188,7 @@ deepclean: clean clean-cache
 	docker rmi opnfv.org/ubuntu-builder:14.04 &>/dev/null || exit 0
 	docker rmi opnfv.org/ubuntu-builder:latest &>/dev/null || exit 0
 	docker rmi ubuntu:14.04 &>/dev/null || exit 0
-	@if docker images | grep -q "ubuntu *14.04"; then \
+	@if docker images | grep -q "^ubuntu *14.04"; then \
 		echo "Error: ubuntu:14.04 still present!"; \
 		exit 1; \
 	fi
