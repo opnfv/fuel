@@ -49,7 +49,7 @@ index 3197c91..e035145 100755
 -# Enable sshd
 -systemctl enable sshd
 -systemctl start sshd
-+systemctl reload sshd
++systemctl restart sshd
 
  # Enable iptables
  systemctl enable iptables.service
