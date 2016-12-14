@@ -46,6 +46,30 @@
       "revId": "b479bac4e5abf8e30168a543bf18f9b828fd1630",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_74a97ede",
+        "filename": "build/patch-repos/build/repos/fuel-library/0005-puppet-cobbler-Fix-CentOS-version-detection.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-12-14T16:43:29Z",
+      "side": 1,
+      "message": "I agree on using versioncmp, but I wanted to change as little as possible.\nSince this was merged upstream as-is, do you think it\u0027s worth going with versioncmp just in OPNFV?",
+      "parentUuid": "5ac10518_b49fe6b3",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 37
+      },
+      "revId": "b479bac4e5abf8e30168a543bf18f9b828fd1630",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
