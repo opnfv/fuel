@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_346456e4",
+        "filename": "build/patch-repos/build/repos/fuel-library/0005-puppet-cobbler-Fix-CentOS-version-detection.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T16:33:38Z",
+      "side": 1,
+      "message": "it would be right to check version by means of versioncmp()",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 37
+      },
+      "revId": "b479bac4e5abf8e30168a543bf18f9b828fd1630",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
