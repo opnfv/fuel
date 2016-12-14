@@ -22,6 +22,30 @@
       "revId": "b479bac4e5abf8e30168a543bf18f9b828fd1630",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b49fe6b3",
+        "filename": "build/patch-repos/build/repos/fuel-library/0005-puppet-cobbler-Fix-CentOS-version-detection.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T16:41:15Z",
+      "side": 1,
+      "message": "for example\ncase versioncmp($::kernelrelease, \u00275.10\u0027) {\n   1: {\n     # Solaris 11 and later\n     $server_package_name \u003d \u0027/service/network/ssh\u0027\n     $client_package_name \u003d \u0027/network/ssh\u0027\n   }\n   0: {\n     # Solaris 10\n     $server_package_name \u003d \u0027SUNWsshdu\u0027\n     $client_package_name \u003d \u0027SUNWsshu\u0027\n   }\n   default: {\n     # Solaris 9 and earlier not supported\n     fail(\"Unsupported platform: ${::osfamily}/${::kernelrelease}\")\n   }\n}\n\nlooks solid, isn\u0027t?",
+      "parentUuid": "5ac10518_346456e4",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 37
+      },
+      "revId": "b479bac4e5abf8e30168a543bf18f9b828fd1630",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
