@@ -1,0 +1,39 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 14 Dec 2016 15:40:41 +0100
+Subject: [PATCH] puppet: cobbler: Fix CentOS version detection
+
+Recently, CentOS released version 7.3.1611, which triggered a latent
+bug in fuel-library puppet scripts related to differentiating between
+6.x and 7.x major versions: 7.3.1611 is wrongly detected as 6.x,
+leading to the wrong packages being attempted to be installed,
+leaving nailgun server service broken on the Fuel Master node.
+
+This change forces the match at the beggining of the version string
+(e.g. "/^6.+/: {" instead of "/6.+/: {"), so the new CentOS 7.3.1611
+no longer matches the condition for 6.x).
+
+Closes-bug: 1649895
+
+Change-Id: I8873701d24e406e2804b9e654decb776ec3bf61c
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ deployment/puppet/cobbler/manifests/packages.pp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/deployment/puppet/cobbler/manifests/packages.pp b/deployment/puppet/cobbler/manifests/packages.pp
+index 267c18c..3c14ea1 100644
+--- a/deployment/puppet/cobbler/manifests/packages.pp
++++ b/deployment/puppet/cobbler/manifests/packages.pp
+@@ -24,10 +24,10 @@ class cobbler::packages {
+       $openssh_package     = 'openssh-clients'
+       $pexpect_package     = 'pexpect'
+       case $::operatingsystemrelease {
+-        /6.+/: {
++        /^6.+/: {
+           $cobbler_additional_packages = ['xinetd', 'tftp-server', 'syslinux', 'wget', 'python-ipaddr','fence-agents', 'bind-utils']
+         }
+-        /7.+/: {
++        /^7.+/: {
+           $cobbler_additional_packages = ['xinetd', 'tftp-server', 'syslinux', 'wget', 'python-ipaddr','fence-agents-all', 'bind-utils']
+         }
+       }
