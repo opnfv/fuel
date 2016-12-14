@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_5984bbd3",
+        "filename": "deploy/scenario/ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T13:34:27Z",
+      "side": 1,
+      "message": "mangled a bit",
+      "range": {
+        "startLine": 10,
+        "startChar": 82,
+        "endLine": 10,
+        "endChar": 94
+      },
+      "revId": "c2533a5d62de221776e9ec5febe3ab6ed3da7fa6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d920abf9",
+        "filename": "deploy/scenario/ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T13:34:27Z",
+      "side": 1,
+      "message": "should be 1.0.0",
+      "range": {
+        "startLine": 43,
+        "startChar": 28,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "c2533a5d62de221776e9ec5febe3ab6ed3da7fa6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d9774b01",
+        "filename": "deploy/scenario/ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T13:34:27Z",
+      "side": 1,
+      "message": "the params below is passing from dea_base, I guess we could omit it unless they are overwritten.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 11
+      },
+      "revId": "c2533a5d62de221776e9ec5febe3ab6ed3da7fa6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b964bf49",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T13:34:27Z",
+      "side": 1,
+      "message": "1.0.0",
+      "range": {
+        "startLine": 43,
+        "startChar": 28,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "c2533a5d62de221776e9ec5febe3ab6ed3da7fa6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_595b5b87",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-14T13:34:27Z",
+      "side": 1,
+      "message": "could be removed I guess",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "c2533a5d62de221776e9ec5febe3ab6ed3da7fa6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
