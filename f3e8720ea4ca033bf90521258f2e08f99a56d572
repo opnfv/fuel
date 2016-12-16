@@ -1,0 +1,11 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Code-Review+1: Peter Barabas <peter.barabas@ericsson.com>
+Code-Review+1: Navya Bathula <b.navya4@tcs.com>
+Code-Review+2: Michal Skalski <mskalski@mirantis.com>
+Workflow+1: Michal Skalski <mskalski@mirantis.com>
+Submitted-by: Michal Skalski <mskalski@mirantis.com>
+Submitted-at: Fri, 16 Dec 2016 09:19:00 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/24555
+Project: fuel
+Branch: refs/heads/master
