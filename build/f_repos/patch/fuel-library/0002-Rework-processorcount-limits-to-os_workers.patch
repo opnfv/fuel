@@ -1,0 +1,473 @@
+From dcf6888ddf5a6f151f14b0ae607990c10f9aed68 Mon Sep 17 00:00:00 2001
+From: Bogdan Dobrelya <bdobrelia@mirantis.com>
+Date: Fri, 30 Sep 2016 12:03:34 +0200
+Subject: [PATCH] Rework processorcount limits to os_workers
+
+* reduce workers_max default limits of a 16 to the $::os_workers, which is limited by [2, 8] interval.
+* reduce workers/pool size/overflow limited by F($::processorcount) to F($::os_workers)
+
+Closes-bug: 1629238
+
+Change-Id: I5cc4d70b902eeaa1c9cf42911606eba13dd84aa2
+Signed-off-by: Bogdan Dobrelya <bdobrelia@mirantis.com>
+---
+ .../puppet/fuel/spec/classes/fuel_keystone_spec.rb   |  1 +
+ deployment/puppet/openstack/manifests/cinder.pp      |  2 +-
+ .../manifests/ceilometer/controller.pp               |  2 +-
+ .../openstack_tasks/manifests/glance/glance.pp       |  2 +-
+ .../openstack_tasks/manifests/horizon/horizon.pp     |  2 +-
+ .../manifests/ironic/ironic_compute.pp               |  4 ++--
+ .../openstack_tasks/manifests/keystone/keystone.pp   |  2 +-
+ .../manifests/openstack_cinder/openstack_cinder.pp   |  6 +++---
+ .../openstack_controller/openstack_controller.pp     |  6 +++---
+ .../manifests/openstack_network/agents/metadata.pp   |  2 +-
+ .../manifests/openstack_network/server_config.pp     |  2 +-
+ .../puppet/openstack_tasks/manifests/roles/cinder.pp |  4 ++--
+ .../openstack_tasks/manifests/sahara/sahara.pp       |  4 ++--
+ .../openstack_tasks/manifests/swift/parts/proxy.pp   |  2 +-
+ .../openstack_tasks/manifests/swift/proxy_storage.pp |  2 +-
+ .../puppet/osnailyfacter/lib/facter/os_workers.rb    | 20 ++++++++++++++++++++
+ .../puppet/osnailyfacter/manifests/apache_mpm.pp     |  2 +-
+ .../osnailyfacter/manifests/globals/globals.pp       |  6 +++---
+ .../spec/classes/osnailyfacter_atop_spec.rb          |  2 ++
+ tests/noop/spec/hosts/ironic/ironic-compute_spec.rb  |  6 +++---
+ tests/noop/spec/hosts/keystone/keystone_spec.rb      |  2 ++
+ .../openstack-controller_spec.rb                     |  6 +++---
+ .../hosts/openstack-network/agents/metadata_spec.rb  |  6 ++++--
+ .../hosts/openstack-network/server-config_spec.rb    |  4 ++--
+ tests/noop/spec/hosts/sahara/sahara_spec.rb          |  6 +++---
+ 25 files changed, 65 insertions(+), 38 deletions(-)
+ create mode 100644 deployment/puppet/osnailyfacter/lib/facter/os_workers.rb
+
+diff --git a/deployment/puppet/fuel/spec/classes/fuel_keystone_spec.rb b/deployment/puppet/fuel/spec/classes/fuel_keystone_spec.rb
+index 51e5a2939..3b5d89d3b 100644
+--- a/deployment/puppet/fuel/spec/classes/fuel_keystone_spec.rb
++++ b/deployment/puppet/fuel/spec/classes/fuel_keystone_spec.rb
+@@ -5,6 +5,7 @@ describe "fuel::keystone" do
+   let :global_facts do
+     {
+       :processorcount => 42,
++      :os_workers     => 8,
+     }
+   end
+ 
+diff --git a/deployment/puppet/openstack/manifests/cinder.pp b/deployment/puppet/openstack/manifests/cinder.pp
+index 36747a61e..502bc94b8 100644
+--- a/deployment/puppet/openstack/manifests/cinder.pp
++++ b/deployment/puppet/openstack/manifests/cinder.pp
+@@ -44,7 +44,7 @@ class openstack::cinder(
+   $keystone_user          = 'cinder',
+   $region                 = 'RegionOne',
+   $notification_driver    = undef,
+-  $service_workers        = $::processorcount,
++  $service_workers        = $::os_workers,
+   $vmware_host_ip         = '10.10.10.10',
+   $vmware_host_username   = 'administrator@vsphere.local',
+   $vmware_host_password   = 'password',
+diff --git a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp b/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
+index 7f811f276..9a31f0cf7 100644
+--- a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
++++ b/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
+@@ -35,7 +35,7 @@ class openstack_tasks::ceilometer::controller {
+   $service_endpoint           = hiera('service_endpoint', $management_vip)
+   $ha_mode                    = pick($ceilometer_hash['ha_mode'], true)
+   $ssl_hash                   = hiera_hash('use_ssl', {})
+-  $workers_max                = hiera('workers_max', 16)
++  $workers_max                = hiera('workers_max', $::os_workers)
+   $service_workers            = pick($ceilometer_hash['workers'],
+   min(max($::processorcount, 2), $workers_max))
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/glance/glance.pp b/deployment/puppet/openstack_tasks/manifests/glance/glance.pp
+index b4d6561e0..eb5005db7 100644
+--- a/deployment/puppet/openstack_tasks/manifests/glance/glance.pp
++++ b/deployment/puppet/openstack_tasks/manifests/glance/glance.pp
+@@ -21,7 +21,7 @@ class openstack_tasks::glance::glance {
+   $max_overflow        = hiera('max_overflow')
+   $ceilometer_hash     = hiera_hash('ceilometer', {})
+   $region              = hiera('region','RegionOne')
+-  $workers_max         = hiera('workers_max', 16)
++  $workers_max         = hiera('workers_max', $::os_workers)
+   $service_workers     = pick($glance_hash['glance_workers'],
+                               min(max($::processorcount, 2), $workers_max))
+   $ironic_hash         = hiera_hash('ironic', {})
+diff --git a/deployment/puppet/openstack_tasks/manifests/horizon/horizon.pp b/deployment/puppet/openstack_tasks/manifests/horizon/horizon.pp
+index 3af5860ba..0c95eb95c 100644
+--- a/deployment/puppet/openstack_tasks/manifests/horizon/horizon.pp
++++ b/deployment/puppet/openstack_tasks/manifests/horizon/horizon.pp
+@@ -135,7 +135,7 @@ class openstack_tasks::horizon::horizon {
+     $wsgi_processes = 2
+     $wsgi_threads = 9
+   } else {
+-    $wsgi_processes = $::processorcount
++    $wsgi_processes = $::os_workers
+     $wsgi_threads = 15
+   }
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/ironic/ironic_compute.pp b/deployment/puppet/openstack_tasks/manifests/ironic/ironic_compute.pp
+index e7d7492ed..7514cd8a5 100644
+--- a/deployment/puppet/openstack_tasks/manifests/ironic/ironic_compute.pp
++++ b/deployment/puppet/openstack_tasks/manifests/ironic/ironic_compute.pp
+@@ -35,8 +35,8 @@ class openstack_tasks::ironic::ironic_compute {
+   $db_name                        = pick($nova_hash['db_name'], 'nova')
+   $db_password                    = pick($nova_hash['db_password'], 'nova')
+ 
+-  $max_pool_size = hiera('max_pool_size', min($::processorcount * 5 + 0, 30 + 0))
+-  $max_overflow = hiera('max_overflow', min($::processorcount * 5 + 0, 60 + 0))
++  $max_pool_size = hiera('max_pool_size', min($::os_workers * 5 + 0, 30 + 0))
++  $max_overflow = hiera('max_overflow', min($::os_workers * 5 + 0, 60 + 0))
+   $idle_timeout = hiera('idle_timeout', '3600')
+   $max_retries = hiera('max_retries', '-1')
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/keystone/keystone.pp b/deployment/puppet/openstack_tasks/manifests/keystone/keystone.pp
+index 2610b3686..0b0763d78 100644
+--- a/deployment/puppet/openstack_tasks/manifests/keystone/keystone.pp
++++ b/deployment/puppet/openstack_tasks/manifests/keystone/keystone.pp
+@@ -28,7 +28,7 @@ class openstack_tasks::keystone::keystone {
+   $syslog_log_facility   = hiera('syslog_log_facility_keystone')
+   $rabbit_hash           = hiera_hash('rabbit', {})
+   $neutron_user_password = hiera('neutron_user_password', false)
+-  $workers_max           = hiera('workers_max', 16)
++  $workers_max           = hiera('workers_max', $::os_workers)
+   $service_workers       = pick($keystone_hash['workers'],
+                                 min(max($::processorcount, 2), $workers_max))
+   $default_log_levels    = hiera_hash('default_log_levels')
+diff --git a/deployment/puppet/openstack_tasks/manifests/openstack_cinder/openstack_cinder.pp b/deployment/puppet/openstack_tasks/manifests/openstack_cinder/openstack_cinder.pp
+index 3d007a56a..19946a96e 100644
+--- a/deployment/puppet/openstack_tasks/manifests/openstack_cinder/openstack_cinder.pp
++++ b/deployment/puppet/openstack_tasks/manifests/openstack_cinder/openstack_cinder.pp
+@@ -13,7 +13,7 @@ class openstack_tasks::openstack_cinder::openstack_cinder {
+   $sahara_hash            = hiera_hash('sahara', {})
+   $rabbit_hash            = hiera_hash('rabbit', {})
+   $service_endpoint       = hiera('service_endpoint')
+-  $workers_max            = hiera('workers_max', 16)
++  $workers_max            = hiera('workers_max', $::os_workers)
+   $service_workers        = pick($cinder_hash['workers'], min(max($::processorcount, 2), $workers_max))
+   $cinder_user_password   = $cinder_hash[user_password]
+   $keystone_user          = pick($cinder_hash['user'], 'cinder')
+@@ -99,8 +99,8 @@ class openstack_tasks::openstack_cinder::openstack_cinder {
+   }
+ 
+   # SQLAlchemy backend configuration
+-  $max_pool_size = min($::processorcount * 5 + 0, 30 + 0)
+-  $max_overflow = min($::processorcount * 5 + 0, 60 + 0)
++  $max_pool_size = min($::os_workers * 5 + 0, 30 + 0)
++  $max_overflow = min($::os_workers * 5 + 0, 60 + 0)
+   $max_retries = '-1'
+   $idle_timeout = '3600'
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/openstack_controller/openstack_controller.pp b/deployment/puppet/openstack_tasks/manifests/openstack_controller/openstack_controller.pp
+index 6f0703674..9efb58d3e 100644
+--- a/deployment/puppet/openstack_tasks/manifests/openstack_controller/openstack_controller.pp
++++ b/deployment/puppet/openstack_tasks/manifests/openstack_controller/openstack_controller.pp
+@@ -60,7 +60,7 @@ class openstack_tasks::openstack_controller::openstack_controller {
+   $keystone_user                = pick($nova_hash['user'], 'nova')
+   $keystone_tenant              = pick($nova_hash['tenant'], 'services')
+   $region_name                  = hiera('region', 'RegionOne')
+-  $workers_max                  = hiera('workers_max', 16)
++  $workers_max                  = hiera('workers_max', $::os_workers)
+   $service_workers              = pick($nova_hash['workers'],
+                                         min(max($::processorcount, 2), $workers_max))
+   $compute_nodes                = get_nodes_hash_by_roles($network_metadata, ['compute'])
+@@ -129,8 +129,8 @@ class openstack_tasks::openstack_controller::openstack_controller {
+   })
+ 
+   # SQLAlchemy backend configuration
+-  $max_pool_size = hiera('max_pool_size', min($::processorcount * 5 + 0, 30 + 0))
+-  $max_overflow = hiera('max_overflow', min($::processorcount * 5 + 0, 60 + 0))
++  $max_pool_size = hiera('max_pool_size', min($::os_workers * 5 + 0, 30 + 0))
++  $max_overflow = hiera('max_overflow', min($::os_workers * 5 + 0, 60 + 0))
+   $idle_timeout = hiera('idle_timeout', '3600')
+   $max_retries = hiera('max_retries', '-1')
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/openstack_network/agents/metadata.pp b/deployment/puppet/openstack_tasks/manifests/openstack_network/agents/metadata.pp
+index c32d56aa9..c1c93970c 100644
+--- a/deployment/puppet/openstack_tasks/manifests/openstack_network/agents/metadata.pp
++++ b/deployment/puppet/openstack_tasks/manifests/openstack_network/agents/metadata.pp
+@@ -9,7 +9,7 @@ class openstack_tasks::openstack_network::agents::metadata {
+   $neutron_advanced_config  = hiera_hash('neutron_advanced_configuration', { })
+   $neutron_config           = hiera_hash('neutron_config')
+   $dvr                      = pick($neutron_advanced_config['neutron_dvr'], false)
+-  $workers_max              = hiera('workers_max', 16)
++  $workers_max              = hiera('workers_max', $::os_workers)
+ 
+   if $compute {
+     $metadata_workers = pick($neutron_config['workers'],
+diff --git a/deployment/puppet/openstack_tasks/manifests/openstack_network/server_config.pp b/deployment/puppet/openstack_tasks/manifests/openstack_network/server_config.pp
+index 13707de99..ee454b49c 100644
+--- a/deployment/puppet/openstack_tasks/manifests/openstack_network/server_config.pp
++++ b/deployment/puppet/openstack_tasks/manifests/openstack_network/server_config.pp
+@@ -77,7 +77,7 @@ class openstack_tasks::openstack_network::server_config {
+   $auth_url                = "${internal_auth_protocol}://${internal_auth_endpoint}:35357/"
+   $nova_admin_auth_url     = "${admin_auth_protocol}://${admin_auth_endpoint}:35357/"
+ 
+-  $workers_max             = hiera('workers_max', 16)
++  $workers_max             = hiera('workers_max', $::os_workers)
+   $service_workers         = pick($neutron_config['workers'], min(max($::processorcount, 1), $workers_max))
+ 
+   $neutron_advanced_config = hiera_hash('neutron_advanced_configuration', { })
+diff --git a/deployment/puppet/openstack_tasks/manifests/roles/cinder.pp b/deployment/puppet/openstack_tasks/manifests/roles/cinder.pp
+index c357a29dd..00de08205 100644
+--- a/deployment/puppet/openstack_tasks/manifests/roles/cinder.pp
++++ b/deployment/puppet/openstack_tasks/manifests/roles/cinder.pp
+@@ -81,8 +81,8 @@ class openstack_tasks::roles::cinder {
+   }
+ 
+   # SQLAlchemy backend configuration
+-  $max_pool_size = min($::processorcount * 5 + 0, 30 + 0)
+-  $max_overflow = min($::processorcount * 5 + 0, 60 + 0)
++  $max_pool_size = min($::os_workers * 5 + 0, 30 + 0)
++  $max_overflow = min($::os_workers * 5 + 0, 60 + 0)
+   $max_retries = '-1'
+   $idle_timeout = '3600'
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/sahara/sahara.pp b/deployment/puppet/openstack_tasks/manifests/sahara/sahara.pp
+index a33500334..cc269cd86 100644
+--- a/deployment/puppet/openstack_tasks/manifests/sahara/sahara.pp
++++ b/deployment/puppet/openstack_tasks/manifests/sahara/sahara.pp
+@@ -51,8 +51,8 @@ class openstack_tasks::sahara::sahara {
+     $sahara_user     = pick($sahara_hash['user'], 'sahara')
+     $sahara_password = pick($sahara_hash['user_password'])
+     $tenant          = pick($sahara_hash['tenant'], 'services')
+-    $max_pool_size   = min($::processorcount * 5 + 0, 30 + 0)
+-    $max_overflow    = min($::processorcount * 5 + 0, 60 + 0)
++    $max_pool_size   = min($::os_workers * 5 + 0, 30 + 0)
++    $max_overflow    = min($::os_workers * 5 + 0, 60 + 0)
+     $max_retries     = '-1'
+     $idle_timeout    = '3600'
+ 
+diff --git a/deployment/puppet/openstack_tasks/manifests/swift/parts/proxy.pp b/deployment/puppet/openstack_tasks/manifests/swift/parts/proxy.pp
+index 81d64a2d8..8a68acdb3 100644
+--- a/deployment/puppet/openstack_tasks/manifests/swift/parts/proxy.pp
++++ b/deployment/puppet/openstack_tasks/manifests/swift/parts/proxy.pp
+@@ -26,7 +26,7 @@ class openstack_tasks::swift::parts::proxy (
+     'account_quotas',
+     'slo',
+     'proxy-server'],
+-  $proxy_workers                     = $::processorcount,
++  $proxy_workers                     = $::os_workers,
+   $proxy_port                        = '8080',
+   $proxy_allow_account_management    = true,
+   $proxy_account_autocreate          = true,
+diff --git a/deployment/puppet/openstack_tasks/manifests/swift/proxy_storage.pp b/deployment/puppet/openstack_tasks/manifests/swift/proxy_storage.pp
+index bd817941a..8966f0b0a 100644
+--- a/deployment/puppet/openstack_tasks/manifests/swift/proxy_storage.pp
++++ b/deployment/puppet/openstack_tasks/manifests/swift/proxy_storage.pp
+@@ -30,7 +30,7 @@ class openstack_tasks::swift::proxy_storage {
+   $keystone_user              = pick($swift_hash['user'], 'swift')
+   $keystone_password          = pick($swift_hash['user_password'], 'passsword')
+   $keystone_tenant            = pick($swift_hash['tenant'], 'services')
+-  $workers_max                = hiera('workers_max', 16)
++  $workers_max                = hiera('workers_max', $::os_workers)
+   $service_workers            = pick($swift_hash['workers'], min(max($::processorcount, 2), $workers_max))
+   $ssl_hash                   = hiera_hash('use_ssl', {})
+   $rabbit_hash                = hiera_hash('rabbit')
+diff --git a/deployment/puppet/osnailyfacter/lib/facter/os_workers.rb b/deployment/puppet/osnailyfacter/lib/facter/os_workers.rb
+new file mode 100644
+index 000000000..404fb9018
+--- /dev/null
++++ b/deployment/puppet/osnailyfacter/lib/facter/os_workers.rb
+@@ -0,0 +1,20 @@
++#
++# We've found that using $::processorcount for workers/threads can lead to
++# unexpected memory or process counts for people deploying on baremetal or
++# if they have large number of cpus. This fact allows us to tweak the formula
++# used to determine number of workers in a single place but use it across all
++# modules.
++#
++# The value for os_workers is max between '(<# processors> / 4)' and '2' with
++# a cap of 8.
++#
++# This fact can be overloaded by an external fact from /etc/factor/facts.d if
++# a user would like to provide their own default value.
++#
++Facter.add(:os_workers) do
++  has_weight 100
++  setcode do
++    processors = Facter.value('processorcount')
++    [ [ (processors.to_i / 4), 2 ].max, 8 ].min
++  end
++end
+diff --git a/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp b/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp
+index 51bc3274d..70a654ae2 100644
+--- a/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp
++++ b/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp
+@@ -11,7 +11,7 @@ class osnailyfacter::apache_mpm inherits ::osnailyfacter::apache {
+   if ($::processorcount + 0) <= 2 {
+     $startservers = 2
+   } else {
+-    $startservers = $::processorcount
++    $startservers = $::os_workers
+   }
+ 
+   $maxrequestsperchild = 0
+diff --git a/deployment/puppet/osnailyfacter/manifests/globals/globals.pp b/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
+index 5121503ba..57ed30e81 100644
+--- a/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
++++ b/deployment/puppet/osnailyfacter/manifests/globals/globals.pp
+@@ -311,14 +311,14 @@ class osnailyfacter::globals::globals {
+   # The default value assumes there are 20 different types of workers limited by 100Mb each.
+   $workers_ratio = hiera('workers_ratio', 2000)
+   # Defines the maximum allowed number of workers for each service by RAM limits. Cannot exceed the value of 30.
+-  $workers_max = inline_template("<%= [(@memorysize_mb.to_i / @workers_ratio.to_i).floor + 1, 30].min %>")
++  $workers_max = inline_template("<%= [(@memorysize_mb.to_i / @workers_ratio.to_i).floor + 1, $::os_workers].min %>")
+ 
+   $node_name_prefix_for_messaging = hiera('node_name_prefix_for_messaging', 'messaging-')
+ 
+   # MySQL and SQLAlchemy backend configuration
+   $custom_mysql_setup_class = hiera('custom_mysql_setup_class', 'galera')
+-  $max_pool_size            = hiera('max_pool_size', min($::processorcount * 5 + 0, 30 + 0))
+-  $max_overflow             = hiera('max_overflow', min($::processorcount * 5 + 0, 60 + 0))
++  $max_pool_size            = hiera('max_pool_size', min($::os_workers * 5 + 0, 30 + 0))
++  $max_overflow             = hiera('max_overflow', min($::os_workers * 5 + 0, 60 + 0))
+   $max_retries              = hiera('max_retries', '-1')
+   $idle_timeout             = hiera('idle_timeout','3600')
+   $nova_db_password         = $nova_hash['db_password']
+diff --git a/deployment/puppet/osnailyfacter/spec/classes/osnailyfacter_atop_spec.rb b/deployment/puppet/osnailyfacter/spec/classes/osnailyfacter_atop_spec.rb
+index ed57325ef..1d27e876a 100644
+--- a/deployment/puppet/osnailyfacter/spec/classes/osnailyfacter_atop_spec.rb
++++ b/deployment/puppet/osnailyfacter/spec/classes/osnailyfacter_atop_spec.rb
+@@ -73,6 +73,7 @@ describe 'osnailyfacter::atop' do
+         :osfamily        => 'Debian',
+         :operatingsystem => 'Debian',
+         :processorcount  => 2,
++        :os_workers      => 2,
+         :memorysize_mb   => 4096,
+       }
+     end
+@@ -86,6 +87,7 @@ describe 'osnailyfacter::atop' do
+         :osfamily        => 'RedHat',
+         :operatingsystem => 'RedHat',
+         :processorcount  => 2,
++        :os_workers      => 2,
+         :memorysize_mb   => 4096,
+       }
+     end
+diff --git a/tests/noop/spec/hosts/ironic/ironic-compute_spec.rb b/tests/noop/spec/hosts/ironic/ironic-compute_spec.rb
+index 62dc9e077..202a5b16c 100644
+--- a/tests/noop/spec/hosts/ironic/ironic-compute_spec.rb
++++ b/tests/noop/spec/hosts/ironic/ironic-compute_spec.rb
+@@ -100,11 +100,11 @@ describe manifest do
+         else
+           extra_params = '?charset=utf8'
+         end
+-        facts[:processorcount] = 10
+-        max_overflow = Noop.hiera 'max_overflow', [facts[:processorcount] * 5 + 0, 60 + 0].min
++        facts[:os_workers] = 8
++        max_overflow = Noop.hiera 'max_overflow', [facts[:os_workers] * 5 + 0, 60 + 0].min
+         idle_timeout = Noop.hiera 'idle_timeout', '3600'
+         max_retries = Noop.hiera 'max_retries', '-1'
+-        max_pool_size = Noop.hiera 'max_pool_size', [facts[:processorcount] * 5 + 0, 30 + 0].min
++        max_pool_size = Noop.hiera 'max_pool_size', [facts[:os_workers] * 5 + 0, 30 + 0].min
+ 
+         should contain_class('nova').with(
+           :database_connection    => "mysql://#{nova_db_user}:#{nova_db_password}@#{database_vip}/#{nova_db_name}#{extra_params}",
+diff --git a/tests/noop/spec/hosts/keystone/keystone_spec.rb b/tests/noop/spec/hosts/keystone/keystone_spec.rb
+index f82568821..773e89461 100644
+--- a/tests/noop/spec/hosts/keystone/keystone_spec.rb
++++ b/tests/noop/spec/hosts/keystone/keystone_spec.rb
+@@ -218,6 +218,7 @@ describe manifest do
+ 
+      it 'should declare keystone::wsgi::apache class with 6 processes and 1 threads on 48 CPU system' do
+        facts[:processorcount] = 48
++       facts[:os_workers] = 8
+        should contain_class('keystone::wsgi::apache').with(
+          'threads' => '1',
+          'workers' => '6'
+@@ -226,6 +227,7 @@ describe manifest do
+ 
+      it 'should declare keystone::wsgi::apache class with 1 process and 1 threads on 1 CPU system' do
+        facts[:processorcount] = 1
++       facts[:os_workers] = 2
+        should contain_class('keystone::wsgi::apache').with(
+          'threads' => '1',
+          'workers' => '1'
+diff --git a/tests/noop/spec/hosts/openstack-controller/openstack-controller_spec.rb b/tests/noop/spec/hosts/openstack-controller/openstack-controller_spec.rb
+index d92a91292..0c7bcfd97 100644
+--- a/tests/noop/spec/hosts/openstack-controller/openstack-controller_spec.rb
++++ b/tests/noop/spec/hosts/openstack-controller/openstack-controller_spec.rb
+@@ -190,9 +190,9 @@ describe manifest do
+     end
+ 
+     it 'should configure nova with the basics' do
+-      facts[:processorcount] = 10
+-      max_pool_size = Noop.hiera 'max_pool_size', [facts[:processorcount] * 5 + 0, 30 + 0].min
+-      max_overflow = Noop.hiera 'max_overflow', [facts[:processorcount] * 5 + 0, 60 + 0].min
++      facts[:os_workers] = 10
++      max_pool_size = Noop.hiera 'max_pool_size', [facts[:os_workers] * 5 + 0, 30 + 0].min
++      max_overflow = Noop.hiera 'max_overflow', [facts[:os_workers] * 5 + 0, 60 + 0].min
+       idle_timeout = Noop.hiera 'idle_timeout', '3600'
+       max_retries = Noop.hiera 'max_retries', '-1'
+ 
+diff --git a/tests/noop/spec/hosts/openstack-network/agents/metadata_spec.rb b/tests/noop/spec/hosts/openstack-network/agents/metadata_spec.rb
+index 25a1d2516..bc2d9763f 100644
+--- a/tests/noop/spec/hosts/openstack-network/agents/metadata_spec.rb
++++ b/tests/noop/spec/hosts/openstack-network/agents/metadata_spec.rb
+@@ -51,7 +51,8 @@ describe manifest do
+           end
+ 
+           let(:metadata_workers) do
+-            neutron_config.fetch('workers', [facts[:processorcount].to_i/8+1, workers_max.to_i].min)
++            facts[:os_workers] = 8
++            neutron_config.fetch('workers', [facts[:os_workers].to_i/8+1, workers_max.to_i].min)
+           end
+ 
+           it { should contain_class('neutron::agents::metadata').with(
+@@ -97,7 +98,8 @@ describe manifest do
+           configuration_override.fetch('neutron_metadata_agent_config', {})
+         end
+         let(:metadata_workers) do
+-          neutron_config.fetch('workers', [[facts[:processorcount].to_i, 2].max, workers_max.to_i].min)
++          facts[:os_workers] = 8
++          neutron_config.fetch('workers', [[facts[:os_workers].to_i, 2].max, workers_max.to_i].min)
+         end
+ 
+         it 'neutron metadata agent config should be modified by override_resources' do
+diff --git a/tests/noop/spec/hosts/openstack-network/server-config_spec.rb b/tests/noop/spec/hosts/openstack-network/server-config_spec.rb
+index 940f214e1..3843256f3 100644
+--- a/tests/noop/spec/hosts/openstack-network/server-config_spec.rb
++++ b/tests/noop/spec/hosts/openstack-network/server-config_spec.rb
+@@ -61,7 +61,7 @@ describe manifest do
+         db_user     = neutron_config.fetch('database', {}).fetch('user', 'neutron')
+         db_name     = neutron_config.fetch('database', {}).fetch('name', 'neutron')
+         db_host     = neutron_config.fetch('database', {}).fetch('host', database_vip)
+-        
++
+         if facts[:os_package_type] == 'debian'
+           extra_params = { 'charset' => 'utf8', 'read_timeout' => 60 }
+         else
+@@ -117,7 +117,7 @@ describe manifest do
+       auth_uri            = "#{internal_auth_protocol}://#{internal_auth_endpoint}:5000/"
+       nova_admin_auth_url = "#{admin_auth_protocol}://#{admin_auth_endpoint}:35357/"
+ 
+-      workers_max = Noop.hiera('workers_max', '16')
++      workers_max = Noop.hiera 'workers_max'
+ 
+       it {
+         service_workers =  neutron_config.fetch('workers', [[facts[:processorcount].to_i, 1].max, workers_max.to_i].min)
+diff --git a/tests/noop/spec/hosts/sahara/sahara_spec.rb b/tests/noop/spec/hosts/sahara/sahara_spec.rb
+index e0176a3b8..91aea8081 100644
+--- a/tests/noop/spec/hosts/sahara/sahara_spec.rb
++++ b/tests/noop/spec/hosts/sahara/sahara_spec.rb
+@@ -91,7 +91,7 @@ describe manifest do
+     enable = Noop.hiera_structure('sahara/enabled')
+     context 'if sahara is enabled', :if => enable do
+       it 'should declare sahara class correctly' do
+-        facts[:processorcount] = 10
++        facts[:os_workers] = 8
+         sahara_plugins = %w(ambari cdh mapr spark vanilla)
+         sahara_user = Noop.hiera_structure('sahara/user', 'sahara')
+         sahara_password = Noop.hiera_structure('sahara/user_password')
+@@ -101,8 +101,8 @@ describe manifest do
+         db_name = Noop.hiera_structure('sahara/db_name', 'sahara')
+         db_password = Noop.hiera_structure('sahara/db_password')
+         db_host = Noop.hiera_structure('sahara/db_host', database_vip)
+-        max_pool_size =[facts[:processorcount] * 5 + 0, 30 + 0].min
+-        max_overflow = [facts[:processorcount] * 5 + 0, 60 + 0].min
++        max_pool_size =[facts[:os_workers] * 5 + 0, 30 + 0].min
++        max_overflow = [facts[:os_workers] * 5 + 0, 60 + 0].min
+         max_retries  = '-1'
+         idle_timeout = '3600'
+         read_timeout = '60'
+-- 
+2.11.0
+
