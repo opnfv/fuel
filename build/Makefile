@@ -51,9 +51,12 @@ export REPOINFO  := $(BUILD_BASE)/repo_info.sh
 
 # Use snapshots
 # Use nearby repositories
-export MIRROR_UBUNTU_URL := $(shell ./f_isoroot/f_repobuild/select_ubuntu_repo.sh --url)
+export MIRROR_UBUNTU_URL ?= $(shell ./f_isoroot/f_repobuild/select_ubuntu_repo.sh --url)
 export MIRROR_UBUNTU := $(shell echo "$(MIRROR_UBUNTU_URL)" | cut -d'/' -f3 )
 export MIRROR_UBUNTU_ROOT := $(shell echo -n '/' ; echo "$(MIRROR_UBUNTU_URL)" | cut -d'/' -f4-)
+ifeq (,$(MIRROR_UBUNTU_URL))
+$(error No sane Ubuntu mirror available)
+endif
 
 export LATEST_MIRROR_ID_URL := http://$(shell ./select_closest_fuel_mirror.py)
 
