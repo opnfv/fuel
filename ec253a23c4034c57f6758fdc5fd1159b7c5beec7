@@ -62,6 +62,30 @@
       "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_621c5714",
+        "filename": "build/f_repos/patch/fuel-library/0001-Reduce-ceilometer-memory-usage.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2016-12-19T13:41:22Z",
+      "side": 1,
+      "message": "it\u0027s standard output of \"git format-patch\"",
+      "parentUuid": "5ac10518_c22d0b48",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
