@@ -11,7 +11,7 @@
 # Add Fuel plugin build targets here
 # Plugins disabled for the Fuel Newton uplift. Please re-enable your plugin as you have
 # verified it!
-PLUGINS = f_ovs-nsh-dpdk-pluginbuild f_vsperfpluginbuild f_kvm-pluginbuild f_yardstick-pluginbuild
+PLUGINS ?= f_ovs-nsh-dpdk-pluginbuild f_vsperfpluginbuild f_kvm-pluginbuild f_yardstick-pluginbuild
 export PLUGINS
 NON_10-0_REBASED_PLUGINS = f_odlpluginbuild f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild f_bgpvpn-pluginbuild
 
