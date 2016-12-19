@@ -69,7 +69,7 @@ if [ "$1" == "-d" ]; then
 fi
 
 # Hardcode for testing purposes
-DEBUG=1
+# DEBUG=1
 
 TMPFILE=$(mktemp /tmp/mirrorsXXXXX)A
 trap cleanup exit
