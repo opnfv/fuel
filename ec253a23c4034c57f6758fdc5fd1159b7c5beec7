@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_22ff2fac",
+        "filename": "build/f_repos/patch/fuel-library/0001-Reduce-ceilometer-memory-usage.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-12-19T13:38:28Z",
+      "side": 1,
+      "message": "extra line",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 70
+      },
+      "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e23047a0",
+        "filename": "build/f_repos/patch/fuel-library/0001-Reduce-ceilometer-memory-usage.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-12-19T13:38:28Z",
+      "side": 1,
+      "message": "Signoff would be nice, although not mandatory.",
+      "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c22d0b48",
+        "filename": "build/f_repos/patch/fuel-library/0001-Reduce-ceilometer-memory-usage.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-12-19T13:38:28Z",
+      "side": 1,
+      "message": "extra lines",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
