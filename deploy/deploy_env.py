@@ -20,7 +20,6 @@ from ssh_client import SSHClient
 from common import (
     err,
     log,
-    exec_cmd,
     parse,
     N,
     E,

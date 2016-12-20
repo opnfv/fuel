@@ -13,15 +13,10 @@ import json
 
 from common import (
     N,
-    E,
     exec_cmd,
-    run_proc,
-    run_proc_wait_terminated,
-    run_proc_kill,
     parse,
     err,
     log,
-    delete,
 )
 
 SEARCH_TEXT = '(err)'

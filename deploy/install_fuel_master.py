@@ -16,7 +16,6 @@ from dha_adapters.libvirt_adapter import LibvirtAdapter
 from common import (
     log,
     err,
-    clean,
     delete,
 )
 

@@ -14,7 +14,6 @@ import io
 import re
 import sys
 import yaml
-import errno
 import signal
 import netaddr
 

@@ -8,13 +8,11 @@
 ###############################################################################
 
 
-import time
 from ipmi_adapter import IpmiAdapter
 
 from common import (
     log,
     exec_cmd,
-    err,
 )
 
 
