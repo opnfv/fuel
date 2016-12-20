@@ -86,6 +86,30 @@
       "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_9839b443",
+        "filename": "build/f_repos/patch/fuel-library/0001-Reduce-ceilometer-memory-usage.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2016-12-20T20:35:13Z",
+      "side": 1,
+      "message": "`make patches-export` would trim the lines I mentioned automatically; or \u0027--no-signature\u0027 / removing them by hand (I am ashamed to admit I handle them manually because I hate useless lines)\nI\u0027m ok with merging this as-is.",
+      "parentUuid": "5ac10518_621c5714",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "ec253a23c4034c57f6758fdc5fd1159b7c5beec7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
