@@ -19,34 +19,37 @@ include config.mk
 #############################################################################
 
 .PHONY: all
-all: .fastpathmetrics
+all: .barometer
 
 .PHONY: clean
 clean:
-	@rm -f .fastpathmetrics ../release/opnfv/fuel-plugin-collectd-ceilometer-*.rpm fuel-plugin-collectd-ceilometer-*.rpm
+	@rm -f .barometer ../release/opnfv/fuel-plugin-collectd-ceilometer-*.rpm fuel-plugin-collectd-ceilometer-*.rpm
 	@rm -f $(BUILD_BASE)/gitinfo_collectd-ceilometer-plugin.txt gitinfo_collectd-ceilometer-plugin.txt
 
 .PHONY: release
-release:.fastpathmetrics
+release:.barometer
 	@rm -f ../release/opnfv/fuel-plugin-collectd-ceilometer-*.rpm
 	@mkdir -p ../release/opnfv
 	@cp fuel-plugin-collectd-ceilometer*.rpm ../release/opnfv/
 	cp gitinfo_collectd-ceilometer-plugin.txt $(BUILD_BASE)
 
-.fastpathmetrics:
-	@rm -rf fastpathmetrics
+.barometer:
+	@rm -rf barometer
+	../../docker/ubuntu-builder/install_docker.sh
 	git clone $(COLLECTD_CEILOMETER_REPO)
-	cd fastpathmetrics; \
+	cd barometer; \
 	git checkout $(COLLECTD_CEILOMETER_BRANCH); \
 	if [ ! -z $(COLLECTD_CEILOMETER_CHANGE) ]; then \
 	   git fetch $(COLLECTD_CEILOMETER_REPO) $(COLLECTD_CEILOMETER_CHANGE); \
 	   git checkout FETCH_HEAD; \
 	fi
-	fpb --debug --build fastpathmetrics/src/fuel-plugin
-	@mv fastpathmetrics/src/fuel-plugin/fuel-plugin-collectd-ceilometer*.rpm .
+	#will fix it soon
+	sed -i "s/sudo docker run -v/sudo docker run -v /" src/fuel-plugin/pre_build_hook
+	fpb --debug --build barometer/src/fuel-plugin
+	@mv barometer/src/fuel-plugin/fuel-plugin-collectd-ceilometer*.rpm .
 	$(REPOINFO) -r . > gitinfo_collectd-ceilometer-plugin.txt
-	@rm -rf fastpathmetrics
-	@touch .fastpathmetrics
+	@rm -rf barometer
+	@touch .barometer
 	# Store artifact in cache straight away if caching is enabled
 	# (no .cacheid will be present unless this is a cached build)
 	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
@@ -88,4 +91,4 @@ get-cache: .cacheid
 # Store cache if not already stored - called after ordinary build
 .PHONY: put-cache
 put-cache: .cacheid
-	@tar cf - .fastpathmetrics fuel-plugin-collectd-ceilometer*.rpm gitinfo_collectd-ceilometer-plugin.txt | $(CACHETOOL) put $(shell cat .cacheid)
+	@tar cf - .barometer fuel-plugin-collectd-ceilometer*.rpm gitinfo_collectd-ceilometer-plugin.txt | $(CACHETOOL) put $(shell cat .cacheid)
