@@ -1,0 +1,13 @@
+diff --git a/src/fuel-plugin/pre_build_hook b/src/fuel-plugin/pre_build_hook
+index c0d35d4..78e90ec 100755
+--- a/src/fuel-plugin/pre_build_hook
++++ b/src/fuel-plugin/pre_build_hook
+@@ -25,7 +25,7 @@ function build_pkg {
+       # build collectd
+       cd ${DIR}
+       sudo docker  build -t collectd_build .
+-      sudo docker run -v${DIR}/repositories/ubuntu:/build -t collectd_build /build-collectd.sh
++      sudo docker run -v ${DIR}/repositories/ubuntu:/build -t collectd_build /build-collectd.sh
+       ;;
+     *) echo "Not supported system"; exit 1;;
+   esac
