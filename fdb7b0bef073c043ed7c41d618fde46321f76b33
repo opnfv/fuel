@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_880399b7",
+        "filename": "deploy/config/plugins/fuel-congress_1.0.0.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-12-27T18:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_c8c44194",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "fdb7b0bef073c043ed7c41d618fde46321f76b33",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_68d42d47",
         "filename": "deploy/config/plugins/fuel-congress_1.0.0.yaml",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "user_password:\n  generator: \u0027password\u0027",
       "parentUuid": "5ac10518_68d42d47",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 47
+      },
+      "revId": "fdb7b0bef073c043ed7c41d618fde46321f76b33",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_a8fe95ac",
+        "filename": "deploy/config/plugins/fuel-congress_1.0.0.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2016-12-27T18:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_28ce25b5",
       "range": {
         "startLine": 40,
         "startChar": 23,
