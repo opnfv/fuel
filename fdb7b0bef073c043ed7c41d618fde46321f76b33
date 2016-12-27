@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_68d42d47",
+        "filename": "deploy/config/plugins/fuel-congress_1.0.0.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6475
+      },
+      "writtenOn": "2016-12-27T16:12:34Z",
+      "side": 1,
+      "message": "????",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 47
+      },
+      "revId": "fdb7b0bef073c043ed7c41d618fde46321f76b33",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
