@@ -518,8 +518,6 @@ settings:
 
           ruby-stomp
 
-          systemd-shim
-
           telnet
 
           ubuntu-minimal
