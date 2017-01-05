@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Workflow+1: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-by: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-at: Thu, 05 Jan 2017 04:53:17 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/26655
+Project: fuel
+Branch: refs/heads/master
