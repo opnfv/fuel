@@ -1,0 +1,11 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Code-Review+1: Jonas Bjurel <jonas.bjurel@ericsson.com>
+Code-Review+1: Serg Melikyan <smelikyan@mirantis.com>
+Code-Review+2: Fedor Zhadaev <fzhadaev@mirantis.com>
+Workflow+1: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-by: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-at: Thu, 12 Jan 2017 15:28:57 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/26377
+Project: fuel
+Branch: refs/heads/master
