@@ -32,9 +32,6 @@ deployment-scenario-metadata:
 # <module-config-base-uri>/<module-config-name>_<module-config-version>.yaml
 # It does so by copying the config file to the local plugin config directory
 stack-extensions:
-  - module: congress
-    module-config-name: fuel-congress
-    module-config-version: 1.0.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
@@ -43,7 +40,7 @@ dea-override-config:
   nodes:
   - id: 1
     interfaces: interfaces_1
-    role: mongo,controller,congress
+    role: mongo,controller
   - id: 2
     interfaces: interfaces_1
     role: ceph-osd,compute
