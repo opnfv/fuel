@@ -22,6 +22,8 @@ RUN apt-get install -y software-properties-common python-software-properties \
     ca-certificates sudo apt-utils lsb-release dosfstools debmirror p7zip-full \
     build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 
+# FIXME(armband): Newer ffi is broken - https://jira.opnfv.org/browse/ARMBAND-191
+RUN gem install ffi -v 1.9.14
 RUN gem install fpm
 RUN pip install fuel-plugin-builder
 # fuel-infra key
