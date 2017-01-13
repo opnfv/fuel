@@ -78,7 +78,7 @@ dea-override-config:
   attributes_1:
     hugepages:
       dpdk:
-        value: 128
+        value: 1024
       nova:
         value:
           '2048': 1024
