@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_32bbe5c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-01-13T11:13:57Z",
+      "side": 1,
+      "message": "Is it still relevant?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "f050ac66bf0c402e7c55d562051bf9ffe3f6cb5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_a12cb84b",
         "filename": "deploy/scenario/ha_nfv-ovs_heat_ceilometer_scenario.yaml",
         "patchSetId": 2
