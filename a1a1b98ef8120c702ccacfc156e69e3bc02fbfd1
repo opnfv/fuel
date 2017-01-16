@@ -1,0 +1,9 @@
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Code-Review+2: Fedor Zhadaev <fzhadaev@mirantis.com>
+Workflow+1: Fedor Zhadaev <fzhadaev@mirantis.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Mon, 16 Jan 2017 20:47:54 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/27061
+Project: fuel
+Branch: refs/heads/master
