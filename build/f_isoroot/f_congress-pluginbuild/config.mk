@@ -9,4 +9,4 @@
 
 CONGRESS_BRANCH?=master
 CONGRESS_REPO?="https://github.com/openstack/fuel-plugin-congress"
-CONGRESS_CHANGE?=951a5ef26af16215b4bb7730c55c3c44fadb7cee
+CONGRESS_CHANGE?=adfa2db62988649219d64bd53746f2635d95aa43
