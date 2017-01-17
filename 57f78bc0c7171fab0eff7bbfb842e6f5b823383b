@@ -1,0 +1,9 @@
+Code-Review+1: Billy O'Mahony <billy.o.mahony@intel.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Fedor Zhadaev <fzhadaev@mirantis.com>
+Workflow+1: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-by: Fedor Zhadaev <fzhadaev@mirantis.com>
+Submitted-at: Tue, 17 Jan 2017 10:35:35 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/26975
+Project: fuel
+Branch: refs/heads/master
