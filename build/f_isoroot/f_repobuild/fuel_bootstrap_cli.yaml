@@ -36,6 +36,7 @@
     - openssh-client
     - openssh-server
     - squashfs-tools
+    - systemd-shim
     - ubuntu-minimal
     - vim
     - wget
