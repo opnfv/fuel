@@ -35,7 +35,8 @@ interfaces_dpdk:
   - private
   - interface_properties:
       dpdk:
-        enabled: true
+        enabled:
+          value: true
   ens6:
   - public
 interfaces_vlan:

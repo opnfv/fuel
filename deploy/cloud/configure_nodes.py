@@ -142,7 +142,8 @@ class ConfigureNodes(object):
     #   ens5:
     #   - interface_properties:
     #       dpdk:
-    #         enabled: true
+    #         enabled:
+    #           value: true
     #   - private
     #   ens6:
     #   - public
@@ -169,19 +170,19 @@ class ConfigureNodes(object):
             if interface['name'] in interface_config:
                 for prop in interface_config[interface['name']]:
                     net = {}
-                    #net name
+                    # net name
                     if isinstance(prop, six.string_types):
                         net['id'] = net_name_id[prop]
                         net['name'] = prop
                         interface['assigned_networks'].append(net)
-                    #network properties
+                    # network properties
                     elif isinstance(prop, dict):
-                        if not 'interface_properties' in prop:
-                            log('Interface configuration contain unknow dict: %s' % prop)
+                        if 'interface_properties' not in prop:
+                            log('Interface configuration contains unknown dict: %s' % prop)
                             continue
-                        interface['interface_properties'] = \
-                        self._merge_dicts(interface.get('interface_properties', {}),
-                                          prop.get('interface_properties', {}))
+                        interface['attributes'] = self._merge_dicts(
+                            interface.get('attributes', {}),
+                            prop.get('interface_properties', {}))
 
         with io.open(interface_yaml, 'w') as stream:
             yaml.dump(interfaces, stream, default_flow_style=False)
@@ -198,4 +199,3 @@ class ConfigureNodes(object):
                 continue
             result[k] = copy.deepcopy(v)
         return result
-
