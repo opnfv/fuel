@@ -22,6 +22,30 @@
       "revId": "d39852d2ca4c37bcc55564fb62761bada58056bd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e684bbd5",
+        "filename": "deploy/scenario/no-ha_nfv-ovs_heat_ceilometer_scenario.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-01-17T09:36:17Z",
+      "side": 1,
+      "message": "This param is in Mb (256Mb for virtual labs)",
+      "parentUuid": "5ac10518_2614039f",
+      "range": {
+        "startLine": 79,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 16
+      },
+      "revId": "d39852d2ca4c37bcc55564fb62761bada58056bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
