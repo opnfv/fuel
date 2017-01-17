@@ -1,0 +1,20 @@
+From 28fd543ac21e4c8c9ad8f0d257b7d45cab07bf94 Mon Sep 17 00:00:00 2001
+From: Oleksiy Molchanov <omolchanov@mirantis.com>
+Date: Mon, 19 Dec 2016 13:59:49 +0200
+Subject: [PATCH] Add systemd-shim to local mirror
+
+Change-Id: I3023c0b1ca99ea8006488a44c309d2a55857b829
+Closes-Bug: 1650652
+
+diff --git a/contrib/fuel_mirror/data/ubuntu.yaml b/contrib/fuel_mirror/data/ubuntu.yaml
+index ac62455..53669ca 100644
+--- a/contrib/fuel_mirror/data/ubuntu.yaml
++++ b/contrib/fuel_mirror/data/ubuntu.yaml
+@@ -130,6 +130,7 @@ packages: &packages
+      - "vim"
+      - "virt-what"
+      - "xinetd"
++     - "systemd-shim"
+ 
+ 
+ groups:
