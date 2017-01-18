@@ -10,4 +10,4 @@
 FUEL_MIRROR_REPO?=https://github.com/openstack/fuel-mirror
 # Point to the commit where 302 redirects are handled
 # https://bugs.launchpad.net/fuel/mitaka/+bug/1593674
-FUEL_MIRROR_COMMIT?=192a3d9f8f993afb12c5108dd9339c6688c23e11
+FUEL_MIRROR_COMMIT=stable/mitaka
