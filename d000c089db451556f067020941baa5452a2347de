@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_f6d77f21",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-01-24T13:20:46Z",
+      "side": 1,
+      "message": "can we merge this first https://review.openstack.org/#/c/422601/ and point to the commit id that includes it?",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "d000c089db451556f067020941baa5452a2347de",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
