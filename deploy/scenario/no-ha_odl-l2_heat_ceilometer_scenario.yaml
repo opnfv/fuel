@@ -34,7 +34,7 @@ deployment-scenario-metadata:
 stack-extensions:
   - module: opendaylight
     module-config-name: fuel-odl
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
 # Note that the module substitionion does not support arrays
 # This is a quick fix

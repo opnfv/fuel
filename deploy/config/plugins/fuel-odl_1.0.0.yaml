@@ -1,0 +1,143 @@
+##############################################################################
+# Copyright (c) 2015 Ericsson AB and others.
+# jonas.bjurel@ericsson.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+plugin-config-metadata:
+  title: OpenDaylight fuel Plugin configuration template
+  version: 0.5
+  created: 24.01.2017
+  comment: Add new field for boron version
+opendaylight:
+  metadata:
+    #chosen_id: Assigned during installation
+    class: plugin
+    default: false
+    enabled: true
+    label: OpenDaylight plugin
+    toggleable: true
+    versions:
+    - bgpvpn_gateway:
+        description: Define the default gateway for BGPVPN
+        label: Default Gateway
+        regex:
+          error: Invalid ip number
+          source: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+        restrictions:
+        - settings:opendaylight.enable_bgpvpn.value == false: Only needed if BGPVPN
+            is enabled.
+        type: text
+        value: 0.0.0.0
+        weight: 50
+      enable_bgpvpn:
+        description: 'This enables the bgpvpn extension of neutron togethere with
+          the corresponding sdnvpn features in odl. This feature will disable the
+          standart ovsdb feature from ODL.
+
+          '
+        label: BGPVPN extensions
+        restrictions:
+        - condition: settings:bgpvpn == null or settings:bgpvpn.metadata.enabled
+            == false
+          message: BGPVPN (fuel-plugin-bgpvpn) plugin must be installed and enabled.
+          strict: false
+        - networking_parameters:segmentation_type == 'vlan': This feature works
+            only with segmentation_type != vlan
+        type: checkbox
+        value: false
+        weight: 40
+      enable_l3_odl:
+        label: Use ODL to manage L3 traffic
+        restrictions:
+        - networking_parameters:segmentation_type == 'vlan': Use tunneling segmentation
+            type.
+        - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign
+            public network to all nodes
+        type: checkbox
+        value: false
+        weight: 10
+      enable_sfc:
+        label: SFC features
+        type: checkbox
+        value: false
+        weight: 20
+      sfc_class:
+        description: 'Classifier determines what traffic needs to be chained based
+          on policy based on yang model. The OpenDayLight actually supports the
+          OVSDB NetVirt and the GBP classifier in case of SFC.
+
+          '
+        label: Classifier used by SFC
+        restrictions:
+        - action: hide
+          condition: settings:opendaylight.enable_sfc.value == false
+        type: select
+        value: ncr
+        values:
+        - data: ncr
+          label: NetVirt
+        - data: gcr
+          label: GBP
+        weight: 21
+      metadata:
+        default_credentials:
+          password: admin
+          user: admin
+        hot_pluggable: false
+        jetty_port: 8181
+        odl_features:
+          default:
+          - config
+          - standard
+          - region
+          - package
+          - kar
+          - ssh
+          - management
+          gcr:
+          - odl-groupbasedpolicy-ovssfc
+          ncr:
+          - odl-ovsdb-sfc
+          - odl-ovsdb-sfc-rest
+          odl-default:
+          - odl-restconf-all
+          - odl-aaa-authn
+          - odl-dlux-all
+          ovs:
+          - odl-ovsdb-openstack
+          sfc:
+          - odl-sfc-model
+          - odl-sfc-provider
+          - odl-sfc-provider-rest
+          - odl-sfc-ovs
+          - odl-sfc-openflow-renderer
+          vpn:
+          - odl-vpnservice-openstack
+        odl_deb: opendaylight
+        experimental_odl_deb: opendaylight-experimental
+        use_experimental_odl:
+          - enable_bgpvpn
+        #plugin_id: Assigned during installation
+        plugin_version: 1.0.0
+        restrictions:
+        - cluster:net_provider != 'neutron': Only neutron is supported by OpenDaylight
+      odl_v2:
+        description: V2 version is considered as experimental
+        label: Use V2 ML2 driver
+        type: checkbox
+        value: false
+        weight: 60
+      rest_api_port:
+        description: Port on which ODL REST API will be available.
+        label: Port number
+        regex:
+          error: Invalid port number
+          source: ^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$
+        type: text
+        value: '8282'
+        weight: 70
+    weight: 70

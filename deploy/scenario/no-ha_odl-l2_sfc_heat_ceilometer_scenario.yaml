@@ -44,14 +44,14 @@ stack-extensions:
               plugin_version: 0.9.0
   - module: opendaylight
     module-config-name: fuel-odl
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
       metadata:
         versions:
           - enable_sfc:
               value: true
             metadata:
-              plugin_version: 0.9.0
+              plugin_version: 1.0.0
   - module: tacker
     module-config-name: fuel-tacker
     module-config-version: 0.9.0
