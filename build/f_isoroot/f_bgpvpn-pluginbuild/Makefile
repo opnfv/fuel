@@ -34,6 +34,12 @@ release:.bgpvpnbuild
 	cp gitinfo_bgpvpnplugin.txt $(BUILD_BASE)
 
 .bgpvpnbuild:
+	# The python packages build into deb by this plugin require a newer
+	# setuptools install a newer setuptools version until the container
+	# where this is run is bumped to ubuntu 16.04.
+	# --user is used because there is already a setuptools installation
+	#  managed by apt.
+	pip install setuptools --upgrade --user
 	rm -rf fuel-plugin-bgpvpn
 	git clone $(BGPVPN_REPO)
 	cd fuel-plugin-bgpvpn; \
