@@ -1,0 +1,13 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Romanos Skiadas <rski@intracom-telecom.com>
+Code-Review+1: Igor Zinovik <izinovik@mirantis.com>
+Code-Review+1: Jose Lausuch <jose.lausuch@ericsson.com>
+Code-Review+2: Fedor Zhadaev <fzhadaev@mirantis.com>
+Code-Review+2: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Workflow+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Tue, 31 Jan 2017 11:13:16 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/27769
+Project: fuel
+Branch: refs/heads/master
