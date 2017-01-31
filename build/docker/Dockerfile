@@ -23,7 +23,7 @@ RUN apt-get install -y software-properties-common python-software-properties \
     build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
 
 RUN gem install fpm
-RUN pip install fuel-plugin-builder
+RUN pip install git+https://github.com/openstack/fuel-plugins
 # fuel-infra key
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BCE5CC461FA22B08
 
