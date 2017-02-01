@@ -135,6 +135,7 @@ packages:
   - name: "percona-toolkit"
   - name: "percona-xtrabackup"
   - name: "pm-utils"
+  - name: "postfix"
   - name: "puppet"
   - name: "python-lesscpy"
   - name: "python-pip"
