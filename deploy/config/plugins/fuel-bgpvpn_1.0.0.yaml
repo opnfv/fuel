@@ -6,17 +6,28 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-
 plugin-config-metadata:
   title: BGPVPN fuel Plugin configuration template
-  version: 0.1
-  created: Wed Jan 13 2016
+  version: 1.0.0
+  created: 01.02.2017
   comment: None
 
 bgpvpn:
   metadata:
+    class: plugin
+    default: false
     enabled: true
-    restrictions:
-      - "cluster:net_provider != 'neutron'": "Only neutron is supported by BGPVPN-plugin"
-    label: "BGPVPN plugin"
-    weight: 90
+    label: BGPVPN plugin
+    toggleable: true
+    versions:
+    - metadata:
+        always_editable: false
+        label: BGPVPN plugin
+        plugin_version: 1.0.0
+        restrictions:
+          - "cluster:net_provider != 'neutron'": "Only neutron is supported by BGPVPN-plugin"
+          - condition: "settings:opendaylight == null or settings:opendaylight.metadata.enabled != true"
+            strict: false
+            message: "OpenDaylight plugin must be installed and enabled"
+        weight: 90
+    weight: 70

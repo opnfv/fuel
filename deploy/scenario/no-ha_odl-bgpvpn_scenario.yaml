@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: ODL HA BGPVPN deployment
-   version: 0.9.0
+   version: 1.0.0
    created: 29.06.2016
-   comment: Fuel ODL No HA with BGPVPN, Ceph, Ceilometer and Heat Rebased for Fuel9
+   comment: Fuel ODL No HA with BGPVPN, Ceph, Ceilometer and Heat Rebased for Fuel10
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -34,22 +34,18 @@ deployment-scenario-metadata:
 stack-extensions:
   - module: opendaylight
     module-config-name: fuel-odl
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
       metadata:
         versions:
           - enable_bgpvpn:
               value: true
             metadata:
-              plugin_version: 0.9.0
+              plugin_version: 1.0.0
 
   - module: bgpvpn
     module-config-name: fuel-bgpvpn
-    module-config-version: 0.9.0
-
-  - module: fuel-plugin-ovs
-    module-config-name: fuel-nshovs
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
 
 ##############################################################################
 # By editing the override-config sections below, you can override arbitrary
