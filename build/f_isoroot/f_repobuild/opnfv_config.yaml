@@ -1,0 +1,166 @@
+##############################################################################
+# Copyright (c) 2016 Enea AB and others.
+# Alexandru.Avadanii@enea.com
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+# REPO definitions
+
+# Based on old fuel-mirror data [1], adapted for OPNFV and packetary.
+# NOTE: 'uri' field will be added by opnfv_mirror_ubuntu.py from ENV.
+# [1] https://github.com/openstack/fuel-mirror/blob/stable/mitaka/
+#     contrib/fuel_mirror/data/ubuntu.yaml
+
+# Main is a required parameter which defines what repository will be used
+# for images creation and that mirror should contain all packages for minimal
+# system creation.
+groups:
+  ubuntu:
+    - name: "ubuntu"
+      main: true
+      suite: "xenial"
+      section:
+        - "main"
+        - "multiverse"
+        - "restricted"
+        - "universe"
+      type: "deb"
+      priority: null
+
+    - name: "ubuntu-updates"
+      suite: "xenial-updates"
+      section:
+        - "main"
+        - "multiverse"
+        - "restricted"
+        - "universe"
+      type: "deb"
+      priority: null
+
+    - name: "ubuntu-security"
+      suite: "xenial-security"
+      section:
+        - "main"
+        - "multiverse"
+        - "restricted"
+        - "universe"
+      type: "deb"
+      priority: null
+
+  mos:
+    - name: "mos"
+      suite: "mos$mos_version"
+      section:
+        - "main"
+        - "restricted"
+      type: "deb"
+      priority: 1000
+
+    - name: "mos-updates"
+      suite: "mos$mos_version-updates"
+      section:
+        - "main"
+        - "restricted"
+      type: "deb"
+      priority: 1000
+
+    - name: "mos-security"
+      suite: "mos$mos_version-security"
+      section:
+        - "main"
+        - "restricted"
+      type: "deb"
+      priority: 1000
+
+    - name: "mos-holdback"
+      suite: "mos$mos_version-holdback"
+      section:
+        - "main"
+        - "restricted"
+      type: "deb"
+      priority: 1000
+
+# PACKAGES
+
+# This section lists packages that should be present in the local Ubuntu mirror,
+# but are not direct dependencies of any other packages from  MOS or Ubuntu.
+# e.g.: additional kernels, bootloaders etc.
+
+packages:
+  - name: "vgabios"
+# Packages are required to build bootstrap images for a system.
+# The mirror should contiain such packages in addition to local mirror.
+  - name: "acpi-support"
+  - name: "anacron"
+  - name: "aptitude"
+  - name: "atop"
+  - name: "acct"
+  - name: "bash-completion"
+  - name: "bc"
+  - name: "build-essential"
+  - name: "cloud-init"
+  - name: "conntrackd"
+  - name: "cpu-checker"
+  - name: "cpufrequtils"
+  - name: "debconf-utils"
+  - name: "devscripts"
+  - name: "fping"
+  - name: "git"
+  - name: "grub-pc"
+  - name: "htop"
+  - name: "hwloc"
+  - name: "ifenslave"
+  - name: "iperf"
+  - name: "iptables-persistent"
+  - name: "irqbalance"
+  - name: "language-pack-en"
+  - name: "libapache2-mod-fastcgi"
+  - name: "libnss3-tools"
+  - name: "linux-headers-generic-lts-xenial"
+  - name: "linux-image-generic-lts-xenial"
+  - name: "live-boot"
+  - name: "livecd-rootfs"
+  - name: "mc"
+  - name: "memcached"
+  - name: "monit"
+  - name: "msmtp-mta"
+  - name: "multipath-tools"
+  - name: "multipath-tools-boot"
+  - name: "nginx"
+  - name: "ntp"
+  - name: "openssh-server"
+  - name: "percona-toolkit"
+  - name: "percona-xtrabackup"
+  - name: "pm-utils"
+  - name: "puppet"
+  - name: "python-lesscpy"
+  - name: "python-pip"
+  - name: "rsyslog-gnutls"
+  - name: "rsyslog-relp"
+  - name: "screen"
+  - name: "squashfs-tools"
+  - name: "swift-plugin-s3"
+  - name: "sysfsutils"
+  - name: "sysstat"
+  - name: "telnet"
+  - name: "tmux"
+  - name: "traceroute"
+  - name: "ubuntu-standard"
+  - name: "vim"
+  - name: "virt-what"
+  - name: "xinetd"
+  - name: "xmlstarlet"
+  - name: "tftpd-hpa"
+  - name: "syslinux"
+
+# OPNFV BLACKLIST
+
+# Packetary's dependency solving mechanism brings in more than one alternative
+# For example, "Depends: upstart | systemd-sysv" brings both packages, which
+# leads to debootstrap using "upstart" (1st option available in local repo).
+
+opnfv_blacklist:
+  - name: "upstart"
