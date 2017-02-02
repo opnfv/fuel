@@ -22,9 +22,9 @@
 # deployment configuration meta-data
 deployment-scenario-metadata:
    title: ODL-L2-SFC No-HA deployment
-   version: 0.0.3
+   version: 0.0.4
    created: Feb 10 2016
-   comment: Fuel ODL-L2 SFC No HA with Ceph, Ceilometer and Heat Rebased for Fuel9
+   comment: Fuel ODL-L2 SFC No HA with Ceph, Ceilometer and Heat Rebased for Fuel10
 
 ##############################################################################
 # Stack extentions are opnfv added value features in form of a fuel-plugin
@@ -34,27 +34,27 @@ deployment-scenario-metadata:
 stack-extensions:
   - module: fuel-plugin-ovs
     module-config-name: fuel-nshovs
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
       metadata:
         versions:
           - install_nsh:
               value: true
             metadata:
-              plugin_version: 0.9.0
+              plugin_version: 1.0.0
   - module: opendaylight
     module-config-name: fuel-odl
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
     module-config-override:
       metadata:
         versions:
           - enable_sfc:
               value: true
             metadata:
-              plugin_version: 0.9.0
+              plugin_version: 1.0.0
   - module: tacker
     module-config-name: fuel-tacker
-    module-config-version: 0.9.0
+    module-config-version: 1.0.0
 
 # Note that the module substitionion does not support arrays
 # This is a quick fix
