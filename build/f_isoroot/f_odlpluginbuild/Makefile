@@ -43,9 +43,9 @@ release:.odlbuild
 	# (no .cacheid will be present unless this is a cached build)
 	test -f .cacheid && $(MAKE) -f Makefile put-cache || exit 0
 
-#############################################################################
+##############################################################################
 # Cache operations - only used when building through ci/build.sh
-#############################################################################
+##############################################################################
 
 
 # Create a unique hash to be used for getting and putting cache, based on:

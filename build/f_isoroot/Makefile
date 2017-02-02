@@ -13,7 +13,7 @@
 # verified it!
 PLUGINS ?= f_ovs-nsh-dpdk-pluginbuild f_vsperfpluginbuild f_kvm-pluginbuild f_yardstick-pluginbuild f_collectd-ceilometer-pluginbuild f_congress-pluginbuild f_odlpluginbuild f_bgpvpn-pluginbuild f_tacker-pluginbuild
 export PLUGINS
-NON_10-0_REBASED_PLUGINS = f_onosfwpluginbuild f_ovsnfv-dpdk-pluginbuild f_vsperfpluginbuild
+NON_10-0_REBASED_PLUGINS = f_onosfwpluginbuild
 
 # If the BUILD_FUEL_PLUGINS environment variable is set, only build the plugins
 # indicated therein.
