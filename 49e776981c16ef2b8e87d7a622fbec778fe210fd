@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1acb0d3e_fa3b5536",
+        "filename": "build/f_isoroot/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-02-02T13:12:09Z",
+      "side": 1,
+      "message": "Looks like only onos should be on this list now.",
+      "revId": "49e776981c16ef2b8e87d7a622fbec778fe210fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
