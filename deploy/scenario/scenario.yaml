@@ -87,3 +87,6 @@ os-nosdn-kvm_ovs_dpdk-ha:
 
 os-nosdn-kvm_ovs_dpdk-noha:
   configfile: no-ha_nfv-kvm_nfv-ovs-dpdk_heat_ceilometer_scenario.yaml
+
+os-nosdn-kvm_ovs_dpdk_bar-ha:
+  configfile: ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml
