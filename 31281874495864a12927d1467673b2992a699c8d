@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1acb0d3e_4dec30c8",
+        "filename": "deploy/config/plugins/fuel-barometer_1.0.0.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-02-06T10:28:38Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "31281874495864a12927d1467673b2992a699c8d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_adda7415",
+        "filename": "deploy/scenario/ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-02-06T10:28:38Z",
+      "side": 1,
+      "message": "This was a param but we don\u0027t use it anymore, moreover it\u0027s only intended to mellanox drivers.",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 20
+      },
+      "revId": "31281874495864a12927d1467673b2992a699c8d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
