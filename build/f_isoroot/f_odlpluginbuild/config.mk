@@ -8,7 +8,7 @@
 ##############################################################################
 
 FUEL_PLUGIN_ODL_BRANCH ?= master
-FUEL_PLUGIN_ODL_CHANGE ?= 207f8627279cfd4aa2192c2d7ce39f3b00633bf5
+FUEL_PLUGIN_ODL_CHANGE ?= 001dc03a0691bb3c94570d447584eea7e12264dc
 FUEL_PLUGIN_ODL_REPO ?= https://github.com/openstack/fuel-plugin-opendaylight.git
 
 export OPNFV_BUILD?=true
