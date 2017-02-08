@@ -22,6 +22,30 @@
       "revId": "e2378211a09397ab35e7c18d53d407360eaf470b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_40d872ef",
+        "filename": "build/f_isoroot/f_odlpluginbuild/config.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-02-08T11:56:00Z",
+      "side": 1,
+      "message": "It\u0027s up to Michal.\nI\u0027m for it.",
+      "parentUuid": "1acb0d3e_20544653",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "e2378211a09397ab35e7c18d53d407360eaf470b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
