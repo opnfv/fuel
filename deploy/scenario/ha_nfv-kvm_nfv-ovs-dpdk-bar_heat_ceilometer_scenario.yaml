@@ -85,9 +85,6 @@ dea-override-config:
   network:
     networking_parameters:
       segmentation_type: vlan
-      vlan_range:
-      - 1000
-      - 1030
     networks:
     - cidr: null
       gateway: null
