@@ -35,15 +35,15 @@ diff --git a/mirror/ubuntu/module.mk b/mirror/ubuntu/module.mk
 index 7a9466e..fe1ada2 100644
 --- a/mirror/ubuntu/module.mk
 +++ b/mirror/ubuntu/module.mk
-@@ -81,7 +81,7 @@ $(BUILD_DIR)/mirror/ubuntu/mirror.done:
- 	--root=$(MIRROR_MOS_UBUNTU_ROOT) \
- 	--dist=$(MIRROR_MOS_UBUNTU_SUITE) \
- 	--section=$(subst $(space),$(comma),$(MIRROR_MOS_UBUNTU_SECTION)) \
--	--arch=$(UBUNTU_ARCH) \
-+	--arch=$(shell echo $(UBUNTU_ARCH) | tr ' ' ',') \
- 	$(LOCAL_MIRROR_UBUNTU)/
- 	rm -rf $(LOCAL_MIRROR_UBUNTU)/.temp $(LOCAL_MIRROR_UBUNTU)/project
- 	$(ACTION.TOUCH)
+@@ -33,7 +33,7 @@ set -ex; ./debmirror --progress --checksums --nocleanup \
+   --root=$(MIRROR_MOS_UBUNTU_ROOT) \
+   --dist=$(MIRROR_MOS_UBUNTU_SUITE)$1 \
+   --section=$(subst $(space),$(comma),$(MIRROR_MOS_UBUNTU_SECTION)) \
+-  --arch=$(UBUNTU_ARCH) \
++  --arch=$(shell echo $(UBUNTU_ARCH) | tr ' ' ',') \
+   $(LOCAL_MIRROR_UBUNTU)/
+ endef
+
 diff --git a/sandbox.mk b/sandbox.mk
 index 9d34dc9..e787f43 100644
 --- a/sandbox.mk
