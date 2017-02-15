@@ -7,13 +7,13 @@ Subject: [PATCH] Patches for OPNFV
  1 file changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/iso/bootstrap_admin_node.sh b/iso/bootstrap_admin_node.sh
-index dbcac5f..1826390 100755
+index dbcac5f..472e418 100755
 --- a/iso/bootstrap_admin_node.sh
 +++ b/iso/bootstrap_admin_node.sh
 @@ -347,8 +347,23 @@ fuelmenu --save-only --iface=$ADMIN_INTERFACE || fail
  set +x
  echo "Done!"
- 
+
 +### OPNFV addition BEGIN
 +shopt -s nullglob
 +for script in /opt/opnfv/bootstrap/pre.d/*.sh
@@ -37,18 +37,18 @@ index dbcac5f..1826390 100755
    echo
 @@ -386,8 +401,7 @@ if [ ! -f /etc/fuel_build_id ]; then
  fi
- 
+
  # Enable sshd
 -systemctl enable sshd
 -systemctl start sshd
 +systemctl restart sshd
- 
+
  # Enable iptables
  systemctl enable iptables.service
 @@ -546,6 +560,16 @@ systemctl start ntpd
- 
+
  bash /etc/rc.local
- 
+
 +### OPNFV addition BEGIN
 +shopt -s nullglob
 +for script in /opt/opnfv/bootstrap/post.d/*.sh

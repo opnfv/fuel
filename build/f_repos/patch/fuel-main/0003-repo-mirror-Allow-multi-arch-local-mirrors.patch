@@ -19,7 +19,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/config.mk b/config.mk
-index 7f7d965..83c3810 100644
+index e0b988b..593f105 100644
 --- a/config.mk
 +++ b/config.mk
 @@ -48,7 +48,7 @@ UBUNTU_MINOR?=04
@@ -32,7 +32,7 @@ index 7f7d965..83c3810 100644
  SEPARATE_IMAGES?=/boot,ext2 /,ext4
 
 diff --git a/mirror/ubuntu/module.mk b/mirror/ubuntu/module.mk
-index 7a9466e..fe1ada2 100644
+index 5b4d762..b4fa99c 100644
 --- a/mirror/ubuntu/module.mk
 +++ b/mirror/ubuntu/module.mk
 @@ -33,7 +33,7 @@ set -ex; ./debmirror --progress --checksums --nocleanup \
