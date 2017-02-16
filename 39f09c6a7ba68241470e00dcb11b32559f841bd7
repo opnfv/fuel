@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_754a1385",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-02-16T07:33:15Z",
+      "side": 1,
+      "message": "should be different I guess",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "39f09c6a7ba68241470e00dcb11b32559f841bd7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_356d7b05",
+        "filename": "deploy/scenario/no-ha_nfv-kvm_nfv-ovs-dpdk-bar_heat_ceilometer_scenario.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-02-16T07:33:15Z",
+      "side": 1,
+      "message": "value: 1024",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 16
+      },
+      "revId": "39f09c6a7ba68241470e00dcb11b32559f841bd7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
