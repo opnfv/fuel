@@ -253,8 +253,8 @@ index 0000000..404fb90
 +# used to determine number of workers in a single place but use it across all
 +# modules.
 +#
-+# The value for os_workers is max between '(<# processors> / 4)' and '2' with
-+# a cap of 8.
++# The value for os_workers is max between '(<# processors> / 2)' and '2' with
++# a cap of 12.
 +#
 +# This fact can be overloaded by an external fact from /etc/factor/facts.d if
 +# a user would like to provide their own default value.
@@ -263,7 +263,7 @@ index 0000000..404fb90
 +  has_weight 100
 +  setcode do
 +    processors = Facter.value('processorcount')
-+    [ [ (processors.to_i / 4), 2 ].max, 8 ].min
++    [ [ (processors.to_i / 2), 2 ].max, 12 ].min
 +  end
 +end
 diff --git a/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp b/deployment/puppet/osnailyfacter/manifests/apache_mpm.pp
