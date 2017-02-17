@@ -38,8 +38,6 @@ stack-extensions:
      module-config-version: 1.0.0
      module-config-override:
        # Module config overrides
-
-stack-extensions:
    - module: fuel-plugin-collectd-ceilometer
      module-config-name: fuel-barometer
      module-config-version: 1.0.0
