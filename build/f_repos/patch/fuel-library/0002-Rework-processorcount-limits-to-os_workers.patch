@@ -34,15 +34,14 @@ diff --git a/deployment/puppet/openstack/manifests/cinder.pp b/deployment/puppet
 index 36747a6..502bc94 100644
 --- a/deployment/puppet/openstack/manifests/cinder.pp
 +++ b/deployment/puppet/openstack/manifests/cinder.pp
-@@ -44,7 +44,7 @@ class openstack::cinder(
+@@ -44,6 +44,6 @@ class openstack::cinder(
    $keystone_user          = 'cinder',
    $region                 = 'RegionOne',
    $notification_driver    = undef,
 -  $service_workers        = $::processorcount,
 +  $service_workers        = $::os_workers,
-   $vmware_host_ip         = '10.10.10.10',
-   $vmware_host_username   = 'administrator@vsphere.local',
-   $vmware_host_password   = 'password',
+   $rbd_pool               = 'volumes',
+   $rbd_user               = 'volumes',
 diff --git a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp b/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
 index 72fbe32..e6fcf4f 100644
 --- a/deployment/puppet/openstack_tasks/manifests/ceilometer/controller.pp
