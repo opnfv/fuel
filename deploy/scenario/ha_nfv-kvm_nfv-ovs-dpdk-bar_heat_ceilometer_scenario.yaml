@@ -51,17 +51,15 @@ dea-override-config:
   fuel:
     FEATURE_GROUPS:
     - experimental
-  environment:
-    net_segment_type: vlan
   nodes:
   - id: 1
-    interfaces: interfaces_vlan
+    interfaces: interfaces_1
     role: controller
   - id: 2
-    interfaces: interfaces_vlan
+    interfaces: interfaces_1
     role: mongo,controller
   - id: 3
-    interfaces: interfaces_vlan
+    interfaces: interfaces_1
     role: ceph-osd,controller
   - id: 4
     interfaces: interfaces_dpdk
@@ -79,27 +77,6 @@ dea-override-config:
       nova:
         value:
           '2048': 1024
-
-  network:
-    networking_parameters:
-      segmentation_type: vlan
-    networks:
-    - cidr: null
-      gateway: null
-      ip_ranges: []
-      meta:
-        configurable: false
-        map_priority: 2
-        name: private
-        neutron_vlan_range: true
-        notation: null
-        render_addr_mask: null
-        render_type: null
-        seg_type: vlan
-        use_gateway: false
-        vlan_start: null
-      name: private
-      vlan_start: null
 
   settings:
     editable:
