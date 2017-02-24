@@ -50,6 +50,8 @@ stack-extensions:
         versions:
           - enable_sfc:
               value: true
+            deb_version:
+              value: '5.2.0-1'
             metadata:
               plugin_version: 1.0.0
   - module: tacker
