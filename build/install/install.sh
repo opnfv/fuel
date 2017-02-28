@@ -394,6 +394,8 @@ copy_packages() {
         printf "\n\n" | tee -a  $REPORTFILE
         for line in `cat $TOP/patch-packages/release/patch-replacements`
         do
+            echo "Did not expect a line here, not supported"
+            exit 1
             echo "Processing $line ..."
             frompkg=`echo $line | cut -d ">" -f 1`
             topkg=`echo $line | cut -d ">" -f 2`
@@ -439,7 +441,7 @@ copy_packages() {
     APT_DEB_CONF="$TOP/install/apt-ftparchive-deb.conf"
     APT_UDEB_CONF="$TOP/install/apt-ftparchive-udeb.conf"
 
-    apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
+    echo Not running apt-ftparchive -c "${APT_REL_CONF}" generate "${APT_DEB_CONF}"
     echo Not running apt-ftparchive generate "${APT_UDEB_CONF}"
 
     # Fuel also needs this index file
@@ -448,10 +450,8 @@ copy_packages() {
     # /^Version:/{print pkg ": \"" $2 "\""}' > ubuntu-versions.yaml
     # cp ubuntu-versions.yaml $DEST
 
-    echo apt-ftparchive -c "${APT_REL_CONF}" release dists/mos10.0/ > dists/mos10.0/Release
-    apt-ftparchive -c "${APT_REL_CONF}" release dists/mos10.0/ > dists/mos10.0/Release
-    echo gzip -9cf dists/mos10.0/Release > dists/mos10.0/Release.gz
-    gzip -9cf dists/mos10.0/Release > dists/mos10.0/Release.gz
+    # apt-ftparchive -c "${APT_REL_CONF}" release dists/mos10.0/ > dists/mos10.0/Release
+    # gzip -9cf dists/mos10.0/Release > dists/mos10.0/Release.gz
 
     popd > /dev/null
 
