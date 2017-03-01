@@ -1,15 +1,13 @@
-.. This document is protected/licensed under the following conditions
-.. (c) Jonas Bjurel (Ericsson AB)
-.. Licensed under a Creative Commons Attribution 4.0 International License.
-.. You should have received a copy of the license along with this work.
-.. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) Open Platform for NFV Project, Inc. and its contributors
 
 ========
 Abstract
 ========
 
 This document describes how to build the Fuel deployment tool for the
-Colorado release of OPNFV build system, dependencies and required
+Danube release of OPNFV build system, dependencies and required
 system resources.
 
 ============
@@ -17,7 +15,7 @@ Introduction
 ============
 
 This document describes the build system used to build the Fuel
-deployment tool for the Colorado release of OPNFV, required
+deployment tool for the Danube release of OPNFV, required
 dependencies and minimum requirements on the host to be used for the
 build system.
 
@@ -120,12 +118,12 @@ Now it is time to clone the code repository:
 Now you should have the OPNFV fuel repository with the Fuel
 directories stored locally on your build host.
 
-Check out the Colorado release:
+Check out the Danube release:
 
 .. code-block:: bash
 
     $ cd fuel
-    $ git checkout colorado.3.0
+    $ git checkout danube.1.0
 
 Clone the OPNFV code Git repository without a SSH key
 -----------------------------------------------------
@@ -205,7 +203,7 @@ Configure your build environment
 ================================
 
 ** Configuring the build environment should not be performed if building
-standard Colorado release **
+standard Danube release **
 
 Select the versions of the components you want to build by editing the
 fuel/build/config.mk file.
@@ -293,13 +291,3 @@ The artifacts produced are:
   replaced with the build identity provided to the build system
 
 - <OPNFV_XXXX.iso.txt> - Which holds version metadata.
-
-==========
-References
-==========
-
-1) `OPNFV Installation instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/installationprocedure/index.html
-
-2) `OPNFV Build instruction for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/buildprocedure/index.html
-
-3) `OPNFV Release Note for the Colorado release of OPNFV when using Fuel as a deployment tool <http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html>`_: http://artifacts.opnfv.org/fuel/colorado/3.0/docs/releasenotes/index.html
