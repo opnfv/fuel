@@ -1,14 +1,12 @@
-.. This document is protected/licensed under the following conditions
-.. (c) Jonas Bjurel (Ericsson AB)
-.. Licensed under a Creative Commons Attribution 4.0 International License.
-.. You should have received a copy of the license along with this work.
-.. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) Open Platform for NFV Project, Inc. and its contributors
 
 ========
 Abstract
 ========
 
-This document describes how to install the Colorado release of
+This document describes how to install the Danube release of
 OPNFV when using Fuel as a deployment tool, covering its usage,
 limitations, dependencies and required system resources.
 
@@ -17,14 +15,14 @@ Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the Colorado release of OPNFV when using Fuel as a
+configure the Danube release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options give a high degree of
 freedom in how the system is set-up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This instruction provides a
-step-by-step guide that results in an OPNFV Colorado compliant
+step-by-step guide that results in an OPNFV Danube compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge in
@@ -34,7 +32,7 @@ networking and Unix/Linux administration.
 Preface
 =======
 
-Before starting the installation of the Colorado release of
+Before starting the installation of the Danube release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -42,7 +40,7 @@ Retrieving the ISO image
 ========================
 
 First of all, the Fuel deployment ISO image needs to be retrieved, the
-Fuel .iso image of the Colorado release can be found at *Reference: 2*
+Fuel .iso image of the Danube release can be found at *Reference: 2*
 
 Building the ISO image
 ======================
