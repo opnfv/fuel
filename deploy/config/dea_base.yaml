@@ -16,6 +16,8 @@ dea-base-config-metadata:
 environment:
   net_segment_type: tun
 fuel:
+  FEATURE_GROUPS:
+  - experimental
   FUEL_ACCESS:
     password: admin
     user: admin
