@@ -6,7 +6,7 @@
 Abstract
 ========
 
-This document compiles the release notes for the Danube release of
+This document compiles the release notes for the Danube release of                             
 OPNFV when using Fuel as a deployment tool.
 
 ===============
