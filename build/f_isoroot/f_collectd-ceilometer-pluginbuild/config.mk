@@ -8,6 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-COLLECTD_CEILOMETER_BRANCH?=master
+COLLECTD_CEILOMETER_BRANCH?=stable/danube
 COLLECTD_CEILOMETER_REPO?=http://gerrit.opnfv.org/gerrit/barometer
-COLLECTD_CEILOMETER_CHANGE?=26fcc6ce073e875cdd23c0d6310f38ac76b86b7b
+COLLECTD_CEILOMETER_CHANGE?=5649793d2037d6f26211be4035e28842ebb3e737
