@@ -30,7 +30,7 @@ onos:
       metadata:
         hot_pluggable: false
         # plugin_id: Assigned during installation
-        plugin_version: 0.9.0
+        plugin_version: 0.10.2
         restrictions:
         - cluster:net_provider != 'neutron': Neutron only
         - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign
