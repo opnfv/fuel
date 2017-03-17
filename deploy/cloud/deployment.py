@@ -24,6 +24,8 @@ LOG_FILE = '/var/log/puppet.log'
 GREP_LINES_OF_LEADING_CONTEXT = 100
 GREP_LINES_OF_TRAILING_CONTEXT = 100
 LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
+ERROR_MSGS = ['Method task_deploy. Critical nodes are not available for deployment',
+              'offline. Remove them from environment and try again.']
 
 
 class DeployNotStart(Exception):
@@ -112,8 +114,8 @@ class Deployment(object):
         ready = False
         timeout = False
 
-        attempts = 0
-        while attempts < 3:
+        attempts = 5
+        while attempts > 0:
             try:
                 if time.time() > start + abort_after:
                     timeout = True
@@ -132,7 +134,7 @@ class Deployment(object):
                 time.sleep(SLEEP_TIME)
             except (DeployNotStart, NodesGoOffline) as e:
                 log(e)
-                attempts += 1
+                attempts -= 1
                 deploy_id = None
                 time.sleep(SLEEP_TIME * attempts)
 
@@ -164,8 +166,7 @@ class Deployment(object):
     def _deployment_status(self, id):
         task = self._task_fields(id)
         if task['status'] == 'error':
-            if task['message'].endswith(
-                    'offline. Remove them from environment and try again.'):
+            if any(msg in task['message'] for msg in ERROR_MSGS):
                 raise NodesGoOffline(task['message'])
         return task['status'], task['progress'], task['message']
 
@@ -190,7 +191,7 @@ class Deployment(object):
         exec_cmd('rm -f /var/log/remote/fuel-snapshot-*', False)
         exec_cmd('rm -f /root/deploy-*', False)
         log('Generating Fuel deploy snap-shot')
-        if exec_cmd('fuel snapshot < /dev/null &> snapshot.log', False)[1] <> 0:
+        if exec_cmd('fuel snapshot < /dev/null &> snapshot.log', False)[1] != 0:
             log('Could not create a Fuel snapshot')
         else:
             exec_cmd('mv /root/fuel-snapshot* /var/log/remote/', False)
