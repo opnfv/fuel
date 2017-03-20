@@ -25,7 +25,9 @@ GREP_LINES_OF_LEADING_CONTEXT = 100
 GREP_LINES_OF_TRAILING_CONTEXT = 100
 LIST_OF_CHAR_TO_BE_ESCAPED = ['[', ']', '"']
 ERROR_MSGS = ['Critical nodes are not available for deployment',
-              'offline. Remove them from environment and try again.']
+              'offline. Remove them from environment and try again.',
+              'Task[move_to_bootstrap/',
+              'Failed tasks: Task[connectivity-checker/']
 
 
 class DeployNotStart(Exception):
