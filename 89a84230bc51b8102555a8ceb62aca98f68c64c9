@@ -22,6 +22,30 @@
       "revId": "89a84230bc51b8102555a8ceb62aca98f68c64c9",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_fcc4a360",
+        "filename": "build/f_isoroot/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6677
+      },
+      "writtenOn": "2017-03-20T12:48:39Z",
+      "side": 1,
+      "message": "Done. Lines removed.",
+      "parentUuid": "9ab8dda7_95f3ff72",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "89a84230bc51b8102555a8ceb62aca98f68c64c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
