@@ -153,7 +153,7 @@ class CloudDeploy(object):
                 all_env_erased = True
                 break
         if not all_env_erased:
-            err('Could not erase these environments %s'
+            log('Could not erase these environments %s'
                 % [(env[E['id']], env[E['status']]) for env in env_list])
 
     def cleanup_fuel_nodes(self, node_list):
