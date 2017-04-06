@@ -74,7 +74,7 @@ deepclean: clean clean-cache
 #   - ubuntu-builder Dockerfile (includes eventual proxy env vars), runcontext;
 #   - The contents of this Makefile
 .cacheid: .dockercfg
-	sha1sum Makefile runcontext $(wildcard ubuntu-builder/*) > .cachedata
+	sha1sum Makefile runcontext ubuntu-builder/* > .cachedata
 	cat .cachedata | $(CACHETOOL) getid > .cacheid
 
 # Clean local data related to caching - called prior to ordinary build

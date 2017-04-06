@@ -20,7 +20,8 @@ RUN apt-get install -y software-properties-common python-software-properties \
     make python-setuptools python-all dpkg-dev debhelper ruby-json \
     fuseiso git genisoimage bind9-host wget curl lintian tmux lxc iptables \
     ca-certificates sudo apt-utils lsb-release dosfstools debmirror p7zip-full \
-    build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev
+    build-essential ruby-dev rubygems-integration python-pip git rpm createrepo dpkg-dev \
+    syslinux
 
 RUN gem install fpm
 RUN pip install git+https://github.com/openstack/fuel-plugins
