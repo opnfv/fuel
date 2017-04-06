@@ -208,6 +208,8 @@ make_iso_image() {
         --joliet-long \
         -x "lost+found" -o $NEWISO .
 
+    isohybrid $NEWISO
+
     isoinfo -d -i $NEWISO
 }
 
