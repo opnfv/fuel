@@ -27,6 +27,8 @@ nailgun:
 	rm -Rf nailgun packetary opnfv_config && mkdir opnfv_config
 	# We will analyze fuel-web's fixture files for package lists
 	ln -sf ${F_SUBMOD_DIR}/fuel-web fuel-web
+	# Same for fuel-agent's bootstrap package list
+	ln -sf ${F_SUBMOD_DIR}/fuel-agent fuel-agent
 	git clone --quiet $(PACKETARY_REPO)
 	if [ -n $(PACKETARY_COMMIT) ]; then \
 		git -C packetary checkout $(PACKETARY_COMMIT); \
@@ -48,7 +50,6 @@ release:nailgun
 	@rm -Rf ../release/opnfv/nailgun
 	@mkdir -p ../release/opnfv
 	@cp -Rp nailgun ../release/opnfv/nailgun
-	@cp fuel_bootstrap_cli.yaml ../release/opnfv/
 
 ############################################################################
 # Cache operations - only used when building through ci/build.sh
