@@ -25,7 +25,7 @@
 #    "main".
 ##############################################################################
 # Mirror build steps (for EACH architecture in UBUNTU_ARCH):
-# 1. Collect bootstrap package deps from <fuel_bootstrap_cli.yaml>;
+# 1. Collect bootstrap package deps from fuel-agent's <settings.yaml.sample>;
 # 2. Collect all fixture release packages from fuel-web's <openstack.yaml>;
 # 3. Parse new "opnfv_config.yaml" list of packages (from old fuel-mirror);
 # 4. Inherit enviroment variable(s) for mirror URLs, paths etc.
@@ -156,7 +156,8 @@ MIRROR_UBUNTU_PATH = get_env('MIRROR_UBUNTU_OPNFV_PATH')
 MIRROR_UBUNTU_TMP_PATH = '{0}.tmp'.format(MIRROR_UBUNTU_PATH)
 MIRROR_UBUNTU_MERGE = get_env('MIRROR_UBUNTU_MERGE')
 CFG_MM_UBUNTU = '{0}/ubuntu_mirror_local.yaml'.format(CFG_D)
-FUEL_BOOTSTRAP_CLI_FILE = open('fuel_bootstrap_cli.yaml').read()
+FUEL_BOOTSTRAP_CLI_FILE = open('fuel-agent/contrib/fuel_bootstrap/'
+    'fuel_bootstrap_cli/fuel_bootstrap/settings.yaml.sample').read()
 FUEL_BOOTSTRAP_CLI = yaml.load(FUEL_BOOTSTRAP_CLI_FILE)
 FIXTURE_FILE = open('fuel-web/nailgun/nailgun/fixtures/openstack.yaml').read()
 FIXTURE = yaml.load(FIXTURE_FILE)
@@ -215,7 +216,7 @@ for arch in UBUNTU_ARCH.split(' '):
         write_cfg_file(CFG_MM_UBUNTU, group_main_ubuntu[0])
 
     # Collect package dependencies from:
-    ## 1. fuel_bootstrap_cli.yaml (bootstrap image additional packages)
+    ## 1. fuel_bootstrap_cli (bootstrap image additional packages)
     legacy_unresolved = legacy_diff(None, FUEL_BOOTSTRAP_CLI['packages'] + [
             FUEL_BOOTSTRAP_CLI['kernel_flavor'],
             FUEL_BOOTSTRAP_CLI['kernel_flavor'].replace('image', 'headers')],
