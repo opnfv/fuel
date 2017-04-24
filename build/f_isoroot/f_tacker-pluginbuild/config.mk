@@ -9,4 +9,4 @@
 
 TACKER_BRANCH?=master
 TACKER_REPO?="https://github.com/openstack/fuel-plugin-tacker"
-TACKER_CHANGE?=d6e0a77a7f7899d0dcda578cffc799af1cff662e
+TACKER_CHANGE?=7068a300df0c695fb4589bf504b29cbed970ba58
