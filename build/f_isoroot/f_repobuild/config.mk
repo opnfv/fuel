@@ -19,5 +19,5 @@ export MIRROR_UBUNTU_ROOT_arm64=ubuntu-ports
 
 # Merge all local mirror repo components/section into single "main"
 # NOTE: When changing this, make sure to also update all consumer config, like:
-# - fuel_bootstrap_cli.yaml
+# - fuel-menu/fuelmenu/settings.yaml
 export MIRROR_UBUNTU_MERGE=true

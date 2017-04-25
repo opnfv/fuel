@@ -26,9 +26,4 @@ if [ $? -ne 0 ]; then
   echo "Error removing /opt/opnfv/nailgun directory!"
   exit 1
 fi
-mv /opt/opnfv/fuel_bootstrap_cli.yaml /etc/fuel-bootstrap-cli/fuel_bootstrap_cli.yaml
-if [ $? -ne 0 ]; then
-  echo "Error moving bootstrap image configuration!"
-  exit 1
-fi
 echo "Done installing pre-build repo"
