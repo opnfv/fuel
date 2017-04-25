@@ -167,17 +167,18 @@ class Reap(object):
     def reap_nodes_interfaces_transformations(self):
         node_list = parse(exec_cmd('fuel node'))
         real_node_ids = [node[N['id']] for node in node_list]
+        real_node_ids = map(int, real_node_ids)
         real_node_ids.sort()
-        min_node = real_node_ids[0]
+        min_node = min(real_node_ids)
         interfaces = {}
         transformations = {}
         dea_nodes = []
         dha_nodes = []
 
         for real_node_id in real_node_ids:
-            node_id = int(real_node_id) - int(min_node) + 1
+            node_id = real_node_id - min_node + 1
             self.last_node = node_id
-            node = self.get_node_by_id(node_list, real_node_id)
+            node = self.get_node_by_id(node_list, str(real_node_id))
             roles = commafy(node[N['roles']])
             if not roles:
                 err('Fuel Node %s has no role' % real_node_id)
