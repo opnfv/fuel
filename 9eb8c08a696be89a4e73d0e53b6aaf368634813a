@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_2d08822c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-04-25T15:52:03Z",
+      "side": 1,
+      "message": "Apparently, the link is not created between JIRA and Gerrit when full URL is used. This line should be simply:\nJIRA: FUEL-208",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 44
+      },
+      "revId": "9eb8c08a696be89a4e73d0e53b6aaf368634813a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
