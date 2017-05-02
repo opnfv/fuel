@@ -9,4 +9,4 @@
 
 KVMFORNFV_BRANCH=master
 KVMFORNFV_REPO=https://gerrit.opnfv.org/gerrit/kvmfornfv
-KVMFORNFV_CHANGE=3933989f5caacc99da3ad0faa96b42a2861ead6b
+KVMFORNFV_CHANGE=b6b08d2a80b2df28e496ce87705593ed59b282a3
