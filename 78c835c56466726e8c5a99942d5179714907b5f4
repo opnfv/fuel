@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Ruijing Guo <ruijing.guo@intel.com>
+Workflow+1: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-by: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-at: Wed, 03 May 2017 14:47:45 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/34061
+Project: fuel
+Branch: refs/heads/master
