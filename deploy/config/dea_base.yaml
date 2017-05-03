@@ -733,19 +733,19 @@ settings:
           section: main universe multiverse
           suite: xenial
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: mirror://mirrors.ubuntu.com/mirrors.txt
         - name: ubuntu-updates
           priority: null
           section: main universe multiverse
           suite: xenial-updates
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: mirror://mirrors.ubuntu.com/mirrors.txt
         - name: ubuntu-security
           priority: null
           section: main universe multiverse
           suite: xenial-security
           type: deb
-          uri: http://archive.ubuntu.com/ubuntu/
+          uri: mirror://mirrors.ubuntu.com/mirrors.txt
         - name: mos
           priority: 1050
           section: main restricted
