@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: David Chou <david.j.chou@intel.com>
+Code-Review+2: Ruijing Guo <ruijing.guo@intel.com>
+Workflow+1: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-by: Ruijing Guo <ruijing.guo@intel.com>
+Submitted-at: Thu, 04 May 2017 04:47:18 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/34173
+Project: fuel
+Branch: refs/heads/stable/danube
