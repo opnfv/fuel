@@ -58,7 +58,7 @@ baseline required to replicate the Danube release:
 
 .. code-block:: bash
 
-    $ git checkout danube.1.0
+    $ git checkout danube.2.0
 
 Go to the fuel directory and build the .iso:
 
