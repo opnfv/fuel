@@ -7,6 +7,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-KVMFORNFV_BRANCH=master
-KVMFORNFV_REPO=https://gerrit.opnfv.org/gerrit/kvmfornfv
-KVMFORNFV_CHANGE=b6b08d2a80b2df28e496ce87705593ed59b282a3
+KVMFORNFV_BRANCH?=master
+KVMFORNFV_REPO?=https://gerrit.opnfv.org/gerrit/kvmfornfv
+KVMFORNFV_CHANGE?=b6b08d2a80b2df28e496ce87705593ed59b282a3
