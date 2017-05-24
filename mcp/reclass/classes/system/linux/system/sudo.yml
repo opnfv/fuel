@@ -1,0 +1,43 @@
+parameters:
+  _param:
+    sudo_shells:
+    - /bin/sh
+    - /bin/ksh
+    - /bin/bash
+    - /bin/rbash
+    - /bin/dash
+    - /bin/zsh
+    - /bin/csh
+    - /bin/fish
+    - /bin/tcsh
+    - /usr/bin/login
+    - /usr/bin/su
+    - /usr/su
+    sudo_restricted_su:
+    - /bin/vi* /etc/sudoers*
+    - /bin/nano /etc/sudoers*
+    - /bin/emacs /etc/sudoers*
+    - /bin/su - root
+    - /bin/su -
+    - /bin/su
+    - /usr/sbin/visudo
+    sudo_coreutils_safe:
+    - /usr/bin/less
+    sudo_rabbitmq_safe:
+    - /usr/sbin/rabbitmqctl status
+    - /usr/sbin/rabbitmqctl cluster_status
+    - /usr/sbin/rabbitmqctl list_queues*
+    sudo_salt_safe:
+    - /usr/bin/salt * state*
+    - /usr/bin/salt * service*
+    - /usr/bin/salt * pillar*
+    - /usr/bin/salt * grains*
+    - /usr/bin/salt * saltutil*
+    - /usr/bin/salt * test.ping
+    - /usr/bin/salt-call state*
+    - /usr/bin/salt-call service*
+    - /usr/bin/salt-call pillar*
+    - /usr/bin/salt-call grains*
+    - /usr/bin/salt-call saltutil*
+    sudo_salt_trusted:
+    - /usr/bin/salt*

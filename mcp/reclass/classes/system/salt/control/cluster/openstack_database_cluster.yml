@@ -1,0 +1,29 @@
+parameters:
+  salt:
+    control:
+      size:
+        openstack.database:
+          cpu: 32
+          ram: 65536
+          disk_profile: small
+          net_profile: default
+      cluster:
+        internal:
+          domain: ${_param:cluster_domain}
+          engine: virt
+          node:
+            dbs01:
+              name: ${_param:openstack_database_node01_hostname}
+              provider: ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
+              image: ${_param:salt_control_trusty_image}
+              size: openstack.database
+            dbs02:
+              name: ${_param:openstack_database_node02_hostname}
+              provider: ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+              image: ${_param:salt_control_trusty_image}
+              size: openstack.database
+            dbs03:
+              name: ${_param:openstack_database_node03_hostname}
+              provider: ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
+              image: ${_param:salt_control_trusty_image}
+              size: openstack.database

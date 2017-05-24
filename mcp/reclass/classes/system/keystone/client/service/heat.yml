@@ -1,0 +1,33 @@
+parameters:
+  _param:
+    cluster_public_protocol: https
+  keystone:
+    client:
+      server:
+        identity:
+          roles:
+          - heat_stack_user
+          - heat_stack_owner
+          project:
+            service:
+              user:
+                heat:
+                  is_admin: true
+                  password: ${_param:keystone_heat_password}
+                  email: ${_param:admin_email}
+          service:
+            heat:
+              type: orchestration
+              description: OpenStack Orchestration Service
+              endpoints:
+              - region: ${_param:openstack_region}
+                public_address: ${_param:cluster_public_host}
+                public_protocol: ${_param:cluster_public_protocol}
+                public_port: 8004
+                public_path: '/v1/%(project_id)s'
+                internal_address: ${_param:heat_service_host}
+                internal_port: 8004
+                internal_path: '/v1/%(project_id)s'
+                admin_address: ${_param:heat_service_host}
+                admin_port: 8004
+                admin_path: '/v1/%(project_id)s'

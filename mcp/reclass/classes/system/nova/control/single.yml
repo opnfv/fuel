@@ -1,0 +1,7 @@
+classes:
+- service.nova.control.single
+parameters:
+  nova:
+    controller:
+      database:
+        host: ${_param:single_address}

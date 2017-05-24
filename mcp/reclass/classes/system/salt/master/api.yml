@@ -1,0 +1,31 @@
+parameters:
+  _param:
+    salt_master_api_port: 6969
+    salt_master_api_permissions:
+    - '.*'
+    - '@local'
+    - '@wheel'   # to allow access to all wheel modules
+    - '@runner'  # to allow access to all runner modules
+    - '@jobs'    # to allow access to the jobs runner and/or wheel mo
+  salt:
+    api:
+      enabled: true
+      bind:
+        address: 0.0.0.0
+        port: ${_param:salt_master_api_port}
+    master:
+      command_timeout: 600
+      user:
+        salt:
+          permissions: ${_param:salt_master_api_permissions}
+  linux:
+    system:
+      user:
+        salt:
+          enabled: true
+          name: salt
+          password: ${_param:salt_api_password_hash}
+          home: /var/tmp/salt
+          sudo: false
+          system: true
+          shell: /bin/false

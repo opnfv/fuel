@@ -1,0 +1,23 @@
+parameters:
+  _param:
+    cluster_public_protocol: https
+  keystone:
+    client:
+      server:
+        identity:
+          service:
+            nova-ec2:
+              type: ec2
+              description: OpenStack EC2 Service
+              endpoints:
+              - region: ${_param:openstack_region}
+                public_address: ${_param:cluster_public_host}
+                public_protocol: ${_param:cluster_public_protocol}
+                public_port: 8773
+                public_path: '/services/Cloud'
+                internal_address: ${_param:nova_service_host}
+                internal_port: 8773
+                internal_path: '/services/Cloud'
+                admin_address: ${_param:nova_service_host}
+                admin_port: 8773
+                admin_path: '/services/Admin'

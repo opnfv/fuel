@@ -1,0 +1,15 @@
+classes:
+- service.shibboleth.server.cluster
+parameters:
+  keystone:
+    server:
+      websso:
+        protocol: saml2
+        remote_id_attribute: Shib-Identity-Provider
+        federation_driver: keystone.contrib.federation.backends.sql.Federation
+        trusted_dashboard:
+          - https://${_param:cluster_public_host}/auth/websso/
+          - https://${_param:proxy_vip_host}/auth/websso/
+      auth_methods:
+      - saml2
+      - external
