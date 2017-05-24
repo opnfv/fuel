@@ -111,7 +111,7 @@ clean() {
 # BEGIN of shorthand variables for internal use
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
-DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../deploy; pwd)
+DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../mcp/reclass/scripts; pwd)
 PXE_BRIDGE=''
 NO_HEALTH_CHECK=''
 USE_EXISTING_FUEL=''
@@ -240,23 +240,29 @@ pushd ${DEPLOY_DIR} > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
-echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
+./infra.sh
+./salt.sh
+./openstack.sh
 
-python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config
-
-if [ $DRY_RUN -eq 0 ]; then
-    # Download iso if it doesn't already exists locally
-    if [[ $ISO == file://* ]]; then
-        ISO=${ISO#file://}
-    else
-        mkdir -p ${SCRIPT_PATH}/ISO
-        curl -o ${SCRIPT_PATH}/ISO/image.iso $ISO
-        ISO=${SCRIPT_PATH}/ISO/image.iso
-    fi
-    # Start deployment
-    echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT"
-    python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT
-fi
+## Disable Fuel deployment engine
+#
+# echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
+#
+# python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config
+#
+# if [ $DRY_RUN -eq 0 ]; then
+#     # Download iso if it doesn't already exists locally
+#     if [[ $ISO == file://* ]]; then
+#         ISO=${ISO#file://}
+#     else
+#         mkdir -p ${SCRIPT_PATH}/ISO
+#         curl -o ${SCRIPT_PATH}/ISO/image.iso $ISO
+#         ISO=${SCRIPT_PATH}/ISO/image.iso
+#     fi
+#     # Start deployment
+#     echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT"
+#     python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT
+# fi
 popd > /dev/null
 
 #

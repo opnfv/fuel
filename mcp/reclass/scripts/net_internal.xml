@@ -1,0 +1,4 @@
+<network>
+  <name>internal</name>
+  <bridge name="internal"/>
+</network>

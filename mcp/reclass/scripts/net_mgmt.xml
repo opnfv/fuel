@@ -1,0 +1,4 @@
+<network>
+  <name>mgmt</name>
+  <bridge name="mgmt"/>
+</network>
