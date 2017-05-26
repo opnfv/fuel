@@ -1,9 +1,0 @@
-parameters:
-  salt:
-    master:
-      environment:
-        prd:
-          formula:
-            ccp:
-              source: pkg
-              name: salt-formula-ccp

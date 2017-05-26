@@ -5,6 +5,10 @@ SALT_MASTER=192.168.10.100
 BASE_IMAGE=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
 declare -A NODES=( [cfg01]=4096 [ctl01]=6144 [ctl02]=6144 [ctl03]=6144 [gtw01]=2048 [cmp01]=2048 )
 
+# get required packages
+apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
+
+# generate ssh key
 [ -f $SSH_KEY ] || ssh-keygen -f $SSH_KEY -N ''
 
 # get base image
@@ -60,6 +64,9 @@ done
 CONNECTION_ATTEMPTS=20
 SLEEP=15
 
+# refresh salt master host key
+ssh-keygen -R $SALT_MASTER
+
 # wait until ssh on Salt master is available
 echo "Attempting to ssh to Salt master ..."
 ATTEMPT=1
@@ -71,5 +78,6 @@ while (($ATTEMPT <= $CONNECTION_ATTEMPTS)); do
     (*) echo "${ATTEMPT}/${CONNECTION_ATTEMPTS}> ssh server ain't ready yet, waiting for ${SLEEP} seconds ..." ;;
   esac
   sleep $SLEEP
+  ssh-keyscan -t ecdsa $SALT_MASTER >> ~/.ssh/known_hosts
   ((ATTEMPT+=1))
 done

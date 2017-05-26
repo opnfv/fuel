@@ -1,6 +1,0 @@
-parameters:
-  cinder:
-    controller:
-      notification:
-        driver: messagingv2
-        topics: "${_param:openstack_notification_topics}"

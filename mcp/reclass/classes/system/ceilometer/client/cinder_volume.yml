@@ -1,4 +1,0 @@
-parameters:
-  cinder:
-    volume:
-      notification: true

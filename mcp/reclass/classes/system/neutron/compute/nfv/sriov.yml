@@ -1,8 +1,0 @@
-parameters:
-  neutron:
-    compute:
-      backend:
-        sriov:
-          sriov_nic01:
-            devname: ${_param:sriov_nic01_device_name}
-            physical_network: ${_param:sriov_nic01_physical_network}

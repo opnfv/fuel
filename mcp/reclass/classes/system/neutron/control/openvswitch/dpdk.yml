@@ -1,4 +1,0 @@
-parameters:
-  neutron:
-    server:
-      dpdk: True

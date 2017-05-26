@@ -1,4 +1,0 @@
-parameters:
-  heat:
-    server:
-      notification: true
