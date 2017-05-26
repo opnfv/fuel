@@ -1,9 +1,0 @@
-parameters:
-  cinder:
-    volume:
-      default_volume_type: nfs-driver
-      backend:
-        nfs-driver:
-          engine: nfs
-          type_name: nfs-driver
-          volume_group: cinder-volume

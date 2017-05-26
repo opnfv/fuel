@@ -5,6 +5,10 @@ SALT_MASTER=192.168.10.100
 BASE_IMAGE=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
 declare -A NODES=( [cfg01]=4096 [ctl01]=6144 [ctl02]=6144 [ctl03]=6144 [gtw01]=2048 [cmp01]=2048 )
 
+# get required packages
+apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
+
+# generate ssh key
 [ -f $SSH_KEY ] || ssh-keygen -f $SSH_KEY -N ''
 
 # get base image

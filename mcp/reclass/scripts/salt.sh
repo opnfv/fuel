@@ -11,8 +11,8 @@ ssh -i mcp.rsa ubuntu@192.168.10.100 bash -s << SALT_INSTALL_END
   apt-get install -y git curl subversion
 
   svn export --force https://github.com/salt-formulas/salt-formulas/trunk/deploy/scripts /srv/salt/scripts
-  git clone --depth=1 https://git.opnfv.org/fuel
-  ln -s fuel/mcp/reclass /srv/salt/reclass
+  git clone --depth=1 --recurse-submodules https://git.opnfv.org/fuel
+  ln -s $(pwd)/fuel/mcp/reclass /srv/salt/reclass
 
   cd /srv/salt/scripts
   MASTER_HOSTNAME=cfg01.virtual-mcp-ocata-ovs.local ./salt-master-init.sh

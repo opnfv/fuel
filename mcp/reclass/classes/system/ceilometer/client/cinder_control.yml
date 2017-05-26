@@ -1,4 +1,0 @@
-parameters:
-  cinder:
-    controller:
-      notification: true
