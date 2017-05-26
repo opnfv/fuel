@@ -58,3 +58,6 @@
 	url = https://github.com/openstack/fuel-ui.git
 	branch = stable/newton
         ignore = all
+[submodule "mcp/reclass/classes/system"]
+	path = mcp/reclass/classes/system
+	url = https://github.com/Mirantis/reclass-system-salt-model

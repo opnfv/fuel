@@ -1,5 +1,0 @@
-parameters:
-  nova:
-    controller:
-      audit:
-        enabled: true
