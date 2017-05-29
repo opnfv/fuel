@@ -240,6 +240,10 @@ pushd ${DEPLOY_DIR} > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
+export SSH_KEY=mcp.rsa
+export SALT_MASTER=192.168.10.100
+export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
+
 ./infra.sh
 ./salt.sh
 ./openstack.sh
