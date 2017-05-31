@@ -7,7 +7,10 @@
 ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << SALT_INSTALL_END
   sudo -i
 
-  apt-get update
+  echo -n 'Checking out cloud-init has finished running ...'
+  while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo -n '.'; sleep 1; done
+  echo ' done'
+
   apt-get install -y git curl subversion
 
   svn export --force https://github.com/salt-formulas/salt-formulas/trunk/deploy/scripts /srv/salt/scripts
@@ -15,6 +18,6 @@ ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << SALT_INSTALL_END
   ln -s /root/fuel/mcp/reclass /srv/salt/reclass
 
   cd /srv/salt/scripts
-  MASTER_HOSTNAME=cfg01.virtual-mcp-ocata-ovs.local ./salt-master-init.sh
+  MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} ./salt-master-init.sh
   salt-key -Ay
 SALT_INSTALL_END

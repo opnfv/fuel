@@ -3,7 +3,7 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.neutron.gateway.cluster
-- cluster.virtual-mcp-ocata-ovs
+- cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   _param:
     primary_interface: ens4
@@ -33,46 +33,33 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
-        external_interface:
+        br_ctl:
           enabled: true
-          name: ${_param:external_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
-        br-floating:
-          enabled: true
-          type: ovs_bridge
-          mtu: ${_param:interface_mtu}
-        br-mgmt:
-          enabled: true
-          type: bridge
+          type: ovs_port
+          bridge: br-floating
           proto: static
           address: ${_param:single_address}
           netmask: 255.255.255.0
           mtu: ${_param:interface_mtu}
           use_interfaces:
           - ${_param:primary_interface}
-        br-mesh:
+        br-floating:
           enabled: true
-          type: bridge
-          mtu: ${_param:interface_mtu}
-          proto: static
+          type: ovs_bridge
+        br-prv:
+          enabled: true
+          type: ovs_bridge
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
-          use_interfaces:
-          - ${_param:tenant_interface}
-        float-to-ex:
+        floating-to-prv:
           enabled: true
           type: ovs_port
-          mtu: ${_param:interface_mtu}
+          port_type: patch
           bridge: br-floating
-        br-ex:
+          peer: prv-to-floating
+        prv-to-floating:
           enabled: true
-          type: bridge
-          mtu: ${_param:interface_mtu}
-          address: ${_param:external_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-          - ${_param:external_interface}
-          use_ovs_ports:
-          - float-to-ex
+          type: ovs_port
+          port_type: patch
+          bridge: br-prv
+          peer: floating-to-prv

@@ -2,8 +2,12 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
-- system.neutron.gateway.cluster
-- cluster.virtual-mcp-ocata-ovs
+- system.nova.compute.cluster
+- system.neutron.compute.cluster
+- system.ceilometer.agent.cluster
+- system.nova.compute.nfv.hugepages
+- system.neutron.compute.nfv.dpdk
+- cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   _param:
     primary_interface: ens4
@@ -11,6 +15,14 @@ parameters:
     external_interface: ens6
     interface_mtu: 9000
     linux_system_codename: xenial
+  nova:
+    compute:
+      vncproxy_url: http://${_param:cluster_vip_address}:6080
+      message_queue:
+        members:
+          - host: ${_param:openstack_control_node01_address}
+          - host: ${_param:openstack_control_node02_address}
+          - host: ${_param:openstack_control_node03_address}
   linux:
     network:
       bridge: openvswitch
@@ -33,46 +45,23 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
-        external_interface:
-          enabled: true
-          name: ${_param:external_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
-        br-floating:
-          enabled: true
-          type: ovs_bridge
-          mtu: ${_param:interface_mtu}
         br-mgmt:
           enabled: true
           type: bridge
           proto: static
           address: ${_param:single_address}
           netmask: 255.255.255.0
-          mtu: ${_param:interface_mtu}
           use_interfaces:
           - ${_param:primary_interface}
-        br-mesh:
+        dpdk0:
+          name: ${_param:dpdk0_name}
+          pci: ${_param:dpdk0_pci}
+          driver: igb_uio
           enabled: true
-          type: bridge
-          mtu: ${_param:interface_mtu}
-          proto: static
+          type: dpdk_ovs_port
+          n_rxq: 2
+        br-prv:
+          enabled: true
+          type: dpdk_ovs_bridge
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
-          use_interfaces:
-          - ${_param:tenant_interface}
-        float-to-ex:
-          enabled: true
-          type: ovs_port
-          mtu: ${_param:interface_mtu}
-          bridge: br-floating
-        br-ex:
-          enabled: true
-          type: bridge
-          mtu: ${_param:interface_mtu}
-          address: ${_param:external_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-          - ${_param:external_interface}
-          use_ovs_ports:
-          - float-to-ex

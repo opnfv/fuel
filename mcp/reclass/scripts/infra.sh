@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_IMAGE=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
-declare -A NODES=( [cfg01]=4096 [ctl01]=6144 [ctl02]=6144 [ctl03]=6144 [gtw01]=2048 [cmp01]=2048 )
+declare -A NODES=( [cfg01]=4096 [ctl01]=8192 [ctl02]=8192 [ctl03]=8192 [gtw01]=2048 [cmp01]=6144 )
 
 # get required packages
 apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
@@ -12,6 +12,9 @@ apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
 # get base image
 mkdir -p images
 wget -P /tmp -nc $BASE_IMAGE
+
+# generate cloud-init user data
+envsubst < user-data.template > user-data.sh
 
 for node in "${!NODES[@]}"; do
   # clean up existing nodes
@@ -60,8 +63,8 @@ for node in "${!NODES[@]}"; do
   sleep $[RANDOM%5+1]
 done
 
-CONNECTION_ATTEMPTS=20
-SLEEP=15
+CONNECTION_ATTEMPTS=60
+SLEEP=5
 
 # wait until ssh on Salt master is available
 echo "Attempting to ssh to Salt master ..."

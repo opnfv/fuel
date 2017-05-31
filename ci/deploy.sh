@@ -240,6 +240,13 @@ pushd ${DEPLOY_DIR} > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
+# Set cluster domain
+case $DEPLOY_SCENARIO in
+    *dpdk*) CLUSTER_DOMAIN=virtual-mcp-ocata-ovs-dpdk.local ;;
+    *) CLUSTER_DOMAIN=virtual-mcp-ocata-ovs.local ;;
+esac
+
+export CLUSTER_DOMAIN
 export SSH_KEY=mcp.rsa
 export SALT_MASTER=192.168.10.100
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
