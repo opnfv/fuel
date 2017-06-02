@@ -33,33 +33,43 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
-        br_ctl:
+        external_interface:
           enabled: true
-          type: ovs_port
-          bridge: br-floating
+          name: ${_param:external_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+          mtu: ${_param:interface_mtu}
+        br-mgmt:
+          enabled: true
+          type: bridge
           proto: static
           address: ${_param:single_address}
           netmask: 255.255.255.0
           mtu: ${_param:interface_mtu}
           use_interfaces:
           - ${_param:primary_interface}
-        br-floating:
-          enabled: true
-          type: ovs_bridge
         br-prv:
           enabled: true
           type: ovs_bridge
-          address: ${_param:tenant_address}
-          netmask: 255.255.255.0
-        floating-to-prv:
+          mtu: ${_param:interface_mtu}
+          use_interfaces:
+          - ${_param:tenant_interface}
+        float-to-ex:
           enabled: true
           type: ovs_port
-          port_type: patch
+          mtu: ${_param:interface_mtu}
           bridge: br-floating
-          peer: prv-to-floating
-        prv-to-floating:
+        br-ex:
           enabled: true
-          type: ovs_port
-          port_type: patch
-          bridge: br-prv
-          peer: floating-to-prv
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          address: ${_param:external_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:external_interface}
+          use_ovs_ports:
+          - float-to-ex

@@ -27,9 +27,9 @@ parameters:
     compute_hugepages_count: 1024
     compute_hugepages_mount: /mnt/hugepages_2M
     compute_dpdk_driver: uio
-    compute_ovs_pmd_cpu_mask: "0x6"
+    compute_ovs_pmd_cpu_mask: "0x2"
     compute_ovs_dpdk_socket_mem: "1024"
-    compute_ovs_dpdk_lcore_mask: "0x400"
+    compute_ovs_dpdk_lcore_mask: "0x1"
     compute_ovs_memory_channels: "2"
     cluster_node01_hostname: ctl01
     cluster_node01_address: 172.16.10.101
