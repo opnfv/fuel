@@ -49,8 +49,6 @@ parameters:
         br-prv:
           enabled: true
           type: ovs_bridge
-          address: ${_param:tenant_address}
-          netmask: 255.255.255.0
         floating-to-prv:
           enabled: true
           type: ovs_port
