@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 ##############################################################################
 # Copyright (c) 2015 Ericsson AB and others.
 # jonas.bjurel@ericsson.com
@@ -248,7 +248,7 @@ esac
 
 export CLUSTER_DOMAIN
 export SSH_KEY=mcp.rsa
-export SALT_MASTER=192.168.10.100
+export SALT_MASTER=$SALT_MASTER_IP
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
 ./infra.sh
