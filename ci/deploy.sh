@@ -247,8 +247,8 @@ case $DEPLOY_SCENARIO in
 esac
 
 export CLUSTER_DOMAIN
-export SSH_KEY=mcp.rsa
-export SALT_MASTER=$SALT_MASTER_IP
+export SSH_KEY=${SSH_KEY:-mcp.rsa}
+export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
 ./infra.sh
@@ -256,7 +256,7 @@ export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i 
 ./openstack.sh
 
 # enable dpdk on computes
-[[ $DEPLOY_SCENARIO =~ dpdk ]] && ./dpdk.sh
+[[ "$DEPLOY_SCENARIO" =~ dpdk ]] && ./dpdk.sh
 
 ## Disable Fuel deployment engine
 #
