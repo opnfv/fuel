@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaae553_9d51d764",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-06-19T15:09:22Z",
+      "side": 1,
+      "message": "Should we allow env overrides of this too?",
+      "range": {
+        "startLine": 250,
+        "startChar": 15,
+        "endLine": 250,
+        "endChar": 22
+      },
+      "revId": "f7920458e8e0e339deef745f25f48d916ab4d567",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
