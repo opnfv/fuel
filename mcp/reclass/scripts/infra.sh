@@ -8,7 +8,7 @@ apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
 
 # generate ssh key
 [ -f $SSH_KEY ] || ssh-keygen -f $SSH_KEY -N ''
-cp $SSH_KEY /tmp/
+install -o jenkins -m 0600 ${SSH_KEY} /tmp/
 
 # get base image
 mkdir -p images
