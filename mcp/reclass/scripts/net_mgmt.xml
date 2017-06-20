@@ -1,4 +1,5 @@
 <network>
   <name>mgmt</name>
   <bridge name="mgmt"/>
+  <ip address="172.16.10.1" netmask="255.255.255.0"/>
 </network>

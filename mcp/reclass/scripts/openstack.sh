@@ -46,8 +46,8 @@ ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << OPENSTACK_INSTALL_END
   salt -C 'I@nova:compute' state.sls nova
   salt -C 'I@neutron:compute' state.sls neutron
 
-  salt -C 'I@keystone:server' cmd.run ". /root/keystonercv3; nova service-list"
-  salt -C 'I@keystone:server' cmd.run ". /root/keystonercv3; neutron agent-list"
-  salt -C 'I@keystone:server' cmd.run ". /root/keystonercv3; heat stack-list"
-  salt -C 'I@keystone:server' cmd.run ". /root/keystonercv3; cinder list"
+  salt 'ctl01*' cmd.run ". /root/keystonercv3; openstack compute service list; openstack network agent list; openstack stack list; openstack volume list"
+
+  salt 'ctl01*' cmd.run ". /root/keystonercv3; openstack network create --share --external --provider-network-type flat --provider-physical-network physnet1 floating_net"
+  salt 'ctl01*' cmd.run ". /root/keystonercv3; openstack subnet create --gateway 10.16.0.1 --no-dhcp --allocation-pool start=10.16.0.130,end=10.16.0.254 --network floating_net --subnet-range 10.16.0.0/24 floating_subnet"
 OPENSTACK_INSTALL_END
