@@ -1,6 +1,5 @@
 classes:
 - system.linux.system.lowmem
-- system.linux.system.repo.glusterfs
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
@@ -10,12 +9,6 @@ classes:
 - system.rabbitmq.server.vhost.openstack
 - system.keystone.server.wsgi
 - system.keystone.server.cluster
-- system.glusterfs.client.cluster
-- system.glusterfs.client.volume.glance
-- system.glusterfs.client.volume.keystone
-- system.glusterfs.server.volume.glance
-- system.glusterfs.server.volume.keystone
-- system.glusterfs.server.cluster
 - system.glance.control.cluster
 - system.nova.control.cluster
 - system.neutron.control.openvswitch.cluster

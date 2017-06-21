@@ -7,7 +7,7 @@ ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << OPENSTACK_INSTALL_END
   sudo -i
 
   salt-call state.apply salt
-  salt '*' state.apply salt
+  salt '*' state.apply salt || salt '*' state.apply salt
 
   salt -C 'I@salt:master' state.sls linux
   salt -C '* and not cfg01*' state.sls linux
@@ -19,12 +19,7 @@ ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << OPENSTACK_INSTALL_END
   salt -C 'I@rabbitmq:server' state.sls rabbitmq
   salt -C 'I@rabbitmq:server' cmd.run "rabbitmqctl cluster_status"
 
-  salt -C 'I@glusterfs:server' state.sls glusterfs.server.service
-  salt -C 'I@glusterfs:server' state.sls glusterfs.server.setup -b 1
-  salt -C 'I@glusterfs:server' cmd.run "gluster peer status; gluster volume status" -b 1
-
   salt -C 'I@galera:master' state.sls galera
-  salt -C 'I@galera:slave' state.sls galera
   salt -C 'I@galera:master' mysql.status | grep -A1 wsrep_cluster_size
 
   salt -C 'I@haproxy:proxy' state.sls haproxy
