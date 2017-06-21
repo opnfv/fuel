@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_IMAGE=https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
-declare -A NODES=( [cfg01]=4096 [ctl01]=8192 [ctl02]=8192 [ctl03]=8192 [gtw01]=2048 [cmp01]=6144 )
+declare -A NODES=( [cfg01]=4096 [ctl01]=14336 [gtw01]=2048 [cmp01]=6144 [cmp02]=6144 )
 
 # get required packages
 apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
