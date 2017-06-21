@@ -1,0 +1,8 @@
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Workflow+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Wed, 21 Jun 2017 12:01:08 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/36295
+Project: fuel
+Branch: refs/heads/stable/danube
