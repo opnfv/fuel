@@ -6,7 +6,7 @@ parameters:
     openstack_region: RegionOne
     admin_email: root@localhost
     cluster_public_protocol: http
-    cluster_public_host: 172.16.10.254
+    cluster_public_host: 172.16.10.101
     neutron_public_protocol: http
     neutron_control_dvr: False
     neutron_tenant_network_types: "flat,vxlan"
@@ -21,7 +21,7 @@ parameters:
     galera_server_cluster_name: openstack_cluster
     galera_server_maintenance_password: opnfv_secret
     galera_server_admin_password: opnfv_secret
-    cluster_vip_address: 172.16.10.254
+    cluster_vip_address: ${_param:cluster_public_host}
     cluster_local_address: ${_param:single_address}
     cluster_node01_hostname: ctl01
     cluster_node01_address: 172.16.10.101
@@ -42,6 +42,7 @@ parameters:
     heat_domain_admin_password: opnfv_secret
     ceilometer_version: ${_param:openstack_version}
     ceilometer_service_host: 172.16.10.108
+    ceilometer_database_host: ${_param:cluster_local_address}
     cinder_version: ${_param:openstack_version}
     cinder_service_host: ${_param:cluster_vip_address}
     ceilometer_graphite_publisher_host: 172.16.10.107

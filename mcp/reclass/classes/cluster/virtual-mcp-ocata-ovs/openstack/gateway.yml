@@ -2,7 +2,7 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
-- system.neutron.gateway.cluster
+- service.neutron.gateway.single
 - cluster.virtual-mcp-ocata-ovs
 parameters:
   _param:
@@ -11,6 +11,9 @@ parameters:
     external_interface: ens6
     interface_mtu: 9000
     linux_system_codename: xenial
+  neutron:
+    gateway:
+      agent_mode: ${_param:neutron_gateway_agent_mode}
   linux:
     network:
       bridge: openvswitch

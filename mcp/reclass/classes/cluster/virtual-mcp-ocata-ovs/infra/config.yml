@@ -7,19 +7,13 @@ classes:
 - system.reclass.storage.salt
 - system.salt.minion.ca.salt_master
 - system.salt.minion.cert.proxy
-- system.keystone.client.single
-- system.keystone.client.service.ceilometer
-- system.keystone.client.service.nova21
-- system.keystone.client.service.nova-placement
-- system.keystone.client.service.glare
-- system.keystone.client.service.cinder3
 - system.mysql.client.single
-- system.reclass.storage.system.openstack_control_cluster
 - system.reclass.storage.system.openstack_compute_multi
 - system.reclass.storage.system.openstack_gateway_single
 - cluster.virtual-mcp-ocata-ovs
 parameters:
   _param:
+    openstack_control_node01_hostname: ctl01
     reclass_data_repository: https://gerrit.opnfv.org/gerrit/fuel
     reclass_data_revision: master
     salt_master_environment_repository: "https://github.com/tcpcloud"
@@ -43,23 +37,14 @@ parameters:
     storage:
       node:
         openstack_control_node01:
+          name: ${_param:openstack_control_node01_hostname}
+          domain: ${_param:cluster_domain}
           classes:
-          - service.galera.master.cluster
+          - cluster.${_param:cluster_name}.openstack.control
           params:
-            mysql_cluster_role: master
             linux_system_codename: xenial
-        openstack_control_node02:
-          classes:
-          - service.galera.slave.cluster
-          params:
-            mysql_cluster_role: slave
-            linux_system_codename: xenial
-        openstack_control_node03:
-          classes:
-          - service.galera.slave.cluster
-          params:
-            mysql_cluster_role: slave
-            linux_system_codename: xenial
+            salt_master_host: ${_param:reclass_config_master}
+            single_address: ${_param:openstack_control_node01_address}
         openstack_compute_node01:
           params:
             single_address: 172.16.10.105
