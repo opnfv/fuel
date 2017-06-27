@@ -1,0 +1,67 @@
+classes:
+- service.git.client
+- system.linux.system.single
+- system.linux.system.repo.mcp.salt
+- system.salt.master.api
+- system.salt.master.pkg
+- system.reclass.storage.salt
+- system.salt.minion.ca.salt_master
+- system.salt.minion.cert.proxy
+- system.mysql.client.single
+- system.reclass.storage.system.openstack_compute_multi
+- system.reclass.storage.system.openstack_gateway_single
+- cluster.virtual-mcp-ocata-odl
+parameters:
+  _param:
+    openstack_control_node01_hostname: ctl01
+    reclass_data_repository: https://gerrit.opnfv.org/gerrit/fuel
+    reclass_data_revision: master
+    salt_master_environment_repository: "https://github.com/tcpcloud"
+    salt_master_environment_revision: master
+    reclass_config_master: 192.168.10.100
+    single_address: 172.16.10.100
+    salt_master_host: 127.0.0.1
+    salt_master_base_environment: prd
+    salt_minion_ca_host: ${linux:network:fqdn}
+    salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
+  linux:
+    network:
+      interface:
+        ens4:
+          enabled: true
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+  reclass:
+    storage:
+      node:
+        openstack_control_node01:
+          name: ${_param:openstack_control_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - cluster.${_param:cluster_name}.openstack.control
+          params:
+            linux_system_codename: xenial
+            salt_master_host: ${_param:reclass_config_master}
+            single_address: ${_param:openstack_control_node01_address}
+        openstack_compute_node01:
+          params:
+            single_address: 172.16.10.105
+            tenant_address: 10.1.0.105
+            external_address: 10.16.0.105
+        openstack_compute_node02:
+          params:
+            single_address: 172.16.10.106
+            tenant_address: 10.1.0.106
+            external_address: 10.16.0.106
+        openstack_gateway_node01:
+          params:
+            tenant_address: 10.1.0.110
+            external_address: 10.16.0.110
+        opendaylight_control_node01:
+          classes:
+          - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            linux_system_codename: xenial
+            single_address: 172.16.10.111
