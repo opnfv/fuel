@@ -1,0 +1,27 @@
+
+{% set server = salt['grains.filter_by']({
+    'Debian': {
+      'karaf_features': {'default': ['config', 'standard', 'region', 'package', 'kar', 'ssh', 'management']},
+      'odl_rest_port': '8282',
+      'odl_bind_ip': '0.0.0.0',
+      'repo': 'odl-team/carbon',
+      'log_levels': {},
+      'enable_ha': false,
+      'ha_node_ips': [],
+      'ha_node_index': 0,
+      'security_group_mode': 'stateful',
+      'vpp_routing_node': '',
+      'java_extra_opts': '-Djava.net.preferIPv4Stack=true -XX:+UseG1GC',
+      'java_min_mem': '1g',
+      'java_max_mem': '2g',
+    },
+    'RedHat': {
+      'repo': 'opendaylight-6-testing'
+    },
+}, merge=salt['pillar.get']('opendaylight:server')) %}
+
+{%- set client = salt['grains.filter_by']({
+  'Debian': {
+    'pkgs': ['python-networking-odl'],
+  },
+}, merge=salt['pillar.get']('opendaylight:client')) %}
