@@ -6,6 +6,7 @@
 ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << OPENSTACK_INSTALL_END
   sudo -i
 
+  salt-call state.apply salt
   salt '*' state.apply salt || salt '*' state.apply salt
 
   salt -C 'I@salt:master' state.sls linux
