@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_ef95cc88",
+        "filename": "mcp/reclass/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-06-28T11:04:42Z",
+      "side": 1,
+      "message": "this looks a bit much, wouldn\u0027t an `apt-get upgrade` be enough?",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "19613ad9d4aeee3d6d72cc416f101b662b0806da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
