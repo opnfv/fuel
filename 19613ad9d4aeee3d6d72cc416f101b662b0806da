@@ -22,6 +22,30 @@
       "revId": "19613ad9d4aeee3d6d72cc416f101b662b0806da",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_4ff8a0e5",
+        "filename": "mcp/reclass/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-06-28T11:27:45Z",
+      "side": 1,
+      "message": "dist-upgrade the same as upgrade plus some dependencies handler.",
+      "parentUuid": "1aa4ed85_ef95cc88",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "19613ad9d4aeee3d6d72cc416f101b662b0806da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
