@@ -20,4 +20,8 @@ ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << SALT_INSTALL_END
   cd /srv/salt/scripts
   MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} ./salt-master-init.sh
   salt-key -Ay
+
+  apt dist-upgrade -y
+  salt '*' saltutil.refresh_pillar
+  salt '*' saltutil.sync_all
 SALT_INSTALL_END
