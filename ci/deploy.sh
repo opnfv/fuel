@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 ##############################################################################
-# Copyright (c) 2015 Ericsson AB and others.
+# Copyright (c) 2017 Ericsson AB, Mirantis Inc. and others.
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -111,7 +111,7 @@ clean() {
 # BEGIN of shorthand variables for internal use
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
-DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../mcp/reclass/scripts; pwd)
+DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../mcp/scripts; pwd)
 PXE_BRIDGE=''
 NO_HEALTH_CHECK=''
 USE_EXISTING_FUEL=''
@@ -217,17 +217,6 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-if [ -z $BASE_CONFIG_URI ] || [ -z $TARGET_LAB ] || \
-   [ -z $TARGET_POD ] || [ -z $DEPLOY_SCENARIO ] || \
-   [ -z $ISO ]; then
-    echo "Arguments not according to new argument style"
-    echo "Trying old-style compatibility mode"
-    pushd ${DEPLOY_DIR} > /dev/null
-    python deploy.py "$@"
-    popd > /dev/null
-    exit 0
-fi
-
 # Enable the automatic exit trap
 trap do_exit SIGINT SIGTERM EXIT
 
@@ -240,23 +229,47 @@ pushd ${DEPLOY_DIR} > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
-# Set cluster domain
-case $DEPLOY_SCENARIO in
-    *dpdk*) CLUSTER_DOMAIN=virtual-mcp-ocata-ovs-dpdk.local ;;
-    *) CLUSTER_DOMAIN=virtual-mcp-ocata-ovs.local ;;
-esac
+# Install required packages
+[ -n "$(command -v apt-get)" ] && apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
+[ -n "$(command -v yum)" ] && yum install -y genisoimage curl virt-install qemu-kvm
 
-export CLUSTER_DOMAIN
+# Check scenario file existence
+if [[ ! -f  ../config/${DEPLOY_SCENARIO}.yaml ]]; then
+    echo "[WARN] ${DEPLOY_SCENARIO}.yaml not found, setting simplest scenario"
+    DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
+fi
+
+# Get required infra deployment data
+source lib.sh
+eval $(parse_yaml ../config/defaults.yaml)
+eval $(parse_yaml ../config/${DEPLOY_SCENARIO}.yaml)
+
+declare -A virtual_nodes_ram
+for node in "${virtual_nodes[@]}"; do
+    virtual_custom_ram="virtual_${node}_ram"
+    virtual_nodes_ram[$node]=${!virtual_custom_ram:-$virtual_default_ram}
+done
+
+export CLUSTER_DOMAIN=$cluster_domain
 export SSH_KEY=${SSH_KEY:-mcp.rsa}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
-./infra.sh
+# Infra setup
+generate_ssh_key
+prepare_vms virtual_nodes $base_image
+create_networks
+create_vms virtual_nodes virtual_nodes_ram
+update_pxe_network
+start_vms virtual_nodes
+check_connection
+
+# Openstack cluster setup
 ./salt.sh
 ./openstack.sh
 
-# enable dpdk on computes
-[[ "$DEPLOY_SCENARIO" =~ dpdk ]] && ./dpdk.sh
+# Enable dpdk on computes
+[[ "$DEPLOY_SCENARIO" =~ (ovs|dpdk) ]] && ./dpdk.sh
 
 ## Disable Fuel deployment engine
 #

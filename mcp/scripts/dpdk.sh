@@ -3,7 +3,7 @@
 # Enable DPDK on compute nodes
 #
 
-ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s << DPDK_INSTALL_END
+ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s << DPDK_INSTALL_END
   sudo -i
 
   salt -C 'I@nova:compute' system.reboot

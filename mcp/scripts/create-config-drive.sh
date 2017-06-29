@@ -67,14 +67,14 @@ config_dir=$(mktemp -t -d configXXXXXX)
 
 if [ "$user_data" ] && [ -f "$user_data" ]; then
 	echo "adding user data from $user_data"
-	cp $user_data $config_dir/user-data
+	cp ${user_data} ${config_dir}/user-data
 else
 	touch $config_dir/user-data
 fi
 
 if [ "$vendor_data" ] && [ -f "$vendor_data" ]; then
 	echo "adding vendor data from $vendor_data"
-	cp $vendor_data $config_dir/vendor-data
+	cp ${vendor_data} ${config_dir}/vendor-data
 fi
 
 cat > $config_dir/meta-data <<-EOF
