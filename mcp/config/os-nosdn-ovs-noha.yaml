@@ -1,0 +1,18 @@
+cluster:
+  domain: virtual-mcp-ocata-ovs-dpdk.local
+virtual:
+  nodes:
+    - cfg01
+    - ctl01
+    - cmp01
+    - cmp02
+    - gtw01
+  ctl01:
+    vcpus: 4
+    ram: 14336
+  gtw01:
+    ram: 2048
+  cmp01:
+    ram: 6144
+  cmp02:
+    ram: 6144

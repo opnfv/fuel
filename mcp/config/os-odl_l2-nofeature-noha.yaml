@@ -1,0 +1,17 @@
+cluster:
+  domain: virtual-mcp-ocata-odl.local
+virtual:
+  nodes:
+    - cfg01
+    - ctl01
+    - cmp01
+    - gtw01
+    - odl01
+  ctl01:
+    vcpus: 4
+    ram: 14336
+  gtw01:
+    ram: 2048
+  odl01:
+    vcpus: 4
+    ram: 5120
