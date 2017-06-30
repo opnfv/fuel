@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_1692bd57",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-06-30T08:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_259f8505",
+      "revId": "f53b6c087a61c98acac614d71e3e0810df634ac3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa4ed85_45a40157",
         "filename": "ci/deploy.sh",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-06-29T16:16:44Z",
       "side": 1,
       "message": "I think it\u0027s safe to remove this completely.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 4
+      },
+      "revId": "f53b6c087a61c98acac614d71e3e0810df634ac3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_7688d122",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-06-30T08:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_45a40157",
       "range": {
         "startLine": 220,
         "startChar": 0,
@@ -77,6 +119,30 @@
       "side": 1,
       "message": "We could omit packages installation and declare it as requirement.\nAnother option to detect os type.",
       "parentUuid": "1aa4ed85_e50bad29",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 61
+      },
+      "revId": "f53b6c087a61c98acac614d71e3e0810df634ac3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_36825901",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-06-30T08:27:49Z",
+      "side": 1,
+      "message": "I\u0027ll comment out packages installation.",
+      "parentUuid": "1aa4ed85_1b5bc655",
       "range": {
         "startLine": 243,
         "startChar": 0,
