@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_180c2742",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_15207248",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 55
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa4ed85_d1474f4a",
         "filename": "mcp/scripts/create-config-drive.sh",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-30T10:03:38Z",
       "side": 1,
       "message": "cp $user_data $config_dir/user-data\n\n-\u003e\n\ncp ${user_data} ${config_dir}/user-data",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 36
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_d8052f15",
+        "filename": "mcp/scripts/create-config-drive.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_d1474f4a",
       "range": {
         "startLine": 70,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_f8026b0a",
+        "filename": "mcp/scripts/create-config-drive.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_71745b9c",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 40
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa4ed85_b14ad353",
         "filename": "mcp/scripts/dpdk.sh",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-30T10:03:38Z",
       "side": 1,
       "message": "ssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s \u003c\u003c DPDK_INSTALL_END\n\n-\u003e \n\nssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s \u003c\u003c DPDK_INSTALL_END",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 61
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_9bffb101",
+        "filename": "mcp/scripts/dpdk.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_b14ad353",
       "range": {
         "startLine": 6,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_7b0e7536",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_f1404b37",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 15
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa4ed85_515cbf25",
         "filename": "mcp/scripts/lib.sh",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2017-06-30T10:03:38Z",
       "side": 1,
       "message": "$SALT_MASTER -\u003e ${SALT_MASTER}",
+      "range": {
+        "startLine": 98,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 41
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_3b10fd4d",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_515cbf25",
       "range": {
         "startLine": 98,
         "startChar": 29,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "1aa4ed85_db1c496d",
+        "filename": "mcp/scripts/openstack.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_91523712",
+      "range": {
+        "startLine": 6,
+        "startChar": 21,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa4ed85_714d3b72",
         "filename": "mcp/scripts/salt.sh",
         "patchSetId": 2
@@ -174,6 +342,30 @@
       "writtenOn": "2017-06-30T10:03:38Z",
       "side": 1,
       "message": "I suggest to do it in more safe way:\n\nssh $SSH_OPTS ubuntu@$SALT_MASTER bash -s \u003c\u003c SALT_INSTALL_END\n\n-\u003e\n\nssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s \u003c\u003c SALT_INSTALL_END",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9233bbcc73c8550fe075d97e9cae6eb6216fd800",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_bb2b8d81",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-03T07:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa4ed85_714d3b72",
       "range": {
         "startLine": 7,
         "startChar": 21,
