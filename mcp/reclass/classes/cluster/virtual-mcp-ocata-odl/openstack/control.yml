@@ -15,7 +15,7 @@ classes:
 - system.keystone.client.service.cinder3
 - system.glance.control.single
 - system.nova.control.single
-- system.neutron.control.openvswitch.single
+- system.neutron.control.opendaylight.single
 - system.cinder.control.single
 - system.heat.server.single
 - service.mysql.server.single

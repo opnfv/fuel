@@ -1,0 +1,20 @@
+salt -C 'I@rabbitmq:server' state.sls rabbitmq
+salt -C 'I@rabbitmq:server' cmd.run "rabbitmqctl status"
+
+salt -C 'I@mysql:server' state.sls mysql
+salt -C 'I@memcached:server' state.sls memcached
+
+salt -C 'I@keystone:server' state.sls keystone.server
+salt -C 'I@keystone:server' service.restart apache2
+while true; do salt -C 'I@keystone:server' state.sls keystone.client && break; done
+salt -C 'I@keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
+
+salt -C 'I@glance:server' state.sls glance
+salt -C 'I@nova:controller' state.sls nova
+salt -C 'I@heat:server' state.sls heat
+salt -C 'I@cinder:controller' state.sls cinder
+
+salt -C 'I@neutron:server' state.sls neutron
+salt -C 'I@neutron:gateway' state.sls neutron
+
+salt -C 'I@nova:compute' state.sls nova

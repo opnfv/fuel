@@ -264,12 +264,13 @@ update_pxe_network
 start_vms virtual_nodes
 check_connection
 
-# Openstack cluster setup
 ./salt.sh
-./openstack.sh
 
-# Enable dpdk on computes
-[[ "$DEPLOY_SCENARIO" =~ (ovs|dpdk) ]] && ./dpdk.sh
+# Openstack cluster setup
+for state in "${cluster_states[@]}"; do
+    echo "STATE: $state"
+    ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} sudo /root/fuel/mcp/config/states/$state
+done
 
 ## Disable Fuel deployment engine
 #

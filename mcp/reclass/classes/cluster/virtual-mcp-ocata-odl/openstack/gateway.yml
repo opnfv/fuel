@@ -2,8 +2,7 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
-- system.neutron.control.opendaylight.single
-- service.neutron.gateway.single
+- system.neutron.gateway.opendaylight.single
 - cluster.virtual-mcp-ocata-odl
 parameters:
   _param:
@@ -12,9 +11,15 @@ parameters:
     external_interface: ens6
     interface_mtu: 9000
     linux_system_codename: xenial
+    neutron_agents:
+    - neutron-l3-agent
+    - neutron-dhcp-agent
+    - neutron-metadata-agent
   neutron:
     gateway:
       agent_mode: ${_param:neutron_gateway_agent_mode}
+      pkgs: ${_param:neutron_agents}
+      services: ${_param:neutron_agents}
   opendaylight:
     client:
       ovsdb_server_iface: ptcp:6639:127.0.0.1
@@ -22,13 +27,6 @@ parameters:
       tunnel_ip: ${_param:tenant_address}
       provider_mappings: br-floating:float-to-ex
   linux:
-    system:
-      repo:
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
-          architectures: amd64
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
     network:
       bridge: openvswitch
       interface:
