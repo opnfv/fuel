@@ -89,6 +89,13 @@ parameters:
     keystone_aodh_password: opnfv_secret
     aodh_service_host: 172.16.10.108
   linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
     network:
       host:
         ctl:

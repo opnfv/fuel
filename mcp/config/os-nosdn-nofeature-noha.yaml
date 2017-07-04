@@ -1,5 +1,9 @@
 cluster:
   domain: virtual-mcp-ocata-ovs.local
+  states:
+    - openstack
+    - neutron_compute
+    - networks
 virtual:
   nodes:
     - cfg01

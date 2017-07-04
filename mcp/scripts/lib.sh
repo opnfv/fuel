@@ -95,7 +95,7 @@ check_connection() {
 
   # wait until ssh on Salt master is available
   while (($attempt <= $total_attempts)); do
-    ssh -i ${SSH_KEY} ubuntu@${SALT_MASTER} uptime
+    ssh -i ${SSH_OPTS} ubuntu@${SALT_MASTER} uptime
     case $? in
       0) echo "${attempt}> Success"; break ;;
       *) echo "${attempt}/${total_attempts}> ssh server ain't ready yet, waiting for ${sleep_time} seconds ..." ;;

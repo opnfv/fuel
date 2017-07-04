@@ -3,7 +3,6 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.nova.compute.single
-- system.neutron.control.opendaylight.single
 - service.neutron.compute.single
 - cluster.virtual-mcp-ocata-odl
 parameters:
@@ -33,15 +32,7 @@ parameters:
       ovsdb_server_iface: ptcp:6639:127.0.0.1
       ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
       tunnel_ip: ${_param:tenant_address}
-      provider_mappings: br-floating:float-to-ex
   linux:
-    system:
-      repo:
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
-          architectures: amd64
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
     network:
       bridge: openvswitch
       interface:

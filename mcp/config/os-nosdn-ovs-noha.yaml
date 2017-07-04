@@ -1,5 +1,10 @@
 cluster:
   domain: virtual-mcp-ocata-ovs-dpdk.local
+  states:
+    - dpdk
+    - openstack
+    - neutron_compute
+    - networks
 virtual:
   nodes:
     - cfg01

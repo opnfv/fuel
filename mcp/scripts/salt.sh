@@ -20,4 +20,19 @@ ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s << SALT_INSTALL_END
   cd /srv/salt/scripts
   MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=nightly ./salt-master-init.sh
   salt-key -Ay
+
+  cp -r /root/fuel/mcp/metadata/service /usr/share/salt-formulas/reclass
+  cp -r /root/fuel/mcp/salt-formulas/* /usr/share/salt-formulas/env
+  cd /srv/salt/reclass/classes/service && ln -s /usr/share/salt-formulas/reclass/service/opendaylight
+
+  salt '*' saltutil.refresh_pillar
+  salt '*' saltutil.sync_all
+
+  salt-call state.apply salt
+  salt '*' state.apply salt || salt '*' state.apply salt
+
+  salt -C 'I@salt:master' state.sls linux
+  salt -C '* and not cfg01*' state.sls linux
+
+  salt '*' state.sls ntp
 SALT_INSTALL_END

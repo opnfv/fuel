@@ -1,5 +1,9 @@
 cluster:
   domain: virtual-mcp-ocata-odl.local
+  states:
+    - opendaylight
+    - openstack
+    - networks
 virtual:
   nodes:
     - cfg01

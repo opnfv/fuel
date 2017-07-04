@@ -1,0 +1,4 @@
+salt -C 'I@nova:compute' system.reboot
+salt -C 'I@nova:compute' test.ping
+
+salt -C 'I@nova:compute' state.sls linux
