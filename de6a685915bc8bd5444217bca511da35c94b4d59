@@ -16,6 +16,24 @@
       "revId": "de6a685915bc8bd5444217bca511da35c94b4d59",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_41262718",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-07-06T08:08:04Z",
+      "side": 1,
+      "message": "Let\u0027s do it by another patch.",
+      "parentUuid": "1aa4ed85_ded8b255",
+      "revId": "de6a685915bc8bd5444217bca511da35c94b4d59",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
