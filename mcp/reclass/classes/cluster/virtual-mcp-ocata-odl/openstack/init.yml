@@ -22,7 +22,7 @@ parameters:
     galera_server_maintenance_password: opnfv_secret
     galera_server_admin_password: opnfv_secret
     cluster_vip_address: ${_param:cluster_public_host}
-    cluster_local_address: ${_param:single_address}
+    cluster_local_address: ${_param:openstack_control_address}
     cluster_node01_hostname: ctl01
     cluster_node01_address: 172.16.10.101
     cluster_node02_hostname: ctl02

@@ -2,8 +2,11 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
+- system.linux.storage.loopback
 - system.nova.compute.single
 - service.neutron.compute.single
+- service.cinder.volume.single
+- system.cinder.volume.backend.lvm
 - cluster.virtual-mcp-ocata-odl
 parameters:
   _param:
@@ -12,6 +15,7 @@ parameters:
     external_interface: ens6
     interface_mtu: 9000
     linux_system_codename: xenial
+    loopback_device_size: 10
   nova:
     compute:
       vncproxy_url: http://${_param:cluster_vip_address}:6080

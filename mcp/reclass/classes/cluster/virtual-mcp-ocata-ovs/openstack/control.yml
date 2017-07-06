@@ -17,6 +17,7 @@ classes:
 - system.nova.control.single
 - system.neutron.control.openvswitch.single
 - system.cinder.control.single
+- system.cinder.control.backend.lvm
 - system.heat.server.single
 - service.mysql.server.single
 - system.galera.server.database.cinder
