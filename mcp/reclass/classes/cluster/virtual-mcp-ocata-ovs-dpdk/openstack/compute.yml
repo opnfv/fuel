@@ -2,11 +2,13 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
-- system.nova.compute.cluster
-- system.neutron.compute.cluster
-- system.ceilometer.agent.cluster
+- system.linux.storage.loopback
+- system.nova.compute.single
 - system.nova.compute.nfv.hugepages
+- service.neutron.compute.single
 - system.neutron.compute.nfv.dpdk
+- service.cinder.volume.single
+- system.cinder.volume.backend.lvm
 - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   _param:
@@ -15,14 +17,24 @@ parameters:
     external_interface: ens6
     interface_mtu: 9000
     linux_system_codename: xenial
+    loopback_device_size: 10
   nova:
     compute:
       vncproxy_url: http://${_param:cluster_vip_address}:6080
+      network:
+        region: ${_param:openstack_region}
+        user: neutron
+        tenant: service
+        password: ${_param:keystone_neutron_password}
+  neutron:
+    compute:
+      agent_mode: ${_param:neutron_compute_agent_mode}
       message_queue:
-        members:
-          - host: ${_param:openstack_control_node01_address}
-          - host: ${_param:openstack_control_node02_address}
-          - host: ${_param:openstack_control_node03_address}
+        host: ${_param:openstack_control_address}
+      metadata:
+        host: ${_param:openstack_control_address}
+      backend:
+        tenant_network_types: ${_param:neutron_tenant_network_types}
   linux:
     network:
       bridge: openvswitch
