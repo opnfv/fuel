@@ -1,4 +1,4 @@
-salt -C 'I@nova:compute' system.reboot
-salt -C 'I@nova:compute' test.ping
+salt -I 'nova:compute' system.reboot
+while true; do salt -I 'nova:compute' test.ping | fgrep -q 'Not connected' || break; done
+salt -I 'nova:compute' state.sls linux.network.dpdk
 
-salt -C 'I@nova:compute' state.sls linux

@@ -6,11 +6,11 @@ parameters:
     openstack_region: RegionOne
     admin_email: root@localhost
     cluster_public_protocol: http
-    cluster_public_host: 172.16.10.254
+    cluster_public_host: 172.16.10.101
     neutron_public_protocol: http
     neutron_control_dvr: False
-    neutron_tenant_network_types: "flat"
-    neutron_l3_ha: True
+    neutron_tenant_network_types: "flat,vlan"
+    neutron_l3_ha: False
     neutron_global_physnet_mtu: 1500
     neutron_external_mtu: 1500
     neutron_gateway_dvr: False
@@ -31,6 +31,8 @@ parameters:
     compute_ovs_dpdk_socket_mem: "1024"
     compute_ovs_dpdk_lcore_mask: "0x1"
     compute_ovs_memory_channels: "2"
+    cluster_vip_address: ${_param:cluster_public_host}
+    cluster_local_address: ${_param:openstack_control_address}
     cluster_node01_hostname: ctl01
     cluster_node01_address: 172.16.10.101
     cluster_node02_hostname: ctl02
@@ -108,16 +110,6 @@ parameters:
           names:
           - ctl01
           - ctl01.${_param:cluster_domain}
-        ctl02:
-          address: ${_param:openstack_control_node02_address}
-          names:
-          - ctl02
-          - ctl02.${_param:cluster_domain}
-        ctl03:
-          address: ${_param:openstack_control_node03_address}
-          names:
-          - ctl03
-          - ctl03.${_param:cluster_domain}
         gtw01:
           address: ${_param:openstack_gateway_address}
           names:
