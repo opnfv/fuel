@@ -1,6 +1,10 @@
 #!/bin/bash
-wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
-echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main" > /etc/apt/sources.list.d/salt.list
+SALT_REPO=repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11
+if [ "$(uname -i)" = "aarch64" ]; then
+  SALT_REPO=linux.enea.com/saltstack/apt/ubuntu/16.04/arm64/latest
+fi
+wget -O - "https://${SALT_REPO}/SALTSTACK-GPG-KEY.pub" | sudo apt-key add -
+echo "deb http://${SALT_REPO} xenial main" > /etc/apt/sources.list.d/salt.list
 apt update
 apt-get install -y salt-minion
 rm /etc/salt/minion_id
