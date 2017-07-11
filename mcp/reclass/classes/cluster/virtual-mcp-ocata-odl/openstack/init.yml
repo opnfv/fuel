@@ -6,7 +6,7 @@ parameters:
     openstack_region: RegionOne
     admin_email: root@localhost
     cluster_public_protocol: http
-    cluster_public_host: 172.16.10.101
+    cluster_public_host: 10.16.0.101
     neutron_public_protocol: http
     neutron_control_dvr: False
     neutron_tenant_network_types: "flat,vxlan"
@@ -34,25 +34,24 @@ parameters:
     rabbitmq_openstack_password: opnfv_secret
     rabbitmq_cold_password: opnfv_secret
     glance_version: ${_param:openstack_version}
-    glance_service_host: ${_param:cluster_vip_address}
+    glance_service_host: ${_param:cluster_local_address}
     keystone_version: ${_param:openstack_version}
-    keystone_service_host: ${_param:cluster_vip_address}
+    keystone_service_host: ${_param:cluster_local_address}
     heat_version: ${_param:openstack_version}
-    heat_service_host: ${_param:cluster_vip_address}
+    heat_service_host: ${_param:cluster_local_address}
     heat_domain_admin_password: opnfv_secret
     ceilometer_version: ${_param:openstack_version}
     ceilometer_service_host: 172.16.10.108
     ceilometer_database_host: ${_param:cluster_local_address}
     cinder_version: ${_param:openstack_version}
-    cinder_service_host: ${_param:cluster_vip_address}
+    cinder_service_host: ${_param:cluster_local_address}
     ceilometer_graphite_publisher_host: 172.16.10.107
     ceilometer_graphite_publisher_port: 2013
     nova_version: ${_param:openstack_version}
-    nova_service_host: ${_param:cluster_vip_address}
+    nova_service_host: ${_param:cluster_local_address}
     nova_vncproxy_url: http://${_param:cluster_vip_address}:8060
     neutron_version: ${_param:openstack_version}
-    neutron_service_host: ${_param:cluster_vip_address}
-    glusterfs_service_host: ${_param:cluster_vip_address}
+    neutron_service_host: ${_param:cluster_local_address}
     metadata_password: password
     mysql_admin_user: root
     mysql_admin_password: opnfv_secret

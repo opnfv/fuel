@@ -27,6 +27,8 @@ classes:
 - system.galera.server.database.keystone
 - system.galera.server.database.nova
 - system.horizon.server.single
+- service.haproxy.proxy.single
+- cluster.virtual-mcp-ocata-common.haproxy_openstack_api
 - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   _param:
@@ -43,6 +45,12 @@ parameters:
           type: eth
           proto: static
           address: ${_param:single_address}
+          netmask: 255.255.255.0
+        ens6:
+          enabled: true
+          type: eth
+          proto: static
+          address: ${_param:cluster_public_host}
           netmask: 255.255.255.0
   keystone:
     server:
@@ -80,6 +88,13 @@ parameters:
     server:
       backend:
         tenant_vlan_range: 1000:1999
+  heat:
+    server:
+      bind:
+        api_cfn:
+          address: ${_param:single_address}
+        api_cloudwatch:
+          address: ${_param:single_address}
   mysql:
     server:
       version: '5.7'

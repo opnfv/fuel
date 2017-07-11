@@ -31,6 +31,16 @@ parameters:
         host: ${_param:openstack_control_address}
       metadata:
         host: ${_param:openstack_control_address}
+  cinder:
+    volume:
+      database:
+        host: ${_param:cluster_local_address}
+      identity:
+        host: ${_param:cluster_local_address}
+      glance:
+        host: ${_param:cluster_local_address}
+      message_queue:
+        host: ${_param:cluster_local_address}
   opendaylight:
     client:
       ovsdb_server_iface: ptcp:6639:127.0.0.1
