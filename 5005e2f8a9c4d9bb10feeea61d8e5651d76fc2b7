@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_ed4a9d82",
+        "filename": "mcp/patches/1a2c7f23.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-07-11T15:05:04Z",
+      "side": 1,
+      "message": "small nitpick (applies to all patches): these ws are safe to delete",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "5005e2f8a9c4d9bb10feeea61d8e5651d76fc2b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_6d5ead47",
+        "filename": "mcp/patches/patch.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-07-11T15:05:04Z",
+      "side": 1,
+      "message": "\"${p_dest}\", \"${p_file}\" in case paths will somehow have spaces",
+      "range": {
+        "startLine": 5,
+        "startChar": 14,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "5005e2f8a9c4d9bb10feeea61d8e5651d76fc2b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_2d58b555",
+        "filename": "mcp/patches/patch.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-07-11T15:05:04Z",
+      "side": 1,
+      "message": "extra line",
+      "revId": "5005e2f8a9c4d9bb10feeea61d8e5651d76fc2b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_1005ce10",
+        "filename": "mcp/patches/patches.list",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-07-11T15:05:04Z",
+      "side": 1,
+      "message": "commit shas as patch names are hard to read, how about 0001-patch-title.patch?\nAlso, since these are full mbox patches, \"patch\" is more fit than \"diff\".",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 27
+      },
+      "revId": "5005e2f8a9c4d9bb10feeea61d8e5651d76fc2b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
