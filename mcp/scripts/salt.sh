@@ -25,6 +25,8 @@ ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s << SALT_INSTALL_END
   cp -r /root/fuel/mcp/salt-formulas/* /usr/share/salt-formulas/env
   cd /srv/salt/reclass/classes/service && ln -s /usr/share/salt-formulas/reclass/service/opendaylight
 
+  cd /root/fuel/mcp/patches && ./patch.sh patches.list
+
   salt '*' saltutil.refresh_pillar
   salt '*' saltutil.sync_all
 

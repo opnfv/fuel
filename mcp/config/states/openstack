@@ -3,6 +3,7 @@ salt -I 'rabbitmq:server' cmd.run "rabbitmqctl status"
 
 salt -I 'mysql:server' state.sls mysql
 salt -I 'memcached:server' state.sls memcached
+salt -I 'haproxy:proxy' state.sls haproxy
 
 salt -I 'keystone:server' state.sls keystone.server
 salt -I 'keystone:server' service.restart apache2

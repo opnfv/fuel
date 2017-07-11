@@ -1,0 +1,99 @@
+From 1a2c7f23229050b1694565c5e2ee13146001eb18 Mon Sep 17 00:00:00 2001
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 29 Jun 2017 12:05:25 +0400
+Subject: [PATCH] Bring in opendaylight support
+
+Change-Id: Ie9073fafccba336f94b1996bd85c98d7a7f5060b
+---
+
+diff --git a/neutron/files/ocata/ml2_conf.ini b/neutron/files/ocata/ml2_conf.ini
+index 0d48951..347eb15 100644
+--- a/neutron/files/ocata/ml2_conf.ini
++++ b/neutron/files/ocata/ml2_conf.ini
+@@ -269,3 +269,11 @@
+ # Use ipset to speed-up the iptables based security groups. Enabling ipset
+ # support requires that ipset is installed on L2 agent node. (boolean value)
+ #enable_ipset = true
++
++{%- if server.backend.engine == "opendaylight" %}
++[ml2_odl]
++port_binding_controller = network-topology
++url = http://{{ server.backend.host }}:{{ server.backend.rest_api_port }}/controller/nb/v2/neutron
++username = {{ server.backend.user }}
++password = {{ server.backend.password }}
++{%- endif %}
+diff --git a/neutron/files/ocata/neutron-generic.conf.Debian b/neutron/files/ocata/neutron-generic.conf.Debian
+index 5b7058d..bc438b9 100644
+--- a/neutron/files/ocata/neutron-generic.conf.Debian
++++ b/neutron/files/ocata/neutron-generic.conf.Debian
+@@ -33,7 +33,7 @@
+ #auth_strategy = keystone
+ auth_strategy = keystone
+ 
+-{% if neutron.backend.engine == "ml2" %}
++{% if neutron.backend.engine in ["ml2", "opendaylight"] %}
+ 
+ core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+ 
+diff --git a/neutron/files/ocata/neutron-server b/neutron/files/ocata/neutron-server
+index 54f6ceb..1682ee0 100644
+--- a/neutron/files/ocata/neutron-server
++++ b/neutron/files/ocata/neutron-server
+@@ -7,10 +7,10 @@
+ # neutron.conf
+ #NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
+ 
+-{%- if server.backend.engine == "ml2" %}
++{%- if server.backend.engine in ["ml2", "opendaylight"] %}
+ NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/ml2/ml2_conf.ini"
+ {%- endif %}
+ 
+ {%- if server.backend.engine == "contrail" %}
+ NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/opencontrail/ContrailPlugin.ini"
+-{%- endif %}
+\ No newline at end of file
++{%- endif %}
+diff --git a/neutron/files/ocata/neutron-server.conf.Debian b/neutron/files/ocata/neutron-server.conf.Debian
+index e320ca4..d6de235 100644
+--- a/neutron/files/ocata/neutron-server.conf.Debian
++++ b/neutron/files/ocata/neutron-server.conf.Debian
+@@ -39,7 +39,7 @@
+ core_plugin = neutron_plugin_contrail.plugins.opencontrail.contrail_plugin.NeutronPluginContrailCoreV2
+ 
+ service_plugins = neutron_plugin_contrail.plugins.opencontrail.loadbalancer.v2.plugin.LoadBalancerPluginV2
+-{% elif server.backend.engine == "ml2" %}
++{% elif server.backend.engine in ["ml2", "opendaylight"] %}
+ 
+ core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+ 
+@@ -831,7 +831,7 @@
+ # Deprecated group/name - [DEFAULT]/sql_connection
+ # Deprecated group/name - [DATABASE]/sql_connection
+ # Deprecated group/name - [sql]/connection
+-{% if server.backend.engine == "ml2" %}
++{% if server.backend.engine in ["ml2", "opendaylight"] %}
+ connection = {{ server.database.engine }}+pymysql://{{ server.database.user }}:{{ server.database.password }}@{{ server.database.host }}/{{ server.database.name }}?charset=utf8
+ {% else %}
+ connection = sqlite:////var/lib/neutron/neutron.sqlite
+@@ -2194,3 +2194,8 @@
+ {% include "neutron/files/"+server.version+"/ContrailPlugin.ini" %}
+ 
+ {% endif %}
++
++{%- if server.backend.engine == "opendaylight" %}
++[ovs]
++ovsdb_connection = {{ server.backend.ovsdb_connection }}
++{%- endif %}
+diff --git a/neutron/server.sls b/neutron/server.sls
+index 0b3a6be..7a6bd23 100644
+--- a/neutron/server.sls
++++ b/neutron/server.sls
+@@ -64,7 +64,7 @@
+ 
+ {%- endif %}
+ 
+-{% if server.backend.engine == "ml2" %}
++{% if server.backend.engine in ["ml2", "opendaylight"] %}
+ 
+ /etc/neutron/plugins/ml2/ml2_conf.ini:
+   file.managed:
