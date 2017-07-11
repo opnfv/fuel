@@ -1,0 +1,98 @@
+From 1f59df548f3e1461cc0ebf70c29a89205385eb20 Mon Sep 17 00:00:00 2001
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 29 Jun 2017 12:22:42 +0400
+Subject: [PATCH] Bring in opendaylight support
+
+Change-Id: I3efec9a8b586a6c75b1c1635ad2a7024d73d9ad2
+---
+
+diff --git a/neutron/control/opendaylight/cluster.yml b/neutron/control/opendaylight/cluster.yml
+new file mode 100644
+index 0000000..4133650
+--- /dev/null
++++ b/neutron/control/opendaylight/cluster.yml
+@@ -0,0 +1,19 @@
++classes:
++- service.keepalived.cluster.single
++- service.haproxy.proxy.single
++- service.neutron.control.cluster
++- system.haproxy.proxy.listen.openstack.neutron
++- system.neutron.control.openvswitch.cluster
++parameters:
++  neutron:
++    server:
++      backend:
++        engine: opendaylight
++        host: ${_param:opendaylight_service_host}
++        rest_api_port: 8282
++        user: admin
++        password: admin
++        ovsdb_connection: tcp:127.0.0.1:6639
++        mechanism:
++          ovs:
++            driver: opendaylight_v2
+diff --git a/neutron/control/opendaylight/single.yml b/neutron/control/opendaylight/single.yml
+new file mode 100644
+index 0000000..19af585
+--- /dev/null
++++ b/neutron/control/opendaylight/single.yml
+@@ -0,0 +1,16 @@
++classes:
++- service.neutron.control.single
++- system.neutron.control.openvswitch.single
++parameters:
++  neutron:
++    server:
++      backend:
++        engine: opendaylight
++        host: ${_param:opendaylight_service_host}
++        rest_api_port: 8282
++        user: admin
++        password: admin
++        ovsdb_connection: tcp:127.0.0.1:6639
++        mechanism:
++          ovs:
++            driver: opendaylight_v2
+diff --git a/neutron/gateway/opendaylight/single.yml b/neutron/gateway/opendaylight/single.yml
+new file mode 100644
+index 0000000..29c8d95
+--- /dev/null
++++ b/neutron/gateway/opendaylight/single.yml
+@@ -0,0 +1,8 @@
++classes:
++- service.neutron.gateway.single
++parameters:
++  neutron:
++    gateway:
++      backend:
++        engine: opendaylight
++        ovsdb_connection: tcp:127.0.0.1:6639
+diff --git a/opendaylight/server/single.yml b/opendaylight/server/single.yml
+new file mode 100644
+index 0000000..3d11872
+--- /dev/null
++++ b/opendaylight/server/single.yml
+@@ -0,0 +1,2 @@
++classes:
++- service.opendaylight.server.single
+diff --git a/reclass/storage/system/opendaylight_control_single.yml b/reclass/storage/system/opendaylight_control_single.yml
+new file mode 100644
+index 0000000..890ff59
+--- /dev/null
++++ b/reclass/storage/system/opendaylight_control_single.yml
+@@ -0,0 +1,15 @@
++parameters:
++  _param:
++    opendaylight_control_hostname: odl01
++  reclass:
++    storage:
++      node:
++        opendaylight_control_node01:
++          name: ${_param:opendaylight_control_hostname}
++          domain: ${_param:cluster_domain}
++          classes:
++          - cluster.${_param:cluster_name}.opendaylight.control
++          params:
++            salt_master_host: ${_param:reclass_config_master}
++            linux_system_codename: ${_param:linux_system_codename}
++            single_address: ${_param:opendaylight_service_host}
