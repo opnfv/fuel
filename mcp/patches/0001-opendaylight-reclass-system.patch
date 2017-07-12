@@ -1,10 +1,8 @@
-From 1f59df548f3e1461cc0ebf70c29a89205385eb20 Mon Sep 17 00:00:00 2001
 From: Michael Polenchuk <mpolenchuk@mirantis.com>
 Date: Thu, 29 Jun 2017 12:22:42 +0400
 Subject: [PATCH] Bring in opendaylight support
 
 Change-Id: I3efec9a8b586a6c75b1c1635ad2a7024d73d9ad2
----
 
 diff --git a/neutron/control/opendaylight/cluster.yml b/neutron/control/opendaylight/cluster.yml
 new file mode 100644
