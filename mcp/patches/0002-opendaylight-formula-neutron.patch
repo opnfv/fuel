@@ -1,16 +1,15 @@
-From 1a2c7f23229050b1694565c5e2ee13146001eb18 Mon Sep 17 00:00:00 2001
+From e6aabb0d35796bc0c198a8703936dd3f109db9c5 Mon Sep 17 00:00:00 2001
 From: Michael Polenchuk <mpolenchuk@mirantis.com>
 Date: Thu, 29 Jun 2017 12:05:25 +0400
 Subject: [PATCH] Bring in opendaylight support
 
 Change-Id: Ie9073fafccba336f94b1996bd85c98d7a7f5060b
----
 
 diff --git a/neutron/files/ocata/ml2_conf.ini b/neutron/files/ocata/ml2_conf.ini
 index 0d48951..347eb15 100644
 --- a/neutron/files/ocata/ml2_conf.ini
 +++ b/neutron/files/ocata/ml2_conf.ini
-@@ -269,3 +269,11 @@
+@@ -269,3 +269,11 @@ enable_security_group = True
  # Use ipset to speed-up the iptables based security groups. Enabling ipset
  # support requires that ipset is installed on L2 agent node. (boolean value)
  #enable_ipset = true
@@ -26,7 +25,7 @@ diff --git a/neutron/files/ocata/neutron-generic.conf.Debian b/neutron/files/oca
 index 5b7058d..bc438b9 100644
 --- a/neutron/files/ocata/neutron-generic.conf.Debian
 +++ b/neutron/files/ocata/neutron-generic.conf.Debian
-@@ -33,7 +33,7 @@
+@@ -33,7 +33,7 @@ state_path = /var/lib/neutron
  #auth_strategy = keystone
  auth_strategy = keystone
  
@@ -39,7 +38,7 @@ diff --git a/neutron/files/ocata/neutron-server b/neutron/files/ocata/neutron-se
 index 54f6ceb..1682ee0 100644
 --- a/neutron/files/ocata/neutron-server
 +++ b/neutron/files/ocata/neutron-server
-@@ -7,10 +7,10 @@
+@@ -7,7 +7,7 @@
  # neutron.conf
  #NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
  
@@ -48,16 +47,11 @@ index 54f6ceb..1682ee0 100644
  NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/ml2/ml2_conf.ini"
  {%- endif %}
  
- {%- if server.backend.engine == "contrail" %}
- NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/opencontrail/ContrailPlugin.ini"
--{%- endif %}
-\ No newline at end of file
-+{%- endif %}
 diff --git a/neutron/files/ocata/neutron-server.conf.Debian b/neutron/files/ocata/neutron-server.conf.Debian
 index e320ca4..d6de235 100644
 --- a/neutron/files/ocata/neutron-server.conf.Debian
 +++ b/neutron/files/ocata/neutron-server.conf.Debian
-@@ -39,7 +39,7 @@
+@@ -39,7 +39,7 @@ api_extensions_path = extensions:/usr/lib/python2.7/dist-packages/neutron_plugin
  core_plugin = neutron_plugin_contrail.plugins.opencontrail.contrail_plugin.NeutronPluginContrailCoreV2
  
  service_plugins = neutron_plugin_contrail.plugins.opencontrail.loadbalancer.v2.plugin.LoadBalancerPluginV2
@@ -66,7 +60,7 @@ index e320ca4..d6de235 100644
  
  core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
  
-@@ -831,7 +831,7 @@
+@@ -831,7 +831,7 @@ allow_headers = {{ server.cors.allow_headers }}
  # Deprecated group/name - [DEFAULT]/sql_connection
  # Deprecated group/name - [DATABASE]/sql_connection
  # Deprecated group/name - [sql]/connection
@@ -75,7 +69,7 @@ index e320ca4..d6de235 100644
  connection = {{ server.database.engine }}+pymysql://{{ server.database.user }}:{{ server.database.password }}@{{ server.database.host }}/{{ server.database.name }}?charset=utf8
  {% else %}
  connection = sqlite:////var/lib/neutron/neutron.sqlite
-@@ -2194,3 +2194,8 @@
+@@ -2194,3 +2194,8 @@ service_provider = LOADBALANCERV2:Opencontrail:neutron_plugin_contrail.plugins.o
  {% include "neutron/files/"+server.version+"/ContrailPlugin.ini" %}
  
  {% endif %}
@@ -88,7 +82,7 @@ diff --git a/neutron/server.sls b/neutron/server.sls
 index 0b3a6be..7a6bd23 100644
 --- a/neutron/server.sls
 +++ b/neutron/server.sls
-@@ -64,7 +64,7 @@
+@@ -64,7 +64,7 @@ neutron_server_service:
  
  {%- endif %}
  
