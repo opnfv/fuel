@@ -95,6 +95,12 @@ parameters:
     keystone_aodh_password: opnfv_secret
     aodh_service_host: 172.16.10.108
   linux:
+    system:
+      kernel:
+        sysctl:
+          net.ipv4.tcp_congestion_control: yeah
+          net.ipv4.tcp_slow_start_after_idle: 0
+          net.ipv4.tcp_fin_timeout: 30
     network:
       host:
         ctl:

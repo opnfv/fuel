@@ -95,6 +95,11 @@ parameters:
           architectures: amd64
           key_id: EC4926EA
           key_server: keyserver.ubuntu.com
+      kernel:
+        sysctl:
+          net.ipv4.tcp_congestion_control: yeah
+          net.ipv4.tcp_slow_start_after_idle: 0
+          net.ipv4.tcp_fin_timeout: 30
     network:
       host:
         ctl:

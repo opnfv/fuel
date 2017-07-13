@@ -54,10 +54,11 @@ create_networks() {
 create_vms() {
   local -n vnodes=$1
   local -n vnodes_ram=$2
+  local -n vnodes_vcpus=$3
 
   # create vms with specified options
   for node in "${vnodes[@]}"; do
-    virt-install --name ${node} --ram ${vnodes_ram[$node]} --vcpus=2 --cpu host --accelerate \
+    virt-install --name ${node} --ram ${vnodes_ram[$node]} --vcpus ${vnodes_vcpus[$node]} --cpu host --accelerate \
     --network network:pxe,model=virtio \
     --network network:mgmt,model=virtio \
     --network network:internal,model=virtio \

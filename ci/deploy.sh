@@ -244,10 +244,12 @@ source lib.sh
 eval $(parse_yaml ../config/defaults.yaml)
 eval $(parse_yaml ../config/${DEPLOY_SCENARIO}.yaml)
 
-declare -A virtual_nodes_ram
+declare -A virtual_nodes_ram virtual_nodes_vcpus
 for node in "${virtual_nodes[@]}"; do
     virtual_custom_ram="virtual_${node}_ram"
+    virtual_custom_vcpus="virtual_${node}_vcpus"
     virtual_nodes_ram[$node]=${!virtual_custom_ram:-$virtual_default_ram}
+    virtual_nodes_vcpus[$node]=${!virtual_custom_vcpus:-$virtual_default_vcpus}
 done
 
 export CLUSTER_DOMAIN=$cluster_domain
@@ -259,7 +261,7 @@ export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i 
 generate_ssh_key
 prepare_vms virtual_nodes $base_image
 create_networks
-create_vms virtual_nodes virtual_nodes_ram
+create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus
 update_pxe_network
 start_vms virtual_nodes
 check_connection
