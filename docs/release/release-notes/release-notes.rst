@@ -74,7 +74,7 @@ Release Data
 | **Release designation**              | Danube 3.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | June 23 2017                        |
+| **Release date**                     | July 14 2017                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Danube alignment to Released         |
