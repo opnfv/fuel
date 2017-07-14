@@ -13,13 +13,13 @@ opendaylight:
   - require_in:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
-    - file: /opt/opendaylight/etc/org.apache.karaf.features.cfg
+    - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
   service.running:
   - enable: true
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
-    - file: /opt/opendaylight/etc/org.apache.karaf.features.cfg
+    - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
 
 /opt/opendaylight/etc/jetty.xml:
   file.managed:
@@ -42,8 +42,20 @@ opendaylight:
 {% endset %}
 
 /opt/opendaylight/etc/org.apache.karaf.features.cfg:
-  file.replace:
-  - pattern: ^featuresBoot=.*$
-  - repl: "featuresBoot={{ features }}"
+  ini.options_present:
+    - sections:
+        featuresBoot: {{ features }}
+
+{%- if server.get('router_enabled', false) %}
+/opt/opendaylight/etc/custom.properties:
+  ini.options_present:
+    - sections:
+        ovsdb.l3.fwd.enabled: 'yes'
+        ovsdb.of.version: 1.3
+    - require:
+      - pkg: opendaylight
+    - watch_in:
+      - service: opendaylight
+{%- endif %}
 
 {%- endif %}

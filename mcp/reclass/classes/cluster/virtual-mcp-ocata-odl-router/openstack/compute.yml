@@ -1,0 +1,86 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.linux.storage.loopback
+- system.nova.compute.single
+- service.neutron.compute.single
+- service.cinder.volume.single
+- system.cinder.volume.backend.lvm
+- cluster.virtual-mcp-ocata-odl-router
+parameters:
+  _param:
+    primary_interface: ens4
+    tenant_interface: ens5
+    external_interface: ens6
+    interface_mtu: 9000
+    linux_system_codename: xenial
+    loopback_device_size: 10
+  nova:
+    compute:
+      vncproxy_url: http://${_param:cluster_vip_address}:6080
+      network:
+        region: ${_param:openstack_region}
+        user: neutron
+        tenant: service
+        password: ${_param:keystone_neutron_password}
+  neutron:
+    compute:
+      agent_mode: ${_param:neutron_compute_agent_mode}
+      message_queue:
+        host: ${_param:openstack_control_address}
+      metadata:
+        host: ${_param:openstack_control_address}
+  cinder:
+    volume:
+      database:
+        host: ${_param:cluster_local_address}
+      identity:
+        host: ${_param:cluster_local_address}
+      glance:
+        host: ${_param:cluster_local_address}
+      message_queue:
+        host: ${_param:cluster_local_address}
+  opendaylight:
+    client:
+      ovsdb_server_iface: ptcp:6639:127.0.0.1
+      ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
+      tunnel_ip: ${_param:tenant_address}
+  linux:
+    network:
+      bridge: openvswitch
+      interface:
+        dhcp_int:
+          enabled: true
+          name: ens3
+          proto: dhcp
+          type: eth
+          mtu: ${_param:interface_mtu}
+        primary_interface:
+          enabled: true
+          name: ${_param:primary_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        tenant_interface:
+          enabled: true
+          name: ${_param:tenant_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        br-mgmt:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:primary_interface}
+        br-mesh:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:tenant_interface}
