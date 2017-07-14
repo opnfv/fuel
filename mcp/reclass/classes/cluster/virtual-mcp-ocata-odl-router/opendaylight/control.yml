@@ -1,0 +1,33 @@
+classes:
+- system.linux.system.repo.ubuntu
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.opendaylight.server.single
+- cluster.virtual-mcp-ocata-odl
+parameters:
+  _param:
+    linux_system_codename: xenial
+  linux:
+    network:
+      interface:
+        ens4:
+          enabled: true
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+  opendaylight:
+    server:
+      odl_bind_ip: ${_param:single_address}
+      odl_rest_port: 8282
+      java_min_mem: 3g
+      java_max_mem: 3g
+      router_enabled: true
+      karaf_features:
+        odl_default:
+          - odl-restconf-all
+          - odl-aaa-authn
+          - odl-dlux-all
+        netvirt:
+          - odl-netvirt-openstack
