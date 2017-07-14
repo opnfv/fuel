@@ -75,10 +75,10 @@ index 0000000..3d11872
 +- service.opendaylight.server.single
 diff --git a/reclass/storage/system/opendaylight_control_single.yml b/reclass/storage/system/opendaylight_control_single.yml
 new file mode 100644
-index 0000000..890ff59
+index 0000000..ad809f5
 --- /dev/null
 +++ b/reclass/storage/system/opendaylight_control_single.yml
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,13 @@
 +parameters:
 +  _param:
 +    opendaylight_control_hostname: odl01
@@ -88,8 +88,6 @@ index 0000000..890ff59
 +        opendaylight_control_node01:
 +          name: ${_param:opendaylight_control_hostname}
 +          domain: ${_param:cluster_domain}
-+          classes:
-+          - cluster.${_param:cluster_name}.opendaylight.control
 +          params:
 +            salt_master_host: ${_param:reclass_config_master}
 +            linux_system_codename: ${_param:linux_system_codename}

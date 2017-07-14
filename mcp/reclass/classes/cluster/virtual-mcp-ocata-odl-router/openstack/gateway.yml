@@ -3,7 +3,7 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.neutron.gateway.opendaylight.single
-- cluster.virtual-mcp-ocata-odl
+- cluster.virtual-mcp-ocata-odl-router
 parameters:
   _param:
     primary_interface: ens4
@@ -12,7 +12,6 @@ parameters:
     interface_mtu: 9000
     linux_system_codename: xenial
     neutron_agents:
-    - neutron-l3-agent
     - neutron-dhcp-agent
     - neutron-metadata-agent
   neutron:
@@ -20,6 +19,8 @@ parameters:
       agent_mode: ${_param:neutron_gateway_agent_mode}
       pkgs: ${_param:neutron_agents}
       services: ${_param:neutron_agents}
+      backend:
+        router: ${_param:opendaylight_router}
   opendaylight:
     client:
       ovsdb_server_iface: ptcp:6639:127.0.0.1

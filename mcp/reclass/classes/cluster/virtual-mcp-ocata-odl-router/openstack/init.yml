@@ -1,0 +1,135 @@
+parameters:
+  _param:
+    openstack_version: ocata
+    apt_mk_version: nightly
+    mcp_repo_version: 1.1
+    openstack_region: RegionOne
+    admin_email: root@localhost
+    cluster_public_protocol: http
+    cluster_public_host: 10.16.0.101
+    neutron_public_protocol: http
+    neutron_control_dvr: False
+    neutron_tenant_network_types: "flat,vxlan"
+    neutron_l3_ha: False
+    neutron_global_physnet_mtu: 1500
+    neutron_external_mtu: 1500
+    neutron_gateway_dvr: False
+    neutron_gateway_agent_mode: legacy
+    neutron_compute_dvr: False
+    neutron_compute_agent_mode: legacy
+    neutron_compute_external_access: False
+    galera_server_cluster_name: openstack_cluster
+    galera_server_maintenance_password: opnfv_secret
+    galera_server_admin_password: opnfv_secret
+    cluster_vip_address: ${_param:cluster_public_host}
+    cluster_local_address: ${_param:openstack_control_address}
+    cluster_node01_hostname: ctl01
+    cluster_node01_address: 172.16.10.101
+    cluster_node02_hostname: ctl02
+    cluster_node02_address: 172.16.10.102
+    cluster_node03_hostname: ctl03
+    cluster_node03_address: 172.16.10.103
+    rabbitmq_secret_key: opnfv_secret
+    rabbitmq_admin_password: opnfv_secret
+    rabbitmq_openstack_password: opnfv_secret
+    rabbitmq_cold_password: opnfv_secret
+    glance_version: ${_param:openstack_version}
+    glance_service_host: ${_param:cluster_local_address}
+    keystone_version: ${_param:openstack_version}
+    keystone_service_host: ${_param:cluster_local_address}
+    heat_version: ${_param:openstack_version}
+    heat_service_host: ${_param:cluster_local_address}
+    heat_domain_admin_password: opnfv_secret
+    ceilometer_version: ${_param:openstack_version}
+    ceilometer_service_host: 172.16.10.108
+    ceilometer_database_host: ${_param:cluster_local_address}
+    cinder_version: ${_param:openstack_version}
+    cinder_service_host: ${_param:cluster_local_address}
+    ceilometer_graphite_publisher_host: 172.16.10.107
+    ceilometer_graphite_publisher_port: 2013
+    nova_version: ${_param:openstack_version}
+    nova_service_host: ${_param:cluster_local_address}
+    nova_vncproxy_url: http://${_param:cluster_vip_address}:8060
+    neutron_version: ${_param:openstack_version}
+    neutron_service_host: ${_param:cluster_local_address}
+    metadata_password: password
+    mysql_admin_user: root
+    mysql_admin_password: opnfv_secret
+    mysql_cinder_password: opnfv_secret
+    mysql_ceilometer_password: opnfv_secret
+    mysql_glance_password: opnfv_secret
+    mysql_grafana_password: opnfv_secret
+    mysql_heat_password: opnfv_secret
+    mysql_keystone_password: opnfv_secret
+    mysql_neutron_password: opnfv_secret
+    mysql_nova_password: opnfv_secret
+    mysql_aodh_password: opnfv_secret
+    keystone_service_token: opnfv_secret
+    keystone_admin_password: opnfv_secret
+    keystone_ceilometer_password: opnfv_secret
+    keystone_cinder_password: opnfv_secret
+    keystone_glance_password: opnfv_secret
+    keystone_heat_password: opnfv_secret
+    keystone_keystone_password: opnfv_secret
+    keystone_neutron_password: opnfv_secret
+    keystone_nova_password: opnfv_secret
+    ceilometer_secret_key: opnfv_secret
+    metadata_password: opnfv_secret
+    horizon_version: ${_param:openstack_version}
+    horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e
+    horizon_identity_host: ${_param:cluster_vip_address}
+    horizon_identity_encryption: none
+    horizon_identity_version: 3
+    mongodb_server_replica_set: ceilometer
+    mongodb_ceilometer_password: cloudlab
+    mongodb_admin_password: cloudlab
+    mongodb_shared_key: eoTh1AwahlahqueingeejooLughah4tei9feing0eeVaephooDi2li1TaeV1ooth
+    aodh_version: ${_param:openstack_version}
+    keystone_aodh_password: opnfv_secret
+    aodh_service_host: 172.16.10.108
+    opendaylight_router: odl-router_v2
+  linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
+      kernel:
+        sysctl:
+          net.ipv4.tcp_congestion_control: yeah
+          net.ipv4.tcp_slow_start_after_idle: 0
+          net.ipv4.tcp_fin_timeout: 30
+    network:
+      host:
+        ctl:
+          address: ${_param:openstack_control_address}
+          names:
+          - ctl
+          - ctl.${_param:cluster_domain}
+        ctl01:
+          address: ${_param:openstack_control_node01_address}
+          names:
+          - ctl01
+          - ctl01.${_param:cluster_domain}
+        gtw01:
+          address: ${_param:openstack_gateway_address}
+          names:
+          - gtw01
+          - gtw01.${_param:cluster_domain}
+        cmp01:
+          address: 172.16.10.105
+          names:
+          - cmp01
+          - cmp01.${_param:cluster_domain}
+        cmp02:
+          address: 172.16.10.106
+          names:
+          - cmp02
+          - cmp02.${_param:cluster_domain}
+        odl01:
+          address: 172.16.10.111
+          names:
+          - odl01
+          - odl01.${_param:cluster_domain}
