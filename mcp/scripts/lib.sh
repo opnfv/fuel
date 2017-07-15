@@ -66,7 +66,8 @@ create_vms() {
     --disk path=$(pwd)/images/mcp_${node}.qcow2,format=qcow2,bus=virtio,cache=none,io=native \
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
-    --disk path=$(pwd)/images/mcp_${node}.iso,device=cdrom
+    --disk path=$(pwd)/images/mcp_${node}.iso,device=cdrom \
+    --noautoconsole
   done
 }
 
