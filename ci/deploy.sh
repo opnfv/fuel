@@ -87,7 +87,7 @@ $(notify "Disabled input parameters (not yet supported with MCP):" 3)
 -i (disabled) .iso image to be deployed (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
-$(notify "[NOTE] Root priviledges are needed for this script to run" 3)
+$(notify "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 
 Example:
 
@@ -240,8 +240,13 @@ do
     esac
 done
 
-if [[ $EUID -ne 0 ]]; then
-    notify "[ERROR] This script must be run as root\n" 1>&2
+if [[ "$(sudo whoami)" != 'root' ]]; then
+    notify "This script requires sudo rights\n" 1>&2
+    exit 1
+fi
+
+if ! virsh list >/dev/null 2>&1; then
+    notify "This script requires hypervisor access\n" 1>&2
     exit 1
 fi
 
@@ -269,9 +274,9 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # scenario, etc.
 
 # Install required packages
-[ -n "$(command -v apt-get)" ] && apt-get install -y \
+[ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
   git make rsync mkisofs curl virtinst cpu-checker qemu-kvm
-[ -n "$(command -v yum)" ] && yum install -y \
+[ -n "$(command -v yum)" ] && sudo yum install -y \
   git make rsync genisoimage curl virt-install qemu-kvm
 
 # Check scenario file existence
