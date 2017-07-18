@@ -21,3 +21,5 @@ salt -I 'neutron:server' state.sls neutron
 salt -I 'neutron:gateway' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
+
+salt -I 'horizon:server' state.sls horizon
