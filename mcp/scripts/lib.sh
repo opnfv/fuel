@@ -4,7 +4,7 @@
 
 generate_ssh_key() {
   [ -f "$SSH_KEY" ] || ssh-keygen -f ${SSH_KEY} -N ''
-  install -o jenkins -m 0600 ${SSH_KEY} /tmp/
+  install -o $USER -m 0600 ${SSH_KEY} /tmp/
 }
 
 get_base_image() {
