@@ -27,6 +27,10 @@ if [ "${ERASE_ENV}" -eq 1 ]; then
 fi
 
 # KVM libvirt first, VCP deployment
+if salt -C 'kvm*' match.grain 'cpuarch:aarch64' \
+  --out yaml --static | grep -q -e 'true' ; then
+  wait_for 5.0 "salt -C 'G@cpuarch:aarch64 and kvm*' state.sls armband"
+fi
 wait_for 5.0 "salt -C 'kvm*' state.sls libvirt"
 
 salt -C 'kvm* or cmp*' state.apply salt
