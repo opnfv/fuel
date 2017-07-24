@@ -33,7 +33,7 @@ cp -a /root/pod_config.yml \
 prefix=/srv/salt/formula/salt-formulas
 rm -f /root/fuel/mcp/salt-formulas/*/.git
 cp -ar /root/fuel/mcp/salt-formulas/* ${prefix}/
-for formula in 'opendaylight' 'tacker'; do
+for formula in 'armband' 'opendaylight' 'tacker'; do
     ln -sf /root/fuel/mcp/salt-formulas/salt-formula-${formula}/* \
            /srv/salt/env/prd/
 done

@@ -1,0 +1,27 @@
+From: Charalampos Kominos <Charalampos.Kominos@enea.com>
+Date: Wed, 2 May 2018 14:20:47 +0200
+Subject: [PATCH] Allow libvirt to honor root device naming
+
+Current behaviour in upstream nova is for rootfs to be in /dev/vda
+which is the default behaviour when using virtio driver. However when
+other devices are requested either by glance or by CLI, nova ignores
+that naming and still tries to attach to vda which fails.
+
+Manually applied in https://review.openstack.org/#/c/214314/
+
+JIRA: ARMBAND-376
+
+Signed-off-by: Charalampos Kominos <charalampos.kominos@enea.com>
+---
+
+--- a/nova/virt/libvirt/driver.py
++++ b/nova/virt/libvirt/driver.py
+@@ -8257,6 +8257,8 @@
+                     "Ignoring supplied device name: %(device_name)s. "
+                     "Libvirt can't honour user-supplied dev names",
+                     {'device_name': bdm.device_name}, instance=instance)
++                if instance.root_device_name == bdm.device_name:
++                   instance.root_device_name = None
+                 bdm.device_name = None
+         block_device_info = driver.get_block_device_info(instance,
+                                                          block_device_mapping)
