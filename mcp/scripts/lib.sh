@@ -41,15 +41,19 @@ prepare_vms() {
 }
 
 create_networks() {
+  local -n vnode_networks=$1
   # create required networks
-  for net in pxe mgmt internal public; do
-    if virsh net-info $net >/dev/null 2>&1; then
-      virsh net-destroy ${net}
-      virsh net-undefine ${net}
+  for net in "${vnode_networks[@]}"; do
+    if virsh net-info "${net}" >/dev/null 2>&1; then
+      virsh net-destroy "${net}"
+      virsh net-undefine "${net}"
     fi
-    virsh net-define net_${net}.xml
-    virsh net-autostart ${net}
-    virsh net-start ${net}
+    # in case of custom network, host should already have the bridge in place
+    if [ -f "net_${net}.xml" ]; then
+      virsh net-define "net_${net}.xml"
+      virsh net-autostart "${net}"
+      virsh net-start "${net}"
+    fi
   done
 }
 
@@ -57,28 +61,40 @@ create_vms() {
   local -n vnodes=$1
   local -n vnodes_ram=$2
   local -n vnodes_vcpus=$3
+  local -n vnode_networks=$4
+
+  # prepare network args
+  net_args=""
+  for net in "${vnode_networks[@]}"; do
+    net_type="network"
+    # in case of custom network, host should already have the bridge in place
+    if [ ! -f "net_${net}.xml" ]; then
+      net_type="bridge"
+    fi
+    net_args="${net_args} --network ${net_type}=${net},model=virtio"
+  done
 
   # create vms with specified options
   for node in "${vnodes[@]}"; do
-    virt-install --name ${node} \
-    --ram ${vnodes_ram[$node]} --vcpus ${vnodes_vcpus[$node]} \
-    --cpu host-passthrough --accelerate \
-    --network network:pxe,model=virtio \
-    --network network:mgmt,model=virtio \
-    --network network:internal,model=virtio \
-    --network network:public,model=virtio \
-    --disk path=$(pwd)/images/mcp_${node}.qcow2,format=qcow2,bus=virtio,cache=none,io=native \
+    virt-install --name "${node}" \
+    --ram "${vnodes_ram[$node]}" --vcpus "${vnodes_vcpus[$node]}" \
+    --cpu host-passthrough --accelerate ${net_args} \
+    --disk path="$(pwd)/images/mcp_${node}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
-    --disk path=$(pwd)/images/mcp_${node}.iso,device=cdrom \
+    --disk path="$(pwd)/images/mcp_${node}.iso",device=cdrom \
     --noautoconsole
   done
 }
 
 update_pxe_network() {
-  # set static ip address for salt master node
-  virsh net-update pxe add ip-dhcp-host \
-  "<host mac='$(virsh domiflist cfg01 | awk '/pxe/ {print $5}')' name='cfg01' ip='$SALT_MASTER'/>" --live
+  local -n vnode_networks=$1
+  if virsh net-info "${vnode_networks[0]}" >/dev/null 2>&1; then
+    # set static ip address for salt master node, only if managed via virsh
+    # NOTE: below expr assume PXE network is always the first in domiflist
+    virsh net-update "${vnode_networks[0]}" add ip-dhcp-host \
+    "<host mac='$(virsh domiflist cfg01 | awk '/network/ {print $5; exit}')' name='cfg01' ip='${SALT_MASTER}'/>" --live
+  fi
 }
 
 start_vms() {
