@@ -29,13 +29,16 @@ cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 `basename $0`: Deploys the Fuel@OPNFV stack
 
-usage: `basename $0` -b base-uri [-B PXE Bridge] [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario [-S image-dir] [-T timeout] -i iso
+usage: `basename $0` -b base-uri
+       [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]]
+       [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario
+       [-S image-dir] [-T timeout] -i iso
        -s deployment-scenario [-S optional Deploy-scenario path URI]
        [-R optional local relen repo (containing deployment Scenarios]
 
 OPTIONS:
   -b  Base-uri for the stack-configuration structure
-  -B  PXE Bridge for booting of Fuel master
+  -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
   -d  Dry-run
   -f  Deploy on existing Fuel master
   -e  Do not launch environment deployment
@@ -59,10 +62,13 @@ and provides a fairly simple mechanism to execute a deployment.
 Input parameters to the build script is:
 -b Base URI to the configuration directory (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
--B PXE Bridge for booting of Fuel master. It can be specified several times,
+-B Bridges to be used by deploy script. It can be specified several times,
    or as a comma separated list of bridges, or both: -B br1 -B br2,br3
-   One NIC connected to each specified bridge will be created in the Fuel VM,
-   in the same order as provided in the command line. The default is pxebr.
+   First occurence sets PXE Brige, next Mgmt, then Internal and Public.
+   For an empty value, the deploy script will use virsh to create the default
+   expected network (e.g. -B pxe,,,public will use existing "pxe" and "public"
+   bridges, respectively create "mgmt" and "internal").
+   The default is pxebr.
 -d Dry-run - Produces deploy config files (config/dea.yaml and
    config/dha.yaml), but does not execute deploy
 -f Deploy on existing Fuel master
@@ -112,7 +118,7 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../mcp/scripts; pwd)
-PXE_BRIDGE=''
+OPNFV_BRIDGES=('pxe' 'mgmt' 'internal' 'public')
 NO_HEALTH_CHECK=''
 USE_EXISTING_FUEL=''
 FUEL_CREATION_ONLY=''
@@ -131,6 +137,7 @@ fi
 ############################################################################
 # BEGIN of main
 #
+OPNFV_BRIDGE_IDX=0
 while getopts "b:B:dfFHl:L:p:s:S:T:i:he" OPTION
 do
     case $OPTION in
@@ -146,9 +153,16 @@ do
             fi
             ;;
         B)
-            for bridge in ${OPTARG//,/ }; do
-                PXE_BRIDGE+=" -b $bridge"
+            OIFS=${IFS}
+            IFS=','
+            OPT_BRIDGES=($OPTARG)
+            for bridge in "${OPT_BRIDGES[@]}"; do
+                if [ -n "${bridge}" ]; then
+                    OPNFV_BRIDGES[${OPNFV_BRIDGE_IDX}]="${bridge}"
+                fi
+                OPNFV_BRIDGE_IDX=$[OPNFV_BRIDGE_IDX + 1]
             done
+            IFS=${OIFS}
             ;;
         d)
             DRY_RUN=1
@@ -260,9 +274,9 @@ export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i 
 # Infra setup
 generate_ssh_key
 prepare_vms virtual_nodes $base_image
-create_networks
-create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus
-update_pxe_network
+create_networks OPNFV_BRIDGES
+create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus OPNFV_BRIDGES
+update_pxe_network OPNFV_BRIDGES
 start_vms virtual_nodes
 check_connection
 
