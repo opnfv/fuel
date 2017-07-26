@@ -16,9 +16,11 @@ get_base_image() {
 
 cleanup_vms() {
   # clean up existing nodes
-  for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
+  for node in $(virsh list --name | grep -P '\w{3}\d{2}'); do
     virsh destroy $node
-    virsh undefine $node
+  done
+  for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
+    virsh undefine --nvram $node
   done
 }
 
