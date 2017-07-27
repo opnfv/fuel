@@ -99,4 +99,9 @@ service.mask:
       - service: opendaylight
 {%- endif %}
 
+opendaylight_aarch64_leveldbjni:
+  pkg.installed:
+    {% if grains['cpuarch'] == 'aarch64'%}
+    - name: armband-odl-leveldb-fix
+    {% endif %}
 {%- endif %}
