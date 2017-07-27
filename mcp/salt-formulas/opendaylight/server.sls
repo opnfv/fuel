@@ -99,4 +99,9 @@ service.mask:
       - service: opendaylight
 {%- endif %}
 
+{%- if grains['cpuarch'] == 'aarch64' %}
+opendaylight-leveldbjni:
+  pkg.installed
+{%- endif %}
+
 {%- endif %}
