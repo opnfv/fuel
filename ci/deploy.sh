@@ -1,7 +1,8 @@
 #!/bin/bash
+# shellcheck disable=SC2034,SC2154,SC1091
 set -ex
 ##############################################################################
-# Copyright (c) 2017 Ericsson AB, Mirantis Inc. and others.
+# Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -9,7 +10,7 @@ set -ex
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-############################################################################
+##############################################################################
 # BEGIN of Exit handlers
 #
 do_exit () {
@@ -18,48 +19,47 @@ do_exit () {
 }
 #
 # End of Exit handlers
-############################################################################
+##############################################################################
 
-############################################################################
+##############################################################################
 # BEGIN of usage description
 #
 usage ()
 {
 cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-`basename $0`: Deploys the Fuel@OPNFV stack
+$(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 
-usage: `basename $0` -b base-uri
-       [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]]
-       [-f] [-F] [-H] -l lab-name -p pod-name -s deploy-scenario
-       [-S image-dir] [-T timeout] -i iso
-       -s deployment-scenario [-S optional Deploy-scenario path URI]
-       [-R optional local relen repo (containing deployment Scenarios]
+$(notify "USAGE:" 2)
+  $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
+    [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]]
 
-OPTIONS:
+$(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
   -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
-  -d  Dry-run
-  -f  Deploy on existing Fuel master
-  -e  Do not launch environment deployment
-  -F  Do only create a Fuel master
   -h  Print this message and exit
-  -H  No health check
   -l  Lab-name
-  -L  Deployment log path and file name
   -p  Pod-name
-  -s  Deploy-scenario short-name/base-file-name
-  -S  Storage dir for VM images
-  -T  Timeout, in minutes, for the deploy.
-  -i  iso url
+  -s  Deploy-scenario short-name
 
-Description:
-Deploys the Fuel@OPNFV stack on the indicated lab resource
+$(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
+  -d  (disabled) Dry-run
+  -e  (disabled) Do not launch environment deployment
+  -f  (disabled) Deploy on existing Salt master
+  -F  (disabled) Do only create a Salt master
+  -i  (disabled) iso url
+  -L  (disabled) Deployment log path and file name
+  -S  (disabled) Storage dir for VM images
+  -T  (disabled) Timeout, in minutes, for the deploy.
 
-This script provides the Fuel@OPNFV deployment abstraction
+$(notify "Description:" 2)
+Deploys the Fuel@OPNFV stack on the indicated lab resource.
+
+This script provides the Fuel@OPNFV deployment abstraction.
 It depends on the OPNFV official configuration directory/file structure
 and provides a fairly simple mechanism to execute a deployment.
-Input parameters to the build script is:
+
+$(notify "Input parameters to the build script are:" 2)
 -b Base URI to the configuration directory (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 -B Bridges to be used by deploy script. It can be specified several times,
@@ -69,85 +69,102 @@ Input parameters to the build script is:
    expected network (e.g. -B pxe,,,public will use existing "pxe" and "public"
    bridges, respectively create "mgmt" and "internal").
    The default is pxebr.
--d Dry-run - Produces deploy config files (config/dea.yaml and
-   config/dha.yaml), but does not execute deploy
--f Deploy on existing Fuel master
--e Do not launch environment deployment
--F Do only create a Fuel master
 -h Print this message and exit
--H Do not run fuel built in health-check after successfull deployment
 -l Lab name as defined in the configuration directory, e.g. lf
--L Deployment log path and name, eg. -L /home/jenkins/logs/job888.log.tar.gz
 -p POD name as defined in the configuration directory, e.g. pod-1
--s Deployment-scenario, this points to a deployment/test scenario file as
-   defined in the configuration directory:
-   e.g fuel-ocl-heat-ceilometer_scenario_0.0.1.yaml
-   or a deployment short-name as defined by scenario.yaml in the deployment
-   scenario path.
--S Storage dir for VM images, default is fuel/deploy/images
--T Timeout, in minutes, for the deploy. It defaults to using the DEPLOY_TIMEOUT
-   environment variable when defined, or to the default in deploy.py otherwise
--i .iso image to be deployed (needs to be provided in a URI
+-s Deployment-scenario, this points to a short deployment scenario name, which
+   has to be defined in config directory (e.g. os-odl_l2-nofeature-noha).
+
+$(notify "Disabled input parameters (not yet supported with MCP):" 3)
+-d (disabled) Dry-run - Produce deploy config files, but do not execute deploy
+-f (disabled) Deploy on existing Salt master
+-e (disabled) Do not launch environment deployment
+-F (disabled) Do only create a Salt master
+-L (disabled) Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
+-S (disabled) Storage dir for VM images, default is fuel/deploy/images
+-T (disabled) Timeout, in minutes, for the deploy.
+   It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
+-i (disabled) .iso image to be deployed (needs to be provided in a URI
    style, it can be a local resource: file:// or a remote resource http(s)://)
 
-NOTE: Root priviledges are needed for this script to run
+$(notify "[NOTE] Root priviledges are needed for this script to run" 3)
 
+Example:
 
-Examples:
-sudo `basename $0` -b file:///home/jenkins/lab-config -l lf -p pod1 -s ha_odl-l3_heat_ceilometer -i file:///home/jenkins/myiso.iso
+$(notify "sudo $(basename "$0") \\
+  -b file:///home/jenkins/lab-config \\
+  -l lf -p pod1 \\
+  -s os-odl_l2-nofeature-noha" 2)
 EOF
 }
 
 #
 # END of usage description
-############################################################################
+##############################################################################
 
-############################################################################
+##############################################################################
+# BEGIN of colored notification wrapper
+#
+notify() {
+    tput setaf "${2:-1}"
+    echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
+    tput sgr0
+}
+#
+# END of colored notification wrapper
+##############################################################################
+
+##############################################################################
 # BEGIN of deployment clean-up
 #
 clean() {
     echo "Cleaning up deploy tmp directories"
-    rm -rf ${SCRIPT_PATH}/ISO
 }
 #
 # END of deployment clean-up
-############################################################################
+##############################################################################
 
-############################################################################
-# BEGIN of shorthand variables for internal use
+##############################################################################
+# BEGIN of variables to customize
 #
-SCRIPT_PATH=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
-DEPLOY_DIR=$(cd ${SCRIPT_PATH}/../mcp/scripts; pwd)
+SCRIPT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
+DEPLOY_DIR=$(cd "${SCRIPT_PATH}/../mcp/scripts"; pwd)
 OPNFV_BRIDGES=('pxe' 'mgmt' 'internal' 'public')
-NO_HEALTH_CHECK=''
+URI_REGEXP='(file|https?|ftp)://.*'
+
+export SSH_KEY=${SSH_KEY:-mcp.rsa}
+export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
+export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
+
+# Variables below are disabled for now, to be re-introduced or removed later
+set +x
 USE_EXISTING_FUEL=''
 FUEL_CREATION_ONLY=''
 NO_DEPLOY_ENVIRONMENT=''
 STORAGE_DIR=''
 DRY_RUN=0
-if ! [ -z $DEPLOY_TIMEOUT ]; then
-    DEPLOY_TIMEOUT="-dt $DEPLOY_TIMEOUT"
+if ! [ -z "${DEPLOY_TIMEOUT}" ]; then
+    DEPLOY_TIMEOUT="-dt ${DEPLOY_TIMEOUT}"
 else
     DEPLOY_TIMEOUT=""
 fi
+set -x
 #
 # END of variables to customize
-############################################################################
+##############################################################################
 
-############################################################################
+##############################################################################
 # BEGIN of main
 #
+set +x
 OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dfFHl:L:p:s:S:T:i:he" OPTION
+while getopts "b:B:dfFl:L:p:s:S:T:i:he" OPTION
 do
     case $OPTION in
         b)
             BASE_CONFIG_URI=${OPTARG}
-            if [[ ! $BASE_CONFIG_URI == file://* ]] && \
-               [[ ! $BASE_CONFIG_URI == http://* ]] && \
-               [[ ! $BASE_CONFIG_URI == https://* ]] && \
-               [[ ! $BASE_CONFIG_URI == ftp://* ]]; then
-                echo "-b $BASE_CONFIG_URI - Not given in URI style"
+            if [[ ! $BASE_CONFIG_URI =~ ${URI_REGEXP} ]]; then
+                notify "[ERROR] -b $BASE_CONFIG_URI - invalid URI\n"
                 usage
                 exit 1
             fi
@@ -165,24 +182,26 @@ do
             IFS=${OIFS}
             ;;
         d)
+            notify '' 3 "${OPTION}"; continue
             DRY_RUN=1
             ;;
         f)
+            notify '' 3 "${OPTION}"; continue
             USE_EXISTING_FUEL='-nf'
             ;;
         F)
+            notify '' 3 "${OPTION}"; continue
             FUEL_CREATION_ONLY='-fo'
             ;;
         e)
+            notify '' 3 "${OPTION}"; continue
             NO_DEPLOY_ENVIRONMENT='-nde'
-            ;;
-        H)
-            NO_HEALTH_CHECK='-nh'
             ;;
         l)
             TARGET_LAB=${OPTARG}
             ;;
         L)
+            notify '' 3 "${OPTION}"; continue
             DEPLOY_LOG="-log ${OPTARG}"
             ;;
         p)
@@ -192,20 +211,20 @@ do
             DEPLOY_SCENARIO=${OPTARG}
             ;;
         S)
+            notify '' 3 "${OPTION}"; continue
             if [[ ${OPTARG} ]]; then
                 STORAGE_DIR="-s ${OPTARG}"
             fi
             ;;
         T)
+            notify '' 3 "${OPTION}"; continue
             DEPLOY_TIMEOUT="-dt ${OPTARG}"
             ;;
         i)
+            notify '' 3 "${OPTION}"; continue
             ISO=${OPTARG}
-            if [[ ! $ISO == file://* ]] && \
-               [[ ! $ISO == http://* ]] && \
-               [[ ! $ISO == https://* ]] && \
-               [[ ! $ISO == ftp://* ]]; then
-                echo "-i $ISO - Not given in URI style"
+            if [[ ! $ISO =~ ${URI_REGEXP} ]]; then
+                notify "[ERROR] -i $ISO - invalid URI\n"
                 usage
                 exit 1
             fi
@@ -215,21 +234,27 @@ do
             exit 0
             ;;
         *)
-            echo "${OPTION} is not a valid argument"
-            echo "Arguments not according to new argument style"
-            echo "Trying old-style compatibility mode"
-            pushd ${DEPLOY_DIR} > /dev/null
-            python deploy.py "$@"
-            popd > /dev/null
-            exit 0
+            notify "[ERROR] Arguments not according to new argument style\n"
+            exit 1
             ;;
     esac
 done
 
 if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root" 1>&2
+    notify "[ERROR] This script must be run as root\n" 1>&2
     exit 1
 fi
+
+# Validate mandatory arguments are set
+# FIXME(armband): Bring back support for BASE_CONFIG_URI
+if [ -z "${TARGET_LAB}" ] || [ -z "${TARGET_POD}" ] || \
+   [ -z "${DEPLOY_SCENARIO}" ]; then
+    notify "[ERROR] At least one of the mandatory args is missing!\n" 1>&2
+    usage
+    exit 1
+fi
+
+set -x
 
 # Enable the automatic exit trap
 trap do_exit SIGINT SIGTERM EXIT
@@ -239,7 +264,7 @@ umask 0000
 
 clean
 
-pushd ${DEPLOY_DIR} > /dev/null
+pushd "${DEPLOY_DIR}" > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
@@ -249,14 +274,17 @@ pushd ${DEPLOY_DIR} > /dev/null
 
 # Check scenario file existence
 if [[ ! -f  ../config/${DEPLOY_SCENARIO}.yaml ]]; then
-    echo "[WARN] ${DEPLOY_SCENARIO}.yaml not found, setting simplest scenario"
+    notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
+            Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
 fi
 
 # Get required infra deployment data
 source lib.sh
-eval $(parse_yaml ../config/defaults.yaml)
-eval $(parse_yaml ../config/${DEPLOY_SCENARIO}.yaml)
+eval "$(parse_yaml "../config/defaults.yaml")"
+eval "$(parse_yaml "../config/${DEPLOY_SCENARIO}.yaml")"
+
+export CLUSTER_DOMAIN=${cluster_domain}
 
 declare -A virtual_nodes_ram virtual_nodes_vcpus
 for node in "${virtual_nodes[@]}"; do
@@ -266,14 +294,9 @@ for node in "${virtual_nodes[@]}"; do
     virtual_nodes_vcpus[$node]=${!virtual_custom_vcpus:-$virtual_default_vcpus}
 done
 
-export CLUSTER_DOMAIN=$cluster_domain
-export SSH_KEY=${SSH_KEY:-mcp.rsa}
-export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
-export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
-
 # Infra setup
 generate_ssh_key
-prepare_vms virtual_nodes $base_image
+prepare_vms virtual_nodes "${base_image}"
 create_networks OPNFV_BRIDGES
 create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus OPNFV_BRIDGES
 update_pxe_network OPNFV_BRIDGES
@@ -284,31 +307,14 @@ check_connection
 
 # Openstack cluster setup
 for state in "${cluster_states[@]}"; do
-    echo "STATE: $state"
-    ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} sudo /root/fuel/mcp/config/states/$state
+    notify "STATE: ${state}\n" 2
+    # shellcheck disable=SC2086,2029
+    ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
+        sudo "/root/fuel/mcp/config/states/${state}"
 done
 
-## Disable Fuel deployment engine
-#
-# echo "python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config"
-#
-# python deploy-config.py -dha ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dha.yaml -deab file://${DEPLOY_DIR}/config/dea_base.yaml -deao ${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}/fuel/config/dea-pod-override.yaml -scenario-base-uri file://${DEPLOY_DIR}/scenario -scenario ${DEPLOY_SCENARIO} -plugins file://${DEPLOY_DIR}/config/plugins -output ${SCRIPT_PATH}/config
-#
-# if [ $DRY_RUN -eq 0 ]; then
-#     # Download iso if it doesn't already exists locally
-#     if [[ $ISO == file://* ]]; then
-#         ISO=${ISO#file://}
-#     else
-#         mkdir -p ${SCRIPT_PATH}/ISO
-#         curl -o ${SCRIPT_PATH}/ISO/image.iso $ISO
-#         ISO=${SCRIPT_PATH}/ISO/image.iso
-#     fi
-#     # Start deployment
-#     echo "python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT"
-#     python deploy.py $DEPLOY_LOG $STORAGE_DIR $PXE_BRIDGE $USE_EXISTING_FUEL $FUEL_CREATION_ONLY $NO_HEALTH_CHECK $NO_DEPLOY_ENVIRONMENT -dea ${SCRIPT_PATH}/config/dea.yaml -dha ${SCRIPT_PATH}/config/dha.yaml -iso $ISO $DEPLOY_TIMEOUT
-# fi
 popd > /dev/null
 
 #
 # END of main
-############################################################################
+##############################################################################
