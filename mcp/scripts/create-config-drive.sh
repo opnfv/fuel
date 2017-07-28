@@ -11,9 +11,10 @@ usage () {
 
 ARGS=$(getopt \
 	-o k:u:v:h: \
-	--long help,hostname:,ssh-key:,user-data:,vendor-data: -n ${0##*/} \
+	--long help,hostname:,ssh-key:,user-data:,vendor-data: -n "${0##*/}" \
 	-- "$@")
 
+# shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
 	usage >&2
 	exit 2
@@ -52,51 +53,51 @@ done
 config_image=$1
 shift
 
-if [ "$ssh_key" ] && [ -f "$ssh_key" ]; then
-	echo "adding pubkey from $ssh_key"
-	ssh_key_data=$(cat "$ssh_key")
+if [ "${ssh_key}" ] && [ -f "${ssh_key}" ]; then
+	echo "adding pubkey from ${ssh_key}"
+	ssh_key_data=$(cat "${ssh_key}")
 fi
 
 uuid=$(uuidgen)
-if ! [ "$hostname" ]; then
-	hostname="$uuid"
+if ! [ "${hostname}" ]; then
+	hostname="${uuid}"
 fi
 
 trap 'rm -rf $config_dir' EXIT
 config_dir=$(mktemp -t -d configXXXXXX)
 
-if [ "$user_data" ] && [ -f "$user_data" ]; then
-	echo "adding user data from $user_data"
-	cp ${user_data} ${config_dir}/user-data
+if [ "${user_data}" ] && [ -f "${user_data}" ]; then
+	echo "adding user data from ${user_data}"
+	cp "${user_data}" "${config_dir}/user-data"
 else
-	touch $config_dir/user-data
+	touch "${config_dir}/user-data"
 fi
 
-if [ "$vendor_data" ] && [ -f "$vendor_data" ]; then
-	echo "adding vendor data from $vendor_data"
-	cp ${vendor_data} ${config_dir}/vendor-data
+if [ "${vendor_data}" ] && [ -f "${vendor_data}" ]; then
+	echo "adding vendor data from ${vendor_data}"
+	cp "${vendor_data}" "${config_dir}/vendor-data"
 fi
 
-cat > $config_dir/meta-data <<-EOF
-instance-id: $uuid
-hostname: $hostname
-local-hostname: $hostname
+cat > "${config_dir}/meta-data" <<-EOF
+instance-id: ${uuid}
+hostname: ${hostname}
+local-hostname: ${hostname}
 EOF
 
-if [ "$ssh_key_data" ]; then
-	cat >> $config_dir/meta-data <<-EOF
+if [ "${ssh_key_data}" ]; then
+	cat >> "${config_dir}/meta-data" <<-EOF
 	public-keys:
 	  - |
-	    $ssh_key_data
+	    ${ssh_key_data}
 	EOF
 fi
 
 #PS1="debug> " bash --norc
 
-echo "generating configuration image at $config_image"
-if ! mkisofs -o $config_image -V cidata -r -J --quiet $config_dir; then
-	echo "ERROR: failed to create $config_image" >&2
+echo "generating configuration image at ${config_image}"
+if ! mkisofs -o "${config_image}" -V cidata -r -J --quiet "${config_dir}"; then
+	echo "ERROR: failed to create ${config_image}" >&2
 	exit 1
 fi
-chmod a+r $config_image
+chmod a+r "${config_image}"
 

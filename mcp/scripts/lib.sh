@@ -1,26 +1,27 @@
+#!/bin/bash
 #
 # Library of shell functions
 #
 
 generate_ssh_key() {
-  [ -f "$SSH_KEY" ] || ssh-keygen -f ${SSH_KEY} -N ''
-  install -o $USER -m 0600 ${SSH_KEY} /tmp/
+  [ -f "${SSH_KEY}" ] || ssh-keygen -f "${SSH_KEY}" -N ''
+  install -o "${USER}" -m 0600 "${SSH_KEY}" /tmp/
 }
 
 get_base_image() {
   local base_image=$1
 
   mkdir -p images
-  wget -P /tmp -nc $base_image
+  wget -P /tmp -nc "${base_image}"
 }
 
 cleanup_vms() {
   # clean up existing nodes
   for node in $(virsh list --name | grep -P '\w{3}\d{2}'); do
-    virsh destroy $node
+    virsh destroy "${node}"
   done
   for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
-    virsh undefine --nvram $node
+    virsh undefine --nvram "${node}"
   done
 }
 
@@ -29,14 +30,15 @@ prepare_vms() {
   local base_image=$2
 
   cleanup_vms
-  get_base_image $base_image
+  get_base_image "${base_image}"
   envsubst < user-data.template > user-data.sh
 
   for node in "${vnodes[@]}"; do
     # create/prepare images
-    ./create-config-drive.sh -k ${SSH_KEY}.pub -u user-data.sh -h ${node} images/mcp_${node}.iso
-    cp /tmp/${base_image/*\/} images/mcp_${node}.qcow2
-    qemu-img resize images/mcp_${node}.qcow2 100G
+    ./create-config-drive.sh -k "${SSH_KEY}.pub" -u user-data.sh \
+       -h "${node}" "images/mcp_${node}.iso"
+    cp "/tmp/${base_image/*\/}" "images/mcp_${node}.qcow2"
+    qemu-img resize "images/mcp_${node}.qcow2" 100G
   done
 }
 
@@ -76,6 +78,7 @@ create_vms() {
 
   # create vms with specified options
   for node in "${vnodes[@]}"; do
+    # shellcheck disable=SC2086
     virt-install --name "${node}" \
     --ram "${vnodes_ram[$node]}" --vcpus "${vnodes_vcpus[$node]}" \
     --cpu host-passthrough --accelerate ${net_args} \
@@ -102,7 +105,7 @@ start_vms() {
 
   # start vms
   for node in "${vnodes[@]}"; do
-    virsh start ${node}
+    virsh start "${node}"
     sleep $[RANDOM%5+1]
   done
 }
@@ -116,8 +119,9 @@ check_connection() {
   echo '[INFO] Attempting to get into Salt master ...'
 
   # wait until ssh on Salt master is available
-  while (($attempt <= $total_attempts)); do
-    ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} uptime
+  while ((attempt <= total_attempts)); do
+    # shellcheck disable=SC2086
+    ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" uptime
     case $? in
       0) echo "${attempt}> Success"; break ;;
       *) echo "${attempt}/${total_attempts}> ssh server ain't ready yet, waiting for ${sleep_time} seconds ..." ;;

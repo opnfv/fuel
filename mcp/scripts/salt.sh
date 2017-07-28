@@ -4,7 +4,8 @@
 #
 
 # ssh to cfg01
-ssh ${SSH_OPTS} ubuntu@${SALT_MASTER} bash -s << SALT_INSTALL_END
+# shellcheck disable=SC2086,2087
+ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" bash -s << SALT_INSTALL_END
   sudo -i
 
   echo -n 'Checking out cloud-init has finished running ...'
