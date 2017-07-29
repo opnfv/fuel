@@ -1,4 +1,4 @@
-[submodule "mcp/reclass/classes/system"]
+[submodule "reclass-system-salt-model"]
 	path = mcp/reclass/classes/system
 	url = https://github.com/Mirantis/reclass-system-salt-model
 	branch = master

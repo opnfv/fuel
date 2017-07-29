@@ -2,7 +2,7 @@ Fuel@OPNFV submodule fetching and patching
 ==========================================
 
 This directory holds submodule fetching/patching scripts, intended for
-working with upstream Fuel components (fuel-library, ... , fuel-ui) in
+working with upstream Fuel/MCP components (e.g.: reclass-system-salt-model) in
 developing/applying OPNFV patches (backports, custom fixes etc.).
 
 The scripts should be friendly to the following 2 use-cases:
@@ -65,37 +65,19 @@ The standard development workflow should look as follows:
 
    $ make deepclean
 
-Workflow (ISO build)
---------------------
-Parent build scripts require this mechanism to do some fingerprinting,
-so here is the intended flow for all artifacts to be generated right:
-
-1. (Optional) Cached submodules might be fetched from build cache.
-
-2. Submodules are updated
-   We also dump each submodule's git info using repo_info.sh, since
-   we want to collect git refs before patching (i.e. upstream refs).
-
-3. Make target `release` is built
-   This will make sure the modules are in a clean state, put them in cache,
-   then apply the patches.
-
-4. fuel-main's `${FUEL_MAIN_TAG}-opnfv-root` tag is used to determine VERSION info
-   It will accommodate both bound tags and remote tracking references.
-
 Sub-project maintenance
 -----------------------
 1. Adding a new submodule
    If you need to add another subproject, you can do it with `git submodule`.
-   Make sure that you specify branch (with `-b`), short name (with `--name`)
-   and point it to `upstream/*` directory, i.e.:
+   Make sure that you specify branch (with `-b`), short name (with `--name`):
 
-   $ git submodule -b stable/mitaka add --name fuel-web \
-     https://github.com/openstack/fuel-web.git upstream/fuel-web
+   $ git submodule -b master add --name reclass-system-salt-model \
+     https://github.com/Mirantis/reclass-system-salt-model \
+     relative/path/to/submodule
 
 2. Working with remote tracking for upgrading Fuel components
    Enable remote tracking as described above, which at `make sub` will update
-   ALL submodules (fuel-main, fuel-library, ...) to remote branch (set in
+   ALL submodules (e.g. reclass-system-salt-model) to remote branch (set in
    .gitmodules) HEAD.
 
    * If upstream has NOT already tagged a new version, we can still work on
@@ -118,4 +100,4 @@ Sub-project maintenance
      - if submodule tags have been updated (relevant when remote tracking is
        disabled, i.e. we have a stable upstream baseline), add submodules:
 
-   $ make deepclean sub && git add -f sub/*
+   $ make deepclean sub && git add -f relative/path/to/submodule

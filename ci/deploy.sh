@@ -269,8 +269,10 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # scenario, etc.
 
 # Install required packages
-[ -n "$(command -v apt-get)" ] && apt-get install -y mkisofs curl virtinst cpu-checker qemu-kvm
-[ -n "$(command -v yum)" ] && yum install -y genisoimage curl virt-install qemu-kvm
+[ -n "$(command -v apt-get)" ] && apt-get install -y \
+  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm
+[ -n "$(command -v yum)" ] && yum install -y \
+  git make rsync genisoimage curl virt-install qemu-kvm
 
 # Check scenario file existence
 if [[ ! -f  ../config/${DEPLOY_SCENARIO}.yaml ]]; then

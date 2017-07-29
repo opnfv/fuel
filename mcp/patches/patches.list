@@ -1,2 +1,1 @@
 /usr/share/salt-formulas/env: 0002-opendaylight-formula-neutron.patch
-/srv/salt/reclass/classes/system: 0001-opendaylight-reclass-system.patch
