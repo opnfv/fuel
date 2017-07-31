@@ -3,8 +3,10 @@
 #
 
 generate_ssh_key() {
+  local user=${SUDO_USER:-$USER}
+
   [ -f "$SSH_KEY" ] || ssh-keygen -f ${SSH_KEY} -N ''
-  install -o $USER -m 0600 ${SSH_KEY} /tmp/
+  install -o $user -m 0600 ${SSH_KEY} /tmp/
 }
 
 get_base_image() {
