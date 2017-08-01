@@ -129,6 +129,7 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
 DEPLOY_DIR=$(cd "${SCRIPT_PATH}/../mcp/scripts"; pwd)
+DEPLOY_TYPE='baremetal'
 OPNFV_BRIDGES=('pxe' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 
@@ -206,6 +207,9 @@ do
             ;;
         p)
             TARGET_POD=${OPTARG}
+            if [[ "${TARGET_POD}" =~ "virtual" ]]; then
+                DEPLOY_TYPE='virtual'
+            fi
             ;;
         s)
             DEPLOY_SCENARIO=${OPTARG}
@@ -275,7 +279,7 @@ pushd "${DEPLOY_DIR}" > /dev/null
   git make rsync genisoimage curl virt-install qemu-kvm
 
 # Check scenario file existence
-if [[ ! -f  ../config/${DEPLOY_SCENARIO}.yaml ]]; then
+if [[ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]]; then
     notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
             Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
@@ -283,8 +287,8 @@ fi
 
 # Get required infra deployment data
 source lib.sh
-eval "$(parse_yaml "../config/defaults.yaml")"
-eval "$(parse_yaml "../config/${DEPLOY_SCENARIO}.yaml")"
+eval "$(parse_yaml "../config/scenario/${DEPLOY_TYPE}/defaults.yaml")"
+eval "$(parse_yaml "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
