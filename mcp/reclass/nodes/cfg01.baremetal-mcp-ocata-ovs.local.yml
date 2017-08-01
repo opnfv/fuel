@@ -1,0 +1,10 @@
+classes:
+- cluster.baremetal-mcp-ocata-ovs.infra.config
+parameters:
+  _param:
+    linux_system_codename: xenial
+    reclass_data_revision: master
+  linux:
+    system:
+      name: cfg01
+      domain: baremetal-mcp-ocata-ovs.local
