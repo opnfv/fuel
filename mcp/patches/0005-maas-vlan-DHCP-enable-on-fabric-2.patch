@@ -1,0 +1,28 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 5 Aug 2017 02:03:01 +0200
+Subject: [PATCH] maas: vlan DHCP enable on fabric-2
+
+MaaS custom py modules does not implement vlan API support,
+so use MaaS CLI directly to enable DHCP on vlan 0 on fabric-2.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Signed-off-by: Guillermo Herrero <Guillermo.Herrero@enea.com>
+---
+
+diff --git a/maas/region.sls b/maas/region.sls
+index d3227ca..8a2243d 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -190,4 +190,12 @@
+   - require:
+     - module: maas_config
+
++maas_vlan_dhcp:
++# NOTE(armband): To be implemented via _modules/maas.py later
++  cmd.run:
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv vlan update 2 0 dhcp_on=True primary_rack={{ region.maas_config.maas_name }}"
++  - require:
++    - module: maas_subnets
++    - module: maas_dhcp_snippets
++
+ {%- endif %}
