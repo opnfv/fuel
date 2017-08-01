@@ -1,0 +1,26 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 5 Aug 2017 02:03:01 +0200
+Subject: [PATCH] linux.network.interface: noifupdown support
+
+According to [1], salt states/network supports "noifupdown" as a
+parameter for each interface.
+Adjust salt formula part for `linux.network.interface`, by extending
+the "interface_params" in <linux/map.jinja> accordingly.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Signed-off-by: Charalampos Kominos <Charalampos.Kominos@enea.com>
+Signed-off-by: Guillermo Herrero <Guillermo.Herrero@enea.com>
+---
+
+diff --git a/linux/map.jinja b/linux/map.jinja
+index d3227ca..8a2243d 100644
+--- a/linux/map.jinja
++++ b/linux/map.jinja
+@@ -92,6 +92,7 @@
+     'updelay',
+     'hashing-algorithm',
+     'hardware-dma-ring-rx',
++    'ifupdown',
+ ] %}
+
+ {% set network = salt['grains.filter_by']({
