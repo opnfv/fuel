@@ -1,0 +1,54 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.neutron.gateway.cluster
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  _param:
+    interface_mtu: 1500
+    cluster_vip_address: ${_param:openstack_control_address}
+
+    linux_system_codename: xenial
+    keepalived_vip_interface: br-ctl
+    keepalived_vip_virtual_router_id: 69
+    primary_first_nic: eno2
+  linux:
+    network:
+      bridge: openvswitch
+      interface:
+        primary_first_nic:
+          enabled: true
+          type: slave
+          proto: manual
+          name: ${_param:primary_first_nic}
+          master: bond0
+        bond0:
+          enabled: true
+          proto: manual
+          ovs_bridge: br-floating
+          ovs_type: OVSPort
+          type: bond
+          use_interfaces:
+          - ${_param:primary_first_nic}
+          slaves: ${_param:primary_first_nic}
+          mode: active-backup
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+        br-ctl:
+          enabled: true
+          type: ovs_port
+          bridge: br-floating
+          proto: static
+          ovs_options: tag=2408
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+        br-mesh:
+          enabled: true
+          type: ovs_port
+          bridge: br-floating
+          proto: static
+          ovs_options: tag=2409
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
