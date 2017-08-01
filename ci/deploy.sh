@@ -106,7 +106,7 @@ EOF
 # BEGIN of colored notification wrapper
 #
 notify() {
-    tput setaf "${2:-1}"
+    tput setaf "${2:-1}" || true
     echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
     tput sgr0
 }
