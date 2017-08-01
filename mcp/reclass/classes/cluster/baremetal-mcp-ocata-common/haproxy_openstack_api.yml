@@ -1,0 +1,166 @@
+parameters:
+  _param:
+    haproxy_check: check inter 15s fastinter 2s downinter 4s rise 3 fall 3
+  haproxy:
+    proxy:
+      listen:
+        cinder_api:
+          type: openstack-service
+          service_name: cinder
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8776
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8776
+            params: ${_param:haproxy_check}
+        glance_api:
+          type: openstack-service
+          service_name: glance
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 9292
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 9292
+            params: ${_param:haproxy_check}
+        glance_registry_api:
+          type: general-service
+          service_name: glance
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 9191
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 9191
+            params: ${_param:haproxy_check}
+        glare:
+          type: general-service
+          service_name: glare
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 9494
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 9494
+            params: ${_param:haproxy_check}
+        heat_cloudwatch_api:
+          type: openstack-service
+          service_name: heat
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8003
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8003
+            params: ${_param:haproxy_check}
+        heat_api:
+          type: openstack-service
+          service_name: heat
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8004
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8004
+            params: ${_param:haproxy_check}
+        heat_cfn_api:
+          type: openstack-service
+          service_name: heat
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8000
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8000
+            params: ${_param:haproxy_check}
+        keystone_public_api:
+          type: openstack-service
+          service_name: keystone
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 5000
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 5000
+            params: ${_param:haproxy_check}
+        keystone_admin_api:
+          type: openstack-service
+          service_name: keystone
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 35357
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 35357
+            params: ${_param:haproxy_check}
+        neutron_api:
+          type: openstack-service
+          service_name: neutron
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 9696
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 9696
+            params: ${_param:haproxy_check}
+        nova_placement_api:
+          mode: http
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8778
+          options:
+          - httpclose
+          - httplog
+          health-check:
+            http:
+              options:
+              - expect status 401
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8778
+            params: ${_param:haproxy_check}
+        nova_ec2_api:
+          type: general-service
+          service_name: nova
+          check: false
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8773
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8773
+            params: ${_param:haproxy_check}
+        nova_api:
+          type: openstack-service
+          service_name: nova
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8774
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8774
+            params: ${_param:haproxy_check}
+        nova_metadata_api:
+          type: openstack-service
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8775
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8775
+            params: ${_param:haproxy_check}

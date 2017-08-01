@@ -68,7 +68,11 @@ $(notify "Input parameters to the build script are:" 2)
    For an empty value, the deploy script will use virsh to create the default
    expected network (e.g. -B pxe,,,public will use existing "pxe" and "public"
    bridges, respectively create "mgmt" and "internal").
-   The default is pxebr.
+   Note that a virtual network "mcpcontrol" is always created. For virtual
+   deploys, "mcpcontrol" is also used for PXE, leaving the PXE bridge unused.
+   For baremetal deploys, PXE bridge is used for baremetal node provisioning,
+   while "mcpcontrol" is used to provision the infrastructure VMs only.
+   The default is 'pxebr'.
 -h Print this message and exit
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
@@ -130,11 +134,12 @@ clean() {
 SCRIPT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
 DEPLOY_DIR=$(cd "${SCRIPT_PATH}/../mcp/scripts"; pwd)
 DEPLOY_TYPE='baremetal'
-OPNFV_BRIDGES=('pxe' 'mgmt' 'internal' 'public')
+OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 
 export SSH_KEY=${SSH_KEY:-mcp.rsa}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
+export MAAS_IP=${MAAS_IP:-192.168.10.250}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
 # Variables below are disabled for now, to be re-introduced or removed later
@@ -290,10 +295,14 @@ if [ "$(uname -i)" = "aarch64" ]; then
 fi
 
 # Check scenario file existence
-if [[ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]]; then
+if [ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]; then
     notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
             Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
+    if [ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]; then
+        notify "[ERROR] Scenario definition file is missing!\n" 1>&2
+        exit 1
+    fi
 fi
 
 # Get required infra deployment data
@@ -316,7 +325,7 @@ generate_ssh_key
 prepare_vms virtual_nodes "${base_image}"
 create_networks OPNFV_BRIDGES
 create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus OPNFV_BRIDGES
-update_pxe_network OPNFV_BRIDGES
+update_mcpcontrol_network
 start_vms virtual_nodes
 check_connection
 

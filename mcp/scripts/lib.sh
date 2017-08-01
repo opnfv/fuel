@@ -46,10 +46,12 @@ prepare_vms() {
 
 create_networks() {
   local -n vnode_networks=$1
-  # create required networks
-  for net in "${vnode_networks[@]}"; do
+  # create required networks, including constant "mcpcontrol"
+  # FIXME(alav): since we renamed "pxe" to "mcpcontrol", we need to make sure
+  # we delete the old "pxe" virtual network, or it would cause IP conflicts.
+  for net in "pxe" "mcpcontrol" "${vnode_networks[@]}"; do
     if virsh net-info "${net}" >/dev/null 2>&1; then
-      virsh net-destroy "${net}"
+      virsh net-destroy "${net}" || true
       virsh net-undefine "${net}"
     fi
     # in case of custom network, host should already have the bridge in place
@@ -67,17 +69,6 @@ create_vms() {
   local -n vnodes_vcpus=$3
   local -n vnode_networks=$4
 
-  # prepare network args
-  net_args=""
-  for net in "${vnode_networks[@]}"; do
-    net_type="network"
-    # in case of custom network, host should already have the bridge in place
-    if [ ! -f "net_${net}.xml" ]; then
-      net_type="bridge"
-    fi
-    net_args="${net_args} --network ${net_type}=${net},model=virtio"
-  done
-
   # AArch64: prepare arch specific arguments
   local virt_extra_args=""
   if [ "$(uname -i)" = "aarch64" ]; then
@@ -87,6 +78,21 @@ create_vms() {
 
   # create vms with specified options
   for node in "${vnodes[@]}"; do
+    # prepare network args
+    net_args=" --network network=mcpcontrol,model=virtio"
+    if [ "${node}" = "mas01" ]; then
+      # MaaS node's 3rd interface gets connected to PXE/Admin Bridge
+      vnode_networks[2]="${vnode_networks[0]}"
+    fi
+    for net in "${vnode_networks[@]:1}"; do
+      net_type="network"
+      # in case of custom network, host should already have the bridge in place
+      if [ ! -f "net_${net}.xml" ]; then
+        net_type="bridge"
+      fi
+      net_args="${net_args} --network ${net_type}=${net},model=virtio"
+    done
+
     # shellcheck disable=SC2086
     virt-install --name "${node}" \
     --ram "${vnodes_ram[$node]}" --vcpus "${vnodes_vcpus[$node]}" \
@@ -100,14 +106,14 @@ create_vms() {
   done
 }
 
-update_pxe_network() {
-  local -n vnode_networks=$1
-  if virsh net-info "${vnode_networks[0]}" >/dev/null 2>&1; then
-    # set static ip address for salt master node, only if managed via virsh
-    # NOTE: below expr assume PXE network is always the first in domiflist
-    virsh net-update "${vnode_networks[0]}" add ip-dhcp-host \
-    "<host mac='$(virsh domiflist cfg01 | awk '/network/ {print $5; exit}')' name='cfg01' ip='${SALT_MASTER}'/>" --live
-  fi
+update_mcpcontrol_network() {
+  # set static ip address for salt master node, MaaS node
+  local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
+  local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
+  virsh net-update "mcpcontrol" add ip-dhcp-host \
+    "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live
+  [ -z "${amac}" ] || virsh net-update "mcpcontrol" add ip-dhcp-host \
+    "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live
 }
 
 start_vms() {
