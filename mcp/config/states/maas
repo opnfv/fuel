@@ -1,0 +1,44 @@
+# MaaS rack/region controller, node commissioning
+salt -C 'mas01*' cmd.run "add-apt-repository ppa:maas/stable"
+
+salt -C 'mas01*' state.apply linux,salt,openssh,ntp
+salt -C 'mas01*' state.apply linux.network.interface
+salt -C 'mas01*' state.apply maas.pxe_nat
+salt -C 'mas01*' state.apply maas.cluster,maas.region
+
+salt -C 'mas01*' state.apply maas.machines
+while true; do
+  # FIXME: we clearly need to improve this condition
+  salt 'mas01*' --out yaml state.apply maas.machines.status | \
+    fgrep -q 'Ready: 5' && break || true
+  sleep 10
+done
+
+# MaaS node deployment
+salt -C 'mas01*' state.apply maas.machines.deploy
+while true; do
+  salt 'mas01*' --out yaml state.apply maas.machines.status | \
+    fgrep -q 'Deployed: 5' && break || true
+  sleep 10
+done
+
+salt -C 'mas01*' pillar.item\
+  maas:region:admin:username \
+  maas:region:admin:password
+
+# KVM, compute node prereqs (libvirt first), VCP deployment
+salt -C '*' saltutil.sync_all
+
+salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
+salt -C 'kvm*' state.sls libvirt
+
+salt -C '* and not cfg01* and not mas01*' state.apply salt
+salt -C '* and not cfg01* and not mas01*' system.reboot
+
+# TODO: wait for systems to come back online / drop reboot?
+
+# salt -C 'kvm*' state.sls salt.control
+
+# salt -C '*' saltutil.sync_all
+# salt -C '*' state.apply salt
+# salt -C '*' state.apply linux,ntp

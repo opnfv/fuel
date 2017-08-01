@@ -1,0 +1,89 @@
+classes:
+- system.linux.system.single
+- cluster.baremetal-mcp-ocata-ovs-ha.openstack
+# - cluster.baremetal-mcp-ocata-ovs-ha.stacklight
+# - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.client
+parameters:
+  _param:
+    apt_mk_version: nightly
+    mcp_repo_version: 1.1
+    cluster_name: baremetal-mcp-ocata-ovs-ha
+    cluster_domain: ${_param:cluster_name}.local
+#    stacklight_environment: ${_param:cluster_domain}
+    reclass_data_revision: master
+    cluster_public_host: ${_param:openstack_proxy_address}
+    infra_config_hostname: cfg01
+    infra_maas_database_password: opnfv_secret
+
+    # infra service addresses
+    infra_config_address: 172.16.10.100
+    infra_config_deploy_address: 192.168.10.100
+    infra_maas_node01_address: 172.16.10.250
+    infra_maas_node01_deploy_address: 192.168.10.250
+    infra_maas_node01_pxe_address: 192.168.11.250
+    infra_maas_node01_external_address: 10.16.0.250
+    infra_compute_node01_address: 172.16.10.141
+    infra_compute_node02_address: 172.16.10.142
+    infra_compute_node03_address: 172.16.10.143
+
+    infra_kvm_address: 172.16.10.140
+    infra_kvm_node01_address: 172.16.10.141
+    infra_kvm_node02_address: 172.16.10.142
+    infra_kvm_node03_address: 172.16.10.143
+
+    infra_maas_node01_hostname: mas01
+    infra_kvm_node01_hostname: kvm01
+    infra_kvm_node02_hostname: kvm02
+    infra_kvm_node03_hostname: kvm03
+
+    # Interface definitions
+    reclass:
+      storage:
+        node:
+          name: default
+    linux_dhcp_interface:
+      enabled: true
+      type: eth
+      proto: dhcp
+    linux_single_interface:
+      enabled: true
+      type: eth
+      proto: static
+      address: ${_param:single_address}
+      netmask: 255.255.255.0
+
+    salt_control_xenial_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+    salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
+  linux:
+    network:
+      host:
+        cfg01:
+          address: ${_param:infra_config_address}
+          names:
+          - cfg01
+          - cfg01.${_param:cluster_domain}
+        cfg:
+          address: ${_param:infra_config_address}
+          names:
+          - ${_param:infra_config_hostname}
+          - ${_param:infra_config_hostname}.${_param:cluster_domain}
+        mas01:
+          address: ${_param:infra_maas_node01_address}
+          names:
+          - ${_param:infra_maas_node01_hostname}
+          - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
+        kvm01:
+          address: ${_param:infra_kvm_node01_address}
+          names:
+          - ${_param:infra_kvm_node01_hostname}
+          - ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
+        kvm02:
+          address: ${_param:infra_kvm_node02_address}
+          names:
+          - ${_param:infra_kvm_node02_hostname}
+          - ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+        kvm03:
+          address: ${_param:infra_kvm_node03_address}
+          names:
+          - ${_param:infra_kvm_node03_hostname}
+          - ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
