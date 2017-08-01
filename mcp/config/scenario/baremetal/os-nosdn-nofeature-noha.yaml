@@ -1,0 +1,14 @@
+cluster:
+  domain: baremetal-mcp-ocata-ovs.local
+  states:
+    - maas
+    - openstack
+    - neutron_compute
+    - networks
+virtual:
+  nodes:
+    - cfg01
+    - mas01
+  mas01:
+    vcpus: 4
+    ram: 16384

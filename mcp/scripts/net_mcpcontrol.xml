@@ -1,6 +1,6 @@
 <network>
-  <name>pxe</name>
-  <bridge name="pxe"/>
+  <name>mcpcontrol</name>
+  <bridge name="mcpcontrol"/>
   <forward mode="nat"/>
   <ip address="192.168.10.1" netmask="255.255.255.0">
     <dhcp>
