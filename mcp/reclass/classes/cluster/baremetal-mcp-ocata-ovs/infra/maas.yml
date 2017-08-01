@@ -1,0 +1,97 @@
+classes:
+- system.linux.system.repo.saltstack.xenial
+- system.maas.region.single
+- cluster.baremetal-mcp-ocata-ovs
+parameters:
+  _param:
+    primary_interface: ens4
+    pxe_interface: ens5
+    external_interface: ens6
+    interface_mtu: 9000
+    pxe_interface_mtu: 1500
+    linux_system_codename: xenial
+    maas_admin_username: opnfv
+    maas_admin_password: opnfv_secret
+    maas_db_password: opnfv_secret
+    dns_server01: 8.8.8.8
+  maas:
+    region:
+      salt_master_ip: 192.168.10.100
+    machines:
+      kvm02.baremetal-mcp-ocata-ovs.local:
+        interface:
+          mac: "00:25:b5:a0:00:2a"
+        power_parameters:
+          power_address: "172.30.8.75"
+          power_password: "octopus"
+          power_type: ipmi
+          power_user: "admin"
+        distro_series: xenial
+        hwe_kernel: hwe-16.04
+      cmp01.baremetal-mcp-ocata-ovs.local:
+        interface:
+          mac: "00:25:b5:a0:00:3a"
+        power_parameters:
+          power_address: "172.30.8.65"
+          power_password: "octopus"
+          power_type: ipmi
+          power_user: "admin"
+        distro_series: xenial
+        hwe_kernel: hwe-16.04
+      cmp02.baremetal-mcp-ocata-ovs.local:
+        interface:
+          mac: "00:25:b5:a0:00:4a"
+        power_parameters:
+          power_address: "172.30.8.74"
+          power_password: "octopus"
+          power_type: ipmi
+          power_user: "admin"
+        distro_series: xenial
+        hwe_kernel: hwe-16.04
+      cmp03.baremetal-mcp-ocata-ovs.local:
+        interface:
+          mac: "00:25:b5:a0:00:5a"
+        power_parameters:
+          power_address: "172.30.8.73"
+          power_password: "octopus"
+          power_type: ipmi
+          power_user: "admin"
+        distro_series: xenial
+        hwe_kernel: hwe-16.04
+      cmp04.baremetal-mcp-ocata-ovs.local:
+        interface:
+          mac: "00:25:b5:a0:00:6a"
+        power_parameters:
+          power_address: "172.30.8.72"
+          power_password: "octopus"
+          power_type: ipmi
+          power_user: "admin"
+        distro_series: xenial
+        hwe_kernel: hwe-16.04
+  linux:
+    network:
+      interface:
+        primary_interface:
+          enabled: true
+          name: ${_param:primary_interface}
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          type: eth
+        pxe_interface:
+          enabled: true
+          name: ${_param:pxe_interface}
+          mtu: ${_param:pxe_interface_mtu}
+          proto: static
+          address: ${_param:pxe_address}
+          netmask: 255.255.255.0
+          type: eth
+        external_interface:
+          enabled: true
+          name: ${_param:external_interface}
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:external_address}
+          netmask: 255.255.255.0
+          type: eth

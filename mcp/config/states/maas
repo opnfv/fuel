@@ -1,0 +1,10 @@
+salt 'mas01*' cmd.run "add-apt-repository ppa:maas/stable"
+
+salt 'mas01*' state.apply linux,salt,openssh,ntp
+salt 'mas01*' state.apply linux.network.interface
+salt 'mas01*' state.apply maas.pxe_nat
+salt 'mas01*' state.apply maas.cluster,maas.region
+
+salt 'mas01*' pillar.item\
+  maas:region:admin:username \
+  maas:region:admin:password
