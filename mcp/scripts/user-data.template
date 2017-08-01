@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$(hostname)" = "mas01" ]; then
+  ip address add ${MAAS_IP}/24 dev ${MAAS_PXE_IFACE}
+  ip route add default via ${PXE_GW}
+fi
 wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 echo "deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main" > /etc/apt/sources.list.d/salt.list
 apt update

@@ -135,6 +135,10 @@ URI_REGEXP='(file|https?|ftp)://.*'
 
 export SSH_KEY=${SSH_KEY:-mcp.rsa}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
+# FIXME: Rework this after networking setup is settled for baremetal
+export MAAS_IP=${MAAS_IP:-192.168.10.3}
+export MAAS_PXE_IFACE=${MAAS_PXE_IFACE:-ens3}
+export PXE_GW=${PXE_GW:-192.168.10.1}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
 # Variables below are disabled for now, to be re-introduced or removed later
