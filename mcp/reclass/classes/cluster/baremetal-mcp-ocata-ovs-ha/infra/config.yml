@@ -1,0 +1,128 @@
+classes:
+- service.git.client
+- system.linux.system.repo.mcp.salt
+- system.linux.system.repo.saltstack.xenial
+- system.salt.master.api
+- system.openssh.client.lab
+- system.salt.master.pkg
+- system.salt.minion.ca.salt_master
+- system.reclass.storage.salt
+- system.reclass.storage.system.physical_control_cluster
+- system.reclass.storage.system.openstack_control_cluster
+- system.reclass.storage.system.openstack_proxy_cluster
+- system.reclass.storage.system.openstack_gateway_cluster
+- system.reclass.storage.system.openstack_database_cluster
+- system.reclass.storage.system.openstack_message_queue_cluster
+- system.reclass.storage.system.openstack_telemetry_cluster
+# - system.reclass.storage.system.stacklight_log_cluster
+# - system.reclass.storage.system.stacklight_monitor_cluster
+# - system.reclass.storage.system.stacklight_telemetry_cluster
+- system.reclass.storage.system.infra_maas_single
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  _param:
+    salt_master_base_environment: prd
+    reclass_data_repository: local
+    salt_master_environment_repository: "https://github.com/tcpcloud"
+    salt_master_environment_revision: master
+    reclass_config_master: ${_param:infra_config_deploy_address}
+    single_address: ${_param:infra_config_address}
+    deploy_address: ${_param:infra_config_deploy_address}
+    salt_master_host: ${_param:infra_config_address}
+    salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
+  salt:
+    master:
+      accept_policy: open_mode
+  reclass:
+    storage:
+      data_source:
+        engine: local
+      node:
+        infra_kvm_node01:
+          params:
+            keepalived_vip_priority: 100
+            linux_system_codename: xenial
+        infra_kvm_node02:
+          params:
+            keepalived_vip_priority: 101
+            linux_system_codename: xenial
+        infra_kvm_node03:
+          params:
+            keepalived_vip_priority: 102
+            linux_system_codename: xenial
+        openstack_telemetry_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_telemetry_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_telemetry_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_proxy_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_proxy_node02:
+          params:
+            linux_system_codename: xenial
+#        stacklight_log_node01:
+#          classes:
+#          - system.elasticsearch.client.single
+#        stacklight_monitor_node01:
+#          classes:
+#          - system.grafana.client.single
+#          - system.kibana.client.single
+        openstack_control_node01:
+          classes:
+          - cluster.${_param:cluster_name}.openstack.control_init
+          params:
+            linux_system_codename: xenial
+        openstack_control_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_control_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_database_node01:
+          classes:
+          - cluster.${_param:cluster_name}.openstack.database_init
+          params:
+            linux_system_codename: xenial
+        openstack_database_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_database_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_compute_node01:
+          name: ${_param:openstack_compute_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - cluster.${_param:cluster_name}.openstack.compute
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: xenial
+            control_address: ${_param:openstack_compute_node01_control_address}
+            single_address: ${_param:openstack_compute_node01_single_address}
+            tenant_address: ${_param:openstack_compute_node01_tenant_address}
+        openstack_compute_node02:
+          name: ${_param:openstack_compute_node02_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - cluster.${_param:cluster_name}.openstack.compute
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: xenial
+            control_address: ${_param:openstack_compute_node02_control_address}
+            single_address: ${_param:openstack_compute_node02_single_address}
+            tenant_address: ${_param:openstack_compute_node02_tenant_address}
+            primary_first_nic: eno2

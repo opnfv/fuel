@@ -1,0 +1,89 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.ceilometer.client
+- system.memcached.server.single
+- system.keystone.server.cluster
+- system.keystone.server.wsgi
+- system.glance.control.cluster
+- system.neutron.control.openvswitch.cluster
+- system.nova.control.cluster
+- system.cinder.control.cluster
+- system.cinder.volume.single
+- system.heat.server.cluster
+- system.designate.server.cluster
+- system.designate.server.backend.bind
+- system.bind.server.single
+- system.haproxy.proxy.listen.openstack.nova-placement
+- system.haproxy.proxy.listen.openstack.glare
+- system.glusterfs.client.cluster
+- system.glusterfs.client.volume.glance
+- system.glusterfs.client.volume.keystone
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  _param:
+    keepalived_vip_interface: ens3
+    keepalived_vip_virtual_router_id: 50
+    cluster_vip_address: ${_param:openstack_control_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: ctl01
+    cluster_node01_address: ${_param:openstack_control_node01_address}
+    cluster_node02_hostname: ctl02
+    cluster_node02_address: ${_param:openstack_control_node02_address}
+    cluster_node03_hostname: ctl03
+    cluster_node03_address: ${_param:openstack_control_node03_address}
+    nova_vncproxy_url: https://${_param:cluster_public_host}:6080
+  linux:
+    network:
+      interface:
+        ens3: ${_param:linux_single_interface}
+    # system:
+    #   repo:
+    #     glusterfs-ppa:
+    #       source: "deb http://ppa.launchpad.net/gluster/glusterfs-3.7/ubuntu trusty main"
+    #       architectures: amd64
+    #       key_id: 3FE869A9
+    #       key_server: keyserver.ubuntu.com
+  bind:
+    server:
+      control:
+        mgmt:
+          enabled: true
+          bind:
+            address: ${_param:single_address}
+            port: 953
+          allow:
+            - ${_param:openstack_control_node01_address}
+            - ${_param:openstack_control_node02_address}
+            - ${_param:openstack_control_node03_address}
+          keys:
+            - designate
+  designate:
+    server:
+      pools:
+        default:
+          description: 'test pool'
+          targets:
+            default:
+              description: 'test target1'
+            default1:
+              type: ${_param:designate_pool_target_type}
+              description: 'test target2'
+              masters: ${_param:designate_pool_target_masters}
+              options:
+                host: ${_param:openstack_control_node02_address}
+                port: 53
+                rndc_host: ${_param:openstack_control_node02_address}
+                rndc_port: 953
+                rndc_key_file: /etc/designate/rndc.key
+            default2:
+              type: ${_param:designate_pool_target_type}
+              description: 'test target3'
+              masters: ${_param:designate_pool_target_masters}
+              options:
+                host: ${_param:openstack_control_node03_address}
+                port: 53
+                rndc_host: ${_param:openstack_control_node03_address}
+                rndc_port: 953
+                rndc_key_file: /etc/designate/rndc.key

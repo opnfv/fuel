@@ -1,0 +1,4 @@
+classes:
+# - system.linux.system.single
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+- cluster.baremetal-mcp-ocata-ovs-ha.openstack

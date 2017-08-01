@@ -1,0 +1,98 @@
+classes:
+- system.linux.system.single
+- system.openssh.server.team.lab
+- system.openssh.server.team.tcpcloud
+- system.openssh.server.team.mcp_qa
+- cluster.baremetal-mcp-ocata-ovs-ha.openstack
+# - cluster.baremetal-mcp-ocata-ovs-ha.stacklight
+# - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.client
+parameters:
+  _param:
+    apt_mk_version: nightly
+    mcp_repo_version: 1.1
+    cluster_name: baremetal-mcp-ocata-ovs-ha
+    cluster_domain: ${_param:cluster_name}.local
+#    stacklight_environment: ${_param:cluster_domain}
+    reclass_data_revision: master
+    cluster_public_host: ${_param:openstack_proxy_address}
+    infra_config_hostname: cfg01
+    infra_maas_database_password: opnfv_secret
+
+    # infra service addresses
+    infra_config_address: 172.16.164.130
+    infra_config_deploy_address: 172.16.164.130
+    infra_maas_node01_deploy_address: 172.16.164.131
+    infra_compute_node01_address: 10.167.4.241
+    infra_compute_node02_address: 10.167.4.242
+    infra_compute_node03_address: 10.167.4.243
+
+    infra_kvm_address: 10.167.4.240
+    infra_kvm_node01_address: 10.167.4.241
+    infra_kvm_node02_address: 10.167.4.242
+    infra_kvm_node03_address: 10.167.4.243
+    infra_kvm_node01_deploy_address: 172.16.164.141
+    infra_kvm_node02_deploy_address: 172.16.164.142
+    infra_kvm_node03_deploy_address: 172.16.164.143
+
+    infra_maas_node01_hostname: mas01
+    infra_kvm_node01_hostname: kvm01
+    infra_kvm_node02_hostname: kvm02
+    infra_kvm_node03_hostname: kvm03
+
+    # Interface definitions
+    reclass:
+      storage:
+        node:
+          name: default
+    linux_dhcp_interface:
+      enabled: true
+      type: eth
+      proto: dhcp
+    linux_single_interface:
+      enabled: true
+      type: eth
+      proto: static
+      address: ${_param:single_address}
+      netmask: 255.255.255.0
+      #gateway: 10.167.4.1
+      #name_servers:
+      #  - 8.8.8.8
+      #  - 8.8.4.4
+
+    salt_control_trusty_image: http://apt-mk.mirantis.com/images/ubuntu-14-04-x64-mcp1.1.qcow2
+    salt_control_xenial_image: http://apt-mk.mirantis.com/images/ubuntu-16-04-x64-mcp1.1.qcow2
+    salt_control_centos7_image: http://apt.tcpcloud.eu/images/centos-7-x64-1455873094.qcow2
+    salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
+  linux:
+    network:
+      host:
+        cfg01:
+          address: ${_param:infra_config_address}
+          names:
+          - cfg01
+          - cfg01.${_param:cluster_domain}
+        cfg:
+          address: ${_param:infra_config_address}
+          names:
+          - ${_param:infra_config_hostname}
+          - ${_param:infra_config_hostname}.${_param:cluster_domain}
+        mas01:
+          address: ${_param:infra_maas_node01_deploy_address}
+          names:
+          - ${_param:infra_maas_node01_hostname}
+          - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
+        kvm01:
+          address: ${_param:infra_kvm_node01_address}
+          names:
+          - ${_param:infra_kvm_node01_hostname}
+          - ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
+        kvm02:
+          address: ${_param:infra_kvm_node02_address}
+          names:
+          - ${_param:infra_kvm_node02_hostname}
+          - ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+        kvm03:
+          address: ${_param:infra_kvm_node03_address}
+          names:
+          - ${_param:infra_kvm_node03_hostname}
+          - ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
