@@ -8,8 +8,8 @@ Change-Id: I3efec9a8b586a6c75b1c1635ad2a7024d73d9ad2
  neutron/control/opendaylight/single.yml               | 16 ++++++++++++++++
  neutron/gateway/opendaylight/single.yml               |  8 ++++++++
  opendaylight/server/single.yml                        |  2 ++
- .../storage/system/opendaylight_control_single.yml    | 15 +++++++++++++++
- 5 files changed, 60 insertions(+)
+ .../storage/system/opendaylight_control_single.yml    | 13 +++++++++++++
+ 5 files changed, 58 insertions(+)
  create mode 100644 neutron/control/opendaylight/cluster.yml
  create mode 100644 neutron/control/opendaylight/single.yml
  create mode 100644 neutron/gateway/opendaylight/single.yml

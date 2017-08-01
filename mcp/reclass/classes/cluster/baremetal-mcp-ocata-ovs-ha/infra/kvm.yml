@@ -1,0 +1,150 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- service.keepalived.cluster.single
+- system.glusterfs.server.volume.glance
+- system.glusterfs.server.volume.keystone
+- system.glusterfs.server.cluster
+- system.salt.control.virt
+- system.salt.control.cluster.openstack_control_cluster
+- system.salt.control.cluster.openstack_proxy_cluster
+- system.salt.control.cluster.openstack_database_cluster
+- system.salt.control.cluster.openstack_message_queue_cluster
+- system.salt.control.cluster.openstack_telemetry_cluster
+# - system.salt.control.cluster.stacklight_server_cluster
+# - system.salt.control.cluster.stacklight_log_cluster
+# - system.salt.control.cluster.stacklight_telemetry_cluster
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  _param:
+    linux_system_codename: xenial
+    cluster_vip_address: ${_param:infra_kvm_address}
+    cluster_node01_address: ${_param:infra_kvm_node01_address}
+    cluster_node02_address: ${_param:infra_kvm_node02_address}
+    cluster_node03_address: ${_param:infra_kvm_node03_address}
+    keepalived_vip_interface: br-ctl
+    keepalived_vip_virtual_router_id: 69
+    deploy_nic: enp6s0
+  salt:
+    control:
+      size: #RAM 4096,8192,16384,32768,65536
+      ##Default production sizing
+        openstack.control:
+          cpu: 6
+          ram: 8192
+          disk_profile: small
+          net_profile: default
+        openstack.database:
+          cpu: 6
+          ram: 8192
+          disk_profile: large
+          net_profile: default
+        openstack.message_queue:
+          cpu: 6
+          ram: 8192
+          disk_profile: small
+          net_profile: default
+        openstack.telemetry:
+          cpu: 4
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+        openstack.proxy:
+          cpu: 4
+          ram: 4096
+          disk_profile: small
+          net_profile: default
+#        stacklight.log:
+#          cpu: 2
+#          ram: 4096
+#          disk_profile: xxlarge
+#          net_profile: default
+#        stacklight.server:
+#          cpu: 2
+#          ram: 4096
+#          disk_profile: small
+#          net_profile: default
+#        stacklight.telemetry:
+#          cpu: 2
+#          ram: 4096
+#          disk_profile: xxlarge
+#          net_profile: default
+      cluster:
+        internal:
+          node:
+            prx02:
+              provider: kvm03.${_param:cluster_domain}
+            mdb01:
+              image: ${_param:salt_control_xenial_image}
+            mdb02:
+              image: ${_param:salt_control_xenial_image}
+            mdb03:
+              image: ${_param:salt_control_xenial_image}
+            ctl01:
+              image: ${_param:salt_control_xenial_image}
+            ctl02:
+              image: ${_param:salt_control_xenial_image}
+            ctl03:
+              image: ${_param:salt_control_xenial_image}
+            dbs01:
+              image: ${_param:salt_control_xenial_image}
+            dbs02:
+              image: ${_param:salt_control_xenial_image}
+            dbs03:
+              image: ${_param:salt_control_xenial_image}
+            msg01:
+              image: ${_param:salt_control_xenial_image}
+            msg02:
+              image: ${_param:salt_control_xenial_image}
+            msg03:
+              image: ${_param:salt_control_xenial_image}
+            prx01:
+              image: ${_param:salt_control_xenial_image}
+            prx02:
+              image: ${_param:salt_control_xenial_image}
+  virt:
+    nic:
+      default:
+        eth0:
+          bridge: br-mgmt
+          model: virtio
+        eth1:
+          bridge: br-ctl
+          model: virtio
+  linux:
+    network:
+      interface:
+        eth3:
+          enabled: true
+          type: eth
+          proto: manual
+          address: 0.0.0.0
+          netmask: 255.255.255.0
+          name: ${_param:deploy_nic}
+          noifupdown: true
+        br-mgmt:
+          enabled: true
+          proto: dhcp
+          type: bridge
+          name_servers:
+          - 8.8.8.8
+          - 8.8.4.4
+          use_interfaces:
+          - ${_param:deploy_nic}
+          noifupdown: true
+        vlan300:
+          enabled: true
+          proto: manual
+          type: vlan
+          name: ${_param:deploy_nic}.300
+          use_interfaces:
+          - ${_param:deploy_nic}
+        br-ctl:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:deploy_nic}.300

@@ -1,0 +1,68 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.nova.compute.cluster
+- system.nova.compute.nfv.hugepages
+- system.nova.compute.nfv.cpu_pinning
+- system.neutron.compute.cluster
+- system.ceilometer.agent.cluster
+- cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  _param:
+    cluster_vip_address: ${_param:openstack_control_address}
+    cluster_local_address: ${_param:control_address}
+    cluster_node01_hostname: ctl01
+    cluster_node01_address: ${_param:openstack_control_node01_address}
+    cluster_node02_hostname: ctl02
+    cluster_node02_address: ${_param:openstack_control_node02_address}
+    cluster_node03_hostname: ctl03
+    cluster_node03_address: ${_param:openstack_control_node03_address}
+    nova_vncproxy_url: https://${_param:cluster_public_host}:6080
+    mgmt_nic: enp6s0
+    tenant_nic: enp7s0
+    linux_system_codename: xenial
+  linux:
+    network:
+      bridge: openvswitch
+      interface:
+        mgmt_nic:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:mgmt_nic}
+        tenant_nic:
+          enabled: true
+          type: eth
+          proto: manual
+          name: ${_param:tenant_nic}
+        br-mesh:
+          enabled: true
+          type: bridge
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
+          mtu: 1500
+          use_interfaces:
+          - ${_param:tenant_nic}.302
+        vlan300:
+          enabled: true
+          proto: manual
+          type: vlan
+          name: ${_param:mgmt_nic}.300
+          use_interfaces:
+          - ${_param:mgmt_nic}
+        vlan302:
+          enabled: true
+          proto: manual
+          type: vlan
+          name: ${_param:tenant_nic}.302
+          use_interfaces:
+          - ${_param:tenant_nic}
+        br-ctl:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:tenant_nic}.300

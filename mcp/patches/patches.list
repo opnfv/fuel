@@ -1,3 +1,6 @@
 /usr/share/salt-formulas/env: 0001-opendaylight-formula-neutron.patch
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0003-maas-region-force-artifact-download.patch
+/usr/share/salt-formulas/env: 0004-maas-region-use-authorized_keys-1st-entry.patch
+/usr/share/salt-formulas/env: 0005-maas-vlan-DHCP-enable-on-fabric-2.patch
+/usr/share/salt-formulas/env: 0006-linux.network.interface-noifupdown-support.patch
