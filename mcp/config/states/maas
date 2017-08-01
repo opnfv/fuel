@@ -1,0 +1,27 @@
+salt 'mas01*' cmd.run "add-apt-repository ppa:maas/stable"
+
+salt 'mas01*' state.apply linux,salt,openssh,ntp
+salt 'mas01*' state.apply linux.network.interface
+salt 'mas01*' state.apply maas.pxe_nat
+salt 'mas01*' state.apply maas.cluster,maas.region
+
+salt 'mas01*' state.apply maas.machines
+while true; do
+  salt 'mas01*' state.apply maas.machines.status | \
+    fgrep -q 'Commissioning' || break;
+done
+
+salt 'mas01*' state.apply maas.machines.deploy
+while true; do
+  salt 'mas01*' state.apply maas.machines.status | \
+    fgrep -q 'Deploying' || break;
+done
+
+salt 'mas01*' pillar.item\
+  maas:region:admin:username \
+  maas:region:admin:password
+
+salt '*' saltutil.sync_all
+salt '* and not cfg01* and not mas01*' state.apply salt
+salt '* and not cfg01* and not mas01*' state.apply linux,ntp
+salt '* and not cfg01* and not mas01*' system.reboot
