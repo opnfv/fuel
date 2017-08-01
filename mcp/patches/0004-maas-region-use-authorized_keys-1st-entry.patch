@@ -1,0 +1,34 @@
+From: Charalampos Kominos <Charalampos.Kominos@enea.com>
+Date: Sat, 5 Aug 2017 02:03:01 +0200
+Subject: [PATCH] maas: region: use authorized_keys 1st entry
+
+MaaS custom py modules accepts the "sshprefs" variable via pillar,
+however we want to read it from ~ubuntu/.ssh/authorized_keys.
+
+Bypass the py module and call MaaS CLI directly, passing the first
+authorized key, which should be mcp.rsa.pub.
+
+Signed-off-by: Charalampos Kominos <Charalampos.Kominos@enea.com>
+---
+
+diff --git a/maas/region.sls b/maas/region.sls
+index d3227ca..8a2243d 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -179,8 +179,14 @@
+     - module: maas_config
+
+ maas_sshprefs:
+-  module.run:
+-  - name: maas.process_sshprefs
++# NOTE(armband): maas.process_sshprefs also works, but we need to read the key
++#                from authorized_keys. Should be reworked at some point.
++# module.run:
++# - name: maas.process_sshprefs
++# - require:
++  cmd.run:
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && SSH_KEY=$(cat authorized_keys) && maas opnfv sshkeys create \"key=$SSH_KEY\""
++  - cwd: "/home/ubuntu/.ssh"
+   - require:
+     - module: maas_config
+
