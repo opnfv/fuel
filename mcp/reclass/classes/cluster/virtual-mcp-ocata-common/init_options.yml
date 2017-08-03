@@ -1,0 +1,18 @@
+parameters:
+  _param:
+    # infra service addresses
+    infra_config_address: 172.16.10.100
+    # openstack service addresses
+    openstack_control_address: 172.16.10.101
+    openstack_control_node01_address: 172.16.10.101
+    openstack_control_node02_address: 172.16.10.102
+    openstack_control_node03_address: 172.16.10.103
+    openstack_database_address: ${_param:openstack_control_address}
+    openstack_message_queue_address: ${_param:openstack_control_address}
+    openstack_message_queue_node01_address: ${_param:openstack_control_node01_address}
+    openstack_message_queue_node02_address: ${_param:openstack_control_node02_address}
+    openstack_message_queue_node03_address: ${_param:openstack_control_node03_address}
+    openstack_gateway_address: 172.16.10.110
+    control_address: ${_param:openstack_control_address}
+    ntp_strata_host1: 1.se.pool.ntp.org
+    ntp_strata_host2: 0.se.pool.ntp.org
