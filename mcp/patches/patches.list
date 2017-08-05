@@ -1,1 +1,2 @@
+/usr/share/salt-formulas/env: 0001-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0002-opendaylight-formula-neutron.patch
