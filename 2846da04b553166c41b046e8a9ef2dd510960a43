@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_34c82174",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs/infra/config.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-07T15:21:58Z",
+      "side": 1,
+      "message": "+ - system.reclass.storage.system.infra_maas_single",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 8
+      },
+      "revId": "2846da04b553166c41b046e8a9ef2dd510960a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
