@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da33351e_74a109a9",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-07T15:34:02Z",
+      "side": 1,
+      "message": "This is highly likely to change, but I need to figure out to what.\nMy understanding is that \"pxebr\" should also provide internet access, but I have some issues configuring the VMs to boot the first time without DHCP (due to cloud-init relying on it), then switch to MaaS-provided DHCP ...",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 37
+      },
+      "revId": "2846da04b553166c41b046e8a9ef2dd510960a43",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_34c82174",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs/infra/config.yml",
         "patchSetId": 1
