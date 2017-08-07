@@ -6,11 +6,47 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- set cluster_arch = [] %}
+{%- for node in conf.nodes %}
+  {%- if node.node.arch not in cluster_arch %}
+    {%- do cluster_arch.append(node.node.arch) %}
+  {%- endif %}
+{%- endfor %}
 parameters:
   maas:
     region:
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
+{%- if 'aarch64' in cluster_arch %}
+      package_repositories:
+        armband:
+          name: armband
+          enabled: '1'
+          url: 'http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename}'
+          distributions: '${_param:openstack_version}-armband'
+          components: 'main'
+          arches: 'arm64'
+          key: &armband_key |
+            -----BEGIN PGP PUBLIC KEY BLOCK-----
+            Version: GnuPG v2.0.14 (GNU/Linux)
+
+            mQENBFagAroBCADWboNIjuF6lB1mWv2+EbvqY3lKl5mLKhr2DnSUkKeHUPBv8gNM
+            qK8Q00AMIyPiyEhgjA+dWizZ+5aBgxoiY7oMeLJ2Xym36U/8SYq2BWd3SGCbMNoz
+            SJDxDUSM/HFVs6atF1M3DY9oN65hSVnu4uy5Tu6asf6k4rhAyk0z4+pRcPBCu2vq
+            mnGi3COM/+9PShrEKeVOx5W2vRJywUFuq8EDvQnRoJ0GvM28JiJIanw17YwIPxhg
+            BKZVpZjan5X+ihVMXwA2h/G/FS5Omhd50RqV6LWSYs94VJJgYqHx8UMm7izcxI+P
+            ct3IcbD195bPbJ+SbuiFe45ZLsdY1MyGiU2BABEBAAG0K0VuZWEgQXJtYmFuZCBE
+            ZXZvcHMgVGVhbSA8YXJtYmFuZEBlbmVhLmNvbT6JATgEEwECACICGwMGCwkIBwMC
+            BhUIAgkKCwQWAgMBAh4BAheABQJaY3bYAAoJEN6rkLp5irHRoQMH/0PYl0A/6eWw
+            nQ/szhEFrr76Ln6wA4vEO+PiuWj9kTkZM2NaCnkisrIuHSPIVvOLfFmztbE6sKGe
+            t+a2b7Jqw48DZ/gq508aZE4Q307ookxdCOrzIu/796hFO34yXg3sqZoJh3VmKIjY
+            4DL8yG1iAiQ5vOw3IFWQnATwIZUgaCcjmE7HGap+9ePuJfFuQ8mIG5cy28t8qocx
+            AB/B2tucfBMwomYxKqgbLI5AG7iSt58ajvrrNa9f8IX7Ihj/jiuXhUwX+geEp98K
+            IWVI1ftEthZvfBpZW4BS98J4z//dEPi31L4jb9RQXq3afF2RpXchDeUN85bW45nu
+            W/9PMAlgE/U=
+            =m+zE
+            -----END PGP PUBLIC KEY BLOCK-----
+{%- endif %}
       machines:
       {%- set pxe_interface = conf.idf.net_config.admin.interface %}
       {#- We only support exactly 5 nodes for now, hardcoded order #}
