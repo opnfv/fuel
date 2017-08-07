@@ -41,20 +41,6 @@ parameters:
         enable_third_party_drivers: true
         network_discovery: 'enabled'
         default_min_hwe_kernel: ${_param:hwe_kernel}
-      subnets:
-        opnfv_maas_pxe:
-          name: ${_param:opnfv_infra_maas_pxe_network_address}/24
-          cidr: ${_param:opnfv_infra_maas_pxe_network_address}/24
-          gateway_ip: ${_param:single_address}
-          iprange:
-            start: ${_param:opnfv_infra_maas_pxe_start_address}
-            end: ${_param:opnfv_infra_maas_pxe_end_address}
-            type: dynamic
-          vlans:
-            untagged:
-              vid: 0
-              dhcp_on: true
-              primary_rack: ${_param:infra_maas_node01_hostname}
     cluster:
       saltstack_repo_xenial: "http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/ xenial main"
   linux:
