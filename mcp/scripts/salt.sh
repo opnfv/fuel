@@ -55,6 +55,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list formulas
 
   salt-call state.apply salt
+  salt '*' saltutil.sync_all
   salt '*' state.apply salt | fgrep -q 'No response' && salt '*' state.apply salt
 
   salt -C 'I@salt:master' state.sls linux
