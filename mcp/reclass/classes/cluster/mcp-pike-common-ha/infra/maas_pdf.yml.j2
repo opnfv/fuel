@@ -5,7 +5,6 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
----
 {%- set cluster_arch = [] %}
 {%- for node in conf.nodes %}
   {%- if node.node.arch not in cluster_arch %}
@@ -14,6 +13,7 @@
 {%- endfor %}
 {%- set net_admin = [conf.idf.net_config.admin.network,
                      conf.idf.net_config.admin.mask] | join("/") %}
+---
 parameters:
   maas:
     region:
@@ -31,6 +31,8 @@ parameters:
               vid: 0
               dhcp_on: true
               primary_rack: ${_param:infra_maas_node01_hostname}
+      # Space-separated list of dpkg architectures to be supported by MaaS
+      opnfv_arches:{%- for arch in cluster_arch %} {{ arch | dpkg_arch }}{%- endfor %}
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
 {%- if 'aarch64' in cluster_arch %}
