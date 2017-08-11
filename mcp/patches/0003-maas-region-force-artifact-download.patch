@@ -1,0 +1,39 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 5 Aug 2017 02:03:01 +0200
+Subject: [PATCH] maas: region: force artifact download
+
+MaaS configuration fails until all required artifacts are in place,
+including bootloaders and target images.
+
+Hack around this by forcing an explicit artifact sync.
+
+NOTE: This is probably achievable through existing maas salt custom
+module (py) and/or minor rework on that.
+This fixup should be temporary at best.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/maas/region.sls b/maas/region.sls
+index d3227ca..8a2243d 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -109,11 +109,17 @@
+   cmd.run:
+   - name: "maas-region apikey --username {{ region.admin.username }} > /var/lib/maas/.maas_credentials"
+
++maas_force_artifact_sync:
++  cmd.run:
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && while ! grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log; do sleep 5; echo -n '.'; done && maas opnfv boot-resources import && while maas opnfv boot-resources is-importing | grep -q -e 'true'; do sleep 5; echo -n '.'; done && maas opnfv rack-controllers import-boot-images && while ! test -d /var/lib/maas/boot-resources/current/ubuntu; do sleep 5; echo -n '.'; done"
++  - require:
++    - cmd: maas_login_admin
++
+ maas_config:
+   module.run:
+   - name: maas.process_maas_config
+   - require:
+-    - cmd: maas_login_admin
++    - cmd: maas_force_artifact_sync
+
+ maas_commissioning_scripts:
+   module.run:
