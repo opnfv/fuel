@@ -78,6 +78,13 @@ create_vms() {
     net_args="${net_args} --network ${net_type}=${net},model=virtio"
   done
 
+  # AArch64: prepare arch specific arguments
+  local virt_extra_args=""
+  if [ "$(uname -i)" = "aarch64" ]; then
+    # No Cirrus VGA on AArch64, use vga std
+    virt_extra_args="$virt_extra_args --video=vga"
+  fi
+
   # create vms with specified options
   for node in "${vnodes[@]}"; do
     # shellcheck disable=SC2086
@@ -88,7 +95,8 @@ create_vms() {
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
     --disk path="$(pwd)/images/mcp_${node}.iso",device=cdrom \
-    --noautoconsole
+    --noautoconsole \
+    ${virt_extra_args}
   done
 }
 

@@ -283,6 +283,12 @@ pushd "${DEPLOY_DIR}" > /dev/null
 [ -n "$(command -v yum)" ] && sudo yum install -y \
   git make rsync genisoimage curl virt-install qemu-kvm
 
+if [ "$(uname -i)" = "aarch64" ]; then
+  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
+  sudo ln -sf /usr/share/vgabios/vgabios.bin /usr/share/qemu/vgabios-stdvga.bin
+  [ -n "$(command -v yum)" ] && sudo yum install -y vgabios
+fi
+
 # Check scenario file existence
 if [[ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]]; then
     notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
