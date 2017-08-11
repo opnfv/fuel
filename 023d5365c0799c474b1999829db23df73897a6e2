@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_8e9aac12",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-11T19:44:47Z",
+      "side": 1,
+      "message": "This will currently break things, as cmp01/cmp02/ctl01 are still using the old network configuration from the virtual POD, to be fixed in upcoming revision.",
+      "range": {
+        "startLine": 26,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "023d5365c0799c474b1999829db23df73897a6e2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
