@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_4c1a6c6f",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/maas.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-13T17:00:14Z",
+      "side": 1,
+      "message": "@Harry: This still needs to be applied by hand for now, and we need to come up with something fast, to enable complete automatic deploys ...",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "2f56d2e405c28ca2014730ae264af06b5547f544",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_6c1db066",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/maas.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-13T17:00:14Z",
+      "side": 1,
+      "message": "@Guillermo: this is good enough to get MaaS subnets configured for now, without resorting to MaaS CLI. However, it\u0027d be nice if we could make it more dynamic later.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "2f56d2e405c28ca2014730ae264af06b5547f544",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
