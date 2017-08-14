@@ -46,6 +46,30 @@
       "revId": "6e02e1aa46c77802c21a99d469a7e33f430d1882",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_87e28fd3",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-14T11:31:28Z",
+      "side": 1,
+      "message": "Yes, will be limited by job timeout.\nAnother option is to apply \"service networking restart\"",
+      "parentUuid": "da33351e_a7b6b3da",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "6e02e1aa46c77802c21a99d469a7e33f430d1882",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
