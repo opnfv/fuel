@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_27958340",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-14T10:27:17Z",
+      "side": 1,
+      "message": "while true; do salt \u0027*\u0027 test.ping | fgrep -q \u0027Not connected\u0027 || break; done",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "6e02e1aa46c77802c21a99d469a7e33f430d1882",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
