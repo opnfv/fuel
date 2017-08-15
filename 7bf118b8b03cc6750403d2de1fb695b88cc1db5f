@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_e0ba60e0",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/init.yml",
+        "patchSetId": 20
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5747
+      },
+      "writtenOn": "2017-08-15T13:07:15Z",
+      "side": 1,
+      "message": "I have a couple of questions here.\n\n1)How can these machines have the same ips ???\nI assume that infra_compute are the compute nodes which we only have 2\nand infra_kvm_node0x are the 3 \"Controller nodes\"\n\n2)what is infra_kvm_address. Is it the foundation node?",
+      "revId": "7bf118b8b03cc6750403d2de1fb695b88cc1db5f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
