@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da33351e_2613c067",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/kvm.yml",
+        "patchSetId": 22
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-16T06:28:04Z",
+      "side": 1,
+      "message": "I\u0027ve doubts about dhcp proto, we should use static _params:deploy_address and set maas dhcp range with non-interfere addresses (e.g. from the end of subnet).",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 21
+      },
+      "revId": "2fe843b178d1897c81ce5373574b02cca00dd890",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_a6587057",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/openstack/compute.yml",
         "patchSetId": 22
