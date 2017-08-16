@@ -57,6 +57,30 @@
       "revId": "7bf118b8b03cc6750403d2de1fb695b88cc1db5f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_66b0288c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/openstack/compute.yml",
+        "patchSetId": 20
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-16T05:40:33Z",
+      "side": 1,
+      "message": "sure, vid\u003d300 for ctl/mgmt network",
+      "parentUuid": "da33351e_e0b6e0db",
+      "range": {
+        "startLine": 68,
+        "startChar": 33,
+        "endLine": 68,
+        "endChar": 36
+      },
+      "revId": "7bf118b8b03cc6750403d2de1fb695b88cc1db5f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
