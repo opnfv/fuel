@@ -285,13 +285,13 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # Install required packages
 [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
   git make rsync mkisofs curl virtinst cpu-checker qemu-kvm
-[ -n "$(command -v yum)" ] && sudo yum install -y \
+[ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
   git make rsync genisoimage curl virt-install qemu-kvm
 
 if [ "$(uname -i)" = "aarch64" ]; then
   [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
   sudo ln -sf /usr/share/vgabios/vgabios.bin /usr/share/qemu/vgabios-stdvga.bin
-  [ -n "$(command -v yum)" ] && sudo yum install -y vgabios
+  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken vgabios
 fi
 
 # Check scenario file existence
