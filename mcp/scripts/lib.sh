@@ -4,7 +4,10 @@
 #
 
 generate_ssh_key() {
-  local user=${SUDO_USER:-$USER}
+  local user=${USER}
+  if [ -n "${SUDO_USER}" ] && [ "${SUDO_USER}" != 'root' ]; then
+    user=${SUDO_USER}
+  fi
 
   [ -f "${SSH_KEY}" ] || ssh-keygen -f "${SSH_KEY}" -N ''
   install -o "${user}" -m 0600 "${SSH_KEY}" /tmp/
