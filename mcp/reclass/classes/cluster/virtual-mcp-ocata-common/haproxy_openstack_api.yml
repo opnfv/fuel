@@ -164,3 +164,25 @@ parameters:
             host: ${_param:cluster_node01_address}
             port: 8775
             params: ${_param:haproxy_check}
+        ceilometer_api:
+          type: general-service
+          check: false
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8777
+          servers:
+          - name: ${_param:cluster_node01_hostname}
+            host: ${_param:cluster_node01_address}
+            port: 8777
+            params: ${_param:haproxy_check}
+        aodh-api:
+          type: openstack-service
+          service_name: aodh
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8042
+          servers:
+          - name: ctl01
+            host: ${_param:cluster_node01_address}
+            port: 8042
+            params: ${_param:haproxy_check}
