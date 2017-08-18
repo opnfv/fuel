@@ -22,4 +22,9 @@ salt -I 'neutron:gateway' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 
+salt -I 'mongodb:server' state.sls mongodb
+salt -I 'aodh:server' state.sls aodh
+salt -I 'ceilometer:server' state.sls ceilometer
+salt -I 'ceilometer:agent' state.sls ceilometer
+
 salt -I 'horizon:server' state.sls horizon
