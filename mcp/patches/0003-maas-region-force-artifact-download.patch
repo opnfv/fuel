@@ -24,7 +24,7 @@ index d3227ca..8a2243d 100644
 
 +maas_force_artifact_sync:
 +  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && while ! grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log; do sleep 5; echo -n '.'; done && maas opnfv boot-resources import && while maas opnfv boot-resources is-importing | grep -q -e 'true'; do sleep 5; echo -n '.'; done && maas opnfv rack-controllers import-boot-images && while ! test -d /var/lib/maas/boot-resources/current/ubuntu; do sleep 5; echo -n '.'; done"
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && while ! grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log; do sleep 5; echo -n '.'; done && maas opnfv boot-resources import && while maas opnfv boot-resources is-importing | grep -q -e 'true'; do sleep 5; echo -n '.'; done && maas opnfv rack-controllers import-boot-images && while ! test -d /var/lib/maas/boot-resources/current/ubuntu; do sleep 5; echo -n '.'; done"
 +  - require:
 +    - cmd: maas_login_admin
 +

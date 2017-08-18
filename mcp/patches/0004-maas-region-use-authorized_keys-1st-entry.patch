@@ -27,7 +27,7 @@ index d3227ca..8a2243d 100644
 +# - name: maas.process_sshprefs
 +# - require:
 +  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && SSH_KEY=$(cat authorized_keys | head -1) && maas opnfv sshkeys create \"key=$SSH_KEY\""
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && SSH_KEY=$(cat authorized_keys | head -1) && maas opnfv sshkeys create \"key=$SSH_KEY\""
 +  - cwd: "/home/ubuntu/.ssh"
    - require:
      - module: maas_config
