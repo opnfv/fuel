@@ -20,7 +20,7 @@ index d3227ca..8a2243d 100644
      'updelay',
      'hashing-algorithm',
      'hardware-dma-ring-rx',
-+    'ifupdown',
++    'noifupdown',
  ] %}
 
  {% set network = salt['grains.filter_by']({
