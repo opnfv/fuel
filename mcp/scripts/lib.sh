@@ -17,7 +17,7 @@ get_base_image() {
   local base_image=$1
 
   mkdir -p images
-  wget -P /tmp -nc "${base_image}"
+  wget -P /tmp -N "${base_image}"
 }
 
 cleanup_vms() {
