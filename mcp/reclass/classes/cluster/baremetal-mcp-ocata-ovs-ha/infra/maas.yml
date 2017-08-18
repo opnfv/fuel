@@ -99,7 +99,11 @@ parameters:
   linux:
     network:
       interface:
-        dhcp_interface: ${_param:linux_dhcp_interface}
+        dhcp_interface:
+          enabled: true
+          name: ${_param:dhcp_interface}
+          type: eth
+          proto: dhcp
         primary_interface:
           enabled: true
           name: ${_param:primary_interface}
