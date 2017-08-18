@@ -40,6 +40,7 @@ parameters:
           iprange:
             start: 192.168.11.5
             end: 192.168.11.250
+            type: dynamic
       machines:
         kvm01:
           interface:
