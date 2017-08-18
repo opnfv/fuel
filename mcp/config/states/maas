@@ -40,15 +40,16 @@ salt -C 'mas01*' pillar.item\
 
 # KVM, compute node prereqs (libvirt first), VCP deployment
 salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
+
+salt 'kvm*' pkg.install bridge-utils
+salt 'kvm*' cmd.run 'salt-call state.sls linux.network; reboot'
+wait_for "! salt '*' test.ping | fgrep -q 'Not connected'"
+
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
 salt -C 'kvm*' state.sls libvirt
 
-salt -C '* and not cfg01* and not mas01*' system.reboot
-wait_for "! salt '*' test.ping | fgrep -q 'Not connected'"
-
 salt -C '* and not cfg01* and not mas01*' state.apply salt
-
 salt -C 'kvm*' state.sls salt.control
 
 salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
