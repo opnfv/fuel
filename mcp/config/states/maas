@@ -27,12 +27,12 @@ wait_for "salt -C 'mas01*' state.apply maas.region"
 salt -C 'mas01*' state.apply maas.machines
 # TODO: relax cond, as this is not re-entrant (e.g. nodes already deployed)
 wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "fgrep -q 'Ready: 5'"
+         "tee /dev/stderr | fgrep -q 'Ready: 5'"
 
 # MaaS node deployment
 salt -C 'mas01*' state.apply maas.machines.deploy
 wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "fgrep -q 'Deployed: 5'"
+         "tee /dev/stderr | fgrep -q 'Deployed: 5'"
 
 salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
@@ -44,7 +44,7 @@ salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'kvm*' system.reboot
-wait_for "! salt '*' test.ping | fgrep -q 'Not connected'"
+wait_for "! salt '*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
 
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
