@@ -30,6 +30,7 @@ diff --git a/_modules/maas.py b/_modules/maas.py
 index d3227ca..8a2243d 100644
 --- a/_modules/maas.py
 +++ b/_modules/maas.py
+@@ -204,6 +204,7 @@
              'gateway_ip': subnet['gateway_ip'],
          }
          self._iprange = subnet['iprange']
