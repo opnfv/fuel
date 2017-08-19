@@ -1,0 +1,49 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 19 Aug 2017 02:03:01 +0200
+Subject: [PATCH] maas: module: Obtain fabric ID from CIDR
+
+MaaS subnet update requires specifying the correct fabric via reclass,
+which we used to hardcode in our OPNFV reclass model to fabric-2.
+However, fabric index numbers are not deterministic, so the old
+method is unreliable.
+
+Update MaaS custom py module to determine fabric name/ID on the
+fly, based on CIDR matching (assuming we don't have CIDR conflicts).
+
+This change maintains backwards compatibility:
+- if fabric is specified via reclass model, it will be used as-is;
+- if fabric is not specified via reclass model, we try to deduce it
+  based on CIDR; if no match is found, the old default ('') is used;
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Signed-off-by: Guillermo Herrero <Guillermo.Herrero@enea.com>
+---
+
+diff --git a/_modules/maas.py b/_modules/maas.py
+index d3227ca..8a2243d 100644
+--- a/_modules/maas.py
++++ b/_modules/maas.py
+@@ -198,7 +198,8 @@
+     def fill_data(self, name, subnet, fabrics):
+         data = {
+             'name': name,
+-            'fabric': str(fabrics[subnet.get('fabric', '')]),
++            'fabric': str(fabrics[subnet.get('fabric',
++                self._get_fabric_from_cidr(subnet.get('cidr')))]),
+             'cidr': subnet.get('cidr'),
+             'gateway_ip': subnet['gateway_ip'],
+         }
+@@ -215,6 +216,13 @@
+         self._process_iprange(res_json['id'])
+         return response
+
++    def _get_fabric_from_cidr(self, cidr):
++        subnets = json.loads(self._maas.get(u'api/2.0/subnets/').read())
++        for subnet in subnets:
++            if subnet['cidr'] == cidr:
++                return subnet['vlan']['fabric']
++        return ''
++
+     def _process_iprange(self, subnet_id):
+         ipranges = json.loads(self._maas.get(u'api/2.0/ipranges/').read())
+         LOG.warn('all %s ipranges %s', subnet_id, ipranges)

@@ -1,0 +1,80 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 19 Aug 2017 02:03:01 +0200
+Subject: [PATCH] maas: module: Add VLAN DHCP enable support
+
+MaaS custom py module does not support VLAN configuration.
+This should be implemented by adding a dedicated class for VLAN.
+However, we are only interested in updating an existign VLAN to
+enable DHCP on an existing IP range (set up via subnet configuration),
+so extend existing subnet handling to include basic VLAN update.
+
+NOTE: Design-wise, this is hacky, and its only purpose is to allow
+setting 'dhcp_on=True' for an existing VLAN.
+
+Example reclass model usage:
+maas:
+  region:
+    subnets:
+      192.168.11.0/24:
+        # ...
+        vlans:
+          untagged:
+            vid: 0
+            dhcp_on: true
+            primary_rack: mas01
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/_modules/maas.py b/_modules/maas.py
+index d3227ca..8a2243d 100644
+--- a/_modules/maas.py
++++ b/_modules/maas.py
+             'gateway_ip': subnet['gateway_ip'],
+         }
+         self._iprange = subnet['iprange']
++        self._vlans = subnet['vlans']
+         return data
+
+     def update(self, new, old):
+@@ -214,6 +215,7 @@
+         response = super(Subnet, self).send(data)
+         res_json = json.loads(response)
+         self._process_iprange(res_json['id'])
++        self._process_dhcp_vlans_update(data)
+         return response
+
+     def _get_fabric_from_cidr(self, cidr):
+@@ -248,6 +250,32 @@
+         else:
+             self._maas.post(u'api/2.0/ipranges/', None, **data)
+
++    def _process_dhcp_vlans_update(self, subnet_data):
++        fabric_vlans = json.loads(self._maas.get(u'api/2.0/fabrics/{0}/vlans/'
++                                  .format(subnet_data['fabric'])).read())
++        LOG.warn('all fabric %s vlans %s', subnet_data['fabric'], fabric_vlans)
++        for vlan_name, vlan_data in self._vlans.iteritems():
++            update = False
++            old_data = None
++            for fabric_vlan in fabric_vlans:
++                if fabric_vlan['vid'] == vlan_data['vid']:
++                    update = True
++                    old_data = fabric_vlan
++                    break
++            data = {
++                'mtu': str(vlan_data.get('mtu', 1500)),
++                'dhcp_on': str(vlan_data.get('dhcp_on')),
++                'primary_rack': str(vlan_data.get('primary_rack')),
++                'secondary_rack': str(vlan_data.get('secondary_rack', ''))
++            }
++            if update:
++                LOG.warn('UPDATING %s %s', data, old_data)
++                self._maas.put(u'api/2.0/fabrics/{0}/vlans/{1}/'
++                               .format(subnet_data['fabric'], old_data['vid']),
++                               **data)
++            else:
++                LOG.warn('MISSING vlan %s, not doing anything', data)
++
+
+ class DHCPSnippet(MaasObject):
+     def __init__(self):

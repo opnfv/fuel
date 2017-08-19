@@ -29,18 +29,22 @@ parameters:
         disk_erase_with_secure_erase: false
         dnssec_validation: 'no'
         enable_third_party_drivers: true
-        network_discovery: 'disabled'
+        network_discovery: 'enabled'
         default_min_hwe_kernel: 'hwe-16.04'
       subnets:
-# TODO: parametrize address root (192.168.11), fabric-2, dhcp start/end?
+        # TODO: parametrize address root (192.168.11), dhcp start/end?
         192.168.11.0/24:
-          fabric: fabric-2
           cidr: 192.168.11.0/24
           gateway_ip: ${_param:single_address}
           iprange:
             start: 192.168.11.5
             end: 192.168.11.250
             type: dynamic
+          vlans:
+            untagged:
+              vid: 0
+              dhcp_on: true
+              primary_rack: ${_param:infra_maas_node01_hostname}
       machines:
         kvm01:
           interface:
