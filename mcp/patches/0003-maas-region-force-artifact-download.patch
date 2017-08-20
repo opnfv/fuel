@@ -15,16 +15,17 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
 
 diff --git a/maas/region.sls b/maas/region.sls
-index d3227ca..8a2243d 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -109,11 +109,17 @@
+@@ -109,11 +109,19 @@
    cmd.run:
    - name: "maas-region apikey --username {{ region.admin.username }} > /var/lib/maas/.maas_credentials"
 
 +maas_force_artifact_sync:
-+  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && while ! grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log; do sleep 5; echo -n '.'; done && maas opnfv boot-resources import && while maas opnfv boot-resources is-importing | grep -q -e 'true'; do sleep 5; echo -n '.'; done && maas opnfv rack-controllers import-boot-images && while ! test -d /var/lib/maas/boot-resources/current/ubuntu; do sleep 5; echo -n '.'; done"
++  cmd.script:
++  - name: salt://maas/files/maas-artifact-sync.sh
++  - template: jinja
++  - shell: /bin/bash
 +  - require:
 +    - cmd: maas_login_admin
 +
@@ -37,3 +38,29 @@ index d3227ca..8a2243d 100644
 
  maas_commissioning_scripts:
    module.run:
+diff --git a/maas/files/maas-artifact-sync.sh b/maas/files/maas-artifact-sync.sh
+new file mode 100644
+--- /dev/null
++++ b/maas/files/maas-artifact-sync.sh
+@@ -0,0 +1,21 @@
++{%- from "maas/map.jinja" import region with context %}
++#!/bin/bash
++function wait_for {
++  local total_attempts=$1; shift
++  local cmdstr=$@
++  local sleep_time=10
++  echo -e "\n[NOTE] Waiting for cmd to return success: ${cmdstr}\n"
++  for attempt in $(seq "${total_attempts}"); do
++    eval "${cmdstr}" && break || true
++    echo -n '.'; sleep "${sleep_time}"
++  done
++}
++maas login {{ region.admin.username }} \
++  http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < \
++  /var/lib/maas/.maas_credentials || exit 1
++# wait max 15 min for service up / image download, 5 min region to rack sync
++wait_for 90 "grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log"
++maas opnfv boot-resources import || exit 2
++wait_for 90 "! maas opnfv boot-resources is-importing | grep -q 'true'"
++maas opnfv rack-controllers import-boot-images || exit 3
++wait_for 30 "test -d /var/lib/maas/boot-resources/current/ubuntu/amd64"
