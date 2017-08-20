@@ -27,8 +27,6 @@ if [ "${ERASE_ENV}" -eq 1 ]; then
 fi
 
 # KVM libvirt first, VCP deployment
-#FIXME Should be removed once upstream patch get merged
-salt -C 'kvm*' group.add libvirtd
 wait_for 5 "salt -C 'kvm*' state.sls libvirt"
 
 salt -C 'kvm* or cmp*' state.apply salt

@@ -1,0 +1,21 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 20 Aug 2017 02:03:01 +0200
+Subject: [PATCH] libvirt: unix_sock_group: s/libvirtd/libvirt/
+
+On AArch64, libvirt 3.x is used, which uses "libvirt" by default.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/libvirt/files/libvirtd.conf.Debian b/libvirt/files/libvirtd.conf.Debian
+--- a/libvirt/files/libvirtd.conf.Debian
++++ b/libvirt/files/libvirtd.conf.Debian
+@@ -81,7 +81,7 @@
+ # without becoming root.
+ #
+ # This is restricted to 'root' by default.
+-unix_sock_group = "libvirtd"
++unix_sock_group = "libvirt"
+
+ # Set the UNIX socket permissions for the R/O socket. This is used
+ # for monitoring VM status only
