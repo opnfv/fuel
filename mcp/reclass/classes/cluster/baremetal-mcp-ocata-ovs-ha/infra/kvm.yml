@@ -106,10 +106,10 @@ parameters:
   virt:
     nic:
       default:
-        eth0:
+        eth1:
           bridge: br-mgmt
           model: virtio
-        eth1:
+        eth0:
           bridge: br-ctl
           model: virtio
   linux:
