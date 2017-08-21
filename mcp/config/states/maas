@@ -29,6 +29,9 @@ salt -C 'mas01*' state.apply maas.machines
 wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
          "tee /dev/stderr | fgrep -q 'Ready: 5'"
 
+# cleanup outdated salt keys
+salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | xargs -I{} salt-key -yd {}
+
 # MaaS node deployment
 salt -C 'mas01*' state.apply maas.machines.deploy
 wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
