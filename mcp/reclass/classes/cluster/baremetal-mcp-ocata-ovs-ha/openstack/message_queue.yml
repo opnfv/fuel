@@ -7,7 +7,7 @@ classes:
 - cluster.baremetal-mcp-ocata-ovs-ha
 parameters:
   _param:
-    keepalived_vip_interface: ens3
+    keepalived_vip_interface: ens4
     keepalived_vip_virtual_router_id: 90
     cluster_vip_address: ${_param:openstack_message_queue_address}
     cluster_local_address: ${_param:single_address}
@@ -20,4 +20,5 @@ parameters:
   linux:
     network:
       interface:
-        ens3: ${_param:linux_single_interface}
+        ens3: ${_param:linux_dhcp_interface}
+        ens4: ${_param:linux_single_interface}

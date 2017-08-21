@@ -15,7 +15,7 @@ classes:
 # - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.proxy
 parameters:
   _param:
-    keepalived_vip_interface: ens3
+    keepalived_vip_interface: ens4
     keepalived_vip_virtual_router_id: 240
     nginx_proxy_ssl:
       enabled: true
@@ -27,7 +27,8 @@ parameters:
   linux:
     network:
       interface:
-        ens3: ${_param:linux_single_interface}
+        ens3: ${_param:linux_dhcp_interface}
+        ens4: ${_param:linux_single_interface}
     system:
       package:
         libapache2-mod-wsgi:
