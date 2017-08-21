@@ -3,7 +3,6 @@ cluster:
   states:
     - maas
     - openstack_ha
-    - openstack
     - neutron_compute
     - networks
 virtual:
