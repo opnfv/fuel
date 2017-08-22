@@ -51,6 +51,8 @@ parameters:
     openstack_compute_node01_tenant_address: 10.1.0.101
     openstack_compute_node02_tenant_address: 10.1.0.102
     openstack_compute_node03_tenant_address: 10.1.0.103
+    openstack_compute_node01_external_address: 172.30.10.2
+    openstack_compute_node02_external_address: 172.30.10.3
 
     # openstack service hostnames
     openstack_proxy_hostname: prx
@@ -85,7 +87,7 @@ parameters:
     neutron_gateway_agent_mode: legacy
     neutron_compute_dvr: False
     neutron_compute_agent_mode: legacy
-    neutron_compute_external_access: False
+    neutron_compute_external_access: True
     galera_server_cluster_name: openstack_cluster
     galera_server_maintenance_password: opnfv_secret
     galera_server_admin_password: opnfv_secret

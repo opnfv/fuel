@@ -10,7 +10,6 @@ classes:
 - system.reclass.storage.system.physical_control_cluster
 - system.reclass.storage.system.openstack_control_cluster
 - system.reclass.storage.system.openstack_proxy_cluster
-- system.reclass.storage.system.openstack_gateway_cluster
 - system.reclass.storage.system.openstack_database_cluster
 - system.reclass.storage.system.openstack_message_queue_cluster
 - system.reclass.storage.system.openstack_telemetry_cluster
@@ -119,6 +118,7 @@ parameters:
             control_address: ${_param:openstack_compute_node01_control_address}
             single_address: ${_param:openstack_compute_node01_single_address}
             tenant_address: ${_param:openstack_compute_node01_tenant_address}
+            external_address: ${_param:openstack_compute_node01_external_address}
         openstack_compute_node02:
           name: ${_param:openstack_compute_node02_hostname}
           domain: ${_param:cluster_domain}
@@ -130,3 +130,4 @@ parameters:
             control_address: ${_param:openstack_compute_node02_control_address}
             single_address: ${_param:openstack_compute_node02_single_address}
             tenant_address: ${_param:openstack_compute_node02_tenant_address}
+            external_address: ${_param:openstack_compute_node02_external_address}
