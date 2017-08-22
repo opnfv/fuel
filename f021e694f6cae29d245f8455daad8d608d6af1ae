@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_a03a02cb",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/openstack/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2017-08-22T13:15:16Z",
+      "side": 1,
+      "message": "This config is causing trouble for armband.\n\nnova_cpu_pinning: \"1,2,3,4,5,7,8,9,10,11\"\ncompute_hugepages_size: 1G\ncompute_hugepages_count: 16\ncompute_hugepages_mount: /mnt/hugepages_1G\n\n+ overcommit is set to zero.",
+      "revId": "f021e694f6cae29d245f8455daad8d608d6af1ae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
