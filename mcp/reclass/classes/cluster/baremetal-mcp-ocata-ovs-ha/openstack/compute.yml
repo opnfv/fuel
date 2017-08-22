@@ -5,7 +5,7 @@ classes:
 - system.nova.compute.cluster
 - system.nova.compute.nfv.hugepages
 - system.nova.compute.nfv.cpu_pinning
-- system.neutron.compute.cluster
+- system.neutron.gateway.cluster
 - system.ceilometer.agent.cluster
 - cluster.baremetal-mcp-ocata-ovs-ha.infra
 parameters:
@@ -21,7 +21,11 @@ parameters:
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
     mgmt_nic: enp6s0
     tenant_nic: enp7s0
+    external_nic: enp8s0
     linux_system_codename: xenial
+    interface_mtu: 1500
+    keepalived_vip_interface: br-ctl
+    keepalived_vip_virtual_router_id: 69
   linux:
     network:
       bridge: openvswitch
@@ -36,6 +40,12 @@ parameters:
           type: eth
           proto: manual
           name: ${_param:tenant_nic}
+        external_nic:
+          enabled: true
+          name: ${_param:external_nic}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
         br-mesh:
           enabled: true
           type: bridge
@@ -66,3 +76,22 @@ parameters:
           netmask: 255.255.255.0
           use_interfaces:
           - ${_param:mgmt_nic}.300
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+          mtu: ${_param:interface_mtu}
+        float-to-ex:
+          enabled: true
+          type: ovs_port
+          mtu: ${_param:interface_mtu}
+          bridge: br-floating
+        br-ex:
+          enabled: true
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          address: ${_param:external_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+          - ${_param:external_nic}
+          use_ovs_ports:
+          - float-to-ex
