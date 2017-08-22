@@ -69,4 +69,4 @@ done
 
 salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
 salt -C '* and not cfg01* and not mas01*' state.apply salt
-salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
+wait_for "salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp"
