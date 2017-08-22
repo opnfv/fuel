@@ -54,6 +54,7 @@ salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 salt -C 'kvm*' state.sls libvirt
 
 salt -C '* and not cfg01* and not mas01*' state.apply salt
+salt -C 'kvm*' saltutil.sync_all
 salt -C 'kvm*' state.sls salt.control
 
 vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
@@ -63,8 +64,9 @@ rc=1
 while [ $rc -ne 0 ]; do
   rc=0
   for node in $vcp_nodes; do
-    salt "$node" test.ping 2>/dev/null 1>&2 || { rc=$?; break; };
+    salt "$node" test.ping 2>/dev/null || { rc=$?; break; };
   done
+  sleep 5
 done
 
 salt -C '* and not cfg01* and not mas01*' saltutil.sync_all

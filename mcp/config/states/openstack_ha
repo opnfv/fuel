@@ -1,7 +1,8 @@
 salt -I 'keepalived:cluster' state.sls keepalived -b 1
 salt -I 'keepalived:cluster' pillar.get keepalived:cluster:instance:VIP:address
 
-salt -I 'rabbitmq:server' state.sls rabbitmq # maybe twice
+salt -C 'I@rabbitmq:server and *01*' state.sls rabbitmq
+salt -I 'rabbitmq:server' state.sls rabbitmq
 salt -I 'rabbitmq:server' cmd.run "rabbitmqctl cluster_status"
 
 salt -I 'glusterfs:server' state.sls glusterfs.server.service

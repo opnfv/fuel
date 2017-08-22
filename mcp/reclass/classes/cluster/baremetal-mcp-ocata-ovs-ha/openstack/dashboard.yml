@@ -7,5 +7,5 @@ parameters:
   linux:
     network:
       interface:
-        ens3: ${_param:linux_dhcp_interface}
-        ens4: ${_param:linux_single_interface}
+        ens2: ${_param:linux_dhcp_interface}
+        ens3: ${_param:linux_single_interface}
