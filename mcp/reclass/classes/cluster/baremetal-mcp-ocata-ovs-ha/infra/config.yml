@@ -33,8 +33,8 @@ parameters:
   linux:
     network:
       interface:
-        ens2: ${_param:linux_dhcp_interface}
-        ens3: ${_param:linux_single_interface}
+        ens3: ${_param:linux_dhcp_interface}
+        ens4: ${_param:linux_single_interface}
   salt:
     master:
       accept_policy: open_mode
