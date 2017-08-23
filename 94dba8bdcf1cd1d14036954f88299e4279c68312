@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_1e74ea97",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-23T20:24:32Z",
+      "side": 1,
+      "message": "this was returning non-zero on AArch64 because of an unrelated issue specific to our env (some leftovers in our reclass model). It should be fine now.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 72
+      },
+      "revId": "94dba8bdcf1cd1d14036954f88299e4279c68312",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
