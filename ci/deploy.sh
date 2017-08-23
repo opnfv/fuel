@@ -336,7 +336,7 @@ for state in "${cluster_states[@]}"; do
     notify "STATE: ${state}\n" 2
     # shellcheck disable=SC2086,2029
     ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
-        sudo "/root/fuel/mcp/config/states/${state}"
+        sudo "/root/fuel/mcp/config/states/${state} || true"
 done
 
 popd > /dev/null

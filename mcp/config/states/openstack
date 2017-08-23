@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 salt -I 'rabbitmq:server' state.sls rabbitmq
 salt -I 'rabbitmq:server' cmd.run "rabbitmqctl status"
 

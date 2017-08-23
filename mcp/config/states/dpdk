@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 salt -I 'nova:compute' system.reboot
 while true; do salt -I 'nova:compute' test.ping | fgrep -q 'Not connected' || break; done
 salt -I 'nova:compute' state.sls linux.network.dpdk
