@@ -3,13 +3,43 @@ function wait_for() {
   local cmdstr=$@
   local total_attempts=360
   local sleep_time=10
-  local attempt=1
   echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
-  while ((attempt <= total_attempts)); do
+  for attempt in $(seq "${total_attempts}"); do
     eval "${cmdstr}" && break || true
     echo -n '.'; sleep "${sleep_time}"
-    ((attempt+=1))
   done
+}
+
+# Wait for MaaS commissioning/deploy to finish, retry on failure
+function maas_fixup() {
+  local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
+  wait_for "${statuscmd} | tee /dev/stderr | " \
+           "grep -Eq '((Deployed|Ready): 5|status:Failed|status:Allocated)'"
+
+  statusout=$(eval "${statuscmd}")
+  # sample output (remove this when implementation is done):
+  # - hostname:cmp002,system_id:wgq4dp,status:Deployed
+  # - hostname:cmp001,system_id:gfm64c,status:Failed deployment
+
+  if echo ${statusout} | grep -q "status:Failed commissioning"; then
+    # TODO: catch system_id for failed nodes using grep on ${statusout}
+    # TODO(optional): implement machine delete in _modules/maas.py
+    # maas login opnfv ...
+    # maas opnfv machine delete gfm64c
+    salt -C 'mas01*' state.apply maas.machines
+    return 1
+  fi
+  if echo ${statusout} | grep -q "status:(Failed deployment|Allocated)"; then
+    # TODO: catch system_id for failed nodes using grep on ${statusout}
+    # TODO(optional): implement machine mark-{broken,fixed} in _modules/maas.py
+    # maas login opnfv ...
+    # maas opnfv machine mark-broken gfm64c
+    # maas opnfv machine mark-fixed gfm64c
+    salt -C 'mas01*' state.apply maas.machines.deploy
+    return 1
+  fi
+
+  return 0
 }
 
 # MaaS rack/region controller, node commissioning
@@ -25,17 +55,17 @@ salt -C 'cfg01*' cmd.run \
 wait_for "salt -C 'mas01*' state.apply maas.region"
 
 salt -C 'mas01*' state.apply maas.machines
-# TODO: relax cond, as this is not re-entrant (e.g. nodes already deployed)
-wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "tee /dev/stderr | fgrep -q 'Ready: 5'"
+wait_for maas_fixup
 
 # cleanup outdated salt keys
 salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | xargs -I{} salt-key -yd {}
 
 # MaaS node deployment
 salt -C 'mas01*' state.apply maas.machines.deploy
-wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "tee /dev/stderr | fgrep -q 'Deployed: 5'"
+wait_for maas_fixup
+
+# on failure, mark broken, mark fixed, deploy again
+
 
 salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
