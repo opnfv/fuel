@@ -1,0 +1,34 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.galera.server.cluster
+- system.galera.server.database.aodh
+- system.galera.server.database.ceilometer
+- system.galera.server.database.cinder
+- system.galera.server.database.designate
+- system.galera.server.database.glance
+- system.galera.server.database.grafana
+- system.galera.server.database.heat
+- system.galera.server.database.keystone
+- system.galera.server.database.nova
+- system.galera.server.database.neutron
+- cluster.baremetal-mcp-ocata-odl-ha
+parameters:
+  _param:
+    keepalived_vip_interface: ens3
+    keepalived_vip_virtual_router_id: 80
+    galera_server_cluster_name: openstack_cluster
+    cluster_vip_address: ${_param:openstack_database_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: dbs01
+    cluster_node01_address: ${_param:openstack_database_node01_address}
+    cluster_node02_hostname: dbs02
+    cluster_node02_address: ${_param:openstack_database_node02_address}
+    cluster_node03_hostname: dbs03
+    cluster_node03_address: ${_param:openstack_database_node03_address}
+  linux:
+    network:
+      interface:
+        ens2: ${_param:linux_dhcp_interface}
+        ens3: ${_param:linux_single_interface}

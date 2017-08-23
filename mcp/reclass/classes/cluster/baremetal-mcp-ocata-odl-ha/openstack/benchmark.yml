@@ -1,0 +1,8 @@
+classes:
+- cluster.baremetal-mcp-ocata-odl-ha
+parameters:
+  linux:
+    network:
+      interface:
+        eth0: ${_param:linux_dhcp_interface}
+        eth1: ${_param:linux_single_interface}
