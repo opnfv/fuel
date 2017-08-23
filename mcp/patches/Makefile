@@ -48,7 +48,7 @@ sub: .cachefuelinfo
 
 .cachefuelinfo:
 	@if [ -n "${FUEL_TRACK_REMOTES}" ]; then \
-		git submodule update --init --remote 2>/dev/null; \
+		cd ${F_GIT_ROOT} && git submodule update --init --remote 2>/dev/null; \
 	else \
 		git submodule update --init 2>/dev/null; \
 	fi
@@ -76,7 +76,7 @@ patches-import: sub .cachepatched
 
 .cachepatched: ${FPATCHES}
 	@$(MAKE) clean
-	@git submodule -q foreach ' \
+	@cd ${F_GIT_ROOT} && git submodule -q foreach ' \
 		SUB_DIR=${F_PATCH_DIR}/$$name; mkdir -p $$SUB_DIR && \
 		git tag ${F_OPNFV_TAG}-root && \
 		git checkout -q -b opnfv-fuel && \
