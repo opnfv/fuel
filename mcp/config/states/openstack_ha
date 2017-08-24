@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 salt -I 'keepalived:cluster' state.sls keepalived -b 1
 salt -I 'keepalived:cluster' pillar.get keepalived:cluster:instance:VIP:address
 

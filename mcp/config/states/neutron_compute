@@ -1,1 +1,4 @@
+#!/bin/bash
+set -x
+
 salt -I 'neutron:compute' state.sls neutron

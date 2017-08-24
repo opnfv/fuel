@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+
 function wait_for() {
   local cmdstr=$@
   local total_attempts=360

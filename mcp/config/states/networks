@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # Determine public network based on external IPs from compute node
 # NOTE: mask currently hardcoded to /24
