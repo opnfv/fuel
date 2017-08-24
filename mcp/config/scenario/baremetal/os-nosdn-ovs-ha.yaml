@@ -1,0 +1,14 @@
+cluster:
+  domain: baremetal-mcp-ocata-ovs-dpdk-ha.local
+  states:
+    - maas
+    - dpdk
+    - openstack_ha
+    - networks
+virtual:
+  nodes:
+    - cfg01
+    - mas01
+  mas01:
+    vcpus: 4
+    ram: 16384

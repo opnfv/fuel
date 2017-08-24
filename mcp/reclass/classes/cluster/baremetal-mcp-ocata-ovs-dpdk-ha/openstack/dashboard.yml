@@ -1,0 +1,11 @@
+classes:
+- system.horizon.server.single
+- cluster.baremetal-mcp-ocata-ovs-dpdk-ha
+parameters:
+  _param:
+    horizon_site_branding: OpenStack Dashboard
+  linux:
+    network:
+      interface:
+        ens2: ${_param:linux_dhcp_interface}
+        ens3: ${_param:linux_single_interface}

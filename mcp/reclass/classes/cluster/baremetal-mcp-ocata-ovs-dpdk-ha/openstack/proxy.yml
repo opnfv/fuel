@@ -1,0 +1,34 @@
+classes:
+- system.linux.system.repo.mcp.openstack
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.saltstack.xenial
+- system.nginx.server.single
+- system.nginx.server.proxy.openstack_api
+- system.nginx.server.proxy.openstack_vnc
+- system.nginx.server.proxy.openstack_web
+- system.horizon.server.single
+- system.salt.minion.cert.proxy
+- system.sphinx.server.doc.reclass
+- service.keepalived.cluster.single
+- cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+- cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack.dashboard
+# - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.stacklight.proxy
+parameters:
+  _param:
+    keepalived_vip_interface: ens3
+    keepalived_vip_virtual_router_id: 240
+    nginx_proxy_ssl:
+      enabled: true
+      authority: ${_param:salt_minion_ca_authority}
+      engine: salt
+      mode: secure
+    cluster_vip_address: ${_param:openstack_proxy_address}
+    salt_minion_ca_host: cfg01.${_param:cluster_domain}
+  linux:
+    network:
+      interface:
+        ens2: ${_param:linux_dhcp_interface}
+        ens3: ${_param:linux_single_interface}
+    system:
+      package:
+        libapache2-mod-wsgi:
