@@ -35,6 +35,15 @@ function get_base_image {
   wget -P "${image_dir}" -N "${base_image}"
 }
 
+function cleanup_uefi {
+  # Clean up Ubuntu boot entry if cfg01, kvm nodes online from previous deploy
+  # shellcheck disable=SC2086
+  ssh ${SSH_OPTS} "${SSH_SALT}" "sudo salt -C 'kvm* or cmp*' cmd.run \
+    \"which efibootmgr > /dev/null 2>&1 && \
+    efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
+    xargs -I{} efibootmgr --delete-bootnum --bootnum {}\"" || true
+}
+
 function cleanup_vms {
   # clean up existing nodes
   for node in $(virsh list --name | grep -P '\w{3}\d{2}'); do
@@ -52,6 +61,7 @@ function prepare_vms {
   local image_dir=$1; shift
   local vnodes=("$@")
 
+  cleanup_uefi
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
   # shellcheck disable=SC2016
