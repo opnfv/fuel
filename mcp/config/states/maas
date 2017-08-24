@@ -15,8 +15,10 @@ function wait_for() {
 # Wait for MaaS commissioning/deploy to finish, retry on failure
 function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
+  local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
+    egrep '^\s{2}\w+:$' | wc -l)
   wait_for 180 "${statuscmd} | tee /dev/stderr | " \
-           "grep -Eq '((Deployed|Ready): 5|status:Failed|status:Allocated)'"
+    "grep -Eq '((Deployed|Ready): ${ncount}|status:Failed|status:Allocated)'"
   local statusout=$(eval "${statuscmd}")
 
   local fcnodes=$(echo "${statusout}" | \
