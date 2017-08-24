@@ -2,16 +2,46 @@
 set -x
 
 function wait_for() {
+  local total_attempts=$1; shift
   local cmdstr=$@
-  local total_attempts=360
   local sleep_time=10
-  local attempt=1
   echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
-  while ((attempt <= total_attempts)); do
+  for attempt in $(seq "${total_attempts}"); do
     eval "${cmdstr}" && break || true
     echo -n '.'; sleep "${sleep_time}"
-    ((attempt+=1))
   done
+}
+
+# Wait for MaaS commissioning/deploy to finish, retry on failure
+function maas_fixup() {
+  local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
+  wait_for 180 "${statuscmd} | tee /dev/stderr | " \
+           "grep -Eq '((Deployed|Ready): 5|status:Failed|status:Allocated)'"
+  local statusout=$(eval "${statuscmd}")
+
+  local fcnodes=$(echo "${statusout}" | \
+    grep -Po '(?<=system_id:)(.*)(?=,status:Failed commissioning)')
+  for node_system_id in ${fcnodes}; do
+    salt -C 'mas01*' state.apply maas.machines.delete \
+      pillar="{'system_id': '${node_system_id}'}"
+  done
+  if [ -n "${fcnodes}" ]; then
+    salt -C 'mas01*' state.apply maas.machines
+    return 1
+  fi
+
+  local fdnodes=$(echo "${statusout}" | \
+    grep -Po '(?<=system_id:)(.*)(?=,status:(Failed deployment|Allocated))')
+  for node_system_id in ${fdnodes}; do
+    salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
+      pillar="{'system_id': '${node_system_id}'}"
+  done
+  if [ -n "${fdnodes}" ]; then
+    salt -C 'mas01*' state.apply maas.machines.deploy
+    return 1
+  fi
+
+  return 0
 }
 
 # MaaS rack/region controller, node commissioning
@@ -24,20 +54,18 @@ salt -C 'mas01*' state.apply maas.cluster
 salt -C 'cfg01*' cmd.run \
   "route add -net 192.168.11.0/24 gw ${MAAS_IP:-192.168.10.3}"
 
-wait_for "salt -C 'mas01*' state.apply maas.region"
+wait_for 10 "salt -C 'mas01*' state.apply maas.region"
 
 salt -C 'mas01*' state.apply maas.machines
-# TODO: relax cond, as this is not re-entrant (e.g. nodes already deployed)
-wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "tee /dev/stderr | fgrep -q 'Ready: 5'"
+wait_for 10 maas_fixup
 
 # cleanup outdated salt keys
-salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | xargs -I{} salt-key -yd {}
+salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
+  xargs -I{} salt-key -yd {}
 
 # MaaS node deployment
 salt -C 'mas01*' state.apply maas.machines.deploy
-wait_for "salt 'mas01*' --out yaml state.apply maas.machines.status | " \
-         "tee /dev/stderr | fgrep -q 'Deployed: 5'"
+wait_for 10 maas_fixup
 
 salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
@@ -49,7 +77,7 @@ salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'kvm*' system.reboot
-wait_for "! salt '*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
+wait_for 90 "! salt '*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
 
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
@@ -59,7 +87,8 @@ salt -C '* and not cfg01* and not mas01*' state.apply salt
 salt -C 'kvm*' saltutil.sync_all
 salt -C 'kvm*' state.sls salt.control
 
-vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
+vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | \
+            awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
 
 # Check all vcp nodes are available
 rc=1
@@ -71,9 +100,9 @@ while [ $rc -ne 0 ]; do
   sleep 5
 done
 
-wait_for "salt -C '* and not cfg01* and not mas01*' ssh.set_auth_key ${SUDO_USER} \
+wait_for 10 "salt -C '* and not cfg01* and not mas01*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' $(eval echo ~${SUDO_USER}/.ssh/authorized_keys))"
 
-wait_for "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
-salt -C '* and not cfg01* and not mas01*' state.apply salt
-wait_for "salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp"
+wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
+wait_for 10 "salt -C '* and not cfg01* and not mas01*' state.apply salt"
+wait_for 10 "salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp"
