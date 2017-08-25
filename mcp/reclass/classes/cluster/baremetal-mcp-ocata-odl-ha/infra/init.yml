@@ -35,6 +35,9 @@ parameters:
     infra_kvm_node02_hostname: kvm02
     infra_kvm_node03_hostname: kvm03
 
+    ntp_strata_host1: 1.pool.ntp.org
+    ntp_strata_host2: 0.pool.ntp.org
+
     # Interface definitions
     reclass:
       storage:
@@ -54,6 +57,12 @@ parameters:
     salt_control_xenial_image: http://apt.mirantis.com/images/ubuntu-16-04-x64-latest.qcow2
     salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
   linux:
+    system:
+      user:
+        ubuntu:
+          enabled: true
+          sudo: true
+          home: /home/ubuntu
     network:
       host:
         cfg01:
