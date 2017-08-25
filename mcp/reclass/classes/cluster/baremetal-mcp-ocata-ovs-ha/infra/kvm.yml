@@ -31,27 +31,27 @@ parameters:
       size: #RAM 4096,8192,16384,32768,65536
       ##Default production sizing
         openstack.control:
-          cpu: 6
+          cpu: 4
           ram: 8192
           disk_profile: small
           net_profile: default
         openstack.database:
-          cpu: 6
+          cpu: 4
           ram: 8192
           disk_profile: large
           net_profile: default
         openstack.message_queue:
-          cpu: 6
+          cpu: 4
           ram: 8192
           disk_profile: small
           net_profile: default
         openstack.telemetry:
-          cpu: 4
+          cpu: 2
           ram: 4096
           disk_profile: xxlarge
           net_profile: default
         openstack.proxy:
-          cpu: 4
+          cpu: 2
           ram: 4096
           disk_profile: small
           net_profile: default

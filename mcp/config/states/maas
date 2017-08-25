@@ -77,7 +77,7 @@ salt -C '* and not cfg01* and not mas01*' saltutil.sync_all
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'kvm*' system.reboot
-wait_for 90 "! salt '*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
+wait_for 90 "! salt 'kvm*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
 
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
@@ -100,9 +100,9 @@ while [ $rc -ne 0 ]; do
   sleep 5
 done
 
-wait_for 10 "salt -C '* and not cfg01* and not mas01*' ssh.set_auth_key ${SUDO_USER} \
-  $(awk 'NR==1{print $2}' $(eval echo ~${SUDO_USER}/.ssh/authorized_keys))"
-
 wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
-wait_for 10 "salt -C '* and not cfg01* and not mas01*' state.apply salt"
-wait_for 10 "salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp"
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
+
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
+  $(awk 'NR==1{print $2}' $(eval echo ~${SUDO_USER}/.ssh/authorized_keys))"
