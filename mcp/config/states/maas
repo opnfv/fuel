@@ -102,7 +102,8 @@ done
 
 wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
-wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
+wait_for 10 "! salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp | " \
+  "tee /dev/stderr | fgrep -q 'Not connected'"
 
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' $(eval echo ~${SUDO_USER}/.ssh/authorized_keys))"
