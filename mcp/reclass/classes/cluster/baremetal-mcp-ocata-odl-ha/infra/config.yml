@@ -38,6 +38,7 @@ parameters:
   salt:
     master:
       accept_policy: open_mode
+      file_recv: true
   reclass:
     storage:
       data_source:
