@@ -1,0 +1,18 @@
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Mon, 28 Aug 2017 16:17:43 +0400
+Subject: [PATCH] Handle file_recv option
+
+
+diff --git a/salt/files/master.conf b/salt/files/master.conf
+index 329ae0d..a9d9656 100644
+--- a/salt/files/master.conf
++++ b/salt/files/master.conf
+@@ -95,6 +95,8 @@ logstash_zmq_handler:
+ order_masters: True
+ {%- endif %}
+
++file_recv: {{ master.get('file_recv', False) }}
++
+ {#-
+ vim: syntax=jinja
+ -#}

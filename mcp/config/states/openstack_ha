@@ -44,3 +44,6 @@ salt -I 'nova:compute' state.sls nova
 
 salt -I 'horizon:server' state.sls horizon
 salt -I 'nginx:server' state.sls nginx
+
+salt -C 'I@nginx:server and *01*' cp.push /etc/ssl/certs/10.167.4.80-with-chain.crt upload_path='/os_cacert'
+cd /etc/ssl/certs && ln -s /var/cache/salt/master/minions/prx01.*/files/os_cacert
