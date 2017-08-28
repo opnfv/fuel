@@ -6,3 +6,4 @@
 /usr/share/salt-formulas/env: 0006-maas-module-Add-VLAN-DHCP-enable-support.patch
 /usr/share/salt-formulas/env: 0007-linux.network.interface-noifupdown-support.patch
 /usr/share/salt-formulas/env: 0008-Handle-file_recv-option.patch
+/usr/share/salt-formulas/env: 0009-seedng-module-Sync-salt-version.patch
