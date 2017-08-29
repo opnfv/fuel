@@ -19,7 +19,7 @@ diff --git a/_modules/seedng.py b/_modules/seedng.py
 +    arg = 'stable {0}'.format('.'.join(salt.version.__version__.split('.')[:2]))
      cmd = 'if type salt-minion; then exit 0; '
 -    cmd += 'else sh {0} -c /tmp; fi'.format(os.path.join(tmppath, 'bootstrap-salt.sh'))
-+    cmd += 'else sh {0} {1} -c /tmp; fi'.format(
++    cmd += 'else sh {0} -c /tmp {1}; fi'.format(
 +        os.path.join(tmppath, 'bootstrap-salt.sh'), arg)
      return not __salt__['cmd.run_chroot'](mpt, cmd, python_shell=True)['retcode']
 
