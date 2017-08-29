@@ -9,6 +9,11 @@ generate_ssh_key() {
     user=${SUDO_USER}
   fi
 
+  if [ -f "/tmp/${SSH_KEY}" ]; then
+    cp "/tmp/${SSH_KEY}" .
+    ssh-keygen -f "${SSH_KEY}" -y > "${SSH_KEY}.pub"
+  fi
+
   [ -f "${SSH_KEY}" ] || ssh-keygen -f "${SSH_KEY}" -N ''
   install -o "${user}" -m 0600 "${SSH_KEY}" /tmp/
 }
