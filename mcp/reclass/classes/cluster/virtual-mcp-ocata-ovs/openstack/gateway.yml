@@ -1,5 +1,5 @@
 classes:
- cluster.virtual-mcp-ocata-common.openstack_gateway
+- cluster.virtual-mcp-ocata-common.openstack_gateway
 - service.neutron.gateway.single
 - cluster.virtual-mcp-ocata-ovs
 parameters:
