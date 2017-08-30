@@ -22,6 +22,30 @@
       "revId": "4003dfc1ff62edc587f83aa54cd9eb3fd0347635",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_b0bfd8fb",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-30T05:45:50Z",
+      "side": 1,
+      "message": "For full dest path need to get domain of the cluster.",
+      "parentUuid": "da33351e_50276cb6",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 81
+      },
+      "revId": "4003dfc1ff62edc587f83aa54cd9eb3fd0347635",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
