@@ -70,6 +70,30 @@
       "revId": "4003dfc1ff62edc587f83aa54cd9eb3fd0347635",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_fbe5c1a8",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-08-30T11:46:03Z",
+      "side": 1,
+      "message": "but for x86 salt won\u0027t copy file w/o prefix (but it worked before), so need a fix https://gerrit.opnfv.org/gerrit/40681",
+      "parentUuid": "da33351e_db727d10",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 81
+      },
+      "revId": "4003dfc1ff62edc587f83aa54cd9eb3fd0347635",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
