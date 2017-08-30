@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_7659c8fd",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-08-30T13:50:50Z",
+      "side": 1,
+      "message": "Awesome, now we can move this outside salt.sh and test patches for scripts apply without running salt.sh.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 94
+      },
+      "revId": "476fd41a6200ba17bfd30719b62ed5e07075c77d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
