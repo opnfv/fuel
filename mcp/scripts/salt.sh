@@ -34,10 +34,9 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo -n '.'; sleep 1; done
   echo ' done'
 
-  DEBIAN_FRONTEND=noninteractive apt-get install -y git curl subversion
+  DEBIAN_FRONTEND=noninteractive apt-get install -y git curl
 
-  svn export --force \
-    https://github.com/salt-formulas/salt-formulas/trunk/deploy/scripts /srv/salt/scripts
+  git clone --depth=1 https://github.com/salt-formulas/salt-formulas-scripts /srv/salt/scripts
   mv ${OPNFV_TMP_DIR} ${OPNFV_FUEL_DIR} && chown -R root.root ${OPNFV_FUEL_DIR}
   ln -s ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt/reclass
 
