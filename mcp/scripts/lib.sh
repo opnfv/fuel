@@ -4,25 +4,28 @@
 #
 
 generate_ssh_key() {
+  # shellcheck disable=SC2155
+  local mcp_ssh_key=$(basename "${SSH_KEY}")
   local user=${USER}
   if [ -n "${SUDO_USER}" ] && [ "${SUDO_USER}" != 'root' ]; then
     user=${SUDO_USER}
   fi
 
-  if [ -f "/tmp/${SSH_KEY}" ]; then
-    cp "/tmp/${SSH_KEY}" .
-    ssh-keygen -f "${SSH_KEY}" -y > "${SSH_KEY}.pub"
+  if [ -f "${SSH_KEY}" ]; then
+    cp "${SSH_KEY}" .
+    ssh-keygen -f "${mcp_ssh_key}" -y > "${mcp_ssh_key}.pub"
   fi
 
-  [ -f "${SSH_KEY}" ] || ssh-keygen -f "${SSH_KEY}" -N ''
-  install -o "${user}" -m 0600 "${SSH_KEY}" /tmp/
+  [ -f "${mcp_ssh_key}" ] || ssh-keygen -f "${mcp_ssh_key}" -N ''
+  install -D -o "${user}" -m 0600 "${mcp_ssh_key}" "$(dirname "${SSH_KEY}")"
 }
 
 get_base_image() {
   local base_image=$1
+  local image_dir=$2
 
-  mkdir -p images
-  wget -P /tmp -N "${base_image}"
+  mkdir -p "${image_dir}"
+  wget -P "${image_dir}" -N "${base_image}"
 }
 
 cleanup_vms() {
@@ -38,17 +41,18 @@ cleanup_vms() {
 prepare_vms() {
   local -n vnodes=$1
   local base_image=$2
+  local image_dir=$3
 
   cleanup_vms
-  get_base_image "${base_image}"
+  get_base_image "${base_image}" "${image_dir}"
   envsubst < user-data.template > user-data.sh
 
   for node in "${vnodes[@]}"; do
     # create/prepare images
-    ./create-config-drive.sh -k "${SSH_KEY}.pub" -u user-data.sh \
-       -h "${node}" "images/mcp_${node}.iso"
-    cp "/tmp/${base_image/*\/}" "images/mcp_${node}.qcow2"
-    qemu-img resize "images/mcp_${node}.qcow2" 100G
+    ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" -u user-data.sh \
+       -h "${node}" "${image_dir}/mcp_${node}.iso"
+    cp "${image_dir}/${base_image/*\/}" "${image_dir}/mcp_${node}.qcow2"
+    qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
   done
 }
 
@@ -76,6 +80,7 @@ create_vms() {
   local -n vnodes_ram=$2
   local -n vnodes_vcpus=$3
   local -n vnode_networks=$4
+  local image_dir=$5
 
   # AArch64: prepare arch specific arguments
   local virt_extra_args=""
@@ -105,10 +110,10 @@ create_vms() {
     virt-install --name "${node}" \
     --ram "${vnodes_ram[$node]}" --vcpus "${vnodes_vcpus[$node]}" \
     --cpu host-passthrough --accelerate ${net_args} \
-    --disk path="$(pwd)/images/mcp_${node}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
+    --disk path="${image_dir}/mcp_${node}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
-    --disk path="$(pwd)/images/mcp_${node}.iso",device=cdrom \
+    --disk path="${image_dir}/mcp_${node}.iso",device=cdrom \
     --noautoconsole \
     ${virt_extra_args}
   done
@@ -116,7 +121,9 @@ create_vms() {
 
 update_mcpcontrol_network() {
   # set static ip address for salt master node, MaaS node
+  # shellcheck disable=SC2155
   local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
+  # shellcheck disable=SC2155
   local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
   virsh net-update "mcpcontrol" add ip-dhcp-host \
     "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live
