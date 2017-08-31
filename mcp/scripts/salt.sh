@@ -34,13 +34,11 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo -n '.'; sleep 1; done
   echo ' done'
 
-  DEBIAN_FRONTEND=noninteractive apt-get install -y git curl
-
-  git clone --depth=1 https://github.com/salt-formulas/salt-formulas-scripts /srv/salt/scripts
+  mkdir -p /srv/salt /usr/share/salt-formulas/reclass
   mv ${OPNFV_TMP_DIR} ${OPNFV_FUEL_DIR} && chown -R root.root ${OPNFV_FUEL_DIR}
   ln -s ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt/reclass
+  ln -s ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt/scripts
 
-  mkdir -p /usr/share/salt-formulas/reclass
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
     ln -s /usr/share/salt-formulas/reclass/service/opendaylight
