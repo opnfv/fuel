@@ -9,7 +9,6 @@ deploy/autodeploy.log
 /docs_build/
 /docs_output/
 /releng/
-mcp/scripts/images/mcp_*iso
-mcp/scripts/images/mcp_*qcow2
+mcp/deploy/images/
 mcp/scripts/mcp.rsa*
 mcp/scripts/user-data.sh
