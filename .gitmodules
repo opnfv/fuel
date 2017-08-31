@@ -3,3 +3,7 @@
 	url = https://github.com/Mirantis/reclass-system-salt-model
 	branch = master
         ignore = all
+[submodule "scripts"]
+	path = mcp/deploy/scripts
+	url = https://github.com/salt-formulas/salt-formulas-scripts
+	branch = master
