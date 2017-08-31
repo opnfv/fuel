@@ -32,7 +32,8 @@ $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 
 $(notify "USAGE:" 2)
   $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
-    [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]]
+    [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
+    [-S storage-dir]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -41,6 +42,7 @@ $(notify "OPTIONS:" 2)
   -l  Lab-name
   -p  Pod-name
   -s  Deploy-scenario short-name
+  -S  Storage dir for VM images
 
 $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
   -d  (disabled) Dry-run
@@ -49,7 +51,6 @@ $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
   -F  (disabled) Do only create a Salt master
   -i  (disabled) iso url
   -L  (disabled) Deployment log path and file name
-  -S  (disabled) Storage dir for VM images
   -T  (disabled) Timeout, in minutes, for the deploy.
 
 $(notify "Description:" 2)
@@ -78,6 +79,7 @@ $(notify "Input parameters to the build script are:" 2)
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl_l2-nofeature-noha).
+-S Storage dir for VM images, default is mcp/deploy/images
 
 $(notify "Disabled input parameters (not yet supported with MCP):" 3)
 -d (disabled) Dry-run - Produce deploy config files, but do not execute deploy
@@ -85,7 +87,6 @@ $(notify "Disabled input parameters (not yet supported with MCP):" 3)
 -e (disabled) Do not launch environment deployment
 -F (disabled) Do only create a Salt master
 -L (disabled) Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
--S (disabled) Storage dir for VM images, default is fuel/deploy/images
 -T (disabled) Timeout, in minutes, for the deploy.
    It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
 -i (disabled) .iso image to be deployed (needs to be provided in a URI
@@ -133,11 +134,12 @@ clean() {
 #
 SCRIPT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
 DEPLOY_DIR=$(cd "${SCRIPT_PATH}/../mcp/scripts"; pwd)
+STORAGE_DIR=$(cd "${SCRIPT_PATH}/../mcp/deploy/images"; pwd)
 DEPLOY_TYPE='baremetal'
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 
-export SSH_KEY=${SSH_KEY:-mcp.rsa}
+export SSH_KEY=${SSH_KEY:-"/tmp/mcp.rsa"}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
 export MAAS_IP=${MAAS_IP:-192.168.10.3}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
@@ -147,7 +149,6 @@ set +x
 USE_EXISTING_FUEL=''
 FUEL_CREATION_ONLY=''
 NO_DEPLOY_ENVIRONMENT=''
-STORAGE_DIR=''
 DRY_RUN=0
 if ! [ -z "${DEPLOY_TIMEOUT}" ]; then
     DEPLOY_TIMEOUT="-dt ${DEPLOY_TIMEOUT}"
@@ -220,7 +221,6 @@ do
             DEPLOY_SCENARIO=${OPTARG}
             ;;
         S)
-            notify '' 3 "${OPTION}"; continue
             if [[ ${OPTARG} ]]; then
                 STORAGE_DIR="-s ${OPTARG}"
             fi
@@ -295,11 +295,11 @@ if [ "$(uname -i)" = "aarch64" ]; then
 fi
 
 # Check scenario file existence
-if [ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]; then
+if [ ! -f  "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
     notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
             Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
-    if [ ! -f  ../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml ]; then
+    if [ ! -f  "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
         notify "[ERROR] Scenario definition file is missing!\n" 1>&2
         exit 1
     fi
@@ -322,9 +322,10 @@ done
 
 # Infra setup
 generate_ssh_key
-prepare_vms virtual_nodes "${base_image}"
+prepare_vms virtual_nodes "${base_image}" "${STORAGE_DIR}"
 create_networks OPNFV_BRIDGES
-create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus OPNFV_BRIDGES
+create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus \
+  OPNFV_BRIDGES "${STORAGE_DIR}"
 update_mcpcontrol_network
 start_vms virtual_nodes
 check_connection
