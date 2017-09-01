@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_a913ea64",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-dpdk-ha/openstack/init.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-01T11:27:57Z",
+      "side": 1,
+      "message": "afaik, these will be pod specific; I don\u0027t know whether the PDF supports specifying this, so we might need to discuss it with octopus/releng team to extend PDF",
+      "range": {
+        "startLine": 102,
+        "startChar": 28,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "096d8e74b579677b934ff5da9c423da74549cc70",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
