@@ -32,7 +32,7 @@ FPATCHES = $(shell find ${F_PATCH_DIR} -name '*.patch')
 
 # To enable remote tracking, set the following var to any non-empty string.
 # Leaving this var empty will bind each git submodule to its saved commit.
-FUEL_TRACK_REMOTES ?= yes
+FUEL_TRACK_REMOTES ?=
 
 .PHONY: all
 all: release
