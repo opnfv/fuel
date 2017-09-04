@@ -41,7 +41,8 @@ prepare_vms() {
 
   cleanup_vms
   get_base_image "${base_image}"
-  envsubst < user-data.template > user-data.sh
+  envsubst '${SALT_MASTER},${CLUSTER_DOMAIN}' < \
+    user-data.template > user-data.sh
 
   for node in "${vnodes[@]}"; do
     # create/prepare images
