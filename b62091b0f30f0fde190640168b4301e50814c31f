@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_35172c53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6741
+      },
+      "writtenOn": "2017-09-04T17:02:43Z",
+      "side": 1,
+      "message": "Sure, will do it in next patchset",
+      "parentUuid": "da33351e_f51ca479",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "b62091b0f30f0fde190640168b4301e50814c31f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_b52b3c93",
         "filename": "mcp/scripts/salt.sh",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-04T16:58:52Z",
       "side": 1,
       "message": "make -C \"${F_GIT_ROOT}/mcp/patches\" deepclean patches-import",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "b62091b0f30f0fde190640168b4301e50814c31f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_950d5841",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6741
+      },
+      "writtenOn": "2017-09-04T17:02:43Z",
+      "side": 1,
+      "message": "I will update it in next patch set",
+      "parentUuid": "da33351e_b52b3c93",
       "range": {
         "startLine": 20,
         "startChar": 0,
