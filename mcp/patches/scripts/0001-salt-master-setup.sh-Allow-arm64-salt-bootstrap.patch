@@ -18,7 +18,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/salt-master-setup.sh b/salt-master-setup.sh
-index 32a1fea..7454b26 100755
+index cba21fb..0dd3036 100755
 --- a/salt-master-setup.sh
 +++ b/salt-master-setup.sh
 @@ -237,12 +237,12 @@ install_salt_master_pkg()
@@ -35,8 +35,8 @@ index 32a1fea..7454b26 100755
 +          curl -L https://bootstrap.saltstack.com | sed 's@"amd64")@"amd64"|"arm64")@g' | $SUDO sh -s -- -M ${BOOTSTRAP_SALTSTACK_OPTS} &>/dev/null || true
          ;;
      esac
-
-@@ -308,10 +308,10 @@ install_salt_minion_pkg()
+     
+@@ -310,10 +310,10 @@ install_salt_minion_pkg()
 
      case $PLATFORM_FAMILY in
        debian)
