@@ -87,7 +87,7 @@ patches-import: sub .cachepatched
 				SUB_TAG=${F_OPNFV_TAG}-fuel$$SUB_FEATURE/patch; \
 				echo "`tput setaf 2`-- patching $$name ($$SUB_TAG)`tput sgr0`";\
 				git tag $$SUB_TAG-root && \
-				git am -3 --whitespace=nowarn --patch-format=mbox \
+				git am -3 --ignore-whitespace --patch-format=mbox \
 					--committer-date-is-author-date $$SUB_PATCHES && \
 				git tag $$SUB_TAG || exit 1; \
 			fi \
