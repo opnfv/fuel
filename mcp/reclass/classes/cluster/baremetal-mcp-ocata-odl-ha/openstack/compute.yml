@@ -2,11 +2,14 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
+- system.linux.storage.loopback
 - system.nova.compute.cluster
 - system.nova.compute.nfv.hugepages
 - system.nova.compute.nfv.cpu_pinning
 - system.neutron.gateway.opendaylight.single
 - system.neutron.gateway.cluster
+- system.cinder.volume.single
+- system.cinder.volume.backend.lvm
 - system.ceilometer.agent.cluster
 - cluster.baremetal-mcp-ocata-odl-ha.infra
 parameters:
@@ -27,6 +30,7 @@ parameters:
     interface_mtu: 1500
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
+    loopback_device_size: 20
     neutron_agents:
     - neutron-dhcp-agent
     - neutron-metadata-agent

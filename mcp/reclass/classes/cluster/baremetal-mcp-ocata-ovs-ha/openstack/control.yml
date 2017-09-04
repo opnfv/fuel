@@ -10,7 +10,7 @@ classes:
 - system.neutron.control.openvswitch.cluster
 - system.nova.control.cluster
 - system.cinder.control.cluster
-- system.cinder.volume.single
+- system.cinder.control.backend.lvm
 - system.heat.server.cluster
 - system.designate.server.cluster
 - system.designate.server.backend.bind
