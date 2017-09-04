@@ -50,7 +50,7 @@ sub: .cachefuelinfo
 	@if [ -n "${FUEL_TRACK_REMOTES}" ]; then \
 		cd ${F_GIT_ROOT} && git submodule update --init --remote 2>/dev/null; \
 	else \
-		git submodule update --init 2>/dev/null; \
+		cd ${F_GIT_ROOT} && git submodule update --init 2>/dev/null; \
 	fi
 	@touch $@
 
