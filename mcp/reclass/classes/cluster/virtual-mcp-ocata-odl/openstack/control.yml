@@ -1,4 +1,0 @@
-classes:
-- system.neutron.control.opendaylight.single
-- cluster.virtual-mcp-ocata-common.openstack_control
-- cluster.virtual-mcp-ocata-odl

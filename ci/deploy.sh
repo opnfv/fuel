@@ -78,7 +78,7 @@ $(notify "Input parameters to the build script are:" 2)
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a short deployment scenario name, which
-   has to be defined in config directory (e.g. os-odl_l2-nofeature-noha).
+   has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
 
 $(notify "Disabled input parameters (not yet supported with MCP):" 3)
@@ -98,8 +98,8 @@ Example:
 
 $(notify "sudo $(basename "$0") \\
   -b file:///home/jenkins/lab-config \\
-  -l lf -p pod1 \\
-  -s os-odl_l2-nofeature-noha" 2)
+  -l lf -p pod2 \\
+  -s os-odl-nofeature-ha" 2)
 EOF
 }
 
