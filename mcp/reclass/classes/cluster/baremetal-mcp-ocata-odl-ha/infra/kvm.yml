@@ -11,7 +11,7 @@ classes:
 - system.salt.control.cluster.openstack_proxy_cluster
 - system.salt.control.cluster.openstack_database_cluster
 - system.salt.control.cluster.openstack_message_queue_cluster
-#- system.salt.control.cluster.openstack_telemetry_cluster
+- system.salt.control.cluster.openstack_telemetry_cluster
 # - system.salt.control.cluster.stacklight_server_cluster
 # - system.salt.control.cluster.stacklight_log_cluster
 # - system.salt.control.cluster.stacklight_telemetry_cluster
@@ -45,11 +45,11 @@ parameters:
           ram: 2048
           disk_profile: small
           net_profile: default
-#        openstack.telemetry:
-#          cpu: 4
-#          ram: 4096
-#          disk_profile: xxlarge
-#          net_profile: default
+        openstack.telemetry:
+          cpu: 2
+          ram: 3072
+          disk_profile: xxlarge
+          net_profile: default
         openstack.proxy:
           cpu: 2
           ram: 2048
@@ -83,12 +83,12 @@ parameters:
               provider: ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
               image: ${_param:salt_control_xenial_image}
               size: opendaylight.server
-#            mdb01:
-#              image: ${_param:salt_control_xenial_image}
-#            mdb02:
-#              image: ${_param:salt_control_xenial_image}
-#            mdb03:
-#              image: ${_param:salt_control_xenial_image}
+            mdb01:
+              image: ${_param:salt_control_xenial_image}
+            mdb02:
+              image: ${_param:salt_control_xenial_image}
+            mdb03:
+              image: ${_param:salt_control_xenial_image}
             ctl01:
               image: ${_param:salt_control_xenial_image}
             ctl02:

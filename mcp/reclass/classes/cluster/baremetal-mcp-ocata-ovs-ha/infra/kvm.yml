@@ -47,7 +47,7 @@ parameters:
           net_profile: default
         openstack.telemetry:
           cpu: 2
-          ram: 4096
+          ram: 3072
           disk_profile: xxlarge
           net_profile: default
         openstack.proxy:
