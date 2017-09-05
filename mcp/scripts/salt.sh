@@ -17,7 +17,7 @@ OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/fuel"
 OPNFV_FUEL_DIR="/root/fuel"
 
 # patch reclass-system-salt-model locally before copying it over
-make -C "${F_GIT_ROOT}/mcp/patches" patches-import
+make -C "${F_GIT_ROOT}/mcp/patches" deepclean patches-import
 
 # push to cfg01 current git repo first (including submodules), at ~ubuntu/fuel
 # later we move it to ~root/fuel and delete the temporary clone
