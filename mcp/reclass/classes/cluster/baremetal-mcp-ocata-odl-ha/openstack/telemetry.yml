@@ -2,6 +2,8 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
+- system.mongodb.server.cluster
+- system.mongodb.server.database.ceilometer
 - system.ceilometer.server.backend.mongodb
 # - system.ceilometer.server.backend.influxdb
 # - system.heka.ceilometer_collector.single
@@ -10,7 +12,7 @@ classes:
 - cluster.baremetal-mcp-ocata-odl-ha.infra
 parameters:
   _param:
-    keepalived_vip_interface: ens3
+    keepalived_openstack_telemetry_vip_interface: ens3
     keepalived_vip_virtual_router_id: 230
     cluster_vip_address: ${_param:openstack_telemetry_address}
     cluster_local_address: ${_param:single_address}
@@ -25,3 +27,7 @@ parameters:
       interface:
         ens2: ${_param:linux_dhcp_interface}
         ens3: ${_param:linux_single_interface}
+  mongodb:
+    server:
+      logging:
+        verbose: v

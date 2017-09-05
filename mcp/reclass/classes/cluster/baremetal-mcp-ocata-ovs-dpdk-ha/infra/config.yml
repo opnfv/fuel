@@ -12,7 +12,7 @@ classes:
 - system.reclass.storage.system.openstack_proxy_cluster
 - system.reclass.storage.system.openstack_database_cluster
 - system.reclass.storage.system.openstack_message_queue_cluster
-#- system.reclass.storage.system.openstack_telemetry_cluster
+- system.reclass.storage.system.openstack_telemetry_cluster
 # - system.reclass.storage.system.stacklight_log_cluster
 # - system.reclass.storage.system.stacklight_monitor_cluster
 # - system.reclass.storage.system.stacklight_telemetry_cluster
@@ -55,15 +55,15 @@ parameters:
           params:
             keepalived_vip_priority: 102
             linux_system_codename: xenial
-#        openstack_telemetry_node01:
-#          params:
-#            linux_system_codename: xenial
-#        openstack_telemetry_node02:
-#          params:
-#            linux_system_codename: xenial
-#        openstack_telemetry_node03:
-#          params:
-#            linux_system_codename: xenial
+        openstack_telemetry_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_telemetry_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_telemetry_node03:
+          params:
+            linux_system_codename: xenial
         openstack_message_queue_node01:
           params:
             linux_system_codename: xenial
