@@ -34,3 +34,9 @@ parameters:
     system:
       package:
         libapache2-mod-wsgi:
+  salt:
+    minion:
+      cert:
+        proxy:
+          alternative_names: "IP:${_param:openstack_proxy_address}"
+          key_usage: 'digitalSignature, keyEncipherment'
