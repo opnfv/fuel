@@ -109,7 +109,7 @@ clean:
 
 .PHONY: deepclean
 deepclean: clean
-	@git submodule deinit -f ${F_GIT_ROOT}
+	@cd ${F_GIT_ROOT} && git submodule deinit -f ${F_GIT_ROOT}
 	@rm -f .cache*
 
 .PHONY: release
