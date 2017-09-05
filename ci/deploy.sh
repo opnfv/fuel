@@ -224,7 +224,7 @@ do
             ;;
         S)
             if [[ ${OPTARG} ]]; then
-                STORAGE_DIR="-s ${OPTARG}"
+                STORAGE_DIR="${OPTARG}"
             fi
             ;;
         T)
