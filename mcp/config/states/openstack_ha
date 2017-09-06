@@ -42,7 +42,11 @@ salt -I 'neutron:gateway' state.sls neutron.gateway
 
 salt -I 'nova:compute' state.sls nova
 
-salt -I 'mongodb:server' state.sls mongodb -b 1
+salt -I 'mongodb:server' state.sls mongodb
+while true; do sleep 5; salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin' && break; done
+salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin --eval "rs.initiate()"'
+salt -C 'I@mongodb:server and *01*' state.sls mongodb
+
 salt -I 'aodh:server' state.sls aodh
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
