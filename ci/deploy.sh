@@ -139,9 +139,7 @@ DEPLOY_TYPE='baremetal'
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 
-# NOTE: When this script runs with sudo, key will land in /root/opnfv/mcp.rsa,
-# unless SSH_KEY is set to point to non-root user's home (e.g. via env var).
-export SSH_KEY=${SSH_KEY:-"${HOME}/opnfv/mcp.rsa"}
+export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
 export MAAS_IP=${MAAS_IP:-192.168.10.3}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
@@ -262,7 +260,6 @@ if ! virsh list >/dev/null 2>&1; then
 fi
 
 # Validate mandatory arguments are set
-# FIXME(armband): Bring back support for BASE_CONFIG_URI
 if [ -z "${TARGET_LAB}" ] || [ -z "${TARGET_POD}" ] || \
    [ -z "${DEPLOY_SCENARIO}" ]; then
     notify "[ERROR] At least one of the mandatory args is missing!\n" 1>&2
@@ -275,7 +272,7 @@ set -x
 # Enable the automatic exit trap
 trap do_exit SIGINT SIGTERM EXIT
 
-# Set no restrictive umask so that Jenkins can removeeee any residuals
+# Set no restrictive umask so that Jenkins can remove any residuals
 umask 0000
 
 clean
