@@ -33,8 +33,9 @@ cleanup_vms() {
   for node in $(virsh list --name | grep -P '\w{3}\d{2}'); do
     virsh destroy "${node}"
   done
+  sync
   for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
-    virsh undefine --nvram "${node}"
+    virsh undefine --remove-all-storage --nvram "${node}"
   done
 }
 
