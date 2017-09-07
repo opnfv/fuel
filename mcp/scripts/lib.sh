@@ -34,7 +34,9 @@ cleanup_vms() {
     virsh destroy "${node}"
   done
   for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
-    virsh undefine --nvram "${node}"
+    virsh domblklist "${node}" | awk '/^.da/ {print $2}' | \
+      xargs -I{} virsh vol-dumpxml {} #2>&1 > /dev/null
+    virsh undefine "${node}" --remove-all-storage --nvram
   done
 }
 
