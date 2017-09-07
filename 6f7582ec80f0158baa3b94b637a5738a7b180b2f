@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_b216a5ef",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1451
+      },
+      "writtenOn": "2017-09-07T19:01:44Z",
+      "side": 1,
+      "message": "Is there anything that explicitly creates the directory under which the SSH_KEY should exist? (ie: \u0027mkdir -p /var/lib/opnfv\u0027)",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 51
+      },
+      "revId": "6f7582ec80f0158baa3b94b637a5738a7b180b2f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
