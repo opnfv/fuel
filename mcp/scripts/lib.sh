@@ -17,7 +17,7 @@ generate_ssh_key() {
   fi
 
   [ -f "${mcp_ssh_key}" ] || ssh-keygen -f "${mcp_ssh_key}" -N ''
-  install -D -o "${user}" -m 0600 "${mcp_ssh_key}" "${SSH_KEY}"
+  sudo install -D -o "${user}" -m 0600 "${mcp_ssh_key}" "${SSH_KEY}"
 }
 
 get_base_image() {
