@@ -22,6 +22,30 @@
       "revId": "6f7582ec80f0158baa3b94b637a5738a7b180b2f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_ad1644ef",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-09-08T05:09:33Z",
+      "side": 1,
+      "message": "Yes, \"install -D\" will do a trick (i.e. create all leading components of the ssh key)",
+      "parentUuid": "da33351e_b216a5ef",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 51
+      },
+      "revId": "6f7582ec80f0158baa3b94b637a5738a7b180b2f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
