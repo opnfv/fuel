@@ -1,0 +1,39 @@
+#!/bin/bash
+set -x
+
+source ../../scripts/lib.sh
+
+# KVM, compute node prereqs (libvirt first), VCP deployment
+salt -C 'kvm*' pkg.install bridge-utils
+salt -C 'kvm*' state.apply linux.network
+salt -C 'kvm*' system.reboot
+wait_for 90 "! salt 'kvm*' test.ping | tee /dev/stderr | fgrep -q 'Not connected'"
+
+salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
+
+salt -C 'kvm*' state.sls libvirt
+
+salt -C '* and not cfg01* and not mas01*' state.apply salt
+salt -C 'kvm*' saltutil.sync_all
+salt -C 'kvm*' state.sls salt.control
+
+vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | \
+            awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
+
+# Check all vcp nodes are available
+rc=1
+while [ $rc -ne 0 ]; do
+  rc=0
+  for node in $vcp_nodes; do
+    salt "$node" test.ping 2>/dev/null || { rc=$?; break; };
+  done
+  sleep 5
+done
+
+wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
+wait_for 10 "! salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp | " \
+  "tee /dev/stderr | fgrep -q 'Not connected'"
+
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
+  $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"

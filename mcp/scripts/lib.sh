@@ -3,7 +3,7 @@
 # Library of shell functions
 #
 
-generate_ssh_key() {
+function generate_ssh_key {
   # shellcheck disable=SC2155
   local mcp_ssh_key=$(basename "${SSH_KEY}")
   local user=${USER}
@@ -20,7 +20,7 @@ generate_ssh_key() {
   sudo install -D -o "${user}" -m 0600 "${mcp_ssh_key}" "${SSH_KEY}"
 }
 
-get_base_image() {
+function get_base_image {
   local base_image=$1
   local image_dir=$2
 
@@ -28,7 +28,7 @@ get_base_image() {
   wget -P "${image_dir}" -N "${base_image}"
 }
 
-cleanup_vms() {
+function cleanup_vms {
   # clean up existing nodes
   for node in $(virsh list --name | grep -P '\w{3}\d{2}'); do
     virsh destroy "${node}"
@@ -40,7 +40,7 @@ cleanup_vms() {
   done
 }
 
-prepare_vms() {
+function prepare_vms {
   local -n vnodes=$1
   local base_image=$2
   local image_dir=$3
@@ -60,7 +60,7 @@ prepare_vms() {
   done
 }
 
-create_networks() {
+function create_networks {
   local -n vnode_networks=$1
   # create required networks, including constant "mcpcontrol"
   # FIXME(alav): since we renamed "pxe" to "mcpcontrol", we need to make sure
@@ -79,7 +79,7 @@ create_networks() {
   done
 }
 
-create_vms() {
+function create_vms {
   local -n vnodes=$1
   local -n vnodes_ram=$2
   local -n vnodes_vcpus=$3
@@ -123,7 +123,7 @@ create_vms() {
   done
 }
 
-update_mcpcontrol_network() {
+function update_mcpcontrol_network {
   # set static ip address for salt master node, MaaS node
   # shellcheck disable=SC2155
   local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
@@ -135,7 +135,7 @@ update_mcpcontrol_network() {
     "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live
 }
 
-start_vms() {
+function start_vms {
   local -n vnodes=$1
 
   # start vms
@@ -145,7 +145,7 @@ start_vms() {
   done
 }
 
-check_connection() {
+function check_connection {
   local total_attempts=60
   local sleep_time=5
   local attempt=1
@@ -167,7 +167,7 @@ check_connection() {
   set -e
 }
 
-parse_yaml() {
+function parse_yaml {
   local prefix=$2
   local s
   local w
@@ -186,4 +186,17 @@ parse_yaml() {
           printf("%s%s%s=(\"%s\")\n", "'"$prefix"'",vn, $2, $3);
       }
   }' | sed 's/_=/+=/g'
+}
+
+function wait_for {
+  local total_attempts=$1; shift
+  local cmdstr=$*
+  local sleep_time=10
+  echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
+  # shellcheck disable=SC2034
+  for attempt in $(seq "${total_attempts}"); do
+    # shellcheck disable=SC2015
+    eval "${cmdstr}" && break || true
+    echo -n '.'; sleep "${sleep_time}"
+  done
 }

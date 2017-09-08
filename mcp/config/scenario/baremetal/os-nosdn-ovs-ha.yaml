@@ -2,6 +2,7 @@ cluster:
   domain: baremetal-mcp-ocata-ovs-dpdk-ha.local
   states:
     - maas
+    - virtual_control_plane
     - dpdk
     - openstack_ha
     - networks
