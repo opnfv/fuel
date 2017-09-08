@@ -3,10 +3,12 @@ set -x
 
 function wait_for() {
   local total_attempts=$1; shift
-  local cmdstr=$@
+  local cmdstr=$*
   local sleep_time=10
   echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
+  # shellcheck disable=SC2034
   for attempt in $(seq "${total_attempts}"); do
+    # shellcheck disable=SC2015
     eval "${cmdstr}" && break || true
     echo -n '.'; sleep "${sleep_time}"
   done
@@ -17,8 +19,10 @@ function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
   wait_for 180 "${statuscmd} | tee /dev/stderr | " \
            "grep -Eq '((Deployed|Ready): 5|status:Failed|status:Allocated)'"
+  # shellcheck disable=SC2155
   local statusout=$(eval "${statuscmd}")
 
+  # shellcheck disable=SC2155
   local fcnodes=$(echo "${statusout}" | \
     grep -Po '(?<=system_id:)(.*)(?=,status:Failed commissioning)')
   for node_system_id in ${fcnodes}; do
@@ -30,6 +34,7 @@ function maas_fixup() {
     return 1
   fi
 
+  # shellcheck disable=SC2155
   local fdnodes=$(echo "${statusout}" | \
     grep -Po '(?<=system_id:)(.*)(?=,status:(Failed deployment|Allocated))')
   for node_system_id in ${fdnodes}; do
@@ -106,4 +111,4 @@ wait_for 10 "! salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp | 
   "tee /dev/stderr | fgrep -q 'Not connected'"
 
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
-  $(awk 'NR==1{print $2}' $(eval echo ~${SUDO_USER}/.ssh/authorized_keys))"
+  $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"

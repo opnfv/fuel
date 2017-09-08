@@ -141,7 +141,7 @@ start_vms() {
   # start vms
   for node in "${vnodes[@]}"; do
     virsh start "${node}"
-    sleep $[RANDOM%5+1]
+    sleep $((RANDOM%5+1))
   done
 }
 

@@ -2,7 +2,7 @@
 set -x
 
 salt -I 'nova:compute' system.reboot
-while true; do salt -I 'nova:compute' test.ping | fgrep -q 'Not connected' || break; done
+while true; do salt -I 'nova:compute' test.ping | grep -Fq 'Not connected' || break; done
 salt -I 'nova:compute' state.sls linux.network
 
 # switch to UCA repos since fuel-infra packages have bugs

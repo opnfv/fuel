@@ -184,7 +184,7 @@ do
                 if [ -n "${bridge}" ]; then
                     OPNFV_BRIDGES[${OPNFV_BRIDGE_IDX}]="${bridge}"
                 fi
-                OPNFV_BRIDGE_IDX=$[OPNFV_BRIDGE_IDX + 1]
+                OPNFV_BRIDGE_IDX=$((OPNFV_BRIDGE_IDX + 1))
             done
             IFS=${OIFS}
             ;;
