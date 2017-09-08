@@ -34,7 +34,9 @@ cleanup_vms() {
     virsh destroy "${node}"
   done
   for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
-    virsh undefine --nvram "${node}"
+    virsh domblklist "${node}" | awk '/^.da/ {print $2}' | \
+      xargs --no-run-if-empty -I{} sudo rm -f {}
+    virsh undefine "${node}" --remove-all-storage --nvram
   done
 }
 
@@ -45,6 +47,7 @@ prepare_vms() {
 
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
+  # shellcheck disable=SC2016
   envsubst '${SALT_MASTER},${CLUSTER_DOMAIN}' < \
     user-data.template > user-data.sh
 
