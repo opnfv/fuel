@@ -18,6 +18,8 @@ virtual:
   gtw01:
     ram: 2048
   cmp01:
+    vcpus: 4
     ram: 6144
   cmp02:
+    vcpus: 4
     ram: 6144

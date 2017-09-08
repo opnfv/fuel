@@ -5,5 +5,14 @@ salt -I 'nova:compute' system.reboot
 while true; do salt -I 'nova:compute' test.ping | fgrep -q 'Not connected' || break; done
 salt -I 'nova:compute' state.sls linux.network
 
+# switch to UCA repos since fuel-infra packages have bugs
+salt -I 'nova:compute' cmd.run 'rm -vrf /etc/apt/preferences.d/*'
+salt -I 'nova:compute' file.remove '/etc/apt/sources.list.d/mirantis_openstack.list'
+salt -I 'nova:compute' pkg.refresh_db
+
+salt -I 'nova:compute' pkg.install neutron-common
+salt -I 'nova:compute' file.append /etc/sudoers.d/neutron_sudoers \
+  args='neutron ALL = (root) NOPASSWD: /usr/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf'
+
 salt -I 'nova:compute' pkg.install libvirt-bin
 salt -I 'nova:compute' file.chown /var/run/openvswitch libvirt-qemu kvm

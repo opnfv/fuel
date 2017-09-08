@@ -99,11 +99,11 @@ parameters:
     compute_hugepages_size: 1G
     compute_hugepages_count: 12
     compute_hugepages_mount: /mnt/hugepages_1G
-    compute_kernel_isolcpu: 2,5,6,7,9,10,13,14,15
+    compute_kernel_isolcpu: 2,3,5,6,7,10,11,13,14,15
     compute_dpdk_driver: uio
-    compute_ovs_pmd_cpu_mask: "0x2060"
-    compute_ovs_dpdk_socket_mem: "1024,1024"
-    compute_ovs_dpdk_lcore_mask: "0x1000"
+    compute_ovs_pmd_cpu_mask: "0xc04"
+    compute_ovs_dpdk_socket_mem: "2048,2048"
+    compute_ovs_dpdk_lcore_mask: "0x8"
     compute_ovs_memory_channels: "2"
     glance_version: ${_param:openstack_version}
     glance_service_host: ${_param:openstack_control_address}

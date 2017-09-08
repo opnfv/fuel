@@ -8,7 +8,17 @@ parameters:
     compute:
       backend:
         tenant_network_types: ${_param:neutron_tenant_network_types}
+  nova:
+    compute:
+      libvirt_service: libvirtd
   linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
     network:
       interface:
         dpdk0:

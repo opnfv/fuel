@@ -35,7 +35,17 @@ parameters:
       dpdk: True
       backend:
         tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
+  nova:
+    compute:
+      libvirt_service: libvirtd
   linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
     network:
       bridge: openvswitch
       interface:
