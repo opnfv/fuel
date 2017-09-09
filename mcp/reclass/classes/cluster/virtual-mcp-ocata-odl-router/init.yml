@@ -1,7 +1,7 @@
 classes:
 - system.linux.system.single
 - cluster.virtual-mcp-ocata-common.init_options
-- cluster.virtual-mcp-ocata-odl-router.infra
+- cluster.virtual-mcp-ocata-common.infra
 - cluster.virtual-mcp-ocata-odl-router.openstack
 
 parameters:
