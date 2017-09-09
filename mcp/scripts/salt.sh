@@ -11,8 +11,6 @@
 #
 
 F_GIT_ROOT=$(git rev-parse --show-toplevel)
-SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
-SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/fuel"
 OPNFV_FUEL_DIR="/root/fuel"
 
