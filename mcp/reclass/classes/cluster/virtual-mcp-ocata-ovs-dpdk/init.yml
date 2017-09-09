@@ -1,5 +1,6 @@
 classes:
 - system.linux.system.single
+- cluster.all-mcp-ocata-common.arch
 - cluster.virtual-mcp-ocata-common.init_options
 - cluster.virtual-mcp-ocata-ovs-dpdk.infra
 - cluster.virtual-mcp-ocata-ovs-dpdk.openstack
