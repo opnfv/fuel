@@ -1,0 +1,4 @@
+parameters:
+  salt:
+    master:
+      file_recv: true

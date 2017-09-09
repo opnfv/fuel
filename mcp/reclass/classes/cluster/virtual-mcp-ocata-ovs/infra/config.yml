@@ -10,6 +10,7 @@ classes:
 - system.mysql.client.single
 - system.reclass.storage.system.openstack_compute_multi
 - system.reclass.storage.system.openstack_gateway_single
+- cluster.virtual-mcp-ocata-common.infra.config
 - cluster.virtual-mcp-ocata-ovs
 parameters:
   _param:

@@ -11,6 +11,7 @@ classes:
 - system.reclass.storage.system.openstack_compute_multi
 - system.reclass.storage.system.openstack_gateway_single
 - system.reclass.storage.system.opendaylight_control_single
+- cluster.virtual-mcp-ocata-common.infra.config
 - cluster.virtual-mcp-ocata-odl-router
 parameters:
   _param:
