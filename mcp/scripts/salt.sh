@@ -36,6 +36,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   mv ${OPNFV_TMP_DIR} ${OPNFV_FUEL_DIR} && chown -R root.root ${OPNFV_FUEL_DIR}
   ln -s ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt/reclass
   ln -s ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt/scripts
+  cd /srv/salt/reclass/classes/cluster/all-mcp-ocata-common && \
+    ln -s "\$(uname -i)" arch
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
