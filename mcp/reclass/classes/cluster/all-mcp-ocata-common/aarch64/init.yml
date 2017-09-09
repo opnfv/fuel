@@ -1,0 +1,3 @@
+parameters:
+  _param:
+    salt_control_xenial_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
