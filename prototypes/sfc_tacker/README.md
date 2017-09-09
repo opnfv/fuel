@@ -1,14 +1,9 @@
-# author: Ferenc Cserepkei <ferenc.cserepkei@ericsson.com>
-#
-#         (c) 2016 Telefonaktiebolaget L. M. ERICSSON
-#
-#         All rights reserved. This program and the accompanying materials
-#         are made available under the terms of the Apache License, Version 2.0
-#         which accompanies this distribution, and is available at
-#         http://www.apache.org/licenses/LICENSE-2.0
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. SPDX-License-Identifier: CC-BY-4.0
+.. (c) 2016 Telefonaktiebolaget L. M. ERICSSON
 
 README SFC + Tacker
--------------------
+===================
 
      The Enclosed shell script builds, deploys, orchestrates Tacker,
 an Open NFV Orchestrator with in-built general purpose VNF Manager
