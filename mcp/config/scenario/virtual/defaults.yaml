@@ -1,6 +1,0 @@
-base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
-virtual:
-  default:
-    vcpus: 2
-    ram: 4096
-

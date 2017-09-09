@@ -294,20 +294,27 @@ if [ "$(uname -i)" = "aarch64" ]; then
 fi
 
 # Check scenario file existence
-if [ ! -f  "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
+SCENARIO_DIR="../config/scenario"
+if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
     notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
             Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
-    if [ ! -f  "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
+    if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
         notify "[ERROR] Scenario definition file is missing!\n" 1>&2
         exit 1
     fi
 fi
 
+# Check defaults file existence
+if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -m).yaml" ]; then
+    notify "[ERROR] Scenario defaults file is missing!\n" 1>&2
+    exit 1
+fi
+
 # Get required infra deployment data
 source lib.sh
-eval "$(parse_yaml "../config/scenario/${DEPLOY_TYPE}/defaults.yaml")"
-eval "$(parse_yaml "../config/scenario/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -m).yaml")"
+eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
