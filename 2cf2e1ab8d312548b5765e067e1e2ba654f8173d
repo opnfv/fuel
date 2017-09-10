@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_c364384b",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-09-10T22:11:20Z",
+      "side": 1,
+      "message": "You remove lines 4 \u0026 5 with individuals\n\nAlso, instead of the regular URL in line 2, you can use the SPDX shorthand\n\n.. SPDX-License-Identifier: CC-BY-4.0",
+      "revId": "2cf2e1ab8d312548b5765e067e1e2ba654f8173d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_235c047e",
+        "filename": "ci/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-09-10T22:11:20Z",
+      "side": 1,
+      "message": "See comments in the previous file",
+      "revId": "2cf2e1ab8d312548b5765e067e1e2ba654f8173d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_035f4073",
+        "filename": "mcp/config/scenario/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-09-10T22:11:20Z",
+      "side": 1,
+      "message": "You can use the SPDX shorthand instead of url in line 2\n\n.. SPDX-License-Identifier: CC-BY-4.0",
+      "revId": "2cf2e1ab8d312548b5765e067e1e2ba654f8173d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_63556c4f",
+        "filename": "mcp/patches/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-09-10T22:11:20Z",
+      "side": 1,
+      "message": ".. SPDX-License-Identifier: CC-BY-4.0",
+      "revId": "2cf2e1ab8d312548b5765e067e1e2ba654f8173d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_4350285e",
+        "filename": "prototypes/sfc_tacker/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2017-09-10T22:11:20Z",
+      "side": 1,
+      "message": ".. SPDX-License-Identifier: CC-BY-4.0",
+      "revId": "2cf2e1ab8d312548b5765e067e1e2ba654f8173d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
