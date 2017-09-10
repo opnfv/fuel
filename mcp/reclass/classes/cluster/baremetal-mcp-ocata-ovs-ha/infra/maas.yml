@@ -32,13 +32,13 @@ parameters:
         network_discovery: 'enabled'
         default_min_hwe_kernel: 'hwe-16.04'
       subnets:
-        # TODO: parametrize address root (192.168.11), dhcp start/end?
-        192.168.11.0/24:
-          cidr: 192.168.11.0/24
+        opnfv_fuel_maas_pxe:
+          name: ${_param:opnfv_fuel_maas_pxe_network}
+          cidr: ${_param:opnfv_fuel_maas_pxe_network}
           gateway_ip: ${_param:single_address}
           iprange:
-            start: 192.168.11.5
-            end: 192.168.11.250
+            start: ${_param:opnfv_fuel_maas_pxe_iprange_start}
+            end: ${_param:opnfv_fuel_maas_pxe_iprange_end}
             type: dynamic
           vlans:
             untagged:
