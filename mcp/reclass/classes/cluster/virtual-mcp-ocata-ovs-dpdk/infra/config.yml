@@ -7,9 +7,9 @@ parameters:
       node:
         openstack_compute_node01:
           params:
-            dpdk0_name: ens5
+            dpdk0_name: ${_param:opnfv_fn_vm_tertiary_interface}
             dpdk0_pci: '"0000:00:05.0"'
         openstack_compute_node02:
           params:
-            dpdk0_name: ens5
+            dpdk0_name: ${_param:opnfv_fn_vm_tertiary_interface}
             dpdk0_pci: '"0000:00:05.0"'

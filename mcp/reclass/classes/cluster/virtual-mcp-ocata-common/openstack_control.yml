@@ -48,14 +48,16 @@ parameters:
           version: latest
     network:
       interface:
-        ens4:
+        single_int:
           enabled: true
+          name: ${_param:opnfv_fn_vm_secondary_interface}
           type: eth
           proto: static
           address: ${_param:single_address}
           netmask: 255.255.255.0
-        ens6:
+        public_int:
           enabled: true
+          name: ${_param:opnfv_fn_vm_quaternary_interface}
           type: eth
           proto: static
           address: ${_param:cluster_public_host}
