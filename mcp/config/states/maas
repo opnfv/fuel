@@ -57,7 +57,7 @@ salt -C 'mas01*' state.apply linux.network.interface
 salt -C 'mas01*' state.apply maas.pxe_nat
 salt -C 'mas01*' state.apply maas.cluster
 salt -C 'cfg01*' cmd.run \
-  "route add -net 192.168.11.0/24 gw ${MAAS_IP:-192.168.10.3}"
+  "route add -net 192.168.11.0/24 gw ${MAAS_IP:-10.20.0.3}"
 
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"
 
