@@ -140,8 +140,8 @@ OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 
 export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
-export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
-export MAAS_IP=${MAAS_IP:-192.168.10.3}
+export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
+export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 
 # Variables below are disabled for now, to be re-introduced or removed later

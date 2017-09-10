@@ -17,7 +17,7 @@ parameters:
 
     # infra service addresses
     infra_config_address: 10.167.4.100
-    infra_config_deploy_address: 192.168.10.100
+    infra_config_deploy_address: 10.20.0.2
     infra_maas_node01_address: 10.167.4.3
     infra_maas_node01_deploy_address: 192.168.11.3
     infra_maas_node01_external_address: 10.16.0.3
