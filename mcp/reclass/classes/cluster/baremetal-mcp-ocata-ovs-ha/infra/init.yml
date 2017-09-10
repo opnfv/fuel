@@ -1,5 +1,6 @@
 classes:
 - system.linux.system.single
+- cluster.all-mcp-ocata-common
 - cluster.baremetal-mcp-ocata-ovs-ha.openstack
 # - cluster.baremetal-mcp-ocata-ovs-ha.stacklight
 # - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.client
@@ -19,7 +20,7 @@ parameters:
     infra_config_address: 10.167.4.100
     infra_config_deploy_address: 10.20.0.2
     infra_maas_node01_address: 10.167.4.3
-    infra_maas_node01_deploy_address: 192.168.11.3
+    infra_maas_node01_deploy_address: ${_param:opnfv_fuel_maas_pxe_address}
     infra_maas_node01_external_address: 10.16.0.3
     infra_compute_node01_address: 10.167.4.141
     infra_compute_node02_address: 10.167.4.142

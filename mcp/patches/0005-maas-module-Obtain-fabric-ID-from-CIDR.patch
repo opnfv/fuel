@@ -20,9 +20,17 @@ Signed-off-by: Guillermo Herrero <Guillermo.Herrero@enea.com>
 ---
 
 diff --git a/_modules/maas.py b/_modules/maas.py
-index d3227ca..8a2243d 100644
 --- a/_modules/maas.py
 +++ b/_modules/maas.py
+@@ -126,6 +126,8 @@
+
+             def process_single(name, config_data):
+                 self._update = False
++                if 'name' in config_data:
++                    name = config_data['name']
+                 try:
+                     data = self.fill_data(name, config_data, **extra)
+                     if data is None:
 @@ -198,7 +198,8 @@
      def fill_data(self, name, subnet, fabrics):
          data = {
