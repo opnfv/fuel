@@ -135,6 +135,7 @@ clean() {
 SCRIPT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")
 DEPLOY_DIR=$(cd "${SCRIPT_PATH}/../mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${SCRIPT_PATH}/../mcp/deploy/images"; pwd)
+RECLASS_CLUSTER_DIR=$(cd "${SCRIPT_PATH}/../mcp/reclass/classes/cluster"; pwd)
 DEPLOY_TYPE='baremetal'
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
@@ -143,6 +144,11 @@ export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
+export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
+
+# Derivated from above global vars
+export MCP_CTRL_NETWORK_ROOTSTR=${SALT_MASTER%.*}
+export MAAS_PXE_NETWORK_ROOTSTR=${MAAS_PXE_NETWORK%.*}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
@@ -326,6 +332,10 @@ for node in "${virtual_nodes[@]}"; do
     virtual_nodes_ram[$node]=${!virtual_custom_ram:-$virtual_default_ram}
     virtual_nodes_vcpus[$node]=${!virtual_custom_vcpus:-$virtual_default_vcpus}
 done
+
+# Expand reclass and virsh network templates
+for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
+    net_*.template; do envsubst < "${tp}" > "${tp%.template}"; done
 
 # Infra setup
 generate_ssh_key
