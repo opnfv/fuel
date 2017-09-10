@@ -1,3 +1,14 @@
 parameters:
   _param:
     salt_control_xenial_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
+
+    # VMs spawned on Foundation Node / Jump Host net ifaces (max 4)
+    opnfv_fn_vm_primary_interface: enp1s0
+    opnfv_fn_vm_secondary_interface: enp2s0
+    opnfv_fn_vm_tertiary_interface: enp3s0
+    opnfv_fn_vm_quaternary_interface: enp4s0
+
+    # VCP VMs spawned on KVM Hosts net ifaces (max 2)
+    # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
+    opnfv_vcp_vm_primary_interface: ${_param:opnfv_fn_vm_primary_interface}
+    opnfv_vcp_vm_secondary_interface: ${_param:opnfv_fn_vm_secondary_interface}

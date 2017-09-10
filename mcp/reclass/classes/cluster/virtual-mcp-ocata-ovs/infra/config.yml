@@ -26,7 +26,8 @@ parameters:
   linux:
     network:
       interface:
-        ens4:
+        single_int:
+          name: ${_param:opnfv_fn_vm_secondary_interface}
           enabled: true
           type: eth
           proto: static
