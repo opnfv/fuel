@@ -12,3 +12,5 @@ deploy/autodeploy.log
 mcp/deploy/images/
 mcp/scripts/mcp.rsa*
 mcp/scripts/user-data.sh
+mcp/scripts/net_mcpcontrol.xml
+mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/runtime.yml
