@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_23d364d7",
+        "filename": "ci/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-10T23:27:59Z",
+      "side": 1,
+      "message": "As previously stated, this will still show in most markdown parser outputs, since md files are not rst.\nWould it be acceptable to use some markdown-specific comments? e.g.:\n[//]: # \"This work is licensed under a Creative Commons Attribution 4.0 International License.\"\n[//]: # \"SPDX-License-Identifier: CC-BY-4.0\"\n[//]: # \"(c) 2017 Mirantis Inc., Enea AB and others.\"\n\nThis format should not be rendered on github.com for example.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 68
+      },
+      "revId": "ccfb38c3a187df7c6d2785ffd438a459f3748dfd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
