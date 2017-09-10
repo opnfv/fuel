@@ -12,9 +12,9 @@ classes:
 - system.ceilometer.client.cinder_volume
 parameters:
   _param:
-    primary_interface: ens4
-    tenant_interface: ens5
-    external_interface: ens6
+    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+    tenant_interface: ${_param:opnfv_fn_vm_tertiary_interface}
+    external_interface: ${_param:opnfv_fn_vm_quaternary_interface}
     interface_mtu: 9000
     linux_system_codename: xenial
     loopback_device_size: 10
@@ -50,7 +50,7 @@ parameters:
       interface:
         dhcp_int:
           enabled: true
-          name: ens3
+          name: ${_param:opnfv_fn_vm_primary_interface}
           proto: dhcp
           type: eth
           mtu: ${_param:interface_mtu}
