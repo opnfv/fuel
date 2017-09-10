@@ -9,6 +9,7 @@ Abstract:
 ---------
 This directory contains configuration files for different OPNFV deployment
 feature scenarios used by Fuel@OPNFV, e.g.:
+
 - High availability configuration;
 - Type of SDN controller to be deployed;
 - OPNFV collaboration project features to be deployed;

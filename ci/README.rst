@@ -13,7 +13,10 @@ OPNFV CI pipeline guideline:
 USAGE
 =====
 For usage information of the CI/CD scripts, please run:
-./deploy.sh -h
+
+    .. code-block:: bash
+
+        $ ./deploy.sh -h
 
 Details on the CI/CD deployment framework
 =========================================
@@ -41,8 +44,11 @@ Executing a deployment
 deploy.sh must be executed locally at the target lab/pod/jumpserver
 A configuration structure must be provided - see the section below.
 It is straight forward to execute a deployment task - as an example:
-$ sudo deploy.sh -b file:///home/jenkins/config \
-  -l lf -p pod2 -s os-nosdn-nofeature-ha
+
+    .. code-block:: bash
+
+        $ sudo deploy.sh -b file:///home/jenkins/config
+                         -l lf -p pod2 -s os-nosdn-nofeature-ha
 
 -b and -i arguments should be expressed in URI style (eg: file://...
 or http://...). The resources can thus be local or remote.
@@ -65,30 +71,32 @@ A local stripped version of this configuration structure with virtual
 deployment configurations also exist under build/config/.
 Following configuration directory and file structure should adheare to:
 
-TOP
-!
-+---- labs
-       !
-       +---- lab-name-1
-       !        !
-       !        +---- pod-name-1
-       !        !        !
-       !        !        +---- fuel
-       !        !               !
-       !        !               +---- config
-       !        !                       !
-       !        !                       +---- dea-pod-override.yaml
-       !        !                       !
-       !        !                       +---- dha.yaml
-       !        !
-       !        +---- pod-name-2
-       !                 !
-       !
-       +---- lab-name-2
-       !        !
+    .. code-block:: bash
+
+        TOP
+        !
+        +---- labs
+               !
+               +---- lab-name-1
+               !        !
+               !        +---- pod-name-1
+               !        !        !
+               !        !        +---- fuel
+               !        !               !
+               !        !               +---- config
+               !        !                       !
+               !        !                       +---- dea-pod-override.yaml
+               !        !                       !
+               !        !                       +---- dha.yaml
+               !        !
+               !        +---- pod-name-2
+               !                 !
+               !
+               +---- lab-name-2
+               !        !
 
 
 Creating a deployment scenario
 ------------------------------
-Please find deploy/scenario/README for instructions on how to create a new
+Please find `mcp/config/README.rst` for instructions on how to create a new
 deployment scenario.
