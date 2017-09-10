@@ -45,9 +45,10 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   cd /srv/salt/scripts
+  export BOOTSTRAP_SALTSTACK_OPTS=" -dX stable 2016.11 "
   if [ "\$(uname -i)" = "aarch64" ]; then
     # NOTE(armband): On AArch64, skip creating apt source list definitions (-r)
-    export BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 "
+    export BOOTSTRAP_SALTSTACK_OPTS=" -r \${BOOTSTRAP_SALTSTACK_OPTS}"
   fi
   MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=nightly ./salt-master-init.sh
   salt-key -Ay
