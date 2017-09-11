@@ -33,7 +33,7 @@ $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 $(notify "USAGE:" 2)
   $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
     [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
-    [-S storage-dir]
+    [-S storage-dir] [-L /path/to/log/file.tar.gz]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -43,6 +43,7 @@ $(notify "OPTIONS:" 2)
   -p  Pod-name
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images
+  -L  Deployment log path and file name
 
 $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
   -d  (disabled) Dry-run
@@ -50,7 +51,6 @@ $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
   -f  (disabled) Deploy on existing Salt master
   -F  (disabled) Do only create a Salt master
   -i  (disabled) iso url
-  -L  (disabled) Deployment log path and file name
   -T  (disabled) Timeout, in minutes, for the deploy.
 
 $(notify "Description:" 2)
@@ -75,6 +75,7 @@ $(notify "Input parameters to the build script are:" 2)
    while "mcpcontrol" is used to provision the infrastructure VMs only.
    The default is 'pxebr'.
 -h Print this message and exit
+-L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod-1
 -s Deployment-scenario, this points to a short deployment scenario name, which
@@ -86,7 +87,6 @@ $(notify "Disabled input parameters (not yet supported with MCP):" 3)
 -f (disabled) Deploy on existing Salt master
 -e (disabled) Do not launch environment deployment
 -F (disabled) Do only create a Salt master
--L (disabled) Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -T (disabled) Timeout, in minutes, for the deploy.
    It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
 -i (disabled) .iso image to be deployed (needs to be provided in a URI
@@ -141,8 +141,10 @@ URI_REGEXP='(file|https?|ftp)://.*'
 
 export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${SALT_MASTER_IP:-192.168.10.100}
+export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-192.168.10.3}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
+export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
 # Variables below are disabled for now, to be re-introduced or removed later
 set +x
@@ -208,8 +210,7 @@ do
             TARGET_LAB=${OPTARG}
             ;;
         L)
-            notify '' 3 "${OPTION}"; continue
-            DEPLOY_LOG="-log ${OPTARG}"
+            DEPLOY_LOG="${OPTARG}"
             ;;
         p)
             TARGET_POD=${OPTARG}
@@ -338,6 +339,8 @@ for state in "${cluster_states[@]}"; do
     ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
         sudo "/root/fuel/mcp/config/states/${state} || true"
 done
+
+./log.sh "${DEPLOY_LOG}"
 
 popd > /dev/null
 
