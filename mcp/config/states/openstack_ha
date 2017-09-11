@@ -54,5 +54,8 @@ salt -I 'ceilometer:agent' state.sls ceilometer
 salt -I 'horizon:server' state.sls horizon
 salt -I 'nginx:server' state.sls nginx
 
-salt -C 'I@nginx:server and *01*' cp.push /etc/ssl/certs/10.167.4.80-with-chain.crt upload_path='certs/os_cacert'
+clstr_vip_addr=$(salt -C 'I@nginx:server and *01*' --out=yaml \
+  pillar.get _param:cluster_vip_address | awk '{print $2; exit}')
+salt -C 'I@nginx:server and *01*' cp.push \
+  /etc/ssl/certs/${clstr_vip_addr}-with-chain.crt upload_path='certs/os_cacert'
 cd /etc/ssl/certs && ln -s /var/cache/salt/master/minions/prx01.*/files/certs/os_cacert
