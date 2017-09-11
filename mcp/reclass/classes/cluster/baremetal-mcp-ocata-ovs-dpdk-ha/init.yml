@@ -1,3 +1,4 @@
 classes:
+- cluster.all-mcp-ocata-common
 - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
 - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack

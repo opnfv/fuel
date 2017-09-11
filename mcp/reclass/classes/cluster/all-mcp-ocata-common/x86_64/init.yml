@@ -1,0 +1,14 @@
+parameters:
+  _param:
+    salt_control_xenial_image: http://apt.mirantis.com/images/ubuntu-16-04-x64-latest.qcow2
+
+    # VMs spawned on Foundation Node / Jump Host net ifaces (max 4)
+    opnfv_fn_vm_primary_interface: ens3
+    opnfv_fn_vm_secondary_interface: ens4
+    opnfv_fn_vm_tertiary_interface: ens5
+    opnfv_fn_vm_quaternary_interface: ens6
+
+    # VCP VMs spawned on KVM Hosts net ifaces (max 2)
+    # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
+    opnfv_vcp_vm_primary_interface: ens2
+    opnfv_vcp_vm_secondary_interface: ens3
