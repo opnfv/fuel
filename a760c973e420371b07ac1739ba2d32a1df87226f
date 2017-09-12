@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_b8095bdf",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2017-09-12T12:24:00Z",
+      "side": 1,
+      "message": "fuel1 ?",
+      "revId": "a760c973e420371b07ac1739ba2d32a1df87226f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
