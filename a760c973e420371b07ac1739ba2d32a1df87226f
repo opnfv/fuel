@@ -16,6 +16,24 @@
       "revId": "a760c973e420371b07ac1739ba2d32a1df87226f",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_f87123e1",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-12T15:25:02Z",
+      "side": 1,
+      "message": "ericsson-virtual2 had this virsh network as a leftover from old Fuel. Once our deploy jobs runs on all PODs that have legacy config, we can remove this.",
+      "parentUuid": "da33351e_b8095bdf",
+      "revId": "a760c973e420371b07ac1739ba2d32a1df87226f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
