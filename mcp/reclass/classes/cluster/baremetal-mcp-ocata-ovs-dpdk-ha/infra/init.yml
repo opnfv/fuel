@@ -1,5 +1,6 @@
 classes:
 - system.linux.system.single
+- cluster.all-mcp-ocata-common
 - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack
 # - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.stacklight
 # - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.stacklight.client
