@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_85aeab83",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T13:26:09Z",
+      "side": 1,
+      "message": "This discussed jinja template will move to the securedlab repo, but I leave there the custom filter code I did so you can see how simple it is:\n\ndef ipaddr_sum(address, value):\n    return ipaddress.IPv4Address(unicode(address)) + int(value)\n\nENV \u003d Environment(loader\u003dFileSystemLoader(\u0027./\u0027))\nENV.filters[\u0027ipaddr_sum\u0027] \u003d ipaddr_sum",
+      "parentUuid": "da33351e_c5a273ad",
+      "range": {
+        "startLine": 4,
+        "startChar": 32,
+        "endLine": 4,
+        "endChar": 98
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_c5d43322",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
         "patchSetId": 1
