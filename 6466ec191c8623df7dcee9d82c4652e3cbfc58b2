@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_c5a273ad",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T13:02:31Z",
+      "side": 1,
+      "message": "You are right. This logic is incomplete here without the python code of the securedlab PDF processor\nThe custom filter is really handy and extremely simple to use. Also works with negative indexes",
+      "parentUuid": "da33351e_651607f3",
+      "range": {
+        "startLine": 4,
+        "startChar": 32,
+        "endLine": 4,
+        "endChar": 98
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_c5d43322",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
         "patchSetId": 1
@@ -71,6 +95,30 @@
       "writtenOn": "2017-09-13T12:38:02Z",
       "side": 1,
       "message": "I think we can use the value defined in runtime.yml instead of this one.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_a5a5afb6",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T13:02:31Z",
+      "side": 1,
+      "message": "Agree",
+      "parentUuid": "da33351e_c5d43322",
       "range": {
         "startLine": 7,
         "startChar": 4,
@@ -106,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_05ad7b9c",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T13:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_251cff12",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_05df3b3c",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/maas.yml",
         "patchSetId": 1
@@ -117,6 +189,30 @@
       "writtenOn": "2017-09-13T12:38:02Z",
       "side": 1,
       "message": "this has to be parametrized too, I assume you left it for a next revision of the patch",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 36
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_25919f52",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/maas.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T13:02:31Z",
+      "side": 1,
+      "message": "Exactly. Also this MAC is not the IMPI device one but the mac MAAS uses to refer to the baremeetal machine. The PXE one I think. In any case, this value can be extrated from the PDF",
+      "parentUuid": "da33351e_05df3b3c",
       "range": {
         "startLine": 51,
         "startChar": 17,
