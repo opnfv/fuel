@@ -1,0 +1,183 @@
+---
+### Enea ARM POD 5 descriptor file ###
+
+details:
+  pod owner: ENEA AB
+  contact: dan.lilliehorn@enea.com
+  lab: ENEA lab
+  location: Stockholm, Sweden
+  type: production
+  link: https://wiki.opnfv.org/display/pharos/Enea+Hosting
+######################################################
+net_config:
+  oob:
+    interface: 0
+    ip-range: 10.0.8.3-10.0.8.10
+    vlan: 0
+  admin:
+    interface: 1
+    vlan: 0
+    network: 192.168.11.0
+    mask: 24
+  mgmt:
+    interface: 2
+    vlan: 2183
+    network: 172.16.10.0
+    mask: 24
+  storage:
+    interface: 2
+    vlan: 2184
+    network: 10.2.0.0
+    mask: 24
+  private:
+    interface: 2
+    vlan: 2185
+    network: 10.1.0.0
+    mask: 24
+  public:
+    interface: 2
+    vlan: 0
+    network: 10.0.8.0
+    mask: 24
+    gateway: 10.0.8.254
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+######################################################
+jumphost:
+  name: jenkins-slave-arm-pod5
+  node:
+    type: baremetal
+    vendor: Cavium
+    model: ThunderX
+    arch: aarch64
+    cpus: 1
+    cpu_cflags: fp asimd evtstrm aes pmull sha1 sha2 crc32
+    cores: 48
+    memory: 128G
+  disks:
+    - name: disk1
+      disk_capacity: 500G
+      disk_type: hdd
+      disk_interface: sata
+      disk_rotation: 7200
+  os: ubuntu-16.04
+  remote_params: &remote_params
+    type: ipmi
+    versions:
+      - 2.0
+    user: admin
+    pass: admin
+  remote_management:
+    <<: *remote_params
+    address: 10.0.100.164
+    mac_address: "00:0F:B7:11:18:82"
+  interfaces:
+    - "00:0F:B7:11:18:82"
+    - "00:0f:b7:04:00:c0"
+    - "00:0f:b7:04:00:c1"
+    - "00:0f:b7:04:00:c2"
+    - "68:05:ca:34:60:e3"
+  fixed_ips:
+    admin: 192.168.11.1
+    mgmt: 172.16.10.1
+    public: 10.0.8.9
+######################################################
+nodes:
+  - name: softiron-3
+    node: &nodeparams
+        type: baremetal
+        vendor: Softiron
+        model: Overdrive 3000
+        arch: aarch64
+        cpus: 1
+        cpu_cflags: fp asimd evtstrm aes pmull sha1 sha2 crc32
+        cores: 8
+        memory: 32G
+    disks: &disks
+      - name: 'disk1'
+        disk_capacity: 128G
+        disk_type: ssd
+        disk_interface: sata
+        disk_rotation: ''
+      - name: 'disk2'
+        disk_capacity: 2048G
+        disk_type: hdd
+        disk_interface: sata
+        disk_rotation: 7200
+    remote_management:
+        <<: *remote_params
+        address: 10.0.8.3
+        mac_address: "e0:ff:f7:00:04:99"
+    interfaces:
+        - "e0:ff:f7:00:04:99"
+        - "e0:ff:f7:00:08:ae"
+        - "e0:ff:f7:00:08:af"
+    fixed_ips:
+      admin: 192.168.11.2
+      mgmt: 172.16.10.141
+      public: 10.0.8.141
+######################################################
+  - name: softiron-4
+    node: *nodeparams
+    disk: *disks
+    remote_management:
+      <<: *remote_params
+      address: 10.0.8.4
+      mac_address: "e0:ff:f7:00:05:00"
+    interfaces:
+      - "e0:ff:f7:00:05:00"
+      - "e0:ff:f7:00:08:b1"
+      - "e0:ff:f7:00:08:b2"
+    fixed_ips:
+      admin: 192.168.11.3
+      mgmt: 172.16.10.142
+      public: 10.0.8.142
+######################################################
+  - name: softiron-5
+    node: *nodeparams
+    disk: *disks
+    remote_management:
+      <<: *remote_params
+      address: 10.0.8.5
+      mac_address: "e0:ff:f7:00:04:a9"
+    interfaces:
+      - "e0:ff:f7:00:04:a9"
+      - "e0:ff:f7:00:08:b1"
+      - "e0:ff:f7:00:08:b2"
+    fixed_ips:
+      admin: 192.168.11.4
+      mgmt: 172.16.10.143
+      public: 10.0.8.143
+######################################################
+  - name: softiron-6
+    node: *nodeparams
+    disk: *disks
+    remote_management:
+      <<: *remote_params
+      address: 10.0.8.6
+      mac_address: "e0:ff:f7:00:04:78"
+    interfaces:
+      - "e0:ff:f7:00:04:a9"
+      - "e0:ff:f7:00:08:c6"
+      - "e0:ff:f7:00:08:c7"
+    fixed_ips:
+      admin: 192.168.11.5
+      mgmt: 172.16.10.101
+      public: 10.0.8.101
+######################################################
+  - name: softiron-7
+    node: *nodeparams
+    disk: *disks
+    remote_management:
+      <<: *remote_params
+      address: 10.0.8.7
+      mac_address: "e0:ff:f7:00:05:19"
+    interfaces:
+      - "e0:ff:f7:00:05:19"
+      - "e0:ff:f7:00:08:cf"
+      - "e0:ff:f7:00:08:d0"
+    fixed_ips:
+      admin: 192.168.11.6
+      mgmt: 172.16.10.102
+      public: 10.0.8.102
