@@ -3,6 +3,7 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.linux.storage.loopback
+- system.glusterfs.client.cluster
 - system.nova.compute.cluster
 - system.nova.compute.nfv.hugepages
 - system.nova.compute.nfv.cpu_pinning
@@ -47,6 +48,15 @@ parameters:
       services: ${_param:neutron_agents}
       backend:
         router: ${_param:opendaylight_router}
+  glusterfs:
+    client:
+      volumes:
+        nova_instances:
+          path: /var/lib/nova/instances
+          server: ${_param:glusterfs_service_host}
+          user: nova
+          group: nova
+          opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
     network:
       bridge: openvswitch
