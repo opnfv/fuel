@@ -1,0 +1,94 @@
+parameters:
+  _param:
+    # infra service addresses
+    opnfv_infra_config_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('100') }}
+    opnfv_infra_config_deploy_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('100') }}
+    opnfv_infra_maas_node01_address:  {{ conf['net_config']['admin']['network'] | ipaddr_index('3') }}
+    opnfv_infra_maas_node01_deploy_address: 192.168.11.3
+    opnfv_infra_maas_node01_external_address: {{ conf['net_config']['public']['network'] | ipaddr_index('3') }}
+    opnfv_infra_compute_node01_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('141') }}
+    opnfv_infra_compute_node02_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('142') }}
+    opnfv_infra_compute_node03_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('143')
+    opnfv_infra_kvm_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('140') }}
+    opnfv_infra_kvm_node01_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('141') }}
+    opnfv_infra_kvm_node02_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('142') }}
+    opnfv_infra_kvm_node03_address: {{ conf['net_config']['admin']['network'] | ipaddr_index('143') }}
+
+    opnfv_openstack_gateway_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('124') }}
+    opnfv_openstack_gateway_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('125') }}
+    opnfv_openstack_gateway_node03_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('126') }}
+    opnfv_openstack_gateway_node01_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('6') }}
+    opnfv_openstack_gateway_node02_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('7') }}
+    opnfv_openstack_gateway_node03_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('9') }}
+    opnfv_openstack_proxy_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('80') }}
+    opnfv_openstack_proxy_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('81') }}
+    opnfv_openstack_proxy_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('82') }}
+    opnfv_openstack_control_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('10') }}
+    opnfv_openstack_control_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('11') }}
+    opnfv_openstack_control_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('12') }}
+    opnfv_openstack_control_node03_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('13') }}
+    opnfv_openstack_database_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('50') }}
+    opnfv_openstack_database_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('51') }}
+    opnfv_openstack_database_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('52') }}
+    opnfv_openstack_database_node03_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('53') }}
+    opnfv_openstack_message_queue_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('40') }}
+    opnfv_openstack_message_queue_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('41') }}
+    opnfv_openstack_message_queue_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('42') }}
+    opnfv_openstack_message_queue_node03_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('43') }}
+    opnfv_openstack_telemetry_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('75') }}
+    opnfv_openstack_telemetry_node01_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('76') }}
+    opnfv_openstack_telemetry_node02_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('77') }}
+    opnfv_openstack_telemetry_node03_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('78') }}
+    opnfv_openstack_compute_node01_single_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('101') }}
+    opnfv_openstack_compute_node02_single_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('102') }}
+    opnfv_openstack_compute_node03_single_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('103') }}
+    opnfv_openstack_compute_node01_control_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('101') }}
+    opnfv_openstack_compute_node02_control_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('102') }}
+    opnfv_openstack_compute_node03_control_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('103') }}
+    opnfv_openstack_compute_node01_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('101') }}
+    opnfv_openstack_compute_node02_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('102') }}
+    opnfv_openstack_compute_node03_tenant_address: {{ conf['net_config']['private']['network'] | ipaddr_index('103') }}
+    opnfv_openstack_compute_node01_external_address: {{ conf['net_config']['public']['network'] | ipaddr_index('2') }}
+    opnfv_openstack_compute_node02_external_address: {{ conf['net_config']['public']['network'] | ipaddr_index('3') }}
+
+    # opendaylight options
+    #opnfv_opendaylight_server_node01_single_address: {{ conf['net_config']['mgmt']['network'] | ipaddr_index('111') }}
+
+    opnfv_name_servers: {{ conf['net_config']['public']['dns'] }}
+    opnfv_net_mgmt_vlan: {{ conf['net_config']['mgmt']['vlan'] }}
+    opnfv_net_tenant_vlan: {{ conf['net_config']['private']['vlan'] }}
+
+    opnfv_maas_node01_architecture: '{{ conf['nodes'][1]['node']['arch'] }}/generic'
+    opnfv_maas_node01_power_address: {{ conf['nodes'][1]['remote_management']['address'] }}
+    opnfv_maas_node01_power_type: {{ conf['nodes'][1]['remote_management']['type'] }}
+    opnfv_maas_node01_power_user: {{ conf['nodes'][1]['remote_management']['user'] }}
+    opnfv_maas_node01_power_password: {{ conf['nodes'][1]['remote_management']['pass'] }}
+    opnfv_maas_node01_interface_pxe_mac: '{{ conf['nodes'][1]['interfaces'][1] }}'
+
+    opnfv_maas_node02_architecture: '{{ conf['nodes'][2]['node']['arch'] }}/generic'
+    opnfv_maas_node02_power_address: {{ conf['nodes'][2]['remote_management']['address'] }}
+    opnfv_maas_node02_power_type: {{ conf['nodes'][2]['remote_management']['type'] }}
+    opnfv_maas_node02_power_user: {{ conf['nodes'][2]['remote_management']['user'] }}
+    opnfv_maas_node02_power_password: {{ conf['nodes'][2]['remote_management']['pass'] }}
+    opnfv_maas_node02_interface_pxe_mac: '{{ conf['nodes'][2]['interfaces'][1] }}'
+
+    opnfv_maas_node03_architecture: '{{ conf['nodes'][3]['node']['arch'] }}/generic'
+    opnfv_maas_node03_power_address: {{ conf['nodes'][3]['remote_management']['address'] }}
+    opnfv_maas_node03_power_type: {{ conf['nodes'][3]['remote_management']['type'] }}
+    opnfv_maas_node03_power_user: {{ conf['nodes'][3]['remote_management']['user'] }}
+    opnfv_maas_node03_power_password: {{ conf['nodes'][3]['remote_management']['pass'] }}
+    opnfv_maas_node03_interface_pxe_mac: '{{ conf['nodes'][3]['interfaces'][1] }}'
+
+    opnfv_maas_node04_architecture: '{{ conf['nodes'][4]['node']['arch'] }}/generic'
+    opnfv_maas_node04_power_address: {{ conf['nodes'][4]['remote_management']['address'] }}
+    opnfv_maas_node04_power_type: {{ conf['nodes'][4]['remote_management']['type'] }}
+    opnfv_maas_node04_power_user: {{ conf['nodes'][4]['remote_management']['user'] }}
+    opnfv_maas_node04_power_password: {{ conf['nodes'][4]['remote_management']['pass'] }}
+    opnfv_maas_node04_interface_pxe_mac: '{{ conf['nodes'][4]['interfaces'][1] }}'
+
+    opnfv_maas_node05_architecture: '{{ conf['nodes'][5]['node']['arch'] }}/generic'
+    opnfv_maas_node05_power_address: {{ conf['nodes'][5]['remote_management']['address'] }}
+    opnfv_maas_node05_power_type: {{ conf['nodes'][5]['remote_management']['type'] }}
+    opnfv_maas_node05_power_user: {{ conf['nodes'][5]['remote_management']['user'] }}
+    opnfv_maas_node05_power_password: {{ conf['nodes'][5]['remote_management']['pass'] }}
+    opnfv_maas_node05_interface_pxe_mac: '{{ conf['nodes'][5]['interfaces'][1] }}'
