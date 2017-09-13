@@ -17,19 +17,19 @@ parameters:
     infra_maas_database_password: opnfv_secret
 
     # infra service addresses
-    infra_config_address: 10.167.4.100
-    infra_config_deploy_address: 10.20.0.2
-    infra_maas_node01_address: 10.167.4.3
+    infra_config_address: ${_param:opnfv_infra_config_address}
+    infra_config_deploy_address: ${_param:opnfv_infra_config_deploy_address}
+    infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
     infra_maas_node01_deploy_address: ${_param:opnfv_fuel_maas_pxe_address}
-    infra_maas_node01_external_address: 10.16.0.3
-    infra_compute_node01_address: 10.167.4.141
-    infra_compute_node02_address: 10.167.4.142
-    infra_compute_node03_address: 10.167.4.143
+    infra_maas_node01_external_address: ${_param:opnfv_infra_maas_node01_external_address}
+    infra_compute_node01_address: ${_param:opnfv_infra_compute_node01_address}
+    infra_compute_node02_address: ${_param:opnfv_infra_compute_node02_address}
+    infra_compute_node03_address: ${_param:opnfv_infra_compute_node03_address}
 
-    infra_kvm_address: 10.167.4.140
-    infra_kvm_node01_address: 10.167.4.141
-    infra_kvm_node02_address: 10.167.4.142
-    infra_kvm_node03_address: 10.167.4.143
+    infra_kvm_address: ${_param:opnfv_infra_kvm_address}
+    infra_kvm_node01_address: ${_param:opnfv_infra_kvm_node01_address}
+    infra_kvm_node02_address: ${_param:opnfv_infra_kvm_node02_address}
+    infra_kvm_node03_address: ${_param:opnfv_infra_kvm_node03_address}
 
     infra_maas_node01_hostname: mas01
     infra_kvm_node01_hostname: kvm01
