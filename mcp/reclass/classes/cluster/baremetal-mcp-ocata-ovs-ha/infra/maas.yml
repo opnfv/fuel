@@ -15,7 +15,7 @@ parameters:
     maas_admin_username: opnfv
     maas_admin_password: opnfv_secret
     maas_db_password: opnfv_secret
-    dns_server01: 8.8.4.4
+    dns_server01: ${_param:opnfv_name_servers}
     single_address: ${_param:infra_maas_node01_deploy_address}
   maas:
     region:
@@ -32,13 +32,13 @@ parameters:
         network_discovery: 'enabled'
         default_min_hwe_kernel: 'hwe-16.04'
       subnets:
-        opnfv_fuel_maas_pxe:
-          name: ${_param:opnfv_fuel_maas_pxe_network}/24
-          cidr: ${_param:opnfv_fuel_maas_pxe_network}/24
+        opnfv_maas_pxe:
+          name: ${_param:opnfv_maas_pxe_network}/24
+          cidr: ${_param:opnfv_maas_pxe_network}/24
           gateway_ip: ${_param:single_address}
           iprange:
-            start: ${_param:opnfv_fuel_maas_pxe_iprange_start}
-            end: ${_param:opnfv_fuel_maas_pxe_iprange_end}
+            start: ${_param:opnfv_maas_pxe_iprange_start}
+            end: ${_param:opnfv_maas_pxe_iprange_end}
             type: dynamic
           vlans:
             untagged:
@@ -48,57 +48,57 @@ parameters:
       machines:
         kvm01:
           interface:
-            mac: "00:25:b5:a0:00:2a"
+            mac: ${_param:opnfv_maas_node01_interface_mac}
           power_parameters:
-            power_address: "172.30.8.75"
-            power_password: "octopus"
-            power_type: ipmi
-            power_user: "admin"
-          architecture: 'amd64/generic'
+            power_address: ${_param:opnfv_maas_node01_power_address}
+            power_password: ${_param:opnfv_maas_node01_power_password}
+            power_type: ${_param:opnfv_maas_node01_power_type}
+            power_user: ${_param:opnfv_maas_node01_power_user}
+          architecture: ${_param:opnfv_maas_node01_architecture}
           distro_series: xenial
           hwe_kernel: hwe-16.04
         kvm02:
           interface:
-            mac: "00:25:b5:a0:00:3a"
+            mac: ${_param:opnfv_maas_node02_interface_mac}
           power_parameters:
-            power_address: "172.30.8.65"
-            power_password: "octopus"
-            power_type: ipmi
-            power_user: "admin"
-          architecture: 'amd64/generic'
+            power_address: ${_param:opnfv_maas_node02_power_address}
+            power_password: ${_param:opnfv_maas_node02_power_password}
+            power_type: ${_param:opnfv_maas_node02_power_type}
+            power_user: ${_param:opnfv_maas_node02_power_user}
+          architecture: ${_param:opnfv_maas_node02_architecture}
           distro_series: xenial
           hwe_kernel: hwe-16.04
         kvm03:
           interface:
-            mac: "00:25:b5:a0:00:4a"
+            mac: ${_param:opnfv_maas_node03_interface_mac}
           power_parameters:
-            power_address: "172.30.8.74"
-            power_password: "octopus"
-            power_type: ipmi
-            power_user: "admin"
-          architecture: 'amd64/generic'
+            power_address: ${_param:opnfv_maas_node03_power_address}
+            power_password: ${_param:opnfv_maas_node03_power_password}
+            power_type: ${_param:opnfv_maas_node03_power_type}
+            power_user: ${_param:opnfv_maas_node03_power_user}
+          architecture: ${_param:opnfv_maas_node03_architecture}
           distro_series: xenial
           hwe_kernel: hwe-16.04
         cmp001:
           interface:
-            mac: "00:25:b5:a0:00:5a"
+            mac: ${_param:opnfv_maas_node04_interface_mac}
           power_parameters:
-            power_address: "172.30.8.73"
-            power_password: "octopus"
-            power_type: ipmi
-            power_user: "admin"
-          architecture: 'amd64/generic'
+            power_address: ${_param:opnfv_maas_node04_power_address}
+            power_password: ${_param:opnfv_maas_node04_power_password}
+            power_type: ${_param:opnfv_maas_node04_power_type}
+            power_user: ${_param:opnfv_maas_node04_power_user}
+          architecture: ${_param:opnfv_maas_node04_architecture}
           distro_series: xenial
           hwe_kernel: hwe-16.04
         cmp002:
           interface:
-            mac: "00:25:b5:a0:00:6a"
+            mac: ${_param:opnfv_maas_node05_interface_mac}
           power_parameters:
-            power_address: "172.30.8.72"
-            power_password: "octopus"
-            power_type: ipmi
-            power_user: "admin"
-          architecture: 'amd64/generic'
+            power_address: ${_param:opnfv_maas_node05_power_address}
+            power_password: ${_param:opnfv_maas_node05_power_password}
+            power_type: ${_param:opnfv_maas_node05_power_type}
+            power_user: ${_param:opnfv_maas_node05_power_user}
+          architecture: ${_param:opnfv_maas_node05_architecture}
           distro_series: xenial
           hwe_kernel: hwe-16.04
   linux:

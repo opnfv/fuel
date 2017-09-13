@@ -3,32 +3,32 @@ parameters:
 
     openstack_version: ocata
 
-    openstack_gateway_node01_address: 10.167.4.124
-    openstack_gateway_node02_address: 10.167.4.125
-    openstack_gateway_node03_address: 10.167.4.126
-    openstack_gateway_node01_tenant_address: 10.1.0.6
-    openstack_gateway_node02_tenant_address: 10.1.0.7
-    openstack_gateway_node03_tenant_address: 10.1.0.9
+    openstack_gateway_node01_address: ${_param:opnfv_openstack_gateway_node01_address}
+    openstack_gateway_node02_address: ${_param:opnfv_openstack_gateway_node02_address}
+    openstack_gateway_node03_address: ${_param:opnfv_openstack_gateway_node03_address}
+    openstack_gateway_node01_tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+    openstack_gateway_node02_tenant_address: ${_param:opnfv_openstack_gateway_node02_tenant_address}
+    openstack_gateway_node03_tenant_address: ${_param:opnfv_openstack_gateway_node03_tenant_address}
     openstack_gateway_node01_hostname: gtw01
     openstack_gateway_node02_hostname: gtw02
     openstack_gateway_node03_hostname: gtw03
 
     # openstack service addresses
-    openstack_proxy_address: 10.167.4.80
-    openstack_proxy_node01_address: 10.167.4.81
-    openstack_proxy_node02_address: 10.167.4.82
-    openstack_control_address: 10.167.4.10
-    openstack_control_node01_address: 10.167.4.11
-    openstack_control_node02_address: 10.167.4.12
-    openstack_control_node03_address: 10.167.4.13
-    openstack_database_address: 10.167.4.50
-    openstack_database_node01_address: 10.167.4.51
-    openstack_database_node02_address: 10.167.4.52
-    openstack_database_node03_address: 10.167.4.53
-    openstack_message_queue_address: 10.167.4.40
-    openstack_message_queue_node01_address: 10.167.4.41
-    openstack_message_queue_node02_address: 10.167.4.42
-    openstack_message_queue_node03_address: 10.167.4.43
+    openstack_proxy_address: ${_param:opnfv_openstack_proxy_address}
+    openstack_proxy_node01_address: ${_param:opnfv_openstack_proxy_node01_address}
+    openstack_proxy_node02_address: ${_param:opnfv_openstack_proxy_node02_address}
+    openstack_control_address: ${_param:opnfv_openstack_control_address}
+    openstack_control_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    openstack_control_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    openstack_control_node03_address: ${_param:opnfv_openstack_control_node03_address}
+    openstack_database_address: ${_param:opnfv_openstack_database_address}
+    openstack_database_node01_address: ${_param:opnfv_openstack_database_node01_address}
+    openstack_database_node02_address: ${_param:opnfv_openstack_database_node02_address}
+    openstack_database_node03_address: ${_param:opnfv_openstack_database_node03_address}
+    openstack_message_queue_address: ${_param:opnfv_openstack_message_queue_address}
+    openstack_message_queue_node01_address: ${_param:opnfv_openstack_message_queue_node01_address}
+    openstack_message_queue_node02_address: ${_param:opnfv_openstack_message_queue_node02_address}
+    openstack_message_queue_node03_address: ${_param:opnfv_openstack_message_queue_node03_address}
 
 
     openstack_telemetry_hostname: mdb
@@ -36,23 +36,23 @@ parameters:
     openstack_telemetry_node02_hostname: mdb02
     openstack_telemetry_node03_hostname: mdb03
 
-    openstack_telemetry_address: 10.167.4.75
-    openstack_telemetry_node01_address: 10.167.4.76
-    openstack_telemetry_node02_address: 10.167.4.77
-    openstack_telemetry_node03_address: 10.167.4.78
+    openstack_telemetry_address: ${_param:opnfv_openstack_telemetry_address}
+    openstack_telemetry_node01_address: ${_param:opnfv_openstack_telemetry_node01_address}
+    openstack_telemetry_node02_address: ${_param:opnfv_openstack_telemetry_node02_address}
+    openstack_telemetry_node03_address: ${_param:opnfv_openstack_telemetry_node03_address}
 
     # OpenStack Compute
-    openstack_compute_node01_single_address: 10.167.4.101
-    openstack_compute_node02_single_address: 10.167.4.102
-    openstack_compute_node03_single_address: 10.167.4.103
-    openstack_compute_node01_control_address: 10.167.4.101
-    openstack_compute_node02_control_address: 10.167.4.102
-    openstack_compute_node03_control_address: 10.167.4.103
-    openstack_compute_node01_tenant_address: 10.1.0.101
-    openstack_compute_node02_tenant_address: 10.1.0.102
-    openstack_compute_node03_tenant_address: 10.1.0.103
-    openstack_compute_node01_external_address: 172.30.10.2
-    openstack_compute_node02_external_address: 172.30.10.3
+    openstack_compute_node01_single_address: ${_param:opnfv_openstack_compute_node01_single_address}
+    openstack_compute_node02_single_address: ${_param:opnfv_openstack_compute_node02_single_address}
+    openstack_compute_node03_single_address: ${_param:opnfv_openstack_compute_node03_single_address}
+    openstack_compute_node01_control_address: ${_param:opnfv_openstack_compute_node01_control_address}
+    openstack_compute_node02_control_address: ${_param:opnfv_openstack_compute_node02_control_address}
+    openstack_compute_node03_control_address: ${_param:opnfv_openstack_compute_node03_control_address}
+    openstack_compute_node01_tenant_address: ${_param:opnfv_openstack_compute_node01_tenant_address}
+    openstack_compute_node02_tenant_address: ${_param:opnfv_openstack_compute_node02_tenant_address}
+    openstack_compute_node03_tenant_address: ${_param:opnfv_openstack_compute_node03_tenant_address}
+    openstack_compute_node01_external_address: ${_param:opnfv_openstack_compute_node01_external_address}
+    openstack_compute_node02_external_address: ${_param:opnfv_openstack_compute_node02_external_address}
 
     # openstack service hostnames
     openstack_proxy_hostname: prx
