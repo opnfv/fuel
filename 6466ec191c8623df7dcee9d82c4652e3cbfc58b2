@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_a5d76f22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T12:38:02Z",
+      "side": 1,
+      "message": "please add an empty line before commit title and commit description",
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_651607f3",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T12:38:02Z",
+      "side": 1,
+      "message": "I really like this, but does it work in Fuel without a custom filter for ipaddr_index?",
+      "range": {
+        "startLine": 4,
+        "startChar": 32,
+        "endLine": 4,
+        "endChar": 98
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c5d43322",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T12:38:02Z",
+      "side": 1,
+      "message": "I think we can use the value defined in runtime.yml instead of this one.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_251cff12",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T12:38:02Z",
+      "side": 1,
+      "message": "let\u0027s rename these to opnfv_maas_node01_*, so it looks aligned for 10-99 nodes.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_05df3b3c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/maas.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T12:38:02Z",
+      "side": 1,
+      "message": "this has to be parametrized too, I assume you left it for a next revision of the patch",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 36
+      },
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
