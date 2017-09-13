@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da33351e_65ed67ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-13T12:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_a5d76f22",
+      "revId": "6466ec191c8623df7dcee9d82c4652e3cbfc58b2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_651607f3",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
         "patchSetId": 1
