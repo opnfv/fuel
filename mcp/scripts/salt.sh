@@ -47,7 +47,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   cd /srv/salt/scripts
   BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 " \
     MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=nightly \
-      ./salt-master-init.sh
+      EXTRA_FORMULAS="nfs" \
+        ./salt-master-init.sh
   salt-key -Ay
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/salt-formulas/* /usr/share/salt-formulas/env

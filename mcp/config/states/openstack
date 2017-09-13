@@ -1,6 +1,10 @@
 #!/bin/bash
 set -x
 
+salt -I 'nfs:server' file.mkdir /srv/nova/instances
+salt -I 'nfs:server' state.sls nfs
+salt -I 'nfs:client' state.sls nfs
+
 salt -I 'rabbitmq:server' state.sls rabbitmq
 salt -I 'rabbitmq:server' cmd.run "rabbitmqctl status"
 

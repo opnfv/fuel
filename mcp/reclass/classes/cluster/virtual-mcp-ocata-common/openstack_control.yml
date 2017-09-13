@@ -3,6 +3,7 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
+- service.nfs.server
 - system.mongodb.server.single
 - system.mongodb.server.database.ceilometer
 - system.ceilometer.client
@@ -112,3 +113,15 @@ parameters:
         address: ${_param:cluster_local_address},127.0.0.1
       logging:
         verbose: v
+  nfs:
+    server:
+      share:
+        nova_instances:
+          path: /srv/nova/instances
+          host:
+            nova:
+              host: ${_param:single_address}/24
+              params:
+              - rw
+              - no_root_squash
+              - async
