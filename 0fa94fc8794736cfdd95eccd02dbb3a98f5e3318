@@ -22,6 +22,30 @@
       "revId": "0fa94fc8794736cfdd95eccd02dbb3a98f5e3318",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_40c5b18c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/kvm.yml",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-13T17:00:56Z",
+      "side": 1,
+      "message": "On second thought, let\u0027s leave this for later, the mode lwill be confusing enough even without it.",
+      "parentUuid": "da33351e_007e096b",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 15
+      },
+      "revId": "0fa94fc8794736cfdd95eccd02dbb3a98f5e3318",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
