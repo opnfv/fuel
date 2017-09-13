@@ -28,7 +28,7 @@ salt -I 'keystone:client' state.sls keystone.client
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
-salt -I 'glance:server' state.sls glusterfs.client
+salt -I 'glusterfs:client' state.sls glusterfs.client
 salt -I 'keystone:server' state.sls keystone.server
 
 salt -I 'nova:controller' state.sls nova -b 1
