@@ -1,0 +1,83 @@
+parameters:
+  _param:
+    # infra service addresses
+    opnfv_infra_config_address: 10.167.4.100
+    opnfv_infra_config_deploy_address: 192.168.10.100
+    opnfv_infra_maas_node01_address: 10.167.4.3
+    opnfv_infra_maas_node01_deploy_address: 192.168.11.3
+    opnfv_infra_maas_node01_external_address: 10.16.0.3
+    opnfv_infra_compute_node01_address: 10.167.4.141
+    opnfv_infra_compute_node02_address: 10.167.4.142
+    opnfv_infra_compute_node03_address: 10.167.4.143
+    opnfv_infra_kvm_address: 10.167.4.140
+    opnfv_infra_kvm_node01_address: 10.167.4.141
+    opnfv_infra_kvm_node02_address: 10.167.4.142
+    opnfv_infra_kvm_node03_address: 10.167.4.143
+
+    opnfv_openstack_gateway_node01_address: 10.167.4.124
+    opnfv_openstack_gateway_node02_address: 10.167.4.125
+    opnfv_openstack_gateway_node03_address: 10.167.4.126
+    opnfv_openstack_gateway_node01_tenant_address: 10.1.0.6
+    opnfv_openstack_gateway_node02_tenant_address: 10.1.0.7
+    opnfv_openstack_gateway_node03_tenant_address: 10.1.0.9
+    opnfv_openstack_proxy_address: 10.167.4.80
+    opnfv_openstack_proxy_node01_address: 10.167.4.81
+    opnfv_openstack_proxy_node02_address: 10.167.4.82
+    opnfv_openstack_control_address: 10.167.4.10
+    opnfv_openstack_control_node01_address: 10.167.4.11
+    opnfv_openstack_control_node02_address: 10.167.4.12
+    opnfv_openstack_control_node03_address: 10.167.4.13
+    opnfv_openstack_database_address: 10.167.4.50
+    opnfv_openstack_database_node01_address: 10.167.4.51
+    opnfv_openstack_database_node02_address: 10.167.4.52
+    opnfv_openstack_database_node03_address: 10.167.4.53
+    opnfv_openstack_message_queue_address: 10.167.4.40
+    opnfv_openstack_message_queue_node01_address: 10.167.4.41
+    opnfv_openstack_message_queue_node02_address: 10.167.4.42
+    opnfv_openstack_message_queue_node03_address: 10.167.4.43
+    opnfv_openstack_telemetry_address: 10.167.4.75
+    opnfv_openstack_telemetry_node01_address: 10.167.4.76
+    opnfv_openstack_telemetry_node02_address: 10.167.4.77
+    opnfv_openstack_telemetry_node03_address: 10.167.4.78
+    opnfv_openstack_compute_node01_single_address: 10.167.4.101
+    opnfv_openstack_compute_node02_single_address: 10.167.4.102
+    opnfv_openstack_compute_node03_single_address: 10.167.4.103
+    opnfv_openstack_compute_node01_control_address: 10.167.4.101
+    opnfv_openstack_compute_node02_control_address: 10.167.4.102
+    opnfv_openstack_compute_node03_control_address: 10.167.4.103
+    opnfv_openstack_compute_node01_tenant_address: 10.1.0.101
+    opnfv_openstack_compute_node02_tenant_address: 10.1.0.102
+    opnfv_openstack_compute_node03_tenant_address: 10.1.0.103
+    opnfv_openstack_compute_node01_external_address: 172.30.10.2
+    opnfv_openstack_compute_node02_external_address: 172.30.10.3
+
+    opnfv_maas_node1_architecture: amd64/generic
+    opnfv_maas_node1_power_address: 172.30.8.75
+    opnfv_maas_node1_power_type: ipmi
+    opnfv_maas_node1_power_user: admin
+    opnfv_maas_node1_power_password: octopus
+
+    opnfv_maas_node2_architecture: amd64/generic
+    opnfv_maas_node2_power_address: 172.30.8.65
+    opnfv_maas_node2_power_type: ipmi
+    opnfv_maas_node2_power_user: admin
+    opnfv_maas_node2_power_password: octopus
+
+    opnfv_maas_node3_architecture: amd64/generic
+    opnfv_maas_node3_power_address: 172.30.8.74
+    opnfv_maas_node3_power_type: ipmi
+    opnfv_maas_node3_power_user: admin
+    opnfv_maas_node3_power_password: octopus
+
+    opnfv_maas_node4_architecture: amd64/generic
+    opnfv_maas_node4_power_address: 172.30.8.73
+    opnfv_maas_node4_power_type: ipmi
+    opnfv_maas_node4_power_user: admin
+    opnfv_maas_node4_power_password: octopus
+
+
+    opnfv_maas_node5_architecture: amd64/generic
+    opnfv_maas_node5_power_address: 172.30.8.72
+    opnfv_maas_node5_power_type: ipmi
+    opnfv_maas_node5_power_password: octopus
+    opnfv_maas_node5_power_user: admin
