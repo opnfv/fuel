@@ -7,3 +7,28 @@ parameters:
     server:
       backend:
         router: ${_param:opendaylight_router}
+  haproxy:
+    proxy:
+      listen:
+        opendaylight-web:
+          type: general-service
+          service_name: opendaylight
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8181
+          servers:
+          - name: ctl01
+            host: ${_param:opendaylight_service_host}
+            port: 8181
+            params: ${_param:haproxy_check}
+        opendaylight-rest:
+          type: openstack-service
+          service_name: opendaylight
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8282
+          servers:
+          - name: ctl01
+            host: ${_param:opendaylight_service_host}
+            port: 8282
+            params: ${_param:haproxy_check}
