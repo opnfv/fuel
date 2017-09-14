@@ -96,9 +96,9 @@ parameters:
     rabbitmq_openstack_password: opnfv_secret
     neutron_tenant_vlan_range: "1000:1030"
     nova_cpu_pinning: "5-7,13-15"
-    compute_hugepages_size: 1G
-    compute_hugepages_count: 12
-    compute_hugepages_mount: /mnt/hugepages_1G
+    compute_hugepages_size: 2M
+    compute_hugepages_count: 8192
+    compute_hugepages_mount: /mnt/hugepages_2M
     compute_kernel_isolcpu: 2,3,5,6,7,10,11,13,14,15
     compute_dpdk_driver: uio
     compute_ovs_pmd_cpu_mask: "0xc04"
