@@ -38,6 +38,9 @@ $(notify "USAGE:" 2)
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
   -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
+  -e  Do not launch environment deployment
+  -f  Deploy on existing Salt master
+  -F  Do only create a Salt master
   -h  Print this message and exit
   -l  Lab-name
   -p  Pod-name
@@ -47,9 +50,6 @@ $(notify "OPTIONS:" 2)
 
 $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
   -d  (disabled) Dry-run
-  -e  (disabled) Do not launch environment deployment
-  -f  (disabled) Deploy on existing Salt master
-  -F  (disabled) Do only create a Salt master
   -i  (disabled) iso url
   -T  (disabled) Timeout, in minutes, for the deploy.
 
@@ -74,6 +74,9 @@ $(notify "Input parameters to the build script are:" 2)
    For baremetal deploys, PXE bridge is used for baremetal node provisioning,
    while "mcpcontrol" is used to provision the infrastructure VMs only.
    The default is 'pxebr'.
+-e Do not launch environment deployment
+-f Deploy on existing Salt master
+-F Do only create a Salt master
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
@@ -84,9 +87,6 @@ $(notify "Input parameters to the build script are:" 2)
 
 $(notify "Disabled input parameters (not yet supported with MCP):" 3)
 -d (disabled) Dry-run - Produce deploy config files, but do not execute deploy
--f (disabled) Deploy on existing Salt master
--e (disabled) Do not launch environment deployment
--F (disabled) Do only create a Salt master
 -T (disabled) Timeout, in minutes, for the deploy.
    It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
 -i (disabled) .iso image to be deployed (needs to be provided in a URI
@@ -152,11 +152,13 @@ export MAAS_PXE_NETWORK_ROOTSTR=${MAAS_PXE_NETWORK%.*}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
+# Customize deploy workflow
+export USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
+export INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
+export NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
+
 # Variables below are disabled for now, to be re-introduced or removed later
 set +x
-USE_EXISTING_FUEL=''
-FUEL_CREATION_ONLY=''
-NO_DEPLOY_ENVIRONMENT=''
 DRY_RUN=0
 if ! [ -z "${DEPLOY_TIMEOUT}" ]; then
     DEPLOY_TIMEOUT="-dt ${DEPLOY_TIMEOUT}"
@@ -201,16 +203,13 @@ do
             DRY_RUN=1
             ;;
         f)
-            notify '' 3 "${OPTION}"; continue
-            USE_EXISTING_FUEL='-nf'
+            USE_EXISTING_INFRA=1
             ;;
         F)
-            notify '' 3 "${OPTION}"; continue
-            FUEL_CREATION_ONLY='-fo'
+            INFRA_CREATION_ONLY=1
             ;;
         e)
-            notify '' 3 "${OPTION}"; continue
-            NO_DEPLOY_ENVIRONMENT='-nde'
+            NO_DEPLOY_ENVIRONMENT=1
             ;;
         l)
             TARGET_LAB=${OPTARG}
@@ -338,24 +337,32 @@ for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
     net_*.template; do envsubst < "${tp}" > "${tp%.template}"; done
 
 # Infra setup
-generate_ssh_key
-prepare_vms virtual_nodes "${base_image}" "${STORAGE_DIR}"
-create_networks OPNFV_BRIDGES
-create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus \
-  OPNFV_BRIDGES "${STORAGE_DIR}"
-update_mcpcontrol_network
-start_vms virtual_nodes
-check_connection
+if [ ${USE_EXISTING_INFRA} -eq 1 ]; then
+    notify "Use existing infra\n" 2 1>&2
+    check_connection
+else
+    generate_ssh_key
+    prepare_vms virtual_nodes "${base_image}" "${STORAGE_DIR}"
+    create_networks OPNFV_BRIDGES
+    create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus \
+      OPNFV_BRIDGES "${STORAGE_DIR}"
+    update_mcpcontrol_network
+    start_vms virtual_nodes
+    check_connection
+    ./salt.sh
+fi
 
-./salt.sh
-
-# Openstack cluster setup
-for state in "${cluster_states[@]}"; do
-    notify "STATE: ${state}\n" 2
-    # shellcheck disable=SC2086,2029
-    ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
-        sudo "/root/fuel/mcp/config/states/${state} || true"
-done
+if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1]; then
+    echo "Skip openstack cluster setup\n" 2
+else
+    # Openstack cluster setup
+    for state in "${cluster_states[@]}"; do
+        notify "STATE: ${state}\n" 2
+        # shellcheck disable=SC2086,2029
+        ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
+            sudo "/root/fuel/mcp/config/states/${state} || true"
+    done
+fi
 
 ./log.sh "${DEPLOY_LOG}"
 
