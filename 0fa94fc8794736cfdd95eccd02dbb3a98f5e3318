@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_7be86810",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml.j2",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-14T00:26:42Z",
+      "side": 1,
+      "message": "I take that last part back. After spending some time trying to pass a custom INSTALLER_IP to ericsson-pod1 (which is a CI POD, although releng comments state otherwise), I realized INSTALLER_IP is hard to customize via Jenkins params, at least for CI PODs.\nSo, change of plans - I will try to read SALT_MASTER from PDF (i.e. by reading this var) and using it to expand \u003cnet_mcpcontrol.yml.template\u003e.\nI still have some unaswered questions about the bridge names on the jump host, but I\u0027ll figure that out and keep you in the loop.\ntl;dr: opnfv_infra_config_address should use mgmt IP, opnfv_infra_config_deploy_address should use admin IP (reversed)",
+      "parentUuid": "da33351e_a0be3dd2",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 104
+      },
+      "revId": "0fa94fc8794736cfdd95eccd02dbb3a98f5e3318",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_007e096b",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/kvm.yml",
         "patchSetId": 4
