@@ -107,6 +107,13 @@ parameters:
       version: '5.7'
       bind:
         address: ${_param:cluster_local_address}
+      key_buffer: 8
+      max_allowed_packet: 128
+      max_connections: 2048
+      thread_stack: 512
+      thread_cache_size: 12
+      query_cache_limit: 2
+      query_cache_size: 0
   mongodb:
     server:
       bind:

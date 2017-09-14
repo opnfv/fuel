@@ -19,6 +19,8 @@ parameters:
     keepalived_vip_interface: ens3
     keepalived_vip_virtual_router_id: 80
     galera_server_cluster_name: openstack_cluster
+    galera_max_connections: 3072
+    galera_innodb_buffer_pool_size: 2048M
     cluster_vip_address: ${_param:openstack_database_address}
     cluster_local_address: ${_param:single_address}
     cluster_node01_hostname: dbs01
