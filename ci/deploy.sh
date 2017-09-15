@@ -144,11 +144,11 @@ export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
+
+# FIXME: should be determined from PDF
 export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
 
 # Derivated from above global vars
-export MCP_CTRL_NETWORK_ROOTSTR=${SALT_MASTER%.*}
-export MAAS_PXE_NETWORK_ROOTSTR=${MAAS_PXE_NETWORK%.*}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
@@ -335,7 +335,11 @@ done
 
 # Expand reclass and virsh network templates
 for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
-    net_*.template; do envsubst < "${tp}" > "${tp%.template}"; done
+    net_*.template; do
+        eval "cat <<-EOF
+		$(<"${tp}")
+		EOF" 2> /dev/null > "${tp%.template}"
+done
 
 # Infra setup
 generate_ssh_key
