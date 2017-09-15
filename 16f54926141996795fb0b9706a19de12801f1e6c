@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_40a5a8a0",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "For arm-pod5, this (currently, with admin\u003d10.20.0.0/24) expands to 10.20.0.100, while it\u0027s supposed to be 172.16.10.100.\nI think it should be \u0027mgmt\u0027 instead of \u0027admin\u0027.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 98
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_e0b31ce7",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "This one should expand to 10.20.0.2, which will be determined based on INSTALLER_IP, so we can configure it via runtime.yml.",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 37
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_60a8ac77",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "same, s/admin/mgmt/, since it should expand to 172.16.10.3 on arm-pod5.",
+      "range": {
+        "startLine": 6,
+        "startChar": 61,
+        "endLine": 6,
+        "endChar": 66
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_60bf0cab",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "s/admin/mgmt/, same as above",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 102
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_00e600e8",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "\u0027mgmt\u0027 seems fine in this block.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 117
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_e0eafcaa",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "These values look right, but they don\u0027t match the installer adapter, see comments on the installer adapter.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_40d3e803",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-15T22:13:37Z",
+      "side": 1,
+      "message": "this can\u0027t be right :)\nthe adapter looks ok for this part though",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "16f54926141996795fb0b9706a19de12801f1e6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
