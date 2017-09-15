@@ -11,6 +11,7 @@ parameters:
   nova:
     compute:
       libvirt_service: libvirtd
+      libvirt_bin: /etc/default/libvirtd
   linux:
     system:
       repo:
