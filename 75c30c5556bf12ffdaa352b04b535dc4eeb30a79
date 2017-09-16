@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_2b3e8528",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-16T22:38:12Z",
+      "side": 1,
+      "message": "dummy config line, otherwise reclass will crash when parsing an empty pod_config.yml (e.g. for virtual deploys).",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "75c30c5556bf12ffdaa352b04b535dc4eeb30a79",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_8b47d1bb",
+        "filename": "mcp/scripts/pdf/pod_config.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-16T22:38:12Z",
+      "side": 1,
+      "message": "not needed, please ignore",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 39
+      },
+      "revId": "75c30c5556bf12ffdaa352b04b535dc4eeb30a79",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
