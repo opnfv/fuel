@@ -13,6 +13,8 @@
 F_GIT_ROOT=$(git rev-parse --show-toplevel)
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/fuel"
 OPNFV_FUEL_DIR="/root/fuel"
+OPNFV_RDIR="reclass/classes/cluster/all-mcp-ocata-common"
+LOCAL_PDF_RECLASS=$1
 
 # patch reclass-system-salt-model locally before copying it over
 make -C "${F_GIT_ROOT}/mcp/patches" deepclean patches-import
@@ -22,6 +24,10 @@ make -C "${F_GIT_ROOT}/mcp/patches" deepclean patches-import
 rsync -Erl --delete -e "ssh ${SSH_OPTS}" \
   --exclude-from="${F_GIT_ROOT}/.gitignore" \
   "${F_GIT_ROOT}/" "${SSH_SALT}:$(basename "${OPNFV_TMP_DIR}")/"
+if [ -n "${LOCAL_PDF_RECLASS}" ] && [ -f "${LOCAL_PDF_RECLASS}" ]; then
+  rsync -e "ssh ${SSH_OPTS}" "${LOCAL_PDF_RECLASS}" \
+    "${SSH_SALT}:$(basename "${OPNFV_TMP_DIR}")/mcp/${OPNFV_RDIR}/opnfv/"
+fi
 
 # ssh to cfg01
 # shellcheck disable=SC2086,2087
@@ -36,8 +42,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   mv ${OPNFV_TMP_DIR} ${OPNFV_FUEL_DIR} && chown -R root.root ${OPNFV_FUEL_DIR}
   ln -s ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt/reclass
   ln -s ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt/scripts
-  cd /srv/salt/reclass/classes/cluster/all-mcp-ocata-common && \
-    ln -s "\$(uname -i)" arch
+  cd /srv/salt/${OPNFV_RDIR} && ln -s "\$(uname -i)" arch
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
