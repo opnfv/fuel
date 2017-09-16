@@ -1,0 +1,226 @@
+---
+### LF POD 2 descriptor file ###
+
+details:
+  pod_owner: Trevor Bramwell
+  contact: tbramwell@linuxfoundation.org
+  lab: LF Pharos Lab
+  location: Portland
+  type: production
+  link: https://wiki.opnfv.org/display/pharos/LF+POD+2
+##############################################################################
+net_config:
+  # NOTE: Network names are likely to change after the PDF spec is updated
+  oob:
+    interface: 0
+    ip-range: 172.30.8.65-172.30.8.75
+    vlan: 410
+  admin:
+    interface: 0
+    vlan: native
+    network: 192.168.11.0  # Untagged, 'PXE/Admin' on wiki, different IP
+    mask: 24
+  mgmt:
+    interface: 0
+    vlan: 300
+    network: 10.167.4.0    # Tagged, 'vlan 300' on wiki
+    mask: 24
+  storage:
+    interface: 3
+    vlan: 301
+    network: 10.2.0.0      # Tagged, not the same with 'storage' on wiki
+    mask: 24
+  private:
+    interface: 1
+    vlan: 1000
+    network: 10.1.0.0      # Tagged, not the same with 'private' on wiki
+    mask: 24
+  public:
+    interface: 2
+    vlan: native
+    network: 172.30.10.0   # Untagged, 'public' on wiki
+    mask: 24
+    gateway: 172.30.10.1
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+##############################################################################
+jumphost:
+  name: pod2-jump
+  node:
+    type: baremetal
+    vendor: Cisco Systems Inc
+    model: UCSB-B200-M4
+    arch: x86_64
+    cpus: 2
+    cpu_cflags: haswell
+    cores: 8
+    memory: 128G
+  disks: &disks
+    - name: 'disk1'
+      disk_capacity: 2400G
+      disk_type: hdd
+      disk_interface: sas
+      disk_rotation:
+  os: centos-7
+  remote_params: &remote_params
+    type: ipmi
+    versions:
+      - 2.0
+    user: admin
+    pass: octopus
+  remote_management:
+    <<: *remote_params
+    address: 172.30.8.83
+    mac_address: "a8:9d:21:c9:c4:9e"
+  interfaces:
+    - mac_address: "00:25:b5:a0:00:1a"
+      speed: 40gb
+      features: 'dpdk|sriov'
+    - mac_address: "00:25:b5:a0:00:1b"
+      speed: 40gb
+      features: 'dpdk|sriov'
+    - mac_address: "00:25:b5:a0:00:1c"
+      speed: 40gb
+      features: 'dpdk|sriov'
+    - mac_address: "00:25:b5:a0:00:1d"
+      speed: 40gb
+      features: 'dpdk|sriov'
+  fixed_ips:
+    admin: 192.168.11.1
+    mgmt: 10.167.4.1
+    public: 172.30.10.72
+##############################################################################
+nodes:
+  - name: pod2-node1
+    node: &nodeparams
+      type: baremetal
+      vendor: Cisco Systems Inc
+      model: UCSB-B200-M4
+      arch: x86_64
+      cpus: 2
+      cpu_cflags: haswell
+      cores: 8
+      memory: 32G
+    disks: *disks
+    remote_management:
+      <<: *remote_params
+      address: 172.30.8.75
+      mac_address: "a8:9d:21:c9:8b:56"
+    interfaces:
+      - mac_address: "00:25:b5:a0:00:2a"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:2b"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:2c"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:2d"
+        speed: 40gb
+        features: 'dpdk|sriov'
+    fixed_ips:
+      admin: 192.168.11.2
+      mgmt: 10.167.4.2
+      public: 172.30.10.2
+  ############################################################################
+  - name: pod2-node2
+    node: *nodeparams
+    disks: *disks
+    remote_management:
+      <<: *remote_params
+      address: 172.30.8.65
+      mac_address: "a8:9d:21:c9:4d:26"
+    interfaces:
+      - mac_address: "00:25:b5:a0:00:3a"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:3b"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:3c"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:3d"
+        speed: 40gb
+        features: 'dpdk|sriov'
+    fixed_ips:
+      admin: 192.168.11.3
+      mgmt: 10.167.4.3
+      public: 172.30.10.3
+  ############################################################################
+  - name: pod2-node3
+    node: *nodeparams
+    disks: *disks
+    remote_management:
+      <<: *remote_params
+      address: 172.30.8.74
+      mac_address: "a8:9d:21:c9:3a:92"
+    interfaces:
+      - mac_address: "00:25:b5:a0:00:4a"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:4b"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:4c"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:4d"
+        speed: 40gb
+        features: 'dpdk|sriov'
+    fixed_ips:
+      admin: 192.168.11.4
+      mgmt: 10.167.4.4
+      public: 172.30.10.4
+  ############################################################################
+  - name: pod2-node4
+    node: *nodeparams
+    disks: *disks
+    remote_management:
+      <<: *remote_params
+      address: 172.30.8.73
+      mac_address: "74:a2:e6:a4:14:9c"
+    interfaces:
+      - mac_address: "00:25:b5:a0:00:5a"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:5b"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:5c"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:5d"
+        speed: 40gb
+        features: 'dpdk|sriov'
+    fixed_ips:
+      admin: 192.168.11.5
+      mgmt: 10.167.4.5
+      public: 172.30.10.5
+  ############################################################################
+  - name: pod2-node5
+    node: *nodeparams
+    disks: *disks
+    remote_management:
+      <<: *remote_params
+      address: 172.30.8.72
+      mac_address: "a8:9d:21:a0:15:9c"
+    interfaces:
+      - mac_address: "00:25:b5:a0:00:6a"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:6b"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:6c"
+        speed: 40gb
+        features: 'dpdk|sriov'
+      - mac_address: "00:25:b5:a0:00:6d"
+        speed: 40gb
+        features: 'dpdk|sriov'
+    fixed_ips:
+      admin: 192.168.11.6
+      mgmt: 10.167.4.6
+      public: 172.30.10.6
