@@ -7,3 +7,7 @@
 	path = mcp/deploy/scripts
 	url = https://github.com/salt-formulas/salt-formulas-scripts
 	branch = master
+[submodule "pharos"]
+	path = mcp/scripts/pharos
+	url = https://github.com/opnfv/pharos
+	branch = master
