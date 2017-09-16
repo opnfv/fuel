@@ -103,13 +103,7 @@ create_vms() {
       vnode_networks[2]="${vnode_networks[0]}"
     fi
     for net in "${vnode_networks[@]:1}"; do
-      net_type="bridge"
-      # in case of custom network, host should already have the bridge in place
-      if [ -f "net_${net}.xml" ] && \
-         [ ! -d "/sys/class/net/${net}/bridge" ]; then
-        net_type="network"
-      fi
-      net_args="${net_args} --network ${net_type}=${net},model=virtio"
+      net_args="${net_args} --network bridge=${net},model=virtio"
     done
 
     # shellcheck disable=SC2086
