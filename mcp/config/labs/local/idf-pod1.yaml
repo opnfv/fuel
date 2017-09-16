@@ -1,0 +1,12 @@
+---
+### LF POD 2 installer descriptor file ###
+
+idf:
+  version: 0.1
+  fuel:
+    jumphost:
+      bridges:
+        admin: 'pxebr'
+        mgmt: 'br-ctl'
+        private: ''
+        public: ''

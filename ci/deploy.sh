@@ -33,11 +33,12 @@ $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 $(notify "USAGE:" 2)
   $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
     [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
-    [-S storage-dir] [-L /path/to/log/file.tar.gz]
+    [-S storage-dir] [-L /path/to/log/file.tar.gz] [-f] [-F] [-e] [-d]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
   -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
+  -d  Dry-run
   -e  Do not launch environment deployment
   -f  Deploy on existing Salt master
   -F  Do only create a Salt master
@@ -49,7 +50,6 @@ $(notify "OPTIONS:" 2)
   -L  Deployment log path and file name
 
 $(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
-  -d  (disabled) Dry-run
   -i  (disabled) iso url
   -T  (disabled) Timeout, in minutes, for the deploy.
 
@@ -77,6 +77,7 @@ $(notify "Input parameters to the build script are:" 2)
    For baremetal deploys, PXE bridge is used for baremetal node provisioning,
    while "mcpcontrol" is used to provision the infrastructure VMs only.
    The default is 'pxebr'.
+-d Dry-run - Produce deploy config files, but do not execute deploy
 -e Do not launch environment deployment
 -f Deploy on existing Salt master
 -F Do only create a Salt master
@@ -89,7 +90,6 @@ $(notify "Input parameters to the build script are:" 2)
 -S Storage dir for VM images, default is mcp/deploy/images
 
 $(notify "Disabled input parameters (not yet supported with MCP):" 3)
--d (disabled) Dry-run - Produce deploy config files, but do not execute deploy
 -T (disabled) Timeout, in minutes, for the deploy.
    It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
 -i (disabled) .iso image to be deployed (needs to be provided in a URI
@@ -144,26 +144,26 @@ OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/config"
 
+# Customize deploy workflow
+DRY_RUN=${DRY_RUN:-0}
+USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
+INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
+NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
+
 export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
+
+# These should be determined from PDF later
 export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
 
 # Derivated from above global vars
-export MCP_CTRL_NETWORK_ROOTSTR=${SALT_MASTER%.*}
-export MAAS_PXE_NETWORK_ROOTSTR=${MAAS_PXE_NETWORK%.*}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
-# Customize deploy workflow
-export USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
-export INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
-export NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
-
 # Variables below are disabled for now, to be re-introduced or removed later
 set +x
-DRY_RUN=0
 if ! [ -z "${DEPLOY_TIMEOUT}" ]; then
     DEPLOY_TIMEOUT="-dt ${DEPLOY_TIMEOUT}"
 else
@@ -203,7 +203,6 @@ do
             IFS=${OIFS}
             ;;
         d)
-            notify '' 3 "${OPTION}"; continue
             DRY_RUN=1
             ;;
         f)
@@ -310,7 +309,9 @@ make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 PHAROS_GEN_CONFIG_SCRIPT="./pharos/config/utils/generate_config.py"
 PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
 BASE_CONFIG_PDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}.yaml"
+BASE_CONFIG_IDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/idf-${TARGET_POD}.yaml"
 LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
+LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
 LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
 if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
     if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
@@ -319,6 +320,8 @@ if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
     else
         notify "[WARN] Could not retrieve PDF (Pod Descriptor File)!\n" 3
     fi
+elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
+    notify "[WARN] POD has no IDF (Installer Descriptor File)!\n" 3
 elif ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
     -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
     notify "[ERROR] Could not convert PDF to reclass model input!\n" 1>&2
@@ -347,6 +350,7 @@ fi
 source lib.sh
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
@@ -360,10 +364,41 @@ done
 
 # Expand reclass and virsh network templates
 for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
-    net_*.template; do envsubst < "${tp}" > "${tp%.template}"; done
+    net_*.template; do
+        eval "cat <<-EOF
+		$(<"${tp}")
+		EOF" 2> /dev/null > "${tp%.template}"
+done
+
+# Map PDF networks 'admin', 'mgmt', 'private' and 'public' to bridge names
+BR_NAMES=('admin' 'mgmt' 'private' 'public')
+BR_NETS=( \
+    "${parameters__param_opnfv_maas_pxe_address}" \
+    "${parameters__param_opnfv_infra_config_address}" \
+    "${parameters__param_opnfv_openstack_compute_node01_tenant_address}" \
+    "${parameters__param_opnfv_openstack_compute_node01_external_address}" \
+)
+for ((i = 0; i < ${#BR_NETS[@]}; i++)); do
+    br_jump=$(eval echo "\$parameters__param_opnfv_jump_bridge_${BR_NAMES[i]}")
+    if [ -n "${br_jump}" ] && [ "${br_jump}" != 'None' ] && \
+       [ -d "/sys/class/net/${br_jump}/bridge" ]; then
+            notify "[OK] Bridge found for '${BR_NAMES[i]}': ${br_jump}\n" 2
+            OPNFV_BRIDGES[${i}]="${br_jump}"
+    elif [ -n "${BR_NETS[i]}" ]; then
+        bridge=$(ip addr | awk "/${BR_NETS[i]%.*}./ {print \$NF; exit}")
+        if [ -n "${bridge}" ] && [ -d "/sys/class/net/${bridge}/bridge" ]; then
+            notify "[OK] Bridge found for net ${BR_NETS[i]%.*}.0: ${bridge}\n" 2
+            OPNFV_BRIDGES[${i}]="${bridge}"
+        fi
+    fi
+done
+notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}\n" 2
 
 # Infra setup
-if [ ${USE_EXISTING_INFRA} -eq 1 ]; then
+if [ ${DRY_RUN} -eq 1 ]; then
+    notify "Dry run, skipping all deployment tasks\n" 2 1>&2
+    exit 0
+elif [ ${USE_EXISTING_INFRA} -eq 1 ]; then
     notify "Use existing infra\n" 2 1>&2
     check_connection
 else
@@ -379,7 +414,7 @@ else
 fi
 
 if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
-    echo "Skip openstack cluster setup\n" 2
+    notify "Skip openstack cluster setup\n" 2
 else
     # Openstack cluster setup
     for state in "${cluster_states[@]}"; do
