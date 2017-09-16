@@ -1,0 +1,4 @@
+parameters:
+  _param:
+    # NOTE: This file is overwritten at runtime by parsing the PDF.
+    opnfv_use_pod_descriptor_file: true

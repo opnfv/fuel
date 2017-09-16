@@ -1,0 +1,4 @@
+parameters:
+  _param:
+    # infra service addresses
+    # TODO: to be updated when ready in securedlab
