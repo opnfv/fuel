@@ -61,8 +61,10 @@ It depends on the OPNFV official configuration directory/file structure
 and provides a fairly simple mechanism to execute a deployment.
 
 $(notify "Input parameters to the build script are:" 2)
--b Base URI to the configuration directory (needs to be provided in a URI
-   style, it can be a local resource: file:// or a remote resource http(s)://)
+-b Base URI to the configuration directory (needs to be provided in URI style,
+   it can be a local resource: file:// or a remote resource http(s)://).
+   A POD Descriptor File (PDF) should be available at:
+   <base-uri>/labs/<lab-name>/<pod-name>.yaml
 -B Bridges to be used by deploy script. It can be specified several times,
    or as a comma separated list of bridges, or both: -B br1 -B br2,br3
    First occurence sets PXE Brige, next Mgmt, then Internal and Public.
@@ -77,7 +79,7 @@ $(notify "Input parameters to the build script are:" 2)
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
--p POD name as defined in the configuration directory, e.g. pod-1
+-p POD name as defined in the configuration directory, e.g. pod2
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
@@ -97,7 +99,7 @@ $(notify "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 Example:
 
 $(notify "sudo $(basename "$0") \\
-  -b file:///home/jenkins/lab-config \\
+  -b file:///home/jenkins/securedlab \\
   -l lf -p pod2 \\
   -s os-odl-nofeature-ha" 2)
 EOF
@@ -300,6 +302,22 @@ if [ "$(uname -i)" = "aarch64" ]; then
   [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken vgabios
 fi
 
+# Convert Pharos-compatible POD Descriptor File (PDF) to reclass model input
+BASE_CONFIG_PDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}.yaml"
+LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
+if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
+    if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
+        notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
+        exit 1
+    else
+        notify "[WARN] Could not retrieve PDF (Pod Descriptor File)!\n" 3
+    fi
+elif ! ./pdf/generate_config.py -y "${LOCAL_PDF}" -j "pod-config.yml.j2" > \
+   "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/pod_config.yml"; then
+    notify "[ERROR] Could not convert PDF to reclass model input!\n" 1>&2
+    exit 1
+fi
+
 # Check scenario file existence
 SCENARIO_DIR="../config/scenario"
 if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
@@ -342,7 +360,7 @@ generate_ssh_key
 prepare_vms virtual_nodes "${base_image}" "${STORAGE_DIR}"
 create_networks OPNFV_BRIDGES
 create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus \
-  OPNFV_BRIDGES "${STORAGE_DIR}"
+    OPNFV_BRIDGES "${STORAGE_DIR}"
 update_mcpcontrol_network
 start_vms virtual_nodes
 check_connection

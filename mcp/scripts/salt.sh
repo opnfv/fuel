@@ -22,6 +22,7 @@ make -C "${F_GIT_ROOT}/mcp/patches" deepclean patches-import
 rsync -Erl --delete -e "ssh ${SSH_OPTS}" \
   --exclude-from="${F_GIT_ROOT}/.gitignore" \
   "${F_GIT_ROOT}/" "${SSH_SALT}:$(basename "${OPNFV_TMP_DIR}")/"
+rm -f "${F_GIT_ROOT}/mcp/reclass/classes/cluster/"*"/opnfv/pod_config.yml"
 
 # ssh to cfg01
 # shellcheck disable=SC2086,2087
