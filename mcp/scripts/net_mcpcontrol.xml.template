@@ -2,9 +2,9 @@
   <name>mcpcontrol</name>
   <bridge name="mcpcontrol"/>
   <forward mode="nat"/>
-  <ip address="${MCP_CTRL_NETWORK_ROOTSTR}.1" netmask="255.255.255.0">
+  <ip address="${SALT_MASTER%.*}.1" netmask="255.255.255.0">
     <dhcp>
-      <range start="${MCP_CTRL_NETWORK_ROOTSTR}.2" end="${MCP_CTRL_NETWORK_ROOTSTR}.254"/>
+      <range start="${SALT_MASTER%.*}.2" end="${SALT_MASTER%.*}.254"/>
     </dhcp>
   </ip>
 </network>
