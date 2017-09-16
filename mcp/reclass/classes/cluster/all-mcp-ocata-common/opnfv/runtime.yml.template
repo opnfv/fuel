@@ -1,9 +1,10 @@
 parameters:
   _param:
     reclass_config_master: ${SALT_MASTER}
-
     opnfv_fuel_maas_mcp_address: ${MAAS_IP}
+
+    # These should be moved to pod_config.yml and determined based on PDF admin (?) net
     opnfv_fuel_maas_pxe_network: ${MAAS_PXE_NETWORK}
-    opnfv_fuel_maas_pxe_address: ${MAAS_PXE_NETWORK_ROOTSTR}.3
-    opnfv_fuel_maas_pxe_iprange_start: ${MAAS_PXE_NETWORK_ROOTSTR}.5
-    opnfv_fuel_maas_pxe_iprange_end: ${MAAS_PXE_NETWORK_ROOTSTR}.250
+    opnfv_fuel_maas_pxe_address: ${MAAS_PXE_NETWORK%.*}.3
+    opnfv_fuel_maas_pxe_iprange_start: ${MAAS_PXE_NETWORK%.*}.5
+    opnfv_fuel_maas_pxe_iprange_end: ${MAAS_PXE_NETWORK%.*}.250

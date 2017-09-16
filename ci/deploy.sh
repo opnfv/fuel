@@ -75,6 +75,8 @@ $(notify "Input parameters to the build script are:" 2)
    deploys, "mcpcontrol" is also used for PXE, leaving the PXE bridge unused.
    For baremetal deploys, PXE bridge is used for baremetal node provisioning,
    while "mcpcontrol" is used to provision the infrastructure VMs only.
+   Note: If a bridge name matches its default, a virtual network will be used,
+         similar to omitting its value.
    The default is 'pxebr'.
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
@@ -146,11 +148,11 @@ export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
+
+# FIXME: should be determined from PDF
 export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
 
 # Derivated from above global vars
-export MCP_CTRL_NETWORK_ROOTSTR=${SALT_MASTER%.*}
-export MAAS_PXE_NETWORK_ROOTSTR=${MAAS_PXE_NETWORK%.*}
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 
@@ -341,6 +343,8 @@ fi
 source lib.sh
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+eval "$(parse_yaml \
+    "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/pod_config.yml")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
@@ -354,7 +358,30 @@ done
 
 # Expand reclass and virsh network templates
 for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
-    net_*.template; do envsubst < "${tp}" > "${tp%.template}"; done
+    net_*.template; do
+        eval "cat <<-EOF
+		$(<"${tp}")
+		EOF" 2> /dev/null > "${tp%.template}"
+done
+
+# Map PDF networks 'admin', 'mgmt', 'private' and 'public' to bridge names
+OPNFV_BRIDGE_IDX=0
+for br_net in \
+    "${parameters__param_opnfv_infra_config_address}" \
+    "${parameters__param_opnfv_infra_config_deploy_address}" \
+    "${parameters__param_opnfv_openstack_compute_node01_tenant_address}" \
+    "${parameters__param_opnfv_openstack_compute_node01_external_address}"
+do
+    if [ -n "${br_net}" ]; then
+        bridge=$(ip addr | awk "/${br_net%.*}./ {print \$NF; exit}")
+        if [ -n "${bridge}" ]; then
+            notify "[OK] Bridge found for net ${br_net%.*}.0: ${bridge}\n" 2
+            OPNFV_BRIDGES[${OPNFV_BRIDGE_IDX}]="${bridge}"
+        fi
+    fi
+    OPNFV_BRIDGE_IDX=$((OPNFV_BRIDGE_IDX + 1))
+done
+notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}\n" 2
 
 # Infra setup
 generate_ssh_key
