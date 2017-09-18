@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_bd9c9a10",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-18T14:35:44Z",
+      "side": 1,
+      "message": "OK so then we ignore this ip/parameter here and we reference to the one in runtime.yml from infra/init.yaml",
+      "parentUuid": "da33351e_ba9ca010",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 37
+      },
+      "revId": "09578a777c28efe73bb03b80f25f9e79446e4baf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_da97e4ea",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-18T11:30:45Z",
       "side": 1,
       "message": "this is aarch64/x86_64 in PDF but should be trasnlated to arm64/amd64",
+      "range": {
+        "startLine": 61,
+        "startChar": 66,
+        "endLine": 61,
+        "endChar": 70
+      },
+      "revId": "09578a777c28efe73bb03b80f25f9e79446e4baf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_1d9e6607",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-18T14:35:44Z",
+      "side": 1,
+      "message": "I saw you made a custom filter. I will apply it here",
+      "parentUuid": "da33351e_da97e4ea",
       "range": {
         "startLine": 61,
         "startChar": 66,
