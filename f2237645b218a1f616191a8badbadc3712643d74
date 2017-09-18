@@ -114,6 +114,29 @@
       "revId": "f2237645b218a1f616191a8badbadc3712643d74",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_130e57e5",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-18T19:58:21Z",
+      "side": 1,
+      "message": "This looks odd (out of sync with compute public IPs), I think we should regenerate this file, since the template looks ok, and generates the right info for arm-pod5.",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 55
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
