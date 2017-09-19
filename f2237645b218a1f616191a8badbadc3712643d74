@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_095c64ec",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-19T09:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_13c937ac",
+      "range": {
+        "startLine": 5,
+        "startChar": 95,
+        "endLine": 5,
+        "endChar": 96
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_f3cdb3b8",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-18T19:50:58Z",
       "side": 1,
       "message": "2 (see below)",
+      "range": {
+        "startLine": 6,
+        "startChar": 55,
+        "endLine": 6,
+        "endChar": 56
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_69741068",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-19T09:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_f3cdb3b8",
       "range": {
         "startLine": 6,
         "startChar": 55,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_49714c75",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-19T09:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_53c61f9b",
+      "range": {
+        "startLine": 7,
+        "startChar": 105,
+        "endLine": 7,
+        "endChar": 106
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_13401706",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
         "patchSetId": 10
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_0913c40d",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-19T09:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_13401706",
+      "range": {
+        "startLine": 50,
+        "startChar": 112,
+        "endLine": 50,
+        "endChar": 113
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_d3606fa7",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
         "patchSetId": 10
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-18T19:50:58Z",
       "side": 1,
       "message": "arm-pod5: did not notice this before, looks like we already have a conflict with IPMI addr AND current MaaS IP ... maybe we should change compute external addreses to 101, 102?",
+      "range": {
+        "startLine": 51,
+        "startChar": 112,
+        "endLine": 51,
+        "endChar": 113
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_69fb70c1",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod-config.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-19T09:09:15Z",
+      "side": 1,
+      "message": "I agree. It will also look nicer all aligned.",
+      "parentUuid": "da33351e_d3606fa7",
       "range": {
         "startLine": 51,
         "startChar": 112,
