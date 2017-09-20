@@ -305,6 +305,30 @@
       "revId": "f2237645b218a1f616191a8badbadc3712643d74",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_05ec4429",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-20T13:27:06Z",
+      "side": 1,
+      "message": "Actually that makes sense and this network looks like it does not belong here. It may be a remain from virtual setups.\n\nscripts/net_public.xml:\n  \u003cip address\u003d\"10.16.0.1\" netmask\u003d\"255.255.255.0\" /\u003e\n\n\nFor arm pod5 running setup:\nroot@cfg01:/home/ubuntu# salt --out yaml \u0027cmp*\u0027 pillar.get _param:infra_maas_node01_external_address\ncmp001.baremetal-mcp-ocata-ovs-ha.local: 10.0.8.2\ncmp002.baremetal-mcp-ocata-ovs-ha.local: 10.0.8.2\nroot@cfg01:/home/ubuntu# salt --out yaml \u0027cmp*\u0027 pillar.get _param:external_address \ncmp002.baremetal-mcp-ocata-ovs-ha.local: 10.0.8.102\ncmp001.baremetal-mcp-ocata-ovs-ha.local: 10.0.8.101",
+      "parentUuid": "da33351e_6539d0d6",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 55
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
