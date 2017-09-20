@@ -257,6 +257,30 @@
       "revId": "f2237645b218a1f616191a8badbadc3712643d74",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_620b862a",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod-config.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-20T12:18:53Z",
+      "side": 1,
+      "message": "This value comes from [master] mcp/reclass/classes/cluster/baremetal-mcp-ocata-ovs-ha/infra/init.yml\nAs all the others, they were just centralized here and pointed via _param: on the original file.\n\nI suggest keeping the original x86 values, up to date with master, instead of just switching them to our arm pod5. \n\n\nThis file is the reference we need to build and maintain aligned the jinja2 template. Eventually the file is replaced on installation time by the generated one per pod and ideally one x86 pod will output the same values as seen here.\n\nKeeping it will provide some easy to read working configuration and also proper isolation between MCP and PDF logic, in my opinion.",
+      "parentUuid": "da33351e_130e57e5",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 55
+      },
+      "revId": "f2237645b218a1f616191a8badbadc3712643d74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
