@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_543efc28",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pdf/pod_config.yml.j2",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-21T23:11:09Z",
+      "side": 1,
+      "message": "1. This should be (applies to other 4 nodes as well):\nconf[\u0027nodes\u0027][0][\u0027interfaces\u0027][0]\n2. Or better:\nconf[\u0027nodes\u0027][0][\u0027remote_management\u0027][\u0027mac_address\u0027]",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 74
+      },
+      "revId": "ae5cbc2119fcfca5b476cdd292b2fa87bada2b54",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
