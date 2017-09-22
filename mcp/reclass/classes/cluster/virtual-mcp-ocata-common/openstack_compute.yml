@@ -53,6 +53,11 @@ parameters:
           fstype: nfs
           device: ${_param:openstack_control_address}:/srv/nova/instances
   linux:
+    system:
+      kernel:
+        sysctl:
+          vm.dirty_ratio: 10
+          vm.dirty_background_ratio: 5
     network:
       bridge: openvswitch
       interface:
