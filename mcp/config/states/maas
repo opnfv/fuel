@@ -28,6 +28,7 @@ function maas_fixup() {
   for node_system_id in ${fcnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
+    sleep 30
   done
   if [ -n "${fcnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
@@ -40,6 +41,7 @@ function maas_fixup() {
   for node_system_id in ${fdnodes}; do
     salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
       pillar="{'system_id': '${node_system_id}'}"
+    sleep 30
   done
   if [ -n "${fdnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines.deploy
