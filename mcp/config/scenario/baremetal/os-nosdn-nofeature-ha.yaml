@@ -8,6 +8,9 @@ virtual:
   nodes:
     - cfg01
     - mas01
+  cfg01:
+    vcpus: 4
+    ram: 6144
   mas01:
     vcpus: 4
-    ram: 16384
+    ram: 6144

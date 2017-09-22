@@ -32,12 +32,12 @@ parameters:
       ##Default production sizing
         openstack.control:
           cpu: 4
-          ram: 10240
+          ram: 12288
           disk_profile: small
           net_profile: default
         openstack.database:
           cpu: 4
-          ram: 8192
+          ram: 6144
           disk_profile: large
           net_profile: default
         openstack.message_queue:
