@@ -51,6 +51,10 @@ parameters:
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
     system:
+      kernel:
+        sysctl:
+          vm.dirty_ratio: 10
+          vm.dirty_background_ratio: 5
       repo:
         uca:
           source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"

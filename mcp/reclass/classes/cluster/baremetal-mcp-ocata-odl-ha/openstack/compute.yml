@@ -58,6 +58,11 @@ parameters:
           group: nova
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
+    system:
+      kernel:
+        sysctl:
+          vm.dirty_ratio: 10
+          vm.dirty_background_ratio: 5
     network:
       bridge: openvswitch
       interface:
