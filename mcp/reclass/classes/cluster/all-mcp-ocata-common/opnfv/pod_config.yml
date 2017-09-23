@@ -3,9 +3,9 @@ parameters:
     # infra service addresses
     opnfv_infra_config_address: 10.167.4.100
     opnfv_infra_config_deploy_address: 10.20.0.2
-    opnfv_infra_maas_node01_address: 10.167.4.2
-    opnfv_infra_maas_node01_deploy_address: 192.168.11.2
-    opnfv_infra_maas_node01_external_address: 172.30.10.2
+    opnfv_infra_maas_node01_address: 10.167.4.3
+    opnfv_infra_maas_node01_deploy_address: 192.168.11.3
+    opnfv_infra_maas_node01_external_address: 172.30.10.3
     opnfv_infra_compute_node01_address: 10.167.4.141
     opnfv_infra_compute_node02_address: 10.167.4.142
     opnfv_infra_compute_node03_address: 10.167.4.143
