@@ -7,6 +7,6 @@ maas_login_admin:
 # TODO: implement mark_broken_fixed_machine via _modules/maas.py
 mark_broken_fixed_machine:
   cmd.run:
-  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv machine mark-broken {{ pillar['system_id'] }} && maas opnfv machine mark-fixed {{ pillar['system_id'] }}"
+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv machine mark-broken {{ pillar['system_id'] }} && sleep 30 && maas opnfv machine mark-fixed {{ pillar['system_id'] }}"
   - require:
     - cmd: maas_login_admin

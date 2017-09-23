@@ -1,0 +1,46 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 23 Sep 2017 02:03:01 +0200
+Subject: [PATCH] maas: region: allow timeout override
+
+Poor implementation that allows overiding comissioning/deploying
+timeouts, which are hardcoded in MaaS source code.
+
+Add the following reclass _param:
+- opnfv_maas_timeout_comissioning;
+- opnfv_maas_timeout_deploying;
+
+The defaults are now 10/15 minutes (MaaS defaults to 20/40 min).
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/maas/region.sls b/maas/region.sls
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -19,6 +19,26 @@
+   - require:
+     - pkg: maas_region_packages
+
++maas_timeout_commissioning:
++  file.replace:
++    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
++    - pattern: '^(\s+NODE_STATUS.COMMISSIONING:)\s+\d+,$'
++    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_comissioning', '10') }},
++    - require:
++      - pkg: maas_region_packages
++    - require_in:
++      - service: maas_region_services
++
++maas_timeout_deploying:
++  file.replace:
++    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
++    - pattern: '^(\s+NODE_STATUS.DEPLOYING:)\s+\d+,$'
++    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_deploying', '15') }},
++    - require:
++      - pkg: maas_region_packages
++    - require_in:
++      - service: maas_region_services
++
+ {%- if region.get('enable_iframe', False)  %}
+
+ /etc/apache2/conf-enabled/maas-http.conf:
