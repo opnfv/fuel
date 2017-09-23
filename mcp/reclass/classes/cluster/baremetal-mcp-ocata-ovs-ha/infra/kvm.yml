@@ -143,17 +143,16 @@ parameters:
           enabled: true
           proto: dhcp
           type: bridge
-          name_servers:
-          - 8.8.8.8
-          - 8.8.4.4
+          name_servers: ${_param:opnfv_name_servers}
           use_interfaces:
           - ${_param:deploy_nic}
           noifupdown: true
-        vlan300:
+        mgmt-vlan:
+          name: vlan${_param:opnfv_net_mgmt_vlan}
           enabled: true
           proto: manual
           type: vlan
-          name: ${_param:deploy_nic}.300
+          name: ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
           use_interfaces:
           - ${_param:deploy_nic}
         br-ctl:
@@ -163,4 +162,4 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:deploy_nic}.300
+          - ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
