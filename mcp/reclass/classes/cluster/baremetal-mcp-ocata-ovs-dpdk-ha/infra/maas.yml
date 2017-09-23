@@ -7,7 +7,6 @@ parameters:
     dhcp_interface: ens3
     primary_interface: ens4
     pxe_interface: ens5
-    external_interface: ens6
     interface_mtu: 1500
     # MaaS has issues using MTU > 1500 for PXE interface
     pxe_interface_mtu: 1500
@@ -123,13 +122,5 @@ parameters:
           mtu: ${_param:pxe_interface_mtu}
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
-          type: eth
-        external_interface:
-          enabled: true
-          name: ${_param:external_interface}
-          mtu: ${_param:interface_mtu}
-          proto: static
-          address: ${_param:infra_maas_node01_external_address}
           netmask: 255.255.255.0
           type: eth

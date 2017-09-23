@@ -148,7 +148,6 @@ parameters:
           - ${_param:deploy_nic}
           noifupdown: true
         mgmt-vlan:
-          name: vlan${_param:opnfv_net_mgmt_vlan}
           enabled: true
           proto: manual
           type: vlan
