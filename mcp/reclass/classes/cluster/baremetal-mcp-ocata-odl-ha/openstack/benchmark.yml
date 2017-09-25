@@ -1,5 +1,6 @@
+---
 classes:
-- cluster.baremetal-mcp-ocata-odl-ha
+  - cluster.baremetal-mcp-ocata-odl-ha
 parameters:
   linux:
     network:

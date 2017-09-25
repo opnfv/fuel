@@ -1,14 +1,15 @@
+---
 classes:
-- system.reclass.storage.system.opendaylight_control_single
-- cluster.virtual-mcp-ocata-common.infra.config
-- cluster.virtual-mcp-ocata-odl-router
+  - system.reclass.storage.system.opendaylight_control_single
+  - cluster.virtual-mcp-ocata-common.infra.config
+  - cluster.virtual-mcp-ocata-odl-router
 parameters:
   reclass:
     storage:
       node:
         opendaylight_control_node01:
           classes:
-          - cluster.${_param:cluster_name}.opendaylight.control
+            - cluster.${_param:cluster_name}.opendaylight.control
           params:
             linux_system_codename: xenial
             single_address: ${_param:opendaylight_service_host}

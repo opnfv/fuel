@@ -1,3 +1,4 @@
+---
 classes:
-- cluster.all-mcp-ocata-common.arch
-- cluster.all-mcp-ocata-common.opnfv
+  - cluster.all-mcp-ocata-common.arch
+  - cluster.all-mcp-ocata-common.opnfv

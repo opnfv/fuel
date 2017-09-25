@@ -1,18 +1,19 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.linux.storage.loopback
-- system.glusterfs.client.cluster
-- system.nova.compute.cluster
-- system.nova.compute.nfv.hugepages
-- system.nova.compute.nfv.cpu_pinning
-- system.neutron.compute.nfv.dpdk
-- system.neutron.gateway.cluster
-- system.cinder.volume.single
-- system.cinder.volume.backend.lvm
-- system.ceilometer.agent.cluster
-- cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.linux.storage.loopback
+  - system.glusterfs.client.cluster
+  - system.nova.compute.cluster
+  - system.nova.compute.nfv.hugepages
+  - system.nova.compute.nfv.cpu_pinning
+  - system.neutron.compute.nfv.dpdk
+  - system.neutron.gateway.cluster
+  - system.cinder.volume.single
+  - system.cinder.volume.backend.lvm
+  - system.ceilometer.agent.cluster
+  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}
@@ -33,7 +34,7 @@ parameters:
     loopback_device_size: 20
   neutron:
     gateway:
-      dpdk: True
+      dpdk: 'True'
       backend:
         tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
   nova:
@@ -48,6 +49,7 @@ parameters:
           server: ${_param:glusterfs_service_host}
           user: nova
           group: nova
+          # yamllint disable-line rule:line-length
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
     system:
@@ -57,6 +59,7 @@ parameters:
           vm.dirty_background_ratio: 5
       repo:
         uca:
+          # yamllint disable-line rule:line-length
           source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
           architectures: amd64
           key_id: EC4926EA
@@ -81,7 +84,7 @@ parameters:
           type: vlan
           name: ${_param:mgmt_nic}.300
           use_interfaces:
-          - ${_param:mgmt_nic}
+            - ${_param:mgmt_nic}
         br-ctl:
           enabled: true
           type: bridge
@@ -89,7 +92,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:mgmt_nic}.300
+            - ${_param:mgmt_nic}.300
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -106,9 +109,9 @@ parameters:
           address: ${_param:external_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:external_nic}
+            - ${_param:external_nic}
           use_ovs_ports:
-          - float-to-ex
+            - float-to-ex
         dpdk0:
           name: ${_param:dpdk0_name}
           pci: ${_param:dpdk0_pci}

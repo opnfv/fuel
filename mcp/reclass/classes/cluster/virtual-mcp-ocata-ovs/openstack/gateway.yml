@@ -1,7 +1,8 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-common.openstack_gateway
-- service.neutron.gateway.single
-- cluster.virtual-mcp-ocata-ovs
+  - cluster.virtual-mcp-ocata-common.openstack_gateway
+  - service.neutron.gateway.single
+  - cluster.virtual-mcp-ocata-ovs
 parameters:
   linux:
     network:
@@ -14,4 +15,4 @@ parameters:
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:tenant_interface}
+            - ${_param:tenant_interface}

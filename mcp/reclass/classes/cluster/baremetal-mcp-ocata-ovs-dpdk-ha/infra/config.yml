@@ -1,23 +1,24 @@
+---
 classes:
-- service.git.client
-- system.linux.system.single
-- system.linux.system.repo.mcp.salt
-- system.linux.system.repo.saltstack.xenial
-- system.salt.master.api
-- system.salt.master.pkg
-- system.salt.minion.ca.salt_master
-- system.reclass.storage.salt
-- system.reclass.storage.system.physical_control_cluster
-- system.reclass.storage.system.openstack_control_cluster
-- system.reclass.storage.system.openstack_proxy_cluster
-- system.reclass.storage.system.openstack_database_cluster
-- system.reclass.storage.system.openstack_message_queue_cluster
-- system.reclass.storage.system.openstack_telemetry_cluster
-# - system.reclass.storage.system.stacklight_log_cluster
-# - system.reclass.storage.system.stacklight_monitor_cluster
-# - system.reclass.storage.system.stacklight_telemetry_cluster
-- system.reclass.storage.system.infra_maas_single
-- cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+  - service.git.client
+  - system.linux.system.single
+  - system.linux.system.repo.mcp.salt
+  - system.linux.system.repo.saltstack.xenial
+  - system.salt.master.api
+  - system.salt.master.pkg
+  - system.salt.minion.ca.salt_master
+  - system.reclass.storage.salt
+  - system.reclass.storage.system.physical_control_cluster
+  - system.reclass.storage.system.openstack_control_cluster
+  - system.reclass.storage.system.openstack_proxy_cluster
+  - system.reclass.storage.system.openstack_database_cluster
+  - system.reclass.storage.system.openstack_message_queue_cluster
+  - system.reclass.storage.system.openstack_telemetry_cluster
+  # - system.reclass.storage.system.stacklight_log_cluster
+  # - system.reclass.storage.system.stacklight_monitor_cluster
+  # - system.reclass.storage.system.stacklight_telemetry_cluster
+  - system.reclass.storage.system.infra_maas_single
+  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
 parameters:
   _param:
     salt_master_base_environment: prd
@@ -28,6 +29,7 @@ parameters:
     single_address: ${_param:infra_config_address}
     deploy_address: ${_param:infra_config_deploy_address}
     salt_master_host: ${_param:infra_config_deploy_address}
+    # yamllint disable rule:line-length
     salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
   linux:
     network:
@@ -79,16 +81,16 @@ parameters:
         openstack_proxy_node02:
           params:
             linux_system_codename: xenial
-#        stacklight_log_node01:
-#          classes:
-#          - system.elasticsearch.client.single
-#        stacklight_monitor_node01:
-#          classes:
-#          - system.grafana.client.single
-#          - system.kibana.client.single
+        # stacklight_log_node01:
+        #   classes:
+        #   - system.elasticsearch.client.single
+        # stacklight_monitor_node01:
+        #   classes:
+        #   - system.grafana.client.single
+        #   - system.kibana.client.single
         openstack_control_node01:
           classes:
-          - cluster.${_param:cluster_name}.openstack.control_init
+            - cluster.${_param:cluster_name}.openstack.control_init
           params:
             linux_system_codename: xenial
         openstack_control_node02:
@@ -99,7 +101,7 @@ parameters:
             linux_system_codename: xenial
         openstack_database_node01:
           classes:
-          - cluster.${_param:cluster_name}.openstack.database_init
+            - cluster.${_param:cluster_name}.openstack.database_init
           params:
             linux_system_codename: xenial
         openstack_database_node02:
@@ -112,7 +114,7 @@ parameters:
           name: ${_param:openstack_compute_node01_hostname}
           domain: ${_param:cluster_domain}
           classes:
-          - cluster.${_param:cluster_name}.openstack.compute
+            - cluster.${_param:cluster_name}.openstack.compute
           params:
             salt_master_host: ${_param:reclass_config_master}
             linux_system_codename: xenial
@@ -126,7 +128,7 @@ parameters:
           name: ${_param:openstack_compute_node02_hostname}
           domain: ${_param:cluster_domain}
           classes:
-          - cluster.${_param:cluster_name}.openstack.compute
+            - cluster.${_param:cluster_name}.openstack.compute
           params:
             salt_master_host: ${_param:reclass_config_master}
             linux_system_codename: xenial

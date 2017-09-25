@@ -1,7 +1,8 @@
+---
 classes:
-- system.neutron.control.openvswitch.single
-- cluster.virtual-mcp-ocata-common.openstack_control
-- cluster.virtual-mcp-ocata-ovs-dpdk
+  - system.neutron.control.openvswitch.single
+  - cluster.virtual-mcp-ocata-common.openstack_control
+  - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   neutron:
     server:

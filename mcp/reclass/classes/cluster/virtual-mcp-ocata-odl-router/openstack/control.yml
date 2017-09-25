@@ -1,7 +1,8 @@
+---
 classes:
-- system.neutron.control.opendaylight.single
-- cluster.virtual-mcp-ocata-common.openstack_control
-- cluster.virtual-mcp-ocata-odl-router
+  - system.neutron.control.opendaylight.single
+  - cluster.virtual-mcp-ocata-common.openstack_control
+  - cluster.virtual-mcp-ocata-odl-router
 parameters:
   neutron:
     server:
@@ -14,21 +15,21 @@ parameters:
           type: general-service
           service_name: opendaylight
           binds:
-          - address: ${_param:cluster_vip_address}
-            port: 8181
+            - address: ${_param:cluster_vip_address}
+              port: 8181
           servers:
-          - name: odl01
-            host: ${_param:opendaylight_service_host}
-            port: 8181
-            params: ${_param:haproxy_check}
+            - name: odl01
+              host: ${_param:opendaylight_service_host}
+              port: 8181
+              params: ${_param:haproxy_check}
         opendaylight-rest:
           type: general-service
           service_name: opendaylight
           binds:
-          - address: ${_param:cluster_vip_address}
-            port: 8282
+            - address: ${_param:cluster_vip_address}
+              port: 8282
           servers:
-          - name: odl01
-            host: ${_param:opendaylight_service_host}
-            port: 8282
-            params: ${_param:haproxy_check}
+            - name: odl01
+              host: ${_param:opendaylight_service_host}
+              port: 8282
+              params: ${_param:haproxy_check}

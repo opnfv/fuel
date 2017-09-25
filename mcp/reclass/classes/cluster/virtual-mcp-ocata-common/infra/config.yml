@@ -1,15 +1,16 @@
+---
 classes:
-- service.git.client
-- system.linux.system.single
-- system.linux.system.repo.mcp.salt
-- system.salt.master.api
-- system.salt.master.pkg
-- system.reclass.storage.salt
-- system.salt.minion.ca.salt_master
-- system.salt.minion.cert.proxy
-- system.mysql.client.single
-- system.reclass.storage.system.openstack_compute_multi
-- system.reclass.storage.system.openstack_gateway_single
+  - service.git.client
+  - system.linux.system.single
+  - system.linux.system.repo.mcp.salt
+  - system.salt.master.api
+  - system.salt.master.pkg
+  - system.reclass.storage.salt
+  - system.salt.minion.ca.salt_master
+  - system.salt.minion.cert.proxy
+  - system.mysql.client.single
+  - system.reclass.storage.system.openstack_compute_multi
+  - system.reclass.storage.system.openstack_gateway_single
 parameters:
   _param:
     openstack_control_node01_hostname: ctl01
@@ -20,6 +21,7 @@ parameters:
     salt_master_host: 127.0.0.1
     salt_master_base_environment: prd
     salt_minion_ca_host: ${linux:network:fqdn}
+    # yamllint disable-line rule:line-length
     salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
   linux:
     network:
@@ -43,7 +45,7 @@ parameters:
           name: ${_param:openstack_control_node01_hostname}
           domain: ${_param:cluster_domain}
           classes:
-          - cluster.${_param:cluster_name}.openstack.control
+            - cluster.${_param:cluster_name}.openstack.control
           params:
             linux_system_codename: xenial
             salt_master_host: ${_param:reclass_config_master}

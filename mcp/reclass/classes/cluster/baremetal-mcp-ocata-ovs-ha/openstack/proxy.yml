@@ -1,20 +1,21 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.nginx.server.single
-- system.nginx.server.proxy.openstack_api
-- system.nginx.server.proxy.openstack_vnc
-- system.nginx.server.proxy.openstack_web
-- system.nginx.server.proxy.openstack.aodh
-- system.nginx.server.proxy.openstack.ceilometer
-- system.horizon.server.single
-- system.salt.minion.cert.proxy
-- system.sphinx.server.doc.reclass
-- service.keepalived.cluster.single
-- cluster.baremetal-mcp-ocata-ovs-ha.infra
-- cluster.baremetal-mcp-ocata-ovs-ha.openstack.dashboard
-# - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.proxy
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.nginx.server.single
+  - system.nginx.server.proxy.openstack_api
+  - system.nginx.server.proxy.openstack_vnc
+  - system.nginx.server.proxy.openstack_web
+  - system.nginx.server.proxy.openstack.aodh
+  - system.nginx.server.proxy.openstack.ceilometer
+  - system.horizon.server.single
+  - system.salt.minion.cert.proxy
+  - system.sphinx.server.doc.reclass
+  - service.keepalived.cluster.single
+  - cluster.baremetal-mcp-ocata-ovs-ha.infra
+  - cluster.baremetal-mcp-ocata-ovs-ha.openstack.dashboard
+  # - cluster.baremetal-mcp-ocata-ovs-ha.stacklight.proxy
 parameters:
   _param:
     keepalived_vip_interface: ens3

@@ -1,16 +1,17 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.linux.storage.loopback
-- service.nfs.client
-- system.nova.compute.single
-- service.neutron.compute.single
-- service.cinder.volume.single
-- system.cinder.volume.backend.lvm
-- system.ceilometer.agent.cluster
-- system.ceilometer.client.nova_compute
-- system.ceilometer.client.cinder_volume
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.linux.storage.loopback
+  - service.nfs.client
+  - system.nova.compute.single
+  - service.neutron.compute.single
+  - service.cinder.volume.single
+  - system.cinder.volume.backend.lvm
+  - system.ceilometer.agent.cluster
+  - system.ceilometer.client.nova_compute
+  - system.ceilometer.client.cinder_volume
 parameters:
   _param:
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
@@ -86,4 +87,4 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:primary_interface}
+            - ${_param:primary_interface}

@@ -1,4 +1,5 @@
+---
 classes:
-- system.neutron.control.openvswitch.single
-- cluster.virtual-mcp-ocata-common.openstack_control
-- cluster.virtual-mcp-ocata-ovs
+  - system.neutron.control.openvswitch.single
+  - cluster.virtual-mcp-ocata-common.openstack_control
+  - cluster.virtual-mcp-ocata-ovs

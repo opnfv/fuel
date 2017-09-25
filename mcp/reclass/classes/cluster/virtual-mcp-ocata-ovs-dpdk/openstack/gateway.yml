@@ -1,7 +1,8 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-common.openstack_gateway
-- service.neutron.gateway.single
-- cluster.virtual-mcp-ocata-ovs-dpdk
+  - cluster.virtual-mcp-ocata-common.openstack_gateway
+  - service.neutron.gateway.single
+  - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   neutron:
     gateway:
