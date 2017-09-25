@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_174d919a",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-09-25T11:09:26Z",
+      "side": 1,
+      "message": "PDF jinja adapter needs to be updated with this parameter",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "ced05d611cff69239f1aaa60b3cd599e1f4806f8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
