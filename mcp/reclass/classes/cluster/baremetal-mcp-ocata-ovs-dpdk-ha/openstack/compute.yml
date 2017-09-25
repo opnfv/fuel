@@ -78,11 +78,11 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
-        vlan300:
+        mgmt-vlan:
           enabled: true
           proto: manual
           type: vlan
-          name: ${_param:mgmt_nic}.300
+          name: ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
           use_interfaces:
             - ${_param:mgmt_nic}
         br-ctl:
@@ -92,7 +92,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-            - ${_param:mgmt_nic}.300
+            - ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
         br-floating:
           enabled: true
           type: ovs_bridge
