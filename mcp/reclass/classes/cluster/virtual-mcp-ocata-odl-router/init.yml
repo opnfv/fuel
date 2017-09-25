@@ -9,4 +9,5 @@ parameters:
   _param:
     cluster_domain: virtual-mcp-ocata-odl-router.local
     cluster_name: virtual-mcp-ocata-odl-router
+    #TODO turn this ip into _param: ref
     opendaylight_service_host: 172.16.10.111
