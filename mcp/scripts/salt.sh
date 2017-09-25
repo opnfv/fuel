@@ -28,8 +28,9 @@ fi
 
 # ssh to cfg01
 # shellcheck disable=SC2086,2087
-ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
+ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   sudo -i
+  set -e
 
   echo -n 'Checking out cloud-init has finished running ...'
   while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo -n '.'; sleep 1; done
