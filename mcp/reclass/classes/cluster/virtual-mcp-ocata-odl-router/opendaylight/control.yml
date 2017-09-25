@@ -1,9 +1,10 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.opendaylight.server.single
-- cluster.virtual-mcp-ocata-odl-router
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.opendaylight.server.single
+  - cluster.virtual-mcp-ocata-odl-router
 parameters:
   _param:
     linux_system_codename: xenial

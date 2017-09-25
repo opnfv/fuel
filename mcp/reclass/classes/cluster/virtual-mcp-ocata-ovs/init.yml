@@ -1,9 +1,10 @@
+---
 classes:
-- system.linux.system.single
-- cluster.all-mcp-ocata-common
-- cluster.virtual-mcp-ocata-common.init_options
-- cluster.virtual-mcp-ocata-common.infra
-- cluster.virtual-mcp-ocata-ovs.openstack
+  - system.linux.system.single
+  - cluster.all-mcp-ocata-common
+  - cluster.virtual-mcp-ocata-common.init_options
+  - cluster.virtual-mcp-ocata-common.infra
+  - cluster.virtual-mcp-ocata-ovs.openstack
 
 parameters:
   _param:

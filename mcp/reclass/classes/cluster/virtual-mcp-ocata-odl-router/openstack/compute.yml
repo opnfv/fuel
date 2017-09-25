@@ -1,6 +1,7 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-common.openstack_compute
-- cluster.virtual-mcp-ocata-odl-router
+  - cluster.virtual-mcp-ocata-common.openstack_compute
+  - cluster.virtual-mcp-ocata-odl-router
 parameters:
   opendaylight:
     client:
@@ -26,7 +27,7 @@ parameters:
           netmask: 255.255.255.0
           gateway: 10.1.0.110
           use_interfaces:
-          - ${_param:tenant_interface}
+            - ${_param:tenant_interface}
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -43,6 +44,6 @@ parameters:
           address: ${_param:external_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:external_interface}
+            - ${_param:external_interface}
           use_ovs_ports:
-          - float-to-ex
+            - float-to-ex

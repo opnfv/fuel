@@ -1,6 +1,7 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-common.infra.config
-- cluster.virtual-mcp-ocata-ovs-dpdk
+  - cluster.virtual-mcp-ocata-common.infra.config
+  - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   reclass:
     storage:

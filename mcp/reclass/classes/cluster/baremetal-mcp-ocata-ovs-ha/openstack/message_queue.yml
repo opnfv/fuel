@@ -1,10 +1,11 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.rabbitmq.server.cluster
-- system.rabbitmq.server.vhost.openstack
-- cluster.baremetal-mcp-ocata-ovs-ha
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.rabbitmq.server.cluster
+  - system.rabbitmq.server.vhost.openstack
+  - cluster.baremetal-mcp-ocata-ovs-ha
 parameters:
   _param:
     keepalived_vip_interface: ens3
