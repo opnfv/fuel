@@ -1,8 +1,9 @@
+---
 classes:
-- system.nova.compute.nfv.hugepages
-- system.neutron.compute.nfv.dpdk
-- cluster.virtual-mcp-ocata-common.openstack_compute
-- cluster.virtual-mcp-ocata-ovs-dpdk
+  - system.nova.compute.nfv.hugepages
+  - system.neutron.compute.nfv.dpdk
+  - cluster.virtual-mcp-ocata-common.openstack_compute
+  - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:
   neutron:
     compute:
@@ -16,6 +17,7 @@ parameters:
     system:
       repo:
         uca:
+          # yamllint disable-line rule:line-length
           source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
           architectures: amd64
           key_id: EC4926EA

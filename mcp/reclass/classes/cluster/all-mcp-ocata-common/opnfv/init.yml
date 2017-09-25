@@ -1,3 +1,4 @@
+---
 classes:
-- cluster.all-mcp-ocata-common.opnfv.runtime
-- cluster.all-mcp-ocata-common.opnfv.pod_config
+  - cluster.all-mcp-ocata-common.opnfv.runtime
+  - cluster.all-mcp-ocata-common.opnfv.pod_config

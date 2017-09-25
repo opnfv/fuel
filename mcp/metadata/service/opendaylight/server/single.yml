@@ -1,8 +1,9 @@
+---
 applications:
-- opendaylight
+  - opendaylight
 parameters:
   opendaylight:
     server:
-      enabled: True
+      enabled: 'True'
       logging:
         engine: syslog

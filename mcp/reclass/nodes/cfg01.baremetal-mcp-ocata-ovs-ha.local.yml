@@ -1,5 +1,6 @@
+---
 classes:
-- cluster.baremetal-mcp-ocata-ovs-ha.infra.config
+  - cluster.baremetal-mcp-ocata-ovs-ha.infra.config
 parameters:
   _param:
     linux_system_codename: xenial

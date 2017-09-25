@@ -1,16 +1,17 @@
+---
 classes:
-- system.linux.system.single
-- cluster.all-mcp-ocata-common
-- cluster.baremetal-mcp-ocata-odl-ha.openstack
-# - cluster.baremetal-mcp-ocata-odl-ha.stacklight
-# - cluster.baremetal-mcp-ocata-odl-ha.stacklight.client
+  - system.linux.system.single
+  - cluster.all-mcp-ocata-common
+  - cluster.baremetal-mcp-ocata-odl-ha.openstack
+  # - cluster.baremetal-mcp-ocata-odl-ha.stacklight
+  # - cluster.baremetal-mcp-ocata-odl-ha.stacklight.client
 parameters:
   _param:
     apt_mk_version: nightly
     mcp_repo_version: 1.1
     cluster_name: baremetal-mcp-ocata-odl-ha
     cluster_domain: ${_param:cluster_name}.local
-#    stacklight_environment: ${_param:cluster_domain}
+    # stacklight_environment: ${_param:cluster_domain}
     reclass_data_revision: master
     cluster_public_host: ${_param:openstack_proxy_address}
     infra_config_hostname: cfg01
@@ -54,6 +55,7 @@ parameters:
       address: ${_param:single_address}
       netmask: 255.255.255.0
 
+    # yamllint disable-line rule:line-length
     salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
   linux:
     system:
@@ -67,30 +69,30 @@ parameters:
         cfg01:
           address: ${_param:infra_config_address}
           names:
-          - cfg01
-          - cfg01.${_param:cluster_domain}
+            - cfg01
+            - cfg01.${_param:cluster_domain}
         cfg:
           address: ${_param:infra_config_address}
           names:
-          - ${_param:infra_config_hostname}
-          - ${_param:infra_config_hostname}.${_param:cluster_domain}
+            - ${_param:infra_config_hostname}
+            - ${_param:infra_config_hostname}.${_param:cluster_domain}
         mas01:
           address: ${_param:infra_maas_node01_address}
           names:
-          - ${_param:infra_maas_node01_hostname}
-          - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
+            - ${_param:infra_maas_node01_hostname}
+            - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
         kvm01:
           address: ${_param:infra_kvm_node01_address}
           names:
-          - ${_param:infra_kvm_node01_hostname}
-          - ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
+            - ${_param:infra_kvm_node01_hostname}
+            - ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
         kvm02:
           address: ${_param:infra_kvm_node02_address}
           names:
-          - ${_param:infra_kvm_node02_hostname}
-          - ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+            - ${_param:infra_kvm_node02_hostname}
+            - ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
         kvm03:
           address: ${_param:infra_kvm_node03_address}
           names:
-          - ${_param:infra_kvm_node03_hostname}
-          - ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
+            - ${_param:infra_kvm_node03_hostname}
+            - ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
