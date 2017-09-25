@@ -13,13 +13,12 @@ Signed-off-by: Guillermo Herrero <Guillermo.Herrero@enea.com>
 ---
 
 diff --git a/linux/map.jinja b/linux/map.jinja
-index d3227ca..8a2243d 100644
 --- a/linux/map.jinja
 +++ b/linux/map.jinja
 @@ -92,6 +92,7 @@
-     'updelay',
      'hashing-algorithm',
      'hardware-dma-ring-rx',
+     'hwaddr',
 +    'noifupdown',
  ] %}
 
