@@ -51,6 +51,7 @@ parameters:
     opnfv_openstack_compute_node01_external_address: 172.30.10.2
     opnfv_openstack_compute_node02_external_address: 172.30.10.3
 
+    opnfv_opendaylight_server_node01_single_address: 10.167.4.111
 
     opnfv_name_servers: ['8.8.8.8', '8.8.4.4']
     opnfv_dns_server01: '8.8.8.8'

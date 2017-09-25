@@ -91,19 +91,29 @@ parameters:
           netmask: 255.255.255.0
           mtu: 1500
           use_interfaces:
+<<<<<<< 45720d1905fd64105e054fa7c898e7d7369897cc
             - ${_param:tenant_nic}.302
         vlan300:
+=======
+          - ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
+        mgmt-vlan:
+>>>>>>> Extended PDF support to all baremetal scenarios
           enabled: true
           proto: manual
           type: vlan
-          name: ${_param:mgmt_nic}.300
+          name: ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
           use_interfaces:
+<<<<<<< 45720d1905fd64105e054fa7c898e7d7369897cc
             - ${_param:mgmt_nic}
         vlan302:
+=======
+          - ${_param:mgmt_nic}
+        tenant-vlan:
+>>>>>>> Extended PDF support to all baremetal scenarios
           enabled: true
           proto: manual
           type: vlan
-          name: ${_param:tenant_nic}.302
+          name: ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
           use_interfaces:
             - ${_param:tenant_nic}
         br-ctl:
@@ -113,7 +123,11 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
+<<<<<<< 45720d1905fd64105e054fa7c898e7d7369897cc
             - ${_param:mgmt_nic}.300
+=======
+          - ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
+>>>>>>> Extended PDF support to all baremetal scenarios
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -132,4 +146,8 @@ parameters:
           use_interfaces:
             - ${_param:external_nic}
           use_ovs_ports:
+<<<<<<< 45720d1905fd64105e054fa7c898e7d7369897cc
             - float-to-ex
+=======
+          - float-to-ex
+>>>>>>> Extended PDF support to all baremetal scenarios
