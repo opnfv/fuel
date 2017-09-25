@@ -1,17 +1,18 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- system.linux.storage.loopback
-- system.glusterfs.client.cluster
-- system.nova.compute.cluster
-- system.nova.compute.nfv.hugepages
-- system.nova.compute.nfv.cpu_pinning
-- system.neutron.gateway.cluster
-- system.cinder.volume.single
-- system.cinder.volume.backend.lvm
-- system.ceilometer.agent.cluster
-- cluster.baremetal-mcp-ocata-ovs-ha.infra
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - system.linux.storage.loopback
+  - system.glusterfs.client.cluster
+  - system.nova.compute.cluster
+  - system.nova.compute.nfv.hugepages
+  - system.nova.compute.nfv.cpu_pinning
+  - system.neutron.gateway.cluster
+  - system.cinder.volume.single
+  - system.cinder.volume.backend.lvm
+  - system.ceilometer.agent.cluster
+  - cluster.baremetal-mcp-ocata-ovs-ha.infra
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}
@@ -39,6 +40,7 @@ parameters:
           server: ${_param:glusterfs_service_host}
           user: nova
           group: nova
+          # yamllint disable-line rule:line-length
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
     system:
@@ -72,21 +74,21 @@ parameters:
           netmask: 255.255.255.0
           mtu: 1500
           use_interfaces:
-          - ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
+            - ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
         mgmt-vlan:
           enabled: true
           proto: manual
           type: vlan
           name: ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
           use_interfaces:
-          - ${_param:mgmt_nic}
+            - ${_param:mgmt_nic}
         tenant-vlan:
           enabled: true
           proto: manual
           type: vlan
           name: ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
           use_interfaces:
-          - ${_param:tenant_nic}
+            - ${_param:tenant_nic}
         br-ctl:
           enabled: true
           type: bridge
@@ -94,7 +96,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
+            - ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -111,6 +113,6 @@ parameters:
           address: ${_param:external_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:external_nic}
+            - ${_param:external_nic}
           use_ovs_ports:
-          - float-to-ex
+            - float-to-ex

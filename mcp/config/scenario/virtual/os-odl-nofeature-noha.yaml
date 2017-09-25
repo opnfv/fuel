@@ -1,3 +1,4 @@
+---
 cluster:
   domain: virtual-mcp-ocata-odl-router.local
   states:

@@ -1,5 +1,7 @@
+---
 parameters:
   _param:
+    # yamllint disable-line rule:line-length
     salt_control_xenial_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
 
     # VMs spawned on Foundation Node / Jump Host net ifaces (max 4)

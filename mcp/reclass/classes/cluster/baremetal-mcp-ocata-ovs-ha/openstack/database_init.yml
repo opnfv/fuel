@@ -1,2 +1,3 @@
+---
 classes:
-- system.mysql.client.single
+  - system.mysql.client.single

@@ -1,5 +1,6 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-odl-router.infra.config
+  - cluster.virtual-mcp-ocata-odl-router.infra.config
 parameters:
   _param:
     linux_system_codename: xenial

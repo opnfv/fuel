@@ -1,3 +1,4 @@
+---
 classes:
-- cluster.virtual-mcp-ocata-common.infra.config
-- cluster.virtual-mcp-ocata-ovs
+  - cluster.virtual-mcp-ocata-common.infra.config
+  - cluster.virtual-mcp-ocata-ovs

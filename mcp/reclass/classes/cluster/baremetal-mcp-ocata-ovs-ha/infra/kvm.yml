@@ -1,21 +1,22 @@
+---
 classes:
-- system.linux.system.repo.mcp.openstack
-- system.linux.system.repo.mcp.extra
-- system.linux.system.repo.saltstack.xenial
-- service.keepalived.cluster.single
-- system.glusterfs.server.volume.glance
-- system.glusterfs.server.volume.keystone
-- system.glusterfs.server.cluster
-- system.salt.control.virt
-- system.salt.control.cluster.openstack_control_cluster
-- system.salt.control.cluster.openstack_proxy_cluster
-- system.salt.control.cluster.openstack_database_cluster
-- system.salt.control.cluster.openstack_message_queue_cluster
-- system.salt.control.cluster.openstack_telemetry_cluster
-# - system.salt.control.cluster.stacklight_server_cluster
-# - system.salt.control.cluster.stacklight_log_cluster
-# - system.salt.control.cluster.stacklight_telemetry_cluster
-- cluster.baremetal-mcp-ocata-ovs-ha.infra
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.saltstack.xenial
+  - service.keepalived.cluster.single
+  - system.glusterfs.server.volume.glance
+  - system.glusterfs.server.volume.keystone
+  - system.glusterfs.server.cluster
+  - system.salt.control.virt
+  - system.salt.control.cluster.openstack_control_cluster
+  - system.salt.control.cluster.openstack_proxy_cluster
+  - system.salt.control.cluster.openstack_database_cluster
+  - system.salt.control.cluster.openstack_message_queue_cluster
+  - system.salt.control.cluster.openstack_telemetry_cluster
+  # - system.salt.control.cluster.stacklight_server_cluster
+  # - system.salt.control.cluster.stacklight_log_cluster
+  # - system.salt.control.cluster.stacklight_telemetry_cluster
+  - cluster.baremetal-mcp-ocata-ovs-ha.infra
 parameters:
   _param:
     linux_system_codename: xenial
@@ -28,8 +29,8 @@ parameters:
     deploy_nic: enp6s0
   salt:
     control:
-      size: #RAM 4096,8192,16384,32768,65536
-      ##Default production sizing
+      size:  # RAM 4096,8192,16384,32768,65536
+        # Default production sizing
         openstack.control:
           cpu: 4
           ram: 12288
@@ -50,31 +51,29 @@ parameters:
           ram: 3072
           disk_profile: xxlarge
           net_profile: default
+        # stacklight.log:
+        #   cpu: 2
+        #   ram: 4096
+        #   disk_profile: xxlarge
+        #   net_profile: default
+        # stacklight.server:
+        #   cpu: 2
+        #   ram: 4096
+        #   disk_profile: small
+        #   net_profile: default
+        # stacklight.telemetry:
+        #   cpu: 2
+        #   ram: 4096
+        #   disk_profile: xxlarge
+        #   net_profile: default
         openstack.proxy:
           cpu: 2
           ram: 2048
           disk_profile: small
           net_profile: default
-#        stacklight.log:
-#          cpu: 2
-#          ram: 4096
-#          disk_profile: xxlarge
-#          net_profile: default
-#        stacklight.server:
-#          cpu: 2
-#          ram: 4096
-#          disk_profile: small
-#          net_profile: default
-#        stacklight.telemetry:
-#          cpu: 2
-#          ram: 4096
-#          disk_profile: xxlarge
-#          net_profile: default
       cluster:
         internal:
           node:
-            prx02:
-              provider: kvm03.${_param:cluster_domain}
             mdb01:
               image: ${_param:salt_control_xenial_image}
             mdb02:
@@ -103,6 +102,7 @@ parameters:
               image: ${_param:salt_control_xenial_image}
             prx02:
               image: ${_param:salt_control_xenial_image}
+              provider: kvm03.${_param:cluster_domain}
   virt:
     nic:
       default:
@@ -123,9 +123,9 @@ parameters:
             - ${_param:cluster_node02_address}:/srv/glusterfs/nova_instances
             - ${_param:cluster_node03_address}:/srv/glusterfs/nova_instances
           options:
-            cluster.readdir-optimize: On
-            nfs.disable: On
-            network.remote-dio: On
+            cluster.readdir-optimize: 'On'
+            nfs.disable: 'On'
+            network.remote-dio: 'On'
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
   linux:
@@ -145,7 +145,7 @@ parameters:
           type: bridge
           name_servers: ${_param:opnfv_name_servers}
           use_interfaces:
-          - ${_param:deploy_nic}
+            - ${_param:deploy_nic}
           noifupdown: true
         mgmt-vlan:
           enabled: true
@@ -153,7 +153,7 @@ parameters:
           type: vlan
           name: ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
           use_interfaces:
-          - ${_param:deploy_nic}
+            - ${_param:deploy_nic}
         br-ctl:
           enabled: true
           type: bridge
@@ -161,4 +161,4 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-          - ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
+            - ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}

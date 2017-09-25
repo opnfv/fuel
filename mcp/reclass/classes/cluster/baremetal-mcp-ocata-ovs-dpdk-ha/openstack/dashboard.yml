@@ -1,6 +1,7 @@
+---
 classes:
-- system.horizon.server.single
-- cluster.baremetal-mcp-ocata-ovs-dpdk-ha
+  - system.horizon.server.single
+  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha
 parameters:
   _param:
     horizon_site_branding: OpenStack Dashboard
