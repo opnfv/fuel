@@ -91,7 +91,7 @@ parameters:
           netmask: 255.255.255.0
           mtu: 1500
           use_interfaces:
-            - ${_param:tenant_nic}.302
+            - ${_param:tenant_nic}.1000
         vlan300:
           enabled: true
           proto: manual
@@ -99,11 +99,11 @@ parameters:
           name: ${_param:mgmt_nic}.300
           use_interfaces:
             - ${_param:mgmt_nic}
-        vlan302:
+        vlan1000:
           enabled: true
           proto: manual
           type: vlan
-          name: ${_param:tenant_nic}.302
+          name: ${_param:tenant_nic}.1000
           use_interfaces:
             - ${_param:tenant_nic}
         br-ctl:
