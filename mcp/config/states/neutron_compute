@@ -2,3 +2,5 @@
 set -x
 
 salt -I 'neutron:compute' state.sls neutron
+salt -I 'neutron:compute' file.append /etc/sudoers.d/neutron_sudoers \
+  args='neutron ALL = (root) NOPASSWD: /usr/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf'
