@@ -1,7 +1,5 @@
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
-  - system.linux.system.repo.mcp.extra
   - system.linux.system.repo.saltstack.xenial
   - system.linux.storage.loopback
   - service.nfs.client
@@ -22,6 +20,8 @@ parameters:
     loopback_device_size: 10
   nova:
     compute:
+      libvirt_service: libvirtd
+      libvirt_bin: /etc/default/libvirtd
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       network:
         region: ${_param:openstack_region}
@@ -55,6 +55,13 @@ parameters:
           device: ${_param:openstack_control_address}:/srv/nova/instances
   linux:
     system:
+      repo:
+        uca:
+          # yamllint disable-line rule:line-length
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
       kernel:
         sysctl:
           vm.dirty_ratio: 10
