@@ -10,9 +10,5 @@ salt -I 'nova:compute' cmd.run 'rm -vrf /etc/apt/preferences.d/*'
 salt -I 'nova:compute' file.remove '/etc/apt/sources.list.d/mirantis_openstack.list'
 salt -I 'nova:compute' pkg.refresh_db
 
-salt -I 'nova:compute' pkg.install neutron-common
-salt -I 'nova:compute' file.append /etc/sudoers.d/neutron_sudoers \
-  args='neutron ALL = (root) NOPASSWD: /usr/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf'
-
 salt -I 'nova:compute' pkg.install libvirt-bin
 salt -I 'nova:compute' file.chown /var/run/openvswitch libvirt-qemu kvm
