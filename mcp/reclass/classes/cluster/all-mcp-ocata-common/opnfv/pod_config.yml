@@ -56,7 +56,7 @@ parameters:
     opnfv_name_servers: ['8.8.8.8', '8.8.4.4']
     opnfv_dns_server01: '8.8.8.8'
     opnfv_net_mgmt_vlan: 300
-    opnfv_net_tenant_vlan: 302
+    opnfv_net_tenant_vlan: 1000
 
     opnfv_maas_node01_architecture: amd64/generic
     opnfv_maas_node01_power_address: 172.30.8.75
