@@ -60,8 +60,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
 
   salt -C 'I@salt:master' state.sls linux
   salt -C '* and not cfg01*' state.sls linux
+  salt -C '* and not cfg01*' pkg.upgrade refresh=False
 
   salt '*' state.sls ntp
-
-  salt '*' pkg.upgrade refresh=False
 SALT_INSTALL_END
