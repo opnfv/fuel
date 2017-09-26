@@ -72,7 +72,7 @@ create_networks() {
       virsh net-undefine "${net}"
     fi
     # in case of custom network, host should already have the bridge in place
-    if [ -f "net_${net}.xml" ]; then
+    if [ -f "net_${net}.xml" ] && [ ! -d "/sys/class/net/${net}/bridge" ]; then
       virsh net-define "net_${net}.xml"
       virsh net-autostart "${net}"
       virsh net-start "${net}"
@@ -103,10 +103,11 @@ create_vms() {
       vnode_networks[2]="${vnode_networks[0]}"
     fi
     for net in "${vnode_networks[@]:1}"; do
-      net_type="network"
+      net_type="bridge"
       # in case of custom network, host should already have the bridge in place
-      if [ ! -f "net_${net}.xml" ]; then
-        net_type="bridge"
+      if [ -f "net_${net}.xml" ] && \
+         [ ! -d "/sys/class/net/${net}/bridge" ]; then
+        net_type="network"
       fi
       net_args="${net_args} --network ${net_type}=${net},model=virtio"
     done
