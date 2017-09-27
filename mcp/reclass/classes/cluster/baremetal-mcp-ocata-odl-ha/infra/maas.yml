@@ -2,6 +2,7 @@
 classes:
   - system.linux.system.repo.saltstack.xenial
   - system.maas.region.single
+  - service.maas.cluster.single
   - cluster.baremetal-mcp-ocata-odl-ha.infra
 parameters:
   _param:
