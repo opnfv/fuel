@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_01c9b858",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-09-30T02:07:21Z",
+      "side": 1,
+      "message": "missing space before ]",
+      "revId": "523205389aa1c79f21624c1154ff5f4f31482e58",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
