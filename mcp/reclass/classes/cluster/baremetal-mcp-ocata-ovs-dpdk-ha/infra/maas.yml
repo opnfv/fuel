@@ -1,6 +1,5 @@
 ---
 classes:
-  - system.linux.system.repo.saltstack.xenial
   - system.maas.region.single
   - service.maas.cluster.single
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra

@@ -1,6 +1,5 @@
 ---
 classes:
-  - system.linux.system.repo.saltstack.xenial
   - system.linux.storage.loopback
   - service.nfs.client
   - system.nova.compute.single
