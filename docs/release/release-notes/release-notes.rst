@@ -6,42 +6,39 @@
 Abstract
 ========
 
-This document compiles the release notes for the Danube release of
-OPNFV when using Fuel as a deployment tool.
+This document compiles the release notes for the Euphrates release of
+OPNFV when using Fuel as a deployment tool. This is an unified documentation
+for both x86_64 and aarch64 architectures. All information is common for
+both architectures except when explicitly stated.
+
 
 ===============
 Important Notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Danube release of OPNFV.
+tool for the Euphrates release of OPNFV.
 
-The goal of the Danube release and this Fuel-based deployment process is
+The goal of the Euphrates release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
-Carefully follow the installation-instructions provided in *Reference 13*.
+Carefully follow the installation-instructions.
 
 =======
 Summary
 =======
 
-For Danube, the typical use of Fuel as an OpenStack installer is
+For Euphrates, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
 - `OpenDaylight <http://www.opendaylight.org/software>`_
-- `Service Function Chaining <https://wiki.opnfv.org/service_function_chaining>`_
-- `SDN distributed routing and VPN <https://wiki.opnfv.org/sdnvpn>`_
 - `NFV Hypervisors-KVM <https://wiki.opnfv.org/nfv-kvm>`_
 - `Open vSwitch for NFV <https://wiki.opnfv.org/ovsnfv>`_
-- `VSPERF <https://wiki.opnfv.org/characterize_vswitch_performance_for_telco_nfv_use_cases>`_
-- `Promise <https://wiki.opnfv.org/display/promise>`_
-- `Parser <https://wiki.opnfv.org/display/parser>`_
-- `Doctor <https://wiki.opnfv.org/display/doctor>`_
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
 
-This Danube artifact provides Fuel as the deployment stage tool in the
+This Euphrates artifact provides Fuel as the deployment stage tool in the
 OPNFV CI pipeline including:
 
 - Documentation built by Jenkins
@@ -52,44 +49,35 @@ OPNFV CI pipeline including:
 
   - installation instructions
 
-  - build-instructions
+- Automated deployment of Euphrates with running on bare metal or a nested hypervisor environment (KVM)
 
-- The Danube Fuel installer image (.iso) built by Jenkins
-
-- Automated deployment of Danube with running on bare metal or a nested hypervisor environment (KVM)
-
-- Automated validation of the Danube deployment
+- Automated validation of the Euphrates deployment
 
 ============
 Release Data
 ============
 
 +--------------------------------------+--------------------------------------+
-| **Project**                          | fuel                                 |
+| **Project**                          | fuel/armband                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | danube.2.0                           |
+| **Repo/tag**                         | 5.0.0                                |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Danube 2.0                           |
+| **Release designation**              | Euphrates 5.0                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | March 27 2017                        |
+| **Release date**                     | October 6 2017                       |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Danube alignment to Released         |
-|                                      | Fuel 10.0 baseline + features and    |
+| **Purpose of the delivery**          | Euphrates alignment to Released      |
+|                                      | MCP 1.0 baseline + features and      |
 |                                      | bug-fixes for the following          |
 |                                      | feaures:                             |
+|                                      |                                      |
 |                                      | - NFV Hypervisors-KVM                |
 |                                      | - Open vSwitch for NFV               |
 |                                      | - OpenDaylight                       |
-|                                      | - SDN distributed routing and VPN    |
-|                                      | - Service function chaining          |
-|                                      | - Promise                            |
-|                                      | - Parser                             |
-|                                      | - Doctor                             |
-|                                      | - Tacker                             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -97,23 +85,21 @@ Version Change
 
 Module Version Changes
 ----------------------
-This is the Danube 2.0 release.
+This is the Euphrates 5.0 release.
 It is based on following upstream versions:
 
-- Fuel 10.0 Base Release
+- MCP 1.0 Base Release
 
-- OpenStack Newton Release
+- OpenStack Ocata Release
 
 - OpenDaylight
 
 Document Changes
 ----------------
-This is the Danube 2.0 release.
+This is the Euphrates 5.0 release.
 It comes with the following documentation:
 
 - Installation instructions
-
-- Build instructions
 
 - Release notes (This document)
 
@@ -124,14 +110,14 @@ Feature Additions
 -----------------
 
 **JIRA TICKETS:**
-
+`Euphrates 5.0 new features  <https://jira.opnfv.org/issues/?filter=12029>`_
 
 Bug Corrections
 ---------------
 
 **JIRA TICKETS:**
 
-`Danube 2.0 bug fixes  <https://jira.opnfv.org/issues/?filter=11406>`_
+`Euphrates 5.0 bug fixes  <https://jira.opnfv.org/issues/?filter=12027>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -141,14 +127,14 @@ Deliverables
 Software Deliverables
 ---------------------
 
-Fuel-based installer iso file found in `OPNFV Downloads <https://www.opnfv.org/software/download>`.
+- `Fuel@x86_64 installer script files <https://gerrit.opnfv.org/gerrit/gitweb?p=fuel.git;a=summary>`_
+
+- `Fuel@aarch64 installer script files <https://gerrit.opnfv.org/gerrit/gitweb?p=armband.git;a=summary>`_
 
 Documentation Deliverables
 --------------------------
 
 - Installation instructions
-
-- Build instructions
 
 - Release notes(This document)
 
@@ -159,21 +145,16 @@ Known Limitations, Issues and Workarounds
 System Limitations
 ==================
 
-- **Max number of blades:** 1 Fuel master, 3 Controllers, 20 Compute blades
+- **Min number of blades:** 1 Jumpserver, 3 Controllers, 2 Compute blades
 
-- **Min number of blades:** 1 Fuel master, 1 Controller, 1 Compute blade
-
-- **Storage:** Ceph is the only supported storage configuration
-
-- **Max number of networks:** 65k
-
+TODO: Add more known limitations
 
 Known Issues
 ============
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=11407>`_
+`Known issues <https://jira.opnfv.org/issues/?filter=12028>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -182,20 +163,20 @@ Workarounds
 
 **JIRA TICKETS:**
 
-`Workarounds <https://jira.opnfv.org/issues/?filter=11408>`_
+-
 
 (Also See respective Integrated feature project's bug tracking)
 
 ============
 Test Results
 ============
-The Danube 2.0 release with the Fuel deployment tool has undergone QA test
+The Euphrates 5.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Danube 2.0 release, please see:
+For more information on the OPNFV Euphrates 5.0 release, please see:
 
 OPNFV
 =====
@@ -206,7 +187,7 @@ OPNFV
 OpenStack
 =========
 
-3) `OpenStack Newton Release Artifacts <http://www.openstack.org/software/newton>`_
+3) `OpenStack Ocata Release Artifacts <http://www.openstack.org/software/ocata>`_
 
 4) `OpenStack Documentation <http://docs.openstack.org>`_
 
@@ -219,5 +200,4 @@ Fuel
 ====
 
 6) `The Fuel OpenStack Project <https://wiki.openstack.org/wiki/Fuel>`_
-7) `Fuel Documentation <http://docs.openstack.org/developer/fuel-docs>`_
-
+7) `The Mirantis Cloud Platform Documentation <https://docs.mirantis.com/mcp/latest>`_
