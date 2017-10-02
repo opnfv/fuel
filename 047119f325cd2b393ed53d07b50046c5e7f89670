@@ -1,0 +1,337 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_4418e91d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "+ JIRA line",
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_2415e5e4",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "drop \u0027of the control plane\u0027, as we also host computes VMs",
+      "range": {
+        "startLine": 79,
+        "startChar": 79,
+        "endLine": 80,
+        "endChar": 48
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_44ef49e9",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "s/eg./e.g./g throught the document",
+      "range": {
+        "startLine": 128,
+        "startChar": 35,
+        "endLine": 128,
+        "endChar": 38
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_64da4d4d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": ", including the Jumpserver",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 38
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_84d5d11d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 131,
+        "startChar": 87,
+        "endLine": 131,
+        "endChar": 93
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_24ecc5f2",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "please add full stop (.) at the end of the notes",
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_84bcb1dd",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "let\u0027s remove the TODO, so we can merge this.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 52
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_e4cc9d8b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "drop TODO, we can move all TODOs into a new JIRA ticket for \"extending the docs\"",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 43
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_648fed2a",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "This is duplicated below. How about adding it to virtual deploy as well, but keeping only the relevant steps there?",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 63
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_04970149",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "we should reword this",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 33
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_047ee118",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "please use git.opnfv.org instead",
+      "range": {
+        "startLine": 252,
+        "startChar": 19,
+        "endLine": 252,
+        "endChar": 55
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_24a84576",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "let\u0027s add more examples:\n- virtual deploy example (without any \"-B\");\n- lf-pod2 example;\n- arm-pod5 example;\n- local pod1 (uses the embedded PDF in fuel repo, which is actually lf-pod2\u0027s PDF);",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 118
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_84b831c9",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "obsolete",
+      "range": {
+        "startLine": 307,
+        "startChar": 3,
+        "endLine": 307,
+        "endChar": 71
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_64bd2db7",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "drop \u0027The \u0027",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 8
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_c4aeb980",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-02T17:21:17Z",
+      "side": 1,
+      "message": "s/Salt/Saltstack/g",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 4
+      },
+      "revId": "047119f325cd2b393ed53d07b50046c5e7f89670",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
