@@ -16,6 +16,24 @@
       "revId": "ff8eb33f925a73139e55ffdedc6a26bdc550b474",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_d59dca0b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2017-10-02T12:14:08Z",
+      "side": 1,
+      "message": "The foundation node is explicitly stated below. Also I renamed it to Jumpserver to be more inline with the opnfv terminology.",
+      "parentUuid": "da33351e_2a53f139",
+      "revId": "ff8eb33f925a73139e55ffdedc6a26bdc550b474",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
