@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_2a53f139",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2017-10-02T08:46:54Z",
+      "side": 1,
+      "message": "Should we write that minimum is 6 here ?\nFoundation +5 ?\nOr at least clarify it somewhat that these are not the same",
+      "revId": "ff8eb33f925a73139e55ffdedc6a26bdc550b474",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
