@@ -78,7 +78,6 @@ parameters:
         primary_interface:
           enabled: true
           name: ${_param:primary_interface}
-          mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
         tenant_interface:
