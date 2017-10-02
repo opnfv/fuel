@@ -65,4 +65,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   salt -C '* and not cfg01*' pkg.upgrade refresh=False
 
   salt '*' state.sls ntp
+
+  # Temporary fixup for mismatch between neutron formula and reclass model
+  salt-call pkg.install salt-formula-neutron allow_updates=False refresh=False \
+    version=2016.12.1+201709251458.f0607d9-1xenial1
 SALT_INSTALL_END
