@@ -3,7 +3,6 @@ classes:
   - system.linux.system.lowmem
   - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
-  - system.linux.system.repo.saltstack.xenial
   - service.nfs.server
   - system.mongodb.server.single
   - system.mongodb.server.database.ceilometer

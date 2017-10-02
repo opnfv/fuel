@@ -2,7 +2,6 @@
 classes:
   - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
-  - system.linux.system.repo.saltstack.xenial
   - system.mongodb.server.cluster
   - system.mongodb.server.database.ceilometer
   - system.ceilometer.server.backend.mongodb

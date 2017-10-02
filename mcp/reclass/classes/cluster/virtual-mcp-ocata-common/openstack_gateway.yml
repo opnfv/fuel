@@ -2,7 +2,6 @@
 classes:
   - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
-  - system.linux.system.repo.saltstack.xenial
 parameters:
   _param:
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
