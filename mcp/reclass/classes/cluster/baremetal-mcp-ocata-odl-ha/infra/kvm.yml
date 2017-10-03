@@ -25,7 +25,7 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-    deploy_nic: enp6s0
+    deploy_nic: ${_param:openstack_primary_nic}
   salt:
     control:
       size:  # RAM 4096,8192,16384,32768,65536
@@ -140,7 +140,7 @@ parameters:
   linux:
     network:
       interface:
-        eth3:
+        deploy:
           enabled: true
           type: eth
           proto: manual
