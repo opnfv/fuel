@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_d8ccda8b",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/aarch64/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T16:02:15Z",
+      "side": 1,
+      "message": "I would prepend \"opnfv_\" to these variables, to make it clear they comes from us.",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_d8933a59",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T16:02:15Z",
+      "side": 1,
+      "message": "Very nice idea!",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_3874e634",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/kvm.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T16:02:15Z",
+      "side": 1,
+      "message": "I wonder whether we can do something about these ... it might not be trivial though.",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_98853209",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/opendaylight/control.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T16:02:15Z",
+      "side": 1,
+      "message": "ws",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_f87d5e1d",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/openstack/benchmark.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T16:02:15Z",
+      "side": 1,
+      "message": "I suspect this file is not used (?).\nIf that\u0027s the case, maybe we should remove it.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
