@@ -14,6 +14,8 @@ DEPLOY_LOG=$1
 OPNFV_TMP_LOG="opnfv_fuel_logs"
 
 [ -n "${DEPLOY_LOG}" ] || exit 0
+# shellcheck disable=SC1091
+[ -n "${SSH_OPTS}" ] || source globals.sh
 
 # ssh to cfg01
 # shellcheck disable=SC2086,2087
