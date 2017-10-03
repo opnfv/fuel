@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_135d8515",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/aarch64/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:18:37Z",
+      "side": 1,
+      "message": "Now that I see it all the rest of variables here had it. I will update it.",
+      "parentUuid": "da33351e_387fc6ac",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_d8933a59",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/init.yml",
         "patchSetId": 3
