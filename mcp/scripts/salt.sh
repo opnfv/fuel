@@ -69,4 +69,5 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s << SALT_INSTALL_END
   # Temporary fixup for mismatch between neutron formula and reclass model
   salt-call pkg.install salt-formula-neutron allow_updates=False refresh=False \
     version=2016.12.1+201709251458.f0607d9-1xenial1
+  cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches_neutron.list formulas
 SALT_INSTALL_END
