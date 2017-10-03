@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_387fc6ac",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/aarch64/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:10:37Z",
+      "side": 1,
+      "message": "I considered that but since these are fundamental parameters determined by OS and architecture and not given I dropped that prefix.",
+      "parentUuid": "da33351e_d8ccda8b",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_d8933a59",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/init.yml",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-03T16:02:15Z",
       "side": 1,
       "message": "Very nice idea!",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_182ac28f",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:10:37Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "da33351e_d8933a59",
       "range": {
         "startLine": 54,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_73285186",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/kvm.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:10:37Z",
+      "side": 1,
+      "message": "We never changed these so I assumed they were transparent. I will check how these naming is used.",
+      "parentUuid": "da33351e_3874e634",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_98853209",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/opendaylight/control.yml",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_932355a6",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/opendaylight/control.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da33351e_98853209",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_f87d5e1d",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/openstack/benchmark.yml",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-10-03T16:02:15Z",
       "side": 1,
       "message": "I suspect this file is not used (?).\nIf that\u0027s the case, maybe we should remove it.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_132f4589",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/openstack/benchmark.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:10:37Z",
+      "side": 1,
+      "message": "I assumed that. The eth names were always here so I left the refactored version rather than removing it all",
+      "parentUuid": "da33351e_f87d5e1d",
       "range": {
         "startLine": 1,
         "startChar": 0,
