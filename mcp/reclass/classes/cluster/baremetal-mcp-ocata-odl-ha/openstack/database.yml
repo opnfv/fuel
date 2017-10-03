@@ -16,7 +16,7 @@ classes:
   - cluster.baremetal-mcp-ocata-odl-ha
 parameters:
   _param:
-    keepalived_vip_interface: ens3
+    keepalived_vip_interface: ${_param:single_nic}
     keepalived_vip_virtual_router_id: 80
     galera_server_cluster_name: openstack_cluster
     galera_max_connections: 3072
@@ -32,5 +32,5 @@ parameters:
   linux:
     network:
       interface:
-        ens2: ${_param:linux_dhcp_interface}
-        ens3: ${_param:linux_single_interface}
+        dhcp: ${_param:linux_dhcp_interface}
+        single: ${_param:linux_single_interface}

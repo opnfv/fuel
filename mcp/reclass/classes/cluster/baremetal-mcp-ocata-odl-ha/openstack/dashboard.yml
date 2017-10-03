@@ -8,5 +8,5 @@ parameters:
   linux:
     network:
       interface:
-        ens2: ${_param:linux_dhcp_interface}
-        ens3: ${_param:linux_single_interface}
+        dhcp: ${_param:linux_dhcp_interface}
+        single: ${_param:linux_single_interface}

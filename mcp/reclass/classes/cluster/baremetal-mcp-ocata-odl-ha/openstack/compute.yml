@@ -24,14 +24,14 @@ parameters:
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
-    mgmt_nic: enp6s0
-    tenant_nic: enp7s0
-    linux_system_codename: xenial
-    external_nic: enp8s0
+    mgmt_nic: ${_param:openstack_primary_nic}
+    tenant_nic: ${_param:openstack_secondary_nic}
+    external_nic: ${_param:openstack_tertiary_nic}
     interface_mtu: 1500
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
     loopback_device_size: 20
+    linux_system_codename: xenial
     neutron_agents:
       - neutron-dhcp-agent
       - neutron-metadata-agent

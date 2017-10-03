@@ -45,14 +45,18 @@ parameters:
       storage:
         node:
           name: default
+    dhcp_nic: ${_param:infra_primary_nic}
+    single_nic: ${_param:infra_secondary_nic}
     linux_dhcp_interface:
       enabled: true
       type: eth
       proto: dhcp
+      name: ${_param:dhcp_nic}
     linux_single_interface:
       enabled: true
       type: eth
       proto: static
+      name: ${_param:single_nic}
       address: ${_param:single_address}
       netmask: 255.255.255.0
 

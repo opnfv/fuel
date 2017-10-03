@@ -14,3 +14,14 @@ parameters:
     # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
     opnfv_vcp_vm_primary_interface: ${_param:opnfv_fn_vm_primary_interface}
     opnfv_vcp_vm_secondary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+
+
+    infra_primary_nic: enp1s0
+    infra_secondary_nic: enp2s0
+    infra_tertiary_nic: enp3s0
+    infra_quaternary_nic: enp4s0
+
+    openstack_primary_nic: eth0
+    openstack_secondary_nic: eth1
+    openstack_tertiary_nic: eth2
+    openstack_quaternary_nic: eth3
