@@ -150,17 +150,7 @@ USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 
-export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
-export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
-export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
-export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
-
-# These should be determined from PDF later
-export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
-
-# Derivated from above global vars
-export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
-export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
+source "${DEPLOY_DIR}/globals.sh"
 
 # Variables below are disabled for now, to be re-introduced or removed later
 set +x
