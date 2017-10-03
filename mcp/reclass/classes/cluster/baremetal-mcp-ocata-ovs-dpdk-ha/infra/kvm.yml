@@ -129,7 +129,7 @@ parameters:
   linux:
     network:
       interface:
-        eth3:
+        deploy:
           enabled: true
           type: eth
           proto: manual
