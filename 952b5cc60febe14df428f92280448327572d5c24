@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_3d47b8bd",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-03T11:43:23Z",
+      "side": 1,
+      "message": "I should have moved the formula update earlier ...",
+      "revId": "952b5cc60febe14df428f92280448327572d5c24",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
