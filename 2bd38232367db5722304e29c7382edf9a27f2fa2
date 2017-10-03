@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "da33351e_5389cd73",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/aarch64/init.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-03T20:32:59Z",
+      "side": 1,
+      "message": "I go back to my previous argument and I recommend keeping the short name also for better readability and consistency with the address variable naming. \n\n config.yml\n    ...    \n    single_address: ${_param:infra_config_address}\n    deploy_address: ${_param:infra_config_deploy_address}\n    salt_master_host: ${_param:infra_config_deploy_address}\n    ...\n    dhcp_nic: ${_param:infra_secondary_nic}\n    single_nic: ${_param:infra_tertiary_nic}",
+      "parentUuid": "da33351e_135d8515",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "2bd38232367db5722304e29c7382edf9a27f2fa2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da33351e_d8933a59",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/init.yml",
         "patchSetId": 3
