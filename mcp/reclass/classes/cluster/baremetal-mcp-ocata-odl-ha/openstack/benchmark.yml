@@ -2,8 +2,11 @@
 classes:
   - cluster.baremetal-mcp-ocata-odl-ha
 parameters:
+  _param:
+      dhcp_nic: eth0
+      single_nic: eth1
   linux:
     network:
       interface:
-        eth0: ${_param:linux_dhcp_interface}
-        eth1: ${_param:linux_single_interface}
+        dhcp: ${_param:linux_dhcp_interface}
+        single: ${_param:linux_single_interface}
