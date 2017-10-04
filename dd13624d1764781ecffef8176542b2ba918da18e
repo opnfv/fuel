@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_a9db864d",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-odl-ha/infra/kvm.yml",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-10-04T12:04:08Z",
+      "side": 1,
+      "message": "Alternative notation. See virtng.py code:\nhttps://github.com/salt-formulas/salt-formula-salt/blob/master/_modules/virtng.py#L466\n\nThe NIC names are aligned with the ones under the key linux.network.interface.\u003cbridge\u003e.use_interfaces\n\n        mgmt-vlan:\n          enabled: true\n          proto: manual\n          type: vlan\n          name: ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}\n          use_interfaces:\n            - ${_param:deploy_nic}\n        br-ctl:\n          enabled: true\n          type: bridge\n          proto: static\n          address: ${_param:single_address}\n          netmask: 255.255.255.0\n          use_interfaces:\n            - ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 7
+      },
+      "revId": "dd13624d1764781ecffef8176542b2ba918da18e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
