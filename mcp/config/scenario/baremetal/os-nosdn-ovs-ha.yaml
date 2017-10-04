@@ -5,6 +5,7 @@ cluster:
     - maas
     - dpdk
     - openstack_ha
+    - neutron_compute
     - networks
 virtual:
   nodes:
