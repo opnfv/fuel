@@ -16,7 +16,7 @@ parameters:
     external_interface: ${_param:opnfv_fn_vm_quaternary_interface}
     interface_mtu: 9000
     linux_system_codename: xenial
-    loopback_device_size: 10
+    loopback_device_size: 20
   nova:
     compute:
       libvirt_service: libvirtd
