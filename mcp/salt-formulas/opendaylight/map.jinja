@@ -1,10 +1,10 @@
 
 {% set server = salt['grains.filter_by']({
     'Debian': {
-      'karaf_features': {'default': ['config', 'standard', 'region', 'package', 'kar', 'ssh', 'management']},
+      'karaf_features': {'default': ['standard', 'wrap', 'ssh']},
       'odl_rest_port': '8282',
       'odl_bind_ip': '0.0.0.0',
-      'repo': 'odl-team/carbon',
+      'repo': 'odl-team/nitrogen',
       'log_levels': {},
       'enable_ha': false,
       'ha_node_ips': [],

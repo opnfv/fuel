@@ -29,5 +29,6 @@ parameters:
           - odl-restconf-all
           - odl-aaa-authn
           - odl-dlux-all
+          - odl-mdsal-apidocs
         netvirt:
           - odl-netvirt-openstack

@@ -26,23 +26,32 @@ index d327e64..ba5f933 100644
  # Allows for serving metadata requests coming from a dedicated metadata access network whose CIDR is 169.254.169.254/16 (or larger prefix),
  # and is connected to a Neutron router from which the VMs send metadata:1 request. In this case DHCP Option 121 will not be injected in VMs,
 diff --git a/neutron/files/ocata/ml2_conf.ini b/neutron/files/ocata/ml2_conf.ini
-index 0d48951..347eb15 100644
+index 5ecafe3..48cec1f 100644
 --- a/neutron/files/ocata/ml2_conf.ini
 +++ b/neutron/files/ocata/ml2_conf.ini
-@@ -269,3 +269,11 @@ enable_security_group = True
+@@ -131,7 +131,7 @@ tenant_network_types = {{ server.backend.tenant_network_types }}
+ # An ordered list of networking mechanism driver entrypoints to be loaded from
+ # the neutron.ml2.mechanism_drivers namespace. (list value)
+ #mechanism_drivers =
+-mechanism_drivers ={%- for backend_name, mechanism in server.backend.get('mechanism', {}).iteritems() %}{{ mechanism.driver }},{%- endfor %}l2population
++mechanism_drivers ={%- for backend_name, mechanism in server.backend.get('mechanism', {}).iteritems() %}{{ mechanism.driver }}{%- endfor %}{%- if server.backend.engine == "ml2" %},l2population{%- endif %}
+
+ # An ordered list of extension driver entrypoints to be loaded from the
+ # neutron.ml2.extension_drivers namespace. For example: extension_drivers =
+@@ -272,3 +272,11 @@ enable_security_group = True
  # Use ipset to speed-up the iptables based security groups. Enabling ipset
  # support requires that ipset is installed on L2 agent node. (boolean value)
  #enable_ipset = true
 +
 +{%- if server.backend.engine == "opendaylight" %}
 +[ml2_odl]
-+port_binding_controller = network-topology
++port_binding_controller = pseudo-agentdb-binding
 +url = http://{{ server.backend.host }}:{{ server.backend.rest_api_port }}/controller/nb/v2/neutron
 +username = {{ server.backend.user }}
 +password = {{ server.backend.password }}
 +{%- endif %}
 diff --git a/neutron/files/ocata/neutron-generic.conf.Debian b/neutron/files/ocata/neutron-generic.conf.Debian
-index 0dde78f..05ac805 100644
+index 123386d..eeaa3f4 100644
 --- a/neutron/files/ocata/neutron-generic.conf.Debian
 +++ b/neutron/files/ocata/neutron-generic.conf.Debian
 @@ -33,11 +33,11 @@ state_path = /var/lib/neutron
@@ -59,7 +68,7 @@ index 0dde78f..05ac805 100644
 
  {% endif %}
 
-@@ -2073,3 +2073,8 @@ heartbeat_rate = 2
+@@ -2092,3 +2092,8 @@ heartbeat_rate = 2
  # Sets the list of available ciphers. value should be a string in the OpenSSL
  # cipher list format. (string value)
  #ciphers = <None>
@@ -72,7 +81,7 @@ diff --git a/neutron/files/ocata/neutron-server b/neutron/files/ocata/neutron-se
 index 54f6ceb..1682ee0 100644
 --- a/neutron/files/ocata/neutron-server
 +++ b/neutron/files/ocata/neutron-server
-@@ -7,7 +7,7 @@
+@@ -7,10 +7,10 @@
  # neutron.conf
  #NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
 
@@ -81,8 +90,13 @@ index 54f6ceb..1682ee0 100644
  NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/ml2/ml2_conf.ini"
  {%- endif %}
 
+ {%- if server.backend.engine == "contrail" %}
+ NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/opencontrail/ContrailPlugin.ini"
+-{%- endif %}
+\ No newline at end of file
++{%- endif %}
 diff --git a/neutron/files/ocata/neutron-server.conf.Debian b/neutron/files/ocata/neutron-server.conf.Debian
-index 229d342..ac8bdff 100644
+index 049544b..4e68567 100644
 --- a/neutron/files/ocata/neutron-server.conf.Debian
 +++ b/neutron/files/ocata/neutron-server.conf.Debian
 @@ -39,11 +39,11 @@ api_extensions_path = extensions:/usr/lib/python2.7/dist-packages/neutron_plugin
@@ -97,9 +111,9 @@ index 229d342..ac8bdff 100644
 -service_plugins =neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.metering.metering_plugin.MeteringPlugin
 +service_plugins = {{ server.backend.get('router', 'router')}},metering
  {%- if server.lbaas is defined -%},lbaasv2{%- endif -%}
+ {%- if fwaas.get('enabled', False) -%},{{ fwaas[fwaas.api_version]['service_plugin'] }}{%- endif -%}
  {%- if server.get('qos', 'True') -%},neutron.services.qos.qos_plugin.QoSPlugin{%- endif -%}
- {%- if server.get('vlan_aware_vms', False) -%},trunk{%- endif -%}
-@@ -835,7 +835,7 @@ allow_headers = {{ server.cors.allow_headers }}
+@@ -838,7 +838,7 @@ allow_headers = {{ server.cors.allow_headers }}
  # Deprecated group/name - [DEFAULT]/sql_connection
  # Deprecated group/name - [DATABASE]/sql_connection
  # Deprecated group/name - [sql]/connection
@@ -108,7 +122,7 @@ index 229d342..ac8bdff 100644
  connection = {{ server.database.engine }}+pymysql://{{ server.database.user }}:{{ server.database.password }}@{{ server.database.host }}/{{ server.database.name }}?charset=utf8
  {% else %}
  connection = sqlite:////var/lib/neutron/neutron.sqlite
-@@ -2198,3 +2198,8 @@ service_provider = LOADBALANCERV2:Opencontrail:neutron_plugin_contrail.plugins.o
+@@ -2217,3 +2217,8 @@ service_provider = LOADBALANCERV2:Opencontrail:neutron_plugin_contrail.plugins.o
  {% include "neutron/files/"+server.version+"/ContrailPlugin.ini" %}
 
  {% endif %}
@@ -118,10 +132,10 @@ index 229d342..ac8bdff 100644
 +ovsdb_connection = {{ server.backend.ovsdb_connection }}
 +{%- endif %}
 diff --git a/neutron/gateway.sls b/neutron/gateway.sls
-index a6e6586..ab4bb85 100644
+index 96d7e9f..65386b4 100644
 --- a/neutron/gateway.sls
 +++ b/neutron/gateway.sls
-@@ -27,6 +27,7 @@ neutron_gateway_packages:
+@@ -32,6 +32,7 @@ neutron_gateway_packages:
  /etc/neutron/dhcp_agent.ini:
    file.managed:
    - source: salt://neutron/files/{{ gateway.version }}/dhcp_agent.ini
@@ -130,10 +144,10 @@ index a6e6586..ab4bb85 100644
      - pkg: neutron_gateway_packages
 
 diff --git a/neutron/server.sls b/neutron/server.sls
-index 0b3a6be..7a6bd23 100644
+index eff9fb8..cb9d622 100644
 --- a/neutron/server.sls
 +++ b/neutron/server.sls
-@@ -64,7 +64,7 @@ neutron_server_service:
+@@ -72,7 +72,7 @@ neutron_server_service:
 
  {%- endif %}
 
