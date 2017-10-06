@@ -14,12 +14,14 @@ opendaylight:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
+    - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
   service.running:
   - enable: true
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
+    - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
 
 /opt/opendaylight/etc/jetty.xml:
   file.managed:
@@ -45,6 +47,11 @@ opendaylight:
   ini.options_present:
     - sections:
         featuresBoot: {{ features }}
+
+/opt/opendaylight/etc/org.ops4j.pax.web.cfg:
+  ini.options_present:
+    - sections:
+        org.ops4j.pax.web.listening.addresses: {{ server.odl_bind_ip }}
 
 {%- if server.get('router_enabled', false) %}
 /opt/opendaylight/etc/custom.properties:
