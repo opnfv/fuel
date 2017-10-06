@@ -3,4 +3,5 @@ set -x
 
 salt -I 'opendaylight:server' state.sls opendaylight
 salt -I 'opendaylight:client' state.sls opendaylight.client
+salt -I 'opendaylight:client' cmd.run 'neutron-odl-ovs-hostconfig --noovs_dpdk'
 salt -I 'neutron:server' state.sls opendaylight.client
