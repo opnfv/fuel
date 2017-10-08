@@ -104,10 +104,10 @@ parameters:
   virt:
     nic:
       default:
-        - name: ${_param:deploy_nic}
+        eth1:
           bridge: br-mgmt
           model: virtio
-        - name: ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
+        eth0:
           bridge: br-ctl
           model: virtio
   glusterfs:
