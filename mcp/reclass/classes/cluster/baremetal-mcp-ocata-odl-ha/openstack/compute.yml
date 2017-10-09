@@ -24,9 +24,9 @@ parameters:
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
-    mgmt_nic: ${_param:openstack_primary_nic}
-    tenant_nic: ${_param:openstack_secondary_nic}
-    external_nic: ${_param:openstack_tertiary_nic}
+    mgmt_nic: ${_param:opnfv_baremetal_primary_nic}
+    tenant_nic: ${_param:opnfv_baremetal_secondary_nic}
+    external_nic: ${_param:opnfv_baremetal_tertiary_nic}
     interface_mtu: 1500
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
