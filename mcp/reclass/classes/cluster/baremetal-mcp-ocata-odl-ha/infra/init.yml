@@ -45,8 +45,8 @@ parameters:
       storage:
         node:
           name: default
-    dhcp_nic: ${_param:infra_primary_nic}
-    single_nic: ${_param:infra_secondary_nic}
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
     linux_dhcp_interface:
       enabled: true
       type: eth
