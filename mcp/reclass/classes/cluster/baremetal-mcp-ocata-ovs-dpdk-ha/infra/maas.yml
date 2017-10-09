@@ -5,9 +5,9 @@ classes:
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
 parameters:
   _param:
-    dhcp_interface: ${_param:infra_primary_nic}
-    primary_interface: ${_param:infra_secondary_nic}
-    pxe_interface: ${_param:infra_tertiary_nic}
+    dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
+    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+    pxe_interface: ${_param:opnfv_fn_vm_tertiary_interface}
     interface_mtu: 1500
     # MaaS has issues using MTU > 1500 for PXE interface
     pxe_interface_mtu: 1500
