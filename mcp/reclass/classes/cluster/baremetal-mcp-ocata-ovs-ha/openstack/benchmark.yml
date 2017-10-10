@@ -3,8 +3,8 @@ classes:
   - cluster.baremetal-mcp-ocata-ovs-ha
 parameters:
   _param:
-      dhcp_nic: eth0
-      single_nic: eth1
+    dhcp_nic: eth0
+    single_nic: eth1
   linux:
     network:
       interface:
