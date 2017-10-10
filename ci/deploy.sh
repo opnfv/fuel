@@ -49,10 +49,6 @@ $(notify "OPTIONS:" 2)
   -S  Storage dir for VM images
   -L  Deployment log path and file name
 
-$(notify "DISABLED OPTIONS (not yet supported with MCP):" 3)
-  -i  (disabled) iso url
-  -T  (disabled) Timeout, in minutes, for the deploy.
-
 $(notify "Description:" 2)
 Deploys the Fuel@OPNFV stack on the indicated lab resource.
 
@@ -88,12 +84,6 @@ $(notify "Input parameters to the build script are:" 2)
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
-
-$(notify "Disabled input parameters (not yet supported with MCP):" 3)
--T (disabled) Timeout, in minutes, for the deploy.
-   It defaults to using the DEPLOY_TIMEOUT environment variable when defined.
--i (disabled) .iso image to be deployed (needs to be provided in a URI
-   style, it can be a local resource: file:// or a remote resource http(s)://)
 
 $(notify "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 
@@ -152,14 +142,6 @@ NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 
-# Variables below are disabled for now, to be re-introduced or removed later
-set +x
-if ! [ -z "${DEPLOY_TIMEOUT}" ]; then
-    DEPLOY_TIMEOUT="-dt ${DEPLOY_TIMEOUT}"
-else
-    DEPLOY_TIMEOUT=""
-fi
-set -x
 #
 # END of variables to customize
 ##############################################################################
@@ -169,7 +151,7 @@ set -x
 #
 set +x
 OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dfFl:L:p:s:S:T:i:he" OPTION
+while getopts "b:B:dfFl:L:p:s:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -222,19 +204,6 @@ do
         S)
             if [[ ${OPTARG} ]]; then
                 STORAGE_DIR="${OPTARG}"
-            fi
-            ;;
-        T)
-            notify '' 3 "${OPTION}"; continue
-            DEPLOY_TIMEOUT="-dt ${OPTARG}"
-            ;;
-        i)
-            notify '' 3 "${OPTION}"; continue
-            ISO=${OPTARG}
-            if [[ ! $ISO =~ ${URI_REGEXP} ]]; then
-                notify "[ERROR] -i $ISO - invalid URI\n"
-                usage
-                exit 1
             fi
             ;;
         h)
@@ -337,10 +306,12 @@ if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -i).yaml" ]; then
 fi
 
 # Get required infra deployment data
+set +x
 source lib.sh
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
 eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
+set -x
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
@@ -403,14 +374,14 @@ else
     ./salt.sh "${LOCAL_PDF_RECLASS}"
 fi
 
+# Openstack cluster setup
 if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
     notify "Skip openstack cluster setup\n" 2
 else
-    # Openstack cluster setup
     for state in "${cluster_states[@]}"; do
         notify "STATE: ${state}\n" 2
         # shellcheck disable=SC2086,2029
-        ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" \
+        ssh ${SSH_OPTS} "${SSH_SALT}" \
             sudo "/root/fuel/mcp/config/states/${state} || true"
     done
 fi
