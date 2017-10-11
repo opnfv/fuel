@@ -18,5 +18,5 @@ parameters:
     # Baremetal interface names (target nodes)
     opnfv_baremetal_primary_nic: eth0
     opnfv_baremetal_secondary_nic: eth1
-    opnfv_baremetal_tertiary_nic: eth2   # not used in current reclass model
-    opnfv_baremetal_quaternary_nic: eth3 # not used in current reclass model
+    opnfv_baremetal_tertiary_nic: eth2    # not used in current reclass model
+    opnfv_baremetal_quaternary_nic: eth3  # not used in current reclass model
