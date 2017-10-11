@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_08eea6ec",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2017-10-11T12:15:13Z",
+      "side": 1,
+      "message": "Minor comment, you may wanna distinguish the software download page and the docs.opnfv.org for documentation",
+      "revId": "622b3d9383550f269b8fd0bc7e687865a081bb34",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
