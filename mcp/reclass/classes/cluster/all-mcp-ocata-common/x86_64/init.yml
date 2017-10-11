@@ -19,4 +19,4 @@ parameters:
     opnfv_baremetal_primary_nic: enp6s0
     opnfv_baremetal_secondary_nic: enp7s0
     opnfv_baremetal_tertiary_nic: enp8s0
-    opnfv_baremetal_quaternary_nic: enp9s0 # not used in current reclass model
+    opnfv_baremetal_quaternary_nic: enp9s0  # not used in current reclass model
