@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_a8ab3a88",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2017-10-11T12:38:27Z",
+      "side": 1,
+      "message": "Minor comment, you may wanna distinguish the software download page and the docs.opnfv.org for documentation",
+      "revId": "033de309932e16f3d6dd3a4a74fc44b4cdeff962",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
