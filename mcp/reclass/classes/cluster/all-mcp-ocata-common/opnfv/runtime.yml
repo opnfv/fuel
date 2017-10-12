@@ -1,0 +1,11 @@
+---
+parameters:
+  _param:
+    reclass_config_master: 10.20.0.2
+    opnfv_maas_mcp_address: 10.20.0.3
+
+    # These should be moved to pod_config.yml and read based on PDF admin net
+    opnfv_maas_pxe_network_address: 192.168.11.0
+    opnfv_maas_pxe_address: 192.168.11.3
+    opnfv_maas_pxe_start_address: 192.168.11.5
+    opnfv_maas_pxe_end_address: 192.168.11.250

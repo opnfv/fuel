@@ -1,0 +1,10 @@
+---
+parameters:
+  _param:
+    dhcp_nic: eth0
+    single_nic: eth1
+  linux:
+    network:
+      interface:
+        dhcp: ${_param:linux_dhcp_interface}
+        single: ${_param:linux_single_interface}
