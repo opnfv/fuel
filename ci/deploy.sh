@@ -218,12 +218,12 @@ do
 done
 
 if [[ "$(sudo whoami)" != 'root' ]]; then
-    notify "This script requires sudo rights\n" 1>&2
+    notify "[ERROR] This script requires sudo rights\n" 1>&2
     exit 1
 fi
 
 if ! virsh list >/dev/null 2>&1; then
-    notify "This script requires hypervisor access\n" 1>&2
+    notify "[ERROR] This script requires hypervisor access\n" 1>&2
     exit 1
 fi
 
@@ -357,10 +357,10 @@ notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}\n" 2
 
 # Infra setup
 if [ ${DRY_RUN} -eq 1 ]; then
-    notify "Dry run, skipping all deployment tasks\n" 2 1>&2
+    notify "[NOTE] Dry run, skipping all deployment tasks\n" 2 1>&2
     exit 0
 elif [ ${USE_EXISTING_INFRA} -eq 1 ]; then
-    notify "Use existing infra\n" 2 1>&2
+    notify "[NOTE] Use existing infra\n" 2 1>&2
     check_connection
 else
     generate_ssh_key
@@ -375,11 +375,12 @@ else
 fi
 
 # Openstack cluster setup
+set +x
 if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
-    notify "Skip openstack cluster setup\n" 2
+    notify "[NOTE] Skip openstack cluster setup\n" 2
 else
     for state in "${cluster_states[@]}"; do
-        notify "STATE: ${state}\n" 2
+        notify "[STATE] Applying state: ${state}\n" 2
         # shellcheck disable=SC2086,2029
         ssh ${SSH_OPTS} "${SSH_SALT}" \
             sudo "/root/fuel/mcp/config/states/${state} || true"
@@ -389,6 +390,8 @@ fi
 ./log.sh "${DEPLOY_LOG}"
 
 popd > /dev/null
+
+notify "\n[DONE] MCP: Openstack installation finished succesfully!\n\n" 2
 
 #
 # END of main
