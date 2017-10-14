@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -10,6 +10,7 @@
 # Deploy Salt Master
 #
 
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 F_GIT_ROOT=$(git rev-parse --show-toplevel)
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/fuel"
 OPNFV_FUEL_DIR="/root/fuel"
@@ -37,14 +38,15 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   echo ' done'
 
   mkdir -p /srv/salt /usr/share/salt-formulas/reclass
+  rm -rf ${OPNFV_FUEL_DIR}
   mv ${OPNFV_TMP_DIR} ${OPNFV_FUEL_DIR} && chown -R root.root ${OPNFV_FUEL_DIR}
-  ln -s ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt/reclass
-  ln -s ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt/scripts
-  cd /srv/salt/${OPNFV_RDIR} && ln -s "\$(uname -i)" arch
+  ln -sf ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt
+  ln -sf ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt
+  cd /srv/salt/${OPNFV_RDIR} && rm -f arch && ln -sf "\$(uname -i)" arch
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
-    ln -s /usr/share/salt-formulas/reclass/service/opendaylight
+    ln -sf /usr/share/salt-formulas/reclass/service/opendaylight
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   cd /srv/salt/scripts

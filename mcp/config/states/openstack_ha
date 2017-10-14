@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -6,6 +6,8 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
@@ -37,7 +39,6 @@ salt -I 'keystone:client' state.sls keystone.client
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
-salt -I 'glusterfs:client' state.sls glusterfs.client
 salt -I 'keystone:server' state.sls keystone.server
 
 salt -I 'nova:controller' state.sls nova -b 1
@@ -50,6 +51,7 @@ salt -I 'neutron:server' state.sls neutron -b 1
 salt -I 'neutron:gateway' state.sls neutron.gateway
 
 salt -I 'nova:compute' state.sls nova
+salt -I 'glusterfs:client' state.sls glusterfs.client
 
 salt -I 'mongodb:server' state.sls mongodb
 wait_for 90 "salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin'"
