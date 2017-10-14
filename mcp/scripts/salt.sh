@@ -59,7 +59,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   salt-call state.apply salt
   salt '*' saltutil.sync_all
-  salt '*' state.apply salt | fgrep -q 'No response' && salt '*' state.apply salt
+  salt '*' state.apply salt | grep -Fq 'No response' && salt '*' state.apply salt
 
   salt -C 'I@salt:master' state.sls linux
   salt -C '* and not cfg01*' state.sls linux

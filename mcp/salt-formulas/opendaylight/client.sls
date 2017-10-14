@@ -9,7 +9,7 @@ opendaylight_client_packages:
 ovs_set_manager:
   cmd.run:
   - name: "ovs-vsctl set-manager {{ client.ovsdb_server_iface }} {{ client.ovsdb_odl_iface }}"
-  - unless: "ovs-vsctl get-manager | fgrep -x {{ client.ovsdb_odl_iface }}"
+  - unless: "ovs-vsctl get-manager | grep -Fx {{ client.ovsdb_odl_iface }}"
 
 ovs_set_tunnel_endpoint:
   cmd.run:
