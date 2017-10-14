@@ -144,13 +144,13 @@ function start_vms {
 function check_connection {
   local total_attempts=60
   local sleep_time=5
-  local attempt=1
 
   set +e
   echo '[INFO] Attempting to get into Salt master ...'
 
   # wait until ssh on Salt master is available
-  while ((attempt <= total_attempts)); do
+  # shellcheck disable=SC2034
+  for attempt in $(seq "${total_attempts}"); do
     # shellcheck disable=SC2086
     ssh ${SSH_OPTS} "ubuntu@${SALT_MASTER}" uptime
     case $? in
@@ -158,7 +158,6 @@ function check_connection {
       *) echo "${attempt}/${total_attempts}> ssh server ain't ready yet, waiting for ${sleep_time} seconds ..." ;;
     esac
     sleep $sleep_time
-    ((attempt+=1))
   done
   set -e
 }

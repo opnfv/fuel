@@ -1,8 +1,12 @@
 #!/bin/bash
 set -x
 
+# shellcheck disable=SC1090
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
+
 salt -I 'nova:compute' system.reboot
-while true; do salt -I 'nova:compute' test.ping | grep -Fq 'Not connected' || break; done
+wait_for 90 "! salt -I 'nova:compute' test.ping | " \
+  "tee /dev/stderr | grep -Fq 'Not connected'"
 salt -I 'nova:compute' state.sls linux.network
 
 # switch to UCA repos since fuel-infra packages have bugs
