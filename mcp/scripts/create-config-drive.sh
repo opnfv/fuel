@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc. and others.
 # All rights reserved. This program and the accompanying materials
@@ -11,6 +11,8 @@
 # use with cloud-init.  You may optionally pass in an ssh public key
 # (using the -k/--ssh-key option) and a user-data blog (using the
 # -u/--user-data option).
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 usage () {
 	echo "usage: ${0##*/}: [--ssh-key <pubkey>] [--vendor-data <file>] [--user-data <file>] [--hostname <hostname>] <imagename>"

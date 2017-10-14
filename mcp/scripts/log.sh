@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -10,12 +10,14 @@
 # Collect /var/log from all cluster nodes via Salt Master
 #
 
+# shellcheck disable=SC1090
+[ -n "${SSH_OPTS}" ] || source "$(dirname "${BASH_SOURCE[0]}")/globals.sh"
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 DEPLOY_LOG=$1
 OPNFV_TMP_LOG="opnfv_fuel_logs"
 
 [ -n "${DEPLOY_LOG}" ] || exit 0
-# shellcheck disable=SC1090
-[ -n "${SSH_OPTS}" ] || source "$(dirname "${BASH_SOURCE[0]}")/globals.sh"
 
 # ssh to cfg01
 # shellcheck disable=SC2086,2087
