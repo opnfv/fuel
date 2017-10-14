@@ -1,3 +1,10 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 ---
 parameters:
   _param:
@@ -75,7 +82,6 @@ parameters:
     ceilometer_secret_key: opnfv_secret
     metadata_password: opnfv_secret
     horizon_version: ${_param:openstack_version}
-    # yamllint disable-line rule:line-length
     horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
@@ -83,7 +89,6 @@ parameters:
     mongodb_server_replica_set: ceilometer
     mongodb_ceilometer_password: opnfv_secret
     mongodb_admin_password: opnfv_secret
-    # yamllint disable-line rule:line-length
     mongodb_shared_key: eoTh1AwahlahqueingeejooLughah4tei9feing0eeVaephooDi2li1TaeV1ooth
     aodh_version: ${_param:openstack_version}
     keystone_aodh_password: opnfv_secret
