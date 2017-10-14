@@ -95,6 +95,15 @@ patches-import: sub .cachepatched
 		git tag ${F_OPNFV_TAG}'
 	@touch $@
 
+# Add copyright header to patch files if not already present
+.PHONY: patches-copyright
+patches-copyright:
+	@grep -e "Copyright (c)" -L ${FPATCHES} | while read p_file; do \
+		ptmp=`mktemp` && \
+		cat fuel-patch-copyright.template $$p_file > $$ptmp && \
+		mv $$ptmp $$p_file; \
+	done
+
 # Clean any changes made to submodules, checkout upstream Fuel root commit
 .PHONY: clean
 clean:
