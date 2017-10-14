@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -8,6 +8,7 @@
 ##############################################################################
 
 # Global variables
+export CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}

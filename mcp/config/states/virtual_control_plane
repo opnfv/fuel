@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -6,6 +6,8 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
@@ -18,7 +20,7 @@ wait_for 90 "! salt 'kvm*' test.ping | tee /dev/stderr | grep -Fq 'Not connected
 
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
-salt -C 'kvm*' state.sls libvirt
+wait_for 5 "salt -C 'kvm*' state.sls libvirt"
 
 salt -C '* and not cfg01* and not mas01*' state.apply salt
 salt -C 'kvm*' saltutil.sync_all

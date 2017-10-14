@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -198,7 +198,8 @@ function wait_for {
   # shellcheck disable=SC2034
   for attempt in $(seq "${total_attempts}"); do
     # shellcheck disable=SC2015
-    eval "${cmdstr}" && break || true
+    eval "${cmdstr}" && return 0 || true
     echo -n '.'; sleep "${sleep_time}"
   done
+  return 1
 }

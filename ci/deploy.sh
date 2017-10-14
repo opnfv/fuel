@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 # shellcheck disable=SC2034,SC2154,SC1090,SC1091
 ##############################################################################
 # Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
@@ -13,8 +13,13 @@
 # BEGIN of Exit handlers
 #
 do_exit () {
+    local RC=$?
     clean
-    echo "Exiting ..."
+    if [ ${RC} -eq 0 ]; then
+        notify "\n[OK] MCP: Openstack installation finished succesfully!\n\n" 2
+    else
+        notify "\n[ERROR] MCP: Openstack installation threw a fatal error!\n\n"
+    fi
 }
 #
 # End of Exit handlers
@@ -32,12 +37,13 @@ $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 $(notify "USAGE:" 2)
   $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
     [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
-    [-S storage-dir] [-L /path/to/log/file.tar.gz] [-f] [-F] [-e] [-d]
+    [-S storage-dir] [-L /path/to/log/file.tar.gz] [-f] [-F] [-e] [-d] [-D]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
   -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
   -d  Dry-run
+  -D  Debug logging
   -e  Do not launch environment deployment
   -f  Deploy on existing Salt master
   -F  Do only create a Salt master
@@ -73,6 +79,7 @@ $(notify "Input parameters to the build script are:" 2)
    while "mcpcontrol" is used to provision the infrastructure VMs only.
    The default is 'pxebr'.
 -d Dry-run - Produce deploy config files, but do not execute deploy
+-D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
 -f Deploy on existing Salt master
 -F Do only create a Salt master
@@ -124,6 +131,7 @@ clean() {
 ##############################################################################
 # BEGIN of variables to customize
 #
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
@@ -150,7 +158,7 @@ source "${DEPLOY_DIR}/globals.sh"
 #
 set +x
 OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dfFl:L:p:s:S:he" OPTION
+while getopts "b:B:dDfFl:L:p:s:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -175,6 +183,9 @@ do
             ;;
         d)
             DRY_RUN=1
+            ;;
+        D)
+            CI_DEBUG=1
             ;;
         f)
             USE_EXISTING_INFRA=1
@@ -234,7 +245,7 @@ if [ -z "${TARGET_LAB}" ] || [ -z "${TARGET_POD}" ] || \
     exit 1
 fi
 
-set -x
+[[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 # Enable the automatic exit trap
 trap do_exit SIGINT SIGTERM EXIT
@@ -289,8 +300,8 @@ fi
 # Check scenario file existence
 SCENARIO_DIR="../config/scenario"
 if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
-    notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found! \
-            Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
+    notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found!\n" 3
+    notify "[WARN] Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
     DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
     if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
         notify "[ERROR] Scenario definition file is missing!\n" 1>&2
@@ -310,7 +321,7 @@ source lib.sh
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
 eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
-set -x
+[[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
@@ -370,7 +381,7 @@ else
     update_mcpcontrol_network
     start_vms virtual_nodes
     check_connection
-    ./salt.sh "${LOCAL_PDF_RECLASS}"
+    wait_for 5 "./salt.sh ${LOCAL_PDF_RECLASS}"
 fi
 
 # Openstack cluster setup
@@ -381,16 +392,14 @@ else
     for state in "${cluster_states[@]}"; do
         notify "[STATE] Applying state: ${state}\n" 2
         # shellcheck disable=SC2086,2029
-        ssh ${SSH_OPTS} "${SSH_SALT}" \
-            sudo "/root/fuel/mcp/config/states/${state} || true"
+        wait_for 5 "ssh ${SSH_OPTS} ${SSH_SALT} \
+            sudo /root/fuel/mcp/config/states/${state}"
     done
 fi
 
 ./log.sh "${DEPLOY_LOG}"
 
 popd > /dev/null
-
-notify "\n[DONE] MCP: Openstack installation finished succesfully!\n\n" 2
 
 #
 # END of main
