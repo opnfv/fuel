@@ -13,8 +13,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 # KVM, compute node prereqs (libvirt first), VCP deployment
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
-salt -C 'kvm*' system.reboot
-wait_for 90 "! salt 'kvm*' test.ping | tee /dev/stderr | grep -Fq 'Not connected'"
+salt -C 'cmp*' state.apply linux.system
+salt -C 'kvm* or cmp*' system.reboot
+wait_for 90 "! salt -C 'kvm* or cmp*' test.ping | " \
+  "tee /dev/stderr | grep -Fq 'Not connected'"
 
 salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
 
