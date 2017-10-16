@@ -50,6 +50,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   cd /srv/salt/scripts
+  export DEBIAN_FRONTEND=noninteractive
   BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 " \
     MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=nightly \
       EXTRA_FORMULAS="nfs" \
