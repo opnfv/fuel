@@ -14,6 +14,8 @@ classes:
 parameters:
   _param:
     linux_system_codename: xenial
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
     network:
       interface:

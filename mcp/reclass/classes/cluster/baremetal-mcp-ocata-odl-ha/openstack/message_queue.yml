@@ -7,5 +7,5 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-odl-ha
   - cluster.baremetal-mcp-ocata-common.openstack_message_queue
+  - cluster.baremetal-mcp-ocata-odl-ha

@@ -11,6 +11,8 @@ classes:
 parameters:
   _param:
     horizon_site_branding: OpenStack Dashboard
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
     network:
       interface:

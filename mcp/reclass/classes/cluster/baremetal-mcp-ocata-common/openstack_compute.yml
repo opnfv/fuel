@@ -36,6 +36,9 @@ parameters:
     keepalived_vip_virtual_router_id: 69
     loopback_device_size: 20
     linux_system_codename: xenial
+    # {dhcp,single}_nic are not used, but referenced
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   glusterfs:
     client:
       volumes:

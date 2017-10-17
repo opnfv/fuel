@@ -7,6 +7,6 @@
 ##############################################################################
 ---
 classes:
+  - cluster.baremetal-mcp-ocata-common.openstack_proxy
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack.dashboard
-  - cluster.baremetal-mcp-ocata-common.openstack_proxy

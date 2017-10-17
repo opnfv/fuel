@@ -8,8 +8,8 @@
 ---
 classes:
   - system.neutron.control.opendaylight.cluster
-  - cluster.baremetal-mcp-ocata-odl-ha.infra
   - cluster.baremetal-mcp-ocata-common.openstack_control
+  - cluster.baremetal-mcp-ocata-odl-ha.infra
 parameters:
   neutron:
     server:
