@@ -36,8 +36,6 @@ parameters:
     salt_master_host: ${_param:infra_config_deploy_address}
     # yamllint disable rule:line-length
     salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
-    dhcp_nic: ${_param:opnfv_fn_vm_primary_interface}
-    single_nic: ${_param:opnfv_fn_vm_secondary_interface}
   linux:
     network:
       interface:
