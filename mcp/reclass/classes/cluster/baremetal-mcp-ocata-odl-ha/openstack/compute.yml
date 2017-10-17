@@ -8,11 +8,11 @@
 ---
 classes:
   - cluster.baremetal-mcp-ocata-common.openstack_compute
+  - cluster.baremetal-mcp-ocata-odl-ha.openstack.compute_init
   - cluster.baremetal-mcp-ocata-odl-ha.infra
   - system.neutron.gateway.opendaylight.single
 parameters:
   _param:
-    tenant_nic: ${_param:opnfv_baremetal_secondary_nic}
     neutron_agents:
       - neutron-dhcp-agent
       - neutron-metadata-agent
@@ -29,26 +29,3 @@ parameters:
       services: ${_param:neutron_agents}
       backend:
         router: ${_param:opendaylight_router}
-  linux:
-    network:
-      interface:
-        tenant_nic:
-          enabled: true
-          type: eth
-          proto: manual
-          name: ${_param:tenant_nic}
-        br-mesh:
-          enabled: true
-          type: bridge
-          address: ${_param:tenant_address}
-          netmask: 255.255.255.0
-          mtu: 1500
-          use_interfaces:
-            - ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
-        tenant-vlan:
-          enabled: true
-          proto: manual
-          type: vlan
-          name: ${_param:tenant_nic}.${_param:opnfv_net_tenant_vlan}
-          use_interfaces:
-            - ${_param:tenant_nic}

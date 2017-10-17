@@ -22,6 +22,7 @@ classes:
   # - system.salt.control.cluster.stacklight_server_cluster
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
+  - cluster.baremetal-mcp-ocata-common.infra.kvm_init
 parameters:
   _param:
     linux_system_codename: xenial
@@ -31,7 +32,6 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-    deploy_nic: ${_param:opnfv_baremetal_primary_nic}
     # {dhcp,single}_nic are not used, but referenced
     dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
     single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
@@ -136,37 +136,3 @@ parameters:
             network.remote-dio: 'On'
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
-  linux:
-    network:
-      interface:
-        deploy:
-          enabled: true
-          type: eth
-          proto: manual
-          address: 0.0.0.0
-          netmask: 255.255.255.0
-          name: ${_param:deploy_nic}
-          noifupdown: true
-        br-mgmt:
-          enabled: true
-          proto: dhcp
-          type: bridge
-          name_servers: ${_param:opnfv_name_servers}
-          use_interfaces:
-            - ${_param:deploy_nic}
-          noifupdown: true
-        mgmt-vlan:
-          enabled: true
-          proto: manual
-          type: vlan
-          name: ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
-          use_interfaces:
-            - ${_param:deploy_nic}
-        br-ctl:
-          enabled: true
-          type: bridge
-          proto: static
-          address: ${_param:single_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-            - ${_param:deploy_nic}.${_param:opnfv_net_mgmt_vlan}
