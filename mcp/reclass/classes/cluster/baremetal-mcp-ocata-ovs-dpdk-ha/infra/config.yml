@@ -8,16 +8,5 @@
 ---
 classes:
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra.config_init
   - cluster.baremetal-mcp-ocata-common.infra.config
-parameters:
-  reclass:
-    storage:
-      node:
-        openstack_compute_node01:
-          params:
-            dpdk0_name: enp7s0
-            dpdk0_pci: '"0000:07:00.0"'
-        openstack_compute_node02:
-          params:
-            dpdk0_name: enp7s0
-            dpdk0_pci: '"0000:07:00.0"'

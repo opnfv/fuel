@@ -17,3 +17,25 @@ idf:
         mgmt: 'br-ctl'
         private: ''
         public: ''
+    network:
+      node:
+        # Ordered-list, index should be in sync with node index in PDF
+        - interfaces: &interfaces
+            # Ordered-list, index should be in sync with interface index in PDF
+            - 'enp6s0'
+            - 'enp7s0'
+            - 'enp8s0'
+            - 'enp9s0'
+          busaddr: &busaddr
+            - '0000:06:00.0'
+            - '0000:07:00.0'
+            - '0000:08:00.0'
+            - '0000:09:00.0'
+        - interfaces: *interfaces
+          busaddr: *busaddr
+        - interfaces: *interfaces
+          busaddr: *busaddr
+        - interfaces: *interfaces
+          busaddr: *busaddr
+        - interfaces: *interfaces
+          busaddr: *busaddr

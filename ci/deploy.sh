@@ -345,6 +345,17 @@ for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
 		EOF" 2> /dev/null > "${tp%.template}"
 done
 
+# Convert Pharos-compatible PDF to reclass network definitions
+for tp in "${RECLASS_CLUSTER_DIR}/${CLUSTER_DOMAIN%.local}"/*/*.j2 \
+          "${RECLASS_CLUSTER_DIR}/${DEPLOY_TYPE}-mcp-ocata-common"/*.j2 \
+          "${RECLASS_CLUSTER_DIR}/${DEPLOY_TYPE}-mcp-ocata-common"/*/*.j2; do
+    if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
+      -j "${tp}" > "${tp%.j2}"; then
+         notify "[ERROR] Could not convert PDF to reclass network defs!\n" 1>&2
+         exit 1
+    fi
+done
+
 # Map PDF networks 'admin', 'mgmt', 'private' and 'public' to bridge names
 BR_NAMES=('admin' 'mgmt' 'private' 'public')
 BR_NETS=( \
