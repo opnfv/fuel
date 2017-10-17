@@ -1,0 +1,54 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{# NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- if conf.net_config is defined and conf.idf is defined -%}
+    {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
+
+    {#- Determine interface index for each network (plumbing vars) -#}
+    {%- set idx_admin = conf['net_config']['admin']['interface'] -%}
+    {%- set idx_mgmt = conf['net_config']['mgmt']['interface'] -%}
+    {%- set idx_private = conf['net_config']['private']['interface'] -%}
+    {%- set idx_public = conf['net_config']['public']['interface'] -%}
+
+    {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
+    {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
+    {%- set nic_admin = node['interfaces'][idx_admin] -%}
+    {%- set nic_mgmt = node['interfaces'][idx_mgmt] -%}
+    {%- set nic_private = node['interfaces'][idx_private] -%}
+    {%- set nic_public = node['interfaces'][idx_public] -%}
+
+    {#- PCI addresses (only for DPDK on private) -#}
+    {%- set bus_private = node['busaddr'][idx_private] -%}
+
+    {#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) -#}
+    {%- set vlan_admin = conf['net_config']['admin']['vlan'] -%}
+    {%- set vlan_mgmt = conf['net_config']['mgmt']['vlan'] -%}
+    {%- set vlan_private = conf['net_config']['private']['vlan'] -%}
+    {%- set vlan_public = conf['net_config']['public']['vlan'] -%}
+{%- else -%}
+    {%- set nic_admin = 'enp6s0' -%}
+    {%- set nic_mgmt = 'enp6s0' -%}
+    {%- set nic_private = None -%}
+    {%- set nic_public = None -%}
+    {%- set vlan_admin = 'native' -%}
+    {%- set vlan_mgmt = '300' -%}
+    {%- set vlan_private = '1000' -%}
+{%- endif -%}
+---
+parameters:
+  reclass:
+    storage:
+      node:
+        openstack_compute_node01:
+          params:
+            dpdk0_name: {{ nic_private }}
+            dpdk0_pci: '"{{ bus_private }}"'
+        openstack_compute_node02:
+          params:
+            dpdk0_name: {{ nic_private }}
+            dpdk0_pci: '"{{ bus_private }}"'
