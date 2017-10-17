@@ -28,6 +28,8 @@ parameters:
     cluster_node02_address: ${_param:openstack_telemetry_node02_address}
     cluster_node03_hostname: mdb03
     cluster_node03_address: ${_param:openstack_telemetry_node03_address}
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
     network:
       interface:

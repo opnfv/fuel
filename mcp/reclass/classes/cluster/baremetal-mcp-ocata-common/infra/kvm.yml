@@ -32,6 +32,9 @@ parameters:
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
     deploy_nic: ${_param:opnfv_baremetal_primary_nic}
+    # {dhcp,single}_nic are not used, but referenced
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   salt:
     control:
       size:  # RAM 4096,8192,16384,32768,65536
