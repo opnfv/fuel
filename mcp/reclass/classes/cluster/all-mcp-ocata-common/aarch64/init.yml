@@ -20,9 +20,3 @@ parameters:
     # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
     opnfv_vcp_vm_primary_interface: ${_param:opnfv_fn_vm_primary_interface}
     opnfv_vcp_vm_secondary_interface: ${_param:opnfv_fn_vm_secondary_interface}
-
-    # Baremetal interface names (target nodes)
-    opnfv_baremetal_primary_nic: eth0
-    opnfv_baremetal_secondary_nic: eth1
-    opnfv_baremetal_tertiary_nic: eth2    # not used in current reclass model
-    opnfv_baremetal_quaternary_nic: eth3  # not used in current reclass model
