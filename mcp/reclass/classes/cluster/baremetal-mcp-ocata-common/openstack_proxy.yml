@@ -30,6 +30,8 @@ parameters:
       mode: secure
     cluster_vip_address: ${_param:openstack_proxy_address}
     salt_minion_ca_host: cfg01.${_param:cluster_domain}
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
     network:
       interface:

@@ -7,9 +7,9 @@
 ##############################################################################
 ---
 classes:
+  - cluster.baremetal-mcp-ocata-common.openstack_proxy
   - cluster.baremetal-mcp-ocata-odl-ha.infra
   - cluster.baremetal-mcp-ocata-odl-ha.openstack.dashboard
-  - cluster.baremetal-mcp-ocata-common.openstack_proxy
 parameters:
   nginx:
     server:
