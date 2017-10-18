@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_c914aef7",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-ha/index.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-18T12:58:16Z",
+      "side": 1,
+      "message": "2017 Mirantis Inc., Enea Software AB and others",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "3f41c2ea8687f9edbb5a14b55c0b64e568646395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_a9820a50",
         "filename": "docs/release/scenarios/os-nosdn-ovs-ha/os-nosdn-ovs-ha.rst",
         "patchSetId": 3
