@@ -67,7 +67,7 @@ Release Data
 | **Release designation**              | Euphrates 5.0                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | October 6 2017                       |
+| **Release date**                     | October 20 2017                      |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Euphrates alignment to Released      |
