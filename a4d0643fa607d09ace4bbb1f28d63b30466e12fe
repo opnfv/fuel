@@ -22,6 +22,30 @@
       "revId": "a4d0643fa607d09ace4bbb1f28d63b30466e12fe",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_04379de4",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-ha/index.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2017-10-18T14:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_49553e1c",
+      "range": {
+        "startLine": 5,
+        "startChar": 54,
+        "endLine": 5,
+        "endChar": 55
+      },
+      "revId": "a4d0643fa607d09ace4bbb1f28d63b30466e12fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
