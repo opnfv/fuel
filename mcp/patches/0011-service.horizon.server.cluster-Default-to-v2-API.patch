@@ -1,0 +1,33 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 19 Oct 2017 02:03:01 +0200
+Subject: [PATCH] service.horizon.server.cluster: Default to v2 API
+
+Horizon service definition hardcodes the API version to v3, and
+also overrides the value in our reclass model during interpolation.
+Adjust the default to '2'.
+
+Signed-off-by: Ting Wu <ting.wu@enea.com>
+Signed-off-by: Junaid Ali <junaidali.yahya@gmail.com>
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/service/horizon/server b/service/horizon/server
+--- a/service/horizon/server
++++ b/service/horizon/server
+@@ -6,7 +6,7 @@
+   _param:
+     horizon_version: liberty
+     horizon_identity_host: localhost
+-    horizon_identity_version: 3
++    horizon_identity_version: 2
+     horizon_identity_encryption: none
+     horizon_identity_endpoint_type: internalURL
+   horizon:
