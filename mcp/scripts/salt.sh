@@ -47,7 +47,6 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
     ln -sf /usr/share/salt-formulas/reclass/service/opendaylight
-  cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   cd /srv/salt/scripts
   export DEBIAN_FRONTEND=noninteractive
@@ -59,6 +58,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/salt-formulas/* /usr/share/salt-formulas/env
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list formulas
+  cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   salt-call state.apply salt
   salt '*' saltutil.sync_all
