@@ -85,7 +85,7 @@ parameters:
     horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
-    horizon_identity_version: 3
+    horizon_identity_version: 2
     mongodb_server_replica_set: ceilometer
     mongodb_ceilometer_password: opnfv_secret
     mongodb_admin_password: opnfv_secret
