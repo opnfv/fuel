@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_69ada288",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-ha/index.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2017-10-18T14:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_c914aef7",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "3f41c2ea8687f9edbb5a14b55c0b64e568646395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_a9820a50",
         "filename": "docs/release/scenarios/os-nosdn-ovs-ha/os-nosdn-ovs-ha.rst",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_09a0568f",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2017-10-18T14:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_a9820a50",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "3f41c2ea8687f9edbb5a14b55c0b64e568646395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_49b6de3e",
         "filename": "docs/release/scenarios/os-nosdn-ovs-noha/os-nosdn-ovs-noha.rst",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2017-10-18T12:40:30Z",
       "side": 1,
       "message": "Not needed, readthedocs genrerates TOC",
+      "revId": "3f41c2ea8687f9edbb5a14b55c0b64e568646395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_29a39a9f",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-noha/os-nosdn-ovs-noha.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2017-10-18T14:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_49b6de3e",
       "revId": "3f41c2ea8687f9edbb5a14b55c0b64e568646395",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
