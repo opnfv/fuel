@@ -18,6 +18,7 @@ classes:
   - system.cinder.volume.single
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
+  - cluster.baremetal-mcp-ocata-common.openstack_compute_init
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}
@@ -29,8 +30,6 @@ parameters:
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
-    mgmt_nic: ${_param:opnfv_baremetal_primary_nic}
-    external_nic: ${_param:opnfv_baremetal_tertiary_nic}
     interface_mtu: 1500
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
@@ -53,51 +52,3 @@ parameters:
         sysctl:
           vm.dirty_ratio: 10
           vm.dirty_background_ratio: 5
-    network:
-      bridge: openvswitch
-      interface:
-        mgmt_nic:
-          enabled: true
-          type: eth
-          proto: dhcp
-          name: ${_param:mgmt_nic}
-        external_nic:
-          enabled: true
-          name: ${_param:external_nic}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
-        mgmt-vlan:
-          enabled: true
-          proto: manual
-          type: vlan
-          name: ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
-          use_interfaces:
-            - ${_param:mgmt_nic}
-        br-ctl:
-          enabled: true
-          type: bridge
-          proto: static
-          address: ${_param:single_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-            - ${_param:mgmt_nic}.${_param:opnfv_net_mgmt_vlan}
-        br-floating:
-          enabled: true
-          type: ovs_bridge
-          mtu: ${_param:interface_mtu}
-        float-to-ex:
-          enabled: true
-          type: ovs_port
-          mtu: ${_param:interface_mtu}
-          bridge: br-floating
-        br-ex:
-          enabled: true
-          type: bridge
-          mtu: ${_param:interface_mtu}
-          address: ${_param:external_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-            - ${_param:external_nic}
-          use_ovs_ports:
-            - float-to-ex
