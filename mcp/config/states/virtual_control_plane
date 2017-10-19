@@ -36,7 +36,7 @@ vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:no
 # Check all vcp nodes are available
 rc=1
 attempt=0
-total_attempts=10
+total_attempts=50
 while [ $rc -ne 0 ] && [ ${attempt} -lt ${total_attempts} ]; do
   rc=0
   for node in $vcp_nodes; do
