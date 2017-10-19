@@ -35,12 +35,15 @@ vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:no
 
 # Check all vcp nodes are available
 rc=1
-while [ $rc -ne 0 ]; do
+attempt=0
+total_attempts=10
+while [ $rc -ne 0 ] && [ ${attempt} -lt ${total_attempts} ]; do
   rc=0
   for node in $vcp_nodes; do
     salt "$node" test.ping 2>/dev/null || { rc=$?; break; };
   done
   sleep 5
+  ((attempt+=1))
 done
 
 wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
