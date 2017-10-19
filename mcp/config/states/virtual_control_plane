@@ -16,6 +16,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'cmp*' state.apply linux.system
+salt -C 'cmp*' state.apply linux.network || true
 salt -C 'kvm* or cmp*' system.reboot
 wait_for 90 "! salt -C 'kvm* or cmp*' test.ping | " \
   "tee /dev/stderr | grep -Fq 'Not connected'"
