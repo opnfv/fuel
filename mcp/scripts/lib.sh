@@ -191,15 +191,18 @@ function parse_yaml {
 }
 
 function wait_for {
-  local total_attempts=$1; shift
-  local cmdstr=$*
-  local sleep_time=10
-  echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
-  # shellcheck disable=SC2034
-  for attempt in $(seq "${total_attempts}"); do
-    # shellcheck disable=SC2015
-    eval "${cmdstr}" && return 0 || true
-    echo -n '.'; sleep "${sleep_time}"
-  done
-  return 1
+  # Execute in a subshell to prevent local variable override during recursion
+  (
+    local total_attempts=$1; shift
+    local cmdstr=$*
+    local sleep_time=10
+    echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
+    # shellcheck disable=SC2034
+    for attempt in $(seq "${total_attempts}"); do
+      # shellcheck disable=SC2015
+      eval "${cmdstr}" && return 0 || true
+      echo -n '.'; sleep "${sleep_time}"
+    done
+    return 1
+  )
 }
