@@ -78,4 +78,17 @@ salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
   maas:region:admin:password
 
+bm_nodes=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
+           awk '/^\s+\w+[[:digit:]]+:$/ {gsub(/:$/, "*"); print $1}')
+
+# Check all baremetal nodes are available
+rc=1
+while [ $rc -ne 0 ]; do
+  rc=0
+  for node in $bm_nodes; do
+    salt "$node" test.ping 2>/dev/null || { rc=$?; break; };
+  done
+  sleep 5
+done
+
 wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
