@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Workflow+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Sun, 22 Oct 2017 14:27:06 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/46099
+Project: fuel
+Branch: refs/heads/stable/euphrates
