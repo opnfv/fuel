@@ -249,7 +249,7 @@ These steps are common both for virtual and baremetal deploys.
 
    .. code-block:: bash
 
-       $ git checkout 5.0.0
+       $ git checkout 5.0.2
 
 #. Start the deploy script
 
@@ -270,7 +270,7 @@ Examples
       $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
                      -l ericsson \
                      -p virtual_kvm \
-                     -s os-nosdn-nofeature-noha \
+                     -s os-nosdn-nofeature-noha
 
 #. Baremetal deploy
 
@@ -292,7 +292,7 @@ An aarch64 deploy on pod5 from Arm lab
                      -l arm \
                      -p pod5 \
                      -s os-nosdn-nofeature-ha \
-                     -B pxebr \
+                     -B pxebr
 
 
 =============
