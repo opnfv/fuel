@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_ae367e01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-25T14:02:51Z",
+      "side": 1,
+      "message": "Let\u0027s add a JIRA line pointing to:\nhttps://jira.opnfv.org/projects/FUEL/issues/FUEL-286",
+      "revId": "bc3bce1d906724e65afa94ef8d1d195d41b09314",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
