@@ -78,7 +78,7 @@ parameters:
           cpu: 2
           ram: 2048
           disk_profile: small
-          net_profile: default
+          net_profile: default_ext
       cluster:
         internal:
           node:
@@ -119,6 +119,13 @@ parameters:
           model: virtio
         eth0:
           bridge: br-ctl
+          model: virtio
+      default_ext:
+        eth1:
+          bridge: br-mgmt
+          model: virtio
+        eth0:
+          bridge: br-ex
           model: virtio
   glusterfs:
     server:
