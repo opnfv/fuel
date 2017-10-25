@@ -88,3 +88,12 @@ parameters:
           netmask: 255.255.255.0
           use_interfaces:
             - {{ nic_mgmt }}{% if vlan_mgmt and vlan_mgmt != 'native' %}.{{ vlan_mgmt }}{% endif %}
+        br-ex:
+          enabled: true
+          proto: manual
+          address: 0.0.0.0
+          netmask: 255.255.255.0
+          type: bridge
+          use_interfaces:
+            - {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}
+          noifupdown: true
