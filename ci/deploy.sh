@@ -265,9 +265,9 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install required packages
 [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm
+  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-  git make rsync genisoimage curl virt-install qemu-kvm
+  git make rsync genisoimage curl virt-install qemu-kvm util-linux
 
 if [ "$(uname -i)" = "aarch64" ]; then
   [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
