@@ -265,12 +265,19 @@ Examples
 --------
 #. Virtual deploy
 
+To start a virtual deployment, it is must to have the `virtual` keyword while specifying the pod name
+to the installer script. It will create the required bridges and networks, configure Salt Master and install
+OpenStack.
+
    .. code-block:: bash
 
       $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
                      -l ericsson \
                      -p virtual_kvm \
                      -s os-nosdn-nofeature-noha \
+
+Once the deployment is complete, OpenStack Dashboard, Horizon is available at http://10.16.0.101:8078
+The username and password for admin user is admin and opnfv_secret.
 
 #. Baremetal deploy
 
