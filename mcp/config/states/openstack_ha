@@ -58,7 +58,7 @@ wait_for 90 "salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/
 salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin --eval "rs.initiate()"'
 salt -C 'I@mongodb:server and *01*' state.sls mongodb
 
-salt -I 'aodh:server' state.sls aodh
+salt -I 'aodh:server' state.sls aodh -b 1
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
