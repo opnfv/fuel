@@ -272,6 +272,9 @@ Examples
                      -p virtual_kvm \
                      -s os-nosdn-nofeature-noha \
 
+Once the deployment is complete, OpenStack Dashboard, Horizon is available at http://172.16.10.101:8078.
+The username and password for **admin** user is **admin** and **opnfv-secret**.
+
 #. Baremetal deploy
 
 A x86 deploy on pod1 from Ericsson lab
