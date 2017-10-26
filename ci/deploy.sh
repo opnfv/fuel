@@ -263,11 +263,13 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
-# Install required packages
+# Install required packages (python is indirectly required for PDF parsing)
 [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm
+  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm \
+  python python-ipaddress python-jinja2
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-  git make rsync genisoimage curl virt-install qemu-kvm
+  git make rsync genisoimage curl virt-install qemu-kvm \
+  python python-ipaddress python-jinja2
 
 if [ "$(uname -i)" = "aarch64" ]; then
   [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
