@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_d0b6fc3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-26T16:30:13Z",
+      "side": 1,
+      "message": "commit messages should not end with a full stop, so let\u0027s remove it.\nI personally prefer adding a prefix to the message, so you don\u0027t have to read it all to see it only affects the docs. \nIt also helps keeping the title a bit shorter, e.g.:\ndocs: Add more info about virtual deployment",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "fb54002c4adc29b1333906f9c847c547bb112307",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_50ab0cd8",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-26T16:30:13Z",
+      "side": 1,
+      "message": "\u0027you must have\u0027 / \u0027it is required to have\u0027",
+      "range": {
+        "startLine": 268,
+        "startChar": 31,
+        "endLine": 268,
+        "endChar": 49
+      },
+      "revId": "fb54002c4adc29b1333906f9c847c547bb112307",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_90ac74ef",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-10-26T16:30:13Z",
+      "side": 1,
+      "message": "The administrator credentials are **admin** / **opnfv_secret**.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 67
+      },
+      "revId": "fb54002c4adc29b1333906f9c847c547bb112307",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
