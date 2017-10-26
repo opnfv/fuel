@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_2d61d339",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-10-26T11:30:05Z",
+      "side": 1,
+      "message": "Please format commit message (e.g. https://wiki.openstack.org/wiki/GitCommitMessages)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "7f0f61b431fb31f3465a44d5dca2e113b10e906f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_0d316f5a",
         "filename": "ci/deploy.sh",
         "patchSetId": 1
