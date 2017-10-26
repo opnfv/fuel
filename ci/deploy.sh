@@ -269,12 +269,6 @@ pushd "${DEPLOY_DIR}" > /dev/null
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
   git make rsync genisoimage curl virt-install qemu-kvm
 
-if [ "$(uname -i)" = "aarch64" ]; then
-  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
-  sudo ln -sf /usr/share/vgabios/vgabios.bin /usr/share/qemu/vgabios-stdvga.bin
-  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken vgabios
-fi
-
 # Clone git submodules and apply our patches
 make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
