@@ -269,6 +269,15 @@ pushd "${DEPLOY_DIR}" > /dev/null
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
   git make rsync genisoimage curl virt-install qemu-kvm
 
+# For baremetal, python is indirectly required for PDF parsing
+if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
+  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
+    python python-ipaddress python-jinja2
+  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
+    python python-ipaddress python-jinja2
+fi
+
+# For AArch64, vgabios is required until we switch to virtio
 if [ "$(uname -i)" = "aarch64" ]; then
   [ -n "$(command -v apt-get)" ] && sudo apt-get install -y vgabios && \
   sudo ln -sf /usr/share/vgabios/vgabios.bin /usr/share/qemu/vgabios-stdvga.bin

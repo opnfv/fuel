@@ -40,7 +40,7 @@ OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
 Preparations
-==================
+============
 
 Prior to installation, a number of deployment specific parameters must be collected, those are:
 
@@ -65,7 +65,7 @@ This information will be needed for the configuration procedures
 provided in this document.
 
 =========================================
-Hardware requirements for virtual deploys
+Hardware Requirements for Virtual Deploys
 =========================================
 
 The following minimum hardware requirements must be met for the virtual
@@ -76,7 +76,7 @@ installation of Euphrates using Fuel:
 |                            |                                                        |
 +============================+========================================================+
 | **1 Jumpserver**           | A physical node (also called Foundation Node) that     |
-|                            | hosts a Salt Master VM and each of the VM nodes in     |
+|                            | will host a Salt Master VM and each of the VM nodes in |
 |                            | the virtual deploy                                     |
 +----------------------------+--------------------------------------------------------+
 | **CPU**                    | Minimum 1 socket with Virtualization support           |
@@ -88,7 +88,7 @@ installation of Euphrates using Fuel:
 
 
 ===========================================
-Hardware requirements for baremetal deploys
+Hardware Requirements for Baremetal Deploys
 ===========================================
 
 The following minimum hardware requirements must be met for the baremetal
@@ -153,7 +153,7 @@ environment, you should think about:
 - Networking -- Depends on the Choose Network Topology, the network bandwidth per virtual machine, and network storage.
 
 ================================================
-Top of the rack (TOR) Configuration requirements
+Top of the Rack (TOR) Configuration Requirements
 ================================================
 
 The switching infrastructure provides connectivity for the OPNFV
@@ -177,8 +177,22 @@ Manual configuration of the Euphrates hardware platform should
 be carried out according to the `OPNFV Pharos Specification
 <https://wiki.opnfv.org/display/pharos/Pharos+Specification>`_.
 
+============================
+OPNFV Software Prerequisites
+============================
+
+The Jumpserver node should be pre-provisioned with an operating system,
+according to the Pharos specification. Relevant network bridges should
+also be pre-configured (e.g. admin, management, public).
+
+Fuel@OPNFV has been validated by CI using the following distributions
+installed on the Jumpserver:
+
+   - CentOS 7 (recommended by Pharos specification);
+   - Ubuntu Xenial;
+
 ==========================================
-OPNFV Software installation and deployment
+OPNFV Software Installation and Deployment
 ==========================================
 
 This section describes the process of installing all the components needed to
@@ -224,7 +238,7 @@ The installation is done automatically with the deploy script, which will:
       - Leverage Salt to install & configure Openstack services
 
 
-Steps to start the automatic deploy
+Steps to Start the Automatic Deploy
 ===================================
 
 These steps are common both for virtual and baremetal deploys.
