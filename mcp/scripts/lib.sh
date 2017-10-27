@@ -97,8 +97,8 @@ function create_vms {
   # AArch64: prepare arch specific arguments
   local virt_extra_args=""
   if [ "$(uname -i)" = "aarch64" ]; then
-    # No Cirrus VGA on AArch64, use vga std
-    virt_extra_args="$virt_extra_args --video=vga"
+    # No Cirrus VGA on AArch64, use virtio instead
+    virt_extra_args="$virt_extra_args --video=virtio"
   fi
 
   # create vms with specified options
