@@ -331,13 +331,15 @@ eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
-declare -A virtual_nodes_ram virtual_nodes_vcpus
+# Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
 for node in "${virtual_nodes[@]}"; do
     virtual_custom_ram="virtual_${node}_ram"
     virtual_custom_vcpus="virtual_${node}_vcpus"
-    virtual_nodes_ram[$node]=${!virtual_custom_ram:-$virtual_default_ram}
-    virtual_nodes_vcpus[$node]=${!virtual_custom_vcpus:-$virtual_default_vcpus}
+    virtual_nodes_data+="${node},"
+    virtual_nodes_data+="${!virtual_custom_ram:-$virtual_default_ram},"
+    virtual_nodes_data+="${!virtual_custom_vcpus:-$virtual_default_vcpus}|"
 done
+virtual_nodes_data=${virtual_nodes_data%|}
 
 # Expand reclass and virsh network templates
 for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
@@ -394,12 +396,11 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     check_connection
 else
     generate_ssh_key
-    prepare_vms virtual_nodes "${base_image}" "${STORAGE_DIR}"
-    create_networks OPNFV_BRIDGES
-    create_vms virtual_nodes virtual_nodes_ram virtual_nodes_vcpus \
-      OPNFV_BRIDGES "${STORAGE_DIR}"
+    prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_nodes[@]}"
+    create_networks "${OPNFV_BRIDGES[@]}"
+    create_vms "${STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
-    start_vms virtual_nodes
+    start_vms "${virtual_nodes[@]}"
     check_connection
 fi
 if [ ${USE_EXISTING_INFRA} -lt 2 ]; then

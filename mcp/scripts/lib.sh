@@ -48,9 +48,9 @@ function cleanup_vms {
 }
 
 function prepare_vms {
-  local -n vnodes=$1
-  local base_image=$2
-  local image_dir=$3
+  local base_image=$1; shift
+  local image_dir=$1; shift
+  local vnodes=("$@")
 
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
@@ -68,7 +68,7 @@ function prepare_vms {
 }
 
 function create_networks {
-  local -n vnode_networks=$1
+  local vnode_networks=("$@")
   # create required networks, including constant "mcpcontrol"
   # FIXME(alav): since we renamed "pxe" to "mcpcontrol", we need to make sure
   # we delete the old "pxe" virtual network, or it would cause IP conflicts.
@@ -88,11 +88,9 @@ function create_networks {
 }
 
 function create_vms {
-  local -n vnodes=$1
-  local -n vnodes_ram=$2
-  local -n vnodes_vcpus=$3
-  local -n vnode_networks=$4
-  local image_dir=$5
+  local image_dir=$1; shift
+  IFS='|' read -r -a vnodes <<< "$1"; shift
+  local vnode_networks=("$@")
 
   # AArch64: prepare arch specific arguments
   local virt_extra_args=""
@@ -102,10 +100,12 @@ function create_vms {
   fi
 
   # create vms with specified options
-  for node in "${vnodes[@]}"; do
+  for serialized_vnode_data in "${vnodes[@]}"; do
+    IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
+
     # prepare network args
     net_args=" --network network=mcpcontrol,model=virtio"
-    if [ "${node}" = "mas01" ]; then
+    if [ "${vnode_data[0]}" = "mas01" ]; then
       # MaaS node's 3rd interface gets connected to PXE/Admin Bridge
       vnode_networks[2]="${vnode_networks[0]}"
     fi
@@ -114,13 +114,13 @@ function create_vms {
     done
 
     # shellcheck disable=SC2086
-    virt-install --name "${node}" \
-    --ram "${vnodes_ram[$node]}" --vcpus "${vnodes_vcpus[$node]}" \
+    virt-install --name "${vnode_data[0]}" \
+    --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
     --cpu host-passthrough --accelerate ${net_args} \
-    --disk path="${image_dir}/mcp_${node}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
+    --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
-    --disk path="${image_dir}/mcp_${node}.iso",device=cdrom \
+    --disk path="${image_dir}/mcp_${vnode_data[0]}.iso",device=cdrom \
     --noautoconsole \
     ${virt_extra_args}
   done
@@ -139,7 +139,7 @@ function update_mcpcontrol_network {
 }
 
 function start_vms {
-  local -n vnodes=$1
+  local vnodes=("$@")
 
   # start vms
   for node in "${vnodes[@]}"; do
