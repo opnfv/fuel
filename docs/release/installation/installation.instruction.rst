@@ -21,7 +21,7 @@ This document provides guidelines on how to install and
 configure the Euphrates release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
-Although the available installation options provide a high de.g.ee of
+Although the available installation options provide a high degree of
 freedom in how the system is set up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This document provides a
