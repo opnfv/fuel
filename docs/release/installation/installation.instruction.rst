@@ -219,6 +219,12 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
    - Install Openstack on the targets
       - Leverage Salt to install & configure Openstack services
 
+.. figure:: img/fuel_virtual.png
+   :align: center
+   :alt: Fuel@OPNFV Virtual POD Network Layout Examples
+
+   Fuel@OPNFV Virtual POD Network Layout Examples
+
 
 Automatic Installation of a Baremetal POD
 =========================================
@@ -236,6 +242,12 @@ The installation is done automatically with the deploy script, which will:
       - Leverage MaaS to provision baremetal nodes with the operating system
       - Leverage Salt to configure the operatign system on the baremetal nodes
       - Leverage Salt to install & configure Openstack services
+
+.. figure:: img/fuel_baremetal.png
+   :align: center
+   :alt: Fuel@OPNFV Baremetal POD Network Layout Example
+
+   Fuel@OPNFV Baremetal POD Network Layout Example
 
 
 Steps to Start the Automatic Deploy
@@ -295,15 +307,21 @@ The administrator credentials are **admin** / **opnfv_secret**.
 
 #. Baremetal deploy
 
-A x86 deploy on pod1 from Ericsson lab
+A x86 deploy on pod2 from Linux Foundation lab
 
    .. code-block:: bash
 
       $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                     -l ericsson \
-                     -p pod1 \
+                     -l lf \
+                     -p pod2 \
                      -s os-nosdn-nofeature-ha \
-                     -B pxebr
+                     -B pxebr,br-ctl
+
+   .. figure:: img/lf_pod2.png
+      :align: center
+      :alt: Fuel@OPNFV LF POD2 Network Layout
+
+      Fuel@OPNFV LF POD2 Network Layout
 
 An aarch64 deploy on pod5 from Arm lab
 
@@ -313,7 +331,13 @@ An aarch64 deploy on pod5 from Arm lab
                      -l arm \
                      -p pod5 \
                      -s os-nosdn-nofeature-ha \
-                     -B pxebr
+                     -B admin7_br0,mgmt7_br0,,public7_br0
+
+   .. figure:: img/arm_pod5.png
+      :align: center
+      :alt: Fuel@OPNFV ARM POD5 Network Layout
+
+      Fuel@OPNFV ARM POD5 Network Layout
 
 
 =============
