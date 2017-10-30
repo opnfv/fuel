@@ -102,6 +102,9 @@ parameters:
         novncproxy_port: 6080
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       workers: 1
+  horizon:
+    server:
+      secure: False
   heat:
     server:
       bind:
