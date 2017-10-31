@@ -42,3 +42,9 @@ parameters:
       interface:
         dhcp: ${_param:linux_dhcp_interface}
         single: ${_param:linux_single_interface}
+    system:
+      repo:
+        mysql-wsrep:
+          source: 'deb http://releases.galeracluster.com/mysql-wsrep-5.7/ubuntu xenial main'
+          key_id: BC19DDBA
+          key_server: hkp://p80.pool.sks-keyservers.net:80
