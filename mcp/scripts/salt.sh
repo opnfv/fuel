@@ -70,6 +70,10 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   salt '*' state.sls ntp
 
+  # Freeze the galera formula to avoid update
+  salt-call pkg.install salt-formula-galera allow_updates=False refresh=False \
+    version=1.0+201710200646.13c9ec7~xenial1
+
   # Temporary fixup for mismatch between neutron formula and reclass model
   salt-call pkg.install salt-formula-neutron allow_updates=False refresh=False \
     version=2016.12.1+201709251458.f0607d9-1xenial1
