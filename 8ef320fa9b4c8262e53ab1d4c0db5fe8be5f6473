@@ -22,6 +22,30 @@
       "revId": "8ef320fa9b4c8262e53ab1d4c0db5fe8be5f6473",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_62276265",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_database.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-10-31T15:23:38Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9a3d3df0_a2c4ca92",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "8ef320fa9b4c8262e53ab1d4c0db5fe8be5f6473",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
