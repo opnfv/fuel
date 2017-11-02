@@ -13,6 +13,7 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
 # KVM, compute node prereqs (libvirt first), VCP deployment
+salt -C 'kvm* or cmp*' state.apply opnfv.lowercase_iface_fix || true
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'cmp*' state.apply linux.system

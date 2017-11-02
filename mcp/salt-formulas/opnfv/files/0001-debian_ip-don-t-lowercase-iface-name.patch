@@ -1,0 +1,28 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 2 Nov 2017 18:14:56 +0100
+Subject: [PATCH] debian_ip: don't lowercase iface name
+
+AArch64, ppc64 and ppc64le have network interfaces with uppercase
+characters in their names, e.g. enP5p144s0.
+
+PR #39103 ("fixes #31393 don't convert the iface to lower case")
+fixed this issue, but only for RHEL systems. The same change is
+required on Debian systems as well.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ salt/modules/debian_ip.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/salt/modules/debian_ip.py b/salt/modules/debian_ip.py
+index 2a2c6fb..f89fba7 100644
+--- a/salt/modules/debian_ip.py
++++ b/salt/modules/debian_ip.py
+@@ -1703,7 +1703,6 @@ def build_interface(iface, iface_type, enabled, **settings):
+         salt '*' ip.build_interface eth0 eth <settings>
+     '''
+
+-    iface = iface.lower()
+     iface_type = iface_type.lower()
+
+     if iface_type not in _IFACE_TYPES:
