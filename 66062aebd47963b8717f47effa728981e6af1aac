@@ -22,6 +22,30 @@
       "revId": "66062aebd47963b8717f47effa728981e6af1aac",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a01afd6b",
+        "filename": "mcp/config/states/virtual_control_plane",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-11-03T07:17:33Z",
+      "side": 1,
+      "message": "how about this?\nsalt \u0027kvm* or cmp*\u0027 file.line /usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py content\u003d\u0027iface \u003d iface.lower()\u0027 mode\u003d\u0027delete\u0027",
+      "parentUuid": "9a3d3df0_2a41ac5a",
+      "range": {
+        "startLine": 16,
+        "startChar": 60,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "66062aebd47963b8717f47effa728981e6af1aac",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
