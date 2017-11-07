@@ -219,6 +219,12 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
    - Install Openstack on the targets
       - Leverage Salt to install & configure Openstack services
 
+.. figure:: img/fuel_virtual.png
+   :align: center
+   :alt: Fuel@OPNFV Virtual POD Network Layout Examples
+
+   Fuel@OPNFV Virtual POD Network Layout Examples
+
 
 Automatic Installation of a Baremetal POD
 =========================================
@@ -236,6 +242,12 @@ The installation is done automatically with the deploy script, which will:
       - Leverage MaaS to provision baremetal nodes with the operating system
       - Leverage Salt to configure the operatign system on the baremetal nodes
       - Leverage Salt to install & configure Openstack services
+
+.. figure:: img/fuel_baremetal.png
+   :align: center
+   :alt: Fuel@OPNFV Baremetal POD Network Layout Example
+
+   Fuel@OPNFV Baremetal POD Network Layout Example
 
 
 Steps to Start the Automatic Deploy
@@ -271,49 +283,64 @@ These steps are common both for virtual and baremetal deploys.
 
        $ ci/deploy.sh -l <lab_name> \
                       -p <pod_name> \
-                      -b <URI to the PDF file> \
+                      -b <URI to configuration repo containing the PDF file> \
                       -s <scenario> \
-                      -B <list of admin, public and management bridges>
+                      -B <list of admin, management, private and public bridges>
 
 Examples
 --------
 #. Virtual deploy
 
-To start a virtual deployment, it is required to have the `virtual` keyword while specifying the pod name
-to the installer script. It will create the required bridges and networks, configure Salt Master and install
-OpenStack.
+   To start a virtual deployment, it is required to have the `virtual` keyword
+   while specifying the pod name to the installer script.
 
-   .. code-block:: bash
+   It will create the required bridges and networks, configure Salt Master and
+   install OpenStack.
 
-      $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                     -l ericsson \
-                     -p virtual_kvm \
-                     -s os-nosdn-nofeature-noha
+      .. code-block:: bash
 
-Once the deployment is complete, OpenStack Dashboard, Horizon is available at http://10.16.0.101:8078
-The administrator credentials are **admin** / **opnfv_secret**.
+         $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
+                        -l ericsson \
+                        -p virtual_kvm \
+                        -s os-nosdn-nofeature-noha
+
+   Once the deployment is complete, the OpenStack Dashboard, Horizon is
+   available at http://<controller VIP>:8078, e.g. http://10.16.0.101:8078.
+   The administrator credentials are **admin** / **opnfv_secret**.
 
 #. Baremetal deploy
 
-A x86 deploy on pod1 from Ericsson lab
+   A x86 deploy on pod2 from Linux Foundation lab
 
-   .. code-block:: bash
+      .. code-block:: bash
 
-      $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                     -l ericsson \
-                     -p pod1 \
-                     -s os-nosdn-nofeature-ha \
-                     -B pxebr
+          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
+                         -l lf \
+                         -p pod2 \
+                         -s os-nosdn-nofeature-ha \
+                         -B pxebr,br-ctl
 
-An aarch64 deploy on pod5 from Arm lab
+      .. figure:: img/lf_pod2.png
+         :align: center
+         :alt: Fuel@OPNFV LF POD2 Network Layout
 
-   .. code-block:: bash
+         Fuel@OPNFV LF POD2 Network Layout
 
-      $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                     -l arm \
-                     -p pod5 \
-                     -s os-nosdn-nofeature-ha \
-                     -B pxebr
+   An aarch64 deploy on pod5 from Arm lab
+
+      .. code-block:: bash
+
+         $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
+                        -l arm \
+                        -p pod5 \
+                        -s os-nosdn-nofeature-ha \
+                        -B admin7_br0,mgmt7_br0,,public7_br0
+
+      .. figure:: img/arm_pod5.png
+         :align: center
+         :alt: Fuel@OPNFV ARM POD5 Network Layout
+
+         Fuel@OPNFV ARM POD5 Network Layout
 
 
 =============
