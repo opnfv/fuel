@@ -41,7 +41,8 @@ function cleanup_uefi {
   ssh ${SSH_OPTS} "${SSH_SALT}" "sudo salt -C 'kvm* or cmp*' cmd.run \
     \"which efibootmgr > /dev/null 2>&1 && \
     efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
-    xargs -I{} efibootmgr --delete-bootnum --bootnum {}\"" || true
+    xargs -I{} efibootmgr --delete-bootnum --bootnum {}; \
+    rm -rf /boot/efi/*\"" || true
 }
 
 function cleanup_vms {
