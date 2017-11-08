@@ -13,8 +13,6 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
 # KVM, compute node prereqs (libvirt first), VCP deployment
-salt -C 'kvm* or cmp*' cmd.run 'rm -f /etc/network/interfaces.d/*.cfg'
-
 # patch the networking module for Debian based distros
 debian_ip_source=/usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py
 salt -C 'kvm* or cmp*' file.line $debian_ip_source \
