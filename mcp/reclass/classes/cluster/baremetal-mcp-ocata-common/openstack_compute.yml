@@ -47,6 +47,9 @@ parameters:
           # yamllint disable-line rule:line-length
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   linux:
+    network:
+      remove_iface_files:
+        - '/etc/network/interfaces.d/50-cloud-init.cfg'
     system:
       kernel:
         sysctl:
