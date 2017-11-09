@@ -265,9 +265,10 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install required packages
 [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime
+  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime \
+  python-yaml
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-  git make rsync genisoimage curl virt-install qemu-kvm util-linux
+  git make rsync genisoimage curl virt-install qemu-kvm util-linux python-yaml
 
 # For baremetal, python is indirectly required for PDF parsing
 if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
