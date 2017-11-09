@@ -272,9 +272,9 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # For baremetal, python is indirectly required for PDF parsing
 if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
   [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-    python python-ipaddress python-jinja2
+    python python-ipaddress python-jinja2 python-yaml
   [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-    python python-ipaddress python-jinja2
+    python python-ipaddress python-jinja2 python-yaml
 fi
 
 # Clone git submodules and apply our patches
