@@ -343,6 +343,50 @@ Examples
          Fuel@OPNFV ARM POD5 Network Layout
 
 
+Pod Descriptor Files
+====================
+
+Descriptor files provide the installer with an abstraction of the target pod
+with all its hardware characteristics and required parameters. This information
+is split into two different files:
+Pod Descriptor File (PDF) and Installer Descriptor File (IDF).
+
+
+The Pod Descriptor File is a hardware and network description of the pod
+infrastructure. The information is modeled under a yaml structure.
+A reference file with the expected yaml structure is available at
+*mcp/config/labs/local/pod1.yaml*
+
+A common network section describes all the internal and provider networks
+assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
+attached interface on the boards. Untagged vlans shall be defined as "native".
+
+The hardware description is arranged into a main "jumphost" node and a "nodes"
+set for all target boards. For each node the following characteristics
+are defined:
+
+- Node parameters including CPU features and total memory.
+- A list of available disks.
+- Remote management parameters.
+- Network interfaces list including mac address, speed and advanced features.
+- IP list of fixed IPs for the node
+Note: the fixed IPs are ignored by the MCP installer script and it will instead
+assign based on the network ranges defined under the pod network configuration.
+
+
+The Installer Descriptor File extends the PDF with pod related parameters
+required by the installer. This information may differ per each installer type
+and it is not considered part of the pod infrastructure. Fuel installer relies
+on the IDF model to map the networks to the bridges on the foundation node and
+to setup all node NICs by defining the expected OS device name and bus address.
+
+
+The file follows a yaml structure and a "fuel" section is expected. Contents and
+references must be aligned with the PDF file. The IDF file must be named after
+the PDF with the prefix "idf-". A reference file with the expected structure
+is available at *mcp/config/labs/local/idf-pod1.yaml*
+
+
 =============
 Release Notes
 =============
