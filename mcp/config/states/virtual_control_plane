@@ -14,9 +14,16 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
 # KVM, compute node prereqs (libvirt first), VCP deployment
 salt -C 'kvm* or cmp*' cmd.run 'rm -f /etc/network/interfaces.d/*.cfg'
-salt -C 'kvm* or cmp*' file.line \
-  /usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py \
+
+# patch the networking module for Debian based distros
+debian_ip_source=/usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py
+salt -C 'kvm* or cmp*' file.line $debian_ip_source \
   content='iface = iface.lower()' mode='delete'
+
+salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
+  pattern="__salt__\['pkg.install'\]\('vlan'\)" \
+  repl="if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
+
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'cmp*' state.apply linux.system
