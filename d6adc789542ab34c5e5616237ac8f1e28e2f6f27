@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_91bbc4e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-09T13:55:33Z",
+      "side": 1,
+      "message": "the recommended max length for commit title is 50 (or 52) columns",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "d6adc789542ab34c5e5616237ac8f1e28e2f6f27",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_31ed98f0",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-09T13:55:33Z",
+      "side": 1,
+      "message": "Hm, I remember writing this down at some point, but forgot to see it through.\nLet\u0027s move this to the below block though, so it only gets installed for baremetal deploys.",
+      "range": {
+        "startLine": 271,
+        "startChar": 67,
+        "endLine": 271,
+        "endChar": 78
+      },
+      "revId": "d6adc789542ab34c5e5616237ac8f1e28e2f6f27",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
