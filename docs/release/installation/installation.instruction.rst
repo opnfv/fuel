@@ -191,6 +191,11 @@ installed on the Jumpserver:
    - CentOS 7 (recommended by Pharos specification);
    - Ubuntu Xenial;
 
+**NOTE:** The install script expects 'libvirt' to be installed and running
+on the Jumpserver. In case the packages are missing, the script will install
+them; but depending on the OS distribution, the user might have to start the
+'libvirtd' service manually.
+
 ==========================================
 OPNFV Software Installation and Deployment
 ==========================================
