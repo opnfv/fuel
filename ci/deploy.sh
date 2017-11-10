@@ -274,6 +274,12 @@ if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
     python python-ipaddress python-jinja2 python-yaml
 fi
 
+# AArch64 VMs use AAVMF (guest UEFI)
+if [ "$(uname -m)" = 'aarch64' ]; then
+  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y qemu-efi
+  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken AAVMF
+fi
+
 if ! virsh list >/dev/null 2>&1; then
     notify "[ERROR] This script requires hypervisor access\n" 1>&2
     exit 1
