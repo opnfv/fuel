@@ -16,6 +16,7 @@ classes:
   - system.nginx.server.proxy.openstack.aodh
   - system.nginx.server.proxy.openstack.ceilometer
   - system.horizon.server.single
+  - system.apache.server.single
   - system.salt.minion.cert.proxy
   - system.sphinx.server.doc.reclass
   - service.keepalived.cluster.single
@@ -46,3 +47,6 @@ parameters:
         proxy:
           alternative_names: "IP:${_param:openstack_proxy_address}"
           key_usage: 'digitalSignature, keyEncipherment'
+  apache:
+    server:
+      modules: ~
