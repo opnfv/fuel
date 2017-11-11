@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_63dc7513",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-11T18:11:58Z",
+      "side": 1,
+      "message": "Latest version available in [1] is based on git commit 25fc147, which not only is clearly broken (trying to `\u003cint\u003e.lower()`), but is also missing (?) from [2].\n\n[1] http://apt-mk.mirantis.com/xenial/pool/salt/s/salt-formula-maas/\n[2] https://github.com/salt-formulas/salt-formula-maas/commits/master",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "c4b87dbc189e2a2f4d586d41ef5db2166c42231d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
