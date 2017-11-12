@@ -69,12 +69,4 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   salt -C '* and not cfg01*' pkg.upgrade refresh=False
 
   salt '*' state.sls ntp
-
-  # Temporary fixup for mismatch between neutron formula and reclass model
-  salt-call pkg.install salt-formula-neutron allow_updates=False refresh=False \
-    version=2016.12.1+201709251458.f0607d9-1xenial1
-  # Temporary fixup for MaaS formula machine status int.lower()
-  salt-call pkg.install salt-formula-maas allow_updates=False refresh=False \
-    version=0.0.1+201711061044.9f1b034~xenial1
-  cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches_neutron.list formulas
 SALT_INSTALL_END
