@@ -41,6 +41,7 @@ parameters:
     system:
       package:
         libapache2-mod-wsgi:
+          version: latest
   salt:
     minion:
       cert:
@@ -49,7 +50,7 @@ parameters:
           key_usage: 'digitalSignature, keyEncipherment'
   apache:
     server:
-      modules: ~
+      modules: ''
   horizon:
     server:
       bind:
