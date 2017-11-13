@@ -225,6 +225,27 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
 
    Fuel@OPNFV Virtual POD Network Layout Examples
 
+   +-----------------------+------------------------------------------------------------------------+
+   | cfg01                 | Salt Master VM                                                         |
+   +-----------------------+------------------------------------------------------------------------+
+   | ctl01                 | Controller VM                                                          |
+   +-----------------------+------------------------------------------------------------------------+
+   | cmp01/cmp02           | Compute VMs                                                            |
+   +-----------------------+------------------------------------------------------------------------+
+   | gtw01                 | Gateway VM with neutron services (dhcp agent, L3 agent, metadata, etc) |
+   +-----------------------+------------------------------------------------------------------------+
+   | odl01                 | VM on which ODL runs (for scenarios deployed with ODL)                 |
+   +-----------------------+------------------------------------------------------------------------+
+
+
+In this figure there are examples of two virtual deploys:
+   - Jumphost 1 has only virsh bridges, created by the deploy script
+   - Jumphost 2 has a mix of linux and virsh briges; when linux bridge exist for a specified network,
+     the deploy script will skip creating a virsh bridge for it
+
+**Note**: A virtual network "mcpcontrol" is always created. For virtual deploys, "mcpcontrol" is also used
+for PXE, leaving the PXE bridge unused.
+
 
 Automatic Installation of a Baremetal POD
 =========================================
@@ -248,6 +269,34 @@ The installation is done automatically with the deploy script, which will:
    :alt: Fuel@OPNFV Baremetal POD Network Layout Example
 
    Fuel@OPNFV Baremetal POD Network Layout Example
+
+   +-----------------------+---------------------------------------------------------+
+   | cfg01                 | Salt Master VM                                          |
+   +-----------------------+---------------------------------------------------------+
+   | mas01                 | MaaS Node VM                                            |
+   +-----------------------+---------------------------------------------------------+
+   | kvm01..03             | Baremetals which hold the VMs with controller functions |
+   +-----------------------+---------------------------------------------------------+
+   | cmp001/cmp002         | Baremetal compute nodes                                 |
+   +-----------------------+---------------------------------------------------------+
+   | prx01/prx02           | Proxy VMs for Nginx                                     |
+   +-----------------------+---------------------------------------------------------+
+   | msg01..03             | RabbitMQ Service VMs                                    |
+   +-----------------------+---------------------------------------------------------+
+   | dbs01..03             | MySQL service VMs                                       |
+   +-----------------------+---------------------------------------------------------+
+   | mdb01..03             | Telemetry VMs                                           |
+   +-----------------------+---------------------------------------------------------+
+   | odl01                 | VM on which ODL runs (for scenarios deployed with ODL)  |
+   +-----------------------+---------------------------------------------------------+
+   | Tenant VM             | VM running in the cloud                                 |
+   +-----------------------+---------------------------------------------------------+
+
+In the baremetal deploy all bridges but "mcpcontrol" are linux bridges. For the Jumpserver, if they are already created
+they will be used; otherwise they will be created. For the targets, the bridges are created by the deploy script.
+
+**Note**: A virtual network "mcpcontrol" is always created. For baremetal deploys, PXE bridge is used for
+baremetal node provisioning, while "mcpcontrol" is used to provision the infrastructure VMs only.
 
 
 Steps to Start the Automatic Deploy
@@ -370,7 +419,8 @@ are defined:
 - Remote management parameters.
 - Network interfaces list including mac address, speed and advanced features.
 - IP list of fixed IPs for the node
-Note: the fixed IPs are ignored by the MCP installer script and it will instead
+
+**Note**: the fixed IPs are ignored by the MCP installer script and it will instead
 assign based on the network ranges defined under the pod network configuration.
 
 
