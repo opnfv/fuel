@@ -121,8 +121,11 @@ parameters:
           bridge: br-ctl
           model: virtio
       default_ext:
-        eth1:
+        eth2:
           bridge: br-mgmt
+          model: virtio
+        eth1:
+          bridge: br-ctl
           model: virtio
         eth0:
           bridge: br-ex
