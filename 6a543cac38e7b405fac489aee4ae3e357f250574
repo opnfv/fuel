@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_d9272e63",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-13T15:59:15Z",
+      "side": 1,
+      "message": "This is true for the example above, but it\u0027s not a hard requirement for *all* baremetal deploys.",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 70
+      },
+      "revId": "6a543cac38e7b405fac489aee4ae3e357f250574",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
