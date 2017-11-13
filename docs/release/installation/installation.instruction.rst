@@ -375,6 +375,9 @@ Examples
 
          Fuel@OPNFV LF POD2 Network Layout
 
+   Once the deployment is complete, the SaltStack Deployment Documentation is
+   available at http://<Proxy VIP>:8090, e.g. http://172.30.10.103:8090.
+
    An aarch64 deploy on pod5 from Arm lab
 
       .. code-block:: bash
@@ -390,6 +393,9 @@ Examples
          :alt: Fuel@OPNFV ARM POD5 Network Layout
 
          Fuel@OPNFV ARM POD5 Network Layout
+
+   Once the deployment is complete, the SaltStack Deployment Documentation is
+   available at http://<Proxy VIP>:8090, e.g. http://10.0.8.103:8090.
 
 
 Pod Descriptor Files
