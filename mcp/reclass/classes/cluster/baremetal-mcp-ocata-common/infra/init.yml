@@ -65,6 +65,15 @@ parameters:
 
     # yamllint disable-line rule:line-length
     salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
+  reclass:
+    storage:
+      node:
+        openstack_proxy_node01:
+          params:
+            control_address: ${_param:openstack_proxy_node01_control_address}
+        openstack_proxy_node02:
+          params:
+            control_address: ${_param:openstack_proxy_node02_control_address}
   linux:
     system:
       user:
