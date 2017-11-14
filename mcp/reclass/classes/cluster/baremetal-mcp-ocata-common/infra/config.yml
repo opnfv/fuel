@@ -54,8 +54,9 @@ parameters:
               # Temporary fixup for MaaS formula machine status int.lower()
               version: 0.0.1+201711061044.9f1b034~xenial1
             neutron:
-              # Temporary fixup for mismatch between formula and reclass model
-              version: 2016.12.1+201709251458.f0607d9-1xenial1
+              # Temporary fixup for a bug when only one package is pinned
+              version: 2016.12.1+201711131232.a9814a4-1xenial1
+
   reclass:
     storage:
       data_source:
