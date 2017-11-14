@@ -46,6 +46,9 @@ parameters:
       interface:
         dhcp: ${_param:linux_dhcp_interface}
         single: ${_param:linux_single_interface}
+  neutron:
+    server:
+      vlan_aware_vms: true
   keystone:
     server:
       cacert: /etc/ssl/certs/mcp_os_cacert
