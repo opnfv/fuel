@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_cf8760d6",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_init.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-11-14T15:57:37Z",
+      "side": 1,
+      "message": "I think there is no need for a vip on mgmt like other components do (ctls). I would just leave one VIP for public",
+      "parentUuid": "9a3d3df0_6ff3b49e",
+      "range": {
+        "startLine": 201,
+        "startChar": 28,
+        "endLine": 201,
+        "endChar": 51
+      },
+      "revId": "408a215c3fac6bf4def10051e3316e87a1fdec5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_af13fcb6",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_proxy.yml",
         "patchSetId": 1
