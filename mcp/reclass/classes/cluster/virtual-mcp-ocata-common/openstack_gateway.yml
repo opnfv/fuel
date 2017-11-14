@@ -20,6 +20,7 @@ parameters:
     gateway:
       notification: true
       agent_mode: ${_param:neutron_gateway_agent_mode}
+      vlan_aware_vms: true
   linux:
     network:
       bridge: openvswitch
