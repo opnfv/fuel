@@ -10,3 +10,7 @@ classes:
   - system.neutron.control.openvswitch.cluster
   - cluster.baremetal-mcp-ocata-common.openstack_control
   - cluster.baremetal-mcp-ocata-ovs-ha.infra
+parameters:
+  neutron:
+    server:
+      vlan_aware_vms: true

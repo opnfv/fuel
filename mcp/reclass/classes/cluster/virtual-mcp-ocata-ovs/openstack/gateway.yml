@@ -23,3 +23,6 @@ parameters:
           netmask: 255.255.255.0
           use_interfaces:
             - ${_param:tenant_interface}
+  neutron:
+    gateway:
+      vlan_aware_vms: true
