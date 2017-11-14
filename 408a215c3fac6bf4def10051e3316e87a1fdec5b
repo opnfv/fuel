@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_6ff3b49e",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_init.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-14T15:29:53Z",
+      "side": 1,
+      "message": "Q: Should this remain set to public (V)IP?\nOr should we add another VIP for mgmt prx (.80)?",
+      "range": {
+        "startLine": 201,
+        "startChar": 28,
+        "endLine": 201,
+        "endChar": 51
+      },
+      "revId": "408a215c3fac6bf4def10051e3316e87a1fdec5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_af13fcb6",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_proxy.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-14T15:29:53Z",
+      "side": 1,
+      "message": "This get overwritten by openstack_dashboard param with same name. The easy fix is to leave single_nic \u003d 2nd VM NIC, and just add br-ctl on 3rd NIC.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "408a215c3fac6bf4def10051e3316e87a1fdec5b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
