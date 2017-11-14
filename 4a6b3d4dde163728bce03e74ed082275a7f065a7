@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_af9c9cc1",
+        "filename": "mcp/reclass/classes/cluster/virtual-mcp-ocata-common/infra/config.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-14T13:24:23Z",
+      "side": 1,
+      "message": "There is a bug upstream which will cause this mechanism to stop working when only one package is pinned.\nhttps://github.com/salt-formulas/salt-formula-salt/issues/68",
+      "range": {
+        "startLine": 50,
+        "startChar": 14,
+        "endLine": 51,
+        "endChar": 57
+      },
+      "revId": "4a6b3d4dde163728bce03e74ed082275a7f065a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
