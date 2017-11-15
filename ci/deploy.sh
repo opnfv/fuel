@@ -236,11 +236,6 @@ if [[ "$(sudo whoami)" != 'root' ]]; then
     exit 1
 fi
 
-if ! virsh list >/dev/null 2>&1; then
-    notify "[ERROR] This script requires hypervisor access\n" 1>&2
-    exit 1
-fi
-
 # Validate mandatory arguments are set
 if [ -z "${TARGET_LAB}" ] || [ -z "${TARGET_POD}" ] || \
    [ -z "${DEPLOY_SCENARIO}" ]; then
@@ -265,9 +260,11 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install required packages
 [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime
+  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime \
+  libvirt-bin
 [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-  git make rsync genisoimage curl virt-install qemu-kvm util-linux
+  git make rsync genisoimage curl virt-install qemu-kvm util-linux \
+  libvirt
 
 # For baremetal, python is indirectly required for PDF parsing
 if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
@@ -275,6 +272,11 @@ if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
     python python-ipaddress python-jinja2
   [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
     python python-ipaddress python-jinja2
+fi
+
+if ! virsh list >/dev/null 2>&1; then
+    notify "[ERROR] This script requires hypervisor access\n" 1>&2
+    exit 1
 fi
 
 # Clone git submodules and apply our patches
