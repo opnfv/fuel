@@ -52,3 +52,6 @@ parameters:
         sysctl:
           vm.dirty_ratio: 10
           vm.dirty_background_ratio: 5
+  neutron:
+    gateway:
+      vlan_aware_vms: true

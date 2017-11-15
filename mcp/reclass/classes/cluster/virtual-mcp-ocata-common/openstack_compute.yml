@@ -37,6 +37,7 @@ parameters:
   neutron:
     compute:
       notification: true
+      vlan_aware_vms: true
       agent_mode: ${_param:neutron_compute_agent_mode}
       message_queue:
         host: ${_param:openstack_control_address}

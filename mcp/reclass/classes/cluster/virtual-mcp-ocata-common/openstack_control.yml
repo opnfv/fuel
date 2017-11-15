@@ -143,3 +143,6 @@ parameters:
                 - rw
                 - no_root_squash
                 - async
+  neutron:
+    server:
+      vlan_aware_vms: true
