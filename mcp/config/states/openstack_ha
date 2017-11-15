@@ -35,7 +35,7 @@ salt -I 'haproxy:proxy' service.restart rsyslog
 
 salt -I 'keystone:server' state.sls keystone.server -b 1
 salt -I 'keystone:server' service.restart apache2
-salt -I 'keystone:client' state.sls keystone.client
+wait_for 30 "salt -I 'keystone:client' state.sls keystone.client"
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
