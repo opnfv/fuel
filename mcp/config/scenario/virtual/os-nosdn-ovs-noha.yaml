@@ -11,6 +11,7 @@ cluster:
   states:
     - dpdk
     - openstack_noha
+    - neutron_gateway
     - neutron_compute
     - networks
 virtual:

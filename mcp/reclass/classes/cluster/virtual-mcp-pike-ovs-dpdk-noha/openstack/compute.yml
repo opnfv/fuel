@@ -9,6 +9,7 @@
 classes:
   - system.nova.compute.nfv.hugepages
   - system.neutron.compute.nfv.dpdk
+  - service.neutron.compute.single
   - cluster.virtual-mcp-pike-common-noha.openstack_compute
   - cluster.virtual-mcp-pike-ovs-dpdk-noha
 parameters:

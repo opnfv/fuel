@@ -7,18 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - service.neutron.compute.single
-  - cluster.virtual-mcp-pike-common-noha.openstack_compute
-  - cluster.virtual-mcp-pike-ovs-noha
+  - cluster.virtual-mcp-pike-common-noha.infra
+
 parameters:
-  linux:
-    network:
-      interface:
-        br-mesh:
-          enabled: true
-          type: bridge
-          proto: static
-          address: ${_param:tenant_address}
-          netmask: 255.255.255.0
-          use_interfaces:
-            - ${_param:tenant_interface}
+  _param:
+    cluster_name: virtual-mcp-pike-ovn-noha
