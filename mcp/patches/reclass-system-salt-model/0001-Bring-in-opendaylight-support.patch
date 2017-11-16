@@ -11,10 +11,22 @@ Date: Thu, 29 Jun 2017 12:22:42 +0400
 Subject: [PATCH] Bring in opendaylight support
 
 Change-Id: I3efec9a8b586a6c75b1c1635ad2a7024d73d9ad2
+---
+ neutron/control/opendaylight/cluster.yml               | 17 +++++++++++++++++
+ neutron/control/opendaylight/single.yml                | 15 +++++++++++++++
+ neutron/gateway/opendaylight/single.yml                |  7 +++++++
+ opendaylight/server/single.yml                         |  2 ++
+ reclass/storage/system/opendaylight_control_single.yml | 13 +++++++++++++
+ 5 files changed, 54 insertions(+)
+ create mode 100644 neutron/control/opendaylight/cluster.yml
+ create mode 100644 neutron/control/opendaylight/single.yml
+ create mode 100644 neutron/gateway/opendaylight/single.yml
+ create mode 100644 opendaylight/server/single.yml
+ create mode 100644 reclass/storage/system/opendaylight_control_single.yml
 
 diff --git a/neutron/control/opendaylight/cluster.yml b/neutron/control/opendaylight/cluster.yml
 new file mode 100644
-index 00000000..a32e7abb
+index 0000000..a32e7ab
 --- /dev/null
 +++ b/neutron/control/opendaylight/cluster.yml
 @@ -0,0 +1,17 @@
@@ -37,7 +49,7 @@ index 00000000..a32e7abb
 +            driver: opendaylight_v2
 diff --git a/neutron/control/opendaylight/single.yml b/neutron/control/opendaylight/single.yml
 new file mode 100644
-index 00000000..053f14df
+index 0000000..053f14d
 --- /dev/null
 +++ b/neutron/control/opendaylight/single.yml
 @@ -0,0 +1,15 @@
@@ -58,7 +70,7 @@ index 00000000..053f14df
 +            driver: opendaylight_v2
 diff --git a/neutron/gateway/opendaylight/single.yml b/neutron/gateway/opendaylight/single.yml
 new file mode 100644
-index 00000000..21690017
+index 0000000..2169001
 --- /dev/null
 +++ b/neutron/gateway/opendaylight/single.yml
 @@ -0,0 +1,7 @@
@@ -71,7 +83,7 @@ index 00000000..21690017
 +        ovsdb_connection: tcp:127.0.0.1:6639
 diff --git a/opendaylight/server/single.yml b/opendaylight/server/single.yml
 new file mode 100644
-index 00000000..3d11872c
+index 0000000..3d11872
 --- /dev/null
 +++ b/opendaylight/server/single.yml
 @@ -0,0 +1,2 @@
@@ -79,7 +91,7 @@ index 00000000..3d11872c
 +- service.opendaylight.server.single
 diff --git a/reclass/storage/system/opendaylight_control_single.yml b/reclass/storage/system/opendaylight_control_single.yml
 new file mode 100644
-index 00000000..ad809f59
+index 0000000..ad809f5
 --- /dev/null
 +++ b/reclass/storage/system/opendaylight_control_single.yml
 @@ -0,0 +1,13 @@
