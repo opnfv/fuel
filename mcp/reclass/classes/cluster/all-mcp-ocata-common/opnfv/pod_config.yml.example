@@ -61,6 +61,7 @@ parameters:
 
     opnfv_opendaylight_server_node01_single_address: 10.167.4.111
 
+    opnfv_net_public_gw: 172.30.10.1
     opnfv_name_servers: ['8.8.8.8', '8.8.4.4']
     opnfv_dns_server01: '8.8.8.8'
     opnfv_net_mgmt_vlan: 300
