@@ -37,8 +37,28 @@ parameters:
   linux:
     network:
       interface:
-        dhcp: ${_param:linux_dhcp_interface}
-        single: ${_param:linux_single_interface}
+        dhcp:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:dhcp_nic}
+          route:
+            mcpcontol:
+              address: ${_param:infra_config_deploy_address}
+              netmask: 255.255.255.255
+              gateway: ${_param:opnfv_infra_maas_node01_deploy_address}
+        single:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:single_nic}
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          route:
+            public:
+              address: 0.0.0.0
+              netmask: 0.0.0.0
+              gateway: ${_param:opnfv_net_public_gw}
         control:
           enabled: true
           type: eth
