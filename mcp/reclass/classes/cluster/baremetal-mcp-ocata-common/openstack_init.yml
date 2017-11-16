@@ -22,6 +22,8 @@ parameters:
     openstack_gateway_node03_hostname: gtw03
 
     # openstack service addresses
+    openstack_proxy_node01_control_address: ${_param:opnfv_openstack_proxy_node01_control_address}
+    openstack_proxy_node02_control_address: ${_param:opnfv_openstack_proxy_node02_control_address}
     openstack_proxy_address: ${_param:opnfv_openstack_proxy_address}
     openstack_proxy_node01_address: ${_param:opnfv_openstack_proxy_node01_address}
     openstack_proxy_node02_address: ${_param:opnfv_openstack_proxy_node02_address}
@@ -201,12 +203,12 @@ parameters:
             - ${_param:openstack_proxy_hostname}
             - ${_param:openstack_proxy_hostname}.${_param:cluster_domain}
         prx01:
-          address: ${_param:openstack_proxy_node01_address}
+          address: ${_param:openstack_proxy_node01_control_address}
           names:
             - ${_param:openstack_proxy_node01_hostname}
             - ${_param:openstack_proxy_node01_hostname}.${_param:cluster_domain}
         prx02:
-          address: ${_param:openstack_proxy_node02_address}
+          address: ${_param:openstack_proxy_node02_control_address}
           names:
             - ${_param:openstack_proxy_node02_hostname}
             - ${_param:openstack_proxy_node02_hostname}.${_param:cluster_domain}

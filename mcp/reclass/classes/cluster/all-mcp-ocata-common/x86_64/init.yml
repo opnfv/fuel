@@ -16,7 +16,8 @@ parameters:
     opnfv_fn_vm_tertiary_interface: ens5
     opnfv_fn_vm_quaternary_interface: ens6
 
-    # VCP VMs spawned on KVM Hosts net ifaces (max 2)
+    # VCP VMs spawned on KVM Hosts net ifaces (max 3)
     # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
     opnfv_vcp_vm_primary_interface: ens2
     opnfv_vcp_vm_secondary_interface: ens3
+    opnfv_vcp_vm_tertiary_interface: ens4
