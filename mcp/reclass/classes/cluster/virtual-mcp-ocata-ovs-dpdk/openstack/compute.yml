@@ -11,6 +11,7 @@ classes:
   - system.linux.system.repo.mcp.extra
   - system.nova.compute.nfv.hugepages
   - system.neutron.compute.nfv.dpdk
+  - service.neutron.compute.single
   - cluster.virtual-mcp-ocata-common.openstack_compute
   - cluster.virtual-mcp-ocata-ovs-dpdk
 parameters:

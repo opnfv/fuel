@@ -7,19 +7,12 @@
 ##############################################################################
 ---
 classes:
-  - service.neutron.compute.single
+  - service.neutron.compute.ovn.single
   - cluster.virtual-mcp-ocata-common.openstack_compute
-  - cluster.virtual-mcp-ocata-odl-router
+  - cluster.virtual-mcp-ocata-ovn
 parameters:
-  opendaylight:
-    client:
-      ovsdb_server_iface: ptcp:6639:127.0.0.1
-      ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
-      tunnel_ip: ${_param:tenant_address}
-      provider_mappings: physnet1:br-floating
   linux:
     network:
-      gateway: ${_param:openstack_gateway_address}
       interface:
         external_interface:
           enabled: true
@@ -33,7 +26,6 @@ parameters:
           proto: static
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
-          gateway: 10.1.0.110
           use_interfaces:
             - ${_param:tenant_interface}
         br-floating:

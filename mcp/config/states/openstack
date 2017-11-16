@@ -33,7 +33,6 @@ salt -I 'cinder:controller' state.sls cinder
 salt -I 'cinder:volume' state.sls cinder
 
 salt -I 'neutron:server' state.sls neutron
-salt -I 'neutron:gateway' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 

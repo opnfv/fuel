@@ -7,10 +7,9 @@
 ##############################################################################
 ---
 cluster:
-  domain: virtual-mcp-ocata-ovs.local
+  domain: virtual-mcp-ocata-ovn.local
   states:
     - openstack
-    - neutron_gateway
     - neutron_compute
     - networks
 virtual:
@@ -19,9 +18,12 @@ virtual:
     - ctl01
     - cmp01
     - cmp02
-    - gtw01
   ctl01:
     vcpus: 4
     ram: 14336
-  gtw01:
-    ram: 2048
+  cmp01:
+    vcpus: 4
+    ram: 8192
+  cmp02:
+    vcpus: 4
+    ram: 8192

@@ -6,22 +6,14 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: virtual-mcp-ocata-ovs.local
-  states:
-    - openstack
-    - neutron_gateway
-    - neutron_compute
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 2048
+classes:
+  - system.linux.system.single
+  - cluster.all-mcp-ocata-common
+  - cluster.virtual-mcp-ocata-common.init_options
+  - cluster.virtual-mcp-ocata-common.infra
+  - cluster.virtual-mcp-ocata-ovn.openstack
+
+parameters:
+  _param:
+    cluster_domain: virtual-mcp-ocata-ovn.local
+    cluster_name: virtual-mcp-ocata-ovn

@@ -10,7 +10,6 @@ classes:
   - system.linux.storage.loopback
   - service.nfs.client
   - system.nova.compute.single
-  - service.neutron.compute.single
   - service.cinder.volume.single
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster

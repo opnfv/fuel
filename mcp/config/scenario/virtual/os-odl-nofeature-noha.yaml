@@ -11,6 +11,7 @@ cluster:
   states:
     - opendaylight
     - openstack
+    - neutron_gateway
     - networks
 virtual:
   nodes:
