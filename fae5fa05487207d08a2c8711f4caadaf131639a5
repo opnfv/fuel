@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_f8c82376",
+        "filename": "mcp/config/states/virtual_control_plane",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-11-17T22:20:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_3d96fdf0",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 99
+      },
+      "revId": "fae5fa05487207d08a2c8711f4caadaf131639a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_1d99791f",
         "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_proxy.yml",
         "patchSetId": 2
