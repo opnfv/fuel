@@ -26,9 +26,11 @@ parameters:
     opnfv_openstack_gateway_node01_tenant_address: 10.1.0.6
     opnfv_openstack_gateway_node02_tenant_address: 10.1.0.7
     opnfv_openstack_gateway_node03_tenant_address: 10.1.0.9
-    opnfv_openstack_proxy_address: 10.167.4.80
-    opnfv_openstack_proxy_node01_address: 10.167.4.81
-    opnfv_openstack_proxy_node02_address: 10.167.4.82
+    opnfv_openstack_proxy_node01_control_address: 10.167.4.81
+    opnfv_openstack_proxy_node02_control_address: 10.167.4.82
+    opnfv_openstack_proxy_address: 172.30.10.103
+    opnfv_openstack_proxy_node01_address: 172.30.10.104
+    opnfv_openstack_proxy_node02_address: 172.30.10.105
     opnfv_openstack_control_address: 10.167.4.10
     opnfv_openstack_control_node01_address: 10.167.4.11
     opnfv_openstack_control_node02_address: 10.167.4.12
