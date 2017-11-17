@@ -13,7 +13,7 @@ Subject: [PATCH] Bring in opendaylight support
 Change-Id: Ie9073fafccba336f94b1996bd85c98d7a7f5060b
 
 diff --git a/neutron/files/ocata/dhcp_agent.ini b/neutron/files/ocata/dhcp_agent.ini
-index d327e64..ba5f933 100644
+index d327e64..739dddf 100644
 --- a/neutron/files/ocata/dhcp_agent.ini
 +++ b/neutron/files/ocata/dhcp_agent.ini
 @@ -1,3 +1,8 @@
@@ -29,29 +29,30 @@ index d327e64..ba5f933 100644
  # this value will force the DHCP server to append specific host routes to the DHCP request. If this option is set, then the metadata service
  # will be activated for all the networks. (boolean value)
  #force_metadata = false
-+{% if neutron.backend.get('router', 'False') %}force_metadata = True{% endif %}
++{% if neutron.backend.router is defined %}force_metadata = True{% endif %}
 
  # Allows for serving metadata requests coming from a dedicated metadata access network whose CIDR is 169.254.169.254/16 (or larger prefix),
  # and is connected to a Neutron router from which the VMs send metadata:1 request. In this case DHCP Option 121 will not be injected in VMs,
 diff --git a/neutron/files/ocata/ml2_conf.ini b/neutron/files/ocata/ml2_conf.ini
-index 5ecafe3..48cec1f 100644
+index b61e313..02da3b1 100644
 --- a/neutron/files/ocata/ml2_conf.ini
 +++ b/neutron/files/ocata/ml2_conf.ini
-@@ -131,7 +131,7 @@ tenant_network_types = {{ server.backend.tenant_network_types }}
- # An ordered list of networking mechanism driver entrypoints to be loaded from
- # the neutron.ml2.mechanism_drivers namespace. (list value)
- #mechanism_drivers =
--mechanism_drivers ={%- for backend_name, mechanism in server.backend.get('mechanism', {}).iteritems() %}{{ mechanism.driver }},{%- endfor %}l2population
-+mechanism_drivers ={%- for backend_name, mechanism in server.backend.get('mechanism', {}).iteritems() %}{{ mechanism.driver }}{%- endfor %}{%- if server.backend.engine == "ml2" %},l2population{%- endif %}
-
- # An ordered list of extension driver entrypoints to be loaded from the
- # neutron.ml2.extension_drivers namespace. For example: extension_drivers =
-@@ -272,3 +272,11 @@ enable_security_group = True
- # Use ipset to speed-up the iptables based security groups. Enabling ipset
- # support requires that ipset is installed on L2 agent node. (boolean value)
- #enable_ipset = true
+@@ -134,7 +134,8 @@ tenant_network_types = {{ server.backend.tenant_network_types }}
+ {%- for mechanism_name, mechanism in server.get('backend', {}).get('mechanism', []).items() %}
+ {%- do mechanism_drivers.append(mechanism.get('driver')) if 'driver' in mechanism %}
+ {%- endfor %}
+-{%- if "vxlan" in server.backend.tenant_network_types %}
++{%- set opendaylight_enabled = true if 'opendaylight' in mechanism_drivers|join else false %}
++{%- if "vxlan" in server.backend.tenant_network_types and not opendaylight_enabled %}
+ {%- do mechanism_drivers.append('l2population') %}
+ {%- endif %}
+ mechanism_drivers = {{ ','.join(mechanism_drivers) }}
+@@ -311,3 +312,11 @@ ovn_nb_connection = tcp:{{ server.controller_vip }}:6641
+ ovn_sb_connection = tcp:{{ server.controller_vip }}:6642
+ ovn_l3_scheduler = leastloaded
+ {%- endif %}
 +
-+{%- if server.backend.engine == "opendaylight" %}
++{%- if opendaylight_enabled %}
 +[ml2_odl]
 +port_binding_controller = pseudo-agentdb-binding
 +url = http://{{ server.backend.host }}:{{ server.backend.rest_api_port }}/controller/nb/v2/neutron
@@ -59,20 +60,15 @@ index 5ecafe3..48cec1f 100644
 +password = {{ server.backend.password }}
 +{%- endif %}
 diff --git a/neutron/files/ocata/neutron-generic.conf.Debian b/neutron/files/ocata/neutron-generic.conf.Debian
-index 123386d..eeaa3f4 100644
+index 123386d..85b8076 100644
 --- a/neutron/files/ocata/neutron-generic.conf.Debian
 +++ b/neutron/files/ocata/neutron-generic.conf.Debian
-@@ -33,11 +33,11 @@ state_path = /var/lib/neutron
- #auth_strategy = keystone
- auth_strategy = keystone
-
--{% if neutron.backend.engine == "ml2" %}
-+{% if neutron.backend.engine in ["ml2", "opendaylight"] %}
+@@ -37,7 +37,7 @@ auth_strategy = keystone
 
  core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
 
 -service_plugins =neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.metering.metering_plugin.MeteringPlugin
-+service_plugins = {{ neutron.backend.get('router', 'router')}},metering
++service_plugins = {{ neutron.backend.get('router', 'router')}}, metering
 
  {% endif %}
 
@@ -81,66 +77,34 @@ index 123386d..eeaa3f4 100644
  # cipher list format. (string value)
  #ciphers = <None>
 +
-+{%- if neutron.backend.engine == "opendaylight" %}
++{%- if neutron.backend.ovsdb_connection is defined %}
 +[ovs]
 +ovsdb_connection = {{ neutron.backend.ovsdb_connection }}
 +{%- endif %}
-diff --git a/neutron/files/ocata/neutron-server b/neutron/files/ocata/neutron-server
-index 54f6ceb..1682ee0 100644
---- a/neutron/files/ocata/neutron-server
-+++ b/neutron/files/ocata/neutron-server
-@@ -7,10 +7,10 @@
- # neutron.conf
- #NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini"
-
--{%- if server.backend.engine == "ml2" %}
-+{%- if server.backend.engine in ["ml2", "opendaylight"] %}
- NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/ml2/ml2_conf.ini"
- {%- endif %}
-
- {%- if server.backend.engine == "contrail" %}
- NEUTRON_PLUGIN_CONFIG="/etc/neutron/plugins/opencontrail/ContrailPlugin.ini"
--{%- endif %}
-\ No newline at end of file
-+{%- endif %}
 diff --git a/neutron/files/ocata/neutron-server.conf.Debian b/neutron/files/ocata/neutron-server.conf.Debian
-index 049544b..4e68567 100644
+index 79376a2..c9630b8 100644
 --- a/neutron/files/ocata/neutron-server.conf.Debian
 +++ b/neutron/files/ocata/neutron-server.conf.Debian
-@@ -39,11 +39,11 @@ api_extensions_path = extensions:/usr/lib/python2.7/dist-packages/neutron_plugin
- core_plugin = neutron_plugin_contrail.plugins.opencontrail.contrail_plugin.NeutronPluginContrailCoreV2
+@@ -50,7 +50,7 @@ core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+ {% set l3_plugin = 'networking_ovn.l3.l3_ovn.OVNL3RouterPlugin' %}
+ {% endif %}
 
- service_plugins = neutron_plugin_contrail.plugins.opencontrail.loadbalancer.v2.plugin.LoadBalancerPluginV2
--{% elif server.backend.engine == "ml2" %}
-+{% elif server.backend.engine in ["ml2", "opendaylight"] %}
-
- core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
-
--service_plugins =neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.metering.metering_plugin.MeteringPlugin
-+service_plugins = {{ server.backend.get('router', 'router')}},metering
+-service_plugins ={{ l3_plugin }}, neutron.services.metering.metering_plugin.MeteringPlugin
++service_plugins = {{ server.backend.get('router', l3_plugin)}}, metering
  {%- if server.lbaas is defined -%},lbaasv2{%- endif -%}
  {%- if fwaas.get('enabled', False) -%},{{ fwaas[fwaas.api_version]['service_plugin'] }}{%- endif -%}
  {%- if server.get('qos', 'True') -%},neutron.services.qos.qos_plugin.QoSPlugin{%- endif -%}
-@@ -838,7 +838,7 @@ allow_headers = {{ server.cors.allow_headers }}
- # Deprecated group/name - [DEFAULT]/sql_connection
- # Deprecated group/name - [DATABASE]/sql_connection
- # Deprecated group/name - [sql]/connection
--{% if server.backend.engine == "ml2" %}
-+{% if server.backend.engine in ["ml2", "opendaylight"] %}
- connection = {{ server.database.engine }}+pymysql://{{ server.database.user }}:{{ server.database.password }}@{{ server.database.host }}/{{ server.database.name }}?charset=utf8
- {% else %}
- connection = sqlite:////var/lib/neutron/neutron.sqlite
-@@ -2217,3 +2217,8 @@ service_provider = LOADBALANCERV2:Opencontrail:neutron_plugin_contrail.plugins.o
- {% include "neutron/files/"+server.version+"/ContrailPlugin.ini" %}
-
- {% endif %}
+@@ -2245,3 +2245,8 @@ username = {{ server.identity.user }}
+ password = {{ server.identity.password }}
+ auth_url=http://{{ server.identity.host }}:35357
+ {%- endif %}
 +
-+{%- if server.backend.engine == "opendaylight" %}
++{%- if server.backend.ovsdb_connection is defined %}
 +[ovs]
 +ovsdb_connection = {{ server.backend.ovsdb_connection }}
 +{%- endif %}
 diff --git a/neutron/gateway.sls b/neutron/gateway.sls
-index 96d7e9f..65386b4 100644
+index 81513d8..7ec9b91 100644
 --- a/neutron/gateway.sls
 +++ b/neutron/gateway.sls
 @@ -32,6 +32,7 @@ neutron_gateway_packages:
@@ -151,16 +115,3 @@ index 96d7e9f..65386b4 100644
    - require:
      - pkg: neutron_gateway_packages
 
-diff --git a/neutron/server.sls b/neutron/server.sls
-index eff9fb8..cb9d622 100644
---- a/neutron/server.sls
-+++ b/neutron/server.sls
-@@ -72,7 +72,7 @@ neutron_server_service:
-
- {%- endif %}
-
--{% if server.backend.engine == "ml2" %}
-+{% if server.backend.engine in ["ml2", "opendaylight"] %}
-
- /etc/neutron/plugins/ml2/ml2_conf.ini:
-   file.managed:
