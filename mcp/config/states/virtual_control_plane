@@ -8,10 +8,25 @@
 ##############################################################################
 
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+ERASE_ENV=${ERASE_ENV:-0}
 
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
+# Optionally destroy VCP VMs from a previous run
+if [ "${ERASE_ENV}" -eq 1 ]; then
+    kvm_vms=$(salt --out yaml 'kvm*' virt.list_domains | \
+              sed -e 's/- //g' -e 's/:.*$//g')
+    for line in ${kvm_vms}; do
+        if [[ "${line}" =~ ^kvm ]]; then
+            kvm_node=${line}
+        elif [ -n "${kvm_node}" ]; then
+            salt "${kvm_node}" virt.purge dirs=True "${line}" || true
+        fi
+    done
+fi
+
+# KVM, compute node prereqs (libvirt first), VCP deployment
 # patch the networking module for Debian based distros
 debian_ip_source=/usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py
 salt -C 'kvm* or cmp*' file.line $debian_ip_source \
