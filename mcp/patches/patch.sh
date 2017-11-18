@@ -14,7 +14,7 @@ if [ -r "$1" ]; then
     if [[ ! "${p_dest}" =~ '^#' ]] && [[ "${p_dest}" =~ $2 ]] && \
       ! patch --dry-run -Rd "${p_dest}" -r - -s -p1 < \
         "/root/fuel/mcp/patches/${p_file}" > /dev/null; then
-          patch -fd "${p_dest}" -p1 < "/root/fuel/mcp/patches/${p_file}"
+          patch -d "${p_dest}" -p1 < "/root/fuel/mcp/patches/${p_file}"
     fi
   done < "$1"
 fi

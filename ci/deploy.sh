@@ -38,7 +38,7 @@ $(notify "USAGE:" 2)
   $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
     [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f [-f]] [-F] [-e] [-d] [-D]
+    [-f[f]] [-F] [-e | -E[E]] [-d] [-D]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -46,6 +46,7 @@ $(notify "OPTIONS:" 2)
   -d  Dry-run
   -D  Debug logging
   -e  Do not launch environment deployment
+  -E  Remove existing VCP VMs (use twice to redeploy baremetal nodes)
   -f  Deploy on existing Salt master (use twice to also skip config sync)
   -F  Do only create a Salt master
   -h  Print this message and exit
@@ -82,6 +83,10 @@ $(notify "Input parameters to the build script are:" 2)
 -d Dry-run - Produce deploy config files, but do not execute deploy
 -D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
+-E Remove existing VCP VMs. It will destroy and undefine all VCP VMs
+   currently defined on cluster KVM nodes. If specified twice (e.g. -E -E),
+   baremetal nodes (VCP too, implicitly) will be removed, then reprovisioned.
+   Only applicable for baremetal deploys.
 -f Deploy on existing Salt master. It will skip infrastructure VM creation,
    but it will still sync reclass configuration from current repo to Salt
    Master node. If specified twice (e.g. -f -f), config sync will also be
@@ -150,6 +155,7 @@ DRY_RUN=${DRY_RUN:-0}
 USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
+ERASE_ENV=${ERASE_ENV:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 
@@ -162,7 +168,7 @@ source "${DEPLOY_DIR}/globals.sh"
 #
 set +x
 OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dDfFl:L:p:s:S:he" OPTION
+while getopts "b:B:dDfEFl:L:p:s:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -199,6 +205,9 @@ do
             ;;
         e)
             NO_DEPLOY_ENVIRONMENT=1
+            ;;
+        E)
+            ((ERASE_ENV+=1))
             ;;
         l)
             TARGET_LAB=${OPTARG}
@@ -423,8 +432,9 @@ else
     for state in "${cluster_states[@]}"; do
         notify "[STATE] Applying state: ${state}\n" 2
         # shellcheck disable=SC2086,2029
-        wait_for 5 "ssh ${SSH_OPTS} ${SSH_SALT} \
-            sudo /root/fuel/mcp/config/states/${state}"
+        wait_for 5 "ssh ${SSH_OPTS} ${SSH_SALT} sudo \
+            CI_DEBUG=$CI_DEBUG ERASE_ENV=$ERASE_ENV DEPLOY_TYPE=$DEPLOY_TYPE \
+            /root/fuel/mcp/config/states/${state}"
     done
 fi
 

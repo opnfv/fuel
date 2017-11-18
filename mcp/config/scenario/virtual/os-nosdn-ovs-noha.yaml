@@ -9,6 +9,7 @@
 cluster:
   domain: virtual-mcp-ocata-ovs-dpdk.local
   states:
+    - fn_init
     - dpdk
     - openstack
     - neutron_compute

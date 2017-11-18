@@ -9,6 +9,7 @@
 cluster:
   domain: baremetal-mcp-ocata-odl-ha.local
   states:
+    - fn_init
     - maas
     - virtual_control_plane
     - opendaylight

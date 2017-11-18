@@ -61,12 +61,4 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   salt-call state.apply salt
-  salt '*' saltutil.sync_all
-  salt '*' state.apply salt | grep -Fq 'No response' && salt '*' state.apply salt
-
-  salt -C 'I@salt:master' state.sls linux
-  salt -C '* and not cfg01*' state.sls linux || true
-  salt -C '* and not cfg01*' pkg.upgrade refresh=False
-
-  salt '*' state.sls ntp
 SALT_INSTALL_END
