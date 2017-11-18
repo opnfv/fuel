@@ -9,6 +9,7 @@
 cluster:
   domain: virtual-mcp-ocata-odl-router.local
   states:
+    - fn_init
     - opendaylight
     - openstack
     - networks
