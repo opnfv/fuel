@@ -1,0 +1,35 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 18 Nov 2017 22:03:01 +0200
+Subject: [PATCH] linux.storage.lvm: Disable filter
+
+Due to upstream bug [1], mixing OS-managed LVM volumes with Cinder
+LVM volumes leads to a broken filter value in lvm.conf.
+Temporarily disable the filter (whitelisting all devices, similar
+to no-Cinder use-cases) until upstream bug is fixed.
+
+[1] https://github.com/salt-formulas/salt-formula-linux/issues/127
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+
+diff --git a/linux/files/lvm.conf b/linux/files/lvm.conf
+--- a/linux/files/lvm.conf
++++ b/linux/files/lvm.conf
+@@ -129,7 +129,8 @@
+         # Example
+         # Accept every block device:
+
+-        filter = [ {%- for vgname, vg in storage.lvm.iteritems() %}{%- if vg.get('enabled', True) %}{%- for dev in vg.devices %}"a|{{ dev }}*|"{%- if not loop.last %},{%- endif %}{%- endfor %}{%- endif %}{%- endfor %}, "r|.*|" ]
++        # NOTE(opnfv): https://github.com/salt-formulas/salt-formula-linux/issues/127
++        # filter = [ {%- for vgname, vg in storage.lvm.iteritems() %}{%- if vg.get('enabled', True) %}{%- for dev in vg.devices %}"a|{{ dev }}*|"{%- if not loop.last %},{%- endif %}{%- endfor %}{%- endif %}{%- endfor %}, "r|.*|" ]
+
+         # filter = [ "a|.*/|" ]
+         # Reject the cdrom drive:
