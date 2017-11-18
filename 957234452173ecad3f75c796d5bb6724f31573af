@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_2351c00e",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml.example",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-18T21:06:08Z",
+      "side": 1,
+      "message": "We need to merge the PDF template change for this first, or add a patch for pharos git submodule to this change.\nWhat should we do if public gateway is missing from PDF\u0027s net_config though?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "957234452173ecad3f75c796d5bb6724f31573af",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
