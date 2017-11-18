@@ -8,6 +8,7 @@
 ##############################################################################
 
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+ERASE_ENV=${ERASE_ENV:-0}
 
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
@@ -51,6 +52,17 @@ function maas_fixup() {
 
   return 0
 }
+
+# Optionally destroy MaaS machines from a previous run
+if [ "${ERASE_ENV}" -gt 1 ]; then
+  dnodes=$(salt 'mas01*' --out yaml state.apply maas.machines.status | \
+    grep -Pzo '\s+system_id: \K.+\n')
+  for node_system_id in ${dnodes}; do
+    salt -C 'mas01*' state.apply maas.machines.delete \
+      pillar="{'system_id': '${node_system_id}'}"
+    sleep 30
+  done
+fi
 
 # MaaS rack/region controller, node commissioning
 salt -C 'mas01*' cmd.run "add-apt-repository ppa:maas/stable"
