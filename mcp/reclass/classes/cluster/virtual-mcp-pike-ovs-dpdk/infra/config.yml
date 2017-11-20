@@ -6,28 +6,18 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: virtual-mcp-pike-ovs-dpdk.local
-  states:
-    - dpdk
-    - openstack
-    - neutron_compute
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 2048
-  cmp01:
-    vcpus: 4
-    ram: 8192
-  cmp02:
-    vcpus: 4
-    ram: 8192
+classes:
+  - cluster.virtual-mcp-pike-common.infra.config
+  - cluster.virtual-mcp-pike-ovs-dpdk
+parameters:
+  reclass:
+    storage:
+      node:
+        openstack_compute_node01:
+          params:
+            dpdk0_name: ${_param:opnfv_fn_vm_tertiary_interface}
+            dpdk0_pci: '"0000:00:05.0"'
+        openstack_compute_node02:
+          params:
+            dpdk0_name: ${_param:opnfv_fn_vm_tertiary_interface}
+            dpdk0_pci: '"0000:00:05.0"'

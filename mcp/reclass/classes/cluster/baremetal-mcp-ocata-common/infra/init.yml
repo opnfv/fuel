@@ -8,7 +8,7 @@
 ---
 classes:
   - system.linux.system.single
-  - cluster.all-mcp-ocata-common
+  - cluster.all-mcp-arch-common
   # - cluster.baremetal-mcp-ocata-common.stacklight
   # - cluster.baremetal-mcp-ocata-common.stacklight.client
 parameters:
