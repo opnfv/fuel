@@ -17,7 +17,7 @@ F_GIT_SUBD=${F_GIT_ROOT#${F_GIT_DIR%%/.git*}}
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/opnfv"
 OPNFV_GIT_DIR="/root/opnfv"
 OPNFV_FUEL_DIR="/root/fuel"
-OPNFV_RDIR="reclass/classes/cluster/all-mcp-ocata-common"
+OPNFV_RDIR="reclass/classes/cluster/all-mcp-arch-common"
 LOCAL_GIT_DIR="${F_GIT_ROOT%${F_GIT_SUBD}}"
 LOCAL_PDF_RECLASS=$1
 NODE_MASK='*'
@@ -95,4 +95,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   salt -C "${NODE_MASK} and not cfg01*" pkg.upgrade refresh=False
 
   salt -C "${NODE_MASK} or cfg01*" state.sls ntp
+
+  # symlink manually until package with required commit is available
+  cd /usr/share/salt-formulas/env/aodh/files
+  ln -s ocata pike
 SALT_INSTALL_END
