@@ -22,6 +22,30 @@
       "revId": "2f971b3a317fff829d2156c31aae7df64a8ade4e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1e2faff7",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/runtime.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-11-20T09:50:44Z",
+      "side": 1,
+      "message": "That is why it did not like extending more variables here.\nIf this is pod dependent we should consider idf/pdf as source",
+      "parentUuid": "9a3d3df0_18a507b5",
+      "range": {
+        "startLine": 11,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "2f971b3a317fff829d2156c31aae7df64a8ade4e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
