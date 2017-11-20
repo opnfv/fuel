@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_bea3239d",
+        "filename": "mcp/config/states/virtual_control_plane",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-11-20T09:50:44Z",
+      "side": 1,
+      "message": "I assume line under comment was lost by mistake",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "957234452173ecad3f75c796d5bb6724f31573af",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_2351c00e",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml.example",
         "patchSetId": 4
@@ -13,6 +36,30 @@
       "writtenOn": "2017-11-18T21:06:08Z",
       "side": 1,
       "message": "We need to merge the PDF template change for this first, or add a patch for pharos git submodule to this change.\nWhat should we do if public gateway is missing from PDF\u0027s net_config though?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "957234452173ecad3f75c796d5bb6724f31573af",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_5eebf7af",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml.example",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2017-11-20T09:50:44Z",
+      "side": 1,
+      "message": "Yes, a patch for the pharos repo is ready. Lets point to it until merged.\nI have considered using this same value for default since all the other defaults render the example config (lf pod2).\nThat would work for empty set generation but may fail if we mix default  with a given public network.  It is hard to imagine a situation where you have a public network but you don\u0027t provide a gateway for it. We could also default to public_network base ip +1 or top-1",
+      "parentUuid": "9a3d3df0_2351c00e",
       "range": {
         "startLine": 64,
         "startChar": 4,
