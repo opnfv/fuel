@@ -69,4 +69,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   salt -C '* and not cfg01*' pkg.upgrade refresh=False
 
   salt '*' state.sls ntp
+
+  # symlink manually until package with required commit is available
+  cd /usr/share/salt-formulas/env/aodh/files
+  ln -s ocata pike
 SALT_INSTALL_END

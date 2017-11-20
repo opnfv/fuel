@@ -6,28 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: virtual-mcp-pike-ovs-dpdk.local
-  states:
-    - dpdk
-    - openstack
-    - neutron_compute
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 2048
-  cmp01:
-    vcpus: 4
-    ram: 8192
-  cmp02:
-    vcpus: 4
-    ram: 8192
+classes:
+  - cluster.virtual-mcp-pike-common.openstack_init
+parameters:
+  _param:
+    neutron_tenant_network_types: "flat,vlan"
+    compute_hugepages_size: 2M
+    compute_hugepages_count: 2048
+    compute_hugepages_mount: /mnt/hugepages_2M
+    compute_dpdk_driver: uio
+    compute_ovs_pmd_cpu_mask: "0x6"
+    compute_ovs_dpdk_socket_mem: "1024"
+    compute_ovs_dpdk_lcore_mask: "0x8"
+    compute_ovs_memory_channels: "2"
