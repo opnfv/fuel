@@ -1,0 +1,78 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.repo.mcp.extra
+parameters:
+  _param:
+    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+    tenant_interface: ${_param:opnfv_fn_vm_tertiary_interface}
+    external_interface: ${_param:opnfv_fn_vm_quaternary_interface}
+    interface_mtu: 9000
+    linux_system_codename: xenial
+  neutron:
+    gateway:
+      notification: true
+      agent_mode: ${_param:neutron_gateway_agent_mode}
+      vlan_aware_vms: true
+  linux:
+    network:
+      bridge: openvswitch
+      interface:
+        dhcp_int:
+          enabled: true
+          name: ${_param:opnfv_fn_vm_primary_interface}
+          proto: dhcp
+          type: eth
+          mtu: ${_param:interface_mtu}
+        primary_interface:
+          enabled: true
+          name: ${_param:primary_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        tenant_interface:
+          enabled: true
+          name: ${_param:tenant_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        external_interface:
+          enabled: true
+          name: ${_param:external_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+          type: eth
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+          mtu: ${_param:interface_mtu}
+        br-mgmt:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          mtu: ${_param:interface_mtu}
+          use_interfaces:
+            - ${_param:primary_interface}
+        float-to-ex:
+          enabled: true
+          type: ovs_port
+          mtu: ${_param:interface_mtu}
+          bridge: br-floating
+        br-ex:
+          enabled: true
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          address: ${_param:external_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+            - ${_param:external_interface}
+          use_ovs_ports:
+            - float-to-ex

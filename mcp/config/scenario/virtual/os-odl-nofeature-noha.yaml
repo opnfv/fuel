@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: virtual-mcp-ocata-odl-router.local
+  domain: virtual-mcp-pike-odl.local
   states:
     - opendaylight
     - openstack
