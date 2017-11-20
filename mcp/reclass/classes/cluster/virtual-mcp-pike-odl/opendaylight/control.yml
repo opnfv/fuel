@@ -1,0 +1,41 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.extra
+  - system.opendaylight.server.single
+  - cluster.virtual-mcp-pike-odl
+parameters:
+  _param:
+    linux_system_codename: xenial
+  linux:
+    network:
+      interface:
+        single_int:
+          enabled: true
+          name: ${_param:opnfv_fn_vm_secondary_interface}
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+  opendaylight:
+    server:
+      odl_bind_ip: ${_param:single_address}
+      odl_rest_port: 8282
+      java_min_mem: 3g
+      java_max_mem: 3g
+      router_enabled: true
+      karaf_features:
+        odl_default:
+          - odl-restconf-all
+          - odl-aaa-authn
+          - odl-dlux-all
+          - odl-mdsal-apidocs
+        netvirt:
+          - odl-netvirt-openstack
