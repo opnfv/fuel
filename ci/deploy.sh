@@ -359,7 +359,7 @@ done
 virtual_nodes_data=${virtual_nodes_data%|}
 
 # Expand reclass and virsh network templates
-for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
+for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-arch-common/opnfv/"*.template \
     net_*.template; do
         eval "cat <<-EOF
 		$(<"${tp}")
