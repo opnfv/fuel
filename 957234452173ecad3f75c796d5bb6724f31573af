@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_7238afa0",
+        "filename": "mcp/config/states/virtual_control_plane",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-20T14:04:46Z",
+      "side": 1,
+      "message": "No :) I rebased this change on current master, which moved from cmd.run to reclass for deleting the cloud config.",
+      "parentUuid": "9a3d3df0_bea3239d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "957234452173ecad3f75c796d5bb6724f31573af",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_2351c00e",
         "filename": "mcp/reclass/classes/cluster/all-mcp-ocata-common/opnfv/pod_config.yml.example",
         "patchSetId": 4
