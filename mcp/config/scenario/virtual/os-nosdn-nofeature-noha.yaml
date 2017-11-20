@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: virtual-mcp-ocata-ovs.local
+  domain: virtual-mcp-pike-ovs.local
   states:
     - openstack
     - neutron_compute

@@ -10,14 +10,14 @@ Overview
 
 #. Common classes (baremetal + virtual)
 
-   - all-mcp-ocata-common
+   - all-mcp-arch-common
 
 #. Common classes (specific to either baremetal or virtual deploys)
 
-   - baremetal-mcp-ocata-common
-   - virtual-mcp-ocata-common
+   - baremetal-mcp-<release>-common
+   - virtual-mcp-<release>-common
 
 #. Cluster specific classes
 
-   - baremetal-mcp-ocata-*
-   - virtual-mcp-ocata-*
+   - baremetal-mcp-<release>-*
+   - virtual-mcp-<release>-*

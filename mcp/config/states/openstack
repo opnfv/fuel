@@ -20,8 +20,10 @@ salt -I 'mysql:server' state.sls mysql
 salt -I 'memcached:server' state.sls memcached
 salt -I 'haproxy:proxy' state.sls haproxy
 
-salt -I 'keystone:server' state.sls keystone.server
+set +e; salt -I 'keystone:server' state.sls keystone.server; set -e
 salt -I 'keystone:server' service.restart apache2
+salt -I 'keystone:server' state.sls keystone.server
+
 salt -I 'keystone:server' state.sls keystone.client
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
@@ -41,7 +43,7 @@ salt -I 'neutron:gateway' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 
-salt -I 'mongodb:server' state.sls mongodb
+salt -I 'mongodb:server' state.sls mongodb || salt -I 'mongodb:server' state.sls mongodb
 salt -I 'aodh:server' state.sls aodh
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer

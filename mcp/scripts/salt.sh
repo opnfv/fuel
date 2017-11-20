@@ -17,7 +17,7 @@ F_GIT_SUBD=${F_GIT_ROOT#${F_GIT_DIR%%/.git*}}
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/opnfv"
 OPNFV_GIT_DIR="/root/opnfv"
 OPNFV_FUEL_DIR="/root/fuel"
-OPNFV_RDIR="reclass/classes/cluster/all-mcp-ocata-common"
+OPNFV_RDIR="reclass/classes/cluster/all-mcp-arch-common"
 OPNFV_VCP_IMG="mcp/scripts/base_image_opnfv_fuel_vcp.img"
 OPNFV_VCP_DIR="/srv/salt/env/prd/salt/files/control/images"
 LOCAL_GIT_DIR="${F_GIT_ROOT%${F_GIT_SUBD}}"
@@ -107,4 +107,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
     mkdir -p "${OPNFV_VCP_DIR}"
     mv "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" "${OPNFV_VCP_DIR}/"
   fi
+
+  # symlink manually until package with required commit is available
+  cd /usr/share/salt-formulas/env/aodh/files
+  ln -s ocata pike
 SALT_INSTALL_END
