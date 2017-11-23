@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_17782df1",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "Admin (we don\u0027t PXE boot the VM nodes for virtual deploys)",
+      "range": {
+        "startLine": 32,
+        "startChar": 76,
+        "endLine": 32,
+        "endChar": 79
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d76d2534",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "PXE/Admin",
+      "range": {
+        "startLine": 33,
+        "startChar": 58,
+        "endLine": 33,
+        "endChar": 61
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b7d6a1c1",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "Let\u0027s capitalize the titles, i.e. \"Accessing the Cloud\"",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_37645148",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "Maybe add a note that this is not hard set, but configurable via INSTALLER_IP during deployment.",
+      "range": {
+        "startLine": 65,
+        "startChar": 79,
+        "endLine": 65,
+        "endChar": 88
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_975b9d86",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "This is only applicable for Armband.\nFuel@x86_64 does not get the opnfv user, but instead it has root (no password), as it uses the prebuilt Mirantis cloud image as a base image for VCP VMs.",
+      "range": {
+        "startLine": 68,
+        "startChar": 70,
+        "endLine": 69,
+        "endChar": 66
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_775ed977",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "This is specific to lf-pod2.\nFor arm-pod{5,6} it should be 172.16.10.141. Maybe add a note about this IP being x.y.z.141 in the mgmt network.",
+      "range": {
+        "startLine": 77,
+        "startChar": 79,
+        "endLine": 77,
+        "endChar": 91
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b74fc1bd",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "AArch64 specific (ttyAMA0, opnfv).\nWe could drop the lines after virsh console in this block, end-users should know how a login prompt looks like.",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 82,
+        "endChar": 25
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_57c8f521",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "Armband-only",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 86,
+        "endChar": 12
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_17e66db4",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 29
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_37f2916f",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "References to Salt documentation would be nice.",
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_f7e02998",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "rm",
+      "range": {
+        "startLine": 95,
+        "startChar": 49,
+        "endLine": 95,
+        "endChar": 50
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_57ef5587",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 35
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b319947b",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "Let\u0027s add some more complex examples for node filtering, using compound queries / node roles, e.g.\nsalt -C \u0027* and cfg01\u0027 cmd.run \u0027ls /var/log\u0027 or\nsalt -I \u0027nova:compute\u0027 cmd.run \u0027ls /var/log\u0027",
+      "range": {
+        "startLine": 164,
+        "startChar": 24,
+        "endLine": 164,
+        "endChar": 27
+      },
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_13284085",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-11-23T17:28:04Z",
+      "side": 1,
+      "message": "A full list of IPs / services is available (for baremetal only) at \u003cproxy public VIP\u003e:8090 (e.g. 172.30.10.103:8090 for lf-pod2, 10.0.8.103:8090 for arm-pod5)\nFor virtual deploys, we could add a table with known IPs, e.g. gtw01\u003dx.y.z.110 (172.16.10.110 by default)",
+      "revId": "36f7aceb452a5a6325717c6bccb53e2159df7fab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
