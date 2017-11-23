@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_9c8462d5",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-11-23T08:05:44Z",
+      "side": 1,
+      "message": "This option has been added in git 1.8.5\nIt leads to https://build.opnfv.org/ci/job/fuel-deploy-baremetal-daily-master/3028/console",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "77942178b3aff6adc83b5f83645acfff467fa76a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
