@@ -17,3 +17,4 @@
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
 /usr/share/salt-formulas/reclass: 0011-service.horizon.server.cluster-Default-to-v2-API.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
+/usr/share/salt-formulas/env: 0013-maas-region-Allow-subnets-without-fabrics.patch
