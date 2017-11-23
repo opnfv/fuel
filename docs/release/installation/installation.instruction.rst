@@ -249,7 +249,7 @@ In this figure there are examples of two virtual deploys:
      the deploy script will skip creating a virsh bridge for it
 
 **Note**: A virtual network "mcpcontrol" is always created. For virtual deploys, "mcpcontrol" is also used
-for PXE, leaving the PXE bridge unused.
+for Admin, leaving the PXE/Admin bridge unused.
 
 
 Automatic Installation of a Baremetal POD
