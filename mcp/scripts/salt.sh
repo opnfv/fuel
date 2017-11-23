@@ -12,7 +12,7 @@
 
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 F_GIT_ROOT=$(git rev-parse --show-toplevel)
-F_GIT_DIR=$(git -C "${F_GIT_ROOT}/mcp" rev-parse --git-dir)
+F_GIT_DIR=$(cd "${F_GIT_ROOT}/mcp" && git rev-parse --git-dir)
 F_GIT_SUBD=${F_GIT_ROOT#${F_GIT_DIR%%/.git*}}
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/opnfv"
 OPNFV_GIT_DIR="/root/opnfv"
