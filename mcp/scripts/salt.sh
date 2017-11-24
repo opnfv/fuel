@@ -18,6 +18,8 @@ OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/opnfv"
 OPNFV_GIT_DIR="/root/opnfv"
 OPNFV_FUEL_DIR="/root/fuel"
 OPNFV_RDIR="reclass/classes/cluster/all-mcp-ocata-common"
+OPNFV_VCP_IMG="mcp/scripts/base_image_opnfv_fuel_vcp.img"
+OPNFV_VCP_DIR="/srv/salt/env/prd/salt/files/control/images"
 LOCAL_GIT_DIR="${F_GIT_ROOT%${F_GIT_SUBD}}"
 LOCAL_PDF_RECLASS=$1
 NODE_MASK='*'
@@ -33,6 +35,11 @@ rsync -Erl --delete -e "ssh ${SSH_OPTS}" \
 if [ -n "${LOCAL_PDF_RECLASS}" ] && [ -f "${LOCAL_PDF_RECLASS}" ]; then
   rsync -e "ssh ${SSH_OPTS}" "${LOCAL_PDF_RECLASS}" \
     "${remote_tmp}${F_GIT_SUBD}/mcp/${OPNFV_RDIR}/opnfv/"
+fi
+local_vcp_img=$(dirname "${LOCAL_PDF_RECLASS}")/$(basename "${OPNFV_VCP_IMG}")
+if [ -e "${local_vcp_img}" ]; then
+  rsync -L -e "ssh ${SSH_OPTS}" "${local_vcp_img}" \
+    "${remote_tmp}${F_GIT_SUBD}/${OPNFV_VCP_IMG}"
 fi
 
 # ssh to cfg01
@@ -95,4 +102,9 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   salt -C "${NODE_MASK} and not cfg01*" pkg.upgrade refresh=False
 
   salt -C "${NODE_MASK} or cfg01*" state.sls ntp
+
+  if [ -f "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" ]; then
+    mkdir -p "${OPNFV_VCP_DIR}"
+    mv "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" "${OPNFV_VCP_DIR}/"
+  fi
 SALT_INSTALL_END
