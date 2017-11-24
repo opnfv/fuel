@@ -13,7 +13,6 @@ cluster:
     - virtual_control_plane
     - dpdk
     - openstack_ha
-    - neutron_compute
     - networks
 virtual:
   nodes:
