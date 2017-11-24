@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
   - system.linux.storage.loopback
   - system.glusterfs.client.cluster
