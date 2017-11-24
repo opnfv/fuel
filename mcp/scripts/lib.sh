@@ -1,4 +1,5 @@
 #!/bin/bash -e
+# shellcheck disable=SC2155
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -11,7 +12,6 @@
 #
 
 function generate_ssh_key {
-  # shellcheck disable=SC2155
   local mcp_ssh_key=$(basename "${SSH_KEY}")
   local user=${USER}
   if [ -n "${SUDO_USER}" ] && [ "${SUDO_USER}" != 'root' ]; then
@@ -33,6 +33,104 @@ function get_base_image {
 
   mkdir -p "${image_dir}"
   wget -P "${image_dir}" -N "${base_image}"
+}
+
+function mount_image {
+  local image=$1
+  local image_dir=$2
+  OPNFV_MNT_DIR="${image_dir}/ubuntu"
+
+  sudo modprobe nbd loop
+  # Find free nbd, loop devices
+  for dev in '/sys/class/block/nbd'*; do
+    if [ "$(cat "${dev}/size")" = '0' ]; then
+      OPNFV_NBD_DEV=/dev/$(basename "${dev}")
+      break
+    fi
+  done
+  OPNFV_LOOP_DEV=$(losetup -f)
+  export OPNFV_MNT_DIR OPNFV_LOOP_DEV
+  [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
+  sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
+    "${image_dir}/${image}"
+  # grub-update does not like /dev/nbd*, so use a loop device to work around it
+  # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
+  sudo losetup "${OPNFV_LOOP_DEV}" "${OPNFV_NBD_DEV}p1"
+  mkdir -p "${OPNFV_MNT_DIR}"
+  sudo mount "${OPNFV_LOOP_DEV}" "${OPNFV_MNT_DIR}"
+  sudo mount -t proc proc "${OPNFV_MNT_DIR}/proc"
+  sudo mount -t sysfs sys "${OPNFV_MNT_DIR}/sys"
+  sudo mount -o bind /dev "${OPNFV_MNT_DIR}/dev"
+  sudo mkdir -p "${OPNFV_MNT_DIR}/run/resolvconf"
+  sudo cp /etc/resolv.conf "${OPNFV_MNT_DIR}/run/resolvconf"
+  echo "GRUB_DISABLE_OS_PROBER=true" >> "${OPNFV_MNT_DIR}/etc/default/grub"
+}
+
+function apt_repos_pkgs_image {
+  local apt_key_urls=(${1//,/ })
+  local all_repos=(${2//,/ })
+  local pkgs_i=(${3//,/ })
+  local pkgs_r=(${4//,/ })
+  [ -n "${OPNFV_MNT_DIR}" ] || exit 1
+
+  # APT keys
+  if [ "${#apt_key_urls[@]}" -gt 0 ]; then
+    for apt_key in "${apt_key_urls[@]}"; do
+      sudo chroot "${OPNFV_MNT_DIR}" /bin/bash -c \
+        "wget -qO - '${apt_key}' | apt-key add -"
+    done
+  fi
+  # Additional repositories
+  for repo_line in "${all_repos[@]}"; do
+    # <repo_name>|<repo prio>|deb|[arch=<arch>]|<repo url>|<dist>|<repo comp>
+    local repo=(${repo_line//|/ })
+    [ "${#repo[@]}" -gt 5 ] || continue
+    # NOTE: Names and formatting are compatible with Salt linux.system.repo
+    cat <<-EOF > "${OPNFV_MNT_DIR}/etc/apt/preferences.d/${repo[0]}"
+
+		Package: *
+		Pin: release a=${repo[-2]}
+		Pin-Priority: ${repo[1]}
+
+		EOF
+    echo "${repo[@]:2}" > \
+      "${OPNFV_MNT_DIR}/etc/apt/sources.list.d/${repo[0]}.list"
+  done
+  # Install packages
+  if [ "${#pkgs_i[@]}" -gt 0 ]; then
+    sudo DEBIAN_FRONTEND="noninteractive" chroot "${OPNFV_MNT_DIR}" \
+      apt-get update
+    sudo DEBIAN_FRONTEND="noninteractive" chroot "${OPNFV_MNT_DIR}" \
+      apt-get install -y "${pkgs_i[@]}"
+  fi
+  # Remove packages
+  if [ "${#pkgs_r[@]}" -gt 0 ]; then
+    sudo DEBIAN_FRONTEND="noninteractive" chroot "${OPNFV_MNT_DIR}" \
+      apt-get purge -y "${pkgs_r[@]}"
+  fi
+}
+
+function cleanup_mounts {
+  # Remove any mounts, loop and/or nbd devs created while patching base image
+  if [ -n "${OPNFV_MNT_DIR}" ] && [ -d "${OPNFV_MNT_DIR}" ]; then
+    if [ -f "${OPNFV_MNT_DIR}/boot/grub/grub.cfg" ]; then
+      # Grub thinks it's running from a live CD
+      sudo sed -i -e 's/^\s*set root=.*$//g' -e 's/^\s*loopback.*$//g' \
+        "${OPNFV_MNT_DIR}/boot/grub/grub.cfg"
+    fi
+    sudo rm -f "${OPNFV_MNT_DIR}/run/resolvconf/resolv.conf"
+    sync
+    if mountpoint -q "${OPNFV_MNT_DIR}"; then
+      sudo umount -l "${OPNFV_MNT_DIR}" || true
+    fi
+  fi
+  if [ -n "${OPNFV_LOOP_DEV}" ] && \
+    losetup "${OPNFV_LOOP_DEV}" 1>&2 > /dev/null; then
+      sudo losetup -d "${OPNFV_LOOP_DEV}"
+  fi
+  if [ -n "${OPNFV_NBD_DEV}" ]; then
+    sudo qemu-nbd -d "${OPNFV_NBD_DEV}" || true
+  fi
 }
 
 function cleanup_uefi {
@@ -60,22 +158,45 @@ function cleanup_vms {
 function prepare_vms {
   local base_image=$1; shift
   local image_dir=$1; shift
+  local repos_pkgs_str=$1; shift # ^-sep list of repos, pkgs to install/rm
   local vnodes=("$@")
+  local opnfv_image=base_image_opnfv_fuel.img
 
   cleanup_uefi
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
+
+  rm -f "${image_dir}/${opnfv_image}" "${opnfv_image%.*}"*
+  if [[ ! "${repos_pkgs_str}" =~ ^\^+$ ]]; then
+    IFS='^' read -r -a repos_pkgs <<< "${repos_pkgs_str}"
+    cp "${image_dir}/${base_image/*\/}" "${image_dir}/${opnfv_image}"
+    mount_image "${opnfv_image}" "${image_dir}"
+    apt_repos_pkgs_image "${repos_pkgs[@]:0:4}"
+    cleanup_mounts
+  else
+    ln -sf "${image_dir}/${base_image/*\/}" "${image_dir}/${opnfv_image}"
+  fi
+
+  # CWD should be <mcp/scripts>
   # shellcheck disable=SC2016
   envsubst '${SALT_MASTER},${CLUSTER_DOMAIN}' < \
     user-data.template > user-data.sh
 
+  # Create config ISO and resize OS disk image for each foundation node VM
   for node in "${vnodes[@]}"; do
-    # create/prepare images
     ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" -u user-data.sh \
        -h "${node}" "${image_dir}/mcp_${node}.iso"
-    cp "${image_dir}/${base_image/*\/}" "${image_dir}/mcp_${node}.qcow2"
+    cp "${image_dir}/${opnfv_image}" "${image_dir}/mcp_${node}.qcow2"
     qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
   done
+
+  # VCP VMs base image specific changes
+  if [[ ! "${repos_pkgs_str}" =~ \^{3}$ ]] && [ -n "${repos_pkgs[*]:4}" ]; then
+    mount_image "${opnfv_image}" "${image_dir}"
+    apt_repos_pkgs_image "${repos_pkgs[@]:4:4}"
+    cleanup_mounts
+    ln -sf "${image_dir}/${opnfv_image}" "${opnfv_image%.*}_vcp.img"
+  fi
 }
 
 function create_networks {
@@ -100,6 +221,8 @@ function create_networks {
 
 function create_vms {
   local image_dir=$1; shift
+  # vnode data should be serialized with the following format:
+  # '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
   IFS='|' read -r -a vnodes <<< "$1"; shift
   local vnode_networks=("$@")
 
@@ -139,9 +262,7 @@ function create_vms {
 
 function update_mcpcontrol_network {
   # set static ip address for salt master node, MaaS node
-  # shellcheck disable=SC2155
   local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
-  # shellcheck disable=SC2155
   local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
   virsh net-update "mcpcontrol" add ip-dhcp-host \
     "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live
