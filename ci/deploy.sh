@@ -15,6 +15,7 @@
 do_exit () {
     local RC=$?
     clean
+    cleanup_mounts
     if [ ${RC} -eq 0 ]; then
         notify "\n[OK] MCP: Openstack installation finished succesfully!\n\n" 2
     else
@@ -158,6 +159,7 @@ NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
+source "${DEPLOY_DIR}/lib.sh"
 
 #
 # END of variables to customize
@@ -340,7 +342,6 @@ fi
 
 # Get required infra deployment data
 set +x
-source lib.sh
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
 eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
@@ -357,6 +358,23 @@ for node in "${virtual_nodes[@]}"; do
     virtual_nodes_data+="${!virtual_custom_vcpus:-$virtual_default_vcpus}|"
 done
 virtual_nodes_data=${virtual_nodes_data%|}
+
+# Serialize repos, packages to (pre-)install/remove for:
+# - foundation node VM base image (virtual: all VMs, baremetal: cfg01|mas01)
+# - virtualized control plane VM base image (only when VCP is used)
+base_image_flavors=common
+if [[ "${cluster_states[*]}" =~ virtual_control ]]; then
+  base_image_flavors+=" control"
+fi
+for sc in ${base_image_flavors}; do
+  for va in apt_keys apt_repos pkg_install pkg_remove; do
+    key=virtual_${sc}_${va}
+    eval "${key}=\${${key}[@]// /|}"
+    eval "${key}=\${${key}// /,}"
+    virtual_repos_pkgs+="${!key}^"
+  done
+done
+virtual_repos_pkgs=${virtual_repos_pkgs%^}
 
 # Expand reclass and virsh network templates
 for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-ocata-common/opnfv/"*.template \
@@ -413,7 +431,8 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     check_connection
 else
     generate_ssh_key
-    prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_nodes[@]}"
+    prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_repos_pkgs}" \
+      "${virtual_nodes[@]}"
     create_networks "${OPNFV_BRIDGES[@]}"
     create_vms "${STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
