@@ -11,3 +11,21 @@ virtual:
   default:
     vcpus: 6
     ram: 4096
+  common:
+    apt:
+      keys:
+        - https://linux.enea.com/mcp-repos/ocata/xenial/archive-mcpocata.key
+      repos:
+        # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+        - armband_openstack 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/ocata/xenial ocata main
+        - armband_mk_openstack 1100 deb [arch=arm64] http://linux.enea.com/apt-mk/xenial nightly ocata
+        # NOTE(armband): Empty repo, keep commented out as reference
+        # - armband_mcp_extra 1100 deb [arch=arm64] http://linux.enea.com/apt-mk/xenial nightly extra
+    pkg:
+      install:
+        - linux-image-generic-hwe-16.04-edge
+        - linux-headers-generic-hwe-16.04-edge
+  control:
+    pkg:
+      install:
+        - cloud-init
