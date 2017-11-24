@@ -63,7 +63,6 @@ salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
 salt -I 'horizon:server' state.sls horizon
-salt -I 'apache:server' state.sls apache
 salt -I 'nginx:server' state.sls nginx,sphinx
 
 clstr_vip_addr=$(salt -C 'I@nginx:server and *01*' --out=yaml \
