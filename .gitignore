@@ -13,3 +13,4 @@
 **/mcp/scripts/mcp.rsa*
 **/mcp/scripts/user-data.sh
 **/mcp/scripts/net_mcpcontrol.xml
+**/mcp/scripts/*.img
