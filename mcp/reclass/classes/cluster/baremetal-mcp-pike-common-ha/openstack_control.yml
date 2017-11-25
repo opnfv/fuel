@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - system.linux.system.repo.glusterfs
   - system.ceilometer.client
   - system.memcached.server.single
   - system.keystone.server.cluster
@@ -37,6 +38,7 @@ parameters:
     cluster_node03_hostname: ${_param:openstack_control_node03_hostname}
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
+    glusterfs_version: '3.13'
     dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
     single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
