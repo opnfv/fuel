@@ -51,11 +51,15 @@ function mount_image {
   OPNFV_LOOP_DEV=$(losetup -f)
   export OPNFV_MNT_DIR OPNFV_LOOP_DEV
   [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
+  qemu-img resize "${image_dir}/${image}" 3G
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
   sleep 5 # /dev/nbdNp1 takes some time to come up
-  # grub-update does not like /dev/nbd*, so use a loop device to work around it
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
+  if sudo growpart "${OPNFV_NBD_DEV}" 1; then
+    sudo e2fsck -yf "${OPNFV_NBD_DEV}p1" && sudo resize2fs "${OPNFV_NBD_DEV}p1"
+  fi
+  # grub-update does not like /dev/nbd*, so use a loop device to work around it
   sudo losetup "${OPNFV_LOOP_DEV}" "${OPNFV_NBD_DEV}p1"
   mkdir -p "${OPNFV_MNT_DIR}"
   sudo mount "${OPNFV_LOOP_DEV}" "${OPNFV_MNT_DIR}"
@@ -66,6 +70,8 @@ function mount_image {
   sudo cp /etc/resolv.conf "${OPNFV_MNT_DIR}/run/resolvconf"
   echo "GRUB_DISABLE_OS_PROBER=true" | \
     sudo tee -a "${OPNFV_MNT_DIR}/etc/default/grub"
+  sudo sed -i -e 's/^\(GRUB_TIMEOUT\)=.*$/\1=1/g' -e 's/^GRUB_HIDDEN.*$//g' \
+    "${OPNFV_MNT_DIR}/etc/default/grub"
 }
 
 function apt_repos_pkgs_image {
