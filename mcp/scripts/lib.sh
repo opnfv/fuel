@@ -49,18 +49,21 @@ function mount_image {
     fi
   done
   OPNFV_LOOP_DEV=$(losetup -f)
+  OPNFV_MAP_DEV=/dev/mapper/$(basename "${OPNFV_NBD_DEV}")p1
   export OPNFV_MNT_DIR OPNFV_LOOP_DEV
   [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
   qemu-img resize "${image_dir}/${image}" 3G
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
-  sleep 5 # /dev/nbdNp1 takes some time to come up
+  sudo kpartx -av "${OPNFV_NBD_DEV}"
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
   if sudo growpart "${OPNFV_NBD_DEV}" 1; then
-    sudo e2fsck -yf "${OPNFV_NBD_DEV}p1" && sudo resize2fs "${OPNFV_NBD_DEV}p1"
+    sudo kpartx -u "${OPNFV_NBD_DEV}"
+    sudo e2fsck -yf "${OPNFV_MAP_DEV}"
+    sudo resize2fs "${OPNFV_MAP_DEV}"
   fi
   # grub-update does not like /dev/nbd*, so use a loop device to work around it
-  sudo losetup "${OPNFV_LOOP_DEV}" "${OPNFV_NBD_DEV}p1"
+  sudo losetup "${OPNFV_LOOP_DEV}" "${OPNFV_MAP_DEV}"
   mkdir -p "${OPNFV_MNT_DIR}"
   sudo mount "${OPNFV_LOOP_DEV}" "${OPNFV_MNT_DIR}"
   sudo mount -t proc proc "${OPNFV_MNT_DIR}/proc"
@@ -141,6 +144,7 @@ function cleanup_mounts {
       sudo losetup -d "${OPNFV_LOOP_DEV}"
   fi
   if [ -n "${OPNFV_NBD_DEV}" ]; then
+    sudo kpartx -d "${OPNFV_NBD_DEV}" || true
     sudo qemu-nbd -d "${OPNFV_NBD_DEV}" || true
   fi
 }
