@@ -147,8 +147,9 @@ parameters:
             - ${_param:cluster_node02_address}:/srv/glusterfs/nova_instances
             - ${_param:cluster_node03_address}:/srv/glusterfs/nova_instances
           options:
-            cluster.readdir-optimize: 'On'
-            nfs.disable: 'On'
-            network.remote-dio: 'On'
+            cluster.readdir-optimize: On
+            nfs.disable: On
+            network.remote-dio: On
+            cluster.favorite-child-policy: mtime
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
