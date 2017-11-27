@@ -20,12 +20,13 @@ Signed-off-by: Charalampos Kominos <Charalampos.Kominos@enea.com>
 ---
 
 diff --git a/maas/region.sls b/maas/region.sls
-index d3227ca..8a2243d 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -179,8 +179,14 @@
+@@ -242,12 +242,16 @@
+   - require:
      - module: maas_config
 
+-{%- if region.get('sshprefs', False)  %}
  maas_sshprefs:
 -  module.run:
 -  - name: maas.process_sshprefs
@@ -35,8 +36,10 @@ index d3227ca..8a2243d 100644
 +# - name: maas.process_sshprefs
 +# - require:
 +  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && SSH_KEY=$(cat authorized_keys | head -1) && maas opnfv sshkeys create \"key=$SSH_KEY\""
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && SSH_KEY=$(cat authorized_keys | head -1) && (maas opnfv sshkeys read | grep -q \"$SSH_KEY\" || maas opnfv sshkeys create \"key=$SSH_KEY\")"
 +  - cwd: "/home/ubuntu/.ssh"
    - require:
      - module: maas_config
+-{%- endif %}
 
+ {%- endif %}
