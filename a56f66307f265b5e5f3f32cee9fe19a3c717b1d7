@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_dcfd453c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-ocata-common/openstack_proxy.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-11-27T12:55:37Z",
+      "side": 0,
+      "message": "This should be useful to hide horizon behind nginx, i.e. not to expose the 8087 port.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "a56f66307f265b5e5f3f32cee9fe19a3c717b1d7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
