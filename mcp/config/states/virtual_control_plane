@@ -80,3 +80,6 @@ wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_US
 # Disable proxy dhcp routes after installation
 salt -C 'prx*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
   args='unset new_routers'
+salt -C 'prx*' system.reboot
+wait_for 30 "! salt -C 'prx*' test.ping | " \
+  "tee /dev/stderr | grep -Fq 'Not connected'"
