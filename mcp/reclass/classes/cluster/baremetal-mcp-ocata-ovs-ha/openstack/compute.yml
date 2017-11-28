@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common.openstack_compute
+  - cluster.baremetal-mcp-ocata-common-ha.openstack_compute
   - cluster.baremetal-mcp-ocata-ovs-ha.openstack.compute_init
   - cluster.baremetal-mcp-ocata-ovs-ha.infra
 parameters:

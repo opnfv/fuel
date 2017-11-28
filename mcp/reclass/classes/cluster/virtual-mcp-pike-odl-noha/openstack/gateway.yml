@@ -1,0 +1,41 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - cluster.virtual-mcp-pike-common-noha.openstack_gateway
+  - system.neutron.gateway.opendaylight.single
+  - cluster.virtual-mcp-pike-odl-noha
+parameters:
+  _param:
+    neutron_agents:
+      - neutron-dhcp-agent
+      - neutron-metadata-agent
+  neutron:
+    gateway:
+      pkgs: ${_param:neutron_agents}
+      services: ${_param:neutron_agents}
+      backend:
+        router: ${_param:opendaylight_router}
+  opendaylight:
+    client:
+      ovsdb_server_iface: ptcp:6639:127.0.0.1
+      ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
+      tunnel_ip: ${_param:tenant_address}
+      provider_mappings: physnet1:br-floating
+  linux:
+    network:
+      interface:
+        br-mesh:
+          enabled: true
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+            - ${_param:tenant_interface}
