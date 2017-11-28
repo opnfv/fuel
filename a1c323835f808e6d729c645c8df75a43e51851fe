@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_62b614fc",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2017-11-28T07:25:47Z",
+      "side": 1,
+      "message": "We had some issues with that persistent/config option, but now I can\u0027t recall exact reason.",
+      "range": {
+        "startLine": 147,
+        "startChar": 68,
+        "endLine": 147,
+        "endChar": 76
+      },
+      "revId": "a1c323835f808e6d729c645c8df75a43e51851fe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
