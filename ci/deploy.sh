@@ -147,6 +147,7 @@ DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
 RECLASS_CLUSTER_DIR=$(cd "${REPO_ROOT_PATH}/mcp/reclass/classes/cluster"; pwd)
 DEPLOY_TYPE='baremetal'
+HAS_HA='ha'
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/config"
@@ -225,6 +226,9 @@ do
             ;;
         s)
             DEPLOY_SCENARIO=${OPTARG}
+            if [[ "${DEPLOY_SCENARIO}" =~ "noha" ]]; then
+                HAS_HA='noha'
+            fi
             ;;
         S)
             if [[ ${OPTARG} ]]; then
@@ -387,7 +391,7 @@ done
 # Convert Pharos-compatible PDF to reclass network definitions
 if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
     find "${RECLASS_CLUSTER_DIR}/${CLUSTER_DOMAIN%.local}" \
-         "${RECLASS_CLUSTER_DIR}/${DEPLOY_TYPE}-mcp-ocata-common" \
+         "${RECLASS_CLUSTER_DIR}/${DEPLOY_TYPE}-mcp-ocata-common-${HAS_HA}" \
          -name '*.j2' | while read -r tp
     do
         if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
