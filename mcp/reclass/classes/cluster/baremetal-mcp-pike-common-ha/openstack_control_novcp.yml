@@ -1,0 +1,144 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.ceilometer.client
+  - system.memcached.server.single
+  - system.keystone.server.cluster
+  - system.keystone.server.wsgi
+  - system.glance.control.cluster
+  - system.nova.control.cluster
+  - system.cinder.control.cluster
+  - system.cinder.control.backend.lvm
+  - system.heat.server.cluster
+  - system.designate.server.cluster
+  - system.designate.server.backend.bind
+  - system.bind.server.single
+  - system.haproxy.proxy.listen.openstack.nova-placement
+  - system.haproxy.proxy.listen.openstack.glare
+  - system.glusterfs.client.cluster
+  - system.glusterfs.client.volume.glance
+  - system.glusterfs.client.volume.keystone
+  # sync from kvm
+  - service.keepalived.cluster.single
+  - system.glusterfs.server.volume.glance
+  - system.glusterfs.server.volume.keystone
+  - system.glusterfs.server.cluster
+  # NOTE(armband): Disabled for novcp
+  # - system.salt.control.virt
+  # - system.salt.control.cluster.openstack_control_cluster
+  # - system.salt.control.cluster.openstack_proxy_cluster
+  # - system.salt.control.cluster.openstack_database_cluster
+  # - system.salt.control.cluster.openstack_message_queue_cluster
+  # - system.salt.control.cluster.openstack_telemetry_cluster
+  # - system.salt.control.cluster.stacklight_server_cluster
+  # - system.salt.control.cluster.stacklight_log_cluster
+  # - system.salt.control.cluster.stacklight_telemetry_cluster
+  - cluster.baremetal-mcp-pike-common-ha.infra.kvm_pdf
+parameters:
+  _param:
+    linux_system_codename: xenial # sync from kvm
+    single_nic: br-ctl # for keepalive_vip_interface interpolation
+    keepalived_vip_interface: ${_param:single_nic} # sync from kvm
+    keepalived_vip_virtual_router_id: 50
+    # For NOVCP, we need a second VIP for public, aside from mgmt VIP
+    keepalived_openstack_web_public_vip_address: ${_param:openstack_proxy_address}
+    keepalived_openstack_web_public_vip_interface: br-ex
+    cluster_vip_address: ${_param:openstack_control_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: ${_param:openstack_control_node01_hostname}
+    cluster_node01_address: ${_param:openstack_control_node01_address}
+    cluster_node02_hostname: ${_param:openstack_control_node02_hostname}
+    cluster_node02_address: ${_param:openstack_control_node02_address}
+    cluster_node03_hostname: ${_param:openstack_control_node03_hostname}
+    cluster_node03_address: ${_param:openstack_control_node03_address}
+    nova_vncproxy_url: https://${_param:cluster_public_host}:6080
+  nova:
+    controller:
+      pkgs:
+        - nova-api
+        - nova-conductor
+        - nova-consoleauth
+        - nova-novncproxy
+        - nova-scheduler
+        - python-novaclient
+  linux:
+    network:
+      remove_iface_files:
+        - '/etc/network/interfaces.d/50-cloud-init.cfg'
+      # Add public IPs here as overrides, no need to fork another kvm_pdf.j2
+      interface:
+        br-ex:
+          address: ${_param:external_address}
+          proto: static
+  neutron:
+    server:
+      vlan_aware_vms: true
+  keystone:
+    server:
+      cacert: /etc/ssl/certs/mcp_os_cacert
+  bind:
+    server:
+      control:
+        mgmt:
+          enabled: true
+          bind:
+            address: ${_param:single_address}
+            port: 953
+          allow:
+            - ${_param:openstack_control_node01_address}
+            - ${_param:openstack_control_node02_address}
+            - ${_param:openstack_control_node03_address}
+          keys:
+            - designate
+  designate:
+    server:
+      pools:
+        default:
+          description: 'test pool'
+          targets:
+            default:
+              description: 'test target1'
+            default1:
+              type: ${_param:designate_pool_target_type}
+              description: 'test target2'
+              masters: ${_param:designate_pool_target_masters}
+              options:
+                host: ${_param:openstack_control_node02_address}
+                port: 53
+                rndc_host: ${_param:openstack_control_node02_address}
+                rndc_port: 953
+                rndc_key_file: /etc/designate/rndc.key
+            default2:
+              type: ${_param:designate_pool_target_type}
+              description: 'test target3'
+              masters: ${_param:designate_pool_target_masters}
+              options:
+                host: ${_param:openstack_control_node03_address}
+                port: 53
+                rndc_host: ${_param:openstack_control_node03_address}
+                rndc_port: 953
+                rndc_key_file: /etc/designate/rndc.key
+  # sync from common-ha kvm role
+  glusterfs:
+    server:
+      volumes:
+        nova_instances:
+          storage: /srv/glusterfs/nova_instances
+          replica: 3
+          bricks:
+            - ${_param:cluster_node01_address}:/srv/glusterfs/nova_instances
+            - ${_param:cluster_node02_address}:/srv/glusterfs/nova_instances
+            - ${_param:cluster_node03_address}:/srv/glusterfs/nova_instances
+          options:
+            cluster.readdir-optimize: 'True'
+            nfs.disable: 'True'
+            network.remote-dio: 'True'
+            cluster.favorite-child-policy: mtime
+            diagnostics.client-log-level: WARNING
+            diagnostics.brick-log-level: WARNING
