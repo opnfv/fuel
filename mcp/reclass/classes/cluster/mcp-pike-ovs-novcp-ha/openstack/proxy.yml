@@ -1,0 +1,59 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - cluster.mcp-pike-common-ha.openstack_proxy
+  - system.keepalived.cluster.instance.openstack_web_public_vip
+parameters:
+  linux:
+    # Set up routes similar to prx*ovs-ha
+    network:
+      interface:
+        br-ex:
+          route:
+            public:
+              address: 0.0.0.0
+              netmask: 0.0.0.0
+              gateway: ${_param:opnfv_net_public_gw}
+  nginx:
+    server:
+      # NOTE(armband): Define host.address for all proxies for uniformity
+      site:
+        nginx_proxy_novnc: &nginx_openstack_proxy_address
+          host:
+            address: ${_param:openstack_proxy_address}
+        nginx_proxy_openstack_api_aodh:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_ceilometer:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_cinder:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_glance:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_heat:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_heat_cfn:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_heat_cloudwatch:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_keystone:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_keystone_private:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_neutron:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_nova:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_nova_ec2:
+          <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_web:
+          <<: *nginx_openstack_proxy_address
+        nginx_ssl_redirect_openstack_web:
+          <<: *nginx_openstack_proxy_address
+        nginx_static_reclass_doc:
+          <<: *nginx_openstack_proxy_address
