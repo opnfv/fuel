@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common.openstack_init
+  - cluster.baremetal-mcp-ocata-common-ha.openstack_init
 parameters:
   _param:
     neutron_tenant_network_types: "flat,vlan"
