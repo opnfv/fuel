@@ -69,6 +69,7 @@ parameters:
           name: {{ vlans[vlan] }}.{{ vlan }}
           use_interfaces:
             - {{ vlans[vlan] }}
+          noifupdown: true
     {%- endif %}
 {%- endfor %}
 
@@ -87,6 +88,7 @@ parameters:
           netmask: 255.255.255.0
           use_interfaces:
             - {{ nic_mgmt }}{% if vlan_mgmt and vlan_mgmt != 'native' %}.{{ vlan_mgmt }}{% endif %}
+          noifupdown: true
         br-ex:
           enabled: true
           proto: manual
