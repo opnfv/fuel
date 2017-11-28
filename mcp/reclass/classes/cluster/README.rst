@@ -14,10 +14,10 @@ Overview
 
 #. Common classes (specific to either baremetal or virtual deploys)
 
-   - baremetal-mcp-<release>-common
-   - virtual-mcp-<release>-common
+   - baremetal-mcp-<release>-common-ha
+   - virtual-mcp-<release>-common-noha
 
 #. Cluster specific classes
 
-   - baremetal-mcp-<release>-*
-   - virtual-mcp-<release>-*
+   - baremetal-mcp-<release>-*-{ha,noha}
+   - virtual-mcp-<release>-*-{ha,noha}
