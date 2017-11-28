@@ -7,5 +7,5 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common.infra.kvm
+  - cluster.baremetal-mcp-ocata-common-ha.infra.kvm
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra

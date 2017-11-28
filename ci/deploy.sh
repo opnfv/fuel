@@ -386,9 +386,7 @@ done
 
 # Convert Pharos-compatible PDF to reclass network definitions
 if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
-    find "${RECLASS_CLUSTER_DIR}/${CLUSTER_DOMAIN%.local}" \
-         "${RECLASS_CLUSTER_DIR}/${DEPLOY_TYPE}-mcp-ocata-common" \
-         -name '*.j2' | while read -r tp
+    find "${RECLASS_CLUSTER_DIR}" -name '*.j2' | while read -r tp
     do
         if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
           -j "${tp}" > "${tp%.j2}"; then
