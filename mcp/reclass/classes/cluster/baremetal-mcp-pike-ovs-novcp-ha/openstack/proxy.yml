@@ -1,0 +1,67 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - cluster.baremetal-mcp-pike-common-ha.openstack_proxy
+  - system.keepalived.cluster.instance.openstack_web_public_vip
+parameters:
+  nginx:
+    server:
+      # FIXME(armband): Cleanup list, keep only relevant entries
+      site:
+        nginx_proxy_novnc:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_aodh:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_ceilometer:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_cinder:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_glance:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_heat:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_heat_cfn:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_heat_cloudwatch:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_keystone:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_keystone_private:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_neutron:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_nova:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_api_nova_ec2:
+          host:
+            address: ${_param:external_address}
+        nginx_proxy_openstack_web:
+          host:
+            address: ${_param:external_address}
+        nginx_ssl_redirect_openstack_web:
+          host:
+            address: ${_param:external_address}
+        nginx_static_reclass_doc:
+          host:
+            address: ${_param:external_address}
+        # nginx_stats_server:
+        #   host:
+        #     address: 127.0.0.1
