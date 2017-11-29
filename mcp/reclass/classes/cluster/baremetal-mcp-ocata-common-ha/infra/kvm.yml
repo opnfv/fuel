@@ -23,7 +23,7 @@ classes:
   # - system.salt.control.cluster.stacklight_server_cluster
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
-  - cluster.baremetal-mcp-ocata-common-ha.infra.kvm_init
+  - cluster.baremetal-mcp-ocata-common-ha.infra.kvm_pdf
 parameters:
   _param:
     linux_system_codename: xenial
