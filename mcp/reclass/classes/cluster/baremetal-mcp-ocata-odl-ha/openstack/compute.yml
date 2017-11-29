@@ -9,7 +9,7 @@
 classes:
   - system.linux.system.repo.mcp.openstack
   - cluster.baremetal-mcp-ocata-common-ha.openstack_compute
-  - cluster.baremetal-mcp-ocata-odl-ha.openstack.compute_init
+  - cluster.baremetal-mcp-ocata-odl-ha.openstack.compute_pdf
   - cluster.baremetal-mcp-ocata-odl-ha.infra
   - system.neutron.gateway.opendaylight.single
 parameters:
