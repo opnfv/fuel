@@ -1,4 +1,1 @@
-baremetal-mcp-*/infra/kvm_init.yml
-baremetal-mcp-*/openstack_compute_init.yml
-baremetal-mcp-*-ovs-dpdk-ha/infra/config_init.yml
-baremetal-mcp-*/openstack/compute_init.yml
+**/*_pdf.yml
