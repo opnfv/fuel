@@ -10,7 +10,7 @@ cluster:
   domain: virtual-mcp-pike-ovs-dpdk-noha.local
   states:
     - dpdk
-    - openstack
+    - openstack_noha
     - neutron_compute
     - networks
 virtual:

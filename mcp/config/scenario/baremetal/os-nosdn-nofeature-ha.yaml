@@ -10,6 +10,7 @@ cluster:
   domain: baremetal-mcp-ocata-ovs-ha.local
   states:
     - maas
+    - baremetal_init
     - virtual_control_plane
     - openstack_ha
     - networks
