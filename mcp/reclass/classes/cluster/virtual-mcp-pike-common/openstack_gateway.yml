@@ -6,8 +6,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-classes:
-  - system.linux.system.repo.mcp.extra
 parameters:
   _param:
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}

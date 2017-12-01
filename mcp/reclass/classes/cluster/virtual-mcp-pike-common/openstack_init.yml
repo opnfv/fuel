@@ -97,7 +97,7 @@ parameters:
     system:
       repo:
         uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/pike main"
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
           architectures: amd64
           key_id: EC4926EA
           key_server: keyserver.ubuntu.com
