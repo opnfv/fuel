@@ -110,5 +110,5 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   # symlink manually until package with required commit is available
   cd /usr/share/salt-formulas/env/aodh/files
-  ln -s ocata pike
+  ln -sf ocata pike
 SALT_INSTALL_END
