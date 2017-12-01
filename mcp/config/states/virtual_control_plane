@@ -26,30 +26,10 @@ if [ "${ERASE_ENV}" -eq 1 ]; then
     done
 fi
 
-# KVM, compute node prereqs (libvirt first), VCP deployment
-# patch the networking module for Debian based distros
-debian_ip_source=/usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py
-salt -C 'kvm* or cmp*' file.line $debian_ip_source \
-  content='iface = iface.lower()' mode='delete'
-
-salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
-  pattern="^\s{8}__salt__\['pkg.install'\]\('vlan'\)" \
-  repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
-
-salt -C 'kvm*' pkg.install bridge-utils
-salt -C 'kvm*' state.apply linux.network
-salt -C 'cmp*' state.apply linux.system
-salt -C 'cmp*' state.apply linux.network || true
-salt -C 'kvm* or cmp*' system.reboot
-wait_for 90 "! salt -C 'kvm* or cmp*' test.ping | " \
-  "tee /dev/stderr | grep -Fq 'Not connected'"
-
-salt -C '* and not cfg01* and not mas01*' state.apply linux,ntp
-
+# KVM libvirt first, VCP deployment
 wait_for 5 "salt -C 'kvm*' state.sls libvirt"
 
-salt -C '* and not cfg01* and not mas01*' state.apply salt
-salt -C 'kvm*' saltutil.sync_all
+salt -C 'kvm* or cmp*' state.apply salt
 wait_for 10 "! salt -C 'kvm*' state.sls salt.control | " \
   "tee /dev/stderr | grep -Fq 'Not connected'"
 
