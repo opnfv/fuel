@@ -7,6 +7,8 @@
 ##############################################################################
 ---
 parameters:
+  _param:
+    cluster_domain: ${_param:cluster_name}.local
   linux:
     network:
       host:

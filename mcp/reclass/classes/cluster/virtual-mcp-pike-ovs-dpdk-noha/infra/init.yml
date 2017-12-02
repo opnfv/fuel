@@ -7,8 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.single
-  - cluster.all-mcp-arch-common
-  - cluster.virtual-mcp-pike-common-noha.init_options
-  - cluster.virtual-mcp-pike-ovs-dpdk-noha.infra
-  - cluster.virtual-mcp-pike-ovs-dpdk-noha.openstack
+  - cluster.virtual-mcp-pike-common-noha.infra
+
+parameters:
+  _param:
+    cluster_name: virtual-mcp-pike-ovs-dpdk-noha
