@@ -36,7 +36,7 @@ parameters:
   linux:
     network:
       interface:
-        dhcp:
+        dhcp_int:
           enabled: true
           type: eth
           proto: dhcp
@@ -46,7 +46,7 @@ parameters:
               address: ${_param:opnfv_net_mcpcontrol}
               netmask: ${_param:opnfv_net_mcpcontrol_mask}
               gateway: ${_param:opnfv_infra_maas_node01_deploy_address}
-        single:
+        single_int:
           enabled: true
           type: eth
           proto: static
@@ -58,7 +58,7 @@ parameters:
               address: 0.0.0.0
               netmask: 0.0.0.0
               gateway: ${_param:opnfv_net_public_gw}
-        control:
+        control_int:
           enabled: true
           type: eth
           proto: static
