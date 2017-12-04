@@ -8,6 +8,7 @@
 ---
 classes:
   - system.neutron.control.opendaylight.cluster
+  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.baremetal-mcp-pike-common-ha.openstack_control
   - cluster.baremetal-mcp-pike-odl-ha.infra
 parameters:

@@ -47,18 +47,6 @@ parameters:
       storage:
         node:
           name: default
-    linux_dhcp_interface:
-      enabled: true
-      type: eth
-      proto: dhcp
-      name: ${_param:dhcp_nic}
-    linux_single_interface:
-      enabled: true
-      type: eth
-      proto: static
-      name: ${_param:single_nic}
-      address: ${_param:single_address}
-      netmask: 255.255.255.0
 
     # yamllint disable-line rule:line-length
     salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
