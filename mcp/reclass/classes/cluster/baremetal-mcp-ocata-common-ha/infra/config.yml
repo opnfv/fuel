@@ -41,8 +41,18 @@ parameters:
   linux:
     network:
       interface:
-        dhcp: ${_param:linux_dhcp_interface}
-        single: ${_param:linux_single_interface}
+        dhcp:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:dhcp_nic}
+        single:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:single_nic}
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
   salt:
     master:
       accept_policy: open_mode

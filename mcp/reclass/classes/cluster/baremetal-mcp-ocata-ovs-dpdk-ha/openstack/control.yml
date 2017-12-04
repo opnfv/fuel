@@ -8,6 +8,7 @@
 ---
 classes:
   - system.neutron.control.openvswitch.cluster
+  - cluster.baremetal-mcp-ocata-common-ha.openstack_interface_vcp_biport
   - cluster.baremetal-mcp-ocata-common-ha.openstack_control
   - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
 parameters:
