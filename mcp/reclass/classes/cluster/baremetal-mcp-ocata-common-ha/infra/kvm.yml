@@ -34,9 +34,6 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-    # {dhcp,single}_nic are not used, but referenced
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
-    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
   linux:
     network:
       remove_iface_files:

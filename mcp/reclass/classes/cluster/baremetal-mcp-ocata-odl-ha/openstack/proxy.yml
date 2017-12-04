@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - cluster.baremetal-mcp-ocata-common-ha.openstack_interface_vcp_triport
   - cluster.baremetal-mcp-ocata-common-ha.openstack_proxy
   - cluster.baremetal-mcp-ocata-odl-ha.infra
 parameters:

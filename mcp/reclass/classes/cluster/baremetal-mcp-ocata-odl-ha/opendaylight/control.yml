@@ -10,16 +10,11 @@ classes:
   - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
   - system.opendaylight.server.single
+  - cluster.baremetal-mcp-ocata-common-ha.openstack_interface_vcp_biport
   - cluster.baremetal-mcp-ocata-odl-ha
 parameters:
   _param:
     linux_system_codename: xenial
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
-    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
-  linux:
-    network:
-      interface:
-        single: ${_param:linux_single_interface}
   opendaylight:
     server:
       odl_bind_ip: ${_param:single_address}
