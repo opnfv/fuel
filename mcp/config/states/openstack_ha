@@ -50,6 +50,7 @@ salt -I 'cinder:volume' state.sls cinder
 
 salt -I 'neutron:server' state.sls neutron -b 1
 salt -I 'neutron:gateway' state.sls neutron.gateway
+salt -I 'neutron:gateway' service.restart networking
 
 salt -I 'nova:compute' state.sls nova
 
