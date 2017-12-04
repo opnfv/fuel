@@ -8,7 +8,6 @@
 ---
 classes:
   - system.linux.system.lowmem
-  - system.linux.system.repo.mcp.extra
   - service.nfs.server
   - system.mongodb.server.single
   - system.mongodb.server.database.ceilometer
@@ -91,12 +90,10 @@ parameters:
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       workers: 1
       pkgs:
-        - nova-common
-        - nova-novncproxy
-        - novnc
         - nova-api
         - nova-conductor
         - nova-consoleauth
+        - nova-novncproxy
         - nova-scheduler
         - python-novaclient
   horizon:

@@ -7,8 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
-  - system.linux.system.repo.mcp.extra
   - system.nova.compute.nfv.hugepages
   - system.neutron.compute.nfv.dpdk
   - cluster.virtual-mcp-pike-common.openstack_compute
@@ -20,6 +18,11 @@ parameters:
         tenant_network_types: ${_param:neutron_tenant_network_types}
   linux:
     network:
+      dpdk_pkgs:
+        - dpdk
+        - dpdk-dev
+        - dpdk-igb-uio-dkms
+        - dpdk-rte-kni-dkms
       interface:
         dpdk0:
           name: ${_param:dpdk0_name}
