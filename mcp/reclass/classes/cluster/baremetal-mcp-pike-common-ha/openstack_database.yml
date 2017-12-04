@@ -34,10 +34,3 @@ parameters:
     cluster_node02_address: ${_param:openstack_database_node02_address}
     cluster_node03_hostname: dbs03
     cluster_node03_address: ${_param:openstack_database_node03_address}
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
-    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
-  linux:
-    network:
-      interface:
-        dhcp: ${_param:linux_dhcp_interface}
-        single: ${_param:linux_single_interface}

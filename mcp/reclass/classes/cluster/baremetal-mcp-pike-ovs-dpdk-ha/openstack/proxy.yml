@@ -7,5 +7,6 @@
 ##############################################################################
 ---
 classes:
+  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_triport
   - cluster.baremetal-mcp-pike-common-ha.openstack_proxy
   - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
