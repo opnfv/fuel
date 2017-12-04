@@ -37,13 +37,6 @@ parameters:
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
-    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
-  linux:
-    network:
-      interface:
-        dhcp: ${_param:linux_dhcp_interface}
-        single: ${_param:linux_single_interface}
   neutron:
     server:
       vlan_aware_vms: true
