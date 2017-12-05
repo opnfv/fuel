@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-ovs-ha.infra.config
+  - cluster.baremetal-mcp-pike-odl-ha.infra.config
 parameters:
   _param:
     linux_system_codename: xenial
@@ -15,4 +15,4 @@ parameters:
   linux:
     system:
       name: cfg01
-      domain: baremetal-mcp-ocata-ovs-ha.local
+      domain: baremetal-mcp-pike-odl-ha.local

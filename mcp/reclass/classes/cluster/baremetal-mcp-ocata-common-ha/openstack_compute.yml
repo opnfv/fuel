@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.extra
   - system.linux.system.repo.glusterfs
   - system.linux.storage.loopback
   - system.glusterfs.client.cluster
@@ -18,7 +17,7 @@ classes:
   - system.cinder.volume.single
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_compute_init
+  - cluster.baremetal-mcp-pike-common-ha.openstack_compute_init
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}

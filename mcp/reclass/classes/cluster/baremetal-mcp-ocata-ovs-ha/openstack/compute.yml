@@ -7,19 +7,11 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_compute
-  - cluster.baremetal-mcp-ocata-ovs-ha.openstack.compute_init
-  - cluster.baremetal-mcp-ocata-ovs-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.openstack_compute
+  - cluster.baremetal-mcp-pike-ovs-ha.openstack.compute_init
+  - cluster.baremetal-mcp-pike-ovs-ha.infra
 parameters:
   nova:
     compute:
       libvirt_service: libvirtd
       libvirt_bin: /etc/default/libvirtd
-  linux:
-    system:
-      repo:
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
-          architectures: amd64
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com

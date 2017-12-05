@@ -8,5 +8,5 @@
 ---
 classes:
   - system.neutron.control.openvswitch.cluster
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_control
-  - cluster.baremetal-mcp-ocata-ovs-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.openstack_control
+  - cluster.baremetal-mcp-pike-ovs-ha.infra

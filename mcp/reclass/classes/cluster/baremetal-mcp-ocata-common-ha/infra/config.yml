@@ -97,7 +97,7 @@ parameters:
         #     - system.kibana.client.single
         openstack_control_node01:
           classes:
-            - cluster.baremetal-mcp-ocata-common-ha.openstack_control_init
+            - cluster.baremetal-mcp-pike-common-ha.openstack_control_init
           params:
             linux_system_codename: xenial
         openstack_control_node02:
@@ -108,7 +108,7 @@ parameters:
             linux_system_codename: xenial
         openstack_database_node01:
           classes:
-            - cluster.baremetal-mcp-ocata-common-ha.openstack_database_init
+            - cluster.baremetal-mcp-pike-common-ha.openstack_database_init
           params:
             linux_system_codename: xenial
         openstack_database_node02:

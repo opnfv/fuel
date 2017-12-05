@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_init
+  - cluster.baremetal-mcp-pike-common-ha.openstack_init
 parameters:
   _param:
     neutron_tenant_network_types: "flat,vlan"
@@ -22,16 +22,3 @@ parameters:
     compute_ovs_dpdk_socket_mem: "2048,2048"
     compute_ovs_dpdk_lcore_mask: "0x8"
     compute_ovs_memory_channels: "2"
-  linux:
-    system:
-      repo:
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
-          architectures: amd64
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
-      kernel:
-        sysctl:
-          net.ipv4.tcp_congestion_control: yeah
-          net.ipv4.tcp_slow_start_after_idle: 0
-          net.ipv4.tcp_fin_timeout: 30

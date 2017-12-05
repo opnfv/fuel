@@ -7,10 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
-  - system.linux.system.repo.mcp.extra
   - system.opendaylight.server.single
-  - cluster.baremetal-mcp-ocata-odl-ha
+  - cluster.baremetal-mcp-pike-odl-ha
 parameters:
   _param:
     linux_system_codename: xenial

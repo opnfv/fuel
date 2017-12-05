@@ -8,8 +8,8 @@
 ---
 classes:
   - system.neutron.control.openvswitch.cluster
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_control
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.openstack_control
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
 parameters:
   neutron:
     server:

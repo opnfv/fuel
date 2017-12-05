@@ -9,7 +9,7 @@
 parameters:
   _param:
 
-    openstack_version: ocata
+    openstack_version: pike
 
     openstack_gateway_node01_address: ${_param:opnfv_openstack_gateway_node01_address}
     openstack_gateway_node02_address: ${_param:opnfv_openstack_gateway_node02_address}
@@ -195,6 +195,18 @@ parameters:
     # billometer_identity_host: ${_param:openstack_control_address}
     # billometer_identity_token: ${_param:keystone_service_token}
   linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
+          architectures: amd64
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
+      kernel:
+        sysctl:
+          net.ipv4.tcp_congestion_control: yeah
+          net.ipv4.tcp_slow_start_after_idle: 0
+          net.ipv4.tcp_fin_timeout: 30
     network:
       host:
         prx:

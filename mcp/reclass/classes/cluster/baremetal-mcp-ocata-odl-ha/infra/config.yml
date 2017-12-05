@@ -8,8 +8,8 @@
 ---
 classes:
   - system.reclass.storage.system.opendaylight_control_single
-  - cluster.baremetal-mcp-ocata-common-ha.infra.config
-  - cluster.baremetal-mcp-ocata-odl-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.infra.config
+  - cluster.baremetal-mcp-pike-odl-ha.infra
 parameters:
   reclass:
     storage:

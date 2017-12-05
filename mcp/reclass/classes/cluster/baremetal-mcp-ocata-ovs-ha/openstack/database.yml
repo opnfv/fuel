@@ -7,5 +7,5 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_database
-  - cluster.baremetal-mcp-ocata-ovs-ha
+  - cluster.baremetal-mcp-pike-common-ha.openstack_database
+  - cluster.baremetal-mcp-pike-ovs-ha

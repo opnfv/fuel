@@ -7,8 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.infra.kvm
-  - cluster.baremetal-mcp-ocata-odl-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.infra.kvm
+  - cluster.baremetal-mcp-pike-odl-ha.infra
 parameters:
   salt:
     control:

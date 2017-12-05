@@ -7,5 +7,5 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.infra.maas
-  - cluster.baremetal-mcp-ocata-odl-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.infra.maas
+  - cluster.baremetal-mcp-pike-odl-ha.infra

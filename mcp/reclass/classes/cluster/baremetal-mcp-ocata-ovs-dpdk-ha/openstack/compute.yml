@@ -7,9 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
-  - cluster.baremetal-mcp-ocata-common-ha.openstack_compute
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
+  - cluster.baremetal-mcp-pike-common-ha.openstack_compute
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
   - system.neutron.compute.nfv.dpdk
 parameters:
   neutron:
@@ -22,13 +21,6 @@ parameters:
       libvirt_service: libvirtd
       libvirt_bin: /etc/default/libvirtd
   linux:
-    system:
-      repo:
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main"
-          architectures: amd64
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
     network:
       interface:
         dpdk0:

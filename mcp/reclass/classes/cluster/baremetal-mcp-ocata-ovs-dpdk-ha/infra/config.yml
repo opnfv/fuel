@@ -7,6 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.infra.config
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra.config_init
+  - cluster.baremetal-mcp-pike-common-ha.infra.config
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra.config_init

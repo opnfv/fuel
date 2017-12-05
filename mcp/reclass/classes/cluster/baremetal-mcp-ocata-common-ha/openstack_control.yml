@@ -7,8 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
-  - system.linux.system.repo.mcp.extra
   - system.linux.system.repo.glusterfs
   - system.ceilometer.client
   - system.memcached.server.single

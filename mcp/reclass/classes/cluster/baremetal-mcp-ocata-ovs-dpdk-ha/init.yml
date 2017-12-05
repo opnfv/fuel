@@ -8,5 +8,5 @@
 ---
 classes:
   - cluster.all-mcp-arch-common
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.infra
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.openstack

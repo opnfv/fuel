@@ -7,11 +7,11 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-ocata-common-ha.infra
-  - cluster.baremetal-mcp-ocata-ovs-dpdk-ha.openstack
+  - cluster.baremetal-mcp-pike-common-ha.infra
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.openstack
 parameters:
   _param:
-    cluster_name: baremetal-mcp-ocata-ovs-dpdk-ha
+    cluster_name: baremetal-mcp-pike-ovs-dpdk-ha
   linux:
     system:
       service:

@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: baremetal-mcp-ocata-odl-ha.local
+  domain: baremetal-mcp-pike-odl-ha.local
   states:
     - maas
     - baremetal_init
