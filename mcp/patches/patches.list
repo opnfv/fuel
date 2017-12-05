@@ -11,7 +11,6 @@
 /usr/share/salt-formulas/env: 0004-maas-region-use-authorized_keys-1st-entry.patch
 /usr/share/salt-formulas/env: 0005-maas-module-Obtain-fabric-ID-from-CIDR.patch
 /usr/share/salt-formulas/env: 0006-maas-module-Add-VLAN-DHCP-enable-support.patch
-/usr/share/salt-formulas/env: 0007-linux.network.interface-noifupdown-support.patch
 /usr/share/salt-formulas/env: 0008-Handle-file_recv-option.patch
 /usr/share/salt-formulas/env: 0009-seedng-module-Sync-salt-version.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
