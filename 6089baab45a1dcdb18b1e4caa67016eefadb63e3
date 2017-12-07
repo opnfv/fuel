@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_14df743c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "docs: Add tutorial for reclass-doc tool",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_943544dc",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "rm",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 29
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_54e8dce1",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "This is a bit informal, I would go with \u0027To visualize the reclass structure, one might use `reclass-doc ...`.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 42
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_f4e130ff",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "1. link is broken - I assume you meant https://docs.mirantis.com/mcp/latest/mcp-deployment-guide/deploy-mcp-drivetrain.html\n2. I don\u0027t think this is the proper link for the tool, maybe https://github.com/jirihybek/reclass-doc ?",
+      "range": {
+        "startLine": 264,
+        "startChar": 1,
+        "endLine": 264,
+        "endChar": 81
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_34e39806",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "Is this valid RST markup? either way, drop the full stop",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 270,
+        "endChar": 15
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_94f264d0",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "..code-block requires one empty line before it and one empty line after it ...",
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_74ed20ef",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "1. replace tabs with spaces\n2. I\u0027d start each bash cmd with a \u0027$\u0027",
+      "range": {
+        "startLine": 276,
+        "startChar": 1,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d4bb4ce3",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "drop this, it was used before by Cristina (I think) to show the command output was trimmed, but it\u0027s not the case here.",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 32
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b4be88d2",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "empty line before",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_54cf3c7f",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "remove empty lines in code-block (valid below too)",
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_14b654fa",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "git clone",
+      "range": {
+        "startLine": 285,
+        "startChar": 1,
+        "endLine": 285,
+        "endChar": 20
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_f4b810e7",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "ditto, same for below occurences",
+      "range": {
+        "startLine": 287,
+        "startChar": 7,
+        "endLine": 287,
+        "endChar": 32
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_34ca786e",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "replace tabs with spaces, empty line before",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 1
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_94c9c47a",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-07T16:33:44Z",
+      "side": 1,
+      "message": "RST parsers will automatically create the index number if you use \u0027#.\u0027 instead of \u00271.\u0027, \u00272.\u0027 etc.",
+      "range": {
+        "startLine": 313,
+        "startChar": 2,
+        "endLine": 313,
+        "endChar": 4
+      },
+      "revId": "6089baab45a1dcdb18b1e4caa67016eefadb63e3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
