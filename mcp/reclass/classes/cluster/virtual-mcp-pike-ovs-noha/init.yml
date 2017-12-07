@@ -10,10 +10,5 @@ classes:
   - system.linux.system.single
   - cluster.all-mcp-arch-common
   - cluster.virtual-mcp-pike-common-noha.init_options
-  - cluster.virtual-mcp-pike-common-noha.infra
+  - cluster.virtual-mcp-pike-ovs-noha.infra
   - cluster.virtual-mcp-pike-ovs-noha.openstack
-
-parameters:
-  _param:
-    cluster_domain: virtual-mcp-pike-ovs-noha.local
-    cluster_name: virtual-mcp-pike-ovs-noha

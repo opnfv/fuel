@@ -10,11 +10,9 @@ classes:
   - system.linux.system.single
   - cluster.all-mcp-arch-common
   - cluster.virtual-mcp-pike-common-noha.init_options
-  - cluster.virtual-mcp-pike-common-noha.infra
+  - cluster.virtual-mcp-pike-odl-noha.infra
   - cluster.virtual-mcp-pike-odl-noha.openstack
 
 parameters:
   _param:
-    cluster_domain: virtual-mcp-pike-odl-noha.local
-    cluster_name: virtual-mcp-pike-odl-noha
     opendaylight_service_host: 172.16.10.111
