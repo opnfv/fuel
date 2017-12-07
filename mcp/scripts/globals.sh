@@ -14,7 +14,7 @@ export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 
-# These should be determined from PDF later
+# Define a default network address, baremetal might override it via PDF
 export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
 
 # Derivated from above global vars
