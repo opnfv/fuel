@@ -254,6 +254,63 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 +-----------+--------------+---------------+
 
 
+=============================
+Reclass model viewer tutorial
+=============================
+
+
+In order to get a better understanding on the reclass model Fuel uses, the `reclass-doc
+<https://github.com/jirihybek/reclass-doc>`_ can be used to visualise the reclass model.
+A simplified installation can be done with the use of a docker ubuntu container. This
+approach will avoid installing packages on the host, which might collide with other packages.
+After the installation is done, a webbrowser on the host can be used to view the results.
+
+**NOTE**: The host can be any device with Docker package already installed.
+          The user which runs the docker needs to have root priviledges.
+
+
+**Instructions**
+
+
+#. Create a new directory at any location
+
+   .. code-block:: bash
+
+      $ mkdir -p modeler
+
+
+#. Place fuel repo in the above directory
+
+   .. code-block:: bash
+
+      $ cd modeler
+      $ git clone https://gerrit.opnfv.org/gerrit/fuel && cd fuel
+
+
+#. Create a container and mount the above host directory
+
+   .. code-block:: bash
+
+      $ docker run --privileged -it -v <absolute_path>/modeler:/host ubuntu bash
+
+
+#. Install all the required packages inside the container.
+
+   .. code-block:: bash
+
+      $ apt-get update
+      $ apt-get install -y npm nodejs
+      $ npm install -g reclass-doc
+      $ cd /host/fuel/mcp/reclass
+      $ ln -s /usr/bin/nodejs /usr/bin/node
+      $ reclass-doc --output /host /host/fuel/mcp/reclass
+
+
+#. View the results from the host by using a browser. The file to open should be now at modeler/index.html
+
+   .. figure:: img/reclass_doc.png
+
+
 .. _references:
 
 ==========
