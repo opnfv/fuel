@@ -16,7 +16,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
-index c2f1403..19e5d0d 100644
+index 28c0b47..abded17 100644
 --- a/config/installers/fuel/pod_config.yml.j2
 +++ b/config/installers/fuel/pod_config.yml.j2
 @@ -26,6 +26,13 @@

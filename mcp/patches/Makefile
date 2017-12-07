@@ -59,6 +59,7 @@ sub: .cachefuelinfo
 patches-export: sub
 	@git submodule -q foreach ' \
 		SUB_DIR=${F_PATCH_DIR}/$$name; \
+		rm -rf $$SUB_DIR/*; \
 		git tag | awk "!/root/ && /${F_OPNFV_TAG}-fuel/" | while read F_TAG; do \
 			SUB_FEATURE=`dirname $${F_TAG#${F_OPNFV_TAG}-fuel/}`; \
 			echo "`tput setaf 2`-- exporting $$name ($$F_TAG)`tput sgr0`"; \
