@@ -19,7 +19,7 @@ Signed-off-by: Guillermo Herrero <guillermo.herrero@enea.com>
  1 file changed, 10 insertions(+)
 
 diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
-index bd815d5..e42e3d5 100644
+index abded17..cda5fc0 100644
 --- a/config/installers/fuel/pod_config.yml.j2
 +++ b/config/installers/fuel/pod_config.yml.j2
 @@ -8,6 +8,9 @@
@@ -43,7 +43,7 @@ index bd815d5..e42e3d5 100644
  ---
  parameters:
    _param:
-@@ -55,6 +62,8 @@ parameters:
+@@ -53,6 +60,8 @@ parameters:
      opnfv_openstack_proxy_address: {{ net_public | ipaddr_index('103') }}
      opnfv_openstack_proxy_node01_address: {{ net_public | ipaddr_index('104') }}
      opnfv_openstack_proxy_node02_address: {{ net_public | ipaddr_index('105') }}
@@ -52,7 +52,7 @@ index bd815d5..e42e3d5 100644
      opnfv_openstack_control_address: {{ net_mgmt | ipaddr_index('10') }}
      opnfv_openstack_control_node01_address: {{ net_mgmt | ipaddr_index('11') }}
      opnfv_openstack_control_node02_address: {{ net_mgmt | ipaddr_index('12') }}
-@@ -85,6 +94,7 @@ parameters:
+@@ -83,6 +92,7 @@ parameters:
 
      opnfv_opendaylight_server_node01_single_address: {{ net_mgmt | ipaddr_index('111') }}
 
