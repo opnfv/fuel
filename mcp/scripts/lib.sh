@@ -277,9 +277,9 @@ function update_mcpcontrol_network {
   local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
   local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
   virsh net-update "mcpcontrol" add ip-dhcp-host \
-    "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live
+    "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live --config
   [ -z "${amac}" ] || virsh net-update "mcpcontrol" add ip-dhcp-host \
-    "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live
+    "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
 }
 
 function start_vms {
