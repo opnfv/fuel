@@ -253,6 +253,62 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 | cmp002    | x.y.z.106    | 172.16.10.106 |
 +-----------+--------------+---------------+
 
+=============================
+Reclass model viewer tutorial
+=============================
+
+
+To visualise the reclass model one might use `reclass-doc
+<https://github.com/jirihybek/reclass-doc>`_. In order to simplify the installation and to avoid
+installing packages on the host which might collide with other packages, in this tutorial, we will
+install everything in a docker ubuntu container and then just use a webbrowser on the host to view
+the results.
+
+* Instructions
+
+  # We will begin with a clean fuel repo in a dedicated directory. Of course the location does
+  not matter. one can change the location.
+
+    .. code-block:: bash
+
+    $mkdir -p /home/fuel/modeler
+
+    .........................
+
+  # Place armband in the above directory
+
+    .. code-block:: bash
+
+    $cd /home/fuel/modeler
+
+    $git clone https://gerrit.opnfv.org/gerrit/fuel && cd fuel
+
+     .........................
+
+  # Create a container and mount the above host directory
+
+    .. code-block:: bash
+
+   $ docker run --privileged -it -v /home/fuel/modeler:/host ubuntu bash
+
+     .........................
+
+  # Install all the required packages inside the container.
+
+    .. code-block:: bash
+
+    $apt-get update
+    $apt-get install -y npm nodejs
+    $npm install -g reclass-doc
+    $cd /host/armband/upstream/fuel/mcp/reclass
+    $ln -s /usr/bin/nodejs /usr/bin/node
+    $reclass-doc --output /host /host/fuel/mcp/reclass
+
+ .........................
+
+  # View the results from the host by using a browser. The file to open should be now in the
+  directory /home/fuel/modeler/index.html
+
 
 .. _references:
 
