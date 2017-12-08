@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_df96c5ef",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2017-12-08T09:51:37Z",
+      "side": 1,
+      "message": "maybe place \"fuel\", not \"armband\"?  since it is fuel repo is cloned",
+      "range": {
+        "startLine": 278,
+        "startChar": 10,
+        "endLine": 278,
+        "endChar": 17
+      },
+      "revId": "ef411c348e4b55a9c757c60a2ec08da4ba4c22f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_bf994121",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2017-12-08T09:51:37Z",
+      "side": 1,
+      "message": "maybe add a comment:\ninstall the docker package if it is not installed before:\n$sudo apt-get install docker.io\n\nalso \"docker run\" require root privilege, add sudo\n$sudo docker run",
+      "range": {
+        "startLine": 292,
+        "startChar": 3,
+        "endLine": 292,
+        "endChar": 72
+      },
+      "revId": "ef411c348e4b55a9c757c60a2ec08da4ba4c22f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1fa14d47",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2017-12-08T09:51:37Z",
+      "side": 1,
+      "message": "$cd /host/fuel/mcp/reclass/  (since it is fuel repo)",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 47
+      },
+      "revId": "ef411c348e4b55a9c757c60a2ec08da4ba4c22f3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
