@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Michael Polenchuk <mpolenchuk@mirantis.com>
+Code-Review+1: ting wu <ting.wu@enea.com>
+Workflow+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Fri, 08 Dec 2017 10:03:57 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/48573
+Project: fuel
+Branch: refs/heads/master
