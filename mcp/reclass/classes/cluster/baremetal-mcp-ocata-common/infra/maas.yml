@@ -42,12 +42,12 @@ parameters:
         default_min_hwe_kernel: 'hwe-16.04'
       subnets:
         opnfv_maas_pxe:
-          name: ${_param:opnfv_maas_pxe_network_address}/24
-          cidr: ${_param:opnfv_maas_pxe_network_address}/24
+          name: ${_param:opnfv_infra_maas_pxe_network_address}/24
+          cidr: ${_param:opnfv_infra_maas_pxe_network_address}/24
           gateway_ip: ${_param:single_address}
           iprange:
-            start: ${_param:opnfv_maas_pxe_start_address}
-            end: ${_param:opnfv_maas_pxe_end_address}
+            start: ${_param:opnfv_infra_maas_pxe_start_address}
+            end: ${_param:opnfv_infra_maas_pxe_end_address}
             type: dynamic
           vlans:
             untagged:
