@@ -1,0 +1,35 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 8 Dec 2017 02:03:30 +0100
+Subject: [PATCH] Add MaaS PXE network to installer adapter
+
+JIRA: FUEL-313
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index cda5fc0..80c89d8 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -51,6 +51,11 @@ parameters:
+     opnfv_infra_kvm_node02_address: {{ net_mgmt | ipaddr_index('142') }}
+     opnfv_infra_kvm_node03_address: {{ net_mgmt | ipaddr_index('143') }}
+
++    opnfv_infra_maas_pxe_network_address: {{ net_admin }}
++    opnfv_infra_maas_pxe_address: {{ net_admin | ipaddr_index('3') }}
++    opnfv_infra_maas_pxe_start_address: {{ net_admin | ipaddr_index('5') }}
++    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipaddr_index('250') }}
++
+     opnfv_openstack_gateway_node01_address: {{ net_mgmt | ipaddr_index('124') }}
+     opnfv_openstack_gateway_node02_address: {{ net_mgmt | ipaddr_index('125') }}
+     opnfv_openstack_gateway_node03_address: {{ net_mgmt | ipaddr_index('126') }}
