@@ -20,6 +20,11 @@ parameters:
     opnfv_infra_kvm_node02_address: 10.167.4.142
     opnfv_infra_kvm_node03_address: 10.167.4.143
 
+    opnfv_infra_maas_pxe_network_address: 192.168.11.0
+    opnfv_infra_maas_pxe_address: 192.168.11.3
+    opnfv_infra_maas_pxe_start_address: 192.168.11.5
+    opnfv_infra_maas_pxe_end_address: 192.168.11.250
+
     opnfv_openstack_gateway_node01_address: 10.167.4.124
     opnfv_openstack_gateway_node02_address: 10.167.4.125
     opnfv_openstack_gateway_node03_address: 10.167.4.126
