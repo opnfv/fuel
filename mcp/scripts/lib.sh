@@ -37,8 +37,9 @@ function get_base_image {
 
 function cleanup_uefi {
   # Clean up Ubuntu boot entry if cfg01, kvm nodes online from previous deploy
-  # shellcheck disable=SC2086
-  ssh ${SSH_OPTS} "${SSH_SALT}" "sudo salt -C 'kvm* or cmp*' cmd.run \
+  local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
+  [ ! "$(hostname)" = 'cfg01' ] || cmd_str='eval'
+  ${cmd_str} "sudo salt -C 'kvm* or cmp*' cmd.run \
     \"which efibootmgr > /dev/null 2>&1 && \
     efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
     xargs -I{} efibootmgr --delete-bootnum --bootnum {}; \
