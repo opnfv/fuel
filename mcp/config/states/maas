@@ -65,8 +65,6 @@ if [ "${ERASE_ENV}" -gt 1 ]; then
 fi
 
 # MaaS rack/region controller, node commissioning
-salt -C 'mas01*' cmd.run "add-apt-repository ppa:maas/stable"
-
 salt -C 'mas01*' state.apply linux,salt,openssh,ntp
 salt -C 'mas01*' state.apply linux.network.interface
 salt -C 'mas01*' state.apply maas.pxe_nat
