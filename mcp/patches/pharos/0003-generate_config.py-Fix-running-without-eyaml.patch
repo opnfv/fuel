@@ -1,0 +1,46 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 9 Dec 2017 01:10:32 +0100
+Subject: [PATCH] generate_config.py: Fix running without eyaml
+
+If eyaml is not installed or misconfigured, we should output raw
+encrypted data and throw a warn/error accordingly, instead of
+bailing out completely.
+
+Needed for Fuel deploys on PODs that do not use PDF encryption, e.g.
+lf-pod2.
+
+Change-Id: I2905df11a3cf2f2eb1ab9bfd8bd88619af2cab04
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/utils/generate_config.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/config/utils/generate_config.py b/config/utils/generate_config.py
+index ba4192c..3710880 100755
+--- a/config/utils/generate_config.py
++++ b/config/utils/generate_config.py
+@@ -57,9 +57,13 @@ ENV.filters['dpkg_arch'] = dpkg_arch
+ try:
+     DICT = yaml.safe_load(check_output(['eyaml', 'decrypt', '-f', ARGS.yaml]))
+ except CalledProcessError as ex:
+-    pass
+-if not DICT:
+-    logging.warn('PDF decryption failed, fallback to using raw data.')
++    logging.error('eyaml decryption failed, keys might be missing')
++except OSError as ex:
++    logging.warn('eyaml not found, skipping decryption')
++try:
++    DICT
++except NameError as ex:
++    logging.warn('PDF decryption skipped, fallback to using raw data.')
+     with open(ARGS.yaml) as _:
+         DICT = yaml.safe_load(_)
+
