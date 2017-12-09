@@ -1,4 +1,5 @@
 #!/bin/bash -e
+# shellcheck disable=SC1090,SC2155
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -10,21 +11,18 @@
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 ERASE_ENV=${ERASE_ENV:-0}
 
-# shellcheck disable=SC1090
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/globals.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
 # Wait for MaaS commissioning/deploy to finish, retry on failure
 function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
-  # shellcheck disable=SC2155
   local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
     grep -cE '^\s{2}\w+:$')
   wait_for 180 "${statuscmd} | tee /dev/stderr | " \
     "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
-  # shellcheck disable=SC2155
   local statusout=$(eval "${statuscmd}")
 
-  # shellcheck disable=SC2155
   local fcnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: Failed commissioning\n\s+system_id: \K.+\n')
   for node_system_id in ${fcnodes}; do
@@ -37,7 +35,6 @@ function maas_fixup() {
     return 1
   fi
 
-  # shellcheck disable=SC2155
   local fdnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: (Failed deployment|Allocated)\n\s+system_id: \K.+\n')
   for node_system_id in ${fdnodes}; do
@@ -57,6 +54,7 @@ function maas_fixup() {
 if [ "${ERASE_ENV}" -gt 1 ]; then
   dnodes=$(salt 'mas01*' --out yaml state.apply maas.machines.status | \
     grep -Pzo '\s+system_id: \K.+\n')
+  cleanup_uefi
   for node_system_id in ${dnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
