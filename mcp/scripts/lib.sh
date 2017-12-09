@@ -151,12 +151,17 @@ function cleanup_mounts {
 
 function cleanup_uefi {
   # Clean up Ubuntu boot entry if cfg01, kvm nodes online from previous deploy
-  # shellcheck disable=SC2086
-  ssh ${SSH_OPTS} "${SSH_SALT}" "sudo salt -C 'kvm* or cmp*' cmd.run \
+  local cmd_str="sudo salt -C 'kvm* or cmp*' cmd.run \
     \"which efibootmgr > /dev/null 2>&1 && \
     efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
     xargs -I{} efibootmgr --delete-bootnum --bootnum {}; \
-    rm -rf /boot/efi/*\"" || true
+    rm -rf /boot/efi/*\""
+  if [ "$(hostname)" = 'cfg01' ]; then
+    sudo "${cmd_str}" || true
+  else
+    # shellcheck disable=SC2086,SC2029
+    ssh ${SSH_OPTS} "${SSH_SALT}" "${cmd_str}" || true
+  fi
 }
 
 function cleanup_vms {
