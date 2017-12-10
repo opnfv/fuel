@@ -1,0 +1,550 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 10 Dec 2017 21:05:12 +0100
+Subject: [PATCH] haproxy: Parameterize cluster hostnames
+
+Replace ctl{01,02,03} with reclass params, i.e.:
+s/ctl01/${_param:cluster_node01_hostname}/g
+
+Affects haproxy configuration in:
+- haproxy.proxy.listen.openstack
+- neutron.control
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ haproxy/proxy/listen/openstack/aodh.yml           |  6 +++---
+ haproxy/proxy/listen/openstack/barbican.yml       | 12 ++++++------
+ haproxy/proxy/listen/openstack/cinder.yml         |  6 +++---
+ haproxy/proxy/listen/openstack/glance.yml         | 12 ++++++------
+ haproxy/proxy/listen/openstack/glare.yml          |  6 +++---
+ haproxy/proxy/listen/openstack/heat.yml           | 18 +++++++++---------
+ haproxy/proxy/listen/openstack/horizon.yml        |  6 +++---
+ haproxy/proxy/listen/openstack/ironic.yml         |  6 +++---
+ haproxy/proxy/listen/openstack/keystone/init.yml  | 12 ++++++------
+ haproxy/proxy/listen/openstack/neutron.yml        |  6 +++---
+ haproxy/proxy/listen/openstack/nova-placement.yml |  6 +++---
+ haproxy/proxy/listen/openstack/nova.yml           | 12 ++++++------
+ haproxy/proxy/listen/openstack/novnc.yml          |  6 +++---
+ haproxy/proxy/listen/openstack/octavia.yml        |  6 +++---
+ haproxy/proxy/listen/openstack/sahara.yml         |  6 +++---
+ neutron/control/cluster.yml                       |  6 +++---
+ neutron/control/openvswitch/cluster.yml           |  6 +++---
+ 17 files changed, 69 insertions(+), 69 deletions(-)
+
+diff --git a/haproxy/proxy/listen/openstack/aodh.yml b/haproxy/proxy/listen/openstack/aodh.yml
+index 6b024aa..acd6340 100644
+--- a/haproxy/proxy/listen/openstack/aodh.yml
++++ b/haproxy/proxy/listen/openstack/aodh.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8042
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8042
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8042
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8042
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+\ No newline at end of file
+diff --git a/haproxy/proxy/listen/openstack/barbican.yml b/haproxy/proxy/listen/openstack/barbican.yml
+index 04251d9..c1f9877 100644
+--- a/haproxy/proxy/listen/openstack/barbican.yml
++++ b/haproxy/proxy/listen/openstack/barbican.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9311
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9311
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9311
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9311
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -28,15 +28,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9312
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9312
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9312
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9312
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+\ No newline at end of file
+diff --git a/haproxy/proxy/listen/openstack/cinder.yml b/haproxy/proxy/listen/openstack/cinder.yml
+index a693e6e..c0bb7be 100644
+--- a/haproxy/proxy/listen/openstack/cinder.yml
++++ b/haproxy/proxy/listen/openstack/cinder.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8776
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8776
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8776
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8776
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+\ No newline at end of file
+diff --git a/haproxy/proxy/listen/openstack/glance.yml b/haproxy/proxy/listen/openstack/glance.yml
+index 729cc5b..144fd4e 100644
+--- a/haproxy/proxy/listen/openstack/glance.yml
++++ b/haproxy/proxy/listen/openstack/glance.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9292
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9292
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9292
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9292
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -28,15 +28,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9191
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9191
+             params: check
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9191
+             params: check
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9191
+             params: check
+diff --git a/haproxy/proxy/listen/openstack/glare.yml b/haproxy/proxy/listen/openstack/glare.yml
+index a984275..36a6337 100644
+--- a/haproxy/proxy/listen/openstack/glare.yml
++++ b/haproxy/proxy/listen/openstack/glare.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9494
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9494
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9494
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9494
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/heat.yml b/haproxy/proxy/listen/openstack/heat.yml
+index 2e6b918..50595ea 100644
+--- a/haproxy/proxy/listen/openstack/heat.yml
++++ b/haproxy/proxy/listen/openstack/heat.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8003
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8003
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8003
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8003
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -28,15 +28,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8004
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8004
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8004
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8004
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -47,15 +47,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8000
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/horizon.yml b/haproxy/proxy/listen/openstack/horizon.yml
+index 9bf838c..14f5c2b 100644
+--- a/haproxy/proxy/listen/openstack/horizon.yml
++++ b/haproxy/proxy/listen/openstack/horizon.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8078
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8078
+             params: check
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8078
+             params: check
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8078
+             params: check
+\ No newline at end of file
+diff --git a/haproxy/proxy/listen/openstack/ironic.yml b/haproxy/proxy/listen/openstack/ironic.yml
+index 221a9cc..1713085 100644
+--- a/haproxy/proxy/listen/openstack/ironic.yml
++++ b/haproxy/proxy/listen/openstack/ironic.yml
+@@ -10,15 +10,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 6385
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 6385
+             params: check
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 6385
+             params: check
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 6385
+             params: check
+diff --git a/haproxy/proxy/listen/openstack/keystone/init.yml b/haproxy/proxy/listen/openstack/keystone/init.yml
+index 4359f60..32f776e 100644
+--- a/haproxy/proxy/listen/openstack/keystone/init.yml
++++ b/haproxy/proxy/listen/openstack/keystone/init.yml
+@@ -7,15 +7,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 5000
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 5000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 5000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 5000
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -24,15 +24,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 35357
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 35357
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 35357
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 35357
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/neutron.yml b/haproxy/proxy/listen/openstack/neutron.yml
+index 1f8b4d5..29bd548 100644
+--- a/haproxy/proxy/listen/openstack/neutron.yml
++++ b/haproxy/proxy/listen/openstack/neutron.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9696
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+\ No newline at end of file
+diff --git a/haproxy/proxy/listen/openstack/nova-placement.yml b/haproxy/proxy/listen/openstack/nova-placement.yml
+index e3b72b7..9fec963 100644
+--- a/haproxy/proxy/listen/openstack/nova-placement.yml
++++ b/haproxy/proxy/listen/openstack/nova-placement.yml
+@@ -15,15 +15,15 @@ parameters:
+               options:
+               - expect status 401
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8778
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8778
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8778
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/nova.yml b/haproxy/proxy/listen/openstack/nova.yml
+index efffee0..1e090ef 100644
+--- a/haproxy/proxy/listen/openstack/nova.yml
++++ b/haproxy/proxy/listen/openstack/nova.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8774
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8774
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8774
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8774
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+@@ -27,15 +27,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8775
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8775
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8775
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8775
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/novnc.yml b/haproxy/proxy/listen/openstack/novnc.yml
+index 78b7d98..40b9d9c 100644
+--- a/haproxy/proxy/listen/openstack/novnc.yml
++++ b/haproxy/proxy/listen/openstack/novnc.yml
+@@ -10,15 +10,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 6080
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 6080
+             params: check
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 6080
+             params: check
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 6080
+             params: check
+diff --git a/haproxy/proxy/listen/openstack/octavia.yml b/haproxy/proxy/listen/openstack/octavia.yml
+index 7360557..c2b8e6d 100644
+--- a/haproxy/proxy/listen/openstack/octavia.yml
++++ b/haproxy/proxy/listen/openstack/octavia.yml
+@@ -9,15 +9,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9876
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9876
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9876
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9876
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/haproxy/proxy/listen/openstack/sahara.yml b/haproxy/proxy/listen/openstack/sahara.yml
+index 3bbf809..335c4f6 100644
+--- a/haproxy/proxy/listen/openstack/sahara.yml
++++ b/haproxy/proxy/listen/openstack/sahara.yml
+@@ -10,15 +10,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 8386
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 8386
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 8386
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 8386
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/neutron/control/cluster.yml b/neutron/control/cluster.yml
+index 47928b6..ea9596d 100644
+--- a/neutron/control/cluster.yml
++++ b/neutron/control/cluster.yml
+@@ -21,15 +21,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9696
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+diff --git a/neutron/control/openvswitch/cluster.yml b/neutron/control/openvswitch/cluster.yml
+index 032ffbf..80489c8 100644
+--- a/neutron/control/openvswitch/cluster.yml
++++ b/neutron/control/openvswitch/cluster.yml
+@@ -47,15 +47,15 @@ parameters:
+           - address: ${_param:cluster_vip_address}
+             port: 9696
+           servers:
+-          - name: ctl01
++          - name: ${_param:cluster_node01_hostname}
+             host: ${_param:cluster_node01_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl02
++          - name: ${_param:cluster_node02_hostname}
+             host: ${_param:cluster_node02_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+-          - name: ctl03
++          - name: ${_param:cluster_node03_hostname}
+             host: ${_param:cluster_node03_address}
+             port: 9696
+             params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3

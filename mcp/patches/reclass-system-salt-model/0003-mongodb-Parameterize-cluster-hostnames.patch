@@ -1,0 +1,37 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 10 Dec 2017 21:58:52 +0100
+Subject: [PATCH] mongodb: Parameterize cluster hostnames
+
+Replace mdb{01,02,03} with reclass params, similar to prev commit.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ mongodb/server/cluster.yml | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/mongodb/server/cluster.yml b/mongodb/server/cluster.yml
+index f3c16d6..1d1e397 100644
+--- a/mongodb/server/cluster.yml
++++ b/mongodb/server/cluster.yml
+@@ -3,9 +3,9 @@ classes:
+ parameters:
+   _param:
+     mongodb_server_replica_set: mongodb
+-    mongodb_master: mdb01
++    mongodb_master: ${_param:openstack_telemetry_node01_hostname}
+     mongodb_server_members:
+-    - host: mdb01
++    - host: ${_param:openstack_telemetry_node01_hostname}
+       priority: 2
+-    - host: mdb02
+-    - host: mdb03
++    - host: ${_param:openstack_telemetry_node02_hostname}
++    - host: ${_param:openstack_telemetry_node03_hostname}
