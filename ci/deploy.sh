@@ -348,6 +348,10 @@ eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
 
 export CLUSTER_DOMAIN=${cluster_domain}
 
+# Use MaaS PXE network defined via PDF admin network if available
+MAAS_PXE_NETWORK=${parameters__param_opnfv_infra_maas_node01_deploy_address:-${MAAS_PXE_NETWORK}}
+export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK%.*}.0
+
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
 for node in "${virtual_nodes[@]}"; do
     virtual_custom_ram="virtual_${node}_ram"
@@ -383,7 +387,7 @@ fi
 # Map PDF networks 'admin', 'mgmt', 'private' and 'public' to bridge names
 BR_NAMES=('admin' 'mgmt' 'private' 'public')
 BR_NETS=( \
-    "${parameters__param_opnfv_maas_pxe_address}" \
+    "${MAAS_PXE_NETWORK}" \
     "${parameters__param_opnfv_infra_config_address}" \
     "${parameters__param_opnfv_openstack_compute_node01_tenant_address}" \
     "${parameters__param_opnfv_openstack_compute_node01_external_address}" \

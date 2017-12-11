@@ -13,7 +13,7 @@ parameters:
     opnfv_net_mcpcontrol: ${SALT_MASTER%.*}.0
     opnfv_net_mcpcontrol_mask: 255.255.255.0
 
-    # These should be moved to pod_config.yml and read based on PDF admin net
+    # These should be moved to pod_config.yml and MAAS_PXE_NETWORK dropped
     opnfv_maas_pxe_network_address: ${MAAS_PXE_NETWORK}
     opnfv_maas_pxe_address: ${MAAS_PXE_NETWORK%.*}.3
     opnfv_maas_pxe_start_address: ${MAAS_PXE_NETWORK%.*}.5
