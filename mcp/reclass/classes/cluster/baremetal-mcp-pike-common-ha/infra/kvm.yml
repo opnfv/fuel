@@ -37,6 +37,10 @@ parameters:
     network:
       remove_iface_files:
         - '/etc/network/interfaces.d/50-cloud-init.cfg'
+  libvirt:
+    server:
+      service: libvirtd
+      config_sys: /etc/default/libvirtd
   salt:
     control:
       size:  # RAM 4096,8192,16384,32768,65536
@@ -134,6 +138,7 @@ parameters:
           model: virtio
   glusterfs:
     server:
+      service: glusterd
       volumes:
         nova_instances:
           storage: /srv/glusterfs/nova_instances
