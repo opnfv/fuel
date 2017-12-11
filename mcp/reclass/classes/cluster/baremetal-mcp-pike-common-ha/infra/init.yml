@@ -9,8 +9,8 @@
 classes:
   - system.linux.system.single
   - cluster.all-mcp-arch-common
-  # - cluster.baremetal-mcp-ocata-common-ha.stacklight
-  # - cluster.baremetal-mcp-ocata-common-ha.stacklight.client
+  # - cluster.baremetal-mcp-pike-common-ha.stacklight
+  # - cluster.baremetal-mcp-pike-common-ha.stacklight.client
 parameters:
   _param:
     apt_mk_version: nightly
