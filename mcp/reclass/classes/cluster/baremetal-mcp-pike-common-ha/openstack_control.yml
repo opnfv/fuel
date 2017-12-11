@@ -46,6 +46,15 @@ parameters:
       interface:
         dhcp: ${_param:linux_dhcp_interface}
         single: ${_param:linux_single_interface}
+  nova:
+    controller:
+      pkgs:
+        - nova-api
+        - nova-conductor
+        - nova-consoleauth
+        - nova-novncproxy
+        - nova-scheduler
+        - python-novaclient
   neutron:
     server:
       vlan_aware_vms: true

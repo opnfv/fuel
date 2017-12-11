@@ -63,3 +63,5 @@ salt -C 'prx*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
 salt -C 'prx*' system.reboot
 wait_for 30 "! salt -C 'prx*' test.ping | " \
   "tee /dev/stderr | grep -Fq 'Not connected'"
+
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.upgrade refresh=False

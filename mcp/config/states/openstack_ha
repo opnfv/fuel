@@ -22,6 +22,7 @@ salt -I 'rabbitmq:server' cmd.run "rabbitmqctl cluster_status"
 salt -I 'glusterfs:server' state.sls glusterfs.server.service
 salt -I 'glusterfs:server' state.sls glusterfs.server.setup -b 1
 salt -I 'glusterfs:server' cmd.run "gluster peer status; gluster volume status" -b 1
+salt -I 'glusterfs:client' state.sls glusterfs.client
 
 salt -I 'galera:master' state.sls galera
 salt -I 'galera:slave' state.sls galera
@@ -33,15 +34,14 @@ salt -I 'haproxy:proxy' state.sls haproxy
 salt -I 'haproxy:proxy' service.status haproxy
 salt -I 'haproxy:proxy' service.restart rsyslog
 
-salt -I 'keystone:server' state.sls keystone.server -b 1
+set +e; salt -I 'keystone:server' state.sls keystone.server -b 1; set -e
 salt -I 'keystone:server' service.restart apache2
+salt -I 'keystone:server' state.sls keystone.server -b 1
+
 wait_for 30 "salt -I 'keystone:client' state.sls keystone.client"
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
-salt -I 'glusterfs:client' state.sls glusterfs.client
-salt -I 'keystone:server' state.sls keystone.server
-
 salt -I 'nova:controller' state.sls nova -b 1
 salt -I 'heat:server' state.sls heat -b 1
 
