@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.glusterfs
   - system.linux.storage.loopback
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
@@ -34,7 +33,6 @@ parameters:
     keepalived_vip_virtual_router_id: 69
     loopback_device_size: 20
     linux_system_codename: xenial
-    glusterfs_version: '3.10'
     # {dhcp,single}_nic are not used, but referenced
     dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
     single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
