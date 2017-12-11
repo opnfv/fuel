@@ -6,22 +6,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: baremetal-mcp-pike-odl-ha.local
-  states:
-    - maas
-    - baremetal_init
-    - virtual_control_plane
-    - opendaylight
-    - openstack_ha
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - mas01
-  cfg01:
-    vcpus: 4
-    ram: 6144
-  mas01:
-    vcpus: 4
-    ram: 6144
+classes:
+  - system.neutron.control.openvswitch.cluster
+  - cluster.baremetal-mcp-pike-common-ha.openstack_control
+  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
+parameters:
+  neutron:
+    server:
+      backend:
+        tenant_vlan_range: ${_param:neutron_tenant_vlan_range}

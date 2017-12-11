@@ -1,0 +1,75 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.nginx.server.single
+  - system.nginx.server.proxy.openstack_api
+  - system.nginx.server.proxy.openstack_vnc
+  - system.nginx.server.proxy.openstack_web
+  - system.nginx.server.proxy.openstack.aodh
+  - system.nginx.server.proxy.openstack.ceilometer
+  - system.horizon.server.single
+  - system.salt.minion.cert.proxy
+  - system.sphinx.server.doc.reclass
+  - service.keepalived.cluster.single
+parameters:
+  _param:
+    keepalived_vip_interface: ${_param:single_nic}
+    keepalived_vip_virtual_router_id: 240
+    nginx_proxy_ssl:
+      enabled: true
+      authority: ${_param:salt_minion_ca_authority}
+      engine: salt
+      mode: secure
+    cluster_vip_address: ${_param:openstack_proxy_address}
+    salt_minion_ca_host: cfg01.${_param:cluster_domain}
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
+    control_nic: ${_param:opnfv_vcp_vm_tertiary_interface}
+  linux:
+    network:
+      interface:
+        dhcp_int:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:dhcp_nic}
+          route:
+            mcpcontol:
+              address: ${_param:opnfv_net_mcpcontrol}
+              netmask: ${_param:opnfv_net_mcpcontrol_mask}
+              gateway: ${_param:opnfv_infra_maas_node01_deploy_address}
+        single_int:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:single_nic}
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          route:
+            public:
+              address: 0.0.0.0
+              netmask: 0.0.0.0
+              gateway: ${_param:opnfv_net_public_gw}
+        control_int:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:control_nic}
+          address: ${_param:control_address}
+          netmask: 255.255.255.0
+    system:
+      package:
+        libapache2-mod-wsgi:
+          version: latest
+  salt:
+    minion:
+      cert:
+        proxy:
+          alternative_names: "IP:${_param:openstack_proxy_address}"
+          key_usage: 'digitalSignature, keyEncipherment'

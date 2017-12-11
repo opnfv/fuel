@@ -1,0 +1,35 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.opendaylight.server.single
+  - cluster.baremetal-mcp-pike-odl-ha
+parameters:
+  _param:
+    linux_system_codename: xenial
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
+  linux:
+    network:
+      interface:
+        single: ${_param:linux_single_interface}
+  opendaylight:
+    server:
+      odl_bind_ip: ${_param:single_address}
+      odl_rest_port: 8282
+      java_min_mem: 4g
+      java_max_mem: 4g
+      router_enabled: true
+      karaf_features:
+        odl_default:
+          - odl-restconf-all
+          - odl-aaa-authn
+          - odl-dlux-all
+          - odl-mdsal-apidocs
+        netvirt:
+          - odl-netvirt-openstack
