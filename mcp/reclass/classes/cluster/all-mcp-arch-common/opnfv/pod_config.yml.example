@@ -12,9 +12,6 @@ parameters:
     opnfv_infra_config_address: 10.167.4.100
     opnfv_infra_maas_node01_address: 10.167.4.3
     opnfv_infra_maas_node01_deploy_address: 192.168.11.3
-    opnfv_infra_compute_node01_address: 10.167.4.141
-    opnfv_infra_compute_node02_address: 10.167.4.142
-    opnfv_infra_compute_node03_address: 10.167.4.143
     opnfv_infra_kvm_address: 10.167.4.140
     opnfv_infra_kvm_node01_address: 10.167.4.141
     opnfv_infra_kvm_node02_address: 10.167.4.142
