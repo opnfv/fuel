@@ -27,8 +27,6 @@
     {%- set vlan_mgmt = conf['net_config']['mgmt']['vlan'] -%}
     {%- set vlan_private = conf['net_config']['private']['vlan'] -%}
     {%- set vlan_public = conf['net_config']['public']['vlan'] -%}
-
-    {%- set gateway_public = conf['net_config']['public']['gateway'] -%}
 {%- else -%}
     {%- set nic_admin = 'enp6s0' -%}
     {%- set nic_mgmt = 'enp6s0' -%}
@@ -92,31 +90,18 @@ parameters:
           enabled: true
           type: ovs_bridge
           mtu: ${_param:interface_mtu}
+        float-to-ex:
+          enabled: true
+          type: ovs_port
+          mtu: ${_param:interface_mtu}
+          bridge: br-floating
         br-ex:
           enabled: true
-          type: ovs_bridge
+          type: bridge
           mtu: ${_param:interface_mtu}
           address: ${_param:external_address}
           netmask: 255.255.255.0
-          proto: static
-          gateway: {{ gateway_public }}
-        floating-to-ex:
-          enabled: true
-          type: ovs_port
-          port_type: patch
-          bridge: br-floating
-          peer: ex-to-floating
-        ex-to-floating:
-          enabled: true
-          type: ovs_port
-          port_type: patch
-          bridge: br-ex
-          peer: floating-to-ex
-        public_ovs_interface:
-          enabled: true
-          name: {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}
-          proto: manual
-          ovs_port_type: OVSPort
-          type: ovs_port
-          ovs_bridge: br-ex
-          bridge: br-ex
+          use_interfaces:
+            - {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}
+          use_ovs_ports:
+            - float-to-ex
