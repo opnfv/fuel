@@ -28,9 +28,6 @@ parameters:
     infra_config_deploy_address: ${_param:reclass_config_master}
     infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
     infra_maas_node01_deploy_address: ${_param:opnfv_maas_pxe_address}
-    infra_compute_node01_address: ${_param:opnfv_infra_compute_node01_address}
-    infra_compute_node02_address: ${_param:opnfv_infra_compute_node02_address}
-    infra_compute_node03_address: ${_param:opnfv_infra_compute_node03_address}
 
     infra_kvm_address: ${_param:opnfv_infra_kvm_address}
     infra_kvm_node01_address: ${_param:opnfv_infra_kvm_node01_address}
