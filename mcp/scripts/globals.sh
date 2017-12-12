@@ -14,9 +14,6 @@ export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 
-# Define a default network address, baremetal might override it via PDF
-export MAAS_PXE_NETWORK=${MAAS_PXE_NETWORK:-192.168.11.0}
-
 # Derivated from above global vars
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
