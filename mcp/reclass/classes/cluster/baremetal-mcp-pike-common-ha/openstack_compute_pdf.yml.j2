@@ -112,9 +112,11 @@ parameters:
           port_type: patch
           bridge: br-ex
           peer: floating-to-ex
-        public_ovs_interface:
+        {{ nic_public }}:
           enabled: true
-          name: {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}
+          {%- if vlan_public and vlan_public != 'native' %}
+          ovs_options: tag={{ vlan_public }}
+          {%- endif %}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
