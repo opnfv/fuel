@@ -22,6 +22,11 @@ parameters:
       libvirt_bin: /etc/default/libvirtd
   linux:
     network:
+      dpdk_pkgs:
+        - dpdk
+        - dpdk-dev
+        - dpdk-igb-uio-dkms
+        - dpdk-rte-kni-dkms
       interface:
         dpdk0:
           name: ${_param:dpdk0_name}
