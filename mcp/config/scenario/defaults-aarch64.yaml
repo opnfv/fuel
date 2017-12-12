@@ -18,10 +18,7 @@ virtual:
       repos:
         # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
         - saltstack 500 deb [arch=arm64] http://linux.enea.com/saltstack/apt/ubuntu/16.04/arm64/2016.11 xenial main
-        - armband_openstack 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike main
-        - armband_mk_openstack 1100 deb [arch=arm64] http://linux.enea.com/apt-mk/xenial nightly pike
-        # NOTE(armband): Empty repo, keep commented out as reference
-        # - armband_mcp_extra 1100 deb [arch=arm64] http://linux.enea.com/apt-mk/xenial nightly extra
+        - armband_openstack 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
     pkg:
       install:
         - linux-image-generic-hwe-16.04-edge
