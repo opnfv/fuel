@@ -291,7 +291,7 @@ else
     eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
     for section in 'common' "${DEPLOY_TYPE}" "$(uname -m)"; do
       section_var="requirements_pkg_${section}[*]"
-      pkg_list+=${!section_var}
+      pkg_list+=" ${!section_var}"
     done
     # shellcheck disable=SC2086
     ${pkg_cmd} ${pkg_list}
