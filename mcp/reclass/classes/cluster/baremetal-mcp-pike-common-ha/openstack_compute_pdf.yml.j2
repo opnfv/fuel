@@ -27,8 +27,6 @@
     {%- set vlan_mgmt = conf['net_config']['mgmt']['vlan'] -%}
     {%- set vlan_private = conf['net_config']['private']['vlan'] -%}
     {%- set vlan_public = conf['net_config']['public']['vlan'] -%}
-
-    {%- set gateway_public = conf['net_config']['public']['gateway'] -%}
 {%- else -%}
     {%- set nic_admin = 'enp6s0' -%}
     {%- set nic_mgmt = 'enp6s0' -%}
@@ -40,9 +38,9 @@
 {%- endif -%}
 
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) -#}
-{%- set nics = { nic_admin: True, nic_mgmt: True, nic_public: True} -%}
+{%- set nics = { nic_admin: True, nic_mgmt: True } -%}
 
-{%- set vlans = { vlan_admin: nic_admin, vlan_mgmt: nic_mgmt, vlan_public: nic_public} -%}
+{%- set vlans = { vlan_admin: nic_admin, vlan_mgmt: nic_mgmt } -%}
 ---
 parameters:
   linux:
@@ -94,31 +92,18 @@ parameters:
           mtu: ${_param:interface_mtu}
         br-ex:
           enabled: true
-          type: ovs_bridge
-          mtu: ${_param:interface_mtu}
-          address: ${_param:external_address}
-          netmask: 255.255.255.0
-          proto: static
-          gateway: {{ gateway_public }}
-        floating-to-ex:
-          enabled: true
           type: ovs_port
-          port_type: patch
           bridge: br-floating
-          peer: ex-to-floating
-        ex-to-floating:
-          enabled: true
-          type: ovs_port
-          port_type: patch
-          bridge: br-ex
-          peer: floating-to-ex
-        {{ nic_public }}:
-          enabled: true
+          proto: static
           {%- if vlan_public and vlan_public != 'native' %}
           ovs_options: tag={{ vlan_public }}
           {%- endif %}
+          address: ${_param:external_address}
+          netmask: 255.255.255.0
+        {{ nic_public }}:
+          enabled: true
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
-          ovs_bridge: br-ex
-          bridge: br-ex
+          ovs_bridge: br-floating
+          bridge: br-floating
