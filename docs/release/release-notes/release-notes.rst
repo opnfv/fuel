@@ -61,13 +61,13 @@ Release Data
 | **Project**                          | fuel/armband                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-5.0.2                          |
+| **Repo/tag**                         | opnfv-5.1.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Euphrates 5.0                        |
+| **Release designation**              | Euphrates 5.1                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | October 20 2017                      |
+| **Release date**                     | December 15 2017                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Euphrates alignment to Released      |
@@ -84,7 +84,7 @@ Version Change
 
 Module Version Changes
 ----------------------
-This is the Euphrates 5.0 release.
+This is the Euphrates 5.1 release.
 It is based on following upstream versions:
 
 - MCP 1.0 Base Release
@@ -95,12 +95,14 @@ It is based on following upstream versions:
 
 Document Changes
 ----------------
-This is the Euphrates 5.0 release.
+This is the Euphrates 5.1 release.
 It comes with the following documentation:
 
-- Installation instructions
+- `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/armband/docs/release/installation/installation.instruction.html>`_
 
 - Release notes (This document)
+
+- `User guide <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/userguide/userguide.html>`_
 
 Reason for Version
 ==================
@@ -109,14 +111,14 @@ Feature Additions
 -----------------
 
 **JIRA TICKETS:**
-`Euphrates 5.0 new features  <https://jira.opnfv.org/issues/?filter=12029>`_
+`Euphrates 5.1 new features  <https://jira.opnfv.org/issues/?filter=12114>`_
 
 Bug Corrections
 ---------------
 
 **JIRA TICKETS:**
 
-`Euphrates 5.0 bug fixes  <https://jira.opnfv.org/issues/?filter=12027>`_
+`Euphrates 5.1 bug fixes  <https://jira.opnfv.org/issues/?filter=12115>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -133,9 +135,12 @@ Software Deliverables
 Documentation Deliverables
 --------------------------
 
-- Installation instructions
+- `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/armband/docs/release/installation/installation.instruction.html>`_
 
 - Release notes (This document)
+
+- `User guide <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/userguide/userguide.html>`_
+
 
 =========================================
 Known Limitations, Issues and Workarounds
@@ -158,7 +163,7 @@ Known Issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=12028>`_
+`Known issues <https://jira.opnfv.org/issues/?filter=12116>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -174,13 +179,13 @@ Workarounds
 ============
 Test Results
 ============
-The Euphrates 5.0 release with the Fuel deployment tool has undergone QA test
+The Euphrates 5.1 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Euphrates 5.0 release, please see:
+For more information on the OPNFV Euphrates 5.1 release, please see:
 
 OPNFV
 =====
