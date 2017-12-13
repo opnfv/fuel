@@ -53,6 +53,7 @@ $(notify "OPTIONS:" 2)
   -h  Print this message and exit
   -l  Lab-name
   -p  Pod-name
+  -P  Skip installation of package dependencies
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images
   -L  Deployment log path and file name
@@ -97,6 +98,10 @@ $(notify "Input parameters to the build script are:" 2)
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod2
+-P Skip installing dependency distro packages on current host
+   This flag should only be used if you have kept back older packages that
+   would be upgraded and that is undesirable on the current system.
+   Note that without the required packages, deploy will fail.
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
@@ -153,6 +158,7 @@ BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/config"
 
 # Customize deploy workflow
 DRY_RUN=${DRY_RUN:-0}
+USE_EXISTING_PKGS=${USE_EXISTING_PKGS:-0}
 USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
@@ -170,7 +176,7 @@ source "${DEPLOY_DIR}/lib.sh"
 #
 set +x
 OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dDfEFl:L:p:s:S:he" OPTION
+while getopts "b:B:dDfEFl:L:p:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -223,6 +229,9 @@ do
                 DEPLOY_TYPE='virtual'
             fi
             ;;
+        P)
+            USE_EXISTING_PKGS=1
+            ;;
         s)
             DEPLOY_SCENARIO=${OPTARG}
             ;;
@@ -269,26 +278,23 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
 # scenario, etc.
 
-# Install required packages
-[ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-  git make rsync mkisofs curl virtinst cpu-checker qemu-kvm uuid-runtime \
-  libvirt-bin cloud-guest-utils e2fsprogs kpartx
-[ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-  git make rsync genisoimage curl virt-install qemu-kvm util-linux \
-  libvirt cloud-utils-growpart e2fsprogs kpartx
-
-# For baremetal, python is indirectly required for PDF parsing
-if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
-  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y \
-    python python-ipaddress python-jinja2 python-yaml
-  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken \
-    python python-ipaddress python-jinja2 python-yaml
-fi
-
-# AArch64 VMs use AAVMF (guest UEFI)
-if [ "$(uname -m)" = 'aarch64' ]; then
-  [ -n "$(command -v apt-get)" ] && sudo apt-get install -y qemu-efi
-  [ -n "$(command -v yum)" ] && sudo yum install -y --skip-broken AAVMF
+# Install required packages on jump server
+if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
+    notify "[NOTE] Skipping distro pkg installation\n" 2 1>&2
+else
+    notify "[NOTE] Installing required distro pkgs\n" 2 1>&2
+    if [ -n "$(command -v apt-get)" ]; then
+      pkg_type='deb'; pkg_cmd='sudo apt-get install -y'
+    else
+      pkg_type='rpm'; pkg_cmd='sudo yum install -y --skip-broken'
+    fi
+    eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
+    for section in 'common' "${DEPLOY_TYPE}" "$(uname -m)"; do
+      section_var="requirements_pkg_${section}[*]"
+      pkg_list+=${!section_var}
+    done
+    # shellcheck disable=SC2086
+    ${pkg_cmd} ${pkg_list}
 fi
 
 if ! virsh list >/dev/null 2>&1; then
