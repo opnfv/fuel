@@ -31,3 +31,4 @@ wait_for 90 "! salt -C 'kvm* or cmp*' test.ping | " \
   "tee /dev/stderr | grep -Fq 'Not connected'"
 
 salt -C 'kvm* or cmp*' state.apply linux,ntp,salt.minion
+salt -C 'kvm* or cmp*' pkg.upgrade refresh=False
