@@ -14,6 +14,5 @@
 /usr/share/salt-formulas/env: 0008-Handle-file_recv-option.patch
 /usr/share/salt-formulas/env: 0009-seedng-module-Sync-salt-version.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
-/usr/share/salt-formulas/reclass: 0011-service.horizon.server.cluster-Default-to-v2-API.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
 /usr/share/salt-formulas/env: 0013-libvirt-unix_sock_group-s-libvirtd-libvirt.patch
