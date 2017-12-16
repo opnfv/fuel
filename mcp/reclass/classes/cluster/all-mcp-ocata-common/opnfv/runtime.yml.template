@@ -8,7 +8,7 @@
 ---
 parameters:
   _param:
-    reclass_config_master: ${SALT_MASTER}
+    opnfv_salt_master_ip: ${SALT_MASTER}
     opnfv_maas_mcp_address: ${MAAS_IP}
     opnfv_net_mcpcontrol: ${SALT_MASTER%.*}.0
     opnfv_net_mcpcontrol_mask: 255.255.255.0

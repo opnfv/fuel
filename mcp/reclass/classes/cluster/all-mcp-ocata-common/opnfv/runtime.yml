@@ -8,7 +8,7 @@
 ---
 parameters:
   _param:
-    reclass_config_master: 10.20.0.2
+    opnfv_salt_master_ip: 10.20.0.2
     opnfv_maas_mcp_address: 10.20.0.3
     opnfv_net_mcpcontrol: 10.20.0.0
     opnfv_net_mcpcontrol_mask: 255.255.255.0
