@@ -16,16 +16,3 @@ parameters:
     compute_hugepages_count: 16
     compute_hugepages_mount: /mnt/hugepages_1G
     compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
-  linux:
-    network:
-      host:
-        gtw01:
-          address: ${_param:openstack_gateway_node01_address}
-          names:
-            - ${_param:openstack_gateway_node01_hostname}
-            - ${_param:openstack_gateway_node01_hostname}.${_param:cluster_domain}
-        gtw02:
-          address: ${_param:openstack_gateway_node02_address}
-          names:
-            - ${_param:openstack_gateway_node02_hostname}
-            - ${_param:openstack_gateway_node02_hostname}.${_param:cluster_domain}
