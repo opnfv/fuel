@@ -10,6 +10,7 @@ parameters:
   _param:
 
     opnfv_infra_config_address: 10.167.4.100
+    opnfv_infra_config_pxe_address: 192.168.11.2
     opnfv_infra_maas_node01_address: 10.167.4.3
     opnfv_infra_maas_node01_deploy_address: 192.168.11.3
     opnfv_infra_kvm_address: 10.167.4.140
@@ -18,9 +19,8 @@ parameters:
     opnfv_infra_kvm_node03_address: 10.167.4.143
 
     opnfv_infra_maas_pxe_network_address: 192.168.11.0
-    opnfv_infra_maas_pxe_address: 192.168.11.3
-    opnfv_infra_maas_pxe_start_address: 192.168.11.5
-    opnfv_infra_maas_pxe_end_address: 192.168.11.250
+    opnfv_infra_maas_pxe_start_address: 192.168.11.1
+    opnfv_infra_maas_pxe_end_address: 192.168.11.3
 
     opnfv_openstack_gateway_node01_address: 10.167.4.124
     opnfv_openstack_gateway_node02_address: 10.167.4.125
@@ -28,11 +28,11 @@ parameters:
     opnfv_openstack_gateway_node01_tenant_address: 10.1.0.6
     opnfv_openstack_gateway_node02_tenant_address: 10.1.0.7
     opnfv_openstack_gateway_node03_tenant_address: 10.1.0.9
-    opnfv_openstack_proxy_node01_control_address: 10.167.4.81
-    opnfv_openstack_proxy_node02_control_address: 10.167.4.82
     opnfv_openstack_proxy_address: 172.30.10.103
     opnfv_openstack_proxy_node01_address: 172.30.10.104
     opnfv_openstack_proxy_node02_address: 172.30.10.105
+    opnfv_openstack_proxy_node01_control_address: 10.167.4.104
+    opnfv_openstack_proxy_node02_control_address: 10.167.4.105
     opnfv_openstack_control_address: 10.167.4.10
     opnfv_openstack_control_node01_address: 10.167.4.11
     opnfv_openstack_control_node02_address: 10.167.4.12
@@ -58,14 +58,15 @@ parameters:
     opnfv_openstack_compute_node01_tenant_address: 10.1.0.101
     opnfv_openstack_compute_node02_tenant_address: 10.1.0.102
     opnfv_openstack_compute_node03_tenant_address: 10.1.0.103
-    opnfv_openstack_compute_node01_external_address: 172.30.10.2
-    opnfv_openstack_compute_node02_external_address: 172.30.10.3
+    opnfv_openstack_compute_node01_external_address: 172.30.10.101
+    opnfv_openstack_compute_node02_external_address: 172.30.10.102
 
     opnfv_opendaylight_server_node01_single_address: 10.167.4.111
 
     opnfv_net_public_gw: 172.30.10.1
     opnfv_name_servers: ['8.8.8.8', '8.8.4.4']
     opnfv_dns_server01: '8.8.8.8'
+
     opnfv_net_mgmt_vlan: 300
     opnfv_net_tenant_vlan: 1000
 
