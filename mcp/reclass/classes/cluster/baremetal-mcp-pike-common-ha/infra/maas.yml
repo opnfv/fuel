@@ -25,7 +25,7 @@ parameters:
     single_address: ${_param:infra_maas_node01_deploy_address}
   maas:
     region:
-      salt_master_ip: ${_param:infra_config_deploy_address}
+      salt_master_ip: ${_param:reclass_config_master}
       domain: ${_param:cluster_domain}
       maas_config:
         commissioning_distro_series: 'xenial'

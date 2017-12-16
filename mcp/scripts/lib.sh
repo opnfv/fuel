@@ -220,8 +220,7 @@ function create_networks {
   # create required networks, including constant "mcpcontrol"
   # FIXME(alav): since we renamed "pxe" to "mcpcontrol", we need to make sure
   # we delete the old "pxe" virtual network, or it would cause IP conflicts.
-  # FIXME(alav): The same applies for "fuel1" virsh network.
-  for net in "fuel1" "pxe" "mcpcontrol" "${vnode_networks[@]}"; do
+  for net in "pxe" "mcpcontrol" "${vnode_networks[@]}"; do
     if virsh net-info "${net}" >/dev/null 2>&1; then
       virsh net-destroy "${net}" || true
       virsh net-undefine "${net}"
@@ -255,8 +254,8 @@ function create_vms {
 
     # prepare network args
     net_args=" --network network=mcpcontrol,model=virtio"
-    if [ "${vnode_data[0]}" = "mas01" ]; then
-      # MaaS node's 3rd interface gets connected to PXE/Admin Bridge
+    if [ "${DEPLOY_TYPE:-}" = 'baremetal' ]; then
+      # 3rd interface gets connected to PXE/Admin Bridge (cfg01, mas01)
       vnode_networks[2]="${vnode_networks[0]}"
     fi
     for net in "${vnode_networks[@]:1}"; do
