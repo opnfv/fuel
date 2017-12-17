@@ -32,6 +32,7 @@ parameters:
         default_distro_series: 'xenial'
         default_osystem: 'ubuntu'
         default_storage_layout: 'lvm'
+        enable_http_proxy: true
         disk_erase_with_secure_erase: false
         dnssec_validation: 'no'
         enable_third_party_drivers: true
