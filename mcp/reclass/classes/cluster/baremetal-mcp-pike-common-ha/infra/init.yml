@@ -67,6 +67,11 @@ parameters:
           enabled: true
           sudo: true
           home: /home/ubuntu
+      env:
+        http_proxy: http://${_param:infra_maas_node01_deploy_address}:8000
+        https_proxy: http://${_param:infra_maas_node01_deploy_address}:8000
+        no_proxy:
+          - .local
     network:
       host:
         cfg01:
