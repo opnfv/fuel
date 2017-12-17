@@ -50,7 +50,17 @@ while [ $rc -ne 0 ] && [ ${attempt} -lt ${total_attempts} ]; do
 done
 
 wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
+
+# Propagate APT proxy config created by curtin on baremetal nodes to VCP VMs
+APT_CONF_D_CURTIN='/etc/apt/apt.conf.d/90curtin-aptproxy'
+salt -C 'kvm01*' cp.push "${APT_CONF_D_CURTIN}"
+cd /srv/salt/env/prd/maas/files && ln -sf \
+  /var/cache/salt/master/minions/kvm01.*/files/${APT_CONF_D_CURTIN}
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' cp.get_file \
+  "salt://maas/files/$(basename "${APT_CONF_D_CURTIN}")" "${APT_CONF_D_CURTIN}"
+
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
+wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' service.force_reload salt-minion"
 wait_for 10 "! salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp | " \
   "tee /dev/stderr | grep -Eq '(Not connected|No response)'"
 
