@@ -76,7 +76,6 @@ parameters:
           enabled: true
           proto: dhcp
           type: bridge
-          name_servers: ${_param:opnfv_name_servers}
           use_interfaces:
             - {{ nic_admin }}{% if vlan_admin and vlan_admin != 'native' %}.{{ vlan_admin }}{% endif %}
           noifupdown: true
