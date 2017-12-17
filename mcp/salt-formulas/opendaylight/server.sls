@@ -11,7 +11,14 @@
 
 opendaylight_repo:
   pkgrepo.managed:
-  - ppa: {{ server.repo }}
+  # NOTE(armband): PPA handling behind proxy broken, define it explicitly
+  # https://github.com/saltstack/salt/pull/45224
+  # - ppa: {{ server.repo }}
+  - human_name: opendaylight-ppa
+  - name: deb http://ppa.launchpad.net/odl-team/nitrogen/ubuntu xenial main
+  - file: /etc/apt/sources.list.d/odl-team-ubuntu-nitrogen-xenial.list
+  - keyid: 49B07274951063870A8B7EAE7B8AA1A344C05248
+  - keyserver: keyserver.ubuntu.com
 
 opendaylight:
   pkg.installed:
