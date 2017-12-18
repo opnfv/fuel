@@ -11,16 +11,6 @@ parameters:
 
     openstack_version: pike
 
-    openstack_gateway_node01_address: ${_param:opnfv_openstack_gateway_node01_address}
-    openstack_gateway_node02_address: ${_param:opnfv_openstack_gateway_node02_address}
-    openstack_gateway_node03_address: ${_param:opnfv_openstack_gateway_node03_address}
-    openstack_gateway_node01_tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
-    openstack_gateway_node02_tenant_address: ${_param:opnfv_openstack_gateway_node02_tenant_address}
-    openstack_gateway_node03_tenant_address: ${_param:opnfv_openstack_gateway_node03_tenant_address}
-    openstack_gateway_node01_hostname: gtw01
-    openstack_gateway_node02_hostname: gtw02
-    openstack_gateway_node03_hostname: gtw03
-
     # openstack service addresses
     openstack_proxy_node01_control_address: ${_param:opnfv_openstack_proxy_node01_control_address}
     openstack_proxy_node02_control_address: ${_param:opnfv_openstack_proxy_node02_control_address}
