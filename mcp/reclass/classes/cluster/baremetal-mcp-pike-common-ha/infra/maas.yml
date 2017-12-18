@@ -36,7 +36,7 @@ parameters:
         dnssec_validation: 'no'
         enable_third_party_drivers: true
         network_discovery: 'enabled'
-        default_min_hwe_kernel: 'hwe-16.04'
+        default_min_hwe_kernel: 'hwe-16.04-edge'
       subnets:
         opnfv_maas_pxe:
           name: ${_param:opnfv_infra_maas_pxe_network_address}/24
