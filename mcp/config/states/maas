@@ -64,10 +64,8 @@ fi
 
 # MaaS rack/region controller, node commissioning
 salt -C 'mas01*' state.apply linux,salt,openssh,ntp
-salt -C 'mas01*' state.apply linux.network.interface
 salt -C 'mas01*' state.apply maas.pxe_nat
 salt -C 'mas01*' state.apply maas.cluster
-salt -C 'cfg01*' state.apply maas.pxe_route
 
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"
 

@@ -26,7 +26,7 @@ parameters:
     hwe_kernel: 'hwe-16.04-edge'
   maas:
     region:
-      salt_master_ip: ${_param:infra_config_deploy_address}
+      salt_master_ip: ${_param:reclass_config_master}
       domain: ${_param:cluster_domain}
       maas_config:
         commissioning_distro_series: 'xenial'
