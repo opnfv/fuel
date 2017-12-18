@@ -19,7 +19,7 @@ function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
   local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
     grep -cE '^\s{2}\w+:$')
-  wait_for 180 "${statuscmd} | tee /dev/stderr | " \
+  wait_for 30 "${statuscmd} | tee /dev/stderr | " \
     "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
   local statusout=$(eval "${statuscmd}")
 
@@ -28,7 +28,7 @@ function maas_fixup() {
   for node_system_id in ${fcnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
-    sleep 30
+    sleep 10
   done
   if [ -n "${fcnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
@@ -37,12 +37,14 @@ function maas_fixup() {
 
   local fdnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: (Failed deployment|Allocated)\n\s+system_id: \K.+\n')
+  local rnodes=$(echo "${statusout}" | \
+    grep -Pzo 'status: Ready\n\s+system_id: \K.+\n')
   for node_system_id in ${fdnodes}; do
     salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
       pillar="{'system_id': '${node_system_id}'}"
-    sleep 30
+    sleep 10
   done
-  if [ -n "${fdnodes}" ]; then
+  if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines.deploy
     return 1
   fi
@@ -72,15 +74,12 @@ salt -C 'cfg01*' state.apply maas.pxe_route
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"
 
 salt -C 'mas01*' state.apply maas.machines
-wait_for 10 maas_fixup
+# MaaS node deployment
+wait_for 20 maas_fixup
 
 # cleanup outdated salt keys
 salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
   xargs -I{} salt-key -yd {}
-
-# MaaS node deployment
-salt -C 'mas01*' state.apply maas.machines.deploy
-wait_for 10 maas_fixup
 
 salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
