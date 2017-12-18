@@ -66,8 +66,8 @@ new file mode 100644
 +maas login {{ region.admin.username }} \
 +  http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < \
 +  /var/lib/maas/.maas_credentials || exit 1
-+# wait max 15 min for service up / image download, 5 min region to rack sync
-+wait_for 90 "grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log"
++# wait max 5 min for service up, 15 min image download, 5 min region to rack sync
++wait_for 30 "grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log"
 +maas opnfv boot-resources import || exit 2
 +wait_for 90 "! maas opnfv boot-resources is-importing | grep -q 'true'"
 +maas opnfv rack-controllers import-boot-images || exit 3
