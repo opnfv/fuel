@@ -23,6 +23,7 @@ parameters:
     maas_db_password: opnfv_secret
     dns_server01: ${_param:opnfv_dns_server01}
     single_address: ${_param:infra_maas_node01_deploy_address}
+    hwe_kernel: 'hwe-16.04-edge'
   maas:
     region:
       salt_master_ip: ${_param:infra_config_deploy_address}
@@ -36,7 +37,7 @@ parameters:
         dnssec_validation: 'no'
         enable_third_party_drivers: true
         network_discovery: 'enabled'
-        default_min_hwe_kernel: 'hwe-16.04'
+        default_min_hwe_kernel: ${_param:hwe_kernel}
       subnets:
         opnfv_maas_pxe:
           name: ${_param:opnfv_infra_maas_pxe_network_address}/24
@@ -62,7 +63,7 @@ parameters:
             power_user: ${_param:opnfv_maas_node01_power_user}
           architecture: ${_param:opnfv_maas_node01_architecture}
           distro_series: xenial
-          hwe_kernel: hwe-16.04
+          hwe_kernel: ${_param:hwe_kernel}
         kvm02:
           interface:
             mac: ${_param:opnfv_maas_node02_interface_mac}
@@ -73,7 +74,7 @@ parameters:
             power_user: ${_param:opnfv_maas_node02_power_user}
           architecture: ${_param:opnfv_maas_node02_architecture}
           distro_series: xenial
-          hwe_kernel: hwe-16.04
+          hwe_kernel: ${_param:hwe_kernel}
         kvm03:
           interface:
             mac: ${_param:opnfv_maas_node03_interface_mac}
@@ -84,7 +85,7 @@ parameters:
             power_user: ${_param:opnfv_maas_node03_power_user}
           architecture: ${_param:opnfv_maas_node03_architecture}
           distro_series: xenial
-          hwe_kernel: hwe-16.04
+          hwe_kernel: ${_param:hwe_kernel}
         cmp001:
           interface:
             mac: ${_param:opnfv_maas_node04_interface_mac}
@@ -95,7 +96,7 @@ parameters:
             power_user: ${_param:opnfv_maas_node04_power_user}
           architecture: ${_param:opnfv_maas_node04_architecture}
           distro_series: xenial
-          hwe_kernel: hwe-16.04
+          hwe_kernel: ${_param:hwe_kernel}
         cmp002:
           interface:
             mac: ${_param:opnfv_maas_node05_interface_mac}
@@ -106,7 +107,7 @@ parameters:
             power_user: ${_param:opnfv_maas_node05_power_user}
           architecture: ${_param:opnfv_maas_node05_architecture}
           distro_series: xenial
-          hwe_kernel: hwe-16.04
+          hwe_kernel: ${_param:hwe_kernel}
   linux:
     network:
       interface:
