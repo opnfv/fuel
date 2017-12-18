@@ -97,7 +97,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   salt -C "${NODE_MASK} or cfg01*" state.apply salt | \
     grep -Fq 'No response' && salt -C "${NODE_MASK} or cfg01*" state.apply salt
 
-  salt -C 'I@salt:master' state.sls linux
+  salt-call state.sls linux || salt-call state.sls linux
   salt -C "${NODE_MASK} and not cfg01*" state.sls linux || true
   salt -C "${NODE_MASK} and not cfg01*" pkg.upgrade refresh=False
 
