@@ -19,7 +19,7 @@ function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
   local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
     grep -cE '^\s{2}\w+:$')
-  wait_for 180 "${statuscmd} | tee /dev/stderr | " \
+  wait_for 30 "${statuscmd} | tee /dev/stderr | " \
     "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
   local statusout=$(eval "${statuscmd}")
 
@@ -28,7 +28,7 @@ function maas_fixup() {
   for node_system_id in ${fcnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
-    sleep 30
+    sleep 10
   done
   if [ -n "${fcnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
@@ -40,7 +40,7 @@ function maas_fixup() {
   for node_system_id in ${fdnodes}; do
     salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
       pillar="{'system_id': '${node_system_id}'}"
-    sleep 30
+    sleep 10
   done
   if [ -n "${fdnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines.deploy
