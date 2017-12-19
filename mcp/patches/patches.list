@@ -15,4 +15,3 @@
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
 /usr/share/salt-formulas/env: 0011-maas-region-interface-default-mode-DHCP.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
-/usr/share/salt-formulas/env: 0013-libvirt-unix_sock_group-s-libvirtd-libvirt.patch

@@ -40,6 +40,7 @@ parameters:
     server:
       service: libvirtd
       config_sys: /etc/default/libvirtd
+      unix_sock_group: libvirt
   salt:
     control:
       size:  # RAM 4096,8192,16384,32768,65536
