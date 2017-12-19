@@ -18,6 +18,3 @@ wait_for 90 "! salt -I 'nova:compute' test.ping | " \
 
 salt -I 'nova:compute' alternatives.set ovs-vswitchd /usr/lib/openvswitch-switch-dpdk/ovs-vswitchd-dpdk
 salt -I 'nova:compute' service.restart openvswitch-switch
-
-salt -I 'nova:compute' pkg.install libvirt-bin
-salt -I 'nova:compute' file.chown /var/run/openvswitch libvirt-qemu kvm
