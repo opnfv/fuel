@@ -14,6 +14,7 @@ parameters:
   neutron:
     gateway:
       dpdk: 'True'
+      vhost_socket_dir: ${_param:compute_ovs_vhost_socket_dir}
       backend:
         tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
   nova:
