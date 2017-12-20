@@ -19,7 +19,9 @@ function maas_fixup() {
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
   local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
     grep -cE '^\s{2}\w+:$')
-  wait_for 30 "${statuscmd} | tee /dev/stderr | " \
+
+  # wait_for has 10sec timeout * 96 = 16 min > 15min for Failed state
+  wait_for 96 "${statuscmd} | tee /dev/stderr | " \
     "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
   local statusout=$(eval "${statuscmd}")
 
@@ -74,12 +76,14 @@ salt -C 'cfg01*' state.apply maas.pxe_route
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"
 
 salt -C 'mas01*' state.apply maas.machines
-# MaaS node deployment
-wait_for 20 maas_fixup
 
 # cleanup outdated salt keys
+sleep 30
 salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
   xargs -I{} salt-key -yd {}
+
+# MaaS node deployment
+wait_for 10 maas_fixup
 
 salt -C 'mas01*' pillar.item\
   maas:region:admin:username \
