@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_2186a013",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-20T14:25:22Z",
+      "side": 1,
+      "message": "Previous patch broke this because we don\u0027t catch \u0027Commissioning\u0027/\u0027Deploying\u0027 transitional states here.\nLet\u0027s merge this as-is to unbreak the build and I\u0027ll take another look at it when I find some time.",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 73
+      },
+      "revId": "52bd5a8f6c5b27ec3070625a51aea8ff85f5a8db",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
