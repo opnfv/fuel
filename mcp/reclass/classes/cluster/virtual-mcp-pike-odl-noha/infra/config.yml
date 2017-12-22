@@ -8,6 +8,7 @@
 ---
 classes:
   - system.reclass.storage.system.opendaylight_control_single
+  - system.reclass.storage.system.openstack_gateway_single
   - cluster.virtual-mcp-pike-common-noha.infra.config
   - cluster.virtual-mcp-pike-odl-noha
 parameters:
@@ -20,3 +21,7 @@ parameters:
           params:
             linux_system_codename: xenial
             single_address: ${_param:opendaylight_service_host}
+        openstack_gateway_node01:
+          params:
+            tenant_address: 10.1.0.110
+            external_address: 10.16.0.110

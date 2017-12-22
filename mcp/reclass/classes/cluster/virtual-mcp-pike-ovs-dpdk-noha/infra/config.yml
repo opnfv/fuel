@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - system.reclass.storage.system.openstack_gateway_single
   - cluster.virtual-mcp-pike-common-noha.infra.config
   - cluster.virtual-mcp-pike-ovs-dpdk-noha
 parameters:
@@ -21,3 +22,7 @@ parameters:
           params:
             dpdk0_name: ${_param:opnfv_fn_vm_tertiary_interface}
             dpdk0_pci: '"0000:00:05.0"'
+        openstack_gateway_node01:
+          params:
+            tenant_address: 10.1.0.110
+            external_address: 10.16.0.110
