@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_5001e836",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_interface_vcp_triport.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2017-12-22T16:30:33Z",
+      "side": 0,
+      "message": "I was going to remove this as part of the MaaS proxy, but since we already changed the minions to use 192.168.11.2, I guess we can just drop it now.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 71
+      },
+      "revId": "5c56cbad4b65d69ec0b23042ee194e30d1234200",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
