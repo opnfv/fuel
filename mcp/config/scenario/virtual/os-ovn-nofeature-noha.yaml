@@ -9,7 +9,7 @@
 cluster:
   domain: virtual-mcp-pike-ovn-noha.local
   states:
-    - openstack
+    - openstack_noha
     - neutron_compute
     - networks
 virtual:
@@ -22,8 +22,8 @@ virtual:
     vcpus: 4
     ram: 14336
   cmp01:
-    vcpus: 4
+    vcpus: 5
     ram: 8192
   cmp02:
-    vcpus: 4
+    vcpus: 5
     ram: 8192
