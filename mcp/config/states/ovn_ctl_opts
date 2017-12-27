@@ -1,3 +1,4 @@
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -5,26 +6,10 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
----
-cluster:
-  domain: virtual-mcp-pike-ovn-noha.local
-  states:
-    - openstack_noha
-    - ovn_ctl_opts
-    - neutron_compute
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  cmp01:
-    vcpus: 5
-    ram: 8192
-  cmp02:
-    vcpus: 5
-    ram: 8192
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+
+salt -I 'neutron:server' file.append /etc/default/ovn-central \
+  args="OVN_CTL_OPTS='--db-nb-create-insecure-remote=yes --db-sb-create-insecure-remote=yes'"
+salt -I 'neutron:server' service.restart ovn-central
+sleep 30
