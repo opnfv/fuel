@@ -128,6 +128,7 @@ function mount_image {
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
   sudo kpartx -av "${OPNFV_NBD_DEV}"
+  sleep 5 # /dev/nbdNp1 takes some time to come up
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
   if sudo growpart "${OPNFV_NBD_DEV}" 1; then
     sudo kpartx -u "${OPNFV_NBD_DEV}"
