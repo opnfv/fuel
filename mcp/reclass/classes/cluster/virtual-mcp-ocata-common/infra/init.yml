@@ -8,6 +8,11 @@
 ---
 parameters:
   linux:
+    system:
+      apt:
+        config:
+          prefer_ipv4:
+            Acquire::ForceIPv4: true
     network:
       host:
         cfg01:
