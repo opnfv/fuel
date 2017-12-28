@@ -1,0 +1,31 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 28 Dec 2017 12:49:33 +0400
+Subject: [PATCH] Use keystone v3 endpoints by default
+
+The v2.0 auth API has been already marked as deprecated in the
+Mitaka release and will be removed in the "T" release.
+The v3 API should be used instead.
+
+Change-Id: I7e9a1b180f4e0ddb24ec72ed9f08c9e2580c7897
+
+diff --git a/keystone/client/single.yml b/keystone/client/single.yml
+index ebf5b5ff..80077105 100644
+--- a/keystone/client/single.yml
++++ b/keystone/client/single.yml
+@@ -4,7 +4,7 @@ classes:
+ - system.keystone.client.service.glance
+ - system.keystone.client.service.heat
+ - system.keystone.client.service.heat-cfn
+-- system.keystone.client.service.keystone
++- system.keystone.client.service.keystone3
+ - system.keystone.client.service.neutron
+ parameters:
+   linux:
