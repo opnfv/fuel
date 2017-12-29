@@ -34,9 +34,6 @@ parameters:
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
   linux:
-    network:
-      remove_iface_files:
-        - '/etc/network/interfaces.d/50-cloud-init.cfg'
     system:
       kernel:
         boot_options:
