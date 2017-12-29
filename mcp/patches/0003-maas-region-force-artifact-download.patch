@@ -50,7 +50,7 @@ diff --git a/maas/files/maas-artifact-sync.sh b/maas/files/maas-artifact-sync.sh
 new file mode 100644
 --- /dev/null
 +++ b/maas/files/maas-artifact-sync.sh
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,20 @@
 +{%- from "maas/map.jinja" import region with context %}
 +#!/bin/bash
 +function wait_for {
@@ -67,8 +67,7 @@ new file mode 100644
 +  http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < \
 +  /var/lib/maas/.maas_credentials || exit 1
 +# wait max 5 min for service up, 15 min image download, 5 min region to rack sync
-+wait_for 30 "grep -qzE '(Unable to probe for DHCP servers|DHCP probe complete).*Rack controller' /var/log/maas/rackd.log"
-+maas opnfv boot-resources import || exit 2
++wait_for 30 "maas opnfv boot-resources import"
 +wait_for 90 "! maas opnfv boot-resources is-importing | grep -q 'true'"
 +maas opnfv rack-controllers import-boot-images || exit 3
 +wait_for 30 "test -d /var/lib/maas/boot-resources/current/ubuntu/amd64"
