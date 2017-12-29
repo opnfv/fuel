@@ -32,10 +32,6 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-  linux:
-    network:
-      remove_iface_files:
-        - '/etc/network/interfaces.d/50-cloud-init.cfg'
   libvirt:
     server:
       service: libvirtd
