@@ -72,7 +72,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   export DEBIAN_FRONTEND=noninteractive
   OLD_DOMAIN=\$(grep -Pzo "id: cfg01\.\K(\S*)" /etc/salt/minion.d/minion.conf) || true
   BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 " \
-    MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=nightly \
+    MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=stable \
       EXTRA_FORMULAS="nfs" \
         ./salt-master-init.sh
   salt-key -Ay
