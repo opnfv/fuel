@@ -29,7 +29,6 @@ salt -C 'kvm* or cmp*' service.force_reload salt-minion
 salt -C 'cmp*' state.apply linux.system
 salt -C 'cmp*' state.apply linux.network || true
 salt -C 'kvm* or cmp*' system.reboot
-wait_for 90 "! salt -C 'kvm* or cmp*' test.ping | " \
-  "tee /dev/stderr | grep -Fq 'Not connected'"
+wait_for 90.0 "salt -C 'kvm* or cmp*' test.ping"
 
 salt -C 'kvm* or cmp*' state.apply linux,ntp

@@ -27,11 +27,10 @@ if [ "${ERASE_ENV}" -eq 1 ]; then
 fi
 
 # KVM libvirt first, VCP deployment
-wait_for 5 "salt -C 'kvm*' state.sls libvirt"
+wait_for 5.0 "salt -C 'kvm*' state.sls libvirt"
 
 salt -C 'kvm* or cmp*' state.apply salt
-wait_for 10 "! salt -C 'kvm*' state.sls salt.control | " \
-  "tee /dev/stderr | grep -Fq 'Not connected'"
+wait_for 10.0 "salt -C 'kvm*' state.sls salt.control"
 
 vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | \
             awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
@@ -49,7 +48,7 @@ while [ $rc -ne 0 ] && [ ${attempt} -lt ${total_attempts} ]; do
   ((attempt+=1))
 done
 
-wait_for 10 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
+wait_for 10.0 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
 
 # Propagate APT proxy config created by curtin on baremetal nodes to VCP VMs
 APT_CONF_D_CURTIN='/etc/apt/apt.conf.d/90curtin-aptproxy'
@@ -61,8 +60,7 @@ salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' cp.get_file \
 
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' service.force_reload salt-minion"
-wait_for 10 "! salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp | " \
-  "tee /dev/stderr | grep -Eq '(Not connected|No response)'"
+wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
 
 wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"
@@ -71,5 +69,4 @@ wait_for 10 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_US
 salt -C 'prx*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
   args='unset new_routers'
 salt -C 'prx*' system.reboot
-wait_for 30 "! salt -C 'prx*' test.ping | " \
-  "tee /dev/stderr | grep -Fq 'Not connected'"
+wait_for 30.0 "salt -C 'prx*' test.ping"
