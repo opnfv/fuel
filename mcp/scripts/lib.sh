@@ -417,13 +417,25 @@ function wait_for {
     local total_attempts=$1; shift
     local cmdstr=$*
     local sleep_time=10
-    echo "[NOTE] Waiting for cmd to return success: ${cmdstr}"
+    echo "[wait_for] Waiting for cmd to return success: ${cmdstr}"
     # shellcheck disable=SC2034
     for attempt in $(seq "${total_attempts}"); do
-      # shellcheck disable=SC2015
-      eval "${cmdstr}" && return 0 || true
+      echo "[wait_for] Attempt ${attempt}/${total_attempts} for: ${cmdstr}"
+      if [ "${total_attempts%.*}" = "${total_attempts}" ]; then
+        # shellcheck disable=SC2015
+        eval "${cmdstr}" && echo "[wait_for] OK: ${cmdstr}" && return 0 || true
+      else
+        _o=$(eval "${cmdstr}")
+        _r=$?
+        echo "${_o}" | tee /dev/stderr | grep -Eq '(Not connected|No response)'
+        _c=$?
+        if [ "${_o}" -eq 0 ] && [ "${_c}" -ne 0 ]; then
+          echo "[wait_for] OK: ${cmdstr}" && return 0
+        fi
+      fi
       echo -n '.'; sleep "${sleep_time}"
     done
+    echo "[wait_for] ERROR: Failed after max attempts: ${cmdstr}"
     return 1
   )
 }
