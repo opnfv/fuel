@@ -12,6 +12,7 @@ parameters:
     openstack_version: pike
 
     # openstack service addresses
+    openstack_proxy_control_address: ${_param:opnfv_openstack_proxy_control_address}
     openstack_proxy_node01_control_address: ${_param:opnfv_openstack_proxy_node01_control_address}
     openstack_proxy_node02_control_address: ${_param:opnfv_openstack_proxy_node02_control_address}
     openstack_proxy_address: ${_param:opnfv_openstack_proxy_address}

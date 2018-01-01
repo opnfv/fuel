@@ -17,16 +17,20 @@ classes:
   - system.salt.minion.cert.proxy
   - system.sphinx.server.doc.reclass
   - service.keepalived.cluster.single
+  - system.keepalived.cluster.instance.openstack_web_public_vip
 parameters:
   _param:
-    keepalived_vip_interface: ${_param:single_nic}
+    cluster_vip_address: ${_param:openstack_proxy_address}
+    keepalived_openstack_web_public_vip_address: ${_param:cluster_vip_address}
+    keepalived_openstack_web_public_vip_interface: ${_param:single_nic}
+    keepalived_vip_address: ${_param:openstack_proxy_control_address}
+    keepalived_vip_interface: ${_param:control_nic}
     keepalived_vip_virtual_router_id: 240
     nginx_proxy_ssl:
       enabled: true
       authority: ${_param:salt_minion_ca_authority}
       engine: salt
       mode: secure
-    cluster_vip_address: ${_param:openstack_proxy_address}
     salt_minion_ca_host: cfg01.${_param:cluster_domain}
   linux:
     system:

@@ -31,6 +31,7 @@ parameters:
     opnfv_openstack_proxy_address: 172.30.10.103
     opnfv_openstack_proxy_node01_address: 172.30.10.104
     opnfv_openstack_proxy_node02_address: 172.30.10.105
+    opnfv_openstack_proxy_control_address: 10.167.4.103
     opnfv_openstack_proxy_node01_control_address: 10.167.4.104
     opnfv_openstack_proxy_node02_control_address: 10.167.4.105
     opnfv_openstack_control_address: 10.167.4.10
