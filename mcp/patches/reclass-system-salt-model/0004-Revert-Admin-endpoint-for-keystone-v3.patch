@@ -1,0 +1,35 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 2 Jan 2018 05:40:20 +0100
+Subject: [PATCH] Revert "Admin endpoint for keystone v3"
+
+Now that v2 API is obsolete, the 'admin' endpoint is unavailable,
+forcing clients to try the next endpoint (i.e. 'public'), which
+usually works, but implies external routing between mgmt and public
+is in place.
+For isolated networks, no valid endpoint is found.
+
+This reverts commit a045e8ef192b5a729e25c616cade70c2b0ad0761.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ keystone/client/service/keystone3.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/keystone/client/service/keystone3.yml b/keystone/client/service/keystone3.yml
+index bd0c63b..cc385f2 100644
+--- a/keystone/client/service/keystone3.yml
++++ b/keystone/client/service/keystone3.yml
+@@ -20,4 +20,4 @@ parameters:
+                 internal_path: '/v3'
+                 admin_address: ${_param:keystone_service_host}
+                 admin_port: 35357
+-                admin_path: '/v2.0'
++                admin_path: '/v3'
