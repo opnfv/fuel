@@ -39,6 +39,20 @@ parameters:
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
     glusterfs_version: '3.13'
+  heat:
+    server:
+      metadata:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8000
+        protocol: http
+      waitcondition:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8000
+        protocol: http
+      watch:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8003
+        protocol: http
   nova:
     controller:
       pkgs:
