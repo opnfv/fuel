@@ -15,9 +15,12 @@ Mitaka release and will be removed in the "T" release.
 The v3 API should be used instead.
 
 Change-Id: I7e9a1b180f4e0ddb24ec72ed9f08c9e2580c7897
+---
+ keystone/client/single.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/single.yml b/keystone/client/single.yml
-index ebf5b5ff..80077105 100644
+index ebf5b5f..8007710 100644
 --- a/keystone/client/single.yml
 +++ b/keystone/client/single.yml
 @@ -4,7 +4,7 @@ classes:
