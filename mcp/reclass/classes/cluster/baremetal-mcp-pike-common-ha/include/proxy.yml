@@ -21,3 +21,8 @@ parameters:
       proxy:
         host: ${_param:infra_maas_node01_deploy_address}
         port: 8000
+  linux:
+    system:
+      proxy:
+        http: http://${_param:infra_maas_node01_deploy_address}:8000
+        https: http://${_param:infra_maas_node01_deploy_address}:8000
