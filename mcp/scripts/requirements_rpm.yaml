@@ -11,12 +11,14 @@ requirements_pkg:
   common:
     - cloud-utils-growpart
     - curl
+    - epel-release
     - e2fsprogs
     - genisoimage
     - git
     - kpartx
     - libvirt
     - make
+    - nbd  # from EPEL repository
     - qemu-kvm
     - rsync
     - util-linux
