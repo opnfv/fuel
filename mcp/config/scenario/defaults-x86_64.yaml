@@ -11,3 +11,19 @@ virtual:
   default:
     vcpus: 2
     ram: 4096
+  common:
+    apt:
+      keys:
+        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub
+      repos:
+        # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main
+    pkg:
+      install:
+        - linux-image-generic-hwe-16.04-edge
+        - linux-headers-generic-hwe-16.04-edge
+        - salt-minion
+  control:
+    pkg:
+      install:
+        - cloud-init
