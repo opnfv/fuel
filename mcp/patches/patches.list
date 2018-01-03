@@ -13,6 +13,7 @@
 /usr/share/salt-formulas/env: 0006-maas-module-Add-VLAN-DHCP-enable-support.patch
 /usr/share/salt-formulas/env: 0007-network.interface-Fix-ifup-OVS-port-with-route.patch
 /usr/share/salt-formulas/env: 0008-Handle-file_recv-option.patch
+/usr/share/salt-formulas/env: 0009-seedng-module-Sync-salt-version.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
 /usr/share/salt-formulas/reclass: 0011-service.horizon.server.cluster-Default-to-v2-API.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
