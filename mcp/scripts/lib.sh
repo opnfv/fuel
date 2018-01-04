@@ -91,8 +91,12 @@ function __kernel_modules {
   (
     cd ~/rpmbuild/SPECS
     rpmbuild -bp --nodeps --target="${__uname_m}" kernel*.spec
-    cd ~/rpmbuild/BUILD/"${__srpm%.src.rpm}/linux-${__uname_r/el7*./el7.centos.}"
+    cd ~/rpmbuild/BUILD/"${__srpm%.src.rpm}"/linux-*
     sed -i 's/^.*\(CONFIG_BLK_DEV_NBD\).*$/\1=m/g' .config
+    # http://centosfaq.org/centos/nbd-does-not-compile-for-3100-514262el7x86_64
+    if grep -Rq 'REQ_TYPE_DRV_PRIV' drivers/block; then
+      sed -i 's/REQ_TYPE_SPECIAL/REQ_TYPE_DRV_PRIV/g' drivers/block/nbd.c
+    fi
     gunzip -c "/boot/symvers-${__uname_r}.gz" > Module.symvers
     make prepare modules_prepare
     make M=drivers/block -j
