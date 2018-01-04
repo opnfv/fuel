@@ -11,18 +11,21 @@ requirements_pkg:
   common:
     - cloud-utils-growpart
     - curl
+    - elfutils-libelf-devel
     - epel-release
     - e2fsprogs
     - genisoimage
     - git
+    - kernel-devel
     - kpartx
     - libvirt
     - make
-    - nbd  # from EPEL repository
     - qemu-kvm
+    - rpm-build
     - rsync
     - util-linux
     - virt-install
+    - wget
   # Optional, arch-specific requirements, matched by key name = $(uname -m)
   aarch64:
     # AArch64 VMs use AAVMF (guest UEFI)
