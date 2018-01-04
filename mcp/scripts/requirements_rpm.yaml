@@ -9,6 +9,7 @@
 requirements_pkg:
   # Common pkgs required for all deploys, no matter the type, arch etc.
   common:
+    - bc
     - cloud-utils-growpart
     - curl
     - e2fsprogs
@@ -17,10 +18,13 @@ requirements_pkg:
     - kpartx
     - libvirt
     - make
+    - openssl-devel
     - qemu-kvm
+    - rpm-build
     - rsync
     - util-linux
     - virt-install
+    - wget
   # Optional, arch-specific requirements, matched by key name = $(uname -m)
   aarch64:
     # AArch64 VMs use AAVMF (guest UEFI)

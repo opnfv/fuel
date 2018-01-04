@@ -35,12 +35,79 @@ function get_base_image {
   wget -P "${image_dir}" -N "${base_image}"
 }
 
+function __kernel_modules {
+  # Load mandatory kernel modules: loop, nbd
+  local image_dir=$1
+  sudo modprobe -f loop
+  if sudo modprobe -f nbd max_part=8; then
+    return 0
+  fi
+  # CentOS (or RHEL family in general) do not provide 'nbd' out of the box
+  echo "[WARN] 'nbd' kernel module cannot be loaded!"
+  if [ ! -e /etc/redhat-release ]; then
+    echo "[ERROR] Non-RHEL system detected, aborting!"
+    echo "[ERROR] Try building 'nbd' manually or install it from a 3rd party."
+    exit 1
+  fi
+
+  # Best-effort attempt at building a non-maintaned kernel module
+  local __baseurl
+  local __subdir
+  local __uname_r=$(uname -r)
+  local __uname_m=$(uname -m)
+  if [ "${__uname_m}" = 'x86_64' ]; then
+    __baseurl='http://vault.centos.org/centos'
+    __subdir='Source/SPackages'
+    __srpm="kernel-${__uname_r%.${__uname_m}}.src.rpm"
+  else
+    __baseurl='http://vault.centos.org/altarch'
+    __subdir="Source/${__uname_m}/Source/SPackages"
+    # NOTE: fmt varies across releases (e.g. kernel-alt-4.11.0-44.el7a.src.rpm)
+    __srpm="kernel-alt-${__uname_r%.${__uname_m}}.src.rpm"
+  fi
+
+  local __found='n'
+  local __versions=$(curl -s "${__baseurl}/" | grep -Po 'href="\K7\.[\d\.]+')
+  for ver in ${__versions}; do
+    for comp in os updates; do
+      local url="${__baseurl}/${ver}/${comp}/${__subdir}/${__srpm}"
+      if wget "${url}" -O "${image_dir}/${__srpm}" > /dev/null 2>&1; then
+        __found='y'; break 2
+      fi
+    done
+  done
+
+  if [ "${__found}" = 'n' ]; then
+    echo "[ERROR] Can't find the linux kernel SRPM for: ${__uname_r}"
+    echo "[ERROR] 'nbd' module cannot be built, aborting!"
+    echo "[ERROR] Try 'yum upgrade' or building 'nbd' krn module manually ..."
+    exit 1
+  fi
+
+  rpm -ivh "${image_dir}/${__srpm}" 2> /dev/null
+  mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+  # shellcheck disable=SC2016
+  echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
+  (
+    cd ~/rpmbuild/SPECS
+    rpmbuild -bp --nodeps --target="${__uname_m}" kernel*.spec
+    cd ~/rpmbuild/BUILD/"${__srpm%.src.rpm}/linux-${__uname_r/el7*./el7.centos.}"
+    sed -i 's/^.*\(CONFIG_BLK_DEV_NBD\).*$/\1=m/g' .config
+    gunzip -c "/boot/symvers-${__uname_r}.gz" > Module.symvers
+    make prepare modules_prepare
+    make M=drivers/block -j
+    modinfo drivers/block/nbd.ko
+    sudo mkdir -p "/lib/modules/${__uname_r}/extra/"
+    sudo cp drivers/block/nbd.ko "/lib/modules/${__uname_r}/extra/"
+  )
+  sudo depmod -a && sudo modprobe -f nbd max_part=8
+}
+
 function mount_image {
   local image=$1
   local image_dir=$2
   OPNFV_MNT_DIR="${image_dir}/ubuntu"
 
-  sudo modprobe nbd loop
   # Find free nbd, loop devices
   for dev in '/sys/class/block/nbd'*; do
     if [ "$(cat "${dev}/size")" = '0' ]; then
@@ -59,7 +126,7 @@ function mount_image {
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
   if sudo growpart "${OPNFV_NBD_DEV}" 1; then
     sudo kpartx -u "${OPNFV_NBD_DEV}"
-    sudo e2fsck -yf "${OPNFV_MAP_DEV}"
+    sudo e2fsck -pf "${OPNFV_MAP_DEV}"
     sudo resize2fs "${OPNFV_MAP_DEV}"
   fi
   # grub-update does not like /dev/nbd*, so use a loop device to work around it
@@ -179,6 +246,7 @@ function prepare_vms {
   local vnodes=("$@")
   local image=base_image_opnfv_fuel.img
 
+  __kernel_modules "${image_dir}"
   cleanup_uefi
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
