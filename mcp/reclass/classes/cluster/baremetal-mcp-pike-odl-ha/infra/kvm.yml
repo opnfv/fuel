@@ -24,6 +24,6 @@ parameters:
           node:
             odl01:
               name: ${_param:opendaylight_server_node01_hostname}
-              provider: ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
+              provider: ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
               image: ${_param:salt_control_xenial_image}
               size: opendaylight.server
