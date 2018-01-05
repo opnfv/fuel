@@ -14,8 +14,7 @@
 #
 do_exit () {
     local RC=$?
-    clean
-    cleanup_mounts
+    cleanup_mounts > /dev/null 2>&1
     if [ ${RC} -eq 0 ]; then
         notify "\n[OK] MCP: Openstack installation finished succesfully!\n\n" 2
     else
@@ -131,16 +130,6 @@ notify() {
 }
 #
 # END of colored notification wrapper
-##############################################################################
-
-##############################################################################
-# BEGIN of deployment clean-up
-#
-clean() {
-    echo "Cleaning up deploy tmp directories"
-}
-#
-# END of deployment clean-up
 ##############################################################################
 
 ##############################################################################
@@ -271,8 +260,6 @@ trap do_exit SIGINT SIGTERM EXIT
 
 # Set no restrictive umask so that Jenkins can remove any residuals
 umask 0000
-
-clean
 
 pushd "${DEPLOY_DIR}" > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment
