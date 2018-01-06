@@ -81,7 +81,8 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list formulas
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
-  salt-call state.apply salt
+  source ${OPNFV_FUEL_DIR}/mcp/scripts/lib.sh
+  wait_for 3.0 "salt-call state.apply salt"
 
   # In case scenario changed (and implicitly domain name), re-register minions
   if [ -n "\${OLD_DOMAIN}" ] && [ "\${OLD_DOMAIN}" != "${CLUSTER_DOMAIN}" ]; then
@@ -94,10 +95,9 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   # Init specific to VMs on FN (all for virtual, cfg|mas for baremetal)
   salt -C "${NODE_MASK} or cfg01*" saltutil.sync_all
-  salt -C "${NODE_MASK} or cfg01*" state.apply salt | \
-    grep -Fq 'No response' && salt -C "${NODE_MASK} or cfg01*" state.apply salt
+  wait_for 3.0 'salt -C "${NODE_MASK} or cfg01*" state.apply salt'
+  wait_for 3.0 'salt -C "cfg01*" state.apply linux'
 
-  salt-call state.sls linux || salt-call state.sls linux
   salt -C "${NODE_MASK} and not cfg01*" state.sls linux || true
   salt -C "${NODE_MASK} and not cfg01*" pkg.upgrade refresh=False
 
