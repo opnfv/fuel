@@ -10,6 +10,7 @@ requirements_pkg:
   # Common pkgs required for all deploys, no matter the type, arch etc.
   common:
     - bc
+    - bridge-utils
     - cloud-utils-growpart
     - curl
     - e2fsprogs
