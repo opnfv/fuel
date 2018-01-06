@@ -6,14 +6,6 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-SALT_REPO=repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11
-if [ "$(uname -i)" = "aarch64" ]; then
-  SALT_REPO=linux.enea.com/saltstack/apt/ubuntu/16.04/arm64/2016.11
-fi
-wget -O - "https://${SALT_REPO}/SALTSTACK-GPG-KEY.pub" | sudo apt-key add -
-echo "deb https://${SALT_REPO} xenial main" > /etc/apt/sources.list.d/saltstack.list
-apt update
-apt-get install -y salt-minion
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
 echo "id: $(hostname).${CLUSTER_DOMAIN}" > /etc/salt/minion

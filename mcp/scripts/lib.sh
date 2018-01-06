@@ -267,10 +267,7 @@ function prepare_vms {
     ln -sf "${image_dir}/${base_image/*\/}" "${image_dir}/${image}"
   fi
 
-  # CWD should be <mcp/scripts>
-  # shellcheck disable=SC2016
-  envsubst '${SALT_MASTER},${CLUSTER_DOMAIN}' < \
-    user-data.template > user-data.sh
+  envsubst < user-data.template > user-data.sh # CWD should be <mcp/scripts>
 
   # Create config ISO and resize OS disk image for each foundation node VM
   for node in "${vnodes[@]}"; do
