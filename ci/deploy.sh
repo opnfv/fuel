@@ -289,6 +289,9 @@ if ! virsh list >/dev/null 2>&1; then
     exit 1
 fi
 
+# Collect jump server system information for deploy debugging
+./sysinfo_print.sh
+
 # Clone git submodules and apply our patches
 make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 

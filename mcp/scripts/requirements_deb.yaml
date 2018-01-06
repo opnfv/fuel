@@ -9,6 +9,7 @@
 requirements_pkg:
   # Common pkgs required for all deploys, no matter the type, arch etc.
   common:
+    - bridge-utils
     - cloud-guest-utils
     - cpu-checker
     - curl
