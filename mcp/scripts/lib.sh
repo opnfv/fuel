@@ -249,22 +249,36 @@ function prepare_vms {
   local repos_pkgs_str=$1; shift # ^-sep list of repos, pkgs to install/rm
   local vnodes=("$@")
   local image=base_image_opnfv_fuel.img
+  local vcp_image=${image%.*}_vcp.img
+  local _o=${base_image/*\/}
+  local _h=$(echo "${repos_pkgs_str}.$(md5sum "${image_dir}/${_o}")" | \
+             md5sum | cut -c -8)
+  local _tmp
 
-  __kernel_modules "${image_dir}"
   cleanup_uefi
   cleanup_vms
   get_base_image "${base_image}" "${image_dir}"
+  IFS='^' read -r -a repos_pkgs <<< "${repos_pkgs_str}"
 
-  rm -f "${image_dir}/${image%.*}"*
-  if [[ ! "${repos_pkgs_str}" =~ ^\^+$ ]]; then
-    IFS='^' read -r -a repos_pkgs <<< "${repos_pkgs_str}"
-    cp "${image_dir}/${base_image/*\/}" "${image_dir}/${image}"
-    mount_image "${image}" "${image_dir}"
-    apt_repos_pkgs_image "${repos_pkgs[@]:0:4}"
-    cleanup_mounts
+  echo "[INFO] Lookup cache / build patched base image for fingerprint: ${_h}"
+  _tmp="${image%.*}.${_h}.img"
+  if [ -f "$(readlink -f "${image_dir}/${_tmp}")" ]; then
+    echo "[INFO] Patched base image found"
   else
-    ln -sf "${image_dir}/${base_image/*\/}" "${image_dir}/${image}"
+    rm -f "${image_dir}/${image%.*}"*
+    if [[ ! "${repos_pkgs_str}" =~ ^\^+$ ]]; then
+      echo "[INFO] Patching base image ..."
+      cp "${image_dir}/${_o}" "${image_dir}/${_tmp}"
+      __kernel_modules "${image_dir}"
+      mount_image "${_tmp}" "${image_dir}"
+      apt_repos_pkgs_image "${repos_pkgs[@]:0:4}"
+      cleanup_mounts
+    else
+      echo "[INFO] No patching required, using vanilla base image"
+      ln -sf "${image_dir}/${_o}" "${image_dir}/${_tmp}"
+    fi
   fi
+  ln -sf "${image_dir}/${_tmp}" "${image_dir}/${image}"
 
   # CWD should be <mcp/scripts>
   # shellcheck disable=SC2016
@@ -281,10 +295,19 @@ function prepare_vms {
 
   # VCP VMs base image specific changes
   if [[ ! "${repos_pkgs_str}" =~ \^{3}$ ]] && [ -n "${repos_pkgs[*]:4}" ]; then
-    mount_image "${image}" "${image_dir}"
-    apt_repos_pkgs_image "${repos_pkgs[@]:4:4}"
-    cleanup_mounts
-    ln -sf "${image_dir}/${image}" "${image_dir}/${image%.*}_vcp.img"
+    echo "[INFO] Lookup cache / build patched VCP image for md5sum: ${_h}"
+    _tmp="${vcp_image%.*}.${_h}.img"
+    if [ -f "$(readlink -f "${image_dir}/${_tmp}")" ]; then
+      echo "[INFO] Patched VCP image found"
+    else
+      echo "[INFO] Patching VCP image ..."
+      cp "${image_dir}/${image}" "${image_dir}/${_tmp}"
+      __kernel_modules "${image_dir}"
+      mount_image "${_tmp}" "${image_dir}"
+      apt_repos_pkgs_image "${repos_pkgs[@]:4:4}"
+      cleanup_mounts
+    fi
+    ln -sf "${image_dir}/${_tmp}" "${image_dir}/${vcp_image}"
   fi
 }
 
