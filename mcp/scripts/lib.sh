@@ -447,7 +447,7 @@ function wait_for {
       else
         ( eval "${cmdstr}" || echo __fuel_wf_failure__ ) |& tee /dev/stderr | \
           grep -Eq '(Not connected|No response|__fuel_wf_failure__)' || \
-          echo "[wait_for] OK: ${cmdstr}" && return 0
+        ( echo "[wait_for] OK: ${cmdstr}" && return 0 )
       fi
       echo -n '.'; sleep "${sleep_time}"
     done
