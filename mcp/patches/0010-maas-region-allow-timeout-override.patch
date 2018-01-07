@@ -47,7 +47,7 @@ diff --git a/maas/region.sls b/maas/region.sls
 +  file.replace:
 +    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
 +    - pattern: '^(\s+NODE_STATUS.COMMISSIONING:)\s+\d+,$'
-+    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_comissioning', '10') }},
++    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_comissioning', '20') }},
 +    - require:
 +      - pkg: maas_region_packages
 +    - require_in:
@@ -57,7 +57,7 @@ diff --git a/maas/region.sls b/maas/region.sls
 +  file.replace:
 +    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
 +    - pattern: '^(\s+NODE_STATUS.DEPLOYING:)\s+\d+,$'
-+    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_deploying', '15') }},
++    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_deploying', '40') }},
 +    - require:
 +      - pkg: maas_region_packages
 +    - require_in:
