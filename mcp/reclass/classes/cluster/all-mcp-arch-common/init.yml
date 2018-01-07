@@ -9,3 +9,7 @@
 classes:
   - cluster.all-mcp-arch-common.arch
   - cluster.all-mcp-arch-common.opnfv
+parameters:
+  _param:
+    opnfv_maas_timeout_comissioning: 10
+    opnfv_maas_timeout_deploying: 15
