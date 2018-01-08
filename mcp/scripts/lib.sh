@@ -38,8 +38,8 @@ function get_base_image {
 function __kernel_modules {
   # Load mandatory kernel modules: loop, nbd
   local image_dir=$1
-  sudo modprobe -f loop
-  if sudo modprobe -f nbd max_part=8; then
+  sudo modprobe loop
+  if sudo modprobe nbd max_part=8 || sudo modprobe -f nbd max_part=8; then
     return 0
   fi
   # CentOS (or RHEL family in general) do not provide 'nbd' out of the box
@@ -104,7 +104,8 @@ function __kernel_modules {
     sudo mkdir -p "/lib/modules/${__uname_r}/extra/"
     sudo cp drivers/block/nbd.ko "/lib/modules/${__uname_r}/extra/"
   )
-  sudo depmod -a && sudo modprobe -f nbd max_part=8
+  sudo depmod -a
+  sudo modprobe nbd max_part=8 || sudo modprobe -f nbd max_part=8
 }
 
 function mount_image {
