@@ -264,7 +264,7 @@ function prepare_vms {
 
   echo "[INFO] Lookup cache / build patched base image for fingerprint: ${_h}"
   _tmp="${image%.*}.${_h}.img"
-  if [ -f "$(readlink -f "${image_dir}/${_tmp}")" ]; then
+  if [ "${image_dir}/${_tmp}" -ef "${image_dir}/${image}" ]; then
     echo "[INFO] Patched base image found"
   else
     rm -f "${image_dir}/${image%.*}"*
@@ -279,8 +279,8 @@ function prepare_vms {
       echo "[INFO] No patching required, using vanilla base image"
       ln -sf "${image_dir}/${_o}" "${image_dir}/${_tmp}"
     fi
+    ln -sf "${image_dir}/${_tmp}" "${image_dir}/${image}"
   fi
-  ln -sf "${image_dir}/${_tmp}" "${image_dir}/${image}"
 
   envsubst < user-data.template > user-data.sh # CWD should be <mcp/scripts>
 
@@ -296,7 +296,7 @@ function prepare_vms {
   if [[ ! "${repos_pkgs_str}" =~ \^{3}$ ]] && [ -n "${repos_pkgs[*]:4}" ]; then
     echo "[INFO] Lookup cache / build patched VCP image for md5sum: ${_h}"
     _tmp="${vcp_image%.*}.${_h}.img"
-    if [ -f "$(readlink -f "${image_dir}/${_tmp}")" ]; then
+    if [ "${image_dir}/${_tmp}" -ef "${image_dir}/${vcp_image}" ]; then
       echo "[INFO] Patched VCP image found"
     else
       echo "[INFO] Patching VCP image ..."
@@ -305,8 +305,8 @@ function prepare_vms {
       mount_image "${_tmp}" "${image_dir}"
       apt_repos_pkgs_image "${repos_pkgs[@]:4:4}"
       cleanup_mounts
+      ln -sf "${image_dir}/${_tmp}" "${image_dir}/${vcp_image}"
     fi
-    ln -sf "${image_dir}/${_tmp}" "${image_dir}/${vcp_image}"
   fi
 }
 
