@@ -29,7 +29,7 @@ fi
 # KVM libvirt first, VCP deployment
 wait_for 5.0 "salt -C 'kvm*' state.sls libvirt"
 
-salt -C 'kvm* or cmp*' state.apply salt
+wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply salt"
 wait_for 10.0 "salt -C 'kvm*' state.sls salt.control"
 
 vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | \
