@@ -1,0 +1,389 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_5e128009",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "JIRA: ARMBAND-337",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 11
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_9ef7e8d2",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "e.g.",
+      "range": {
+        "startLine": 189,
+        "startChar": 67,
+        "endLine": 189,
+        "endChar": 70
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_befaacba",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "suites\nmissing space before (",
+      "range": {
+        "startLine": 189,
+        "startChar": 61,
+        "endLine": 189,
+        "endChar": 66
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_defdf0b2",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "purposes",
+      "range": {
+        "startLine": 190,
+        "startChar": 45,
+        "endLine": 190,
+        "endChar": 52
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_fe00b4ac",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "preconfigure",
+      "range": {
+        "startLine": 190,
+        "startChar": 18,
+        "endLine": 190,
+        "endChar": 27
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3e2e9c43",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "purposes",
+      "range": {
+        "startLine": 191,
+        "startChar": 70,
+        "endLine": 191,
+        "endChar": 77
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_7e24a45f",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "the deploy",
+      "range": {
+        "startLine": 193,
+        "startChar": 17,
+        "endLine": 193,
+        "endChar": 23
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_fe1714ec",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "I think this should be idented a few more spaces to the right\ninstead of `sudo vi /etc/sudoers`, `sudo visudo`",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 33
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_de14d0ea",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "missing .",
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3ed5fc1b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "let\u0027s keep only the Pike release code here, and we\u0027ll change it to the Ocata version when we\u0027ll cherry-pick this change to stable/euphrates branch.",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 69
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1edab84b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "should be idented a few more spaces to the right",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 66
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_9ee5280b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "pre-configure",
+      "range": {
+        "startLine": 358,
+        "startChar": 12,
+        "endLine": 358,
+        "endChar": 22
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3ebcdcdb",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "-D \\\n(otherwise people might think -D expects another argument after it, like -S expects a path)\nAlso, let\u0027s add these 2 args (-S and -D) to all examples in this file.",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 49
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1ec11854",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 402,
+        "startChar": 34,
+        "endLine": 402,
+        "endChar": 41
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_becf4c7e",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "These are not specific to arm-pod5, so let\u0027s move them to the beginning of the current chapter, maybe also add a line before this block like \"Commonly used / recommended deploy arguments:\"",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 52
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_5eb720f5",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "let\u0027s either remove this (to me it is obvious the tmpdir should already exist) or add it for all examples in current file",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 38
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_7eb2e406",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-10T16:14:57Z",
+      "side": 1,
+      "message": "let\u0027s remove chmod.\nOn a properly configured system, 0x755 (the default) is enough and works well (e.g. on arm-pod5).",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 43
+      },
+      "revId": "6a097999c60f1468141b1cb1bcb3bd07ac5e6557",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
