@@ -132,14 +132,14 @@ installation of Euphrates using Fuel:
 
 **NOTE:** For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
 
-
 ===============================
 Help with Hardware Requirements
 ===============================
 
 Calculate hardware requirements:
 
-For information on compatible hardware types available for use, please see `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/software/hardware-compatibility/>`_.
+For information on compatible hardware types available for use,
+please see `Fuel OpenStack Hardware Compatibility List <https://www.mirantis.com/software/hardware-compatibility/>`_
 
 When choosing the hardware on which you will deploy your OpenStack
 environment, you should think about:
@@ -183,7 +183,49 @@ OPNFV Software Prerequisites
 
 The Jumpserver node should be pre-provisioned with an operating system,
 according to the Pharos specification. Relevant network bridges should
-also be pre-configured (e.g. admin, management, public).
+also be pre-configured (e.g. admin_br, mgmt_br, public_br).
+
+   - The admin bridge (admin_br) is mandatory for the baremetal nodes PXE booting during fuel installation.
+   - The management bridge (mgmt_br) is required for testing suites (e.g. functest/yardstick), it is
+     suggested to pre-configure it for debugging purposes.
+   - The public bridge (public_br) is also nice to have for debugging purposes, but not mandatory.
+
+The user running the deploy script on the Jumpserver should belong to "sudo" and "libvirt" groups,
+and have passwordless sudo access.
+
+The following example adds the groups to the user "jenkins"
+
+.. code-block:: bash
+
+    $ sudo usermod -aG sudo jenkins
+    $ sudo usermod -aG libvirt jenkins
+    $ reboot
+    $ groups
+    jenkins sudo libvirt
+
+    $ sudo visudo
+    ...
+    %jenkins ALL=(ALL) NOPASSWD:ALL
+
+For an AArch64 Jumpserver, the "libvirt" minimum required version is 3.x, 3.5 or newer highly recommended.
+While not mandatory, upgrading the kernel and QEMU on the Jumpserver is also highly recommended
+(especially on AArch64 Jumpservers).
+
+For CentOS 7.4 (AArch64), distro provided packages are already new enough.
+For Ubuntu 16.04 (arm64), distro packages are too old and 3rd party repositories should be used.
+For convenience, Armband provides a DEB repository holding all the required packages.
+
+To add and enable the Armband repository on an Ubuntu 16.04 system,
+create a new sources list file `/apt/sources.list.d/armband.list` with the following contents:
+
+.. code-block:: bash
+
+    $ cat /etc/apt/sources.list.d/armband.list
+    //for OpenStack ocata release
+    deb http://linux.enea.com/mcp-repos/ocata/xenial ocata main
+    deb http://linux.enea.com/apt-mk/xenial nightly ocata
+
+    $ apt-get update
 
 Fuel@OPNFV has been validated by CI using the following distributions
 installed on the Jumpserver:
@@ -191,14 +233,21 @@ installed on the Jumpserver:
    - CentOS 7 (recommended by Pharos specification);
    - Ubuntu Xenial;
 
-**NOTE:** The install script will automatically install all required distro
-package dependencies on the Jumpserver, unless explicitly asked not to
-(via `-P` deploy arg). This includes Python, QEMU, libvirt etc.
+**NOTE**: The install script expects 'libvirt' to be already running on the Jumpserver.In case libvirt
+packages are missing, the script will install them; but depending on the OS distribution, the user
+might have to start the 'libvirtd' service manually, then run the deploy script again. Therefore, it
+is recommened to install libvirt-bin explicitly on the Jumpserver before the deployment.
 
-**NOTE:** The install script expects 'libvirt' to be already running on the
-Jumpserver. In case libvirt packages are missing, the script will install
-them; but depending on the OS distribution, the user might have to start the
-'libvirtd' service manually, then run the deploy script again.
+**NOTE**: It is also recommened to install the newer kernel on the Jumpserver before the deployment.
+
+**NOTE**: The install script will automatically install the rest of required distro package
+dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
+Python, QEMU, libvirt etc.
+
+.. code-block:: bash
+
+    $ apt-get install linux-image-generic-hwe-16.04-edge libvirt-bin
+
 
 ==========================================
 OPNFV Software Installation and Deployment
@@ -213,9 +262,9 @@ automatic based on deployment scenario.
 The reclass model covers:
 
    - Infrastucture node definition: Salt Master node (cfg01) and MaaS node (mas01)
-   - Openstack node defition: Controler nodes (ctl01, ctl02, ctl03) and Compute nodes (cmp001, cmp002)
+   - OpenStack node definition: Controller nodes (ctl01, ctl02, ctl03) and Compute nodes (cmp001, cmp002)
    - Infrastructure components to install (software packages, services etc.)
-   - Openstack components and services (rabbitmq, galera etc.), as well as all configuration for them
+   - OpenStack components and services (rabbitmq, galera etc.), as well as all configuration for them
 
 
 Automatic Installation of a Virtual POD
@@ -224,9 +273,9 @@ Automatic Installation of a Virtual POD
 For virtual deploys all the targets are VMs on the Jumpserver. The deploy script will:
 
    - Create a Salt Master VM on the Jumpserver which will drive the installation
-   - Create the bridges for networking with virsh (only if a real bridge does not already exists for a given network)
-   - Install Openstack on the targets
-      - Leverage Salt to install & configure Openstack services
+   - Create the bridges for networking with virsh (only if a real bridge does not already exist for a given network)
+   - Install OpenStack on the targets
+      - Leverage Salt to install & configure OpenStack services
 
 .. figure:: img/fuel_virtual.png
    :align: center
@@ -249,18 +298,18 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
 
 In this figure there are examples of two virtual deploys:
    - Jumphost 1 has only virsh bridges, created by the deploy script
-   - Jumphost 2 has a mix of linux and virsh briges; when linux bridge exist for a specified network,
+   - Jumphost 2 has a mix of Linux and virsh bridges; When Linux bridge exists for a specified network,
      the deploy script will skip creating a virsh bridge for it
 
-**Note**: A virtual network "mcpcontrol" is always created. For virtual deploys, "mcpcontrol" is also used
-for Admin, leaving the PXE/Admin bridge unused.
+**Note**: A virtual network "mcpcontrol" is always created. For virtual deploys, "mcpcontrol" is also
+ used for Admin, leaving the PXE/Admin bridge unused.
 
 
 Automatic Installation of a Baremetal POD
 =========================================
 
 The baremetal installation process can be done by editing the information about
-hardware and enviroment in the reclass files, or by using a Pod Descriptor File (PDF).
+hardware and environment in the reclass files, or by using a Pod Descriptor File (PDF).
 This file contains all the information about the hardware and network of the deployment
 the will be fed to the reclass model during deployment.
 
@@ -268,10 +317,10 @@ The installation is done automatically with the deploy script, which will:
 
    - Create a Salt Master VM on the Jumpserver which will drive the installation
    - Create a MaaS Node VM on the Jumpserver which will provision the targets
-   - Install Openstack on the targets
+   - Install OpenStack on the targets
       - Leverage MaaS to provision baremetal nodes with the operating system
-      - Leverage Salt to configure the operatign system on the baremetal nodes
-      - Leverage Salt to install & configure Openstack services
+      - Leverage Salt to configure the operating system on the baremetal nodes
+      - Leverage Salt to install & configure OpenStack services
 
 .. figure:: img/fuel_baremetal.png
    :align: center
@@ -301,11 +350,12 @@ The installation is done automatically with the deploy script, which will:
    | Tenant VM             | VM running in the cloud                                 |
    +-----------------------+---------------------------------------------------------+
 
-In the baremetal deploy all bridges but "mcpcontrol" are linux bridges. For the Jumpserver, if they are already created
-they will be used; otherwise they will be created. For the targets, the bridges are created by the deploy script.
+In the baremetal deploy all bridges but "mcpcontrol" are Linux bridges. For the Jumpserver, it is
+required to pre-configure at least the admin_br bridge for the PXE/Admin.
+For the targets, the bridges are created by the deploy script.
 
-**Note**: A virtual network "mcpcontrol" is always created. For baremetal deploys, PXE bridge is used for
-baremetal node provisioning, while "mcpcontrol" is used to provision the infrastructure VMs only.
+**Note**: A virtual network "mcpcontrol" is always created. For baremetal deploys, PXE bridge is used
+for baremetal node provisioning, while "mcpcontrol" is used to provision the infrastructure VMs only.
 
 
 Steps to Start the Automatic Deploy
@@ -337,13 +387,22 @@ These steps are common both for virtual and baremetal deploys.
 
 #. Start the deploy script
 
+    Besides the basic options,  there are other recommended deploy arguments:
+
+    - use **-D** option to enable the debug info
+    - use **-S** option to point to a tmp dir where the disk images are saved. The images will be
+      re-used between deploys
+    - use **|& tee** to save the deploy log to a file
+
    .. code-block:: bash
 
        $ ci/deploy.sh -l <lab_name> \
                       -p <pod_name> \
                       -b <URI to configuration repo containing the PDF file> \
                       -s <scenario> \
-                      -B <list of admin, management, private and public bridges>
+                      -B <list of admin, management, private and public bridges> \
+                      -D \
+                      -S <Storage directory for disk images> |& tee deploy.log
 
 Examples
 --------
@@ -360,7 +419,9 @@ Examples
          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
                         -l ericsson \
                         -p virtual_kvm \
-                        -s os-nosdn-nofeature-noha
+                        -s os-nosdn-nofeature-noha \
+                        -D \
+                        -S /home/jenkins/tmpdir |& tee deploy.log
 
    Once the deployment is complete, the OpenStack Dashboard, Horizon is
    available at http://<controller VIP>:8078, e.g. http://10.16.0.101:8078.
@@ -377,6 +438,8 @@ Examples
                          -p pod2 \
                          -s os-nosdn-nofeature-ha \
                          -B pxebr,br-ctl
+                         -D \
+                         -S /home/jenkins/tmpdir |& tee deploy.log
 
       .. figure:: img/lf_pod2.png
          :align: center
@@ -391,21 +454,18 @@ Examples
 
       .. code-block:: bash
 
-         $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                        -l arm \
-                        -p pod5 \
-                        -s os-nosdn-nofeature-ha \
-                        -B admin7_br0,mgmt7_br0,,public7_br0
+          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
+                         -l arm \
+                         -p pod5 \
+                         -s os-nosdn-nofeature-ha \
+                         -D \
+                         -S /home/jenkins/tmpdir |& tee deploy.log
 
       .. figure:: img/arm_pod5.png
          :align: center
          :alt: Fuel@OPNFV ARM POD5 Network Layout
 
          Fuel@OPNFV ARM POD5 Network Layout
-
-   Once the deployment is complete, the SaltStack Deployment Documentation is
-   available at http://<Proxy VIP>:8090, e.g. http://10.0.8.103:8090.
-
 
 Pod Descriptor Files
 ====================
