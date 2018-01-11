@@ -28,6 +28,11 @@ salt -C 'kvm* or cmp*' state.apply salt.minion
 salt -C 'kvm* or cmp*' service.force_reload salt-minion
 salt -C 'cmp*' state.apply linux.system
 salt -C 'cmp*' state.apply linux.network || true
+
+# disable dhcp offered routes on compute nodes
+salt -C 'cmp*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
+  args='unset new_routers'
+
 salt -C 'kvm* or cmp*' system.reboot
 wait_for 90.0 "salt -C 'kvm* or cmp*' test.ping"
 
