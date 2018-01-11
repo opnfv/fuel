@@ -456,3 +456,10 @@ function wait_for {
     return 1
   )
 }
+
+function get_nova_compute_pillar_data {
+  local value=$(salt -C 'I@nova:compute and *01*' pillar.get _param:"${1}" --out yaml | cut -d ' ' -f2)
+  if [ "${value}" != "''" ]; then
+    echo  ${value}
+  fi
+}
