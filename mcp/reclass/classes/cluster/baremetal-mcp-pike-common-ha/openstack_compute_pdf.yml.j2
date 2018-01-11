@@ -60,7 +60,11 @@ parameters:
           type: eth
           proto: manual
           address: 0.0.0.0
-          netmask: 255.255.255.0
+          {%- if nic == nic_public %}
+            netmask: ${_param:opnfv_net_public_mask}
+          {%- else %}
+            netmask: 255.255.255.0
+          {%- endif %}
           mtu: ${_param:interface_mtu}
           name: {{ nic }}
     {%- endif %}

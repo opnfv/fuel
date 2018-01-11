@@ -91,7 +91,7 @@ parameters:
           enabled: true
           proto: manual
           address: 0.0.0.0
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
           type: bridge
           use_interfaces:
             - {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}

@@ -27,7 +27,7 @@ parameters:
           proto: static
           name: ${_param:single_nic}
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
           route:
             public:
               address: 0.0.0.0
