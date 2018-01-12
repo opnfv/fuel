@@ -9,6 +9,9 @@
 
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
+# shellcheck disable=SC1090
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
+
 salt -I 'nfs:server' file.mkdir /srv/nova/instances
 salt -I 'nfs:server' state.sls nfs
 salt -I 'nfs:client' state.sls nfs
@@ -34,7 +37,7 @@ salt -I 'nova:controller' state.sls nova
 salt -I 'heat:server' state.sls heat
 
 salt -I 'cinder:controller' state.sls cinder
-salt -I 'cinder:volume' state.sls cinder
+wait_for 3 "salt -I 'cinder:volume' state.sls cinder"
 
 salt -I 'neutron:server' state.sls neutron
 salt -I 'neutron:gateway' state.sls neutron
