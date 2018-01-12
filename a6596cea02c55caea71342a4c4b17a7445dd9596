@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_e655cafa",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-01-12T10:12:18Z",
+      "side": 1,
+      "message": "In the stable/euphrates release, is it ocata or pike OpenStack?\n\nif it is ocata release, should it be changed to below?\ndeb http://linux.enea.com/mcp-repos/ocata/xenial ocata main\ndeb http://linux.enea.com/apt-mk/xenial nightly ocata",
+      "range": {
+        "startLine": 225,
+        "startChar": 1,
+        "endLine": 225,
+        "endChar": 69
+      },
+      "revId": "a6596cea02c55caea71342a4c4b17a7445dd9596",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
