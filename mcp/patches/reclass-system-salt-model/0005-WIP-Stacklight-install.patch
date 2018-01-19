@@ -1,0 +1,1044 @@
+From: Delia Popescu <delia.popescu@enea.com>
+Date: Fri, 19 Jan 2018 12:49:11 +0200
+Subject: [PATCH] WIP Stacklight install Signed-off-by: Delia Popescu
+ <delia.popescu@enea.com>
+
+---
+ .../os-nosdn-nofeature-stacklight-ha.yaml          |  27 +++
+ mcp/config/states/stacklight                       | 107 ++++++++++++
+ .../baremetal-mcp-pike-common-ha/infra/config.yml  |  20 +--
+ .../baremetal-mcp-pike-common-ha/infra/init.yml    |   6 +-
+ .../baremetal-mcp-pike-common-ha/infra/kvm.yml     |  36 ++--
+ .../openstack_proxy.yml                            |   1 +
+ .../infra/config.yml                               |  11 ++
+ .../infra/init.yml                                 |  14 ++
+ .../infra/kvm.yml                                  |  11 ++
+ .../infra/maas.yml                                 |  11 ++
+ .../baremetal-mcp-pike-ovs-stacklight-ha/init.yml  |  12 ++
+ .../openstack/compute.yml                          |  17 ++
+ .../openstack/compute_pdf.yml.j2                   |  79 +++++++++
+ .../openstack/control.yml                          |  13 ++
+ .../openstack/database.yml                         |  12 ++
+ .../openstack/init.yml                             |  18 ++
+ .../openstack/message_queue.yml                    |  12 ++
+ .../openstack/proxy.yml                            |  12 ++
+ .../openstack/telemetry.yml                        |  12 ++
+ .../stacklight/client.yml                          |   5 +
+ .../stacklight/init.yml                            | 190 +++++++++++++++++++++
+ .../stacklight/log.yml                             |  26 +++
+ .../stacklight/log_curator.yml                     |   2 +
+ .../stacklight/monitor.yml                         |  94 ++++++++++
+ .../stacklight/proxy.yml                           |  13 ++
+ .../stacklight/telemetry.yml                       |  29 ++++
+ 26 files changed, 759 insertions(+), 31 deletions(-)
+ create mode 100644 mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml
+ create mode 100755 mcp/config/states/stacklight
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/config.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/kvm.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/maas.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/init.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute_pdf.yml.j2
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/control.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/database.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/init.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/message_queue.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/proxy.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/telemetry.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/client.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log_curator.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/proxy.yml
+ create mode 100644 mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml
+
+diff --git a/mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml b/mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml
+new file mode 100644
+index 0000000..83633f0
+--- /dev/null
++++ b/mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml
+@@ -0,0 +1,27 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++cluster:
++  domain: baremetal-mcp-pike-ovs-ha.local
++  states:
++    - maas
++    - baremetal_init
++    - virtual_control_plane
++    - openstack_ha
++    - networks
++    - stacklight
++virtual:
++  nodes:
++    - cfg01
++    - mas01
++  cfg01:
++    vcpus: 4
++    ram: 6144
++  mas01:
++    vcpus: 4
++    ram: 6144
+diff --git a/mcp/config/states/stacklight b/mcp/config/states/stacklight
+new file mode 100755
+index 0000000..dd0c330
+--- /dev/null
++++ b/mcp/config/states/stacklight
+@@ -0,0 +1,107 @@
++#!/bin/bash -e
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++
++
++CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
++
++# Install the StackLight backends
++#deploy elasticsearch
++printf '\e[1;36m%-6s\e[m\n' "Deploy ELASTICSEARCH"
++salt -C 'I@elasticsearch:server' state.sls elasticsearch.server -b 1
++#deploy influxdb
++printf '\e[1;36m%-6s\e[m\n' "Deploy INFLUXDB"
++salt -C 'I@influxdb:server' state.sls influxdb -b 1
++salt -C 'I@kibana:server' state.sls kibana.server -b 1
++#deploy grafana server
++printf '\e[1;36m%-6s\e[m\n' "Deploy GRAFANA server:"
++salt -C 'I@grafana:server' state.sls grafana.server -b 1
++#run grafana collector:
++#printf '\e[1;36m%-6s\e[m\n' "Deploy GRAFANA collector"
++#salt -C 'I@grafana:collector' state.sls grafana.collector
++#salt -C 'I@grafana:collector' state.sls salt.minion.grains
++#salt -C 'I@grafana:collector' saltutil.refresh_modules
++#salt -C 'I@grafana:collector' mine.update
++#perform grafana client config:
++#printf '\e[1;36m%-6s\e[m\n' "Configure GRAFANA client"
++#salt -C 'I@grafana:client' state.sls grafana.client -b 1
++#deploy sensu
++printf '\e[1;36m%-6s\e[m\n' "Deploy SENSU"
++salt -C 'I@nagios:server' state.sls nagios.server
++salt -C 'I@sensu:server and I@rabbitmq:server' state.sls rabbitmq
++salt -C 'I@sensu:server and I@rabbitmq:server' cmd.run "rabbitmqctl cluster_status"
++salt -C 'I@redis:cluster:role:master' state.sls redis
++salt -C 'I@redis:server' state.sls redis
++#salt -C 'I@sensu:server' state.sls sensu -b 1
++salt -C 'I@sensu:client' state.sls sensu
++#Configure the client to communicate with the server:
++printf '\e[1;36m%-6s\e[m\n' "Configure the client to communicate with the server"
++salt -C 'I@elasticsearch:client' state.sls elasticsearch.client.service
++salt -C 'I@kibana:client' state.sls kibana.client.service
++#restart minions on the nodes where clients are running
++printf '\e[1;36m%-6s\e[m\n' "Restart minions on the nodes where clients are running"
++salt -C 'I@kibana:client or I@elasticsearch:client' --async service.restart salt-minion
++sleep 10
++#configure server:
++printf '\e[1;36m%-6s\e[m\n' "Configure server"
++salt -C 'I@elasticsearch:client' state.sls elasticsearch.client
++salt -C 'I@kibana:client' state.sls kibana.client
++#StackLight SOIP (StackLight operational insights pipeline)
++#restart minions
++printf '\e[1;36m%-6s\e[m\n' "Restart minions"
++salt '*' --async service.restart salt-minion; sleep 15
++#clean salt mine
++salt "*" mine.flush
++#clean grains files
++printf '\e[1;36m%-6s\e[m\n' "Clean grains files"
++salt "*" file.remove /etc/salt/grains.d/collectd
++salt "*" file.remove /etc/salt/grains.d/grafana
++salt "*" file.remove /etc/salt/grains.d/heka
++salt "*" file.remove /etc/salt/grains.d/sensu
++salt "*" file.remove /etc/salt/grains
++#install collectd and heka
++printf '\e[1;36m%-6s\e[m\n' "Install collectd and heka"
++salt "*" state.sls collectd -b 1
++salt "*" state.sls heka -b 1
++salt -C 'I@sensu:client' state.sls sensu
++#Gather the Grafana metadata as grains
++salt -C 'I@grafana:collector' state.sls grafana.collector
++#Update salt mine
++printf '\e[1;36m%-6s\e[m\n' "Update salt mine"
++salt "*" state.sls salt.minion.grains -b 1
++salt "*" saltutil.refresh_modules
++salt "*" mine.update
++seep 5
++#Update heka
++printf '\e[1;36m%-6s\e[m\n' "Update heka"
++salt -C 'I@heka:aggregator:enabled:True or I@heka:remote_collector:enabled:True' state.sls heka -b 1
++#Update collectd
++printf '\e[1;36m%-6s\e[m\n' "Update collectd"
++salt -C 'I@collectd:remote_client:enabled:True' state.sls collectd
++#Update Nagios
++salt -C 'I@nagios:server' state.sls nagios
++# Stop the Nagios service because the package starts it by default and it will
++# started later only on the node holding the VIP address
++salt -C 'I@nagios:server' service.stop nagios3
++#Update Sensu
++pritf '\e[1;36m%-6s\e[m\n' "Update sensu"
++salt -C 'I@sensu:server' state.sls sensu
++# Finalize the configuration of Grafana (add the dashboards...)
++salt -C 'I@grafana:client' state.sls grafana.client.service
++salt -C 'I@grafana:client' --async service.restart salt-minion; sleep 10
++salt -C 'I@grafana:client' state.sls grafana.client
++#Retrieve StackLight monitoring VIP:
++printf '\e[1;36m%-6s\e[m\n' "Get stacklight monitor VIP"
++vip=$(salt-call pillar.data _param:stacklight_monitor_address --out key|grep _param: |awk '{print $2}')
++vip=${vip:=172.16.10.253}
++#restart services bounding to monitoring VIP
++export vip=$vip
++salt -G "ipv4:$vip" service.restart remote_collectd
++salt -G "ipv4:$vip" service.restart remote_collector
++salt -G "ipv4:$vip" service.restart aggregator
++salt -G "ipv4:$vip" service.restart nagios3
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml
+index 6b44be6..4edf3ac 100644
+--- a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml
+@@ -21,9 +21,9 @@ classes:
+   - system.reclass.storage.system.openstack_database_cluster
+   - system.reclass.storage.system.openstack_message_queue_cluster
+   - system.reclass.storage.system.openstack_telemetry_cluster
+-  # - system.reclass.storage.system.stacklight_log_cluster
+-  # - system.reclass.storage.system.stacklight_monitor_cluster
+-  # - system.reclass.storage.system.stacklight_telemetry_cluster
++  - system.reclass.storage.system.stacklight_log_cluster
++  - system.reclass.storage.system.stacklight_monitor_cluster
++  - system.reclass.storage.system.stacklight_telemetry_cluster
+   - system.reclass.storage.system.infra_maas_single
+ parameters:
+   _param:
+@@ -107,13 +107,13 @@ parameters:
+         openstack_proxy_node02:
+           params:
+             linux_system_codename: xenial
+-        # stacklight_log_node01:
+-        #   classes:
+-        #     - system.elasticsearch.client.single
+-        # stacklight_monitor_node01:
+-        #   classes:
+-        #     - system.grafana.client.single
+-        #     - system.kibana.client.single
++        stacklight_log_node01:
++          classes:
++            - system.elasticsearch.client.single
++        stacklight_monitor_node01:
++          classes:
++            - system.grafana.client.single
++            - system.kibana.client.single
+         openstack_control_node01:
+           classes:
+             - cluster.baremetal-mcp-pike-common-ha.openstack_control_init
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/init.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/init.yml
+index f2a6b4e..856c41f 100644
+--- a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/init.yml
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/init.yml
+@@ -9,15 +9,15 @@
+ classes:
+   - system.linux.system.single
+   - cluster.all-mcp-arch-common
+-  # - cluster.baremetal-mcp-pike-common-ha.stacklight
+-  # - cluster.baremetal-mcp-pike-common-ha.stacklight.client
++  - cluster.baremetal-mcp-pike-common-ha.stacklight
++  - cluster.baremetal-mcp-pike-common-ha.stacklight.client
+ parameters:
+   _param:
+     apt_mk_version: nightly
+     mcp_repo_version: 1.1
+     salt_version: 2016.11
+     cluster_domain: ${_param:cluster_name}.local
+-    # stacklight_environment: ${_param:cluster_domain}
++    stacklight_environment: ${_param:cluster_domain}
+     reclass_data_revision: master
+     reclass_config_master: ${_param:opnfv_infra_config_pxe_address}
+     cluster_public_host: ${_param:openstack_proxy_address}
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/kvm.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/kvm.yml
+index dcd78a2..7ca74a0 100644
+--- a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/kvm.yml
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/kvm.yml
+@@ -18,9 +18,9 @@ classes:
+   - system.salt.control.cluster.openstack_database_cluster
+   - system.salt.control.cluster.openstack_message_queue_cluster
+   - system.salt.control.cluster.openstack_telemetry_cluster
+-  # - system.salt.control.cluster.stacklight_server_cluster
+-  # - system.salt.control.cluster.stacklight_log_cluster
+-  # - system.salt.control.cluster.stacklight_telemetry_cluster
++  - system.salt.control.cluster.stacklight_server_cluster
++  - system.salt.control.cluster.stacklight_log_cluster
++  - system.salt.control.cluster.stacklight_telemetry_cluster
+   - cluster.baremetal-mcp-pike-common-ha.infra.kvm_pdf
+   - cluster.baremetal-mcp-pike-common-ha.include.proxy
+ parameters:
+@@ -66,21 +66,21 @@ parameters:
+           ram: 3072
+           disk_profile: xxlarge
+           net_profile: default
+-        # stacklight.log:
+-        #   cpu: 2
+-        #   ram: 4096
+-        #   disk_profile: xxlarge
+-        #   net_profile: default
+-        # stacklight.server:
+-        #   cpu: 2
+-        #   ram: 4096
+-        #   disk_profile: small
+-        #   net_profile: default
+-        # stacklight.telemetry:
+-        #   cpu: 2
+-        #   ram: 4096
+-        #   disk_profile: xxlarge
+-        #   net_profile: default
++        stacklight.log:
++          cpu: 2
++          ram: 4096
++          disk_profile: xxlarge
++          net_profile: default
++        stacklight.server:
++          cpu: 2
++          ram: 4096
++          disk_profile: small
++          net_profile: default
++        stacklight.telemetry:
++          cpu: 2
++          ram: 4096
++          disk_profile: xxlarge
++          net_profile: default
+         openstack.proxy:
+           cpu: 2
+           ram: 2048
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_proxy.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_proxy.yml
+index f83590c..8aa17ab 100644
+--- a/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_proxy.yml
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_proxy.yml
+@@ -18,6 +18,7 @@ classes:
+   - system.sphinx.server.doc.reclass
+   - service.keepalived.cluster.single
+   - system.keepalived.cluster.instance.openstack_web_public_vip
++  - cluster.baremetal-mcp-pike-ovs-stacklight-ha.stacklight.proxy
+ parameters:
+   _param:
+     cluster_vip_address: ${_param:openstack_proxy_address}
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/config.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/config.yml
+new file mode 100644
+index 0000000..1a55d78
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/config.yml
+@@ -0,0 +1,11 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.infra.config
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml
+new file mode 100644
+index 0000000..2f62c01
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml
+@@ -0,0 +1,14 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.infra
++  - cluster.baremetal-mcp-pike-ovs-ha.openstack
++parameters:
++  _param:
++    cluster_name: baremetal-mcp-pike-ovs-ha
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/kvm.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/kvm.yml
+new file mode 100644
+index 0000000..b4c2a67
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/kvm.yml
+@@ -0,0 +1,11 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.infra.kvm
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/maas.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/maas.yml
+new file mode 100644
+index 0000000..4bb3d74
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/maas.yml
+@@ -0,0 +1,11 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.infra.maas
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/init.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/init.yml
+new file mode 100644
+index 0000000..12a3ea2
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/init.yml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.all-mcp-arch-common
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
++  - cluster.baremetal-mcp-pike-ovs-ha.openstack
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute.yml
+new file mode 100644
+index 0000000..5914f50
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute.yml
+@@ -0,0 +1,17 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_compute
++  - cluster.baremetal-mcp-pike-ovs-ha.openstack.compute_pdf
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
++parameters:
++  nova:
++    compute:
++      libvirt_service: libvirtd
++      libvirt_bin: /etc/default/libvirtd
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute_pdf.yml.j2 b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute_pdf.yml.j2
+new file mode 100644
+index 0000000..7acb4b4
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/compute_pdf.yml.j2
+@@ -0,0 +1,79 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++{# NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
++{%- if conf.net_config is defined and conf.idf is defined -%}
++    {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
++
++    {#- Determine interface index for each network (plumbing vars) -#}
++    {%- set idx_admin = conf['net_config']['admin']['interface'] -%}
++    {%- set idx_mgmt = conf['net_config']['mgmt']['interface'] -%}
++    {%- set idx_private = conf['net_config']['private']['interface'] -%}
++    {%- set idx_public = conf['net_config']['public']['interface'] -%}
++
++    {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
++    {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
++    {%- set nic_admin = node['interfaces'][idx_admin] -%}
++    {%- set nic_mgmt = node['interfaces'][idx_mgmt] -%}
++    {%- set nic_private = node['interfaces'][idx_private] -%}
++    {%- set nic_public = node['interfaces'][idx_public] -%}
++
++    {#- PCI addresses (only for DPDK on private) -#}
++    {%- set bus_private = node['busaddr'][idx_private] -%}
++
++    {#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) -#}
++    {%- set vlan_admin = conf['net_config']['admin']['vlan'] -%}
++    {%- set vlan_mgmt = conf['net_config']['mgmt']['vlan'] -%}
++    {%- set vlan_private = conf['net_config']['private']['vlan'] -%}
++    {%- set vlan_public = conf['net_config']['public']['vlan'] -%}
++{%- else -%}
++    {%- set nic_admin = 'enp6s0' -%}
++    {%- set nic_mgmt = 'enp6s0' -%}
++    {%- set nic_private = None -%}
++    {%- set nic_public = None -%}
++    {%- set vlan_admin = 'native' -%}
++    {%- set vlan_mgmt = '300' -%}
++    {%- set vlan_private = '1000' -%}
++{%- endif -%}
++
++{#- Filter-out NIC duplicates by constructing a dict (used NICs only) -#}
++{%- set nics = { nic_private: True } -%}
++
++{%- set vlans = { vlan_private: nic_private } -%}
++---
++parameters:
++  linux:
++    network:
++      interface:
++{%- for nic in nics %}
++        {{ nic }}:
++          enabled: true
++          type: eth
++          proto: manual
++          name: {{ nic }}
++{%- endfor %}
++
++{%- for vlan in vlans %}
++    {%- if vlan and vlan != 'native' %}
++        {{ vlans[vlan] }}.{{ vlan }}:
++          enabled: true
++          proto: manual
++          type: vlan
++          name: {{ vlans[vlan] }}.{{ vlan }}
++          use_interfaces:
++            - {{ vlans[vlan] }}
++    {%- endif %}
++{%- endfor %}
++
++        br-mesh:
++          enabled: true
++          type: bridge
++          address: ${_param:tenant_address}
++          netmask: 255.255.255.0
++          mtu: 1500
++          use_interfaces:
++            - {{ nic_private }}{% if vlan_private and vlan_private != 'native' %}.{{ vlan_private }}{% endif %}
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/control.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/control.yml
+new file mode 100644
+index 0000000..43bec6b
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/control.yml
+@@ -0,0 +1,13 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - system.neutron.control.openvswitch.cluster
++  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++  - cluster.baremetal-mcp-pike-common-ha.openstack_control
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/database.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/database.yml
+new file mode 100644
+index 0000000..85f5ebc
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/database.yml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++  - cluster.baremetal-mcp-pike-common-ha.openstack_database
++  - cluster.baremetal-mcp-pike-ovs-ha
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/init.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/init.yml
+new file mode 100644
+index 0000000..f1c8b93
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/init.yml
+@@ -0,0 +1,18 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_init
++parameters:
++  _param:
++    neutron_tenant_network_types: "flat,vxlan"
++    nova_cpu_pinning: "1,2,3,4,5,7,8,9,10,11"
++    compute_hugepages_size: 1G
++    compute_hugepages_count: 16
++    compute_hugepages_mount: /mnt/hugepages_1G
++    compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/message_queue.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/message_queue.yml
+new file mode 100644
+index 0000000..745fd6f
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/message_queue.yml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++  - cluster.baremetal-mcp-pike-common-ha.openstack_message_queue
++  - cluster.baremetal-mcp-pike-ovs-ha
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/proxy.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/proxy.yml
+new file mode 100644
+index 0000000..5c91f60
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/proxy.yml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_triport
++  - cluster.baremetal-mcp-pike-common-ha.openstack_proxy
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/telemetry.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/telemetry.yml
+new file mode 100644
+index 0000000..c6b1119
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/openstack/telemetry.yml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++classes:
++  - cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++  - cluster.baremetal-mcp-pike-common-ha.openstack_telemetry
++  - cluster.baremetal-mcp-pike-ovs-ha.infra
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/client.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/client.yml
+new file mode 100644
+index 0000000..d36978a
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/client.yml
+@@ -0,0 +1,5 @@
++classes:
++- system.collectd.client.output.heka
++- system.heka.log_collector.single
++- system.heka.metric_collector.single
++- service.grafana.collector
+\ No newline at end of file
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml
+new file mode 100644
+index 0000000..ace4167
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml
+@@ -0,0 +1,190 @@
++
++parameters:
++  _param:
++    # Stacklight Monitor
++    stacklight_monitor_address: 172.16.10.70
++    stacklight_monitor_node01_address: 172.16.10.71
++    stacklight_monitor_node02_address: 172.16.10.72
++    stacklight_monitor_node03_address: 172.16.10.73
++    stacklight_log_address: 172.16.10.60
++    stacklight_log_node01_address: 172.16.10.61
++    stacklight_log_node02_address: 172.16.10.62
++    stacklight_log_node03_address: 172.16.10.63
++    stacklight_telemetry_address: 172.16.10.85
++    stacklight_telemetry_node01_address: 172.16.10.86
++    stacklight_telemetry_node02_address: 172.16.10.87
++    stacklight_telemetry_node03_address: 172.16.10.88
++
++    # stacklight service hostnames
++    stacklight_monitor_hostname: mon
++    stacklight_monitor_node01_hostname: mon01
++    stacklight_monitor_node02_hostname: mon02
++    stacklight_monitor_node03_hostname: mon03
++    stacklight_log_hostname: log
++    stacklight_log_node01_hostname: log01
++    stacklight_log_node02_hostname: log02
++    stacklight_log_node03_hostname: log03
++    stacklight_telemetry_hostname: mtr
++    stacklight_telemetry_node01_hostname: mtr01
++    stacklight_telemetry_node02_hostname: mtr02
++    stacklight_telemetry_node03_hostname: mtr03
++
++    kibana_elasticsearch_host: ${_param:stacklight_log_address}
++    heka_elasticsearch_host: ${_param:stacklight_log_address}
++    heka_influxdb_host: ${_param:stacklight_telemetry_address}
++    heka_aggregator_host: ${_param:stacklight_monitor_address}
++    aggregator_port: 5565
++    grafana_user: admin
++    cluster_elasticsearch_port: 9200
++    cluster_kibana_port: 5601
++    cluster_grafana_port: 3000
++    rabbitmq_monitor_password: 'password'
++    rabbitmq_monitor_port: 5672
++    mysql_grafana_password: password
++    grafana_influxdb_host: ${_param:stacklight_telemetry_address}
++    elasticsearch_port: 9200
++    influxdb_stacklight_password: password
++    influxdb_admin_password: password
++    influxdb_port: 8086
++    influxdb_database: lma
++    influxdb_user: lma
++    influxdb_password: password
++    nagios_host: ${_param:stacklight_monitor_address}
++    nagios_status_port: 8001
++    nagios_username: nagiosadmin
++    nagios_password: password
++    nagios_notification_smtp_server: 127.0.0.1
++    nagios_notification_from: 'nagios@localhost'
++    nagios_notification_email: 'root@localhost'
++    stacklight_log_keepalived_password: password
++    stacklight_monitor_keepalived_password: password
++    stacklight_telemetry_keepalived_password: password
++    ##Billing
++    #collectd_backend_carbon_host: ${_param:openstack_billing_address}
++    #collectd_backend_carbon_port: 2023
++  linux:
++    _support:
++      sensu:
++        enabled: false
++    network:
++      host:
++        mon01:
++          address: ${_param:stacklight_monitor_node01_address}
++          names:
++          - ${_param:stacklight_monitor_node01_hostname}
++          - ${_param:stacklight_monitor_node01_hostname}.${_param:cluster_domain}
++        mon02:
++          address: ${_param:stacklight_monitor_node02_address}
++          names:
++          - ${_param:stacklight_monitor_node02_hostname}
++          - ${_param:stacklight_monitor_node02_hostname}.${_param:cluster_domain}
++        mon03:
++          address: ${_param:stacklight_monitor_node03_address}
++          names:
++          - ${_param:stacklight_monitor_node03_hostname}
++          - ${_param:stacklight_monitor_node03_hostname}.${_param:cluster_domain}
++        mon:
++          address: ${_param:stacklight_monitor_address}
++          names:
++          - ${_param:stacklight_monitor_hostname}
++          - ${_param:stacklight_monitor_hostname}.${_param:cluster_domain}
++        log01:
++          address: ${_param:stacklight_log_node01_address}
++          names:
++          - ${_param:stacklight_log_node01_hostname}
++          - ${_param:stacklight_log_node01_hostname}.${_param:cluster_domain}
++        log02:
++          address: ${_param:stacklight_log_node02_address}
++          names:
++          - ${_param:stacklight_log_node02_hostname}
++          - ${_param:stacklight_log_node02_hostname}.${_param:cluster_domain}
++        log03:
++          address: ${_param:stacklight_log_node03_address}
++          names:
++          - ${_param:stacklight_log_node03_hostname}
++          - ${_param:stacklight_log_node03_hostname}.${_param:cluster_domain}
++        log:
++          address: ${_param:stacklight_log_address}
++          names:
++          - ${_param:stacklight_log_hostname}
++          - ${_param:stacklight_log_hostname}.${_param:cluster_domain}
++        mtr01:
++          address: ${_param:stacklight_telemetry_node01_address}
++          names:
++          - ${_param:stacklight_telemetry_node01_hostname}
++          - ${_param:stacklight_telemetry_node01_hostname}.${_param:cluster_domain}
++        mtr02:
++          address: ${_param:stacklight_telemetry_node02_address}
++          names:
++          - ${_param:stacklight_telemetry_node02_hostname}
++          - ${_param:stacklight_telemetry_node02_hostname}.${_param:cluster_domain}
++        mtr03:
++          address: ${_param:stacklight_telemetry_node03_address}
++          names:
++          - ${_param:stacklight_telemetry_node03_hostname}
++          - ${_param:stacklight_telemetry_node03_hostname}.${_param:cluster_domain}
++        mtr:
++          address: ${_param:stacklight_telemetry_address}
++          names:
++          - ${_param:stacklight_telemetry_hostname}
++          - ${_param:stacklight_telemetry_hostname}.${_param:cluster_domain}
++  heka:
++    server:
++      extra_fields:
++        region: ${_param:openstack_region}
++  apache:
++    _support:
++      sensu:
++        enabled: false
++  cinder:
++    _support:
++      sensu:
++        enabled: false
++  glance:
++    _support:
++      sensu:
++        enabled: false
++  glusterfs:
++    _support:
++      sensu:
++        enabled: false
++  haproxy:
++    _support:
++      sensu:
++        enabled: false
++  heat:
++    _support:
++      sensu:
++        enabled: false
++  keepalived:
++    _support:
++      sensu:
++        enabled: false
++  keystone:
++    _support:
++      sensu:
++        enabled: false
++  neutron:
++    _support:
++      sensu:
++        enabled: false
++  nginx:
++    _support:
++      sensu:
++        enabled: false
++  nova:
++    _support:
++      sensu:
++        enabled: false
++  ntp:
++    _support:
++      sensu:
++        enabled: false
++  opencontrail:
++    _support:
++      sensu:
++        enabled: false
++  rabbitmq:
++    _support:
++      sensu:
++        enabled: false
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml
+new file mode 100644
+index 0000000..1fa6bce
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml
+@@ -0,0 +1,26 @@
++classes:
++- system.linux.system.repo.elasticsearch
++- system.linux.system.repo.saltstack.xenial
++- system.elasticsearch.server.cluster
++- system.haproxy.proxy.listen.elasticsearch
++- service.haproxy.proxy.single
++- system.keepalived.cluster.instance.stacklight_log_vip
++- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
++- cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++parameters:
++  _param:
++    keepalived_stacklight_log_vip_address: ${_param:stacklight_log_address}
++    keepalived_stacklight_log_vip_password: ${_param:stacklight_log_keepalived_password}
++    keepalived_stacklight_log_vip_interface: ens3
++    cluster_vip_address: ${_param:stacklight_log_address}
++    cluster_local_address: ${_param:single_address}
++    cluster_node01_hostname: log01
++    cluster_node01_address: ${_param:stacklight_log_node01_address}
++    cluster_node02_hostname: log02
++    cluster_node02_address: ${_param:stacklight_log_node02_address}
++    cluster_node03_hostname: log03
++    cluster_node03_address: ${_param:stacklight_log_node03_address}
++  elasticsearch:
++    server:
++      master: true
++      data: true
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log_curator.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log_curator.yml
+new file mode 100644
+index 0000000..d26cc60
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log_curator.yml
+@@ -0,0 +1,2 @@
++classes:
++- system.elasticsearch.server.curator
+\ No newline at end of file
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml
+new file mode 100644
+index 0000000..0a09a1e
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml
+@@ -0,0 +1,94 @@
++classes:
++- system.linux.system.repo.elasticsearch
++- system.linux.system.repo.grafana
++- system.linux.system.repo.saltstack.xenial
++- system.collectd.remote_client.cluster
++- system.heka.remote_collector.cluster
++#- system.heka.remote_collector.input.amqp
++- system.heka.remote_collector.output.sensu
++- system.heka.aggregator.cluster
++- system.heka.aggregator.output.sensu
++- system.kibana.server.single
++- system.grafana.server.single
++- system.grafana.client.single
++- system.nagios.server.cluster
++- system.sensu.server.cluster
++- system.sensu.client.unsubscribe.collectd
++- system.haproxy.proxy.listen.stacklight.elasticsearch
++- system.haproxy.proxy.listen.stacklight.kibana
++- system.haproxy.proxy.listen.stacklight.grafana
++- system.haproxy.proxy.listen.stacklight.sensu
++- service.haproxy.proxy.single
++- system.keepalived.cluster.instance.stacklight_monitor_vip
++- system.collectd.client.output.heka
++- system.heka.log_collector.single
++- system.heka.log_collector.output.sensu
++- system.heka.metric_collector.single
++- system.heka.metric_collector.output.sensu
++- system.sensu.client.stacklight
++- service.grafana.collector
++- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
++- cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++parameters:
++  _param:
++    collectd_remote_collector_host: ${_param:stacklight_monitor_address}
++    keepalived_stacklight_monitor_vip_address: ${_param:stacklight_monitor_address}
++    keepalived_stacklight_monitor_vip_password: ${_param:stacklight_monitor_keepalived_password}
++    keepalived_stacklight_monitor_vip_interface: ens3
++    cluster_redis_port: 6379
++    cluster_sensu_port: 4567
++    sensu_dashboard_password: 'password'
++    cluster_uchiwa_port: 3001
++    cluster_vip_address: ${_param:stacklight_monitor_address}
++    cluster_local_address: ${_param:single_address}
++    cluster_node01_hostname: mon01
++    cluster_node01_address: ${_param:stacklight_monitor_node01_address}
++    cluster_node02_hostname: mon02
++    cluster_node02_address: ${_param:stacklight_monitor_node02_address}
++    cluster_node03_hostname: mon03
++    cluster_node03_address: ${_param:stacklight_monitor_node03_address}
++  heka:
++    aggregator:
++      sensu_notification_handler: 'stdout'
++      sensu_noop_handler: 'pipe'
++  sensu:
++    server:
++      enabled: true
++      database:
++        engine: redis
++        host: ${_param:stacklight_monitor_address}
++        port: ${_param:cluster_redis_port}
++      message_queue:
++        engine: rabbitmq
++        host: ${_param:stacklight_monitor_address}
++        port: ${_param:rabbitmq_monitor_port}
++        user: monitor
++        password: ${_param:rabbitmq_monitor_password}
++        virtual_host: '/monitor'
++      bind:
++        address: ${_param:single_address}
++        port: ${_param:cluster_sensu_port}
++      handler:
++        default:
++          enabled: true
++          set:
++          - pipe
++        pipe:
++          enabled: true
++          command: 'cat /dev/null'
++        stdout:
++          enabled: true
++    client:
++      use_shortname: true
++    dashboard:
++      enabled: true
++      backend:
++        sensu:
++          host: ${_param:single_address}
++          port: ${_param:cluster_sensu_port}
++      bind:
++        address: ${_param:single_address}
++        port: ${_param:cluster_uchiwa_port}
++      admin:
++        username: admin
++        password: ${_param:sensu_dashboard_password}
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/proxy.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/proxy.yml
+new file mode 100644
+index 0000000..19d4ba6
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/proxy.yml
+@@ -0,0 +1,13 @@
++classes:
++- system.nginx.server.proxy.grafana_web
++- system.nginx.server.proxy.kibana_web
++- system.nginx.server.proxy.nagios_web
++- system.salt.minion.cert.proxy
++- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
++parameters:
++  # _param:
++  #   nginx_proxy_ssl:
++  #     enabled: true
++  #     authority: mk_lab_ca
++  #     engine: salt
++  #     mode: secure
+diff --git a/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml
+new file mode 100644
+index 0000000..f15477a
+--- /dev/null
++++ b/mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml
+@@ -0,0 +1,29 @@
++classes:
++- system.linux.system.repo.influxdb
++- system.linux.system.repo.saltstack.xenial
++- system.influxdb.server.single
++- system.influxdb.database.ceilometer
++- system.influxdb.database.stacklight
++- system.haproxy.proxy.listen.stacklight.influxdb
++- service.haproxy.proxy.single
++- system.keepalived.cluster.instance.stacklight_telemetry_vip
++- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
++- cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
++parameters:
++  _param:
++    keepalived_stacklight_telemetry_vip_address: ${_param:stacklight_telemetry_address}
++    keepalived_stacklight_telemetry_vip_password: ${_param:stacklight_telemetry_keepalived_password}
++    keepalived_stacklight_telemetry_vip_interface: ens3
++    cluster_vip_address: ${_param:stacklight_telemetry_address}
++    cluster_local_address: ${_param:single_address}
++    cluster_node01_hostname: mtr01
++    cluster_node01_address: ${_param:stacklight_telemetry_node01_address}
++    cluster_node02_hostname: mtr02
++    cluster_node02_address: ${_param:stacklight_telemetry_node02_address}
++    cluster_node03_hostname: mtr03
++    cluster_node03_address: ${_param:stacklight_telemetry_node03_address}
++  linux:
++    system:
++      package:
++        apt-transport-https:
++          version: latest
