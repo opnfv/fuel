@@ -23,7 +23,7 @@ parameters:
     maas_db_password: opnfv_secret
     dns_server01: ${_param:opnfv_dns_server01}
     single_address: ${_param:infra_maas_node01_deploy_address}
-    hwe_kernel: 'hwe-16.04-edge'
+    hwe_kernel: 'ga-16.04'
   maas:
     region:
       salt_master_ip: ${_param:reclass_config_master}
