@@ -1,0 +1,625 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_eaa45fbb",
+        "filename": "mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "Let\u0027s use 2018 in all new files.\nI will do a mass replace at some point for the existing files too.",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_caa7dbbb",
+        "filename": "mcp/config/scenario/baremetal/os-nosdn-nofeature-stacklight-ha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "baremetal-mcp-pike-ovs-stacklight-ha.local",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2aabe789",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "let\u0027s remove these comments, maybe replace them with an empty line\nOr at least add a space after #, and use some capitalization",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_0aaee397",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "these are not portable across all shells\neither use `tput` or drop the coloring\nI think I\u0027ll move the `notify` function from ci/deploy.sh to lib.sh, so we could reuse that here",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8a99537b",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "why is the \"seep\" (I assume you meant sleep) needed here?",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 6
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6a984f78",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "`grep | awk` can almost always be written using only awk, e.g.\n| awk \u0027/_param:/ { print $2; }\u0027",
+      "range": {
+        "startLine": 100,
+        "startChar": 72,
+        "endLine": 100,
+        "endChar": 103
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4a93cb5a",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_aa9ed760",
+        "filename": "mcp/config/states/stacklight",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "no need to export, as we don\u0027t use this in any sub-shells\n(also `export x\u003d$x` is redudant, `export x` being enough)",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ea8bbf1c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "these should be moved to each stacklight scenario dir, as discussed",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 62
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ca8ebb2d",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 41
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2a82c7ff",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "this can stay here, it just won\u0027t be used by other scenarios",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_0a854306",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/infra/kvm.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto, same for below block",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6a7faf15",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-common-ha/openstack_proxy.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4a7aab24",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "...-stacklight-...",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_aa753733",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8a703341",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/infra/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "...-stacklight-...",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_0a9c235c",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/client.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "missing license header, yaml document start (applies to multiple files in current change)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 8
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ea929f4a",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "these need to be parameterized based on network info from PDF/IDF",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_ca951b34",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "let\u0027s replace all passwords we encounter with \u0027opnfv_secret\u0027 for uniformity",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2a99276e",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/init.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 46,
+        "startChar": 34,
+        "endLine": 46,
+        "endChar": 42
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4aa10b93",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "use the arch-specific param here",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 49
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6aa68faf",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/log.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "let\u0027s use the parameter we defined for this (${_param:stacklight_log_node01_hostname}), just in case we want to support stacklight with NOVCP scenarios in the future",
+      "range": {
+        "startLine": 17,
+        "startChar": 29,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_aaac178d",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 37,
+        "startChar": 49,
+        "endLine": 37,
+        "endChar": 53
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_eab9ffcc",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 40,
+        "startChar": 31,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8aa793a6",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/monitor.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 44,
+        "startChar": 29,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2ab007dc",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 16,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_cabcfbbd",
+        "filename": "mcp/reclass/classes/cluster/baremetal-mcp-pike-ovs-stacklight-ha/stacklight/telemetry.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-19T17:33:54Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 19,
+        "startChar": 29,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "b985233770a6c7ba2d775a5501399e8c38f94c0a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
