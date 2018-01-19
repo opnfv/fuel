@@ -1,5 +1,5 @@
 ##############################################################################
-# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -7,13 +7,14 @@
 ##############################################################################
 ---
 cluster:
-  domain: baremetal-mcp-pike-ovs-stacklight-ha.local
+  domain: baremetal-mcp-pike-ovs-ha.local
   states:
     - maas
     - baremetal_init
     - virtual_control_plane
     - openstack_ha
     - networks
+    - stacklight
 virtual:
   nodes:
     - cfg01
