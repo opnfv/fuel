@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_a7761204",
+        "filename": "mcp/config/states/networks",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-01-19T13:11:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_30e35ba5",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "f4d1cd41ccd9c8882e3dbe0dd91de15e2c5005da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_b09dab0c",
         "filename": "mcp/config/states/networks",
         "patchSetId": 11
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_476bc61d",
+        "filename": "mcp/config/states/networks",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-01-19T13:11:10Z",
+      "side": 1,
+      "message": "Empty variables were not null. Enforced on get function now.",
+      "parentUuid": "9a3d3df0_b09dab0c",
+      "revId": "f4d1cd41ccd9c8882e3dbe0dd91de15e2c5005da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_10e0d794",
         "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/pod_config.yml.example",
         "patchSetId": 11
@@ -53,6 +95,30 @@
       "writtenOn": "2018-01-18T15:57:52Z",
       "side": 1,
       "message": "not aligned with 20/60 values in new IA change",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "f4d1cd41ccd9c8882e3dbe0dd91de15e2c5005da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_87714e0e",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/pod_config.yml.example",
+        "patchSetId": 11
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-01-19T13:11:10Z",
+      "side": 1,
+      "message": "Sorry to change this for a 100th time. Explanation on the pharos change. Aligned this time",
+      "parentUuid": "9a3d3df0_10e0d794",
       "range": {
         "startLine": 70,
         "startChar": 0,
