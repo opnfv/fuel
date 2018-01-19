@@ -6,21 +6,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: baremetal-mcp-pike-ovs-stacklight-ha.local
-  states:
-    - maas
-    - baremetal_init
-    - virtual_control_plane
-    - openstack_ha
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - mas01
-  cfg01:
-    vcpus: 4
-    ram: 6144
-  mas01:
-    vcpus: 4
-    ram: 6144
+classes:
+  - cluster.baremetal-mcp-pike-common-ha.openstack_init
+parameters:
+  _param:
+    neutron_tenant_network_types: "flat,vxlan"
+    nova_cpu_pinning: "1,2,3,4,5,7,8,9,10,11"
+    compute_hugepages_size: 1G
+    compute_hugepages_count: 16
+    compute_hugepages_mount: /mnt/hugepages_1G
+    compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
