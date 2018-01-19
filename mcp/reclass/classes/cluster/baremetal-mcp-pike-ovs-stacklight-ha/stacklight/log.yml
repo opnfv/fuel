@@ -1,0 +1,26 @@
+classes:
+- system.linux.system.repo.elasticsearch
+- system.linux.system.repo.saltstack.xenial
+- system.elasticsearch.server.cluster
+- system.haproxy.proxy.listen.elasticsearch
+- service.haproxy.proxy.single
+- system.keepalived.cluster.instance.stacklight_log_vip
+- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
+- cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
+parameters:
+  _param:
+    keepalived_stacklight_log_vip_address: ${_param:stacklight_log_address}
+    keepalived_stacklight_log_vip_password: ${_param:stacklight_log_keepalived_password}
+    keepalived_stacklight_log_vip_interface: ens3
+    cluster_vip_address: ${_param:stacklight_log_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: log01
+    cluster_node01_address: ${_param:stacklight_log_node01_address}
+    cluster_node02_hostname: log02
+    cluster_node02_address: ${_param:stacklight_log_node02_address}
+    cluster_node03_hostname: log03
+    cluster_node03_address: ${_param:stacklight_log_node03_address}
+  elasticsearch:
+    server:
+      master: true
+      data: true

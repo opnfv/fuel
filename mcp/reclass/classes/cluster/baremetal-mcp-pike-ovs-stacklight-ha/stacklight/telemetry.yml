@@ -1,0 +1,29 @@
+classes:
+- system.linux.system.repo.influxdb
+- system.linux.system.repo.saltstack.xenial
+- system.influxdb.server.single
+- system.influxdb.database.ceilometer
+- system.influxdb.database.stacklight
+- system.haproxy.proxy.listen.stacklight.influxdb
+- service.haproxy.proxy.single
+- system.keepalived.cluster.instance.stacklight_telemetry_vip
+- cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
+- cluster.baremetal-mcp-pike-common-ha.openstack_interface_vcp_biport
+parameters:
+  _param:
+    keepalived_stacklight_telemetry_vip_address: ${_param:stacklight_telemetry_address}
+    keepalived_stacklight_telemetry_vip_password: ${_param:stacklight_telemetry_keepalived_password}
+    keepalived_stacklight_telemetry_vip_interface: ens3
+    cluster_vip_address: ${_param:stacklight_telemetry_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: mtr01
+    cluster_node01_address: ${_param:stacklight_telemetry_node01_address}
+    cluster_node02_hostname: mtr02
+    cluster_node02_address: ${_param:stacklight_telemetry_node02_address}
+    cluster_node03_hostname: mtr03
+    cluster_node03_address: ${_param:stacklight_telemetry_node03_address}
+  linux:
+    system:
+      package:
+        apt-transport-https:
+          version: latest

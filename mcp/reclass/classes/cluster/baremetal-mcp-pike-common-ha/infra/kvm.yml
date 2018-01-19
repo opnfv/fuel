@@ -18,9 +18,9 @@ classes:
   - system.salt.control.cluster.openstack_database_cluster
   - system.salt.control.cluster.openstack_message_queue_cluster
   - system.salt.control.cluster.openstack_telemetry_cluster
-  # - system.salt.control.cluster.stacklight_server_cluster
-  # - system.salt.control.cluster.stacklight_log_cluster
-  # - system.salt.control.cluster.stacklight_telemetry_cluster
+  - system.salt.control.cluster.stacklight_server_cluster
+  - system.salt.control.cluster.stacklight_log_cluster
+  - system.salt.control.cluster.stacklight_telemetry_cluster
   - cluster.baremetal-mcp-pike-common-ha.infra.kvm_pdf
   - cluster.baremetal-mcp-pike-common-ha.include.proxy
 parameters:
@@ -66,21 +66,21 @@ parameters:
           ram: 3072
           disk_profile: xxlarge
           net_profile: default
-        # stacklight.log:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
-        # stacklight.server:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: small
-        #   net_profile: default
-        # stacklight.telemetry:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
+        stacklight.log:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+        stacklight.server:
+          cpu: 2
+          ram: 4096
+          disk_profile: small
+          net_profile: default
+        stacklight.telemetry:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
         openstack.proxy:
           cpu: 2
           ram: 2048
