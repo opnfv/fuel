@@ -7,23 +7,24 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Mon, 1 Jan 2018 17:06:59 +0100
+Date: Sat, 20 Jan 2018 21:52:56 +0100
 Subject: [PATCH] Add proxy node management network VIP
 
+Change-Id: I5fd74163cab8f6ee5f575ed72edfcc6919e60161
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  config/installers/fuel/pod_config.yml.j2 | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
-index f380535..2d0cdee 100644
+index 69be320..381e90f 100644
 --- a/config/installers/fuel/pod_config.yml.j2
 +++ b/config/installers/fuel/pod_config.yml.j2
-@@ -61,6 +61,7 @@ parameters:
-     opnfv_openstack_proxy_address: {{ net_public | ipaddr_index('103') }}
-     opnfv_openstack_proxy_node01_address: {{ net_public | ipaddr_index('104') }}
-     opnfv_openstack_proxy_node02_address: {{ net_public | ipaddr_index('105') }}
-+    opnfv_openstack_proxy_control_address: {{ net_mgmt | ipaddr_index('103') }}
-     opnfv_openstack_proxy_node01_control_address: {{ net_mgmt | ipaddr_index('104') }}
-     opnfv_openstack_proxy_node02_control_address: {{ net_mgmt | ipaddr_index('105') }}
-     opnfv_openstack_control_address: {{ net_mgmt | ipaddr_index('10') }}
+@@ -60,6 +60,7 @@ parameters:
+     opnfv_openstack_proxy_address: {{ net_public | ipaddr_index(103) }}
+     opnfv_openstack_proxy_node01_address: {{ net_public | ipaddr_index(104) }}
+     opnfv_openstack_proxy_node02_address: {{ net_public | ipaddr_index(105) }}
++    opnfv_openstack_proxy_control_address: {{ net_mgmt | ipaddr_index(103) }}
+     opnfv_openstack_proxy_node01_control_address: {{ net_mgmt | ipaddr_index(104) }}
+     opnfv_openstack_proxy_node02_control_address: {{ net_mgmt | ipaddr_index(105) }}
+     opnfv_openstack_control_address: {{ net_mgmt | ipaddr_index(10) }}

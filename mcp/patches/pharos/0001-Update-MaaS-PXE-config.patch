@@ -7,7 +7,7 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Sat, 16 Dec 2017 21:14:35 +0100
+Date: Sat, 20 Jan 2018 21:50:48 +0100
 Subject: [PATCH] Update MaaS PXE config
 
 - reduce DHCP range to silence a dummy MaaS warning about address exhaustion;
@@ -16,32 +16,33 @@ Subject: [PATCH] Update MaaS PXE config
 
 JIRA: FUEL-316
 
+Change-Id: Ic946960aac3c09dbcfce005098a5fc97396da01e
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  config/installers/fuel/pod_config.yml.j2 | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
-index 28c6188..f380535 100644
+index 8a4d869..69be320 100644
 --- a/config/installers/fuel/pod_config.yml.j2
 +++ b/config/installers/fuel/pod_config.yml.j2
-@@ -40,6 +40,7 @@ parameters:
- {%- endif %}
+@@ -39,6 +39,7 @@ parameters:
+     opnfv_jump_bridge_public: {{ conf.idf.fuel.jumphost.bridges.public }}
 
-     opnfv_infra_config_address: {{ net_mgmt | ipaddr_index('100') }}
-+    opnfv_infra_config_pxe_address: {{ net_admin | ipaddr_index('2') }}
-     opnfv_infra_maas_node01_address: {{ net_mgmt | ipaddr_index('3') }}
-     opnfv_infra_maas_node01_deploy_address: {{ net_admin | ipaddr_index('3') }}
-     opnfv_infra_kvm_address: {{ net_mgmt | ipaddr_index('140') }}
-@@ -48,9 +49,8 @@ parameters:
-     opnfv_infra_kvm_node03_address: {{ net_mgmt | ipaddr_index('143') }}
+     opnfv_infra_config_address: {{ net_mgmt | ipaddr_index(100) }}
++    opnfv_infra_config_pxe_address: {{ net_admin | ipaddr_index(2) }}
+     opnfv_infra_maas_node01_address: {{ net_mgmt | ipaddr_index(3) }}
+     opnfv_infra_maas_node01_deploy_address: {{ net_admin | ipaddr_index(3) }}
+     opnfv_infra_kvm_address: {{ net_mgmt | ipaddr_index(140) }}
+@@ -47,9 +48,8 @@ parameters:
+     opnfv_infra_kvm_node03_address: {{ net_mgmt | ipaddr_index(143) }}
 
      opnfv_infra_maas_pxe_network_address: {{ net_admin }}
--    opnfv_infra_maas_pxe_address: {{ net_admin | ipaddr_index('3') }}
--    opnfv_infra_maas_pxe_start_address: {{ net_admin | ipaddr_index('5') }}
--    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipaddr_index('250') }}
-+    opnfv_infra_maas_pxe_start_address: {{ net_admin | ipaddr_index('4') }}
-+    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipaddr_index('100') }}
+-    opnfv_infra_maas_pxe_address: {{ net_admin | ipaddr_index(3) }}
+-    opnfv_infra_maas_pxe_start_address: {{ net_admin | ipaddr_index(5) }}
+-    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipaddr_index(250) }}
++    opnfv_infra_maas_pxe_start_address: {{ net_admin | ipaddr_index(4) }}
++    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipaddr_index(100) }}
 
-     opnfv_openstack_gateway_node01_address: {{ net_mgmt | ipaddr_index('124') }}
-     opnfv_openstack_gateway_node02_address: {{ net_mgmt | ipaddr_index('125') }}
+     opnfv_openstack_gateway_node01_address: {{ net_mgmt | ipaddr_index(124) }}
+     opnfv_openstack_gateway_node02_address: {{ net_mgmt | ipaddr_index(125) }}
