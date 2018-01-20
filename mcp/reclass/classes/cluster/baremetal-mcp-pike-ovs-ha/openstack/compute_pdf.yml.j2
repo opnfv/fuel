@@ -6,14 +6,14 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {# NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
-{%- if conf.net_config is defined and conf.idf is defined -%}
+{%- if conf.idf is defined and conf.idf.net_config is defined -%}
     {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
 
     {#- Determine interface index for each network (plumbing vars) -#}
-    {%- set idx_admin = conf['net_config']['admin']['interface'] -%}
-    {%- set idx_mgmt = conf['net_config']['mgmt']['interface'] -%}
-    {%- set idx_private = conf['net_config']['private']['interface'] -%}
-    {%- set idx_public = conf['net_config']['public']['interface'] -%}
+    {%- set idx_admin = conf['idf']['net_config']['admin']['interface'] -%}
+    {%- set idx_mgmt = conf['idf']['net_config']['mgmt']['interface'] -%}
+    {%- set idx_private = conf['idf']['net_config']['private']['interface'] -%}
+    {%- set idx_public = conf['idf']['net_config']['public']['interface'] -%}
 
     {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
     {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
@@ -26,10 +26,10 @@
     {%- set bus_private = node['busaddr'][idx_private] -%}
 
     {#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) -#}
-    {%- set vlan_admin = conf['net_config']['admin']['vlan'] -%}
-    {%- set vlan_mgmt = conf['net_config']['mgmt']['vlan'] -%}
-    {%- set vlan_private = conf['net_config']['private']['vlan'] -%}
-    {%- set vlan_public = conf['net_config']['public']['vlan'] -%}
+    {%- set vlan_admin = conf['idf']['net_config']['admin']['vlan'] -%}
+    {%- set vlan_mgmt = conf['idf']['net_config']['mgmt']['vlan'] -%}
+    {%- set vlan_private = conf['idf']['net_config']['private']['vlan'] -%}
+    {%- set vlan_public = conf['idf']['net_config']['public']['vlan'] -%}
 {%- else -%}
     {%- set nic_admin = 'enp6s0' -%}
     {%- set nic_mgmt = 'enp6s0' -%}
