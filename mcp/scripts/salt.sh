@@ -96,6 +96,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   # Init specific to VMs on FN (all for virtual, cfg|mas for baremetal)
   salt -C "${NODE_MASK} or cfg01*" saltutil.sync_all
   wait_for 3.0 'salt -C "${NODE_MASK} or cfg01*" state.apply salt'
+  salt -C "${NODE_MASK} or cfg01*" service.force_reload salt-minion
   wait_for 3.0 'salt -C "cfg01*" state.apply linux'
 
   salt -C "${NODE_MASK} and not cfg01*" state.sls linux || true
