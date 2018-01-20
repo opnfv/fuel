@@ -9,6 +9,7 @@
 classes:
   - system.maas.region.single
   - service.maas.cluster.single
+  - cluster.baremetal-mcp-ocata-common-ha.infra.maas_pdf
 parameters:
   _param:
     dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
