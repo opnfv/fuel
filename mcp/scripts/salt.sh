@@ -54,7 +54,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   echo ' done'
 
   mkdir -p /srv/salt /usr/share/salt-formulas/reclass
-  rm -rf ${OPNFV_GIT_DIR}
+  rm -rf ${OPNFV_GIT_DIR} ${OPNFV_FUEL_DIR}
   mv ${OPNFV_TMP_DIR} ${OPNFV_GIT_DIR} && chown -R root.root ${OPNFV_GIT_DIR}
   find ${OPNFV_GIT_DIR} -name '.git' -type f | while read f_git; do
     sed -i 's@${LOCAL_GIT_DIR}@${OPNFV_GIT_DIR}@g' \$f_git
