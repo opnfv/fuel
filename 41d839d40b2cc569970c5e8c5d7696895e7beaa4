@@ -22,6 +22,30 @@
       "revId": "41d839d40b2cc569970c5e8c5d7696895e7beaa4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d0694afa",
+        "filename": "mcp/config/states/networks",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-01-22T11:08:04Z",
+      "side": 1,
+      "message": "good to know. thanks",
+      "parentUuid": "9a3d3df0_2ab487f0",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 60
+      },
+      "revId": "41d839d40b2cc569970c5e8c5d7696895e7beaa4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
