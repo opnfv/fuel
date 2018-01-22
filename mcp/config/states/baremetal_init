@@ -25,7 +25,6 @@ salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
 salt -C 'kvm*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network
 salt -C 'kvm* or cmp*' state.apply salt.minion
-salt -C 'kvm* or cmp*' service.force_reload salt-minion
 salt -C 'cmp*' state.apply linux.system
 salt -C 'cmp*' state.apply linux.network || true
 

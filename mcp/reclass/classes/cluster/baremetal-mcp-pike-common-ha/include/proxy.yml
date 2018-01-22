@@ -16,8 +16,9 @@ parameters:
   #       https_proxy: http://${_param:infra_maas_node01_deploy_address}:8000
   #       no_proxy:
   #         - .local
-  salt:
-    minion:
+  linux:
+    system:
       proxy:
-        host: ${_param:infra_maas_node01_deploy_address}
-        port: 8000
+        keyserver:
+          http: http://${_param:infra_maas_node01_deploy_address}:8000
+          https: http://${_param:infra_maas_node01_deploy_address}:8000

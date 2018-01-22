@@ -15,4 +15,5 @@
 /usr/share/salt-formulas/env: 0008-Handle-file_recv-option.patch
 /usr/share/salt-formulas/env: 0009-controller-Use-keystoneclient-to-check-project-ID.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
+/usr/share/salt-formulas/env: 0011-system.repo-Debian-Add-keyserver-proxy-support.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
