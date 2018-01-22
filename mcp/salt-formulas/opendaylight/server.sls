@@ -6,8 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {% from "opendaylight/map.jinja" import server with context %}
+{% from "linux/map.jinja" import system with context %}
 
 {%- if server.enabled %}
+
+opendaylight_repo_key:
+  cmd.run:
+    - name: "apt-key adv --keyserver keyserver.ubuntu.com --recv 49B07274951063870A8B7EAE7B8AA1A344C05248"
+    - env:
+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', None) }}
+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', None) }}
 
 opendaylight_repo:
   pkgrepo.managed:
@@ -17,8 +25,6 @@ opendaylight_repo:
   - human_name: opendaylight-ppa
   - name: deb http://ppa.launchpad.net/odl-team/nitrogen/ubuntu xenial main
   - file: /etc/apt/sources.list.d/odl-team-ubuntu-nitrogen-xenial.list
-  - keyid: 49B07274951063870A8B7EAE7B8AA1A344C05248
-  - keyserver: keyserver.ubuntu.com
 
 opendaylight:
   pkg.installed:
