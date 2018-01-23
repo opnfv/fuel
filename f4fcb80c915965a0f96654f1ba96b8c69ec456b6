@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_61499230",
+        "filename": "mcp/salt-formulas/opendaylight/server.sls",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-01-23T10:24:24Z",
+      "side": 1,
+      "message": "Not sure about \"http_proxy: None\"\nMaybe it\u0027d better to wrap it with \"if\" block?",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "f4fcb80c915965a0f96654f1ba96b8c69ec456b6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
