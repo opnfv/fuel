@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_41b60e8b",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-01-23T15:07:23Z",
+      "side": 1,
+      "message": "It is a bit tricky to add a logic in salt to:\nif (the symbolink not exist) \nthen (create the symlink)\nelse (do nothing)\n\nso I just simply create the symlink by:\n$salt -I \u0027horizon:server\u0027 file.symlink /var/lib/openstack-dashboard/static /usr/share/openstack-dashboard/static",
+      "parentUuid": "9a3d3df0_16860adb",
+      "range": {
+        "startLine": 69,
+        "startChar": 25,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "a5f821fce77391a7202a8134d5dbfaf06c812e19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_7670360b",
         "filename": "mcp/config/states/openstack_ha",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-23T02:22:02Z",
       "side": 1,
       "message": "Q: will this work if AVAILABLE_THEMES is already present (and not at the end of the file)? We don\u0027t want to break support for any Horizon DEB packages that do have this by default, in case we switch back to Mirantis Horizon DEB.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "a5f821fce77391a7202a8134d5dbfaf06c812e19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_6187d2b5",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-01-23T15:07:23Z",
+      "side": 1,
+      "message": "The variable is append to the end of file. If the variable is already defined in the file, the last one will overwrite the previous value. \n\nI think the Mirantis Horizon DEB is also using \u0027Default\u0027 theme. The Ubunut Horizon DEB alllow user to choose between \u0027Default\u0027, \u0027Ubuntu\u0027 and \u0027Material\", while the default view is \u0027Ubuntu\u0027 theme.",
+      "parentUuid": "9a3d3df0_7670360b",
       "range": {
         "startLine": 74,
         "startChar": 0,
