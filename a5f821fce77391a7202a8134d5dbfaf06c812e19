@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_617512ca",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-23T15:52:55Z",
+      "side": 1,
+      "message": "No need to add that logic, that\u0027s why I used \u0027ln -sf\u0027 (-f being force \u003d overwrite the link if it exists).\nAs long as running the state a second time works (and it doesn\u0027t break because the link already exists), we\u0027re ok.",
+      "parentUuid": "9a3d3df0_41b60e8b",
+      "range": {
+        "startLine": 69,
+        "startChar": 25,
+        "endLine": 71,
+        "endChar": 55
+      },
+      "revId": "a5f821fce77391a7202a8134d5dbfaf06c812e19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_7670360b",
         "filename": "mcp/config/states/openstack_ha",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "The variable is append to the end of file. If the variable is already defined in the file, the last one will overwrite the previous value. \n\nI think the Mirantis Horizon DEB is also using \u0027Default\u0027 theme. The Ubunut Horizon DEB alllow user to choose between \u0027Default\u0027, \u0027Ubuntu\u0027 and \u0027Material\", while the default view is \u0027Ubuntu\u0027 theme.",
       "parentUuid": "9a3d3df0_7670360b",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "a5f821fce77391a7202a8134d5dbfaf06c812e19",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_014ec696",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-23T15:52:55Z",
+      "side": 1,
+      "message": "My concern was whether this will work if the AVAILABLE_THEMES is already in the file, but not at the end (e.g. someone manually added it). However, duplicating this line should not be a big problem, so it\u0027s not a blocker.",
+      "parentUuid": "9a3d3df0_6187d2b5",
       "range": {
         "startLine": 74,
         "startChar": 0,
