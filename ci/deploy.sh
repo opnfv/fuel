@@ -321,13 +321,8 @@ fi
 # Check scenario file existence
 SCENARIO_DIR="../config/scenario"
 if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
-    notify "[WARN] ${DEPLOY_SCENARIO}.yaml not found!\n" 3
-    notify "[WARN] Setting simplest scenario (os-nosdn-nofeature-noha)\n" 3
-    DEPLOY_SCENARIO='os-nosdn-nofeature-noha'
-    if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
-        notify "[ERROR] Scenario definition file is missing!\n" 1>&2
-        exit 1
-    fi
+    notify "[ERROR] Scenario definition file is missing!\n" 1>&2
+    exit 1
 fi
 
 # Check defaults file existence
