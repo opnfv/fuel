@@ -12,7 +12,7 @@
 
 opendaylight_repo_key:
   cmd.run:
-    - name: "apt-key adv --keyserver keyserver.ubuntu.com --recv 49B07274951063870A8B7EAE7B8AA1A344C05248"
+    - name: "apt-key adv --keyserver keyserver.ubuntu.com --recv 44C05248"
     - env:
       - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', None) }}
       - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', None) }}
