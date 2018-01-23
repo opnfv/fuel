@@ -26,20 +26,22 @@ unchanged for backwards compatibility.
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  README.rst            | 16 ++++++++++++++++
- linux/system/repo.sls | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ linux/system/repo.sls | 40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index 5d4d059..964db3f 100644
+index 5d4d059..724db5a 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -96,13 +96,48 @@ linux_repo_{{ name }}_key:
+@@ -96,13 +96,50 @@ linux_repo_{{ name }}_key:
      - name: "curl -s {{ repo.key_url }} | apt-key add -"
      - watch:
        - file: default_repo_list
++{%- if system.proxy.keyserver is defined %}
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', None) }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', None) }}
++      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
++      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- endif %}
 
  {%- endif %}
 
@@ -62,8 +64,8 @@ index 5d4d059..964db3f 100644
 +  cmd.run:
 +    - name: "curl -s {{ repo.key_url }} | apt-key add -"
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', None) }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', None) }}
++      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
++      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
 +
 +{%- elif repo.key_id is defined and repo.key_server is defined %}
 +
@@ -71,8 +73,8 @@ index 5d4d059..964db3f 100644
 +  cmd.run:
 +    - name: "apt-key adv --keyserver {{ repo.key_server }} --recv {{ repo.key_id }}"
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', None) }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', None) }}
++      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
++      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
 +
 +{%- endif %}
 +
@@ -82,7 +84,7 @@ index 5d4d059..964db3f 100644
  linux_repo_{{ name }}:
    pkgrepo.managed:
    {%- if repo.ppa is defined %}
-@@ -115,6 +150,7 @@ linux_repo_{{ name }}:
+@@ -115,6 +152,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
@@ -90,7 +92,7 @@ index 5d4d059..964db3f 100644
    {%- if repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
    {%- endif %}
-@@ -124,6 +160,7 @@ linux_repo_{{ name }}:
+@@ -124,6 +162,7 @@ linux_repo_{{ name }}:
    {%- if repo.key_url is defined %}
    - key_url: {{ repo.key_url }}
    {%- endif %}
@@ -98,7 +100,7 @@ index 5d4d059..964db3f 100644
    - consolidate: {{ repo.get('consolidate', False) }}
    - clean_file: {{ repo.get('clean_file', False) }}
    - refresh_db: {{ repo.get('refresh_db', True) }}
-@@ -140,6 +177,7 @@ linux_repo_{{ name }}:
+@@ -140,6 +179,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    {%- endif %}
 
