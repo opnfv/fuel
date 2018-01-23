@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_dcf4c15c",
+        "filename": "mcp/patches/0011-system.repo-Debian-Add-keyserver-proxy-support.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-23T20:16:44Z",
+      "side": 1,
+      "message": "This is needed so we don\u0027t override global system env proxy (if present, not the case for OPNFV, but still).",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "d081166c1cd7698416a7e5cd2ea871b038de35b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3ce84d7b",
+        "filename": "mcp/patches/0011-system.repo-Debian-Add-keyserver-proxy-support.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-23T20:16:44Z",
+      "side": 1,
+      "message": "http_proxy\u003d\u0027\u0027 works, while the old code used to set http_proxy\u003dNone, which obviously didn\u0027t ...",
+      "range": {
+        "startLine": 42,
+        "startChar": 70,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "d081166c1cd7698416a7e5cd2ea871b038de35b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1cebc978",
+        "filename": "mcp/salt-formulas/opendaylight/server.sls",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-01-23T20:16:44Z",
+      "side": 1,
+      "message": "a bit extreme to check for http(s) separately, but better safe than sorry",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "d081166c1cd7698416a7e5cd2ea871b038de35b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
