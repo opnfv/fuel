@@ -35,7 +35,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 
 $(notify "USAGE:" 2)
-  $(basename "$0") -b base-uri -l lab-name -p pod-name -s deploy-scenario \\
+  $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
+    [-b Lab Config Base URI] \\
     [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
     [-f[f]] [-F] [-e | -E[E]] [-d] [-D]
@@ -67,9 +68,14 @@ and provides a fairly simple mechanism to execute a deployment.
 $(notify "Input parameters to the build script are:" 2)
 -b Base URI to the configuration directory (needs to be provided in URI style,
    it can be a local resource: file:// or a remote resource http(s)://).
-   A POD Descriptor File (PDF) should be available at:
+   A POD Descriptor File (PDF) and its Installer Descriptor File (IDF)
+   companion should be available at:
    <base-uri>/labs/<lab-name>/<pod-name>.yaml
-   The default is './mcp/config'.
+   <base-uri>/labs/<lab-name>/idf-<pod-name>.yaml
+   An example config is provided inside current repo in
+   <./mcp/config>.
+   The default is using the git submodule tracking 'OPNFV Pharos' in
+   <./mcp/scripts/pharos>.
 -B Bridges to be used by deploy script. It can be specified several times,
    or as a comma separated list of bridges, or both: -B br1 -B br2,br3
    First occurence sets PXE Brige, next Mgmt, then Internal and Public.
@@ -143,7 +149,7 @@ RECLASS_CLUSTER_DIR=$(cd "${REPO_ROOT_PATH}/mcp/reclass/classes/cluster"; pwd)
 DEPLOY_TYPE='baremetal'
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
-BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/config"
+BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/scripts/pharos"
 
 # Customize deploy workflow
 DRY_RUN=${DRY_RUN:-0}
