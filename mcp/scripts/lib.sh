@@ -32,7 +32,7 @@ function get_base_image {
   local image_dir=$2
 
   mkdir -p "${image_dir}"
-  wget -P "${image_dir}" -N "${base_image}"
+  wget --progress=dot:giga -P "${image_dir}" -N "${base_image}"
 }
 
 function __kernel_modules {
