@@ -399,7 +399,6 @@ These steps are common both for virtual and baremetal deploys.
                       -p <pod_name> \
                       -b <URI to configuration repo containing the PDF file> \
                       -s <scenario> \
-                      -B <list of admin, management, private and public bridges> \
                       -D \
                       -S <Storage directory for disk images> |& tee deploy.log
 
@@ -436,7 +435,6 @@ Examples
                          -l lf \
                          -p pod2 \
                          -s os-nosdn-nofeature-ha \
-                         -B pxebr,br-ctl
                          -D \
                          -S /home/jenkins/tmpdir |& tee deploy.log
 
