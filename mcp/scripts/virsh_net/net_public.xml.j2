@@ -6,9 +6,16 @@
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
+{%- if conf.idf.net_config.public is defined %}
+  {%- set public_network = conf.idf.net_config.public.network %}
+  {%- set public_prefix = conf.idf.net_config.public.mask %}
+{%- else %}
+  {%- set public_network = '10.16.0.0' %}
+  {%- set public_prefix = '24' %}
+{%- endif %}
 <network>
   <name>public</name>
   <bridge name="public"/>
   <forward mode="nat"/>
-  <ip address="10.16.0.1" netmask="255.255.255.0" />
+  <ip address="{{ public_network | ipaddr_index(1) }}" netmask="{{ public_prefix | netmask }}"/>
 </network>

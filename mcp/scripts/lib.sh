@@ -321,8 +321,9 @@ function create_networks {
       virsh net-undefine "${net}"
     fi
     # in case of custom network, host should already have the bridge in place
-    if [ -f "net_${net}.xml" ] && [ ! -d "/sys/class/net/${net}/bridge" ]; then
-      virsh net-define "net_${net}.xml"
+    if [ -f "virsh_net/net_${net}.xml" ] && \
+     [ ! -d "/sys/class/net/${net}/bridge" ]; then
+      virsh net-define "virsh_net/net_${net}.xml"
       virsh net-autostart "${net}"
       virsh net-start "${net}"
     fi
@@ -469,6 +470,55 @@ function do_sysctl_cfg {
 function get_nova_compute_pillar_data {
   local value=$(salt -C 'I@nova:compute and *01*' pillar.get _param:"${1}" --out yaml | cut -d ' ' -f2)
   if [ "${value}" != "''" ]; then
-    echo  ${value}
+    echo "${value}"
   fi
+}
+
+function do_templates() {
+  local git_repo_root=$1; shift
+  local image_dir=$1; shift
+  local target_lab=$1; shift
+  local target_pod=$1; shift
+  local lab_config_uri=$1; shift
+  local scenario_dir=${1:-}
+
+  RECLASS_CLUSTER_DIR=$(cd "${git_repo_root}/mcp/reclass/classes/cluster"; pwd)
+  PHAROS_GEN_CFG="./pharos/config/utils/generate_config.py"
+  PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
+  BASE_CONFIG_PDF="${lab_config_uri}/labs/${target_lab}/${target_pod}.yaml"
+  BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
+  LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
+  LOCAL_IDF="${image_dir}/$(basename "${BASE_CONFIG_IDF}")"
+  LOCAL_PDF_RECLASS="${image_dir}/pod_config.yml"
+
+  # Two-stage expansion, first stage handles pod_config and scenarios only
+  if [ -n "${scenario_dir}" ]; then
+    # Make sample PDF/IDF available via default lab-config (pharos submodule)
+    ln -sf "$(readlink -f "../config/labs/local")" "./pharos/labs/"
+
+    # Expand scenario file and main reclass input (pod_config.yaml) based on PDF
+    if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
+      notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"
+    elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
+      notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
+    elif ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
+        -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
+      notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
+    fi
+    template_dirs="${scenario_dir}"
+    template_err_str='Could not convert j2 scenario definitions!'
+  else
+    # Expand reclass and virsh network templates based on PDF + IDF
+    printenv | \
+      awk '/^(SALT|MCP|MAAS|CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
+    template_dirs="${RECLASS_CLUSTER_DIR} virsh_net ./*j2"
+    template_err_str='Could not convert PDF to network definitions!'
+  fi
+  # shellcheck disable=SC2086
+  find ${template_dirs} -name '*.j2' | while read -r tp; do
+    # Jinja2 import does not allow '..' directory traversal
+    if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" -j "${tp}" > "${tp%.j2}"; then
+      notify_e "[ERROR] ${template_err_str}"
+    fi
+  done
 }
