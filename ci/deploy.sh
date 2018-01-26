@@ -16,9 +16,9 @@ do_exit () {
     local RC=$?
     cleanup_mounts > /dev/null 2>&1
     if [ ${RC} -eq 0 ]; then
-        notify "\n[OK] MCP: Openstack installation finished succesfully!\n\n" 2
+        notify_n "[OK] MCP: Openstack installation finished succesfully!" 2
     else
-        notify "\n[ERROR] MCP: Openstack installation threw a fatal error!\n\n"
+        notify_n "[ERROR] MCP: Openstack installation threw a fatal error!"
     fi
 }
 #
@@ -56,14 +56,14 @@ $(notify "OPTIONS:" 2)
   -S  Storage dir for VM images
   -L  Deployment log path and file name
 
-$(notify "Description:" 2)
+$(notify_i "Description:" 2)
 Deploys the Fuel@OPNFV stack on the indicated lab resource.
 
 This script provides the Fuel@OPNFV deployment abstraction.
 It depends on the OPNFV official configuration directory/file structure
 and provides a fairly simple mechanism to execute a deployment.
 
-$(notify "Input parameters to the build script are:" 2)
+$(notify_i "Input parameters to the build script are:" 2)
 -b Base URI to the configuration directory (needs to be provided in URI style,
    it can be a local resource: file:// or a remote resource http(s)://).
    A POD Descriptor File (PDF) and its Installer Descriptor File (IDF)
@@ -98,11 +98,11 @@ $(notify "Input parameters to the build script are:" 2)
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
 
-$(notify "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
+$(notify_i "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 
 Example:
 
-$(notify "sudo $(basename "$0") \\
+$(notify_i "sudo $(basename "$0") \\
   -b file:///home/jenkins/securedlab \\
   -l lf -p pod2 \\
   -s os-odl-nofeature-ha" 2)
@@ -111,18 +111,6 @@ EOF
 
 #
 # END of usage description
-##############################################################################
-
-##############################################################################
-# BEGIN of colored notification wrapper
-#
-notify() {
-    tput setaf "${2:-1}" || true
-    echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
-    tput sgr0
-}
-#
-# END of colored notification wrapper
 ##############################################################################
 
 ##############################################################################
@@ -164,7 +152,7 @@ do
         b)
             BASE_CONFIG_URI=${OPTARG}
             if [[ ! $BASE_CONFIG_URI =~ ${URI_REGEXP} ]]; then
-                notify "[ERROR] -b $BASE_CONFIG_URI - invalid URI\n"
+                notify "[ERROR] -b $BASE_CONFIG_URI - invalid URI"
                 usage
                 exit 1
             fi
@@ -221,23 +209,20 @@ do
             exit 0
             ;;
         *)
-            notify "[ERROR] Arguments not according to new argument style\n"
-            exit 1
+            notify_e "[ERROR] Unsupported arg, see -h for help"
             ;;
     esac
 done
 
 if [[ "$(sudo whoami)" != 'root' ]]; then
-    notify "[ERROR] This script requires sudo rights\n" 1>&2
-    exit 1
+    notify_e "[ERROR] This script requires sudo rights"
 fi
 
 # Validate mandatory arguments are set
 if [ -z "${TARGET_LAB}" ] || [ -z "${TARGET_POD}" ] || \
    [ -z "${DEPLOY_SCENARIO}" ]; then
-    notify "[ERROR] At least one of the mandatory args is missing!\n" 1>&2
     usage
-    exit 1
+    notify_e "[ERROR] At least one of the mandatory args is missing!"
 fi
 
 [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
@@ -254,9 +239,9 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install required packages on jump server
 if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
-    notify "[NOTE] Skipping distro pkg installation\n" 2 1>&2
+    notify "[NOTE] Skipping distro pkg installation" 2
 else
-    notify "[NOTE] Installing required distro pkgs\n" 2 1>&2
+    notify "[NOTE] Installing required distro pkgs" 2
     if [ -n "$(command -v apt-get)" ]; then
       pkg_type='deb'; pkg_cmd='sudo apt-get install -y'
     else
@@ -272,8 +257,7 @@ else
 fi
 
 if ! virsh list >/dev/null 2>&1; then
-    notify "[ERROR] This script requires hypervisor access\n" 1>&2
-    exit 1
+    notify_e "[ERROR] This script requires hypervisor access"
 fi
 
 # Collect jump server system information for deploy debugging
@@ -291,28 +275,23 @@ LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
 LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
 LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
 if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
-    notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
-    exit 1
+    notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"
 elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
-    notify "[ERROR] Could not retrieve IDF (Installer Descriptor File)!\n" 1>&2
-    exit 1
+    notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
 elif ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
     -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
-    notify "[ERROR] Could not convert PDF+IDF to reclass model input!\n" 1>&2
-    exit 1
+    notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
 fi
 
 # Check scenario file existence
 SCENARIO_DIR="../config/scenario"
 if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
-    notify "[ERROR] Scenario definition file is missing!\n" 1>&2
-    exit 1
+    notify_e "[ERROR] Scenario definition file is missing!"
 fi
 
 # Check defaults file existence
 if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -i).yaml" ]; then
-    notify "[ERROR] Scenario defaults file is missing!\n" 1>&2
-    exit 1
+    notify_e "[ERROR] Scenario defaults file is missing!"
 fi
 
 # Get required infra deployment data
@@ -364,8 +343,7 @@ find "${RECLASS_CLUSTER_DIR}" -name '*.j2' | while read -r tp
 do
     if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
       -j "${tp}" > "${tp%.j2}"; then
-         notify "[ERROR] Could not convert PDF to reclass network defs!\n"
-         exit 1
+         notify_e "[ERROR] Could not convert PDF to reclass network defs!"
     fi
 done
 
@@ -376,14 +354,14 @@ for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do
         OPNFV_BRIDGES[${i}]="${br_jump}"
     fi
 done
-notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}\n" 2
+notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
 
 # Infra setup
 if [ ${DRY_RUN} -eq 1 ]; then
-    notify "[NOTE] Dry run, skipping all deployment tasks\n" 2 1>&2
+    notify "[NOTE] Dry run, skipping all deployment tasks" 2
     exit 0
 elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
-    notify "[NOTE] Use existing infra\n" 2 1>&2
+    notify "[NOTE] Use existing infra" 2
     check_connection
 else
     generate_ssh_key
@@ -402,10 +380,10 @@ fi
 # Openstack cluster setup
 set +x
 if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
-    notify "[NOTE] Skip openstack cluster setup\n" 2
+    notify "[NOTE] Skip openstack cluster setup" 2
 else
     for state in "${cluster_states[@]}"; do
-        notify "[STATE] Applying state: ${state}\n" 2
+        notify "[STATE] Applying state: ${state}" 2
         # shellcheck disable=SC2086,2029
         wait_for 5 "ssh ${SSH_OPTS} ${SSH_SALT} sudo \
             CI_DEBUG=$CI_DEBUG ERASE_ENV=$ERASE_ENV \
