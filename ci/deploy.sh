@@ -289,17 +289,14 @@ LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
 LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
 ln -sf "$(readlink -f "../config/labs/local")" "./pharos/labs/"
 if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
-    if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
-        notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
-        exit 1
-    else
-        notify "[WARN] Could not retrieve PDF (Pod Descriptor File)!\n" 3
-    fi
+    notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
+    exit 1
 elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
-    notify "[WARN] POD has no IDF (Installer Descriptor File)!\n" 3
+    notify "[ERROR] Could not retrieve IDF (Installer Descriptor File)!\n" 1>&2
+    exit 1
 elif ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
     -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
-    notify "[ERROR] Could not convert PDF to reclass model input!\n" 1>&2
+    notify "[ERROR] Could not convert PDF+IDF to reclass model input!\n" 1>&2
     exit 1
 fi
 
@@ -361,16 +358,14 @@ for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-arch-common/opnfv/"*.template \
 done
 
 # Convert Pharos-compatible PDF to reclass network definitions
-if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
-    find "${RECLASS_CLUSTER_DIR}" -name '*.j2' | while read -r tp
-    do
-        if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
-          -j "${tp}" > "${tp%.j2}"; then
-             notify "[ERROR] Could not convert PDF to reclass network defs!\n"
-             exit 1
-        fi
-    done
-fi
+find "${RECLASS_CLUSTER_DIR}" -name '*.j2' | while read -r tp
+do
+    if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
+      -j "${tp}" > "${tp%.j2}"; then
+         notify "[ERROR] Could not convert PDF to reclass network defs!\n"
+         exit 1
+    fi
+done
 
 # Determine 'admin', 'mgmt', 'private' and 'public' bridge names based on IDF
 for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do

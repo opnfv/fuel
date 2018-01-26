@@ -418,7 +418,7 @@ Examples
 
          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
                         -l ericsson \
-                        -p virtual_kvm \
+                        -p virtual3 \
                         -s os-nosdn-nofeature-noha \
                         -D \
                         -S /home/jenkins/tmpdir |& tee deploy.log
