@@ -1,0 +1,9 @@
+Code-Review+1: Joe Kidder <Joe.kidder@5thlayer.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Workflow+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Fri, 26 Jan 2018 17:05:20 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/51137
+Project: fuel
+Branch: refs/heads/stable/euphrates
