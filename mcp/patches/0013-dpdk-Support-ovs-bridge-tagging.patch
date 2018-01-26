@@ -1,0 +1,30 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Mon, 22 Jan 2018 15:22:47 +0400
+Subject: [PATCH] [dpdk] Support ovs bridge tagging
+
+Bring in "tag" option for dpdk/ovs bridges
+to support vlan-tagged vxlan mode.
+
+Change-Id: I7f1f88233694f2c8b968a6cf55584f32879ec042
+
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 1ac9e25..05fe05f 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -110,7 +110,7 @@ linux_network_dpdk_bond_mode_{{ interface_name }}:
+
+ linux_network_dpdk_bridge_interface_{{ interface_name }}:
+   cmd.run:
+-    - name: "ovs-vsctl add-br {{ interface_name }} -- set bridge {{ interface_name }} datapath_type=netdev"
++    - name: "ovs-vsctl add-br {{ interface_name }} -- set bridge {{ interface_name }} datapath_type=netdev{% if interface.tag is defined %} -- set port {{ interface_name }} tag={{ interface.tag }}{% endif %}"
+     - unless: "ovs-vsctl show | grep {{ interface_name }}"
+
+     {# OVS dpdk needs ip address for vxlan termination on bridge br-prv #}

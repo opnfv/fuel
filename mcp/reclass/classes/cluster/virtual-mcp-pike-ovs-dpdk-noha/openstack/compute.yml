@@ -19,11 +19,6 @@ parameters:
         tenant_network_types: ${_param:neutron_tenant_network_types}
   linux:
     network:
-      dpdk_pkgs:
-        - dpdk
-        - dpdk-dev
-        - dpdk-igb-uio-dkms
-        - dpdk-rte-kni-dkms
       interface:
         dpdk0:
           name: ${_param:dpdk0_name}

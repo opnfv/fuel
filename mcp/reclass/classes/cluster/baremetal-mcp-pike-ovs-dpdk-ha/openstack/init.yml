@@ -10,7 +10,7 @@ classes:
   - cluster.baremetal-mcp-pike-common-ha.openstack_init
 parameters:
   _param:
-    neutron_tenant_network_types: "flat,vlan"
+    neutron_tenant_network_types: "flat,vxlan"
     neutron_tenant_vlan_range: "1000:1030"
     nova_cpu_pinning: "5-7,13-15"
     compute_hugepages_size: 2M
