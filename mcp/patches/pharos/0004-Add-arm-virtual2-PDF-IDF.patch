@@ -1,0 +1,242 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 27 Jan 2018 21:24:59 +0100
+Subject: [PATCH] Add arm-virtual2 PDF/IDF
+
+JIRA: FUEL-322
+
+Change-Id: I3b136d6eebdaf0f09c772d2b994158af99cd8fea
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ labs/arm/idf-virtual2.yaml |  78 ++++++++++++++++++++++++++
+ labs/arm/virtual2.yaml     | 137 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 215 insertions(+)
+ create mode 100644 labs/arm/idf-virtual2.yaml
+ create mode 100644 labs/arm/virtual2.yaml
+
+diff --git a/labs/arm/idf-virtual2.yaml b/labs/arm/idf-virtual2.yaml
+new file mode 100644
+index 0000000..36d4c91
+--- /dev/null
++++ b/labs/arm/idf-virtual2.yaml
+@@ -0,0 +1,78 @@
++##############################################################################
++# Copyright (c) 2018 Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### ARM VIRTUAL 2 installer descriptor file ###
++
++idf:
++  version: 0.1
++  net_config:
++    oob:
++      interface: 0
++      ip-range: ~
++      vlan: native
++    # All networks (except OOB) are virtual networks managed by `libvirt`
++    # Interface indexes are based on Fuel installer defaults
++    admin:
++      interface: 0  # when used, should be first vnet interface, untagged
++      vlan: native
++      network: 192.168.11.0
++      mask: 24
++    mgmt:
++      interface: 1  # when used, should be second vnet interface, untagged
++      vlan: native
++      network: 172.16.10.0
++      mask: 24
++    storage:
++      interface: 5
++      vlan: native
++      network: 192.168.20.0
++      mask: 24
++    private:
++      interface: 3
++      vlan: native
++      network: 10.1.0.0
++      mask: 24
++    public:
++      interface: 4
++      vlan: native
++      network: 10.0.9.0
++      mask: 24
++      gateway: 10.0.9.254
++      dns:
++        - 8.8.8.8
++        - 8.8.4.4
++  fuel:
++    jumphost:
++      bridges:
++        admin: ~
++        mgmt: ~
++        private: ~
++        public: 'public'
++    network:
++      node:
++        # Ordered-list, index should be in sync with node index in PDF
++        - interfaces: &interfaces
++            # Ordered-list, index should be in sync with interface index in PDF
++            - 'enp1s0'
++            - 'enp2s0'
++            - 'enp3s0'
++            - 'enp4s0'
++          busaddr: &busaddr
++            # Bus-info reported by `ethtool -i ethX`
++            - '0000:01:00.0'
++            - '0000:02:00.0'
++            - '0000:03:00.0'
++            - '0000:04:00.0'
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
+diff --git a/labs/arm/virtual2.yaml b/labs/arm/virtual2.yaml
+new file mode 100644
+index 0000000..3c2b3b1
+--- /dev/null
++++ b/labs/arm/virtual2.yaml
+@@ -0,0 +1,137 @@
++##############################################################################
++# Copyright (c) 2018 Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### Enea ARM VIRTUAL 2 descriptor file ###
++
++version: 1.0
++details:
++  pod_owner: ENEA AB
++  contact: dan.lilliehorn@enea.com
++  lab: ENEA lab
++  location: Stockholm, Sweden
++  type: production
++  link: https://wiki.opnfv.org/display/pharos/Enea+Hosting
++##############################################################################
++jumphost:
++  name: jenkins-slave-arm-virtual2
++  node:
++    type: baremetal
++    vendor: Cavium
++    model: ThunderX
++    arch: aarch64
++    cpus: 1
++    cpu_cflags: fp asimd evtstrm aes pmull sha1 sha2 crc32
++    cores: 48
++    memory: 128G
++  disks:
++    - name: disk1
++      disk_capacity: 500G
++      disk_type: hdd
++      disk_interface: sata
++      disk_rotation: 7200
++  os: ubuntu-16.04
++  remote_params: &remote_params
++    type: ipmi
++    versions:
++      - 2.0
++    user: admin
++    pass: admin
++  remote_management:
++    <<: *remote_params
++    address: 10.0.1.34
++    mac_address: "00:00:00:00:00:00"
++  interfaces:
++    # Connected, used only for admin/PXE, enm5p144s0
++    - mac_address: "68:05:ca:3d:93:0c"
++      speed: 1gb
++      features: 'dpdk|sriov'
++      name: 'nic1'
++    # Not connected for now, enm2p1s0f1
++    - mac_address: "00:0f:b7:06:00:c0"
++      speed: 40gb
++      features: 'dpdk|sriov'
++      name: 'nic2'
++    # Connected, trunk for public, enm2p1s0f2
++    - mac_address: "00:0f:b7:06:00:c1"
++      speed: 10gb
++      features: 'dpdk|sriov'
++      name: 'nic3'
++    # Connected, enm2p1s0f3
++    - mac_address: "00:0f:b7:06:00:c2"
++      speed: 10gb
++      features: 'dpdk|sriov'
++      name: 'nic4'
++##############################################################################
++nodes:
++  - name: node-1
++    node: &nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      type: virtual
++      vendor: libvirt
++      model: virt
++      arch: aarch64
++      cpus: 1
++      cpu_cflags: fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid
++      cores: 8
++      memory: 6G
++    disks: &disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: 7200
++    remote_management: &remotemgmt
++      type: libvirt
++      user: changeme
++      pass: changeme
++      address: 'qemu:///system'
++    interfaces: &interfaces
++      - name: 'nic1'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
++        vlan: native
++      - name: 'nic2'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic3'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic4'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++  ############################################################################
++  - name: node-2
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-3
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-4
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-5
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
