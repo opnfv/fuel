@@ -1,0 +1,215 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 28 Jan 2018 19:34:31 +0100
+Subject: [PATCH] Explicitly blacklist incompatible labs
+
+Previously, we used to silently refuse to construct 'pod_config'
+for PODs missing mandatory PDF/IDF configuration; and instead
+generated an empty output YAML.
+
+Retire safety checks in Fuel IA and explicitly blacklist Fuel via
+new 'idf.installer' where appropiate.
+
+The following PODs do not yet support Fuel due to missing 'idf.fuel':
+- ericsson-pod2
+- huawei-pod1
+- intel-pod18
+- nokia-pod1
+- zte-pod2
+- zte-pod3
+
+Change-Id: Ief62d62f99a79187303e3f15b83030289e5efdcb
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 71 +++++++++++++-------------------
+ labs/ericsson/idf-pod2.yaml              | 12 ++++++
+ labs/huawei/idf-pod1.yaml                |  3 +-
+ labs/intel/idf-pod18.yaml                | 12 ++++++
+ labs/nokia/idf-pod1.yaml                 | 12 ++++++
+ labs/zte/idf-pod2.yaml                   |  2 +
+ labs/zte/idf-pod3.yaml                   |  2 +
+ 7 files changed, 71 insertions(+), 43 deletions(-)
+ create mode 100644 labs/ericsson/idf-pod2.yaml
+ create mode 100644 labs/intel/idf-pod18.yaml
+ create mode 100644 labs/nokia/idf-pod1.yaml
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index ba6f78a..65336a5 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -5,48 +5,36 @@
+ # which accompanies this distribution, and is available at
+ # http://www.apache.org/licenses/LICENSE-2.0
+ ##############################################################################
+----
+-{%- if conf.idf is defined and conf.idf.fuel is defined %}
+-  {%- if conf.idf.net_config is defined -%}
+-      {%- set net_admin = conf.idf.net_config.admin.network -%}
+-      {%- set net_mgmt = conf.idf.net_config.mgmt.network -%}
+-      {%- set net_private = conf.idf.net_config.private.network -%}
+-      {%- set net_public = conf.idf.net_config.public.network -%}
+-      {%- set net_public_mask = conf.idf.net_config.public.mask -%}
+-      {%- set vlan_mgmt = conf.idf.net_config.mgmt.vlan -%}
+-      {%- set vlan_private = conf.idf.net_config.private.vlan -%}
+-      {%- if conf.idf.net_config.public.dns is defined -%}
+-          {%- set dns_public = conf.idf.net_config.public.dns -%}
+-      {%- endif -%}
+-      {%- set pxe_interface = conf.idf.net_config.admin.interface -%}
+-      {%- if conf.idf.net_config.public.gateway is defined -%}
+-          {%- set net_public_gw = conf.idf.net_config.public.gateway -%}
+-      {%- endif -%}
+-      {%- if conf.idf.fuel.network.public_pool is defined -%}
+-          {%- set net_public_pool_start = conf.idf.fuel.network.public_pool.start_ip -%}
+-          {%- set net_public_pool_end = conf.idf.fuel.network.public_pool.end_ip -%}
+-      {%- endif -%}
+-  {%- else -%}
+-      {%- set net_admin = '192.168.11.0' -%}
+-      {%- set net_mgmt = '172.16.10.0' -%}
+-      {%- set net_private = '10.1.0.0' -%}
+-      {%- set net_public = '172.30.10.0' -%}
+-      {%- set net_public_mask = '24' -%}
+-      {%- set vlan_mgmt = '300' -%}
+-      {%- set vlan_private = '1000' -%}
+-      {%- set pxe_interface = 0 -%}
+-  {%- endif -%}
++{%- set net_admin = conf.idf.net_config.admin.network %}
++{%- set net_mgmt = conf.idf.net_config.mgmt.network %}
++{%- set net_private = conf.idf.net_config.private.network %}
++{%- set net_public = conf.idf.net_config.public.network %}
++{%- set net_public_mask = conf.idf.net_config.public.mask %}
++{%- set vlan_mgmt = conf.idf.net_config.mgmt.vlan %}
++{%- set vlan_private = conf.idf.net_config.private.vlan %}
++{%- if conf.idf.net_config.public.dns is defined %}
++    {%- set dns_public = conf.idf.net_config.public.dns %}
++{%- endif %}
++{%- set pxe_interface = conf.idf.net_config.admin.interface %}
++{%- if conf.idf.net_config.public.gateway is defined %}
++    {%- set net_public_gw = conf.idf.net_config.public.gateway %}
++{%- endif %}
++{%- if conf.idf.fuel.network.public_pool is defined %}
++    {%- set net_public_pool_start = conf.idf.fuel.network.public_pool.start_ip %}
++    {%- set net_public_pool_end = conf.idf.fuel.network.public_pool.end_ip %}
++{%- endif %}
+
+-  {%- if dns_public is not defined -%}
+-      {%- set dns_public = [ '8.8.8.8', '8.8.4.4' ] -%}
+-  {%- endif -%}
+-  {%- if net_public_gw is not defined -%}
+-      {%- set net_public_gw =  net_public | ipaddr_index('1') -%}
+-  {%- endif -%}
+-  {%- if net_public_pool_start is not defined or net_public_pool_end is not defined -%}
+-      {%- set net_public_pool_start = net_public | ipaddr_index('80') -%}
+-      {%- set net_public_pool_end = net_public | ipaddr_index('100') -%}
+-  {%- endif %}
++{%- if dns_public is not defined %}
++    {%- set dns_public = [ '8.8.8.8', '8.8.4.4' ] %}
++{%- endif %}
++{%- if net_public_gw is not defined %}
++    {%- set net_public_gw =  net_public | ipaddr_index('1') %}
++{%- endif %}
++{%- if net_public_pool_start is not defined or net_public_pool_end is not defined %}
++    {%- set net_public_pool_start = net_public | ipaddr_index('80') %}
++    {%- set net_public_pool_end = net_public | ipaddr_index('100') %}
++{%- endif %}
++---
+ parameters:
+   _param:
+
+@@ -161,4 +149,3 @@ parameters:
+     opnfv_maas_node05_power_user: {{ conf.nodes.4.remote_management.user }}
+     opnfv_maas_node05_power_password: {{ conf.nodes.4.remote_management.pass }}
+     opnfv_maas_node05_interface_mac: '{{ conf.nodes.4.interfaces[pxe_interface].mac_address }}'
+-{%- endif -%}
+diff --git a/labs/ericsson/idf-pod2.yaml b/labs/ericsson/idf-pod2.yaml
+new file mode 100644
+index 0000000..01f87fa
+--- /dev/null
++++ b/labs/ericsson/idf-pod2.yaml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++idf:
++  version: 0.1
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+diff --git a/labs/huawei/idf-pod1.yaml b/labs/huawei/idf-pod1.yaml
+index 44fb4a0..7e2cd72 100644
+--- a/labs/huawei/idf-pod1.yaml
++++ b/labs/huawei/idf-pod1.yaml
+@@ -11,7 +11,8 @@
+
+ idf:
+   version: 0.1
+-  # netconfig
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+   net_config:
+     mgmt:
+       interface: 1
+diff --git a/labs/intel/idf-pod18.yaml b/labs/intel/idf-pod18.yaml
+new file mode 100644
+index 0000000..bd8c49e
+--- /dev/null
++++ b/labs/intel/idf-pod18.yaml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2018 Intel Corporation and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++idf:
++  version: 0.1
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+diff --git a/labs/nokia/idf-pod1.yaml b/labs/nokia/idf-pod1.yaml
+new file mode 100644
+index 0000000..83aba95
+--- /dev/null
++++ b/labs/nokia/idf-pod1.yaml
+@@ -0,0 +1,12 @@
++##############################################################################
++# Copyright (c) 2018 Nokia, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++idf:
++  version: 0.1
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+diff --git a/labs/zte/idf-pod2.yaml b/labs/zte/idf-pod2.yaml
+index dbe14b9..960151d 100644
+--- a/labs/zte/idf-pod2.yaml
++++ b/labs/zte/idf-pod2.yaml
+@@ -10,6 +10,8 @@
+
+ idf:
+   version: 0.1
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+   net_config:
+     oob:
+       interface: 0
+diff --git a/labs/zte/idf-pod3.yaml b/labs/zte/idf-pod3.yaml
+index e5e19f4..702e256 100644
+--- a/labs/zte/idf-pod3.yaml
++++ b/labs/zte/idf-pod3.yaml
+@@ -10,6 +10,8 @@
+
+ idf:
+   version: 0.1
++  # NOTE: Fuel checking is disabled until 'idf.fuel' is defined below
++  installer: ['apex', 'compass4nfv', 'daisy', 'joid']
+   net_config:
+     oob:
+       interface: 0

@@ -198,6 +198,12 @@ do
             if [[ "${TARGET_POD}" =~ "virtual" ]]; then
                 DEPLOY_TYPE='virtual'
             fi
+            # https://gerrit.opnfv.org/gerrit/#/c/51271/ workaround
+            if [[ "${TARGET_POD}" =~ "virtual_kvm" ]]; then
+                # All x86_64 vPODs will use 'ericsson-virtual3' PDF/IDF for now
+                TARGET_LAB='ericsson'
+                TARGET_POD='virtual3'
+            fi
             ;;
         P)
             USE_EXISTING_PKGS=1
