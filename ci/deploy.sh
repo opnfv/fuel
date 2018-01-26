@@ -158,9 +158,12 @@ source "${DEPLOY_DIR}/lib.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:B:dDfEFl:L:p:Ps:S:he" OPTION
 do
     case $OPTION in
+        B)
+            # nop
+            ;;
         b)
             BASE_CONFIG_URI=${OPTARG}
             if [[ ! $BASE_CONFIG_URI =~ ${URI_REGEXP} ]]; then
