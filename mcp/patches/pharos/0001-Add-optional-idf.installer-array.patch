@@ -1,0 +1,170 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 24 Jan 2018 21:02:40 +0100
+Subject: [PATCH] Add optional 'idf.installer' array
+
+There is no easy way to determine automatically if a PDF/IDF set is
+compatible with a specific installer adapter.
+Most common incompatibilities are caused by:
+- installer adapters hardcode more network ports than nodes have
+  defined in PDF;
+- installer adapters hardcode more nodes than PDF defines;
+
+Previous attempt at handling this dynamically (cd54edf) fails for
+recently added PODs, so let's handle this explicitly per-pod via a
+new optional IDF property, 'idf.installer'.
+
+If 'idf.installer' is defined, it will be used by `check-jinja2.sh`
+as a filter-in list of installer adapters to check against.
+The default (no 'idf.installer' present) is to check all IAs.
+
+Leverage the new property for:
+- arm-pod5: not enough network ports on computes for Compass, Joid;
+- arm-pod7: same as arm-pod5;
+- bii-pod1: no 'storage' network defined in IDF for Daisy;
+- zte-pod9: 3 cluster nodes are only supported by Daisy for now;
+
+SPEC changes:
+- net_config (previously mandatory for IDF version '0.1') is now
+  mandatory only if 'idf.fuel' or 'idf.daisy' is defined;
+
+Fixes: cd54edf
+
+Change-Id: I706c05519e5491ad631069d7cc090e9c8bfd3011
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/pdf/idf-pod1.schema.yaml |  8 ++++++++
+ config/utils/check-jinja2.sh    | 22 +++++++---------------
+ labs/arm/idf-pod5.yaml          |  3 +++
+ labs/arm/idf-pod7.yaml          |  3 +++
+ labs/bii/idf-pod1.yaml          |  3 +++
+ labs/zte/idf-pod9.yaml          |  2 ++
+ 6 files changed, 26 insertions(+), 15 deletions(-)
+
+diff --git a/config/pdf/idf-pod1.schema.yaml b/config/pdf/idf-pod1.schema.yaml
+index 78e2204..ad680da 100644
+--- a/config/pdf/idf-pod1.schema.yaml
++++ b/config/pdf/idf-pod1.schema.yaml
+@@ -81,6 +81,11 @@ properties:
+       version:
+         type: 'number'
+         enum: [0.1]
++      installer:
++        type: 'array'
++        items:
++          type: 'string'
++          enum: ['apex', 'compass4nfv', 'daisy', 'fuel', 'joid']
+       net_config:
+         type: 'object'
+       fuel:
+@@ -106,6 +111,9 @@ properties:
+             $ref: '#/definitions/daisy/v0.1'
+           compass:
+             $ref: '#/definitions/compass/v0.1'
++      fuel:
++        required: ['net_config']
++      daisy:
+         required: ['net_config']
+
+ # Do not allow any properties not defined here. This lets us catch typos.
+diff --git a/config/utils/check-jinja2.sh b/config/utils/check-jinja2.sh
+index b7fa591..16e5213 100755
+--- a/config/utils/check-jinja2.sh
++++ b/config/utils/check-jinja2.sh
+@@ -35,27 +35,19 @@ done
+ # shellcheck disable=SC2086
+ while IFS= read -r lab_config; do
+     SUMMARY+="\n${lab_config#labs/};"
+-    lab_nodes=$(grep -ce 'node:' "${lab_config}")
+-    lab_tmacs=$(grep -ce 'mac_address:' "${lab_config}")
+-    ((lab_amacs=lab_tmacs/lab_nodes)); ((lab_nodes-=1))
++    idf_config="$(dirname "${lab_config}")/idf-$(basename "${lab_config}")"
++    idf_installer=$(grep 'installer:' "${idf_config}" 2>/dev/null || echo)
+     echo "###################### ${lab_config} ######################"
+     for adapter in ${INSTALLER_ADAPTERS}; do
+         pdf_inst=0
+         pdf_inst_pass=0
+         pdf_yaml_pass=0
+-        ia_nodes=$(grep -hPo 'nodes\W+\K\d+' -R "${adapter}" | tail -1)
+-        ia_rmacs=$(grep -hPo 'interfaces\W+\K\d+' -R "${adapter}" | sort | tail -1)
+-        ((ia_nodes+=1)); ((ia_rmacs+=1))
+-        if [[ ${ia_nodes} -gt ${lab_nodes} ]]; then
++        installer_name=$(basename "${adapter}")
++        if [ -n "${idf_installer}" ] && echo "${idf_installer}" | \
++                grep -vq "${installer_name}"; then
+             SUMMARY+='-;'
+-            echo -n "[GENERATE] [SKIP] $(basename "${adapter}") requires at least"
+-            echo -e " ${ia_nodes} nodes, but found only ${lab_nodes}, skipping.\n"
+-            continue
+-        fi
+-        if [[ ${ia_rmacs} -ge ${lab_amacs} ]]; then
+-            SUMMARY+='-;'
+-            echo -n "[GENERATE] [SKIP] $(basename "${adapter}") requires at least"
+-            echo -e " ${ia_rmacs} nics, but found ~ ${lab_amacs}, skipping.\n"
++            echo -n "[GENERATE] [SKIP] idf.installer defined and "
++            echo -e "${installer_name} not listed, skipping.\n"
+             continue
+         fi
+         while IFS= read -r jinja_template; do
+diff --git a/labs/arm/idf-pod5.yaml b/labs/arm/idf-pod5.yaml
+index c803522..4e33135 100644
+--- a/labs/arm/idf-pod5.yaml
++++ b/labs/arm/idf-pod5.yaml
+@@ -10,6 +10,9 @@
+
+ idf:
+   version: 0.1
++  # NOTE: Compass & Joid are not supported on this POD since they require at
++  # least 3 network ports on all nodes.
++  installer: ['apex', 'daisy', 'fuel']
+   net_config:
+     oob:
+       ip-range: 10.0.8.3-10.0.8.10
+diff --git a/labs/arm/idf-pod7.yaml b/labs/arm/idf-pod7.yaml
+index 6b41363..2c2a946 100644
+--- a/labs/arm/idf-pod7.yaml
++++ b/labs/arm/idf-pod7.yaml
+@@ -10,6 +10,9 @@
+
+ idf:
+   version: 0.1
++  # NOTE: Compass & Joid are not supported on this POD since they require at
++  # least 3 network ports on all nodes.
++  installer: ['apex', 'daisy', 'fuel']
+   net_config:
+     oob:
+       ip-range: 10.0.16.2-10.0.16.6
+diff --git a/labs/bii/idf-pod1.yaml b/labs/bii/idf-pod1.yaml
+index 187f42c..d694479 100644
+--- a/labs/bii/idf-pod1.yaml
++++ b/labs/bii/idf-pod1.yaml
+@@ -10,6 +10,9 @@
+
+ idf:
+   version: 0.1
++  # NOTE: Temporarily disable Daisy check, since it requires 'storage' network
++  # to be defined in 'idf.net_config' below.
++  installer: ['apex', 'compass4nfv', 'fuel', 'joid']
+   net_config:
+     oob:                     # IPMI management network
+       interface: 0
+diff --git a/labs/zte/idf-pod9.yaml b/labs/zte/idf-pod9.yaml
+index 61a225d..1cdd5d8 100644
+--- a/labs/zte/idf-pod9.yaml
++++ b/labs/zte/idf-pod9.yaml
+@@ -10,6 +10,8 @@
+
+ idf:
+   version: 0.1
++  # NOTE: For now, only Daisy supports 3-node clusters
++  installer: ['daisy']
+   net_config:
+     # NOTE: Network names are likely to change after the PDF spec is updated
+     oob:
