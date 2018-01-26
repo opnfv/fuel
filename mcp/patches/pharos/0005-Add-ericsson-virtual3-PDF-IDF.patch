@@ -1,0 +1,269 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 27 Jan 2018 21:45:55 +0100
+Subject: [PATCH] Add ericsson-virtual3 PDF/IDF
+
+WIP: we still have to fill in some data specific to this jump.
+
+JIRA: FUEL-322
+
+Change-Id: Ia120fc9461e303393c038e530ef77e8d430d4f4b
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ labs/ericsson/idf-virtual3.yaml |  83 +++++++++++++++++++++
+ labs/ericsson/virtual3.yaml     | 157 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 240 insertions(+)
+ create mode 100644 labs/ericsson/idf-virtual3.yaml
+ create mode 100644 labs/ericsson/virtual3.yaml
+
+diff --git a/labs/ericsson/idf-virtual3.yaml b/labs/ericsson/idf-virtual3.yaml
+new file mode 100644
+index 0000000..b8c4e45
+--- /dev/null
++++ b/labs/ericsson/idf-virtual3.yaml
+@@ -0,0 +1,83 @@
++##############################################################################
++# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### ERICSSON VIRTUAL 3 installer descriptor file ###
++
++idf:
++  version: 0.1
++  net_config:
++    # NOTE: Network names are likely to change until IDF settles
++    # NOTE: Network-to-interface mapping might be reworked after IDF update
++    # NOTE(fuel): oob, admin, storage are not used. Fuel does define a network
++    # similar to 'admin', 'mcpcontrol', handled via `deploy.sh` args.
++    oob:
++      interface: 0
++      ip-range: ~
++      vlan: native
++    # All networks (except OOB) are virtual networks managed by `libvirt`
++    # Interface indexes are based on Fuel installer defaults
++    admin:
++      interface: 0  # when used, should be first vnet interface, untagged
++      vlan: native
++      network: 192.168.11.0
++      mask: 24
++    mgmt:
++      interface: 1  # when used, should be second vnet interface, untagged
++      vlan: native
++      network: 172.16.10.0
++      mask: 24
++    storage:
++      interface: 5
++      vlan: native
++      network: 192.168.20.0
++      mask: 24
++    private:
++      interface: 3
++      vlan: native
++      network: 10.1.0.0
++      mask: 24
++    public:
++      interface: 4
++      vlan: native
++      network: 10.16.0.0
++      mask: 24
++      gateway: 10.16.0.1
++      dns:
++        - 8.8.8.8
++        - 8.8.4.4
++  fuel:
++    jumphost:
++      bridges:
++        admin: ~
++        mgmt: ~
++        private: ~
++        public: ~
++    network:
++      node:
++        # Ordered-list, index should be in sync with node index in PDF
++        - interfaces: &interfaces
++            # Ordered-list, index should be in sync with interface index in PDF
++            # Unused (handled via <all-mcp-arch-common/x86_64/init.yml>)
++            - 'ens3'
++            - 'ens4'
++            - 'ens5'
++            - 'ens6'
++          busaddr: &busaddr
++            # Bus-info reported by `ethtool -i ethX`
++            - '0000:00:03.0'
++            - '0000:00:04.0'
++            - '0000:00:05.0'
++            - '0000:00:06.0'
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
+diff --git a/labs/ericsson/virtual3.yaml b/labs/ericsson/virtual3.yaml
+new file mode 100644
+index 0000000..2f8aeae
+--- /dev/null
++++ b/labs/ericsson/virtual3.yaml
+@@ -0,0 +1,157 @@
++##############################################################################
++# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### ERICSSON VIRTUAL3 POD descriptor file ###
++
++version: 1.0
++details:
++  pod_owner: FIXME
++  contact: FIXME@FIXME.FIXME
++  lab: Ericsson
++  location: Rosersberg, Sweden
++  type: production
++  link: https://wiki.opnfv.org/display/pharos/Ericsson+Hosting
++##############################################################################
++jumphost:
++  # FIXME: The whole jumphost section must be updated, I just copied it from pod1
++  name: virtual3-jump
++  node:
++    type: baremetal
++    vendor: HP
++    model: ProLiant BL460c Gen8
++    arch: x86_64
++    cpus: 2
++    cpu_cflags: ivybridge
++    cores: 10
++    memory: 64G
++  disks:
++    - name: 'disk1'
++      disk_capacity: 800G
++      disk_type: hdd
++      disk_interface: scsi
++      disk_rotation: 15000
++  os: ubuntu-16.04
++  remote_management:
++    type: ipmi
++    versions:
++      - 1.0
++      - 2.0
++    user: changeme
++    pass: changeme
++    address: 0.0.0.0
++    mac_address: "00:00:00:00:00:00"
++  interfaces:
++    - name: 'nic1'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic2'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic3'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic4'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic5'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic6'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++##############################################################################
++nodes:
++  - name: node-1
++    node: &nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      type: virtual
++      vendor: libvirt
++      model: virt
++      arch: x86_64
++      cpus: 1
++      cpu_cflags: ivybridge   # FIXME: align with jumpserver flags
++      cores: 8
++      memory: 6G
++    disks: &disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: 15000  # FIXME: align with jumpserver disk
++    remote_management: &remotemgmt
++      type: libvirt
++      user: changeme
++      pass: changeme
++      address: 'qemu:///system'
++    interfaces: &interfaces
++      - name: 'nic1'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
++        vlan: native
++      - name: 'nic2'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic3'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic4'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic5'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic6'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++  ############################################################################
++  - name: node-2
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-3
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-4
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-5
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces

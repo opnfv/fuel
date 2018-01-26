@@ -158,7 +158,7 @@ source "${DEPLOY_DIR}/lib.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:B:dDfEFl:L:p:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
