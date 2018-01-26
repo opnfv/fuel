@@ -120,7 +120,6 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
-RECLASS_CLUSTER_DIR=$(cd "${REPO_ROOT_PATH}/mcp/reclass/classes/cluster"; pwd)
 DEPLOY_TYPE='baremetal'
 BR_NAMES=('admin' 'mgmt' 'private' 'public')
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
@@ -263,23 +262,6 @@ fi
 # Clone git submodules and apply our patches
 make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
-# Convert Pharos-compatible POD Descriptor File (PDF) to reclass model input
-PHAROS_GEN_CONFIG_SCRIPT="./pharos/config/utils/generate_config.py"
-PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
-BASE_CONFIG_PDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/${TARGET_POD}.yaml"
-BASE_CONFIG_IDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/idf-${TARGET_POD}.yaml"
-LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
-LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
-LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
-if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
-    notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"
-elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
-    notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
-elif ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
-    -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
-    notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
-fi
-
 # Check scenario file existence
 SCENARIO_DIR="../config/scenario"
 if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
@@ -290,6 +272,10 @@ fi
 if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -i).yaml" ]; then
     notify_e "[ERROR] Scenario defaults file is missing!"
 fi
+
+# Expand jinja2 templates based on PDF data and env vars
+do_templates "${REPO_ROOT_PATH}" "${BASE_CONFIG_URI}" "${STORAGE_DIR}" \
+             "${TARGET_LAB}" "${TARGET_POD}"
 
 # Get required infra deployment data
 set +x
@@ -326,23 +312,6 @@ for sc in ${base_image_flavors}; do
   done
 done
 virtual_repos_pkgs=${virtual_repos_pkgs%^}
-
-# Expand reclass and virsh network templates
-for tp in "${RECLASS_CLUSTER_DIR}/all-mcp-arch-common/opnfv/"*.template \
-    net_*.template; do
-        eval "cat <<-EOF
-		$(<"${tp}")
-		EOF" 2> /dev/null > "${tp%.template}"
-done
-
-# Convert Pharos-compatible PDF to reclass network definitions
-find "${RECLASS_CLUSTER_DIR}" -name '*.j2' | while read -r tp
-do
-    if ! "${PHAROS_GEN_CONFIG_SCRIPT}" -y "${LOCAL_PDF}" \
-      -j "${tp}" > "${tp%.j2}"; then
-         notify_e "[ERROR] Could not convert PDF to reclass network defs!"
-    fi
-done
 
 # Determine 'admin', 'mgmt', 'private' and 'public' bridge names based on IDF
 for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do
