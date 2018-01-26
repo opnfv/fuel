@@ -1,0 +1,67 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 28 Jan 2018 17:36:50 +0100
+Subject: [PATCH] Add net_map.j2 for net config abstraction
+
+This will be leveraged by other j2 templates in Fuel to construct
+scenario-specific network config files.
+
+Change-Id: Iba1fd99b23936fe42abe16af3cd80dce2a63d997
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/net_map.j2 | 47 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 config/installers/fuel/net_map.j2
+
+diff --git a/config/installers/fuel/net_map.j2 b/config/installers/fuel/net_map.j2
+new file mode 100644
+index 0000000..c3ff6cb
+--- /dev/null
++++ b/config/installers/fuel/net_map.j2
+@@ -0,0 +1,47 @@
++##############################################################################
++# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++{#- NOTE: All same role (e.g. compute) roles will share the same mapping #}
++
++{#- Until we support per-node configuration, we only collect data for the
++    first node in each role. Currently, there's no role mapping in PDF/IDF,
++    so we default to controller = first node in PDF, compute = 4th #}
++
++{#- ctl maps to MCP kvm on baremetal, ctl + gtw etc. on virtual #}
++{%- set ctl01 = {'idx': 0} %}
++{%- set cmp001 = {'idx': 3} %}
++
++{#- net_config v1.0 only supports global network-to-interface-index mapping,
++    which is incovenient for PODs with different computes (e.g. less NICs).
++    This can be worked around by tweaking the NIC definition order in PDF.
++    The same observation applies to vlan tags, at least for now. #}
++
++{#- Determine interface index for each network (plumbing vars) #}
++{%- set idx_mcp = 0 %} {#- mcpcontrol network is hard set on first interface #}
++{%- set idx_admin = conf.idf.net_config.admin.interface %}
++{%- set idx_mgmt = conf.idf.net_config.mgmt.interface %}
++{%- set idx_private = conf.idf.net_config.private.interface %}
++{%- set idx_public = conf.idf.net_config.public.interface %}
++
++{#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) #}
++{%- set vlan_admin = conf.idf.net_config.admin.vlan %}
++{%- set vlan_mgmt = conf.idf.net_config.mgmt.vlan %}
++{%- set vlan_private = conf.idf.net_config.private.vlan %}
++{%- set vlan_public = conf.idf.net_config.public.vlan %}
++
++{#- Physical interface OS name for each network (e.g. em1, enp1s0f1) #}
++{%- for role in [ctl01, cmp001] %}
++    {%- set node = conf.idf.fuel.network.node[role.idx] %}
++    {%- set _ = role.update({
++        'nic_mcp': node.interfaces[idx_mcp],
++        'nic_admin': node.interfaces[idx_admin],
++        'nic_mgmt': node.interfaces[idx_mgmt],
++        'nic_private': node.interfaces[idx_private],
++        'nic_public': node.interfaces[idx_public],
++        'bus_private': node.busaddr[idx_private]}) %}
++    {#- PCI addresses are only used on computes for DPDK on private net #}
++{%- endfor %}

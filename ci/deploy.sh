@@ -158,9 +158,12 @@ source "${DEPLOY_DIR}/lib.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:B:dDfEFl:L:p:Ps:S:he" OPTION
 do
     case $OPTION in
+        B)
+            # nop
+            ;;
         b)
             BASE_CONFIG_URI=${OPTARG}
             if [[ ! $BASE_CONFIG_URI =~ ${URI_REGEXP} ]]; then
@@ -197,6 +200,12 @@ do
             TARGET_POD=${OPTARG}
             if [[ "${TARGET_POD}" =~ "virtual" ]]; then
                 DEPLOY_TYPE='virtual'
+            fi
+            # https://gerrit.opnfv.org/gerrit/#/c/51271/ workaround
+            if [[ "${TARGET_POD}" =~ "virtual_kvm" ]]; then
+                # All x86_64 vPODs will use 'ericsson-virtual3' PDF/IDF for now
+                TARGET_LAB='ericsson'
+                TARGET_POD='virtual3'
             fi
             ;;
         P)
