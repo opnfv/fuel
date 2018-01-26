@@ -6,13 +6,14 @@
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
+{#- conf.MCPCONTROL_NET & co are mandatory, defaults are set via globals.sh #}
 <network>
   <name>mcpcontrol</name>
   <bridge name="mcpcontrol"/>
   <forward mode="nat"/>
-  <ip address="${SALT_MASTER%.*}.1" netmask="255.255.255.0">
+  <ip address="{{ conf.MCPCONTROL_NET | ipaddr_index(1) }}" netmask="{{ conf.MCPCONTROL_PREFIX | netmask }}">
     <dhcp>
-      <range start="${SALT_MASTER%.*}.2" end="${SALT_MASTER%.*}.254"/>
+      <range start="{{ conf.MCPCONTROL_NET | ipaddr_index(2) }}" end="{{ conf.MCPCONTROL_NET | ipaddr_index(254) }}"/>
     </dhcp>
   </ip>
 </network>
