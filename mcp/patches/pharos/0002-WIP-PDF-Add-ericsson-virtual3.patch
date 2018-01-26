@@ -1,0 +1,442 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 28 Dec 2017 23:24:41 +0100
+Subject: [PATCH] WIP: [PDF] Add ericsson-virtual3
+
+- extend check-{jinja2,schema}.sh to scan vPDFs and construct
+  proper IDF path for vPDFs;
+- add support for '/' in PDF fields, by default filtered by j2
+  template rendering;
+
+SPEC changes:
+- extend remote_management 'type' enum with 'libvirt';
+
+SCHEMA changes:
+- add new enum value 'libvirt' according to SPEC update;
+- add separate handling of 'remote_management' for baremetal/virtual;
+- remote_management 'versions' and 'mac_address' are mandatory for
+  all but 'libvirt' (used to be mandatory for all);
+
+Change-Id: Ib3f711cae807c3ab27920391402ba74844f155c3
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/pdf/pod1.encrypted.yaml  |   4 +-
+ config/pdf/pod1.schema.yaml     |  44 ++++++++---
+ config/pdf/pod1.yaml            |   4 +-
+ config/utils/check-schema.sh    |   7 +-
+ config/utils/generate_config.py |   4 +-
+ labs/ericsson/idf-virtual3.yaml |  83 +++++++++++++++++++++
+ labs/ericsson/virtual3.yaml     | 157 ++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 284 insertions(+), 19 deletions(-)
+ create mode 100644 labs/ericsson/idf-virtual3.yaml
+ create mode 100644 labs/ericsson/virtual3.yaml
+
+diff --git a/config/pdf/pod1.encrypted.yaml b/config/pdf/pod1.encrypted.yaml
+index b5c78b5..c251263 100644
+--- a/config/pdf/pod1.encrypted.yaml
++++ b/config/pdf/pod1.encrypted.yaml
+@@ -54,7 +54,8 @@ jumphost:
+   os: ubuntu-14.04
+   remote_params: &remote_params
+     # hardware management tool
+-    type: {ipmi|amt}
++    type: {ipmi|amt|libvirt}
++    # array of supported versions, mandatory for all but 'libvirt'
+     versions:
+       - 1.0
+       - 2.0
+@@ -82,6 +83,7 @@ jumphost:
+   remote_management:
+     <<: *remote_params
+     address: 10.4.7.3/24
++    # MAC address is mandatory for all BMC types but 'libvirt'
+     mac_address: "10:23:45:67:89:AC"
+   # physical interface list
+   interfaces:
+diff --git a/config/pdf/pod1.schema.yaml b/config/pdf/pod1.schema.yaml
+index 2a96d0b..33b2d8c 100644
+--- a/config/pdf/pod1.schema.yaml
++++ b/config/pdf/pod1.schema.yaml
+@@ -69,25 +69,45 @@ definitions:
+         additionalProperties: false
+   remote_management:
+     v1.0:
+-      type: 'object'
+       properties:
+-        type:
+-          type: 'string'
+-          enum: ['ipmi', 'amt']
+-        versions:
+-          type: 'array'
+-          items:
+-            type: 'number'
+-            enum: [1.0, 2.0]
+         user:
+           type: 'string'
+         pass:
+           type: 'string'
++        type:
++          type: 'string'
++        versions:
++          type: 'array'
+         address:
+-          $ref: '#/definitions/ip_address'
++          type: 'string'
+         mac_address:
+-          $ref: '#/definitions/mac_address'
+-      required: ['type', 'versions', 'user', 'pass', 'address', 'mac_address']
++          type: 'string'
++      # These subsections are best validated separately for baremetal/virtual
++      oneOf:
++        - type: 'object'
++          properties:
++            type:
++              type: 'string'
++              enum: ['ipmi', 'amt']
++            versions:
++              type: 'array'
++              items:
++                type: 'number'
++                enum: [1.0, 2.0]
++            address:
++              $ref: '#/definitions/ip_address'
++            mac_address:
++              $ref: '#/definitions/mac_address'
++          required: ['type', 'versions', 'address', 'mac_address']
++        - type: 'object'
++          properties:
++            type:
++              type: 'string'
++              enum: ['libvirt']
++            address:
++              type: 'string'  # Loose validation of libvirt URI for now
++          required: ['type', 'address']
++      required: ['user', 'pass']
+       additionalProperties: false
+   interfaces:
+     v1.0:
+diff --git a/config/pdf/pod1.yaml b/config/pdf/pod1.yaml
+index d0cd793..4ea751e 100644
+--- a/config/pdf/pod1.yaml
++++ b/config/pdf/pod1.yaml
+@@ -54,7 +54,8 @@ jumphost:
+   os: ubuntu-14.04
+   remote_params: &remote_params
+     # hardware management tool
+-    type: {ipmi|amt}
++    type: {ipmi|amt|libvirt}
++    # array of supported versions, mandatory for all but 'libvirt'
+     versions:
+       - 1.0
+       - 2.0
+@@ -63,6 +64,7 @@ jumphost:
+   remote_management:
+     <<: *remote_params
+     address: 10.4.7.3/24
++    # MAC address is mandatory for all BMC types but 'libvirt'
+     mac_address: "10:23:45:67:89:AC"
+   # physical interface list
+   interfaces:
+diff --git a/config/utils/check-schema.sh b/config/utils/check-schema.sh
+index 0cdc6f2..041c030 100755
+--- a/config/utils/check-schema.sh
++++ b/config/utils/check-schema.sh
+@@ -16,8 +16,9 @@ RC=0
+
+ SUMMARY+=";;PDF;IDF;\n"
+ while IFS= read -r lab_config; do
++    idf_config="$(dirname "${lab_config}")/idf-$(basename "${lab_config}")"
+     pdf_cmd="${VALIDATE_SCHEMA} -s ${PDF_SCHEMA} -y ${lab_config}"
+-    idf_cmd="${VALIDATE_SCHEMA} -s ${IDF_SCHEMA} -y ${lab_config/pod/idf-pod}"
++    idf_cmd="${VALIDATE_SCHEMA} -s ${IDF_SCHEMA} -y ${idf_config}"
+     echo "###################### ${lab_config} ######################"
+     pdf_out=$(${pdf_cmd} 2>&1 | sed 's|ENC\[PKCS.*\][\\n]*|opnfv|g')
+     if [ -z "${pdf_out}" ]; then
+@@ -29,7 +30,7 @@ while IFS= read -r lab_config; do
+         echo "${pdf_out}"
+         echo "[PDF] [ERROR] ${pdf_cmd}"
+     fi
+-    if [ ! -f "${lab_config/pod/idf-pod}" ]; then
++    if [ ! -f "${idf_config}" ]; then
+         SUMMARY+="-;\n"
+     elif ${idf_cmd}; then
+         SUMMARY+="OK;\n"
+@@ -40,7 +41,7 @@ while IFS= read -r lab_config; do
+         echo "[IDF] [ERROR] ${idf_cmd}"
+     fi
+     echo ''
+-done < <(find 'labs' -name 'pod*.yaml')
++done < <(find 'labs' -name 'pod*.yaml' -or -name 'virtual*.yaml')
+
+ cat <<EOF
+ ###################### Schema Validation Matrix ######################
+diff --git a/config/utils/generate_config.py b/config/utils/generate_config.py
+index 5dbdb7d..2e85221 100755
+--- a/config/utils/generate_config.py
++++ b/config/utils/generate_config.py
+@@ -76,7 +76,7 @@ try:
+     DICT['details']
+ except (NameError, TypeError) as ex:
+     with open(ARGS.yaml) as _:
+-        DICT = yaml.safe_load(_)
++        DICT = yaml.safe_load(_.read().replace('/', '__slash__'))
+
+ # If an installer descriptor file (IDF) exists, include it (temporary)
+ IDF_PATH = '/idf-'.join(os.path.split(ARGS.yaml))
+@@ -92,4 +92,4 @@ if os.path.exists(IDF_PATH):
+ TEMPLATE = ENV.get_template(os.path.basename(ARGS.jinja2))
+
+ #pylint: disable=superfluous-parens
+-print(TEMPLATE.render(conf=DICT))
++print(TEMPLATE.render(conf=DICT).replace('__slash__', '/'))
+diff --git a/labs/ericsson/idf-virtual3.yaml b/labs/ericsson/idf-virtual3.yaml
+new file mode 100644
+index 0000000..b8c4e45
+--- /dev/null
++++ b/labs/ericsson/idf-virtual3.yaml
+@@ -0,0 +1,83 @@
++##############################################################################
++# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### ERICSSON VIRTUAL 3 installer descriptor file ###
++
++idf:
++  version: 0.1
++  net_config:
++    # NOTE: Network names are likely to change until IDF settles
++    # NOTE: Network-to-interface mapping might be reworked after IDF update
++    # NOTE(fuel): oob, admin, storage are not used. Fuel does define a network
++    # similar to 'admin', 'mcpcontrol', handled via `deploy.sh` args.
++    oob:
++      interface: 0
++      ip-range: ~
++      vlan: native
++    # All networks (except OOB) are virtual networks managed by `libvirt`
++    # Interface indexes are based on Fuel installer defaults
++    admin:
++      interface: 0  # when used, should be first vnet interface, untagged
++      vlan: native
++      network: 192.168.11.0
++      mask: 24
++    mgmt:
++      interface: 1  # when used, should be second vnet interface, untagged
++      vlan: native
++      network: 172.16.10.0
++      mask: 24
++    storage:
++      interface: 5
++      vlan: native
++      network: 192.168.20.0
++      mask: 24
++    private:
++      interface: 3
++      vlan: native
++      network: 10.1.0.0
++      mask: 24
++    public:
++      interface: 4
++      vlan: native
++      network: 10.16.0.0
++      mask: 24
++      gateway: 10.16.0.1
++      dns:
++        - 8.8.8.8
++        - 8.8.4.4
++  fuel:
++    jumphost:
++      bridges:
++        admin: ~
++        mgmt: ~
++        private: ~
++        public: ~
++    network:
++      node:
++        # Ordered-list, index should be in sync with node index in PDF
++        - interfaces: &interfaces
++            # Ordered-list, index should be in sync with interface index in PDF
++            # Unused (handled via <all-mcp-arch-common/x86_64/init.yml>)
++            - 'ens3'
++            - 'ens4'
++            - 'ens5'
++            - 'ens6'
++          busaddr: &busaddr
++            # Bus-info reported by `ethtool -i ethX`
++            - '0000:00:03.0'
++            - '0000:00:04.0'
++            - '0000:00:05.0'
++            - '0000:00:06.0'
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
+diff --git a/labs/ericsson/virtual3.yaml b/labs/ericsson/virtual3.yaml
+new file mode 100644
+index 0000000..2f8aeae
+--- /dev/null
++++ b/labs/ericsson/virtual3.yaml
+@@ -0,0 +1,157 @@
++##############################################################################
++# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### ERICSSON VIRTUAL3 POD descriptor file ###
++
++version: 1.0
++details:
++  pod_owner: FIXME
++  contact: FIXME@FIXME.FIXME
++  lab: Ericsson
++  location: Rosersberg, Sweden
++  type: production
++  link: https://wiki.opnfv.org/display/pharos/Ericsson+Hosting
++##############################################################################
++jumphost:
++  # FIXME: The whole jumphost section must be updated, I just copied it from pod1
++  name: virtual3-jump
++  node:
++    type: baremetal
++    vendor: HP
++    model: ProLiant BL460c Gen8
++    arch: x86_64
++    cpus: 2
++    cpu_cflags: ivybridge
++    cores: 10
++    memory: 64G
++  disks:
++    - name: 'disk1'
++      disk_capacity: 800G
++      disk_type: hdd
++      disk_interface: scsi
++      disk_rotation: 15000
++  os: ubuntu-16.04
++  remote_management:
++    type: ipmi
++    versions:
++      - 1.0
++      - 2.0
++    user: changeme
++    pass: changeme
++    address: 0.0.0.0
++    mac_address: "00:00:00:00:00:00"
++  interfaces:
++    - name: 'nic1'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic2'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic3'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic4'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic5'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++    - name: 'nic6'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++      vlan: native
++##############################################################################
++nodes:
++  - name: node-1
++    node: &nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      type: virtual
++      vendor: libvirt
++      model: virt
++      arch: x86_64
++      cpus: 1
++      cpu_cflags: ivybridge   # FIXME: align with jumpserver flags
++      cores: 8
++      memory: 6G
++    disks: &disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: 15000  # FIXME: align with jumpserver disk
++    remote_management: &remotemgmt
++      type: libvirt
++      user: changeme
++      pass: changeme
++      address: 'qemu:///system'
++    interfaces: &interfaces
++      - name: 'nic1'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
++        vlan: native
++      - name: 'nic2'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic3'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic4'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic5'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic6'
++        speed: 10gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++  ############################################################################
++  - name: node-2
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-3
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-4
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-5
++    node: *nodeparams
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
