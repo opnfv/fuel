@@ -195,8 +195,11 @@ do
             ;;
         p)
             TARGET_POD=${OPTARG}
-            if [[ "${TARGET_POD}" =~ "virtual" ]]; then
+            if [[ "${TARGET_POD}" =~ virtual ]]; then
                 DEPLOY_TYPE='virtual'
+                # All vPODs will use 'local-virtual1' PDF/IDF for now
+                TARGET_LAB='local'
+                TARGET_POD='virtual1'
             fi
             ;;
         P)
