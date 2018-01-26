@@ -17,3 +17,31 @@ export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 # Derivated from above global vars
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
 export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
+
+##############################################################################
+# BEGIN of colored notification wrappers
+#
+function notify() {
+    local msg=${1}; shift
+    notify_i "${msg}\n" "$@"
+}
+
+function notify_i() {
+    tput setaf "${2:-1}" || true
+    echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
+    tput sgr0
+}
+
+function notify_n() {
+    local msg=${1}; shift
+    notify_i "\n${msg}\n\n" "$@"
+}
+
+function notify_e() {
+    local msg=${1}; shift
+    notify_i "\n${msg}\n\n" "$@" 1>&2
+    exit 1
+}
+#
+# END of colored notification wrapper
+##############################################################################
