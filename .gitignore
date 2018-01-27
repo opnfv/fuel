@@ -14,3 +14,4 @@
 **/mcp/scripts/user-data.sh
 **/mcp/scripts/virsh_net/*.xml
 **/mcp/scripts/*.img
+**/net_map.j2
