@@ -6,21 +6,23 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+classes:
+  - cluster.all-mcp-arch-common
 parameters:
   _param:
     # infra service addresses
-    infra_config_address: 172.16.10.100
+    infra_config_address: ${_param:opnfv_infra_config_address}
     # openstack service addresses
-    openstack_control_address: 172.16.10.11
-    openstack_control_node01_address: 172.16.10.11
-    openstack_control_node02_address: 172.16.10.12
-    openstack_control_node03_address: 172.16.10.13
+    openstack_control_address: ${_param:opnfv_openstack_control_node01_address}
+    openstack_control_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    openstack_control_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    openstack_control_node03_address: ${_param:opnfv_openstack_control_node03_address}
     openstack_database_address: ${_param:openstack_control_address}
     openstack_message_queue_address: ${_param:openstack_control_address}
     openstack_message_queue_node01_address: ${_param:openstack_control_node01_address}
     openstack_message_queue_node02_address: ${_param:openstack_control_node02_address}
     openstack_message_queue_node03_address: ${_param:openstack_control_node03_address}
-    openstack_gateway_address: 172.16.10.124
+    openstack_gateway_address: ${_param:opnfv_openstack_gateway_node01_address}
     control_address: ${_param:openstack_control_address}
     ntp_strata_host1: 1.se.pool.ntp.org
     ntp_strata_host2: 0.se.pool.ntp.org
