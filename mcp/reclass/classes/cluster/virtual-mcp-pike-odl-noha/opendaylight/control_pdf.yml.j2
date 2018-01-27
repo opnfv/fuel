@@ -8,14 +8,13 @@
 {%- import 'net_map.j2' as nm with context %}
 ---
 parameters:
-  reclass:
-    storage:
-      node:
-        openstack_compute_node01:
-          params:
-            dpdk0_name: {{ nm.cmp001.nic_private }}
-            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
-        openstack_compute_node02:
-          params:
-            dpdk0_name: {{ nm.cmp001.nic_private }}
-            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
+  linux:
+    network:
+      interface:
+        single_int:
+          enabled: true
+          name: {{ nm.ctl01.nic_mgmt }}
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
