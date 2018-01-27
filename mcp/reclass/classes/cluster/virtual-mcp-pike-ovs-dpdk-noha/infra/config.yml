@@ -10,19 +10,12 @@ classes:
   - system.reclass.storage.system.openstack_gateway_single
   - cluster.virtual-mcp-pike-common-noha.infra.config
   - cluster.virtual-mcp-pike-ovs-dpdk-noha
+  - cluster.all-mcp-arch-common.infra.config_dpdk_pdf
 parameters:
   reclass:
     storage:
       node:
-        openstack_compute_node01:
-          params:
-            dpdk0_name: ${_param:opnfv_vm_tertiary_interface}
-            dpdk0_pci: '"0000:00:05.0"'
-        openstack_compute_node02:
-          params:
-            dpdk0_name: ${_param:opnfv_vm_tertiary_interface}
-            dpdk0_pci: '"0000:00:05.0"'
         openstack_gateway_node01:
           params:
-            tenant_address: 10.1.0.124
-            external_address: 10.16.0.124
+            tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+            external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
