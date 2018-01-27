@@ -33,7 +33,7 @@ parameters:
           proto: static
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
-          gateway: 10.1.0.124
+          gateway: ${_param:opnfv_openstack_gateway_node01_tenant_address}
           use_interfaces:
             - ${_param:tenant_interface}
         br-floating:
