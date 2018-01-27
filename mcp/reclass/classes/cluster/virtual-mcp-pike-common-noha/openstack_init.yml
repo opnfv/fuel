@@ -14,7 +14,7 @@ parameters:
     openstack_region: RegionOne
     admin_email: root@localhost
     cluster_public_protocol: http
-    cluster_public_host: 10.16.0.101
+    cluster_public_host: 10.16.0.11
     neutron_public_protocol: http
     neutron_control_dvr: 'False'
     neutron_l3_ha: 'False'
@@ -31,11 +31,11 @@ parameters:
     cluster_vip_address: ${_param:cluster_public_host}
     cluster_local_address: ${_param:openstack_control_address}
     cluster_node01_hostname: ctl01
-    cluster_node01_address: 172.16.10.101
+    cluster_node01_address: 172.16.10.11
     cluster_node02_hostname: ctl02
-    cluster_node02_address: 172.16.10.102
+    cluster_node02_address: 172.16.10.12
     cluster_node03_hostname: ctl03
-    cluster_node03_address: 172.16.10.103
+    cluster_node03_address: 172.16.10.13
     rabbitmq_secret_key: opnfv_secret
     rabbitmq_admin_password: opnfv_secret
     rabbitmq_openstack_password: opnfv_secret
@@ -124,12 +124,12 @@ parameters:
             - gtw01
             - gtw01.${_param:cluster_domain}
         cmp01:
-          address: 172.16.10.105
+          address: 172.16.10.101
           names:
             - cmp01
             - cmp01.${_param:cluster_domain}
         cmp02:
-          address: 172.16.10.106
+          address: 172.16.10.102
           names:
             - cmp02
             - cmp02.${_param:cluster_domain}
