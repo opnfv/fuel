@@ -16,7 +16,7 @@ parameters:
     network:
       host:
         odl01:
-          address: 172.16.10.111
+          address: ${_param:opnfv_opendaylight_server_node01_single_address}
           names:
             - odl01
             - odl01.${_param:cluster_domain}

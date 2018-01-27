@@ -14,7 +14,7 @@ parameters:
     openstack_region: RegionOne
     admin_email: root@localhost
     cluster_public_protocol: http
-    cluster_public_host: 10.16.0.11
+    cluster_public_host: ${_param:opnfv_openstack_control_node01_external_address}
     neutron_public_protocol: http
     neutron_control_dvr: 'False'
     neutron_l3_ha: 'False'
@@ -31,11 +31,11 @@ parameters:
     cluster_vip_address: ${_param:cluster_public_host}
     cluster_local_address: ${_param:openstack_control_address}
     cluster_node01_hostname: ctl01
-    cluster_node01_address: 172.16.10.11
+    cluster_node01_address: ${_param:opnfv_openstack_control_node01_address}
     cluster_node02_hostname: ctl02
-    cluster_node02_address: 172.16.10.12
+    cluster_node02_address: ${_param:opnfv_openstack_control_node02_address}
     cluster_node03_hostname: ctl03
-    cluster_node03_address: 172.16.10.13
+    cluster_node03_address: ${_param:opnfv_openstack_control_node03_address}
     rabbitmq_secret_key: opnfv_secret
     rabbitmq_admin_password: opnfv_secret
     rabbitmq_openstack_password: opnfv_secret
@@ -52,8 +52,6 @@ parameters:
     ceilometer_database_host: ${_param:cluster_local_address}
     cinder_version: ${_param:openstack_version}
     cinder_service_host: ${_param:cluster_local_address}
-    ceilometer_graphite_publisher_host: 172.16.10.107
-    ceilometer_graphite_publisher_port: 2013
     nova_version: ${_param:openstack_version}
     nova_service_host: ${_param:cluster_local_address}
     nova_vncproxy_url: http://${_param:cluster_vip_address}:8060
@@ -124,12 +122,12 @@ parameters:
             - gtw01
             - gtw01.${_param:cluster_domain}
         cmp01:
-          address: 172.16.10.101
+          address: ${_param:opnfv_openstack_compute_node01_control_address}
           names:
             - cmp01
             - cmp01.${_param:cluster_domain}
         cmp02:
-          address: 172.16.10.102
+          address: ${_param:opnfv_openstack_compute_node02_control_address}
           names:
             - cmp02
             - cmp02.${_param:cluster_domain}
