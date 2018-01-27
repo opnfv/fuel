@@ -44,6 +44,7 @@ classes:
   - system.horizon.server.single
   - service.haproxy.proxy.single
   - cluster.virtual-mcp-pike-common-noha.haproxy_openstack_api
+  - cluster.virtual-mcp-pike-common-noha.openstack_control_pdf
 parameters:
   _param:
     linux_system_codename: xenial
@@ -52,22 +53,6 @@ parameters:
       package:
         python-msgpack:
           version: latest
-    network:
-      interface:
-        single_int:
-          enabled: true
-          name: ${_param:opnfv_vm_secondary_interface}
-          type: eth
-          proto: static
-          address: ${_param:single_address}
-          netmask: 255.255.255.0
-        public_int:
-          enabled: true
-          name: ${_param:opnfv_vm_quaternary_interface}
-          type: eth
-          proto: static
-          address: ${_param:cluster_public_host}
-          netmask: 255.255.255.0
   keystone:
     server:
       admin_email: ${_param:admin_email}
