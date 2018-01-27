@@ -9,4 +9,4 @@
 classes:
   - cluster.baremetal-mcp-pike-common-ha.infra.config
   - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra
-  - cluster.baremetal-mcp-pike-ovs-dpdk-ha.infra.config_pdf
+  - cluster.all-mcp-arch-common.infra.config_dpdk_pdf
