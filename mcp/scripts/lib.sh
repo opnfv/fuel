@@ -489,6 +489,7 @@ function do_templates() {
   RECLASS_CLUSTER_DIR=$(cd "${git_repo_root}/mcp/reclass/classes/cluster"; pwd)
   PHAROS_GEN_CFG="./pharos/config/utils/generate_config.py"
   PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
+  PHAROS_INSTALLER_NETMAP="$(dirname "${PHAROS_INSTALLER_ADAPTER}")/net_map.j2"
   BASE_CONFIG_PDF="${lab_config_uri}/labs/${target_lab}/${target_pod}.yaml"
   BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
   LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
@@ -513,8 +514,11 @@ function do_templates() {
     awk '/^(SALT|MCP|MAAS|CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
   find "${RECLASS_CLUSTER_DIR}" 'virsh_net' ./*j2 -name '*.j2' | \
   while read -r tp; do
+    # Jinja2 import does not allow '..' directory traversal
+    ln -sf "$(readlink -f "${PHAROS_INSTALLER_NETMAP}")" "$(dirname "${tp}")"
     if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" -j "${tp}" > "${tp%.j2}"; then
       notify_e "[ERROR] Could not convert PDF to network definitions!"
     fi
+    rm -f "$(dirname "${tp}")/$(basename "${PHAROS_INSTALLER_NETMAP}")"
   done
 }
