@@ -8,11 +8,10 @@
 ---
 classes:
   - system.linux.system.single
-  - cluster.all-mcp-arch-common
   - cluster.virtual-mcp-pike-common-noha.init_options
   - cluster.virtual-mcp-pike-odl-noha.infra
   - cluster.virtual-mcp-pike-odl-noha.openstack
 
 parameters:
   _param:
-    opendaylight_service_host: 172.16.10.111
+    opendaylight_service_host: ${_param:opnfv_opendaylight_server_node01_single_address}
