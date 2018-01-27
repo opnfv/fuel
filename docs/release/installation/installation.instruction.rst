@@ -422,7 +422,7 @@ Examples
                         -S /home/jenkins/tmpdir |& tee deploy.log
 
    Once the deployment is complete, the OpenStack Dashboard, Horizon is
-   available at http://<controller VIP>:8078, e.g. http://10.16.0.101:8078.
+   available at http://<controller VIP>:8078, e.g. http://10.16.0.11:8078.
    The administrator credentials are **admin** / **opnfv_secret**.
 
 #. Baremetal deploy
