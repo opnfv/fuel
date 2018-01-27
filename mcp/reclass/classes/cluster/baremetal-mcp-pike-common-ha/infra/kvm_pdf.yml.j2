@@ -1,49 +1,15 @@
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{# NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
-{%- if conf.idf is defined and conf.idf.net_config is defined -%}
-    {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
-
-    {#- Determine interface index for each network (plumbing vars) -#}
-    {%- set idx_admin = conf['idf']['net_config']['admin']['interface'] -%}
-    {%- set idx_mgmt = conf['idf']['net_config']['mgmt']['interface'] -%}
-    {%- set idx_private = conf['idf']['net_config']['private']['interface'] -%}
-    {%- set idx_public = conf['idf']['net_config']['public']['interface'] -%}
-
-    {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
-    {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
-    {%- set nic_admin = node['interfaces'][idx_admin] -%}
-    {%- set nic_mgmt = node['interfaces'][idx_mgmt] -%}
-    {%- set nic_private = node['interfaces'][idx_private] -%}
-    {%- set nic_public = node['interfaces'][idx_public] -%}
-
-    {#- PCI addresses (only for DPDK on private) -#}
-    {%- set bus_private = node['busaddr'][idx_private] -%}
-
-    {#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) -#}
-    {%- set vlan_admin = conf['idf']['net_config']['admin']['vlan'] -%}
-    {%- set vlan_mgmt = conf['idf']['net_config']['mgmt']['vlan'] -%}
-    {%- set vlan_private = conf['idf']['net_config']['private']['vlan'] -%}
-    {%- set vlan_public = conf['idf']['net_config']['public']['vlan'] -%}
-{%- else -%}
-    {%- set nic_admin = 'enp6s0' -%}
-    {%- set nic_mgmt = 'enp6s0' -%}
-    {%- set nic_private = None -%}
-    {%- set nic_public = None -%}
-    {%- set vlan_admin = 'native' -%}
-    {%- set vlan_mgmt = '300' -%}
-    {%- set vlan_private = '1000' -%}
-{%- endif -%}
-
-{#- Filter-out NIC duplicates by constructing a dict (used NICs only) -#}
-{%- set nics = { nic_admin: True, nic_mgmt: True, nic_public: True } -%}
-
-{%- set vlans = { vlan_admin: nic_admin, vlan_mgmt: nic_mgmt, vlan_public: nic_public } -%}
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- import 'net_map.j2' as nm with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_admin: True, nm.ctl01.nic_mgmt: True, nm.ctl01.nic_public: True } %}
+{%- set vlans = { nm.vlan_admin: nm.ctl01.nic_admin, nm.vlan_mgmt: nm.ctl01.nic_mgmt, nm.vlan_public: nm.ctl01.nic_public } %}
 ---
 parameters:
   linux:
@@ -77,7 +43,7 @@ parameters:
           proto: dhcp
           type: bridge
           use_interfaces:
-            - {{ nic_admin }}{% if vlan_admin and vlan_admin != 'native' %}.{{ vlan_admin }}{% endif %}
+            - {{ nm.ctl01.nic_admin }}{% if nm.vlan_admin and nm.vlan_admin != 'native' %}.{{ nm.vlan_admin }}{% endif %}
           noifupdown: true
         br-ctl:
           enabled: true
@@ -86,7 +52,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-            - {{ nic_mgmt }}{% if vlan_mgmt and vlan_mgmt != 'native' %}.{{ vlan_mgmt }}{% endif %}
+            - {{ nm.ctl01.nic_mgmt }}{% if nm.vlan_mgmt and nm.vlan_mgmt != 'native' %}.{{ nm.vlan_mgmt }}{% endif %}
         br-ex:
           enabled: true
           proto: manual
@@ -94,5 +60,5 @@ parameters:
           netmask: ${_param:opnfv_net_public_mask}
           type: bridge
           use_interfaces:
-            - {{ nic_public }}{% if vlan_public and vlan_public != 'native' %}.{{ vlan_public }}{% endif %}
+            - {{ nm.ctl01.nic_public }}{% if nm.vlan_public and nm.vlan_public != 'native' %}.{{ nm.vlan_public }}{% endif %}
           noifupdown: true

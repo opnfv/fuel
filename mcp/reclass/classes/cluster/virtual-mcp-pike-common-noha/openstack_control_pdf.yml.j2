@@ -11,19 +11,22 @@ parameters:
   linux:
     network:
       interface:
-        dpdk0:
-          name: ${_param:dpdk0_name}
-          pci: ${_param:dpdk0_pci}
-          driver: igb_uio
+        dhcp_int:
           enabled: true
-          bridge: br-prv
-          type: dpdk_ovs_port
-          n_rxq: 2
-        br-prv:
+          name: {{ nm.ctl01.nic_admin }}
+          proto: dhcp
+          type: eth
+        single_int:
           enabled: true
-          type: dpdk_ovs_bridge
-          address: ${_param:tenant_address}
+          name: {{ nm.ctl01.nic_mgmt }}
+          type: eth
+          proto: static
+          address: ${_param:single_address}
           netmask: 255.255.255.0
-          {%- if nm.vlan_private and nm.vlan_private != 'native' %}
-          tag: {{ nm.vlan_private }}
-          {%- endif %}
+        public_int:
+          enabled: true
+          name: {{ nm.ctl01.nic_public }}
+          type: eth
+          proto: static
+          address: ${_param:cluster_public_host}
+          netmask: 255.255.255.0

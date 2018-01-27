@@ -5,19 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- if conf.idf is defined and conf.idf.net_config is defined -%}
-    {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
-
-    {#- Determine interface index for each network (plumbing vars) -#}
-    {%- set idx_private = conf['idf']['net_config']['private']['interface'] -%}
-
-    {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
-    {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
-    {%- set nic_private = node['interfaces'][idx_private] -%}
-
-    {#- PCI addresses (only for DPDK on private) -#}
-    {%- set bus_private = node['busaddr'][idx_private] -%}
-{%- endif -%}
+{%- import 'net_map.j2' as nm with context %}
 ---
 parameters:
   reclass:
@@ -25,9 +13,9 @@ parameters:
       node:
         openstack_compute_node01:
           params:
-            dpdk0_name: {{ nic_private }}
-            dpdk0_pci: '"{{ bus_private }}"'
+            dpdk0_name: {{ nm.cmp001.nic_private }}
+            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
         openstack_compute_node02:
           params:
-            dpdk0_name: {{ nic_private }}
-            dpdk0_pci: '"{{ bus_private }}"'
+            dpdk0_name: {{ nm.cmp001.nic_private }}
+            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
