@@ -23,5 +23,5 @@ parameters:
             single_address: ${_param:opendaylight_service_host}
         openstack_gateway_node01:
           params:
-            tenant_address: 10.1.0.124
-            external_address: 10.16.0.124
+            tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+            external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
