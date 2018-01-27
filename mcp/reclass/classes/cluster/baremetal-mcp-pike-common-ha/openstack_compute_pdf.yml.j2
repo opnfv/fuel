@@ -1,46 +1,15 @@
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{# NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
-{%- if conf.idf is defined and conf.idf.net_config is defined -%}
-    {#- NOTE: Currently, we assume all cluster nodes use the same mapping -#}
-
-    {#- Determine interface index for each network (plumbing vars) -#}
-    {%- set idx_admin = conf['idf']['net_config']['admin']['interface'] -%}
-    {%- set idx_mgmt = conf['idf']['net_config']['mgmt']['interface'] -%}
-    {%- set idx_private = conf['idf']['net_config']['private']['interface'] -%}
-    {%- set idx_public = conf['idf']['net_config']['public']['interface'] -%}
-
-    {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
-    {%- set iface_names = conf['idf']['fuel']['network']['node'][3]['interfaces'] -%}
-    {%- set nic_admin = iface_names[idx_admin] -%}
-    {%- set nic_mgmt = iface_names[idx_mgmt] -%}
-    {%- set nic_private = iface_names[idx_private] -%}
-    {%- set nic_public = iface_names[idx_public] -%}
-
-    {#- VLAN for each network (only untagged 'admin' is supported by MaaS config!) -#}
-    {%- set vlan_admin = conf['idf']['net_config']['admin']['vlan'] -%}
-    {%- set vlan_mgmt = conf['idf']['net_config']['mgmt']['vlan'] -%}
-    {%- set vlan_private = conf['idf']['net_config']['private']['vlan'] -%}
-    {%- set vlan_public = conf['idf']['net_config']['public']['vlan'] -%}
-{%- else -%}
-    {%- set nic_admin = 'enp6s0' -%}
-    {%- set nic_mgmt = 'enp6s0' -%}
-    {%- set nic_private = None -%}
-    {%- set nic_public = None -%}
-    {%- set vlan_admin = 'native' -%}
-    {%- set vlan_mgmt = '300' -%}
-    {%- set vlan_private = '1000' -%}
-{%- endif -%}
-
-{#- Filter-out NIC duplicates by constructing a dict (used NICs only) -#}
-{%- set nics = { nic_admin: True, nic_mgmt: True } -%}
-
-{%- set vlans = { vlan_admin: nic_admin, vlan_mgmt: nic_mgmt } -%}
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- import 'net_map.j2' as nm with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.cmp001.nic_admin: True, nm.cmp001.nic_mgmt: True } %}
+{%- set vlans = { nm.vlan_admin: nm.cmp001.nic_admin, nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
 ---
 parameters:
   linux:
@@ -48,7 +17,7 @@ parameters:
       bridge: openvswitch
       interface:
 {%- for nic in nics %}
-    {%- if nic == nic_admin %}
+    {%- if nic == nm.cmp001.nic_admin %}
         {{ nic }}:
           enabled: true
           type: eth
@@ -60,7 +29,7 @@ parameters:
           type: eth
           proto: manual
           address: 0.0.0.0
-          {%- if nic == nic_public %}
+          {%- if nic == nm.cmp001.nic_public %}
           netmask: ${_param:opnfv_net_public_mask}
           {%- else %}
           netmask: 255.255.255.0
@@ -89,7 +58,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-            - {{ nic_mgmt }}{% if vlan_mgmt and vlan_mgmt != 'native' %}.{{ vlan_mgmt }}{% endif %}
+            - {{ nm.cmp001.nic_mgmt }}{% if nm.vlan_mgmt and nm.vlan_mgmt != 'native' %}.{{ nm.vlan_mgmt }}{% endif %}
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -99,8 +68,8 @@ parameters:
           type: ovs_port
           bridge: br-floating
           proto: static
-          {%- if vlan_public and vlan_public != 'native' %}
-          ovs_options: tag={{ vlan_public }}
+          {%- if nm.vlan_public and nm.vlan_public != 'native' %}
+          ovs_options: tag={{ nm.vlan_public }}
           {%- endif %}
           address: ${_param:external_address}
           netmask: 255.255.255.0
@@ -109,7 +78,7 @@ parameters:
               address: 0.0.0.0
               netmask: 0.0.0.0
               gateway: ${_param:opnfv_net_public_gw}
-        {{ nic_public }}:
+        {{ nm.cmp001.nic_public }}:
           enabled: true
           proto: manual
           ovs_port_type: OVSPort
