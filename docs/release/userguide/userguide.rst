@@ -229,7 +229,7 @@ Openstack credentials are at */root/keystonercv3*.
     +--------------------------------------+-----------------------------------------------+--------+
 
 
-The OpenStack Dashboard, Horizon is available at http://<controller VIP>:8078, e.g. http://10.16.0.101:8078.
+The OpenStack Dashboard, Horizon is available at http://<controller VIP>:8078, e.g. http://10.16.0.11:8078.
 The administrator credentials are *admin*/*opnfv_secret*.
 
 .. figure:: img/horizon_login.png
@@ -244,13 +244,13 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 +-----------+--------------+---------------+
 | Component | IP           | Default value |
 +===========+==============+===============+
-| gtw01     | x.y.z.110    | 172.16.10.110 |
+| gtw01     | x.y.z.124    | 172.16.10.124 |
 +-----------+--------------+---------------+
-| ctl01     | x.y.z.100    | 172.16.10.100 |
+| ctl01     | x.y.z.11     | 172.16.10.11  |
 +-----------+--------------+---------------+
-| cmp001    | x.y.z.105    | 172.16.10.105 |
+| cmp001    | x.y.z.101    | 172.16.10.101 |
 +-----------+--------------+---------------+
-| cmp002    | x.y.z.106    | 172.16.10.106 |
+| cmp002    | x.y.z.102    | 172.16.10.102 |
 +-----------+--------------+---------------+
 
 
