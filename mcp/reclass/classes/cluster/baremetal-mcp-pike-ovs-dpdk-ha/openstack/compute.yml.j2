@@ -1,15 +1,11 @@
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- if conf.idf is defined and conf.idf.net_config is defined -%}
-    {%- set vlan_private = conf['idf']['net_config']['private']['vlan'] -%}
-{%- else -%}
-    {%- set vlan_private = '1000' -%}
-{%- endif -%}
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - cluster.baremetal-mcp-pike-common-ha.openstack_compute
@@ -21,7 +17,7 @@ parameters:
       dpdk: 'True'
       vhost_socket_dir: ${_param:compute_ovs_vhost_socket_dir}
       backend:
-        tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
+        tenant_nm.vlan_range: ${_param:neutron_tenant_nm.vlan_range}
   nova:
     compute:
       libvirt_service: libvirtd
@@ -42,6 +38,6 @@ parameters:
           type: dpdk_ovs_bridge
           address: ${_param:tenant_address}
           netmask: 255.255.255.0
-          {%- if vlan_private and vlan_private != 'native' %}
-          tag: {{ vlan_private }}
+          {%- if nm.vlan_private and nm.vlan_private != 'native' %}
+          tag: {{ nm.vlan_private }}
           {%- endif %}
