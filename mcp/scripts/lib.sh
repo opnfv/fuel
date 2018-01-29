@@ -336,13 +336,6 @@ function create_vms {
   IFS='|' read -r -a vnodes <<< "$1"; shift
   local vnode_networks=("$@")
 
-  # AArch64: prepare arch specific arguments
-  local virt_extra_args=""
-  if [ "$(uname -i)" = "aarch64" ]; then
-    # No Cirrus VGA on AArch64, use virtio instead
-    virt_extra_args="$virt_extra_args --video=virtio"
-  fi
-
   # create vms with specified options
   for serialized_vnode_data in "${vnodes[@]}"; do
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
@@ -363,10 +356,9 @@ function create_vms {
     --cpu host-passthrough --accelerate ${net_args} \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     --os-type linux --os-variant none \
-    --boot hd --vnc --console pty --autostart --noreboot \
+    --boot hd --nographics --console pty --autostart --noreboot \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.iso",device=cdrom \
-    --noautoconsole \
-    ${virt_extra_args}
+    --noautoconsole
   done
 }
 
