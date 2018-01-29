@@ -70,6 +70,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   cd /srv/salt/scripts
   export DEBIAN_FRONTEND=noninteractive
+  echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/90silence-dpkg
   OLD_DOMAIN=\$(grep -Pzo "id: cfg01\.\K(\S*)" /etc/salt/minion.d/minion.conf) || true
   BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 " \
     MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=stable \
