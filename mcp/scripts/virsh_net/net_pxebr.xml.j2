@@ -1,0 +1,26 @@
+<!--
+ Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Apache License, Version 2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+-->
+{%- if conf.idf.net_config.admin is defined %}
+  {%- set pxebr_network = conf.idf.net_config.admin.network %}
+  {%- set pxebr_prefix = conf.idf.net_config.admin.mask %}
+{%- else %}
+  {%- set pxebr_network = '192.168.11.0' %}
+  {%- set pxebr_prefix = '24' %}
+{%- endif %}
+<network>
+  <name>pxebr</name>
+  <forward mode="nat"/>
+  <bridge name="pxebr"/>
+  <ip address="{{ pxebr_network | ipaddr_index(1) }}" netmask="{{ pxebr_prefix | netmask }}">
+    <!-- NOTE: .254 is harcoded for now (for /24 prefix), should be computed instead. -->
+    <dhcp>
+      <range start="{{ pxebr_network | ipaddr_index(4) }}" end="{{ pxebr_network | ipaddr_index(254) }}"/>
+    </dhcp>
+  </ip>
+</network>
