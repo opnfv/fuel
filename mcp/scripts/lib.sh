@@ -282,12 +282,15 @@ function prepare_vms {
     ln -sf "${image_dir}/${_tmp}" "${image_dir}/${image}"
   fi
 
-  envsubst < user-data.template > user-data.sh # CWD should be <mcp/scripts>
-
   # Create config ISO and resize OS disk image for each foundation node VM
   for node in "${vnodes[@]}"; do
-    ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" -u user-data.sh \
-       -h "${node}" "${image_dir}/mcp_${node}.iso"
+    if [[ "${node}" =~ ^(cfg01|mas01) ]]; then
+      user_data='user-data.mcp.sh'
+    else
+      user_data='user-data.admin.sh'
+    fi
+    ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" \
+       -u "${user_data}" -h "${node}" "${image_dir}/mcp_${node}.iso"
     cp "${image_dir}/${image}" "${image_dir}/mcp_${node}.qcow2"
     qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
   done
@@ -335,7 +338,6 @@ function create_vms {
   # vnode data should be serialized with the following format:
   # '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
   IFS='|' read -r -a vnodes <<< "$1"; shift
-  local vnode_networks=("$@")
 
   # AArch64: prepare arch specific arguments
   local virt_extra_args=""
@@ -349,10 +351,13 @@ function create_vms {
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
 
     # prepare network args
-    net_args=" --network network=mcpcontrol,model=virtio"
-    if [ "${DEPLOY_TYPE:-}" = 'baremetal' ]; then
+    local vnode_networks=("$@")
+    if [[ "${vnode_data[0]}" =~ ^(cfg01|mas01) ]]; then
+      net_args=" --network network=mcpcontrol,model=virtio"
       # 3rd interface gets connected to PXE/Admin Bridge (cfg01, mas01)
       vnode_networks[2]="${vnode_networks[0]}"
+    else
+      net_args=" --network network=${vnode_networks[0]},model=virtio"
     fi
     for net in "${vnode_networks[@]:1}"; do
       net_args="${net_args} --network bridge=${net},model=virtio"

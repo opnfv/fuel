@@ -8,6 +8,6 @@
 ##############################################################################
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
-echo "id: $(hostname).${CLUSTER_DOMAIN}" > /etc/salt/minion
-echo "master: ${SALT_MASTER}" >> /etc/salt/minion
+echo "id: $(hostname).{{ conf.CLUSTER_DOMAIN }}" > /etc/salt/minion
+echo "master: {{ conf.SALT_MASTER }}" >> /etc/salt/minion
 service salt-minion restart

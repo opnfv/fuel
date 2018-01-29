@@ -273,18 +273,17 @@ if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -i).yaml" ]; then
     notify_e "[ERROR] Scenario defaults file is missing!"
 fi
 
+# Get scenario data and (jumpserver) arch defaults
+eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
+eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+export CLUSTER_DOMAIN=${cluster_domain}
+
 # Expand jinja2 templates based on PDF data and env vars
 do_templates "${REPO_ROOT_PATH}" "${BASE_CONFIG_URI}" "${STORAGE_DIR}" \
              "${TARGET_LAB}" "${TARGET_POD}"
 
-# Get required infra deployment data
-set +x
-eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
-eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+# Get required infra deployment data based on PDF/IDF (after template parsing)
 eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
-[[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
-
-export CLUSTER_DOMAIN=${cluster_domain}
 
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
 for node in "${virtual_nodes[@]}"; do
