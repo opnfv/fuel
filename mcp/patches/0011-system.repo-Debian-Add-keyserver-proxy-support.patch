@@ -31,6 +31,11 @@ When the new http(s) proxy param is set:
 If linux:system:proxy:keyserver is not defined, the behavior is
 unchanged for backwards compatibility.
 
+To allow runtime decisions whether the keyserver proxy should be used
+add an additional condition for it to match the first nameserver.
+This allows us to mix virtual nodes with MaaS-provisioned nodes in
+Fuel@OPNFV, while keeping the ext_pillar common.
+
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  README.rst            | 16 ++++++++++++++++
@@ -38,14 +43,13 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  2 files changed, 56 insertions(+)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index 5d4d059..724db5a 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
 @@ -96,13 +96,50 @@ linux_repo_{{ name }}_key:
      - name: "curl -s {{ repo.key_url }} | apt-key add -"
      - watch:
        - file: default_repo_list
-+{%- if system.proxy.keyserver is defined %}
++{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
 +    - env:
 +      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
 +      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
@@ -58,7 +62,7 @@ index 5d4d059..724db5a 100644
 
  {%- if repo.get('enabled', True) %}
 
-+{%- if system.proxy.keyserver is defined %}
++{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
 +
 +{%- if repo.get('key') %}
 +
@@ -96,7 +100,7 @@ index 5d4d059..724db5a 100644
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
-+  {%- if system.proxy.keyserver is not defined %}
++  {%- if system.proxy.keyserver is not defined or grains['dns']['nameservers'][0] not in system.proxy.keyserver.http %}
    {%- if repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
    {%- endif %}
