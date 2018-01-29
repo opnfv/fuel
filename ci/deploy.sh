@@ -37,13 +37,11 @@ $(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
 $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
-    [-B PXE Bridge [-B Mgmt Bridge [-B Internal Bridge [-B Public Bridge]]]] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
     [-f[f]] [-F] [-e | -E[E]] [-d] [-D]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
-  -B  Bridge(s): 1st usage = PXE, 2nd = Mgmt, 3rd = Internal, 4th = Public
   -d  Dry-run
   -D  Debug logging
   -e  Do not launch environment deployment
@@ -76,17 +74,6 @@ $(notify "Input parameters to the build script are:" 2)
    <./mcp/config>.
    The default is using the git submodule tracking 'OPNFV Pharos' in
    <./mcp/scripts/pharos>.
--B Bridges to be used by deploy script. It can be specified several times,
-   or as a comma separated list of bridges, or both: -B br1 -B br2,br3
-   First occurence sets PXE Brige, next Mgmt, then Internal and Public.
-   For an empty value, the deploy script will use virsh to create the default
-   expected network (e.g. -B pxe,,,public will use existing "pxe" and "public"
-   bridges, respectively create "mgmt" and "internal").
-   Note that a virtual network "mcpcontrol" is always created. For virtual
-   deploys, "mcpcontrol" is also used for PXE, leaving the PXE bridge unused.
-   For baremetal deploys, PXE bridge is used for baremetal node provisioning,
-   while "mcpcontrol" is used to provision the infrastructure VMs only.
-   The default is 'pxebr'.
 -d Dry-run - Produce deploy config files, but do not execute deploy
 -D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
@@ -147,6 +134,7 @@ DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
 RECLASS_CLUSTER_DIR=$(cd "${REPO_ROOT_PATH}/mcp/reclass/classes/cluster"; pwd)
 DEPLOY_TYPE='baremetal'
+BR_NAMES=('admin' 'mgmt' 'private' 'public')
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/scripts/pharos"
@@ -170,8 +158,7 @@ source "${DEPLOY_DIR}/lib.sh"
 # BEGIN of main
 #
 set +x
-OPNFV_BRIDGE_IDX=0
-while getopts "b:B:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -181,18 +168,6 @@ do
                 usage
                 exit 1
             fi
-            ;;
-        B)
-            OIFS=${IFS}
-            IFS=','
-            OPT_BRIDGES=($OPTARG)
-            for bridge in "${OPT_BRIDGES[@]}"; do
-                if [ -n "${bridge}" ]; then
-                    OPNFV_BRIDGES[${OPNFV_BRIDGE_IDX}]="${bridge}"
-                fi
-                ((OPNFV_BRIDGE_IDX+=1))
-            done
-            IFS=${OIFS}
             ;;
         d)
             DRY_RUN=1
@@ -393,26 +368,11 @@ if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
     done
 fi
 
-# Map PDF networks 'admin', 'mgmt', 'private' and 'public' to bridge names
-BR_NAMES=('admin' 'mgmt' 'private' 'public')
-BR_NETS=( \
-    "${paramaters__param_opnfv_infra_maas_pxe_address}" \
-    "${parameters__param_opnfv_infra_config_address}" \
-    "${parameters__param_opnfv_openstack_compute_node01_tenant_address}" \
-    "${parameters__param_opnfv_openstack_compute_node01_external_address}" \
-)
-for ((i = 0; i < ${#BR_NETS[@]}; i++)); do
+# Determine 'admin', 'mgmt', 'private' and 'public' bridge names based on IDF
+for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do
     br_jump=$(eval echo "\$parameters__param_opnfv_jump_bridge_${BR_NAMES[i]}")
-    if [ -n "${br_jump}" ] && [ "${br_jump}" != 'None' ] && \
-       [ -d "/sys/class/net/${br_jump}/bridge" ]; then
-            notify "[OK] Bridge found for '${BR_NAMES[i]}': ${br_jump}\n" 2
-            OPNFV_BRIDGES[${i}]="${br_jump}"
-    elif [ -n "${BR_NETS[i]}" ]; then
-        bridge=$(ip addr | awk "/${BR_NETS[i]%.*}./ {print \$NF; exit}")
-        if [ -n "${bridge}" ] && [ -d "/sys/class/net/${bridge}/bridge" ]; then
-            notify "[OK] Bridge found for net ${BR_NETS[i]%.*}.0: ${bridge}\n" 2
-            OPNFV_BRIDGES[${i}]="${bridge}"
-        fi
+    if [ -n "${br_jump}" ] && [ "${br_jump}" != 'None' ]; then
+        OPNFV_BRIDGES[${i}]="${br_jump}"
     fi
 done
 notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}\n" 2
