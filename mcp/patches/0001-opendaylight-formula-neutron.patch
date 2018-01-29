@@ -12,10 +12,10 @@ Subject: [PATCH] Bring in opendaylight support
 
 Change-Id: Ie9073fafccba336f94b1996bd85c98d7a7f5060b
 
-diff --git a/neutron/files/ocata/dhcp_agent.ini b/neutron/files/ocata/dhcp_agent.ini
+diff --git a/neutron/files/pike/dhcp_agent.ini b/neutron/files/pike/dhcp_agent.ini
 index d327e64..739dddf 100644
---- a/neutron/files/ocata/dhcp_agent.ini
-+++ b/neutron/files/ocata/dhcp_agent.ini
+--- a/neutron/files/pike/dhcp_agent.ini
++++ b/neutron/files/pike/dhcp_agent.ini
 @@ -1,3 +1,8 @@
 +{%- if pillar.neutron.gateway is defined %}
 +{%- from "neutron/map.jinja" import gateway as neutron with context %}
@@ -33,10 +33,10 @@ index d327e64..739dddf 100644
 
  # Allows for serving metadata requests coming from a dedicated metadata access network whose CIDR is 169.254.169.254/16 (or larger prefix),
  # and is connected to a Neutron router from which the VMs send metadata:1 request. In this case DHCP Option 121 will not be injected in VMs,
-diff --git a/neutron/files/ocata/ml2_conf.ini b/neutron/files/ocata/ml2_conf.ini
+diff --git a/neutron/files/pike/ml2_conf.ini b/neutron/files/pike/ml2_conf.ini
 index b61e313..02da3b1 100644
---- a/neutron/files/ocata/ml2_conf.ini
-+++ b/neutron/files/ocata/ml2_conf.ini
+--- a/neutron/files/pike/ml2_conf.ini
++++ b/neutron/files/pike/ml2_conf.ini
 @@ -134,7 +134,8 @@ tenant_network_types = {{ server.backend.tenant_network_types }}
  {%- for mechanism_name, mechanism in server.get('backend', {}).get('mechanism', []).items() %}
  {%- do mechanism_drivers.append(mechanism.get('driver')) if 'driver' in mechanism %}
@@ -59,10 +59,10 @@ index b61e313..02da3b1 100644
 +username = {{ server.backend.user }}
 +password = {{ server.backend.password }}
 +{%- endif %}
-diff --git a/neutron/files/ocata/neutron-generic.conf.Debian b/neutron/files/ocata/neutron-generic.conf.Debian
+diff --git a/neutron/files/pike/neutron-generic.conf.Debian b/neutron/files/pike/neutron-generic.conf.Debian
 index 123386d..d77f6c8 100644
---- a/neutron/files/ocata/neutron-generic.conf.Debian
-+++ b/neutron/files/ocata/neutron-generic.conf.Debian
+--- a/neutron/files/pike/neutron-generic.conf.Debian
++++ b/neutron/files/pike/neutron-generic.conf.Debian
 @@ -37,7 +37,7 @@ auth_strategy = keystone
 
  core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
@@ -90,10 +90,10 @@ index 123386d..d77f6c8 100644
 +[ovs]
 +ovsdb_connection = {{ neutron.backend.ovsdb_connection }}
 +{%- endif %}
-diff --git a/neutron/files/ocata/neutron-server.conf.Debian b/neutron/files/ocata/neutron-server.conf.Debian
+diff --git a/neutron/files/pike/neutron-server.conf.Debian b/neutron/files/pike/neutron-server.conf.Debian
 index 79376a2..a7a4645 100644
---- a/neutron/files/ocata/neutron-server.conf.Debian
-+++ b/neutron/files/ocata/neutron-server.conf.Debian
+--- a/neutron/files/pike/neutron-server.conf.Debian
++++ b/neutron/files/pike/neutron-server.conf.Debian
 @@ -50,7 +50,7 @@ core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
  {% set l3_plugin = 'networking_ovn.l3.l3_ovn.OVNL3RouterPlugin' %}
  {% endif %}
