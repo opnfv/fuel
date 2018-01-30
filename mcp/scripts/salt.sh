@@ -47,6 +47,7 @@ fi
 ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   sudo -i
   set -e
+  export TERM=${TERM}
   export CI_DEBUG=${CI_DEBUG}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
   echo -n 'Checking out cloud-init has finished running ...'
@@ -71,7 +72,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd /srv/salt/scripts
   export DEBIAN_FRONTEND=noninteractive
   echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/90silence-dpkg
-  OLD_DOMAIN=\$(grep -Pzo "id: cfg01\.\K(\S*)" /etc/salt/minion.d/minion.conf) || true
+  OLD_DOMAIN=\$(grep -sPzo "id: cfg01\.\K(\S*)" /etc/salt/minion.d/minion.conf) || true
   BOOTSTRAP_SALTSTACK_OPTS=" -r -dX stable 2016.11 " \
     MASTER_HOSTNAME=cfg01.${CLUSTER_DOMAIN} DISTRIB_REVISION=stable \
       EXTRA_FORMULAS="nfs" \
@@ -87,7 +88,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   # In case scenario changed (and implicitly domain name), re-register minions
   if [ -n "\${OLD_DOMAIN}" ] && [ "\${OLD_DOMAIN}" != "${CLUSTER_DOMAIN}" ]; then
-    salt "*.\${OLD_DOMAIN}" cmd.run "grep \${OLD_DOMAIN} -Rl /etc/salt | \
+    salt "*.\${OLD_DOMAIN}" cmd.run "grep \${OLD_DOMAIN} -sRl /etc/salt | \
       xargs --no-run-if-empty sed -i 's/\${OLD_DOMAIN}/${CLUSTER_DOMAIN}/g'; \
         service salt-minion restart" || true
     salt-key -yd "*.\${OLD_DOMAIN}"
