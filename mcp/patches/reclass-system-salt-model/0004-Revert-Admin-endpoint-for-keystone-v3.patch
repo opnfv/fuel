@@ -1,5 +1,5 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 :
 : All rights reserved. This program and the accompanying materials
 : are made available under the terms of the Apache License, Version 2.0
@@ -24,12 +24,13 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/service/keystone3.yml b/keystone/client/service/keystone3.yml
-index bd0c63b..cc385f2 100644
+index 5138c4fc..9b69294b 100644
 --- a/keystone/client/service/keystone3.yml
 +++ b/keystone/client/service/keystone3.yml
-@@ -20,4 +20,4 @@ parameters:
-                 internal_path: '/v3'
+@@ -22,5 +22,5 @@ parameters:
+                 internal_protocol: ${_param:keystone_service_protocol}
                  admin_address: ${_param:keystone_service_host}
                  admin_port: 35357
 -                admin_path: '/v2.0'
 +                admin_path: '/v3'
+                 admin_protocol: ${_param:keystone_service_protocol}
