@@ -1,0 +1,30 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 30 Jan 2018 01:23:54 +0100
+Subject: [PATCH] salt-master-setup: Silence apt for formula install
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ salt-master-setup.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/salt-master-setup.sh b/salt-master-setup.sh
+index 0dd3036..de7c3e9 100755
+--- a/salt-master-setup.sh
++++ b/salt-master-setup.sh
+@@ -349,7 +349,7 @@ install_salt_formula_pkg()
+           for formula_service in "${FORMULAS_SALT_MASTER[@]}"; do
+               echo -e "\nConfiguring salt formula ${formula_service} ...\n"
+               [ ! -d "${FORMULAS_PATH}/env/${formula_service}" ] && \
+-                  if ! $SUDO apt-get install -y salt-formula-${formula_service}; then
++                  if ! $SUDO apt-get install -qqq -y salt-formula-${formula_service}; then
+                     echo -e "\nInstall salt-formula-${formula_service} failed.\n"
+                     exit 1
+                   fi
