@@ -76,3 +76,26 @@ diff --git a/maas/region.sls b/maas/region.sls
  {%- if region.get('enable_iframe', False)  %}
 
  /etc/apache2/conf-enabled/maas-http.conf:
+
+diff --git a/region.sls b/region2.sls
+index 7971ed2..e52ce2e 100644
+--- a/region.sls
++++ b/region2.sls
+@@ -39,6 +39,16 @@ maas_timeout_deploying:
+     - require_in:
+       - service: maas_region_services
+ 
++maas_ip_blksize_force:
++  file.replace:
++    - name: "/usr/lib/python3/dist-packages/tftp/bootstrap.py"
++    - pattern: 'int\_blksize \= min\(\(int\_blksize, MAX\_BLOCK\_SIZE\)\)'
++    - repl: 'int_blksize=1464'
++    - require:
++      - pkg: maas_region_packages
++    - require_in:
++      - service: maas_region_services
++
+ maas_interface_default_mode_dhcp:
+   file.replace:
+     - name: "/usr/lib/python3/dist-packages/maasserver/models/node.py"
+
