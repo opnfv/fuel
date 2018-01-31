@@ -8,16 +8,16 @@ Fuel@OPNFV Cluster Reclass Models
 Overview
 --------
 
-#. Common classes (baremetal + virtual)
+#. Common classes (HA + noHA)
 
    - all-mcp-arch-common
 
-#. Common classes (specific to either baremetal or virtual deploys)
+#. Common classes (HA baremetal/virtual, noHA baremetal)
 
-   - baremetal-mcp-<release>-common-ha
+   - mcp-<release>-common-ha
    - virtual-mcp-<release>-common-noha
 
 #. Cluster specific classes
 
-   - baremetal-mcp-<release>-*-{ha,noha}
+   - mcp-<release>-*-{ha,noha}
    - virtual-mcp-<release>-*-{ha,noha}
