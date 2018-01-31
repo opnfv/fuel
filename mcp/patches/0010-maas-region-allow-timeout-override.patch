@@ -31,6 +31,11 @@ reserved range, but instead DHCP will assign them *inside* the range.
 One alternative would be to handle this via API calls, for each
 node's PXE physical interface, but that overcomplicates things.
 
+3. MaaS blocksize: For some reason the python library behind tftp forces ip
+blocksize to be 1008. We can force it to be 1464 and gain some performance due
+to MTU beeing 1500 (i.e. allow bigger packets).
+
+
 JIRA: FUEL-316
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
@@ -39,7 +44,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 diff --git a/maas/region.sls b/maas/region.sls
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -19,6 +19,36 @@
+@@ -19,6 +19,46 @@
    - require:
      - pkg: maas_region_packages
 
@@ -63,6 +68,16 @@ diff --git a/maas/region.sls b/maas/region.sls
 +    - require_in:
 +      - service: maas_region_services
 +
++maas_ip_blksize_force:
++  file.replace:
++    - name: "/usr/lib/python3/dist-packages/tftp/bootstrap.py"
++    - pattern: 'int_blksize = min\(\(int_blksize, MAX_BLOCK_SIZE\)\)'
++    - repl: 'int_blksize = 1464'
++    - require:
++      - pkg: maas_region_packages
++    - require_in:
++      - service: maas_region_services
++
 +maas_interface_default_mode_dhcp:
 +  file.replace:
 +    - name: "/usr/lib/python3/dist-packages/maasserver/models/node.py"
@@ -72,7 +87,6 @@ diff --git a/maas/region.sls b/maas/region.sls
 +      - pkg: maas_region_packages
 +    - require_in:
 +      - service: maas_region_services
-+
  {%- if region.get('enable_iframe', False)  %}
 
  /etc/apache2/conf-enabled/maas-http.conf:
