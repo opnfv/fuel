@@ -23,7 +23,7 @@ salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
   repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
 
 salt -C 'kvm*' pkg.install bridge-utils
-salt -C 'kvm*' state.apply linux.network
+salt -C 'kvm*' state.apply linux.network,linux.system.kernel
 salt -C 'kvm* or cmp*' state.apply salt.minion
 salt -C 'cmp*' state.apply linux.system
 salt -C 'cmp*' state.apply linux.network || true

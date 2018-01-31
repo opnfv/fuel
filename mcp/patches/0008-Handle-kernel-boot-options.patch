@@ -1,0 +1,69 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 25 Jan 2018 13:22:39 +0400
+Subject: [PATCH] Handle kernel boot options
+
+The 'system.kernel.elevator' and 'system.kernel.isolcpu' options
+have been kept for backward compatibility and should be used in new
+fashion way with system.kernel.boot_options parameter.
+
+Change-Id: I51f7167b8b8946500df2065ee6b02bcf21809bc9
+
+diff --git a/linux/system/kernel.sls b/linux/system/kernel.sls
+index 59b7177..b1c3f3b 100644
+--- a/linux/system/kernel.sls
++++ b/linux/system/kernel.sls
+@@ -3,39 +3,24 @@
+
+ {%- if system.kernel is defined %}
+
+-{%- if system.kernel.isolcpu is defined or system.kernel.elevator is defined %}
++{%- set kernel_boot_opts = [] %}
++{%- do kernel_boot_opts.append('isolcpus=' ~ system.kernel.isolcpu) if system.kernel.isolcpu is defined %}
++{%- do kernel_boot_opts.append('elevator=' ~ system.kernel.elevator) if system.kernel.elevator is defined %}
++{%- do kernel_boot_opts.extend(system.kernel.boot_options) if system.kernel.boot_options is defined %}
+
++{%- if kernel_boot_opts %}
+ include:
+   - linux.system.grub
+
+-{%- if system.kernel.isolcpu is defined %}
+-
+-/etc/default/grub.d/90-isolcpu.cfg:
+-  file.managed:
+-    - contents: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT isolcpus={{ system.kernel.isolcpu }}"'
+-    - require:
+-      - file: grub_d_directory
+-{%- if grains.get('virtual_subtype', None) not in ['Docker', 'LXC'] %} 
+-    - watch_in:
+-      - cmd: grub_update
+-
+-{%- endif %}
+-{%- endif %}
+-
+-{%- if system.kernel.elevator is defined %}
+-
+-/etc/default/grub.d/91-elevator.cfg:
++/etc/default/grub.d/99-custom-settings.cfg:
+   file.managed:
+-    - contents: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT elevator={{ system.kernel.elevator }}"'
++    - contents: 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT {{ kernel_boot_opts|join(' ') }}"'
+     - require:
+       - file: grub_d_directory
+ {%- if grains.get('virtual_subtype', None) not in ['Docker', 'LXC'] %}
+     - watch_in:
+       - cmd: grub_update
+-
+-{%- endif %}
+ {%- endif %}
+-
+ {%- endif %}
+
+ {%- if system.kernel.version is defined %}
