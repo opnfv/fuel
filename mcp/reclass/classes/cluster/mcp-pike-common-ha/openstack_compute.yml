@@ -18,7 +18,8 @@ classes:
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
   - cluster.mcp-pike-common-ha.openstack_compute_pdf
-  - cluster.mcp-pike-common-ha.include.proxy
+  - cluster.mcp-pike-common-ha.include.maas_proxy
+  - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}
