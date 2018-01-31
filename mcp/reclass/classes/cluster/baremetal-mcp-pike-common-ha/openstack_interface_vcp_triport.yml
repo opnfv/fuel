@@ -7,7 +7,8 @@
 ##############################################################################
 ---
 classes:
-  - cluster.baremetal-mcp-pike-common-ha.include.proxy
+  - cluster.baremetal-mcp-pike-common-ha.include.maas_proxy
+  - cluster.baremetal-mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
     dhcp_nic: ${_param:opnfv_vm_primary_interface}

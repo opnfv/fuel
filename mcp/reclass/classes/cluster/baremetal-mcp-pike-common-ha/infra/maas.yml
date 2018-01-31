@@ -9,7 +9,7 @@
 classes:
   - system.maas.region.single
   - service.maas.cluster.single
-  - cluster.baremetal-mcp-pike-common-ha.infra.lab_proxy_pdf
+  - cluster.baremetal-mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
     dhcp_interface: ${_param:opnfv_vm_primary_interface}
