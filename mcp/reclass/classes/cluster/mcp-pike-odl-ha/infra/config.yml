@@ -6,21 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: mcp-pike-ovs-ha.local
-  states:
-    - maas
-    - baremetal_init
-    - virtual_control_plane
-    - openstack_ha
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - mas01
-  cfg01:
-    vcpus: 4
-    ram: 6144
-  mas01:
-    vcpus: 4
-    ram: 6144
+classes:
+  - system.reclass.storage.system.opendaylight_control_single
+  - cluster.mcp-pike-common-ha.infra.config
+  - cluster.mcp-pike-odl-ha.infra
+parameters:
+  reclass:
+    storage:
+      node:
+        opendaylight_control_node01:
+          classes:
+            - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            linux_system_codename: xenial
+            single_address: ${_param:opendaylight_server_node01_single_address}
