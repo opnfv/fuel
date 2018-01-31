@@ -37,6 +37,11 @@ parameters:
     network:
       remove_iface_files:
         - '/etc/network/interfaces.d/50-cloud-init.cfg'
+    system:
+      kernel:
+        boot_options:
+          - spectre_v2=off
+          - nopti
   libvirt:
     server:
       service: libvirtd
