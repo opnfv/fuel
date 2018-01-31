@@ -39,7 +39,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 diff --git a/maas/region.sls b/maas/region.sls
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -19,6 +19,36 @@
+@@ -19,6 +19,45 @@
    - require:
      - pkg: maas_region_packages
 
@@ -58,6 +58,16 @@ diff --git a/maas/region.sls b/maas/region.sls
 +    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
 +    - pattern: '^(\s+NODE_STATUS.DEPLOYING:)\s+\d+,$'
 +    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_deploying', '40') }},
++    - require:
++      - pkg: maas_region_packages
++    - require_in:
++      - service: maas_region_services
++
++maas_ip_blksize_force:
++  file.replace:
++    - name: "/usr/lib/python3/dist-packages/tftp/bootstrap.py"
++    - pattern: 'int\_blksize \= min\(\(int\_blksize, MAX\_BLOCK\_SIZE\)\)'
++    - repl: 'int_blksize=1464'
 +    - require:
 +      - pkg: maas_region_packages
 +    - require_in:
