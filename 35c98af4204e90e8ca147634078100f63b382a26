@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_b8957634",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-01T18:05:07Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9a3d3df0_d88b1a1d",
+      "revId": "35c98af4204e90e8ca147634078100f63b382a26",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_5898aa77",
         "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2018-02-01T17:59:22Z",
       "side": 1,
       "message": "you added 10 lines (one is empty) but incremented this only by 9 :P",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "35c98af4204e90e8ca147634078100f63b382a26",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_78700e40",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-01T18:05:07Z",
+      "side": 1,
+      "message": "Well since i have the + in the diff I think that the new files expects to add 10 lines of something. If we count bellow i still count 10 lines (one is empty of course). So i could either remove the last empty line (with a +) and have 9 or this and have 10. I think they are both correct",
+      "parentUuid": "9a3d3df0_5898aa77",
       "range": {
         "startLine": 42,
         "startChar": 13,
