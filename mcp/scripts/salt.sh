@@ -95,14 +95,22 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   fi
 
   # Init specific to VMs on FN (all for virtual, cfg|mas for baremetal)
-  salt -C "E@^(${NODE_MASK}|cfg01).*" saltutil.sync_all
-  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt'
   wait_for 3.0 'salt -C "cfg01*" state.apply linux'
+  if [[ "${LOCAL_VIRT_NODES}" =~ mas ]]; then
+    wait_for 3.0 'salt -C "mas*" test.ping'
+  else
+    wait_for 3.0 'for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping; done'
+  fi
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" saltutil.sync_all'
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt'
 
-  salt -C "E@^(${NODE_MASK}).*" state.sls linux || true
-  salt -C "E@^(${NODE_MASK}).*" pkg.upgrade refresh=False
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.system,linux.storage'
+  salt -C "E@^(${NODE_MASK}).*" state.sls linux.network -b 1 || true
+  salt -C "E@^(${NODE_MASK}).*" system.reboot
+  wait_for 90.0 'salt -C "E@^(${NODE_MASK}).*" test.ping'
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" pkg.upgrade refresh=False'
 
-  salt -C "E@^(${NODE_MASK}|cfg01).*" state.sls ntp
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.sls ntp'
 
   if [ -f "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" ]; then
     mkdir -p "${OPNFV_VCP_DIR}"

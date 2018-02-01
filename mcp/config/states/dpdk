@@ -12,8 +12,5 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
-salt -I 'nova:compute' system.reboot
-wait_for 90.0 "salt -I 'nova:compute' test.ping"
-
 salt -I 'nova:compute' alternatives.set ovs-vswitchd /usr/lib/openvswitch-switch-dpdk/ovs-vswitchd-dpdk
 salt -I 'nova:compute' service.restart openvswitch-switch

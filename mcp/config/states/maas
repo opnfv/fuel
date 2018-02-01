@@ -77,7 +77,7 @@ salt -C 'mas01*' state.apply maas.machines
 # cleanup outdated salt keys
 sleep 30
 salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
-  xargs -I{} salt-key -yd {}
+  xargs --no-run-if-empty -I{} salt-key -yd {}
 
 # MaaS node deployment
 wait_for 10 maas_fixup
