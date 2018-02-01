@@ -243,6 +243,8 @@ is recommened to install libvirt-bin explicitly on the Jumpserver before the dep
 dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
 Python, QEMU, libvirt etc.
 
+**NOTE**: The install script will alter Jumpserver sysconf and disable `net.bridge.bridge-nf-call`.
+
 .. code-block:: bash
 
     $ apt-get install linux-image-generic-hwe-16.04-edge libvirt-bin
