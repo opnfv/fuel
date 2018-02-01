@@ -423,6 +423,7 @@ else
     prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
     create_networks "${OPNFV_BRIDGES[@]}"
+    do_sysctl_cfg
     create_vms "${STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
     start_vms "${virtual_nodes[@]}"
