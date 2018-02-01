@@ -12,9 +12,9 @@ classes:
   - cluster.baremetal-mcp-pike-common-ha.infra.lab_proxy_pdf
 parameters:
   _param:
-    dhcp_interface: ${_param:opnfv_vm_primary_interface}
-    primary_interface: ${_param:opnfv_vm_secondary_interface}
-    pxe_interface: ${_param:opnfv_vm_tertiary_interface}
+    dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
+    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+    pxe_interface: ${_param:opnfv_fn_vm_tertiary_interface}
     interface_mtu: 1500
     # MaaS has issues using MTU > 1500 for PXE interface
     pxe_interface_mtu: 1500

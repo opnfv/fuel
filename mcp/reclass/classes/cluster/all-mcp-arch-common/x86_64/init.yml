@@ -11,7 +11,13 @@ parameters:
     salt_control_xenial_image: salt://salt/files/control/images/base_image_opnfv_fuel_vcp.img
 
     # VMs spawned on Foundation Node / Jump Host net ifaces (max 4)
-    opnfv_vm_primary_interface: ens2
-    opnfv_vm_secondary_interface: ens3
-    opnfv_vm_tertiary_interface: ens4
-    opnfv_vm_quaternary_interface: ens5
+    opnfv_fn_vm_primary_interface: ens3
+    opnfv_fn_vm_secondary_interface: ens4
+    opnfv_fn_vm_tertiary_interface: ens5
+    opnfv_fn_vm_quaternary_interface: ens6
+
+    # VCP VMs spawned on KVM Hosts net ifaces (max 3)
+    # NOTE(armband): Only x86 VCP VMs spawned via salt.control names differ
+    opnfv_vcp_vm_primary_interface: ens2
+    opnfv_vcp_vm_secondary_interface: ens3
+    opnfv_vcp_vm_tertiary_interface: ens4
