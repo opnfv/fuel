@@ -457,6 +457,15 @@ function wait_for {
   )
 }
 
+function do_sysctl_cfg {
+  local _conf='/etc/sysctl.d/99-opnfv-fuel-bridge.conf'
+  # https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf
+  echo 'net.bridge.bridge-nf-call-arptables = 0' |& sudo tee "${_conf}"
+  echo 'net.bridge.bridge-nf-call-iptables = 0'  |& sudo tee -a "${_conf}"
+  echo 'net.bridge.bridge-nf-call-ip6tables = 0' |& sudo tee -a "${_conf}"
+  sudo sysctl -q -p "${_conf}"
+}
+
 function get_nova_compute_pillar_data {
   local value=$(salt -C 'I@nova:compute and *01*' pillar.get _param:"${1}" --out yaml | cut -d ' ' -f2)
   if [ "${value}" != "''" ]; then
