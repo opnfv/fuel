@@ -16,7 +16,7 @@
     {%- set idx_public = conf['idf']['net_config']['public']['interface'] -%}
 
     {#- Physical interface OS name for each network (e.g. em1, enp1s0f1) -#}
-    {%- set node = conf['idf']['fuel']['network']['node'][0] -%}
+    {%- set node = conf['idf']['fuel']['network']['node'][3] -%}
     {%- set nic_admin = node['interfaces'][idx_admin] -%}
     {%- set nic_mgmt = node['interfaces'][idx_mgmt] -%}
     {%- set nic_private = node['interfaces'][idx_private] -%}
