@@ -284,6 +284,7 @@ BASE_CONFIG_IDF="${BASE_CONFIG_URI}/labs/${TARGET_LAB}/idf-${TARGET_POD}.yaml"
 LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
 LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
 LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
+rm -f "${LOCAL_PDF_RECLASS}"
 if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
     if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
         notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
