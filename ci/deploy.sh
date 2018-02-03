@@ -70,10 +70,10 @@ $(notify "Input parameters to the build script are:" 2)
    companion should be available at:
    <base-uri>/labs/<lab-name>/<pod-name>.yaml
    <base-uri>/labs/<lab-name>/idf-<pod-name>.yaml
-   An example config is provided inside current repo in
-   <./mcp/config>.
    The default is using the git submodule tracking 'OPNFV Pharos' in
    <./mcp/scripts/pharos>.
+   An example config is provided inside current repo in
+   <./mcp/config>, automatically linked as <./mcp/scripts/pharos/labs/local>.
 -d Dry-run - Produce deploy config files, but do not execute deploy
 -D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
@@ -285,6 +285,7 @@ LOCAL_PDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_PDF}")"
 LOCAL_IDF="${STORAGE_DIR}/$(basename "${BASE_CONFIG_IDF}")"
 LOCAL_PDF_RECLASS="${STORAGE_DIR}/pod_config.yml"
 rm -f "${LOCAL_PDF_RECLASS}"
+ln -sf "$(readlink -f "../config/labs/local")" "./pharos/labs/"
 if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
     if [ "${DEPLOY_TYPE}" = 'baremetal' ]; then
         notify "[ERROR] Could not retrieve PDF (Pod Descriptor File)!\n" 1>&2
