@@ -5,20 +5,46 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- for node in conf.nodes %}
+  {%- if node.node.type == 'baremetal' %}
+    {%- set cluster_has_baremetal_nodes = True %}
+  {%- endif %}
+{%- endfor %}
 ---
 cluster:
   domain: mcp-pike-ovs-novcp-ha.local
   states:
+{%- if cluster_has_baremetal_nodes %}
+    - maas
+    - baremetal_init
+{%- endif %}
     - openstack_ha
     - networks
 virtual:
   nodes:
     - cfg01
+{%- if cluster_has_baremetal_nodes %}
+    - mas01
+{%- endif %}
+{#- Most likely, controllers will always have the same type and number (3) #}
+{%- if conf.nodes[nm.ctl01.idx].node.type == 'virtual' %}
     - kvm01
     - kvm02
     - kvm03
+{%- endif %}
+{#- Later, we might have mixed computes here, for hybrid multi-arch testing #}
+{%- if conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
     - cmp001
     - cmp002
+{%- endif %}
+  cfg01:
+    vcpus: 4
+    ram: 6144
+  # Below values are only used when nodes are defined in virtual.nodes above
+  mas01:
+    vcpus: 4
+    ram: 6144
   # NOTE: We might need to add more RAM here
   kvm01:
     vcpus: 4

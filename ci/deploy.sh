@@ -120,7 +120,6 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
-DEPLOY_TYPE='baremetal'
 BR_NAMES=('admin' 'mgmt' 'private' 'public')
 OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
@@ -183,7 +182,6 @@ do
         p)
             TARGET_POD=${OPTARG}
             if [[ "${TARGET_POD}" =~ virtual ]]; then
-                DEPLOY_TYPE='virtual'
                 # All vPODs will use 'local-virtual1' PDF/IDF for now
                 TARGET_LAB='local'
                 TARGET_POD='virtual1'
@@ -244,7 +242,7 @@ else
       pkg_type='rpm'; pkg_cmd='sudo yum install -y --skip-broken'
     fi
     eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
-    for section in 'common' "${DEPLOY_TYPE}" "$(uname -m)"; do
+    for section in 'common' "$(uname -m)"; do
       section_var="requirements_pkg_${section}[*]"
       pkg_list+=" ${!section_var}"
     done
@@ -268,7 +266,7 @@ do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
              "${TARGET_POD}" "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
 
 # Check scenario file existence
-if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml" ]; then
+if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml" ]; then
     notify_e "[ERROR] Scenario definition file is missing!"
 fi
 
@@ -279,7 +277,7 @@ fi
 
 # Get scenario data and (jumpserver) arch defaults
 eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
-eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_TYPE}/${DEPLOY_SCENARIO}.yaml")"
+eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml")"
 export CLUSTER_DOMAIN=${cluster_domain}
 
 # Expand jinja2 templates based on PDF data and env vars
