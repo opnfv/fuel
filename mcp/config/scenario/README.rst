@@ -19,4 +19,4 @@ feature scenarios used by Fuel@OPNFV, e.g.:
 NOTES:
 ------
 This directory is highly likely to change and/or be replaced/complemented
-by the new PDF (Pod Descriptor File) info in securedlab OPNFV git repo.
+by the new PDF (Pod Descriptor File) info in Pharos OPNFV git repo.
