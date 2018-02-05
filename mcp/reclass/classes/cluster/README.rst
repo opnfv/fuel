@@ -12,12 +12,12 @@ Overview
 
    - all-mcp-arch-common
 
-#. Common classes (HA baremetal/virtual, noHA baremetal)
+#. Common classes (HA baremetal/virtual, noHA virtual)
 
    - mcp-<release>-common-ha
-   - virtual-mcp-<release>-common-noha
+   - mcp-<release>-common-noha
 
 #. Cluster specific classes
 
    - mcp-<release>-*-{ha,noha}
-   - virtual-mcp-<release>-*-{ha,noha}
+   - mcp-<release>-*-{ha,noha}
