@@ -54,6 +54,11 @@ parameters:
           version: latest
     network:
       interface:
+        dhcp_int:
+          enabled: true
+          name: ${_param:opnfv_fn_vm_primary_interface}
+          proto: dhcp
+          type: eth
         single_int:
           enabled: true
           name: ${_param:opnfv_fn_vm_secondary_interface}

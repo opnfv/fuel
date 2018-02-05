@@ -16,15 +16,14 @@ F_GIT_DIR=$(cd "${F_GIT_ROOT}/mcp" && git rev-parse --git-dir)
 F_GIT_SUBD=${F_GIT_ROOT#${F_GIT_DIR%%/.git*}}
 OPNFV_TMP_DIR="/home/${SALT_MASTER_USER}/opnfv"
 OPNFV_GIT_DIR="/root/opnfv"
-OPNFV_FUEL_DIR="/root/fuel"
+OPNFV_FUEL_DIR="/root/fuel" # Should be in sync with patch.sh, scripts patches
 OPNFV_RDIR="reclass/classes/cluster/all-mcp-arch-common"
 OPNFV_VCP_IMG="mcp/scripts/base_image_opnfv_fuel_vcp.img"
 OPNFV_VCP_DIR="/srv/salt/env/prd/salt/files/control/images"
 LOCAL_GIT_DIR="${F_GIT_ROOT%${F_GIT_SUBD}}"
-LOCAL_PDF_RECLASS=$1
-NODE_MASK='*'
-
-[[ "${CLUSTER_DOMAIN}" =~ virtual ]] || NODE_MASK='mas01*'
+LOCAL_PDF_RECLASS=$1; shift
+LOCAL_VIRT_NODES=$(echo ${*//cfg01/}) # unquoted to filter space
+NODE_MASK="${LOCAL_VIRT_NODES// /|}"
 
 # push to cfg01 current git repo first (including submodules), at ~ubuntu/opnfv
 # later we move it to ~root/opnfv (and ln as ~root/fuel); delete the temp clone
@@ -96,14 +95,22 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   fi
 
   # Init specific to VMs on FN (all for virtual, cfg|mas for baremetal)
-  salt -C "${NODE_MASK} or cfg01*" saltutil.sync_all
-  wait_for 3.0 'salt -C "${NODE_MASK} or cfg01*" state.apply salt'
   wait_for 3.0 'salt -C "cfg01*" state.apply linux'
+  if [[ "${LOCAL_VIRT_NODES}" =~ mas ]]; then
+    wait_for 3.0 'salt -C "mas*" test.ping'
+  else
+    wait_for 3.0 'for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping; done'
+  fi
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" saltutil.sync_all'
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt'
 
-  salt -C "${NODE_MASK} and not cfg01*" state.sls linux || true
-  salt -C "${NODE_MASK} and not cfg01*" pkg.upgrade refresh=False
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.system,linux.storage'
+  salt -C "E@^(${NODE_MASK}).*" state.sls linux.network -b 1 || true
+  salt -C "E@^(${NODE_MASK}).*" system.reboot
+  wait_for 90.0 'salt -C "E@^(${NODE_MASK}).*" test.ping'
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" pkg.upgrade refresh=False'
 
-  salt -C "${NODE_MASK} or cfg01*" state.sls ntp
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.sls ntp'
 
   if [ -f "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" ]; then
     mkdir -p "${OPNFV_VCP_DIR}"

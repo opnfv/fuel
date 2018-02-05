@@ -33,12 +33,24 @@ parameters:
   linux:
     network:
       interface:
+        dhcp:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:opnfv_fn_vm_primary_interface}
         single_int:
           enabled: true
           name: ${_param:opnfv_fn_vm_secondary_interface}
           type: eth
           proto: static
           address: ${_param:single_address}
+          netmask: 255.255.255.0
+        pxe:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:opnfv_fn_vm_tertiary_interface}
+          address: ${_param:opnfv_infra_config_pxe_address}
           netmask: 255.255.255.0
   salt:
     master:
