@@ -345,7 +345,7 @@ else
     check_connection
 fi
 if [ ${USE_EXISTING_INFRA} -lt 2 ]; then
-    wait_for 5 "./salt.sh ${LOCAL_PDF_RECLASS}"
+    wait_for 5 "./salt.sh ${LOCAL_PDF_RECLASS} ${virtual_nodes[*]}"
 fi
 
 # Openstack cluster setup
