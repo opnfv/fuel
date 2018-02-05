@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_c72fb73d",
+        "filename": "mcp/scripts/globals.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-02-05T10:58:52Z",
+      "side": 1,
+      "message": "Two word description comments on each, maybe?\nAs you did for the commit message",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "30d5ba634a5c249697509d7c4f29f4aca0597457",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
