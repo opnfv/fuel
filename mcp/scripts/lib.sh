@@ -466,10 +466,13 @@ function wait_for {
 function do_sysctl_cfg {
   local _conf='/etc/sysctl.d/99-opnfv-fuel-bridge.conf'
   # https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf
-  echo 'net.bridge.bridge-nf-call-arptables = 0' |& sudo tee "${_conf}"
-  echo 'net.bridge.bridge-nf-call-iptables = 0'  |& sudo tee -a "${_conf}"
-  echo 'net.bridge.bridge-nf-call-ip6tables = 0' |& sudo tee -a "${_conf}"
-  sudo sysctl -q -p "${_conf}"
+  if modprobe br_netfilter bridge; then
+    echo 'net.bridge.bridge-nf-call-arptables = 0' |& sudo tee "${_conf}"
+    echo 'net.bridge.bridge-nf-call-iptables = 0'  |& sudo tee -a "${_conf}"
+    echo 'net.bridge.bridge-nf-call-ip6tables = 0' |& sudo tee -a "${_conf}"
+    # Some distros / sysadmins explicitly blacklist br_netfilter
+    sudo sysctl -q -p "${_conf}" || true
+  fi
 }
 
 function get_nova_compute_pillar_data {
