@@ -77,11 +77,13 @@ if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashbo
   salt -I 'horizon:server' service.reload apache2
 fi
 
-clstr_vip_addr=$(salt -C 'I@nginx:server and *01*' --out=yaml \
-  pillar.get _param:cluster_vip_address | awk '{print $2; exit}')
-salt -C 'I@nginx:server and *01*' cp.push \
-  "/etc/ssl/certs/${clstr_vip_addr}-with-chain.crt" upload_path='certs/os_cacert'
-cd /etc/ssl/certs && ln -sf /var/cache/salt/master/minions/prx01.*/files/certs/os_cacert
+cluster_public_host=$(salt -C 'I@nginx:server and *01*' --out=yaml \
+  pillar.get _param:cluster_public_host | awk '{print $2; exit}')
+dashboard_host=$(salt -C 'I@nginx:server and *01*' --out=yaml cp.push \
+  "/etc/ssl/certs/${cluster_public_host}-with-chain.crt" \
+  upload_path='certs/os_cacert' | cut -d':' -f1)
+cd /etc/ssl/certs && \
+  ln -sf "/var/cache/salt/master/minions/${dashboard_host}/files/certs/os_cacert"
 
 # glance v1 api is required by orchestra tests
 salt -I 'glance:server' ini.set_option /etc/glance/glance-api.conf '{DEFAULT: {enable_v1_api: True}}'
