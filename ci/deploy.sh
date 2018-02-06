@@ -288,7 +288,7 @@ do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
 
 # Get required infra deployment data based on PDF/IDF (after template parsing)
 set +x
-eval "$(parse_yaml "${LOCAL_PDF_RECLASS}")"
+eval "$(parse_yaml "${image_dir}/pod_config.yml")"
 [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
@@ -346,7 +346,7 @@ else
     check_connection
 fi
 if [ ${USE_EXISTING_INFRA} -lt 2 ]; then
-    wait_for 5 "./salt.sh ${LOCAL_PDF_RECLASS} ${virtual_nodes[*]}"
+    wait_for 5 "./salt.sh ${image_dir}/pod_config.yml ${virtual_nodes[*]}"
 fi
 
 # Openstack cluster setup

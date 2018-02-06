@@ -22,6 +22,7 @@ OPNFV_VCP_IMG="mcp/scripts/base_image_opnfv_fuel_vcp.img"
 OPNFV_VCP_DIR="/srv/salt/env/prd/salt/files/control/images"
 LOCAL_GIT_DIR="${F_GIT_ROOT%${F_GIT_SUBD}}"
 LOCAL_PDF_RECLASS=$1; shift
+# shellcheck disable=SC2116,SC2086
 LOCAL_VIRT_NODES=$(echo ${*//cfg01/}) # unquoted to filter space
 NODE_MASK="${LOCAL_VIRT_NODES// /|}"
 
