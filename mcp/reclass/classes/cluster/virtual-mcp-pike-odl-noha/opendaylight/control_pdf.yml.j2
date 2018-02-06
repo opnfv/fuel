@@ -11,6 +11,11 @@ parameters:
   linux:
     network:
       interface:
+        dhcp_int:
+          enabled: true
+          name: {{ nm.ctl01.nic_admin }}
+          proto: dhcp
+          type: eth
         single_int:
           enabled: true
           name: {{ nm.ctl01.nic_mgmt }}
