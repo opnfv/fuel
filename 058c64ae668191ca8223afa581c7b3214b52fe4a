@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_a6a1d447",
+        "filename": "mcp/scripts/virsh_net/net_public.xml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-02-06T09:09:38Z",
+      "side": 1,
+      "message": "Have an issue on LF-POD2 since public network is already in use by interface enp8s0",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "058c64ae668191ca8223afa581c7b3214b52fe4a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
