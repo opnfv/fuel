@@ -46,6 +46,30 @@
       "revId": "058c64ae668191ca8223afa581c7b3214b52fe4a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_4c190721",
+        "filename": "mcp/scripts/virsh_net/net_public.xml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-06T18:20:59Z",
+      "side": 1,
+      "message": "I was wrong, PDF/IDF are correctly fetched and parsed on lf-pod2.\nThe problem is more subtle than that:\n- IDF for lf-pod2 does not define a public bridge, although it exists on the jumpserver;\n- before recent changes, we detected no bridge in IDF, so we created our own virsh network \u0027public\u0027 with a hardcoded 10.16.0.0/24 (gw 10.16.0.1);\n- after recent changes, although we don\u0027t have a bridge in IDF, we do have a public network (172.30.10.0/24), so we try to build our own virsh \u0027public\u0027 network with a local IP of 172.30.10.1 (which overlaps with the public gw);\n\nMy thinking is that if you want to use the public range in your lab, you need to create the public bridge on the jumphost (already true on lf-pod2) and use that instead of virsh \u0027public\u0027, so there\u0027s no problem with \u0027public\u0027 having the 172.30.10.1 IP there, because it won\u0027t be used anyway.\ntl;dr lf-pod2 deploys were not broken by the recent changes; it was silently broken beforehand. I\u0027ll add the proper bridge in pharos IDF.",
+      "parentUuid": "9a3d3df0_66698cf8",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "058c64ae668191ca8223afa581c7b3214b52fe4a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
