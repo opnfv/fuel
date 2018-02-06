@@ -22,6 +22,30 @@
       "revId": "058c64ae668191ca8223afa581c7b3214b52fe4a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_66698cf8",
+        "filename": "mcp/scripts/virsh_net/net_public.xml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-02-06T09:29:14Z",
+      "side": 1,
+      "message": "Also ain\u0027t correct to set x.1 (real gateway) as an ip address for public bridge.",
+      "parentUuid": "9a3d3df0_a6a1d447",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "058c64ae668191ca8223afa581c7b3214b52fe4a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
