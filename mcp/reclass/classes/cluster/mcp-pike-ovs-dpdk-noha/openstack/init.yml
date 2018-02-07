@@ -6,26 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: mcp-pike-odl-noha.local
-  states:
-    - opendaylight
-    - openstack_noha
-    - neutron_gateway
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-    - odl01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 2048
-  odl01:
-    vcpus: 4
-    ram: 5120
+classes:
+  - cluster.mcp-pike-common-noha.openstack_init
+parameters:
+  _param:
+    neutron_tenant_network_types: "flat,vlan"
+    compute_hugepages_size: 2M
+    compute_hugepages_count: 2048
+    compute_hugepages_mount: /mnt/hugepages_2M
+    compute_dpdk_driver: uio
+    compute_ovs_pmd_cpu_mask: "0x6"
+    compute_ovs_dpdk_socket_mem: "1024"
+    compute_ovs_dpdk_lcore_mask: "0x8"
+    compute_ovs_memory_channels: "2"

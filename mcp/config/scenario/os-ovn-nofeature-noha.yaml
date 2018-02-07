@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: virtual-mcp-pike-ovn-noha.local
+  domain: mcp-pike-ovn-noha.local
   states:
     - openstack_noha
     - ovn_ctl_opts

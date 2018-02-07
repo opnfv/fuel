@@ -6,26 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: mcp-pike-odl-noha.local
-  states:
-    - opendaylight
-    - openstack_noha
-    - neutron_gateway
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-    - odl01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 2048
-  odl01:
-    vcpus: 4
-    ram: 5120
+classes:
+  - cluster.mcp-pike-common-noha.openstack_init
+parameters:
+  _param:
+    neutron_tenant_network_types: "flat,vxlan"
+    opendaylight_router: odl-router_v2
+  linux:
+    network:
+      host:
+        odl01:
+          address: ${_param:opnfv_opendaylight_server_node01_single_address}
+          names:
+            - odl01
+            - odl01.${_param:cluster_domain}
