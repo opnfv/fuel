@@ -1,14 +1,15 @@
 <!--
- Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+ Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Apache License, Version 2.0
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
+{%- set cluster = {'has_virtual_nodes': False} %}
 {%- for node in conf.nodes %}
-  {%- if node.node.type == 'virtual' %}
-    {%- set cluster_has_virtual_nodes = True %}
+  {%- if not cluster.has_virtual_nodes and node.node.type == 'virtual' %}
+    {%- set _ = cluster.update({'has_virtual_nodes': True}) %}
   {%- endif %}
 {%- endfor %}
 {%- if conf.idf.net_config.public is defined %}
@@ -21,7 +22,7 @@
 <network>
   <name>public</name>
   <bridge name="public"/>
-{%- if cluster_has_virtual_nodes %}
+{%- if cluster.has_virtual_nodes %}
 {#- Ideally, jumpserver would have a real Linux bridge we will hook to.
     In case it doesn't, we use this virsh network as a *mock* public.
     The *mock* public should NOT overlap with the real public in any way. #}
