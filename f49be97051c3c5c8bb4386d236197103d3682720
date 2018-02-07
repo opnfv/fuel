@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_72d66250",
+        "filename": "mcp/patches/patches_init.list",
+        "patchSetId": 15
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-07T10:41:18Z",
+      "side": 1,
+      "message": "what is this new file ?",
+      "revId": "f49be97051c3c5c8bb4386d236197103d3682720",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d2c92ead",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-ovs-novcp-ha/infra/kvm.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-07T10:41:18Z",
+      "side": 1,
+      "message": "Is this file needed ?\nI mean you have it commented out anyway.",
+      "revId": "f49be97051c3c5c8bb4386d236197103d3682720",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
