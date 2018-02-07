@@ -25,22 +25,27 @@ export SSH_SALT="${SALT_MASTER_USER}@${SALT_MASTER}"
 ##############################################################################
 # BEGIN of colored notification wrappers
 #
+
+# same as `notify_i` + trailing '\n';
 function notify() {
     local msg=${1}; shift
     notify_i "${msg}\n" "$@"
 }
 
+# Inline (no newline added) colored output notification wrapper
 function notify_i() {
     tput setaf "${2:-1}" || true
     echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
     tput sgr0
 }
 
+# same as `notify` + extra '\n' before and after;
 function notify_n() {
     local msg=${1}; shift
     notify_i "\n${msg}\n\n" "$@"
 }
 
+# same as `notify` + stderr output + exit;
 function notify_e() {
     local msg=${1}; shift
     notify_i "\n${msg}\n\n" "$@" 1>&2

@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# shellcheck disable=SC2155,SC1001
+# shellcheck disable=SC2155,SC1001,SC2015
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -452,7 +452,7 @@ function wait_for {
         # shellcheck disable=SC2015
         eval "${cmdstr}" && echo "[wait_for] OK: ${cmdstr}" && return 0 || true
       else
-        !(eval "${cmdstr}" || echo __fuel_wf_failure__) |& tee /dev/stderr | \
+        ! (eval "${cmdstr}" || echo __fuel_wf_failure__) |& tee /dev/stderr | \
           grep -Eq '(Not connected|No response|__fuel_wf_failure__)' && \
           echo "[wait_for] OK: ${cmdstr}" && return 0 || true
       fi
@@ -498,7 +498,6 @@ function do_templates() {
   BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
   LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
   LOCAL_IDF="${image_dir}/$(basename "${BASE_CONFIG_IDF}")"
-  LOCAL_PDF_RECLASS="${image_dir}/pod_config.yml"
 
   # Two-stage expansion, first stage handles pod_config and scenarios only
   if [ -n "${scenario_dir}" ]; then
@@ -511,7 +510,7 @@ function do_templates() {
     elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
       notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
     elif ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
-        -j "${PHAROS_INSTALLER_ADAPTER}" > "${LOCAL_PDF_RECLASS}"; then
+        -j "${PHAROS_INSTALLER_ADAPTER}" > "${image_dir}/pod_config.yml"; then
       notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
     fi
     template_dirs="${scenario_dir}"
