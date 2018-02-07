@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_d2af6e7b",
+        "filename": "mcp/patches/patches_init.list",
+        "patchSetId": 15
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-07T14:52:43Z",
+      "side": 1,
+      "message": "This is early patching. Regular patches are applied too late for reclass.storage, but if we move all of them here, they will be overwritten by salt formula installation later.\nSo we apply patches in 2 stages - one early here, the rest later.",
+      "parentUuid": "9a3d3df0_72d66250",
+      "revId": "f49be97051c3c5c8bb4386d236197103d3682720",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_d2c92ead",
         "filename": "mcp/reclass/classes/cluster/mcp-pike-ovs-novcp-ha/infra/kvm.yml",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-07T10:41:18Z",
       "side": 1,
       "message": "Is this file needed ?\nI mean you have it commented out anyway.",
+      "revId": "f49be97051c3c5c8bb4386d236197103d3682720",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_b2b2aae2",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-ovs-novcp-ha/infra/kvm.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-07T14:52:43Z",
+      "side": 1,
+      "message": "Yes, without it reclass interpolation will fail, as it is included from other (common) classes; so we need an empty file.",
+      "parentUuid": "9a3d3df0_d2c92ead",
       "revId": "f49be97051c3c5c8bb4386d236197103d3682720",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
