@@ -449,12 +449,11 @@ function wait_for {
     for attempt in $(seq "${total_attempts}"); do
       echo "[wait_for] Attempt ${attempt}/${total_attempts%.*} for: ${cmdstr}"
       if [ "${total_attempts%.*}" = "${total_attempts}" ]; then
-        # shellcheck disable=SC2015
         eval "${cmdstr}" && echo "[wait_for] OK: ${cmdstr}" && return 0 || true
       else
-        ! (eval "${cmdstr}" || echo __fuel_wf_failure__) |& tee /dev/stderr | \
-          grep -Eq '(Not connected|No response|__fuel_wf_failure__)' && \
-          echo "[wait_for] OK: ${cmdstr}" && return 0 || true
+        ! (eval "${cmdstr}" || echo 'No response') |& tee /dev/stderr | \
+           grep -Eq '(Not connected|No response)' && \
+           echo "[wait_for] OK: ${cmdstr}" && return 0 || true
       fi
       sleep "${sleep_time}"
     done
