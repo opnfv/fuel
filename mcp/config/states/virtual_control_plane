@@ -36,7 +36,7 @@ vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:no
             awk '/\s+\w+:$/ {gsub(/:$/, "*"); print $1}')
 
 # Check all vcp nodes are available
-wait_for 25.0 "for n in ${vcp_nodes}; do salt '${n}' test.ping 2>/dev/null; done"
+wait_for 25.0 "for n in ${vcp_nodes}; do salt '\${n}' test.ping 2>/dev/null; done"
 
 wait_for 10.0 "salt -C '* and not cfg01* and not mas01*' saltutil.sync_all"
 
