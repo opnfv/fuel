@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_5dfb6f46",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-02-08T07:42:55Z",
+      "side": 1,
+      "message": "This should be applied only on compute nodes.\nIdeally have to be configurable in reclass, but\n... it ain\u0027t obvious \u0026 easy how it was in Fuel before.",
+      "parentUuid": "9a3d3df0_5d752f30",
+      "revId": "efc95d625b0ff624a4d9b47036076d056c8a7a1c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_fd79a32f",
         "filename": "mcp/config/states/maas",
         "patchSetId": 1
