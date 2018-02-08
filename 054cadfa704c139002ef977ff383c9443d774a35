@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_38003901",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-08T18:28:56Z",
+      "side": 1,
+      "message": "44-36\u003d8. You added 10 lines below.",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "054cadfa704c139002ef977ff383c9443d774a35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_58053d12",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-08T18:28:56Z",
+      "side": 1,
+      "message": "Does \u0027_\u0027 need to be escaped here? Same for \u0027\u003d\u0027.",
+      "range": {
+        "startLine": 74,
+        "startChar": 57,
+        "endLine": 74,
+        "endChar": 59
+      },
+      "revId": "054cadfa704c139002ef977ff383c9443d774a35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
