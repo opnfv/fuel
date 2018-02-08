@@ -9,7 +9,7 @@
 {%- set cluster = {'has_virtual_nodes': False} %}
 {%- for node in conf.nodes %}
   {%- if not cluster.has_virtual_nodes and node.node.type == 'virtual' %}
-    {%- set _ = cluster.update({'has_virtual_nodes': True}) %}
+    {%- do cluster.update({'has_virtual_nodes': True}) %}
   {%- endif %}
 {%- endfor %}
 {%- if conf.idf.net_config.public is defined %}
