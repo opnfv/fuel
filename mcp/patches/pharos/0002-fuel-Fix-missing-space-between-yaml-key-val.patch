@@ -1,0 +1,27 @@
+From 5ac2c5fb084ca0f303c497743e68858601ec43a0 Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 2 Mar 2018 22:55:02 +0100
+Subject: [PATCH] [fuel] Fix missing space between yaml key:val
+
+Change-Id: Icf0e5d386f593bb691f777704ac799c8729221ce
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index fc4de25..9a6b4be 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -149,7 +149,7 @@ parameters:
+ {%- for network in networks %}
+ {%- for key in hosts[network] %}
+ {%- set i = loop.index  + start_ip[network] %}
+-    {{key}}:{{ network | ipnet_hostaddr(i) }}
++    {{key}}: {{ network | ipnet_hostaddr(i) }}
+ {%- endfor %}
+ {%- endfor %}
+ 
+-- 
+1.9.1
+
