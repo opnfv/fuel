@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# shellcheck disable=SC2155,SC1001,SC2015
+# shellcheck disable=SC2155,SC1001,SC2015,SC2128
 ##############################################################################
 # Copyright (c) 2017 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -318,6 +318,7 @@ function prepare_vms {
 }
 
 function jumpserver_check_requirements {
+  # shellcheck disable=SC2178
   local vnodes=$1; shift
   local br=("$@")
   local err_br_not_found='Linux bridge not found!'
@@ -535,11 +536,11 @@ function do_templates() {
   local target_pod=$1; shift
   local lab_config_uri=$1; shift
   local scenario_dir=${1:-}
+  local j2args
 
   RECLASS_CLUSTER_DIR=$(cd "${git_repo_root}/mcp/reclass/classes/cluster"; pwd)
   PHAROS_GEN_CFG="./pharos/config/utils/generate_config.py"
-  PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
-  PHAROS_INSTALLER_NETMAP="$(dirname "${PHAROS_INSTALLER_ADAPTER}")/net_map.j2"
+  PHAROS_IA=$(readlink -f "./pharos/config/installers/fuel/pod_config.yml.j2")
   PHAROS_VALIDATE_SCHEMA_SCRIPT="./pharos/config/utils/validate_schema.py"
   PHAROS_SCHEMA_PDF="./pharos/config/pdf/pod1.schema.yaml"
   PHAROS_SCHEMA_IDF="./pharos/config/pdf/idf-pod1.schema.yaml"
@@ -563,14 +564,14 @@ function do_templates() {
     if [[ ! "$target_pod" =~ "virtual" ]]; then
       if ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_PDF}" \
         -s "${PHAROS_SCHEMA_PDF}"; then
-        notify_e "[ERROR] PDF does not match yaml schema!\n" 1>&2
+        notify_e "[ERROR] PDF does not match yaml schema!"
       elif ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_IDF}" \
         -s "${PHAROS_SCHEMA_IDF}"; then
-        notify_e "[ERROR] IDF does not match yaml schema!\n" 1>&2
+        notify_e "[ERROR] IDF does not match yaml schema!"
       fi
     fi
     if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
-        -j "${PHAROS_INSTALLER_ADAPTER}" > "${image_dir}/pod_config.yml"; then
+      -j "${PHAROS_IA}" > "${image_dir}/pod_config.yml"; then
       notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
     fi
     template_dirs="${scenario_dir}"
@@ -579,16 +580,14 @@ function do_templates() {
     # Expand reclass and virsh network templates based on PDF + IDF
     printenv | \
       awk '/^(SALT|MCP|MAAS|CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
-    template_dirs="${RECLASS_CLUSTER_DIR} virsh_net ./*j2"
+    template_dirs="${RECLASS_CLUSTER_DIR} $(readlink -f virsh_net) $(readlink -f ./*j2)"
     template_err_str='Could not convert PDF to network definitions!'
   fi
   # shellcheck disable=SC2086
-  find ${template_dirs} -name '*.j2' | while read -r tp; do
-    # Jinja2 import does not allow '..' directory traversal
-    ln -sf "$(readlink -f "${PHAROS_INSTALLER_NETMAP}")" "$(dirname "${tp}")"
-    if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" -j "${tp}" > "${tp%.j2}"; then
-      notify_e "[ERROR] ${template_err_str}"
-    fi
-    rm -f "$(dirname "${tp}")/$(basename "${PHAROS_INSTALLER_NETMAP}")"
-  done
+  j2args=$(find $template_dirs -name '*.j2' -exec echo -j {} \;)
+  # shellcheck disable=SC2086
+  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b \
+    -i "$(dirname "${PHAROS_IA}")"; then
+    notify_e "[ERROR] ${template_err_str}"
+  fi
 }
