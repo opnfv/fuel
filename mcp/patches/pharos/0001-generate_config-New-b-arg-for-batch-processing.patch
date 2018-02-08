@@ -1,0 +1,109 @@
+From 6c04114a5f09d0e59bc45624030735b5e010f0b4 Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 2 Mar 2018 18:29:53 +0100
+Subject: [PATCH] generate_config: New `-b` arg for batch processing
+
+Sometimes, parsing multiple j2 templates based on the same PDF+IDF
+is needed, in which case we'd have to call generate_config once for
+each template.
+
+Add a new argument, `-b`, which allows batch processing of multiple
+templates in one go:
+- files ending in '.j2' (e.g. 'template.yml.j2') will be expanded to
+  a file without the '.j2' suffix in the same directory as the
+  source template (e.g. 'template.yml');
+- templates not ending in '.j2' are skipped in batch mode;
+- in order to pass multiple templates, `-j` argument can now be passed
+  multiple times, similar to `-i`;
+- although relative filepaths still work, it is highly recommended to
+  use the full path (abspath) for j2 templates;
+
+While at it, import only needed functions from 'os.path' to make our
+code more compact and easier to read.
+
+Change-Id: I2291935d42e4196813cd75154d5b674bcc330183
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/utils/generate_config.py | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
+
+diff --git a/config/utils/generate_config.py b/config/utils/generate_config.py
+index f02acf5..d579e92 100755
+--- a/config/utils/generate_config.py
++++ b/config/utils/generate_config.py
+@@ -11,7 +11,7 @@
+ 
+ import argparse
+ import logging
+-import os
++from os.path import abspath, basename, dirname, exists, isfile, split
+ from subprocess import CalledProcessError, check_output
+ import gen_config_lib
+ import yaml
+@@ -20,13 +20,18 @@ from jinja2 import Environment, FileSystemLoader
+ 
+ PARSER = argparse.ArgumentParser()
+ PARSER.add_argument("--yaml", "-y", type=str, required=True)
+-PARSER.add_argument("--jinja2", "-j", type=str, required=True)
+-PARSER.add_argument("--includesdir", "-i", type=str, action='append')
++PARSER.add_argument("--jinja2", "-j", type=str, required=True, action='append')
++PARSER.add_argument("--includesdir", "-i", action='append', default=[])
++PARSER.add_argument("--batch", "-b", action='store_true')
+ ARGS = PARSER.parse_args()
++
++ARGS.jinja2 = [abspath(x) for x in ARGS.jinja2]
++ARGS.includesdir.extend([dirname(x) for x in ARGS.jinja2])
++
+ LOADER = yaml.CSafeLoader if yaml.__with_libyaml__ else yaml.SafeLoader
+ 
+ ENV = Environment(
+-    loader=FileSystemLoader([os.path.dirname(ARGS.jinja2)] + ARGS.includesdir),
++    loader=FileSystemLoader(ARGS.includesdir),
+     extensions=['jinja2.ext.do']
+ )
+ gen_config_lib.load_custom_filters(ENV)
+@@ -34,7 +39,7 @@ gen_config_lib.load_custom_filters(ENV)
+ # Run `eyaml decrypt` on the whole file, but only if PDF data is encrypted
+ # Note: eyaml return code is 0 even if keys are not available
+ try:
+-    if os.path.isfile(ARGS.yaml) and 'ENC[PKCS7' in open(ARGS.yaml).read():
++    if isfile(ARGS.yaml) and 'ENC[PKCS7' in open(ARGS.yaml).read():
+         DICT = yaml.load(check_output(['eyaml', 'decrypt',
+                                        '-f', ARGS.yaml]), Loader=LOADER)
+ except CalledProcessError as ex:
+@@ -48,8 +53,8 @@ except (NameError, TypeError) as ex:
+         DICT = yaml.load(_, Loader=LOADER)
+ 
+ # If an installer descriptor file (IDF) exists, include it (temporary)
+-IDF_PATH = '/idf-'.join(os.path.split(ARGS.yaml))
+-if os.path.exists(IDF_PATH):
++IDF_PATH = '/idf-'.join(split(ARGS.yaml))
++if exists(IDF_PATH):
+     with open(IDF_PATH) as _:
+         IDF = yaml.load(_, Loader=LOADER)
+         DICT['idf'] = IDF['idf']
+@@ -57,8 +62,16 @@ if os.path.exists(IDF_PATH):
+ # Print dictionary generated from yaml (uncomment for debug)
+ # print(DICT)
+ 
+-# Render template and print generated conf to console
+-TEMPLATE = ENV.get_template(os.path.basename(ARGS.jinja2))
+-
+-# pylint: disable=superfluous-parens
+-print(TEMPLATE.render(conf=DICT))
++for _j2 in ARGS.jinja2:
++    TEMPLATE = ENV.get_template(basename(_j2))
++    OUTPUT = TEMPLATE.render(conf=DICT)
++    # Render template and write generated conf to file or stdout
++    if ARGS.batch:
++        if _j2.endswith('.j2'):
++            with open(_j2[:-3], 'w') as _:
++                _.write(OUTPUT)
++        else:
++            logging.warn('Skipping {}, name does not end in ".j2"'.format(_j2))
++    else:
++        # pylint: disable=superfluous-parens
++        print(OUTPUT)
+-- 
+1.9.1
+

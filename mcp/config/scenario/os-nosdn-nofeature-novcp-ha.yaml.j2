@@ -9,7 +9,7 @@
 {%- set cluster = {'has_virtual_nodes': False} %}
 {%- for node in conf.nodes %}
   {%- if not cluster.has_virtual_nodes and node.node.type == 'baremetal' %}
-    {%- set _ = cluster.update({'has_baremetal_nodes': True}) %}
+    {%- do cluster.update({'has_baremetal_nodes': True}) %}
   {%- endif %}
 {%- endfor %}
 ---
