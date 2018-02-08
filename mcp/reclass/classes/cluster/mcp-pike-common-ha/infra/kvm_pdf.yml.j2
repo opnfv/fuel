@@ -27,7 +27,7 @@ parameters:
 {%- endfor %}
 
 {%- for vlan in vlans %}
-    {%- if vlan and vlan != 'native' %}
+    {%- if vlan | int > 0 %}
         {{ vlans[vlan] }}.{{ vlan }}:
           enabled: true
           proto: manual
@@ -44,7 +44,7 @@ parameters:
           proto: dhcp
           type: bridge
           use_interfaces:
-            - {{ nm.ctl01.nic_admin }}{% if nm.vlan_admin and nm.vlan_admin != 'native' %}.{{ nm.vlan_admin }}{% endif %}
+            - {{ nm.ctl01.nic_admin }}{% if nm.vlan_admin | int > 0 %}.{{ nm.vlan_admin }}{% endif %}
           noifupdown: true
         br-ctl:
           enabled: true
@@ -53,7 +53,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-            - {{ nm.ctl01.nic_mgmt }}{% if nm.vlan_mgmt and nm.vlan_mgmt != 'native' %}.{{ nm.vlan_mgmt }}{% endif %}
+            - {{ nm.ctl01.nic_mgmt }}{% if nm.vlan_mgmt | int > 0 %}.{{ nm.vlan_mgmt }}{% endif %}
           noifupdown: true
         br-ex:
           enabled: true
@@ -62,5 +62,5 @@ parameters:
           netmask: ${_param:opnfv_net_public_mask}
           type: bridge
           use_interfaces:
-            - {{ nm.ctl01.nic_public }}{% if nm.vlan_public and nm.vlan_public != 'native' %}.{{ nm.vlan_public }}{% endif %}
+            - {{ nm.ctl01.nic_public }}{% if nm.vlan_public | int > 0 %}.{{ nm.vlan_public }}{% endif %}
           noifupdown: true

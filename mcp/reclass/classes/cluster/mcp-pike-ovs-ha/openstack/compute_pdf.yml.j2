@@ -27,7 +27,7 @@ parameters:
 {%- endfor %}
 
 {%- for vlan in vlans %}
-    {%- if vlan and vlan != 'native' %}
+    {%- if vlan | int > 0 %}
         {{ vlans[vlan] }}.{{ vlan }}:
           enabled: true
           proto: manual
@@ -45,4 +45,4 @@ parameters:
           netmask: 255.255.255.0
           mtu: 1500
           use_interfaces:
-            - {{ nm.cmp001.nic_private }}{% if nm.vlan_private and nm.vlan_private != 'native' %}.{{ nm.vlan_private }}{% endif %}
+            - {{ nm.cmp001.nic_private }}{% if nm.vlan_private | int > 0 %}.{{ nm.vlan_private }}{% endif %}

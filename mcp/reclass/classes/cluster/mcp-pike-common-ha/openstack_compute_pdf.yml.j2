@@ -48,7 +48,7 @@ parameters:
 {%- endfor %}
 
 {%- for vlan in vlans %}
-    {%- if vlan and vlan != 'native' %}
+    {%- if vlan | int > 0 %}
         {{ vlans[vlan] }}.{{ vlan }}:
           enabled: true
           proto: manual
@@ -66,7 +66,7 @@ parameters:
           address: ${_param:single_address}
           netmask: 255.255.255.0
           use_interfaces:
-            - {{ nm.cmp001.nic_mgmt }}{% if nm.vlan_mgmt and nm.vlan_mgmt != 'native' %}.{{ nm.vlan_mgmt }}{% endif %}
+            - {{ nm.cmp001.nic_mgmt }}{% if nm.vlan_mgmt | int > 0 %}.{{ nm.vlan_mgmt }}{% endif %}
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -81,7 +81,7 @@ parameters:
               gateway: ${_param:opnfv_net_public_gw}
         ovs_port_{{ nm.cmp001.nic_public }}:
           enabled: true
-          name: {{ nm.cmp001.nic_public }}{% if nm.vlan_public and nm.vlan_public != 'native' %}.{{ nm.vlan_public }}{% endif %}
+          name: {{ nm.cmp001.nic_public }}{% if nm.vlan_public | int > 0 %}.{{ nm.vlan_public }}{% endif %}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
