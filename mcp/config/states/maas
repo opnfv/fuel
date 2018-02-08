@@ -50,6 +50,14 @@ function maas_fixup() {
     sleep 10
   done
   if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
+    for node_system_id in ${fdnodes} ${rnodes}; do
+      local node_hostname=$(echo "${statusout}" | \
+        grep -Pzo 'hostname: \K.+(?=\n.+\n\s+system_id: '"${node_system_id}"')')
+      # FIXME: Determine percentage based on on node_hostname, maybe from IDF?
+      salt -C 'mas01*' state.apply maas.machines.set_storage_layout \
+        pillar="{'system_id': '${node_system_id}', 'lv_size': '50%'}"
+      sleep 10
+    done
     salt -C 'mas01*' state.apply maas.machines.deploy
     return 1
   fi
