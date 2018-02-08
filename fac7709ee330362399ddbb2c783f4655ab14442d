@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_5de40fab",
+        "filename": "mcp/scripts/virsh_net/net_public.xml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-02-08T07:32:16Z",
+      "side": 1,
+      "message": "\"do\" instead of \"set _ \u003d \"",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "fac7709ee330362399ddbb2c783f4655ab14442d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
