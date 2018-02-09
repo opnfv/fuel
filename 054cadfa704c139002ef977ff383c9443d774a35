@@ -93,6 +93,30 @@
       "revId": "054cadfa704c139002ef977ff383c9443d774a35",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_42642bb8",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-09T11:34:16Z",
+      "side": 1,
+      "message": "To be more accurate, I was having problems when I did not escape everything. According to the regex editor that guhe sent me, not escaping the \u003d or the dash still passes the python regex but since I made it work like that I did not bother to look further",
+      "parentUuid": "9a3d3df0_ef2728c8",
+      "range": {
+        "startLine": 74,
+        "startChar": 57,
+        "endLine": 74,
+        "endChar": 59
+      },
+      "revId": "054cadfa704c139002ef977ff383c9443d774a35",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
