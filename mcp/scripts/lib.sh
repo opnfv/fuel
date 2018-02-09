@@ -313,12 +313,48 @@ function prepare_vms {
   fi
 }
 
+function jumpserver_check_requirements {
+  local vnodes=$1; shift
+  local br=("$@")
+  local err_br_not_found='Linux bridge not found!'
+  local err_br_virsh_net='is a virtual network, Linux bridge expected!'
+  local warn_br_endpoint="Endpoints might be inaccessible from external hosts!"
+  # MaaS requires a Linux bridge for PXE/admin
+  if [[ "${vnodes}" =~ mas01 ]]; then
+    if ! brctl showmacs "${br[0]}" >/dev/null 2>&1; then
+      notify_e "[ERROR] PXE/admin (${br[0]}) ${err_br_not_found}"
+    fi
+    # Assume virsh network name matches bridge name (true if created by us)
+    if virsh net-info "${br[0]}" >/dev/null 2>&1; then
+      notify_e "[ERROR] ${br[0]} ${err_br_virsh_net}"
+    fi
+  fi
+  # If virtual nodes are present, public should be a Linux bridge
+  if [ "$(echo "${vnodes}" | wc -w)" -gt 2 ]; then
+    if ! brctl showmacs "${br[3]}" >/dev/null 2>&1; then
+      if [[ "${vnodes}" =~ mas01 ]]; then
+        # Baremetal nodes *require* a proper public network
+        notify_e "[ERROR] Public (${br[3]}) ${err_br_not_found}"
+      else
+        notify_n "[WARN] Public (${br[3]}) ${err_br_not_found}" 3
+        notify_n "[WARN] ${warn_br_endpoint}" 3
+      fi
+    fi
+    if virsh net-info "${br[3]}" >/dev/null 2>&1; then
+      if [[ "${vnodes}" =~ mas01 ]]; then
+        notify_e "[ERROR] ${br[3]} ${err_br_virsh_net}"
+      else
+        notify_n "[WARN] ${br[3]} ${err_br_virsh_net}" 3
+        notify_n "[WARN] ${warn_br_endpoint}" 3
+      fi
+    fi
+  fi
+}
+
 function create_networks {
   local vnode_networks=("$@")
   # create required networks, including constant "mcpcontrol"
-  # FIXME(alav): since we renamed "pxe" to "mcpcontrol", we need to make sure
-  # we delete the old "pxe" virtual network, or it would cause IP conflicts.
-  for net in "pxe" "mcpcontrol" "${vnode_networks[@]}"; do
+  for net in "mcpcontrol" "${vnode_networks[@]}"; do
     if virsh net-info "${net}" >/dev/null 2>&1; then
       virsh net-destroy "${net}" || true
       virsh net-undefine "${net}"

@@ -325,6 +325,9 @@ for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do
 done
 notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
 
+# Jumpserver prerequisites check
+jumpserver_check_requirements "${virtual_nodes[*]}" "${OPNFV_BRIDGES[@]}"
+
 # Infra setup
 if [ ${DRY_RUN} -eq 1 ]; then
     notify "[NOTE] Dry run, skipping all deployment tasks" 2
