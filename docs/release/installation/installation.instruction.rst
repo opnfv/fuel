@@ -207,6 +207,14 @@ The following example adds the groups to the user "jenkins"
     ...
     %jenkins ALL=(ALL) NOPASSWD:ALL
 
+The folder containing the images to be used for deployment (/home/jenkins/tmpdir in the examples below)
+needs to have mask 777 in order for libvirt to be able to use them.
+
+.. code-block:: bash
+
+   $ mkdir /home/jenkins/tmpdir
+   $ chmod 777 /home/jenkins/tmpdir
+
 For an AArch64 Jumpserver, the "libvirt" minimum required version is 3.x, 3.5 or newer highly recommended.
 While not mandatory, upgrading the kernel and QEMU on the Jumpserver is also highly recommended
 (especially on AArch64 Jumpservers).
