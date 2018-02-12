@@ -9,15 +9,17 @@
 classes:
   - system.linux.system.single
   - cluster.all-mcp-arch-common
-  # - cluster.mcp-pike-common-ha.stacklight
-  # - cluster.mcp-pike-common-ha.stacklight.client
+{%- if conf.MCP_STACKLIGHT %}
+  - cluster.mcp-pike-common-ha.stacklight
+  - cluster.mcp-pike-common-ha.stacklight.client
+{%- endif %}
 parameters:
   _param:
     apt_mk_version: nightly
     mcp_repo_version: 1.1
     salt_version: 2016.11
     cluster_domain: ${_param:cluster_name}.local
-    # stacklight_environment: ${_param:cluster_domain}
+    stacklight_environment: ${_param:cluster_domain}
     reclass_data_revision: master
     reclass_config_master: ${_param:opnfv_infra_config_pxe_address}
     cluster_public_host: ${_param:openstack_proxy_address}

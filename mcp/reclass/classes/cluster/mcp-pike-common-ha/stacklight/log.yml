@@ -1,0 +1,32 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.repo.elasticsearch
+  - system.linux.system.repo.saltstack.xenial
+  - system.elasticsearch.server.cluster
+  - system.haproxy.proxy.listen.elasticsearch
+  - service.haproxy.proxy.single
+  - system.keepalived.cluster.instance.stacklight_log_vip
+parameters:
+  _param:
+    keepalived_stacklight_log_vip_address: ${_param:stacklight_log_address}
+    keepalived_stacklight_log_vip_password: ${_param:stacklight_log_keepalived_password}
+    keepalived_stacklight_log_vip_interface: ${_param:single_nic}
+    cluster_vip_address: ${_param:stacklight_log_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: ${_param:stacklight_log_node01_hostname}
+    cluster_node01_address: ${_param:stacklight_log_node01_address}
+    cluster_node02_hostname: ${_param:stacklight_log_node02_hostname}
+    cluster_node02_address: ${_param:stacklight_log_node02_address}
+    cluster_node03_hostname: ${_param:stacklight_log_node03_hostname}
+    cluster_node03_address: ${_param:stacklight_log_node03_address}
+  elasticsearch:
+    server:
+      master: true
+      data: true
