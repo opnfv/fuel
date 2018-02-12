@@ -22,6 +22,7 @@ classes:
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
   - cluster.mcp-pike-common-ha.infra.kvm_pdf
+  - cluster.mcp-pike-common-ha.infra.kvm_stacklight_pdf
   - cluster.mcp-pike-common-ha.include.proxy
 parameters:
   _param:

@@ -38,7 +38,7 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f[f]] [-F] [-e | -E[E]] [-d] [-D]
+    [-f[f]] [-F] [-e | -E[E]] [-d] [-D] [-M]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -55,6 +55,7 @@ $(notify "OPTIONS:" 2)
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images
   -L  Deployment log path and file name
+  -M  Enable StackLight installation
 
 $(notify_i "Description:" 2)
 Deploys the Fuel@OPNFV stack on the indicated lab resource.
@@ -97,6 +98,8 @@ $(notify_i "Input parameters to the build script are:" 2)
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
 -S Storage dir for VM images, default is mcp/deploy/images
+-M Install and configure Mirantis StackLight (the Logging, Monitoring and
+   Alerting toolchain of Mirantis Openstack)
 
 $(notify_i "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 
@@ -132,6 +135,7 @@ USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
+MCP_STACKLIGHT=${MCP_STACKLIGHT:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
@@ -144,7 +148,7 @@ source "${DEPLOY_DIR}/lib.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:dDfEFl:L:Mp:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -197,6 +201,9 @@ do
             if [[ ${OPTARG} ]]; then
                 STORAGE_DIR="${OPTARG}"
             fi
+            ;;
+        M)
+            MCP_STACKLIGHT=1
             ;;
         h)
             usage
@@ -260,7 +267,8 @@ fi
 # Clone git submodules and apply our patches
 make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
-# Expand scenario files, pod_config based on PDF
+# Expand scenario files, pod_config based on PDF data and initial env vars
+export MCP_STACKLIGHT
 SCENARIO_DIR="$(readlink -f "../config/scenario")"
 do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
              "${TARGET_POD}" "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
