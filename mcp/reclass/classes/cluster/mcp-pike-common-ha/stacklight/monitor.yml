@@ -1,0 +1,100 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.repo.elasticsearch
+  - system.linux.system.repo.grafana
+  - system.linux.system.repo.saltstack.xenial
+  - system.collectd.remote_client.cluster
+  - system.heka.remote_collector.cluster
+  # - system.heka.remote_collector.input.amqp
+  - system.heka.remote_collector.output.sensu
+  - system.heka.aggregator.cluster
+  - system.heka.aggregator.output.sensu
+  - system.kibana.server.single
+  - system.grafana.server.single
+  - system.grafana.client.single
+  - system.nagios.server.cluster
+  - system.sensu.server.cluster
+  - system.sensu.client.unsubscribe.collectd
+  - system.haproxy.proxy.listen.stacklight.elasticsearch
+  - system.haproxy.proxy.listen.stacklight.kibana
+  - system.haproxy.proxy.listen.stacklight.grafana
+  - system.haproxy.proxy.listen.stacklight.sensu
+  - service.haproxy.proxy.single
+  - system.keepalived.cluster.instance.stacklight_monitor_vip
+  - system.collectd.client.output.heka
+  - system.heka.log_collector.single
+  - system.heka.log_collector.output.sensu
+  - system.heka.metric_collector.single
+  - system.heka.metric_collector.output.sensu
+  - system.sensu.client.stacklight
+  - service.grafana.collector
+parameters:
+  _param:
+    collectd_remote_collector_host: ${_param:stacklight_monitor_address}
+    keepalived_stacklight_monitor_vip_address: ${_param:stacklight_monitor_address}
+    keepalived_stacklight_monitor_vip_password: ${_param:stacklight_monitor_keepalived_password}
+    keepalived_stacklight_monitor_vip_interface: ${_param:single_nic}
+    cluster_redis_port: 6379
+    cluster_sensu_port: 4567
+    sensu_dashboard_password: 'opnfv_secret'
+    cluster_uchiwa_port: 3001
+    cluster_vip_address: ${_param:stacklight_monitor_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: ${_param:stacklight_monitor_node01_hostname}
+    cluster_node01_address: ${_param:stacklight_monitor_node01_address}
+    cluster_node02_hostname: ${_param:stacklight_monitor_node02_hostname}
+    cluster_node02_address: ${_param:stacklight_monitor_node02_address}
+    cluster_node03_hostname: ${_param:stacklight_monitor_node03_hostname}
+    cluster_node03_address: ${_param:stacklight_monitor_node03_address}
+  heka:
+    aggregator:
+      sensu_notification_handler: 'stdout'
+      sensu_noop_handler: 'pipe'
+  sensu:
+    server:
+      enabled: true
+      database:
+        engine: redis
+        host: ${_param:stacklight_monitor_address}
+        port: ${_param:cluster_redis_port}
+      message_queue:
+        engine: rabbitmq
+        host: ${_param:stacklight_monitor_address}
+        port: ${_param:rabbitmq_monitor_port}
+        user: monitor
+        password: ${_param:rabbitmq_monitor_password}
+        virtual_host: '/monitor'
+      bind:
+        address: ${_param:single_address}
+        port: ${_param:cluster_sensu_port}
+      handler:
+        default:
+          enabled: true
+          set:
+            - pipe
+        pipe:
+          enabled: true
+          command: 'cat /dev/null'
+        stdout:
+          enabled: true
+    client:
+      use_shortname: true
+    dashboard:
+      enabled: true
+      backend:
+        sensu:
+          host: ${_param:single_address}
+          port: ${_param:cluster_sensu_port}
+      bind:
+        address: ${_param:single_address}
+        port: ${_param:cluster_uchiwa_port}
+      admin:
+        username: admin
+        password: ${_param:sensu_dashboard_password}

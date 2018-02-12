@@ -25,6 +25,9 @@ cluster:
 {%- endif %}
     - openstack_ha
     - networks
+{%- if conf.MCP_STACKLIGHT %}
+    - stacklight
+{%- endif %}
 virtual:
   nodes:
     - cfg01
