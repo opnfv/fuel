@@ -1,0 +1,31 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - cluster.mcp-pike-common-ha.infra.kvm
+  - cluster.baremetal-mcp-pike-ovs-stacklight-ha.infra
+  - system.salt.control.cluster.stacklight_server_cluster
+  - system.salt.control.cluster.stacklight_log_cluster
+  - system.salt.control.cluster.stacklight_telemetry_cluster
+parameters:
+  salt:
+    stacklight.log:
+      cpu: 2
+      ram: 4096
+      disk_profile: xxlarge
+      net_profile: default
+    stacklight.server:
+      cpu: 2
+      ram: 4096
+      disk_profile: small
+      net_profile: default
+    stacklight.telemetry:
+      cpu: 2
+      ram: 4096
+      disk_profile: xxlarge
+      net_profile: default
