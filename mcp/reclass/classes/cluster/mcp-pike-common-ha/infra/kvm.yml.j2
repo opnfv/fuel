@@ -5,6 +5,11 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- import 'net_map.j2' as nm with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_admin: True, nm.ctl01.nic_mgmt: True, nm.ctl01.nic_public: True } %}
+{%- set vlans = { nm.vlan_admin: nm.ctl01.nic_admin, nm.vlan_mgmt: nm.ctl01.nic_mgmt, nm.vlan_public: nm.ctl01.nic_public } %}
 ---
 classes:
   - system.linux.system.repo.glusterfs
@@ -18,9 +23,11 @@ classes:
   - system.salt.control.cluster.openstack_database_cluster
   - system.salt.control.cluster.openstack_message_queue_cluster
   - system.salt.control.cluster.openstack_telemetry_cluster
-  # - system.salt.control.cluster.stacklight_server_cluster
-  # - system.salt.control.cluster.stacklight_log_cluster
-  # - system.salt.control.cluster.stacklight_telemetry_cluster
+{%- if conf.MCP_STACKLIGHT %}
+  - system.salt.control.cluster.stacklight_server_cluster
+  - system.salt.control.cluster.stacklight_log_cluster
+  - system.salt.control.cluster.stacklight_telemetry_cluster
+{%- endif %}
   - cluster.mcp-pike-common-ha.infra.kvm_pdf
   - cluster.mcp-pike-common-ha.include.maas_proxy
   - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
@@ -34,12 +41,6 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-  linux:
-    system:
-      kernel:
-        boot_options:
-          - spectre_v2=off
-          - nopti
   libvirt:
     server:
       service: libvirtd
@@ -69,21 +70,23 @@ parameters:
           ram: 3072
           disk_profile: xxlarge
           net_profile: default
-        # stacklight.log:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
-        # stacklight.server:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: small
-        #   net_profile: default
-        # stacklight.telemetry:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
+{%- if conf.MCP_STACKLIGHT %}
+        stacklight.log:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+        stacklight.server:
+          cpu: 2
+          ram: 4096
+          disk_profile: small
+          net_profile: default
+        stacklight.telemetry:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+{%- endif %}
         openstack.proxy:
           cpu: 2
           ram: 2048
@@ -158,3 +161,9 @@ parameters:
             cluster.favorite-child-policy: mtime
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
+  linux:
+    system:
+      kernel:
+        boot_options:
+          - spectre_v2=off
+          - nopti

@@ -1,0 +1,230 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+parameters:
+  _param:
+    # Stacklight Monitor
+{%- if conf.MCP_VCP %}
+    stacklight_monitor_address: ${_param:opnfv_stacklight_monitor_address}
+    stacklight_monitor_node01_address: ${_param:opnfv_stacklight_monitor_node01_address}
+    stacklight_monitor_node02_address: ${_param:opnfv_stacklight_monitor_node02_address}
+    stacklight_monitor_node03_address: ${_param:opnfv_stacklight_monitor_node03_address}
+    stacklight_log_address: ${_param:opnfv_stacklight_log_address}
+    stacklight_log_node01_address: ${_param:opnfv_stacklight_log_node01_address}
+    stacklight_log_node02_address: ${_param:opnfv_stacklight_log_node02_address}
+    stacklight_log_node03_address: ${_param:opnfv_stacklight_log_node03_address}
+    stacklight_telemetry_address: ${_param:opnfv_stacklight_telemetry_address}
+    stacklight_telemetry_node01_address: ${_param:opnfv_stacklight_telemetry_node01_address}
+    stacklight_telemetry_node02_address: ${_param:opnfv_stacklight_telemetry_node02_address}
+    stacklight_telemetry_node03_address: ${_param:opnfv_stacklight_telemetry_node03_address}
+{%- else %}
+    stacklight_monitor_address: ${_param:opnfv_openstack_control_address}
+    stacklight_monitor_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    stacklight_monitor_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    stacklight_monitor_node03_address: ${_param:opnfv_openstack_control_node03_address}
+    stacklight_log_address: ${_param:opnfv_openstack_control_address}
+    stacklight_log_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    stacklight_log_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    stacklight_log_node03_address: ${_param:opnfv_openstack_control_node03_address}
+    stacklight_telemetry_address: ${_param:opnfv_openstack_control_address}
+    stacklight_telemetry_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    stacklight_telemetry_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    stacklight_telemetry_node03_address: ${_param:opnfv_openstack_control_node03_address}
+{%- endif %}
+
+    # StackLight service hostnames
+{%- if conf.MCP_VCP %}
+    stacklight_monitor_hostname: mon
+    stacklight_monitor_node01_hostname: mon01
+    stacklight_monitor_node02_hostname: mon02
+    stacklight_monitor_node03_hostname: mon03
+    stacklight_log_hostname: log
+    stacklight_log_node01_hostname: log01
+    stacklight_log_node02_hostname: log02
+    stacklight_log_node03_hostname: log03
+    stacklight_telemetry_hostname: mtr
+    stacklight_telemetry_node01_hostname: mtr01
+    stacklight_telemetry_node02_hostname: mtr02
+    stacklight_telemetry_node03_hostname: mtr03
+{%- else %}
+    stacklight_monitor_hostname: ${_param:openstack_control_hostname}
+    stacklight_monitor_node01_hostname: ${_param:openstack_control_node01_hostname}
+    stacklight_monitor_node02_hostname: ${_param:openstack_control_node02_hostname}
+    stacklight_monitor_node03_hostname: ${_param:openstack_control_node03_hostname}
+    stacklight_log_hostname: ${_param:openstack_control_hostname}
+    stacklight_log_node01_hostname: ${_param:openstack_control_node01_hostname}
+    stacklight_log_node02_hostname: ${_param:openstack_control_node02_hostname}
+    stacklight_log_node03_hostname: ${_param:openstack_control_node03_hostname}
+    stacklight_telemetry_hostname: ${_param:openstack_control_hostname}
+    stacklight_telemetry_node01_hostname: ${_param:openstack_control_node01_hostname}
+    stacklight_telemetry_node02_hostname: ${_param:openstack_control_node02_hostname}
+    stacklight_telemetry_node03_hostname: ${_param:openstack_control_node03_hostname}
+{%- endif %}
+
+    kibana_elasticsearch_host: ${_param:stacklight_log_address}
+    heka_elasticsearch_host: ${_param:stacklight_log_address}
+    heka_influxdb_host: ${_param:stacklight_telemetry_address}
+    heka_aggregator_host: ${_param:stacklight_monitor_address}
+    aggregator_port: 5565
+    grafana_user: admin
+    cluster_elasticsearch_port: 9200
+    cluster_kibana_port: 5601
+    cluster_grafana_port: 3000
+    rabbitmq_monitor_password: 'opnfv_secret'
+    rabbitmq_monitor_port: 5672
+    mysql_grafana_password: 'opnfv_secret'
+    postgresql_grafana_password: 'opnfv_secret'
+    grafana_influxdb_host: ${_param:stacklight_telemetry_address}
+    elasticsearch_port: 9200
+    influxdb_stacklight_password: 'opnfv_secret'
+    influxdb_admin_password: 'opnfv_secret'
+    influxdb_port: 8086
+    influxdb_database: lma
+    influxdb_user: lma
+    influxdb_password: 'opnfv_secret'
+    nagios_host: ${_param:stacklight_monitor_address}
+    nagios_status_port: 8001
+    nagios_username: nagiosadmin
+    nagios_password: password
+    nagios_notification_smtp_server: 127.0.0.1
+    nagios_notification_from: 'nagios@localhost'
+    nagios_notification_email: 'root@localhost'
+    stacklight_log_keepalived_password: 'opnfv_secret'
+    stacklight_monitor_keepalived_password: 'opnfv_secret'
+    stacklight_telemetry_keepalived_password: 'opnfv_secret'
+    ## Billing
+    # collectd_backend_carbon_host: ${_param:openstack_billing_address}
+    # collectd_backend_carbon_port: 2023
+  linux:
+    _support:
+      sensu:
+        enabled: false
+{%- if conf.MCP_VCP %}
+    network:
+      host:
+        mon01:
+          address: ${_param:stacklight_monitor_node01_address}
+          names:
+            - ${_param:stacklight_monitor_node01_hostname}
+            - ${_param:stacklight_monitor_node01_hostname}.${_param:cluster_domain}
+        mon02:
+          address: ${_param:stacklight_monitor_node02_address}
+          names:
+            - ${_param:stacklight_monitor_node02_hostname}
+            - ${_param:stacklight_monitor_node02_hostname}.${_param:cluster_domain}
+        mon03:
+          address: ${_param:stacklight_monitor_node03_address}
+          names:
+            - ${_param:stacklight_monitor_node03_hostname}
+            - ${_param:stacklight_monitor_node03_hostname}.${_param:cluster_domain}
+        mon:
+          address: ${_param:stacklight_monitor_address}
+          names:
+            - ${_param:stacklight_monitor_hostname}
+            - ${_param:stacklight_monitor_hostname}.${_param:cluster_domain}
+        log01:
+          address: ${_param:stacklight_log_node01_address}
+          names:
+            - ${_param:stacklight_log_node01_hostname}
+            - ${_param:stacklight_log_node01_hostname}.${_param:cluster_domain}
+        log02:
+          address: ${_param:stacklight_log_node02_address}
+          names:
+            - ${_param:stacklight_log_node02_hostname}
+            - ${_param:stacklight_log_node02_hostname}.${_param:cluster_domain}
+        log03:
+          address: ${_param:stacklight_log_node03_address}
+          names:
+            - ${_param:stacklight_log_node03_hostname}
+            - ${_param:stacklight_log_node03_hostname}.${_param:cluster_domain}
+        log:
+          address: ${_param:stacklight_log_address}
+          names:
+            - ${_param:stacklight_log_hostname}
+            - ${_param:stacklight_log_hostname}.${_param:cluster_domain}
+        mtr01:
+          address: ${_param:stacklight_telemetry_node01_address}
+          names:
+            - ${_param:stacklight_telemetry_node01_hostname}
+            - ${_param:stacklight_telemetry_node01_hostname}.${_param:cluster_domain}
+        mtr02:
+          address: ${_param:stacklight_telemetry_node02_address}
+          names:
+            - ${_param:stacklight_telemetry_node02_hostname}
+            - ${_param:stacklight_telemetry_node02_hostname}.${_param:cluster_domain}
+        mtr03:
+          address: ${_param:stacklight_telemetry_node03_address}
+          names:
+            - ${_param:stacklight_telemetry_node03_hostname}
+            - ${_param:stacklight_telemetry_node03_hostname}.${_param:cluster_domain}
+        mtr:
+          address: ${_param:stacklight_telemetry_address}
+          names:
+            - ${_param:stacklight_telemetry_hostname}
+            - ${_param:stacklight_telemetry_hostname}.${_param:cluster_domain}
+{%- endif %}
+  heka:
+    server:
+      extra_fields:
+        region: ${_param:openstack_region}
+  apache:
+    _support:
+      sensu:
+        enabled: false
+  cinder:
+    _support:
+      sensu:
+        enabled: false
+  glance:
+    _support:
+      sensu:
+        enabled: false
+  glusterfs:
+    _support:
+      sensu:
+        enabled: false
+  haproxy:
+    _support:
+      sensu:
+        enabled: false
+  heat:
+    _support:
+      sensu:
+        enabled: false
+  keepalived:
+    _support:
+      sensu:
+        enabled: false
+  keystone:
+    _support:
+      sensu:
+        enabled: false
+  neutron:
+    _support:
+      sensu:
+        enabled: false
+  nginx:
+    _support:
+      sensu:
+        enabled: false
+  nova:
+    _support:
+      sensu:
+        enabled: false
+  ntp:
+    _support:
+      sensu:
+        enabled: false
+  opencontrail:
+    _support:
+      sensu:
+        enabled: false
+  rabbitmq:
+    _support:
+      sensu:
+        enabled: false

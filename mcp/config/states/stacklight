@@ -1,0 +1,94 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/globals.sh"
+
+# Install the StackLight backends
+notify 'Deploy Elasticsearch' 2
+salt -C 'I@elasticsearch:server' state.sls elasticsearch.server -b 1
+
+notify 'Deploy InfluxDB' 2
+salt -C 'I@influxdb:server' state.sls influxdb -b 1
+salt -C 'I@kibana:server' state.sls kibana.server -b 1
+
+notify 'Deploy Grafana server' 2
+salt -C 'I@grafana:server' state.sls grafana.server -b 1
+
+notify 'Deploy Sensu' 2
+salt -C 'I@nagios:server' state.sls nagios.server
+salt -C 'I@sensu:server and I@rabbitmq:server' state.sls rabbitmq
+salt -C 'I@sensu:server and I@rabbitmq:server' cmd.run 'rabbitmqctl cluster_status'
+salt -C 'I@redis:cluster:role:master' state.sls redis
+salt -C 'I@redis:server' state.sls redis
+salt -C 'I@sensu:server' state.sls sensu -b 1
+salt -C 'I@sensu:client' state.sls sensu
+
+notify 'Configure clients to communicate with the server' 2
+salt -C 'I@elasticsearch:client' state.sls elasticsearch.client.service
+salt -C 'I@kibana:client' state.sls kibana.client.service
+
+notify 'Restart minions on the nodes where clients are installed' 2
+salt -C 'I@kibana:client or I@elasticsearch:client' --async service.restart salt-minion
+sleep 10 # FIXME: no hardcoded timeouts
+
+notify 'Configure elasticsearch, kibana servers' 2
+salt -C 'I@elasticsearch:client' state.sls elasticsearch.client
+salt -C 'I@kibana:client' state.sls kibana.client
+
+# StackLight SOIP (StackLight operational insights pipeline)
+notify 'Restart minions' 2
+salt -C '*' --async service.restart salt-minion; sleep 15 # FIXME: no hardcoded timeouts
+salt -C '*' mine.flush
+
+notify 'Clean grains files' 2
+salt -C '*' file.remove /etc/salt/grains.d/collectd
+salt -C '*' file.remove /etc/salt/grains.d/grafana
+salt -C '*' file.remove /etc/salt/grains.d/heka
+salt -C '*' file.remove /etc/salt/grains.d/sensu
+salt -C '*' file.remove /etc/salt/grains
+
+notify 'Install collectd and heka' 2
+salt -C '*' state.sls collectd -b 1
+salt -C '*' state.sls heka -b 1
+salt -C 'I@sensu:client' state.sls sensu
+salt -C 'I@grafana:collector' state.sls grafana.collector
+
+notify 'Update salt mine' 2
+salt -C '*' state.sls salt.minion.grains -b 1
+salt -C '*' saltutil.refresh_modules
+salt -C '*' mine.update
+
+sleep 5 # FIXME
+
+notify 'Update heka' 2
+salt -C 'I@heka:aggregator:enabled:True or I@heka:remote_collector:enabled:True' state.sls heka -b 1
+
+notify 'Update collectd' 2
+salt -C 'I@collectd:remote_client:enabled:True' state.sls collectd
+
+notify 'Update Nagios' 2
+salt -C 'I@nagios:server' state.sls nagios
+salt -C 'I@nagios:server' service.stop nagios3
+
+notify 'Update sensu' 2
+salt -C 'I@sensu:server' state.sls sensu
+
+notify 'Finalize the configuration of Grafana (add the dashboards)' 2
+salt -C 'I@grafana:client' --async service.restart salt-minion; sleep 10 # FIXME
+salt -C 'I@grafana:client' state.sls grafana.client
+
+notify 'Get StackLight monitor VIP' 2
+vip=$(salt-call pillar.data _param:stacklight_monitor_address --out key|awk '/_param:/ { print $2; }')
+
+salt -G "ipv4:$vip" service.restart remote_collectd
+salt -G "ipv4:$vip" service.restart remote_collector
+salt -G "ipv4:$vip" service.restart aggregator
+salt -G "ipv4:$vip" service.restart nagios3
