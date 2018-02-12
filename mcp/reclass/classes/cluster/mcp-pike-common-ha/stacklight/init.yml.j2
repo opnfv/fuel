@@ -1,0 +1,149 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+parameters:
+  _param:
+    # Stacklight Monitor
+{%- if conf.MCP_VCP %}
+    cluster_vip_address: ${_param:opnfv_stacklight_monitor_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_address: ${_param:opnfv_stacklight_monitor_node01_address}
+    cluster_node02_address: ${_param:opnfv_stacklight_monitor_node02_address}
+    cluster_node03_address: ${_param:opnfv_stacklight_monitor_node03_address}
+{%- else %}
+    cluster_vip_address: ${_param:openstack_control_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_address: ${_param:opnfv_openstack_control_mode01_address}
+    cluster_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    cluster_node03_address: ${_param:opnfv_openstack_control_node03_address}
+{%- endif %}
+
+    # StackLight service hostnames
+{%- if conf.MCP_VCP %}
+    cluster_node01_hostname: mon01
+    cluster_node02_hostname: mon02
+    cluster_node03_hostname: mon03
+{%- else %}
+    cluster_node01_hostname: ${_param:openstack_control_node01_hostname}
+    cluster_node02_hostname: ${_param:openstack_control_node02_hostname}
+    cluster_node03_hostname: ${_param:openstack_control_node03_hostname}
+{%- endif %}
+
+    heka_elasticsearch_host: ${_param:stacklight_monitor_address}
+    heka_influxdb_host: ${_param:stacklight_monitor_address}
+    heka_aggregator_host: ${_param:stacklight_monitor_address}
+
+    aggregator_port: 5565
+
+    grafana_user: admin
+    grafana_password: password
+    grafana_influxdb_host: ${_param:stacklight_monitor_address}
+
+    elasticsearch_port: 9200
+
+    influxdb_stacklight_password: lmapass
+    influxdb_admin_password: password
+    influxdb_port: 8086
+    influxdb_database: lma
+    influxdb_user: lma
+    influxdb_password: lmapass
+
+    rabbitmq_monitor_password: 'password'
+    rabbitmq_monitor_port: 5672
+
+    stacklight_environment: ${_param:cluster_domain}_prd
+    stacklight_notification_topic: stacklight_notifications
+
+  linux:
+    _support:
+      sensu:
+        enabled: false
+{%- if conf.MCP_VCP %}
+    network:
+      host:
+        mon01:
+          address: ${_param:stacklight_monitor_node01_address}
+          names:
+            - ${_param:cluster_node01_hostname}
+            - ${_param:cluster_node01_hostname}.${_param:cluster_domain}
+        mon02:
+          address: ${_param:stacklight_monitor_node02_address}
+          names:
+            - ${_param:cluster_node02_hostname}
+            - ${_param:cluster_node02_hostname}.${_param:cluster_domain}
+        mon03:
+          address: ${_param:stacklight_monitor_node03_address}
+          names:
+            - ${_param:cluster_node03_hostname}
+            - ${_param:cluster_node03_hostname}.${_param:cluster_domain}
+        mon:
+          address: ${_param:stacklight_monitor_address}
+          names:
+            - mon
+            - mon.${_param:cluster_domain}
+{%- endif %}
+  heka:
+    server:
+      extra_fields:
+        region: ${_param:openstack_region}
+  apache:
+    _support:
+      sensu:
+        enabled: false
+  cinder:
+    _support:
+      sensu:
+        enabled: false
+  glance:
+    _support:
+      sensu:
+        enabled: false
+  glusterfs:
+    _support:
+      sensu:
+        enabled: false
+  haproxy:
+    _support:
+      sensu:
+        enabled: false
+  heat:
+    _support:
+      sensu:
+        enabled: false
+  keepalived:
+    _support:
+      sensu:
+        enabled: false
+  keystone:
+    _support:
+      sensu:
+        enabled: false
+  neutron:
+    _support:
+      sensu:
+        enabled: false
+  nginx:
+    _support:
+      sensu:
+        enabled: false
+  nova:
+    _support:
+      sensu:
+        enabled: false
+  ntp:
+    _support:
+      sensu:
+        enabled: false
+  opencontrail:
+    _support:
+      sensu:
+        enabled: false
+  rabbitmq:
+    _support:
+      sensu:
+        enabled: false
