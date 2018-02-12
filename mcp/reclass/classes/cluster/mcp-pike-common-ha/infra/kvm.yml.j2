@@ -5,6 +5,11 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- import 'net_map.j2' as nm with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_admin: True, nm.ctl01.nic_mgmt: True, nm.ctl01.nic_public: True } %}
+{%- set vlans = { nm.vlan_admin: nm.ctl01.nic_admin, nm.vlan_mgmt: nm.ctl01.nic_mgmt, nm.vlan_public: nm.ctl01.nic_public } %}
 ---
 classes:
   - system.linux.system.repo.glusterfs
@@ -18,10 +23,11 @@ classes:
   - system.salt.control.cluster.openstack_database_cluster
   - system.salt.control.cluster.openstack_message_queue_cluster
   - system.salt.control.cluster.openstack_telemetry_cluster
-  # - system.salt.control.cluster.stacklight_server_cluster
-  # - system.salt.control.cluster.stacklight_log_cluster
-  # - system.salt.control.cluster.stacklight_telemetry_cluster
-  - cluster.mcp-pike-common-ha.infra.kvm_pdf
+{%- if conf.MCP_STACKLIGHT %}
+  - system.salt.control.cluster.stacklight_server_cluster
+  - system.salt.control.cluster.stacklight_log_cluster
+  - system.salt.control.cluster.stacklight_telemetry_cluster
+{%- endif %}
   - cluster.mcp-pike-common-ha.include.maas_proxy
   - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
@@ -34,12 +40,6 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-  linux:
-    system:
-      kernel:
-        boot_options:
-          - spectre_v2=off
-          - nopti
   libvirt:
     server:
       service: libvirtd
@@ -69,21 +69,23 @@ parameters:
           ram: 3072
           disk_profile: xxlarge
           net_profile: default
-        # stacklight.log:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
-        # stacklight.server:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: small
-        #   net_profile: default
-        # stacklight.telemetry:
-        #   cpu: 2
-        #   ram: 4096
-        #   disk_profile: xxlarge
-        #   net_profile: default
+{%- if conf.MCP_STACKLIGHT %}
+        stacklight.log:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+        stacklight.server:
+          cpu: 2
+          ram: 4096
+          disk_profile: small
+          net_profile: default
+        stacklight.telemetry:
+          cpu: 2
+          ram: 4096
+          disk_profile: xxlarge
+          net_profile: default
+{%- endif %}
         openstack.proxy:
           cpu: 2
           ram: 2048
@@ -158,3 +160,60 @@ parameters:
             cluster.favorite-child-policy: mtime
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
+  linux:
+    system:
+      kernel:
+        boot_options:
+          - spectre_v2=off
+          - nopti
+    network:
+      interface:
+{%- for nic in nics %}
+        {{ nic }}:
+          enabled: true
+          type: eth
+          proto: manual
+          address: 0.0.0.0
+          netmask: 255.255.255.0
+          name: {{ nic }}
+          noifupdown: true
+{%- endfor %}
+
+{%- for vlan in vlans %}
+    {%- if vlan | int > 0 %}
+        {{ vlans[vlan] }}.{{ vlan }}:
+          enabled: true
+          proto: manual
+          type: vlan
+          name: {{ vlans[vlan] }}.{{ vlan }}
+          use_interfaces:
+            - {{ vlans[vlan] }}
+          noifupdown: true
+    {%- endif %}
+{%- endfor %}
+
+        br-mgmt:
+          enabled: true
+          proto: dhcp
+          type: bridge
+          use_interfaces:
+            - {{ nm.ctl01.nic_admin }}{% if nm.vlan_admin | int > 0 %}.{{ nm.vlan_admin }}{% endif %}
+          noifupdown: true
+        br-ctl:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+            - {{ nm.ctl01.nic_mgmt }}{% if nm.vlan_mgmt | int > 0 %}.{{ nm.vlan_mgmt }}{% endif %}
+          noifupdown: true
+        br-ex:
+          enabled: true
+          proto: manual
+          address: 0.0.0.0
+          netmask: ${_param:opnfv_net_public_mask}
+          type: bridge
+          use_interfaces:
+            - {{ nm.ctl01.nic_public }}{% if nm.vlan_public | int > 0 %}.{{ nm.vlan_public }}{% endif %}
+          noifupdown: true
