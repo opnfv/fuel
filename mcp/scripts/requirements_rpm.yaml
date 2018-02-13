@@ -16,6 +16,8 @@ requirements_pkg:
     - elfutils-libelf-devel
     - e2fsprogs
     - genisoimage
+    - gcc
+    - gdisk
     - git
     - kpartx
     - libvirt
