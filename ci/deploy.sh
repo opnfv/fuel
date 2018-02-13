@@ -280,6 +280,10 @@ eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
 eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml")"
 export CLUSTER_DOMAIN=${cluster_domain}
 
+# key might not exist yet ...
+generate_ssh_key
+export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
+
 # Expand jinja2 templates based on PDF data and env vars
 do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
              "${TARGET_POD}" "${BASE_CONFIG_URI}"
@@ -336,7 +340,6 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     notify "[NOTE] Use existing infra" 2
     check_connection
 else
-    generate_ssh_key
     prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
     create_networks "${OPNFV_BRIDGES[@]}"
