@@ -8,7 +8,6 @@
 ---
 classes:
   - system.linux.system.repo.glusterfs
-  - system.linux.storage.loopback
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
   - system.nova.compute.nfv.hugepages
@@ -33,7 +32,6 @@ parameters:
     interface_mtu: 1500
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
-    loopback_device_size: 20
     linux_system_codename: xenial
     glusterfs_version: '3.13'
   glusterfs:
@@ -44,7 +42,27 @@ parameters:
           server: ${_param:glusterfs_service_host}
           # yamllint disable-line rule:line-length
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
+  cinder:
+    volume:
+      backend:
+        lvm-driver:
+          volume_group: ${linux:storage:lvm:cinder-vg:name}
   linux:
+    storage:
+      mount:
+        rootfs:
+          enabled: true
+          device: /dev/vgroot/lvroot
+          file_system: ext4
+          path: /
+      lvm:
+        # Align with both system.cinder.volume.backend.lvm and MaaS data
+        cinder-vg:
+          name: vgroot
+          volume:
+            lvroot:
+              size: 30G
+              mount: ${linux:storage:mount:rootfs}
     system:
       kernel:
         sysctl:
