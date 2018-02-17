@@ -10,6 +10,7 @@ classes:
   - system.maas.region.single
   - service.maas.cluster.single
   - cluster.mcp-pike-common-ha.infra.lab_proxy_pdf
+  - cluster.mcp-pike-common-ha.infra.maas_pdf
 parameters:
   _param:
     dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
@@ -54,62 +55,6 @@ parameters:
               vid: 0
               dhcp_on: true
               primary_rack: ${_param:infra_maas_node01_hostname}
-      machines:
-        kvm01:
-          interface:
-            mac: ${_param:opnfv_maas_node01_interface_mac}
-          power_parameters:
-            power_address: ${_param:opnfv_maas_node01_power_address}
-            power_password: ${_param:opnfv_maas_node01_power_password}
-            power_type: ${_param:opnfv_maas_node01_power_type}
-            power_user: ${_param:opnfv_maas_node01_power_user}
-          architecture: ${_param:opnfv_maas_node01_architecture}
-          distro_series: xenial
-          hwe_kernel: ${_param:hwe_kernel}
-        kvm02:
-          interface:
-            mac: ${_param:opnfv_maas_node02_interface_mac}
-          power_parameters:
-            power_address: ${_param:opnfv_maas_node02_power_address}
-            power_password: ${_param:opnfv_maas_node02_power_password}
-            power_type: ${_param:opnfv_maas_node02_power_type}
-            power_user: ${_param:opnfv_maas_node02_power_user}
-          architecture: ${_param:opnfv_maas_node02_architecture}
-          distro_series: xenial
-          hwe_kernel: ${_param:hwe_kernel}
-        kvm03:
-          interface:
-            mac: ${_param:opnfv_maas_node03_interface_mac}
-          power_parameters:
-            power_address: ${_param:opnfv_maas_node03_power_address}
-            power_password: ${_param:opnfv_maas_node03_power_password}
-            power_type: ${_param:opnfv_maas_node03_power_type}
-            power_user: ${_param:opnfv_maas_node03_power_user}
-          architecture: ${_param:opnfv_maas_node03_architecture}
-          distro_series: xenial
-          hwe_kernel: ${_param:hwe_kernel}
-        cmp001:
-          interface:
-            mac: ${_param:opnfv_maas_node04_interface_mac}
-          power_parameters:
-            power_address: ${_param:opnfv_maas_node04_power_address}
-            power_password: ${_param:opnfv_maas_node04_power_password}
-            power_type: ${_param:opnfv_maas_node04_power_type}
-            power_user: ${_param:opnfv_maas_node04_power_user}
-          architecture: ${_param:opnfv_maas_node04_architecture}
-          distro_series: xenial
-          hwe_kernel: ${_param:hwe_kernel}
-        cmp002:
-          interface:
-            mac: ${_param:opnfv_maas_node05_interface_mac}
-          power_parameters:
-            power_address: ${_param:opnfv_maas_node05_power_address}
-            power_password: ${_param:opnfv_maas_node05_power_password}
-            power_type: ${_param:opnfv_maas_node05_power_type}
-            power_user: ${_param:opnfv_maas_node05_power_user}
-          architecture: ${_param:opnfv_maas_node05_architecture}
-          distro_series: xenial
-          hwe_kernel: ${_param:hwe_kernel}
     cluster:
       saltstack_repo_xenial: "http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/ xenial main"
   linux:
