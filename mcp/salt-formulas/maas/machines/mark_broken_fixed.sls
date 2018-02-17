@@ -10,6 +10,7 @@
 maas_login_admin:
   cmd.run:
   - name: "maas-region apikey --username {{ region.admin.username }} > /var/lib/maas/.maas_credentials"
+  - unless: 'test -e /var/lib/maas/.maas_credentials'
 
 # TODO: implement mark_broken_fixed_machine via _modules/maas.py
 mark_broken_fixed_machine:
