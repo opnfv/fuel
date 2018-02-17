@@ -1,0 +1,38 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 17 Dec 2017 06:30:27 +0100
+Subject: [PATCH] maas.py: Add missing status ids
+
+Status ID list synced from MaaS 2.3 [1].
+
+[1] https://github.com/maas/maas/blob/2.3/src/maasserver/\
+    migrations/builtin/maasserver/0106_testing_status.py#L25
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ _modules/maas.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/_modules/maas.py b/_modules/maas.py
+index e279b70..1df4698 100644
+--- a/_modules/maas.py
++++ b/_modules/maas.py
+@@ -52,7 +52,10 @@ def __virtual__():
+     (9, 'Deploying'), (6, 'Deployed'), (7, 'Retired'), (8, 'Broken'),
+     (11, 'Failed deployment'), (12, 'Releasing'),
+     (13, 'Releasing failed'), (14, 'Disk erasing'),
+-    (15, 'Failed disk erasing')])
++    (15, 'Failed disk erasing'), (16, 'Rescue mode'),
++    (17, 'Entering rescue mode'), (18, 'Failed to enter rescue mode'),
++    (19, 'Exiting rescue mode'), (20, 'Failed to exit rescue mode'),
++    (21, 'Testing'), (22, 'Failed testing')])
+
+
+ def _format_data(data):

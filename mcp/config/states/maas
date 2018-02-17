@@ -27,12 +27,19 @@ function maas_fixup() {
 
   local fcnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: Failed commissioning\n\s+system_id: \K.+\n')
+  local ftnodes=$(echo "${statusout}" | \
+    grep -Pzo 'status: Failed testing\n\s+system_id: \K.+\n')
   for node_system_id in ${fcnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
     sleep 10
   done
-  if [ -n "${fcnodes}" ]; then
+  for node_system_id in ${ftnodes}; do
+    salt -C 'mas01*' state.apply maas.machines.override_failed_testing \
+      pillar="{'system_id': '${node_system_id}'}"
+    sleep 10
+  done
+  if [ -n "${fcnodes}" ] || [ -n "${ftnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
     return 1
   fi
