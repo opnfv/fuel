@@ -66,7 +66,7 @@ salt -I 'horizon:server' state.sls horizon
 salt -I 'nginx:server' state.sls nginx
 
 # workaround for Ubuntu Pike Horizon missing css, FUEL-324
-if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashboard | grep -qE 'mcp'; then
+if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashboard | grep -qE ':.*mcp'; then
   salt -I 'horizon:server' file.symlink \
     /var/lib/openstack-dashboard/static \
     /usr/share/openstack-dashboard/static
