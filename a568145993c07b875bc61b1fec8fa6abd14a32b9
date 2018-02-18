@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_bf47ea1c",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-18T19:45:57Z",
+      "side": 1,
+      "message": "Normally, we\u0027d use the default in [1], but I want to do as little as possible via MaaS CLI, and creating a dedicated VG would be a lot of MaaS CLI calls ...\n[1] https://github.com/Mirantis/reclass-system-salt-model/blob/master/cinder/volume/backend/lvm.yml#L18",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 59
+      },
+      "revId": "a568145993c07b875bc61b1fec8fa6abd14a32b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_1f553ec6",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-18T19:45:57Z",
+      "side": 1,
+      "message": "I think this should be removed, it created a duplicate in /etc/fstab.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "a568145993c07b875bc61b1fec8fa6abd14a32b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_ff5172d9",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-18T19:45:57Z",
+      "side": 1,
+      "message": "I think this can be removed too, I thought I needed to duplicate it so salt-formula-linux adds the PV to the filter in /etc/lvm/lvm.conf (we have a hack in place to disable that filter, maybe we can soon remove it).\nHowever, /dev/sdaN is already added to that filter via cinder VG (since we attempt to reuse vgroot VG).",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 50
+      },
+      "revId": "a568145993c07b875bc61b1fec8fa6abd14a32b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5f5ea6ea",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-18T19:45:57Z",
+      "side": 1,
+      "message": "Current reclass (1.4.1) has a few drawbacks, including not being able to delete a single list item on list merge.\nOne workaround is to nuke the whole list (e.g. cinder_lvm_devices: ~) in a previously included class - I tried adding it in openstack_init.yml, but that gets evaluated a fter this one.\nThe proper solution would be to upgrade to the extended reclass (1.5.2) [2], which is not currently avialable as a DEB ...\nSo right now we end up with [\u0027/dev/loop0\u0027, \u0027/dev/sdaN\u0027] here, which needs to be fixed before going further.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "a568145993c07b875bc61b1fec8fa6abd14a32b9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
