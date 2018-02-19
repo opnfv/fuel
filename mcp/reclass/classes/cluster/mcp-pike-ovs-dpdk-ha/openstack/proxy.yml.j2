@@ -7,4 +7,10 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-common-ha.openstack_telemetry
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_triport
+{%- endif %}
+  - cluster.mcp-pike-common-ha.openstack_proxy
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}
