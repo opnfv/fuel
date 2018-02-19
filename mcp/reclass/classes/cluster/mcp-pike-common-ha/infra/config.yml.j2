@@ -120,12 +120,21 @@ parameters:
             - cluster.mcp-pike-common-ha.openstack_control_init
           params:
             linux_system_codename: xenial
+{%- if not conf.MCP_VCP %}
+            external_address: ${_param:openstack_proxy_node01_address}
+{%- endif %}
         openstack_control_node02:
           params:
             linux_system_codename: xenial
+{%- if not conf.MCP_VCP %}
+            external_address: 0.0.0.0
+{%- endif %}
         openstack_control_node03:
           params:
             linux_system_codename: xenial
+{%- if not conf.MCP_VCP %}
+            external_address: ${_param:openstack_proxy_node02_address}
+{%- endif %}
         openstack_database_node01:
           classes:
             - cluster.mcp-pike-common-ha.openstack_database_init

@@ -7,7 +7,13 @@
 ##############################################################################
 ---
 classes:
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_triport
+{%- endif %}
   - cluster.mcp-pike-common-ha.openstack_proxy
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-ovs-ha.infra
+{%- else %}
   - system.keepalived.cluster.instance.openstack_web_public_vip
 parameters:
   linux:
@@ -57,3 +63,4 @@ parameters:
           <<: *nginx_openstack_proxy_address
         nginx_static_reclass_doc:
           <<: *nginx_openstack_proxy_address
+{%- endif %}
