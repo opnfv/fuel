@@ -7,13 +7,20 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-common-ha.openstack_init_novcp
+  - cluster.mcp-pike-common-ha.openstack_init
 parameters:
   _param:
+    # opendaylight options
+    opendaylight_service_host: ${_param:opendaylight_server_node01_single_address}
+
     neutron_tenant_network_types: "flat,vxlan"
-  apache:
-    server:
-      # NOTE(armband): override these to ~ first, so we can later drop ssl/443
-      bind:
-        ports: ~
-      modules: ~
+{%- if conf.MCP_VCP %}
+  linux:
+    network:
+      host:
+        odl01:
+          address: ${_param:opendaylight_service_host}
+          names:
+            - ${_param:opendaylight_server_node01_hostname}
+            - ${_param:opendaylight_server_node01_hostname}.${_param:cluster_domain}
+{%- endif %}

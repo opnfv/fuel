@@ -6,13 +6,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
+# NOTE(armband): we don't want to pull in salt.control for novcp
 classes:
-  - cluster.mcp-pike-common-ha.infra
-  - cluster.mcp-pike-ovs-novcp-ha.openstack
-parameters:
-  _param:
-    cluster_name: mcp-pike-ovs-novcp-ha
-    # For NOVCP, we override kvm addresses to overlap with ctl
-    infra_kvm_node01_address: ${_param:openstack_control_node01_address}
-    infra_kvm_node02_address: ${_param:openstack_control_node02_address}
-    infra_kvm_node03_address: ${_param:openstack_control_node03_address}
+  - cluster.mcp-pike-common-ha.infra.kvm
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}

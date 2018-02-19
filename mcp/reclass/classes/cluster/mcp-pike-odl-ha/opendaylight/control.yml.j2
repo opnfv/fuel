@@ -9,7 +9,9 @@
 classes:
   - service.opendaylight.server.single
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+{%- if conf.MCP_VCP %}
   - cluster.mcp-pike-odl-ha
+{%- endif %}
 parameters:
   _param:
     linux_system_codename: xenial
