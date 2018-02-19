@@ -7,9 +7,13 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-common-ha.openstack_interface_vcp_triport
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+{%- endif %}
   - cluster.mcp-pike-common-ha.openstack_proxy
+{%- if conf.MCP_VCP %}
   - cluster.mcp-pike-odl-ha.infra
+{%- endif %}
 parameters:
   nginx:
     server:

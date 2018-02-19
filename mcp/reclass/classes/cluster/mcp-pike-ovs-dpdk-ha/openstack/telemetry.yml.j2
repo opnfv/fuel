@@ -7,5 +7,10 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-common-ha.infra.kvm
-  - cluster.mcp-pike-ovs-ha.infra
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+{%- endif %}
+  - cluster.mcp-pike-common-ha.openstack_telemetry
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}

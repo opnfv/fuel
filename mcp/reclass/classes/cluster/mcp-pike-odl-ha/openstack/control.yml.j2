@@ -7,6 +7,25 @@
 ##############################################################################
 ---
 classes:
+  - system.neutron.control.opendaylight.cluster
+{%- if conf.MCP_VCP %}
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
-  - cluster.mcp-pike-common-ha.openstack_message_queue
+  - cluster.mcp-pike-common-ha.openstack_control
   - cluster.mcp-pike-odl-ha.infra
+{%- else %}
+  - cluster.mcp-pike-common-ha.openstack_control_novcp
+  - cluster.mcp-pike-odl-ha
+{%- endif %}
+parameters:
+  neutron:
+    server:
+      backend:
+        router: ${_param:opendaylight_router}
+{%- if not conf.MCP_VCP %}
+  apache:
+    server:
+      modules:
+        # NOTE(armband): We first override mods to ~, then to this to drop ssl
+        - rewrite
+        - wsgi
+{%- endif %}

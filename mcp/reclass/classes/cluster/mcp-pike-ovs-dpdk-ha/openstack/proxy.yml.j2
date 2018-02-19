@@ -7,6 +7,10 @@
 ##############################################################################
 ---
 classes:
-  - cluster.all-mcp-arch-common
-  - cluster.mcp-pike-ovs-novcp-ha.infra
-  - cluster.mcp-pike-ovs-novcp-ha.openstack
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_triport
+{%- endif %}
+  - cluster.mcp-pike-common-ha.openstack_proxy
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}

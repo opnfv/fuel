@@ -7,6 +7,10 @@
 ##############################################################################
 ---
 classes:
+{%- if conf.MCP_VCP %}
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
-  - cluster.mcp-pike-common-ha.openstack_telemetry
-  - cluster.mcp-pike-odl-ha.infra
+{%- endif %}
+  - cluster.mcp-pike-common-ha.openstack_message_queue
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}

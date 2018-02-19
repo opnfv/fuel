@@ -7,7 +7,11 @@
 ##############################################################################
 ---
 classes:
+{%- if conf.MCP_VCP %}
   - cluster.mcp-pike-common-ha.openstack_init
+{%- else %}
+  - cluster.mcp-pike-common-ha.openstack_init_novcp
+{%- endif %}
 parameters:
   _param:
     neutron_tenant_network_types: "flat,vxlan"
@@ -22,3 +26,11 @@ parameters:
     compute_ovs_dpdk_socket_mem: "2048,2048"
     compute_ovs_dpdk_lcore_mask: "0x8"
     compute_ovs_memory_channels: "2"
+{%- if not conf.MCP_VCP %}
+  apache:
+    server:
+      # NOTE(armband): override these to ~ first, so we can later drop ssl/443
+      bind:
+        ports: ~
+      modules: ~
+{%- endif %}
