@@ -559,12 +559,14 @@ function do_templates() {
         -j "${PHAROS_INSTALLER_ADAPTER}" > "${image_dir}/pod_config.yml"; then
       notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
     fi
+    printenv | \
+      awk '/^(SALT|MCP|MAAS).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
     template_dirs="${scenario_dir}"
     template_err_str='Could not convert j2 scenario definitions!'
   else
-    # Expand reclass and virsh network templates based on PDF + IDF
+    # Expand reclass and virsh network templates based on PDF + IDF + env vars
     printenv | \
-      awk '/^(SALT|MCP|MAAS|CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
+      awk '/^(CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
     template_dirs="${RECLASS_CLUSTER_DIR} virsh_net ./*j2"
     template_err_str='Could not convert PDF to network definitions!'
   fi
