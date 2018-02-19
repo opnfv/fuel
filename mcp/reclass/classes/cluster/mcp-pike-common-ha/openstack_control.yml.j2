@@ -25,6 +25,7 @@ classes:
   - system.glusterfs.client.cluster
   - system.glusterfs.client.volume.glance
   - system.glusterfs.client.volume.keystone
+{%- if not conf.MCP_VCP %}
   # sync from kvm
   - service.keepalived.cluster.single
   - system.glusterfs.server.volume.glance
@@ -41,16 +42,21 @@ classes:
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
   - cluster.mcp-pike-common-ha.infra.kvm_pdf
-  - cluster.mcp-pike-common-ha.include.proxy
+  - cluster.mcp-pike-common-ha.include.maas_proxy
+  - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
+{%- endif %}
 parameters:
   _param:
+{%- if not conf.MCP_VCP %}
     linux_system_codename: xenial  # sync from kvm
     # For NOVCP, we switch keepalived VIPs, to keep cluster_vip_address in ctl
     single_nic: br-ctl  # for keepalive_vip_interface interpolation
-    keepalived_vip_interface: ${_param:single_nic}  # sync from kvm
-    keepalived_vip_virtual_router_id: 50
+    control_nic: ~      # Dummy value to keep reclass 1.5.2 happy
     keepalived_openstack_web_public_vip_address: ${_param:openstack_proxy_address}
     keepalived_openstack_web_public_vip_interface: br-ex
+{%- endif %}
+    keepalived_vip_interface: ${_param:single_nic}
+    keepalived_vip_virtual_router_id: 50
     cluster_vip_address: ${_param:openstack_control_address}
     cluster_local_address: ${_param:single_address}
     cluster_node01_hostname: ${_param:openstack_control_node01_hostname}
@@ -61,6 +67,31 @@ parameters:
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
     glusterfs_version: '3.13'
+{%- if conf.MCP_VCP %}
+  heat:
+    server:
+      metadata:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8000
+        protocol: http
+      waitcondition:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8000
+        protocol: http
+      watch:
+        host: ${_param:openstack_proxy_control_address}
+        port: 8003
+        protocol: http
+  nova:
+    controller:
+      pkgs:
+        - nova-api
+        - nova-conductor
+        - nova-consoleauth
+        - nova-novncproxy
+        - nova-scheduler
+        - python-novaclient
+{%- else %}
   libvirt:
     server:
       service: libvirtd
@@ -68,13 +99,38 @@ parameters:
       unix_sock_group: libvirt
   linux:
     network:
-      remove_iface_files:
-        - '/etc/network/interfaces.d/50-cloud-init.cfg'
       # Add public IPs here as overrides, no need to fork another kvm_pdf.j2
       interface:
         br-ex:
           address: ${_param:external_address}
           proto: static
+  apache:
+    server:
+      bind:
+        ~ports: ~
+      ~modules:
+        - rewrite
+        - wsgi
+  # sync from common-ha kvm role
+  glusterfs:
+    server:
+      service: glusterd
+      volumes:
+        nova_instances:
+          storage: /srv/glusterfs/nova_instances
+          replica: 3
+          bricks:
+            - ${_param:cluster_node01_address}:/srv/glusterfs/nova_instances
+            - ${_param:cluster_node02_address}:/srv/glusterfs/nova_instances
+            - ${_param:cluster_node03_address}:/srv/glusterfs/nova_instances
+          options:
+            cluster.readdir-optimize: 'True'
+            nfs.disable: 'True'
+            network.remote-dio: 'True'
+            cluster.favorite-child-policy: mtime
+            diagnostics.client-log-level: WARNING
+            diagnostics.brick-log-level: WARNING
+{%- endif %}
   neutron:
     server:
       vlan_aware_vms: true
@@ -123,22 +179,3 @@ parameters:
                 rndc_host: ${_param:openstack_control_node03_address}
                 rndc_port: 953
                 rndc_key_file: /etc/designate/rndc.key
-  # sync from common-ha kvm role
-  glusterfs:
-    server:
-      service: glusterd
-      volumes:
-        nova_instances:
-          storage: /srv/glusterfs/nova_instances
-          replica: 3
-          bricks:
-            - ${_param:cluster_node01_address}:/srv/glusterfs/nova_instances
-            - ${_param:cluster_node02_address}:/srv/glusterfs/nova_instances
-            - ${_param:cluster_node03_address}:/srv/glusterfs/nova_instances
-          options:
-            cluster.readdir-optimize: 'True'
-            nfs.disable: 'True'
-            network.remote-dio: 'True'
-            cluster.favorite-child-policy: mtime
-            diagnostics.client-log-level: WARNING
-            diagnostics.brick-log-level: WARNING

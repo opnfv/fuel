@@ -31,9 +31,16 @@ parameters:
     infra_maas_node01_deploy_address: ${_param:opnfv_infra_maas_node01_deploy_address}
 
     infra_kvm_address: ${_param:opnfv_infra_kvm_address}
+{%- if conf.MCP_VCP %}
     infra_kvm_node01_address: ${_param:opnfv_infra_kvm_node01_address}
     infra_kvm_node02_address: ${_param:opnfv_infra_kvm_node02_address}
     infra_kvm_node03_address: ${_param:opnfv_infra_kvm_node03_address}
+{%- else %}
+    # For NOVCP, we override kvm addresses to overlap with ctl
+    infra_kvm_node01_address: ${_param:openstack_control_node01_address}
+    infra_kvm_node02_address: ${_param:openstack_control_node02_address}
+    infra_kvm_node03_address: ${_param:openstack_control_node03_address}
+{%- endif %}
 
     infra_maas_node01_hostname: mas01
     infra_kvm_node01_hostname: kvm01
