@@ -6,5 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
 classes:
-  - cluster.mcp-pike-common-ha.openstack_database
+  - cluster.mcp-pike-odl-ha.infra
+{%- endif %}

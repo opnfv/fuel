@@ -6,14 +6,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
+# NOTE(armband): we don't want to pull in salt.control for novcp
 classes:
-  - system.neutron.control.openvswitch.cluster
-  - cluster.mcp-pike-common-ha.openstack_control_novcp
-  - cluster.mcp-pike-ovs-novcp-ha
-parameters:
-  apache:
-    server:
-      modules:
-        # NOTE(armband): We first override mods to ~, then to this to drop ssl
-        - rewrite
-        - wsgi
+  - cluster.mcp-pike-common-ha.infra.kvm
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}

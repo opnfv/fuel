@@ -1,1 +1,11 @@
 **/*_pdf.yml
+mcp-pike-common-ha/infra/init.yml
+mcp-pike-common-ha/openstack_control.yml
+mcp-pike-common-ha/openstack_init.yml
+mcp-pike-common-ha/openstack_interface_vcp_biport.yml
+mcp-pike-common-ha/openstack_interface_vcp_triport.yml
+mcp-pike-common-ha/openstack_proxy.yml
+mcp-pike-*-ha/infra/init_vcp.yml
+mcp-pike-*-ha/infra/kvm.yml
+mcp-pike-odl-ha/opendaylight/control.yml
+mcp-pike-odl-ha/openstack/init.yml
