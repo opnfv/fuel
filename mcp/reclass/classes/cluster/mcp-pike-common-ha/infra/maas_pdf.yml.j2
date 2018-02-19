@@ -9,6 +9,8 @@
 parameters:
   maas:
     region:
+      sshprefs:
+        - '{{ conf.MAAS_SSH_KEY }}'
       machines:
       {%- set pxe_interface = conf.idf.net_config.admin.interface %}
       {#- We only support exactly 5 nodes for now, hardcoded order #}
