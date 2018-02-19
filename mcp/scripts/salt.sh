@@ -69,6 +69,11 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd /srv/salt/reclass/classes/service && \
     ln -sf /usr/share/salt-formulas/reclass/service/opendaylight
 
+  # Armband APT-MK nightly/extra repo for forked & extended reclass
+  apt-key adv --keyserver keys.gnupg.net --recv 798AB1D1
+  echo 'deb http://linux.enea.com/apt-mk/xenial nightly extra' > \
+    '/etc/apt/sources.list.d/armband_mcp_extra.list'
+
   cd /srv/salt/scripts
   export DEBIAN_FRONTEND=noninteractive
   echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/90silence-dpkg
