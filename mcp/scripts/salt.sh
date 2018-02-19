@@ -84,7 +84,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   cd ${OPNFV_FUEL_DIR}/mcp/patches && ./patch.sh patches.list reclass
 
   source ${OPNFV_FUEL_DIR}/mcp/scripts/lib.sh
-  wait_for 3.0 "salt-call state.apply salt"
+  wait_for 3.0 "salt-call state.apply armband.reclass,salt"
 
   # In case scenario changed (and implicitly domain name), re-register minions
   if [ -n "\${OLD_DOMAIN}" ] && [ "\${OLD_DOMAIN}" != "${CLUSTER_DOMAIN}" ]; then
