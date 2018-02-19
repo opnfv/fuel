@@ -78,6 +78,11 @@ parameters:
     openstack_compute_node01_hostname: cmp001
     openstack_compute_node02_hostname: cmp002
 
+    # opendaylight options
+    opendaylight_control_hostname: ${_param:openstack_control_node02_hostname}
+    opendaylight_server_node01_hostname: ${_param:opendaylight_control_hostname}
+    opendaylight_server_node01_single_address: ${_param:opnfv_openstack_control_node02_address}
+
     openstack_region: RegionOne
     admin_email: root@localhost
     # Neutron osv/nodvr
