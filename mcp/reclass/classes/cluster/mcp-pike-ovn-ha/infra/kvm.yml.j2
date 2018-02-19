@@ -6,7 +6,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
+# NOTE(armband): we don't want to pull in salt.control for novcp
 classes:
-  - cluster.all-mcp-arch-common
-  - cluster.mcp-pike-ovs-novcp-ha.infra
-  - cluster.mcp-pike-ovs-novcp-ha.openstack
+  - cluster.mcp-pike-common-ha.infra.kvm
+  - cluster.mcp-pike-ovn-ha.infra
+{%- endif %}
