@@ -80,10 +80,12 @@ idf:
     reclass:
       node:
         - compute_params: &compute_params
-            dpdk:
+            common: &compute_params_common
               compute_hugepages_size: 2M
               compute_hugepages_count: 2048
               compute_hugepages_mount: /mnt/hugepages_2M
+            dpdk:
+              <<: *compute_params_common
               compute_dpdk_driver: uio
               compute_ovs_pmd_cpu_mask: "0x6"
               compute_ovs_dpdk_socket_mem: "1024"

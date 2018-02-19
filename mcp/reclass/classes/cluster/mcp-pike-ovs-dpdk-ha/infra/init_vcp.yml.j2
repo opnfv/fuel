@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
 classes:
-  - cluster.all-mcp-arch-common
-  - cluster.mcp-pike-ovs-novcp-ha.infra
-  - cluster.mcp-pike-ovs-novcp-ha.openstack
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
+{%- endif %}
