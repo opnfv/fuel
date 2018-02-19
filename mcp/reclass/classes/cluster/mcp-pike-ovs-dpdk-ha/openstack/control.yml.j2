@@ -7,12 +7,14 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-ovs-ha.infra.config
+  - system.neutron.control.openvswitch.cluster
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+{%- endif %}
+  - cluster.mcp-pike-common-ha.openstack_control
+  - cluster.mcp-pike-ovs-dpdk-ha.infra
 parameters:
-  _param:
-    linux_system_codename: xenial
-    reclass_data_revision: master
-  linux:
-    system:
-      name: cfg01
-      domain: mcp-pike-ovs-ha.local
+  neutron:
+    server:
+      backend:
+        tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
