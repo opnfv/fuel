@@ -14,11 +14,14 @@
 {%- endfor %}
 ---
 cluster:
-  domain: mcp-pike-ovs-novcp-ha.local
+  domain: mcp-pike-ovs-ha.local
   states:
 {%- if cluster.has_baremetal_nodes %}
     - maas
     - baremetal_init
+{%- endif %}
+{%- if conf.MCP_VCP %}
+    - virtual_control_plane
 {%- endif %}
     - openstack_ha
     - networks

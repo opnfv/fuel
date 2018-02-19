@@ -9,3 +9,18 @@
 classes:
   - cluster.mcp-pike-common-ha.infra.config
   - cluster.mcp-pike-ovs-ha.infra
+{%- if not conf.MCP_VCP %}
+parameters:
+  reclass:
+    storage:
+      node:
+        openstack_control_node01:  # openstack_proxy_node01
+          params:
+            external_address: ${_param:openstack_proxy_node01_address}
+        openstack_control_node02:  # no proxy role
+          params:
+            external_address: 0.0.0.0
+        openstack_control_node03:  # openstack_proxy_node02
+          params:
+            external_address: ${_param:openstack_proxy_node02_address}
+{%- endif %}

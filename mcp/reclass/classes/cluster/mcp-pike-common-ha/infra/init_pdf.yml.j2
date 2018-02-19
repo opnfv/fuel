@@ -6,5 +6,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-classes:
-  - cluster.mcp-pike-common-ha.openstack_telemetry
+{%- if not conf.MCP_VCP %}
+parameters:
+  _param:
+    # For NOVCP, we override kvm addresses to overlap with ctl
+    infra_kvm_node01_address: ${_param:openstack_control_node01_address}
+    infra_kvm_node02_address: ${_param:openstack_control_node02_address}
+    infra_kvm_node03_address: ${_param:openstack_control_node03_address}
+{%- endif %}

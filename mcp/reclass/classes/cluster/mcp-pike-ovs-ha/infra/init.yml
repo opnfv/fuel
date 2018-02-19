@@ -9,6 +9,7 @@
 classes:
   - cluster.mcp-pike-common-ha.infra
   - cluster.mcp-pike-ovs-ha.openstack
+  - cluster.mcp-pike-common-ha.infra.init_pdf
 parameters:
   _param:
     cluster_name: mcp-pike-ovs-ha
