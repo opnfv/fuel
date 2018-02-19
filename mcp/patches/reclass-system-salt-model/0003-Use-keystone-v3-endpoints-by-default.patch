@@ -1,5 +1,5 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-: Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 :
 : All rights reserved. This program and the accompanying materials
 : are made available under the terms of the Apache License, Version 2.0
@@ -20,7 +20,7 @@ Change-Id: I7e9a1b180f4e0ddb24ec72ed9f08c9e2580c7897
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/single.yml b/keystone/client/single.yml
-index ebf5b5f..8007710 100644
+index a79ed7e..86b4e09 100644
 --- a/keystone/client/single.yml
 +++ b/keystone/client/single.yml
 @@ -4,7 +4,7 @@ classes:
@@ -31,4 +31,4 @@ index ebf5b5f..8007710 100644
 +- system.keystone.client.service.keystone3
  - system.keystone.client.service.neutron
  parameters:
-   linux:
+   _param:
