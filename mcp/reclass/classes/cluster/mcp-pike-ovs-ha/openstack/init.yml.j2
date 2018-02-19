@@ -7,12 +7,16 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-ovs-ha.infra.config
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_init
+{%- else %}
+  - cluster.mcp-pike-common-ha.openstack_init_novcp
+{%- endif %}
 parameters:
   _param:
-    linux_system_codename: xenial
-    reclass_data_revision: master
-  linux:
-    system:
-      name: cfg01
-      domain: mcp-pike-ovs-ha.local
+    neutron_tenant_network_types: "flat,vxlan"
+    nova_cpu_pinning: "1,2,3,4,5,7,8,9,10,11"
+    compute_hugepages_size: 1G
+    compute_hugepages_count: 16
+    compute_hugepages_mount: /mnt/hugepages_1G
+    compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
