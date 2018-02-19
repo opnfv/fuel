@@ -7,12 +7,11 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-ovs-ha.infra.config
-parameters:
-  _param:
-    linux_system_codename: xenial
-    reclass_data_revision: master
-  linux:
-    system:
-      name: cfg01
-      domain: mcp-pike-ovs-ha.local
+  - system.neutron.control.openvswitch.cluster
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+  - cluster.mcp-pike-common-ha.openstack_control
+{%- else %}
+  - cluster.mcp-pike-common-ha.openstack_control_novcp
+{%- endif %}
+  - cluster.mcp-pike-ovs-ha.infra
