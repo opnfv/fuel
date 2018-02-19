@@ -22,7 +22,8 @@ classes:
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
   - cluster.mcp-pike-common-ha.infra.kvm_pdf
-  - cluster.mcp-pike-common-ha.include.proxy
+  - cluster.mcp-pike-common-ha.include.maas_proxy
+  - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
     linux_system_codename: xenial

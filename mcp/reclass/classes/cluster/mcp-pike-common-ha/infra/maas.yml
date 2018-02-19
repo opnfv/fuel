@@ -9,7 +9,7 @@
 classes:
   - system.maas.region.single
   - service.maas.cluster.single
-  - cluster.mcp-pike-common-ha.infra.lab_proxy_pdf
+  - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
   - cluster.mcp-pike-common-ha.infra.maas_pdf
 parameters:
   _param:
