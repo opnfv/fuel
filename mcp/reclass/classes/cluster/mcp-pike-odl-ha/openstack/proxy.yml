@@ -9,7 +9,7 @@
 classes:
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_triport
   - cluster.mcp-pike-common-ha.openstack_proxy
-  - cluster.mcp-pike-odl-ha.infra
+  - cluster.mcp-pike-odl-ha.infra.init_vcp
 parameters:
   nginx:
     server:

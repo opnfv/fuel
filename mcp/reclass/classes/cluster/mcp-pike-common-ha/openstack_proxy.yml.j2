@@ -7,10 +7,37 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-pike-common-ha.openstack_proxy
+  - system.nginx.server.single
+  - system.nginx.server.proxy.openstack_api
+  - system.nginx.server.proxy.openstack_vnc
+  - system.nginx.server.proxy.openstack_web
+  - system.nginx.server.proxy.openstack.aodh
+  - system.nginx.server.proxy.openstack.ceilometer
+  - system.horizon.server.single
+  - system.salt.minion.cert.proxy
+  - system.sphinx.server.doc.reclass
+  - service.keepalived.cluster.single
   - system.keepalived.cluster.instance.openstack_web_public_vip
 parameters:
+  _param:
+    cluster_vip_address: ${_param:openstack_proxy_address}
+    keepalived_openstack_web_public_vip_address: ${_param:cluster_vip_address}
+    keepalived_openstack_web_public_vip_interface: ${_param:single_nic}
+    keepalived_vip_address: ${_param:openstack_proxy_control_address}
+    keepalived_vip_interface: ${_param:control_nic}
+    keepalived_vip_virtual_router_id: 240
+    nginx_proxy_ssl:
+      enabled: true
+      authority: ${_param:salt_minion_ca_authority}
+      engine: salt
+      mode: secure
+    salt_minion_ca_host: cfg01.${_param:cluster_domain}
   linux:
+    system:
+      package:
+        libapache2-mod-wsgi:
+          version: latest
+{%- if not conf.MCP_VCP %}
     # Set up routes similar to prx*ovs-ha
     network:
       interface:
@@ -57,3 +84,15 @@ parameters:
           <<: *nginx_openstack_proxy_address
         nginx_static_reclass_doc:
           <<: *nginx_openstack_proxy_address
+{%- endif %}
+  salt:
+    minion:
+      cert:
+        proxy:
+          alternative_names: "IP:${_param:openstack_proxy_address}"
+          key_usage: 'digitalSignature, keyEncipherment'
+  keepalived:
+    cluster:
+      vrrp_scripts:
+        check_pidof:
+          args: 'nginx'
