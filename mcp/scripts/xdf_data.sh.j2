@@ -38,7 +38,7 @@
 {%- macro serialize_apt_pkg() -%}
   {%- set arr = [] -%}
   {%- set sections = [arch.common] -%}
-  {%- if 'virtual_control_plane' in conf.cluster.states -%}
+  {%- if conf.MCP_VCP -%}
     {%- do sections.append(arch.control) -%}
   {%- endif -%}
   {%- for c in sections -%}

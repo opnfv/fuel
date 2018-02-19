@@ -1,7 +1,7 @@
 #!/bin/bash -e
 # shellcheck disable=SC2034,SC2154,SC1090,SC1091,SC2155
 ##############################################################################
-# Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
 # jonas.bjurel@ericsson.com
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
@@ -38,7 +38,7 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f[f]] [-F] [-e | -E[E]] [-d] [-D]
+    [-f[f]] [-F] [-e | -E[E]] [-d] [-D] [-N]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -55,6 +55,7 @@ $(notify "OPTIONS:" 2)
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images
   -L  Deployment log path and file name
+  -N  Experimental: Do not virtualize control plane (novcp)
 
 $(notify_i "Description:" 2)
 Deploys the Fuel@OPNFV stack on the indicated lab resource.
@@ -90,6 +91,8 @@ $(notify_i "Input parameters to the build script are:" 2)
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
 -p POD name as defined in the configuration directory, e.g. pod2
+-N Experimental: Instead of virtualizing the control plane (VCP), deploy
+   control plane directly on baremetal nodes
 -P Skip installing dependency distro packages on current host
    This flag should only be used if you have kept back older packages that
    would be upgraded and that is undesirable on the current system.
@@ -130,6 +133,7 @@ USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
+MCP_VCP=${MCP_VCP:-1}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
@@ -143,7 +147,7 @@ source "${DEPLOY_DIR}/lib_template.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:p:Ps:S:he" OPTION
+while getopts "b:dDfEFl:L:Np:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -177,6 +181,9 @@ do
             ;;
         L)
             DEPLOY_LOG="${OPTARG}"
+            ;;
+        N)
+            MCP_VCP=0
             ;;
         p)
             TARGET_POD=${OPTARG}
@@ -260,7 +267,7 @@ generate_ssh_key
 export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 
 # Expand jinja2 templates based on PDF data and env vars
-export MCP_JUMP_ARCH=$(uname -i)
+export MCP_VCP MCP_JUMP_ARCH=$(uname -i)
 do_templates_scenario "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
 do_templates_cluster  "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
