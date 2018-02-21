@@ -1,0 +1,144 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Cristina Pauna <cristina.pauna@enea.com>
+Date: Tue, 20 Feb 2018 18:29:42 +0200
+Subject: [PATCH] IDF: Add DPDK parameters support
+
+In order to enable DPDK for OVS scenarios in Armband, we need DPDK
+specific configuration to be parameterizable.
+The default DPDK configuration values will remain in Fuel repo and
+will be overriden with the values defined in IDF (only if present).
+Since hugepage config and CPU pinning also apply to non-DPDK
+scenarios, handle them together for 'common', respectively 'dpdk'.
+
+To keep things simple, we will reuse the format expected by Fuel's
+reclass model, so we can pass the whole config block as-is.
+
+- IDF schema: fuel: Add strict checking of new block's structure,
+  while allowing the rvalues to be more or less freestyle;
+- arm-pod6 IDF: Add initial config block implementation;
+
+JIRA: ARMBAND-342
+
+Change-Id: I9224f06bb6b9fb2387414eb2a1be35461c27fb99
+Signed-off-by: Cristina Pauna <cristina.pauna@enea.com>
+---
+ config/pdf/idf-pod1.schema.yaml | 55 +++++++++++++++++++++++++++++++++++++++++
+ labs/arm/idf-pod6.yaml          | 28 ++++++++++++++++++++-
+ 2 files changed, 82 insertions(+), 1 deletion(-)
+
+diff --git a/config/pdf/idf-pod1.schema.yaml b/config/pdf/idf-pod1.schema.yaml
+index b23a82e..857749c 100644
+--- a/config/pdf/idf-pod1.schema.yaml
++++ b/config/pdf/idf-pod1.schema.yaml
+@@ -73,6 +73,61 @@ definitions:
+                 additionalProperties: false
+           required: ['node']
+           additionalProperties: false
++        reclass:  # Optional
++          type: 'object'
++          properties:
++            node:
++              type: 'array'
++              items:
++                type: 'object'
++                properties:
++                  compute_params:
++                    type: 'object'
++                    properties:
++                      common:  # Optional
++                        type: 'object'
++                        properties: &compute_params_common_properties
++                          nova_cpu_pinning:  # Optional
++                            type: 'string'
++                          compute_hugepages_size:
++                            type: 'string'
++                            enum: ['2M', '1G']
++                          compute_hugepages_count:
++                            type: 'number'
++                          compute_hugepages_mount:
++                            type: 'string'
++                          compute_kernel_isolcpu:  # Optional
++                            type: 'string'
++                          compute_ovs_pmd_cpu_mask:  # Optional
++                            type: ['string', 'number']
++                          compute_ovs_memory_channels:  # Optional
++                            type: ['string', 'number']
++                        required: ['compute_hugepages_size', 'compute_hugepages_count',
++                                   'compute_hugepages_mount']
++                        additionalProperties: false
++                      dpdk:  # Optional
++                        type: 'object'
++                        properties:
++                          <<: *compute_params_common_properties
++                          compute_dpdk_driver:
++                            type: 'string'
++                          compute_ovs_dpdk_socket_mem:
++                            type: ['string', 'number']
++                          compute_ovs_dpdk_lcore_mask:
++                            type: ['string', 'number']
++                          dpdk0_driver:
++                            type: 'string'
++                          dpdk0_n_rxq:
++                            type: 'number'
++                        required: ['compute_dpdk_driver', 'dpdk0_driver', 'dpdk0_n_rxq',
++                                   'compute_ovs_dpdk_socket_mem',
++                                   'compute_ovs_dpdk_lcore_mask']
++                        additionalProperties: false
++                    additionalProperties: false
++                required: ['compute_params']
++                additionalProperties: false
++          required: ['node']
++          additionalProperties: false
+       required: ['jumphost', 'network']
+       additionalProperties: false
+   osa:
+diff --git a/labs/arm/idf-pod6.yaml b/labs/arm/idf-pod6.yaml
+index 80e49d1..223b95f 100644
+--- a/labs/arm/idf-pod6.yaml
++++ b/labs/arm/idf-pod6.yaml
+@@ -30,7 +30,7 @@ idf:
+       network: 10.2.0.0
+       mask: 24
+     private:
+-      interface: 1
++      interface: 2
+       vlan: 2325
+       network: 10.1.0.0
+       mask: 24
+@@ -81,3 +81,29 @@ idf:
+           busaddr: *busaddr
+         - interfaces: *interfaces
+           busaddr: *busaddr
++    reclass:
++      node:
++        - compute_params: &compute_params
++            common:
++              nova_cpu_pinning: "1,2,3,4,5,7,8,9,10,11"
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
++              compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
++            dpdk:
++              nova_cpu_pinning: "5-7,13-15"
++              compute_hugepages_size: 2M
++              compute_hugepages_count: 8192
++              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_kernel_isolcpu: 2,3,5,6,7,10,11,13,14,15
++              compute_dpdk_driver: vfio
++              compute_ovs_pmd_cpu_mask: "0xc04"
++              compute_ovs_dpdk_socket_mem: "2048"
++              compute_ovs_dpdk_lcore_mask: "0x8"
++              compute_ovs_memory_channels: "2"
++              dpdk0_driver: vfio-pci
++              dpdk0_n_rxq: 2
++        - compute_params: *compute_params
++        - compute_params: *compute_params
++        - compute_params: *compute_params
++        - compute_params: *compute_params
