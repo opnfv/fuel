@@ -10,6 +10,7 @@ classes:
   - system.reclass.storage.system.openstack_gateway_single
   - cluster.mcp-pike-common-noha.infra.config
   - cluster.mcp-pike-ovs-noha
+  - cluster.all-mcp-arch-common.infra.config_pdf
 parameters:
   reclass:
     storage:
