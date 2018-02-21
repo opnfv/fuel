@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_0b5fbc0f",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-21T01:52:30Z",
+      "side": 1,
+      "message": "not the cleanest layout, but it seems to work ... I created a 40G volume + a 321GB one just to be sure, didn\u0027t check they actually work inside the VM, as I assume LVM just works:\nhttp://paste.openstack.org/show/679677/",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "f6f8a56b40c5268d94cdb8e9aef6ea937f68a18e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
