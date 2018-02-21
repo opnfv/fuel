@@ -16,28 +16,20 @@ parameters:
           params:
 {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
 {%- if conf.idf.fuel.reclass is defined %}
-{%- if conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.dpdk is defined %}
-{#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}
-{%- set _dpdk = conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.dpdk %}
-{%- for _i in _dpdk %}
-            {{ _i }}: '"{{ _dpdk[_i] }}"'
+{%- if conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.common is defined %}
+{%- set _common = conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.common %}
+{%- for _i in _common %}
+            {{ _i }}: '"{{ _common[_i] }}"'
 {%- endfor %}
+{%- else %}
+            dummy_value: ~
 {%- endif %}
 {%- else %}
-            nova_cpu_pinning: '"5-7,13-15"'
-            compute_hugepages_size: 2M
-            compute_hugepages_count: 8192
-            compute_hugepages_mount: /mnt/hugepages_2M
-            compute_kernel_isolcpu: 2,3,5,6,7,10,11,13,14,15
-            compute_dpdk_driver: uio
-            compute_ovs_pmd_cpu_mask: '"0xc04"'
-            compute_ovs_dpdk_socket_mem: '"2048,2048"'
-            compute_ovs_dpdk_lcore_mask: '"0x8"'
-            compute_ovs_memory_channels: '"2"'
-            dpdk0_driver: igb_uio
-            dpdk0_n_rxq: 2
+            nova_cpu_pinning: '"1,2,3,4,5,7,8,9,10,11"'
+            compute_hugepages_size: 1G
+            compute_hugepages_count: 16
+            compute_hugepages_mount: /mnt/hugepages_1G
+            compute_kernel_isolcpu: ${_param:nova_cpu_pinning}
 {%- endif %}
-            dpdk0_name: {{ nm.cmp001.nic_private }}
-            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
         openstack_compute_node02:
           <<: *openstack_compute_node01
