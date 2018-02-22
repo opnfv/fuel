@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_f43b5036",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-22T18:38:42Z",
+      "side": 1,
+      "message": "We have this construct in a few places, how about we create a j2 filter for it?\n@Guillermo - what do you think?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 121
+      },
+      "revId": "38a54227b3886c9f6cb4f363733c4ea9723a15c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
