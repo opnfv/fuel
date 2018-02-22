@@ -71,23 +71,17 @@ parameters:
           enabled: true
           type: ovs_bridge
           mtu: ${_param:interface_mtu}
-        br-ex:
-          enabled: true
-          type: ovs_port
-          bridge: br-floating
           proto: static
-          {%- if nm.vlan_public and nm.vlan_public != 'native' %}
-          ovs_options: tag={{ nm.vlan_public }}
-          {%- endif %}
           address: ${_param:external_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
           route:
             public:
               address: 0.0.0.0
               netmask: 0.0.0.0
               gateway: ${_param:opnfv_net_public_gw}
-        {{ nm.cmp001.nic_public }}:
+        ovs_port_{{ nm.cmp001.nic_public }}:
           enabled: true
+          name: {{ nm.cmp001.nic_public }}{% if nm.vlan_public and nm.vlan_public != 'native' %}.{{ nm.vlan_public }}{% endif %}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
