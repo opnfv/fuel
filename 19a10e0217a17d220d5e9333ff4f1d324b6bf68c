@@ -16,6 +16,24 @@
       "revId": "19a10e0217a17d220d5e9333ff4f1d324b6bf68c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d4357447",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-22T18:36:52Z",
+      "side": 1,
+      "message": "Nodes created here are VMs running on the jumpserver, currently used in \"virtual\" noha deploys. In the future, we should be able to mix virtual computes with baremetal controllers and vice versa.\nUntil that lands, we only use this code path for virtual deploys, where cmps are VMs and have vda, and now vdb for cinder.",
+      "parentUuid": "5a3f45e8_31694a8c",
+      "revId": "19a10e0217a17d220d5e9333ff4f1d324b6bf68c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
