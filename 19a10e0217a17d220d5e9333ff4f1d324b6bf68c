@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_31694a8c",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-22T08:45:12Z",
+      "side": 1,
+      "message": "quick question:\nI think that compute nodes are baremetal. \nHow can the partition on them be on a qemu-disk ?\n\n(for cinder on cmp nodes)",
+      "revId": "19a10e0217a17d220d5e9333ff4f1d324b6bf68c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
