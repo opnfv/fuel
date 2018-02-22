@@ -14,7 +14,8 @@
 parameters:
   _param:
     # Should later be determined via PDF/IDF, AArch64 has ESP on /dev/sda1
-{%- if conf.nodes[nm.cmp001.idx].node.arch == 'aarch64' %}
+{%- if conf.nodes[nm.cmp001.idx].node.arch == 'aarch64' or
+       conf.nodes[nm.cmp001.idx].disks.0.disk_capacity | storage_size_num | float > 2000000000000 %}
     ~cinder_lvm_devices: [ '/dev/sda2' ]
 {%- else %}
     ~cinder_lvm_devices: [ '/dev/sda1' ]
