@@ -293,6 +293,10 @@ function prepare_vms {
        -u "${user_data}" -h "${node}" "${image_dir}/mcp_${node}.iso"
     cp "${image_dir}/${image}" "${image_dir}/mcp_${node}.qcow2"
     qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
+    # Prepare dedicated drive for cinder on cmp nodes
+    if [[ "${node}" =~ ^(cmp) ]]; then
+      qemu-img create "${image_dir}/mcp_${node}_storage.qcow2" 100G
+    fi
   done
 
   # VCP VMs base image specific changes
@@ -399,11 +403,18 @@ function create_vms {
       net_args="${net_args} --network bridge=${net},model=virtio"
     done
 
+    # dedicated storage drive for cinder on cmp nodes
+    virt_extra_storage=
+    if [[ "${vnode_data[0]}" =~ ^(cmp) ]]; then
+      virt_extra_storage="--disk path=${image_dir}/mcp_${vnode_data[0]}_storage.qcow2,format=qcow2,bus=virtio,cache=none,io=native"
+    fi
+
     # shellcheck disable=SC2086
     virt-install --name "${vnode_data[0]}" \
     --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
     --cpu host-passthrough --accelerate ${net_args} \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
+    ${virt_extra_storage} \
     --os-type linux --os-variant none \
     --boot hd --vnc --console pty --autostart --noreboot \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.iso",device=cdrom \

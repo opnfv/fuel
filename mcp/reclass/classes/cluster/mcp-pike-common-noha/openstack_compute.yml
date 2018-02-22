@@ -11,7 +11,6 @@ classes:
   - service.nfs.client
   - system.nova.compute.single
   - service.cinder.volume.single
-  - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
   - system.ceilometer.client.nova_compute
   - system.ceilometer.client.cinder_volume
@@ -20,7 +19,7 @@ parameters:
   _param:
     interface_mtu: 9000
     linux_system_codename: xenial
-    loopback_device_size: 20
+    cinder_lvm_devices: ['/dev/vdb']
   nova:
     compute:
       libvirt_service: libvirtd
