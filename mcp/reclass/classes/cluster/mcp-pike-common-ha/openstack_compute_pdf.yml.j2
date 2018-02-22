@@ -8,7 +8,7 @@
 {#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
 {%- import 'net_map.j2' as nm with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
-{%- set nics = { nm.cmp001.nic_admin: True, nm.cmp001.nic_mgmt: True } %}
+{%- set nics = { nm.cmp001.nic_admin: True, nm.cmp001.nic_mgmt: True, nm.cmp001.nic_public: True } %}
 {%- set vlans = { nm.vlan_admin: nm.cmp001.nic_admin, nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
 ---
 parameters:
@@ -76,9 +76,6 @@ parameters:
           type: ovs_port
           bridge: br-floating
           proto: static
-          {%- if nm.vlan_public and nm.vlan_public != 'native' %}
-          ovs_options: tag={{ nm.vlan_public }}
-          {%- endif %}
           address: ${_param:external_address}
           netmask: 255.255.255.0
           route:
@@ -86,7 +83,7 @@ parameters:
               address: 0.0.0.0
               netmask: 0.0.0.0
               gateway: ${_param:opnfv_net_public_gw}
-        {{ nm.cmp001.nic_public }}:
+        {{ nm.cmp001.nic_public }}{% if nm.vlan_public and nm.vlan_public != 'native' %}.{{ nm.vlan_public }}{% endif %}:
           enabled: true
           proto: manual
           ovs_port_type: OVSPort
