@@ -1,6 +1,6 @@
 #!/bin/bash -e
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -27,6 +27,9 @@ salt -C 'kvm*' state.apply linux.network,linux.system.kernel
 salt -C 'kvm* or cmp*' state.apply salt.minion
 salt -C 'cmp*' state.apply linux.system
 salt -C 'cmp*' state.apply linux.network || true
+
+# wrap distro `route` binary to silence errors when route already exists
+salt -C 'cmp*' state.apply opnfv.route_wrapper
 
 # disable dhcp offered routes on compute nodes
 salt -C 'cmp*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
