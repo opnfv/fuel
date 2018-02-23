@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_ff7689d7",
+        "filename": "mcp/patches/0010-maas-region-allow-timeout-override.patch",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-02-23T08:37:28Z",
+      "side": 1,
+      "message": "Does it work without all the escaped characters?",
+      "revId": "ed8fc8fe0b2ce8058b8c14e84c4119d93acc6f76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
