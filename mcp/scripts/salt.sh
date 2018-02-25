@@ -73,6 +73,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   apt-key adv --keyserver keys.gnupg.net --recv 798AB1D1
   echo 'deb http://linux.enea.com/apt-mk/xenial nightly extra' > \
     '/etc/apt/sources.list.d/armband_mcp_extra.list'
+  apt-get update
 
   cd /srv/salt/scripts
   export DEBIAN_FRONTEND=noninteractive
