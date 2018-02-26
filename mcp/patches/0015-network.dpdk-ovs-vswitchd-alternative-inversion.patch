@@ -1,0 +1,87 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 27 Feb 2018 00:56:25 +0100
+Subject: [PATCH 1/2] system.hugepages: sysctl vm.nr_hugepages
+
+Allow hugepages to be used right away. This is a best effort attempt,
+as memory might be too fragmented to free enough contiguous regions
+for all hugepages, so early allocation during boot remains the norm.
+
+This allows using ovs-switchd-dpdk without rebooting the node first.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/system/hugepages.sls | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/linux/system/hugepages.sls b/linux/system/hugepages.sls
+index 81eb7d6..1c43262 100644
+--- a/linux/system/hugepages.sls
++++ b/linux/system/hugepages.sls
+@@ -29,6 +29,13 @@ hugepages_mount_{{ hugepages_type }}:
+     - mkmnt: true
+     - opts: mode=775,pagesize={{ hugepages.size }}
+
++# Make hugepages available right away with a temporary systctl write
++# This will be handled via krn args after reboot, so don't use `sysctl.present`
++hugepages_sysctl_vm_nr_hugepages:
++  cmd.run:
++    - name: "sysctl vm.nr_hugepages={{ hugepages.count }}"
++    - unless: "sysctl vm.nr_hugepages | grep -qE '{{ hugepages.count }}'"
++
+ {%- endif %}
+
+ {%- endfor %}
+--
+
+
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 26 Feb 2018 06:11:06 +0100
+Subject: [PATCH 2/2] network.dpdk: ovs-vswitchd alternative inversion
+
+By default, the alternative installed by `openvswitch-switch`
+packages shadows (higher prio) `openvswitch-switch-dpdk` version,
+e.g. for UCA Pike packages:
+
+$ update-alternatives --query ovs-vswitchd
+Alternative: /usr/lib/openvswitch-switch-dpdk/ovs-vswitchd-dpdk
+Priority: 50
+Alternative: /usr/lib/openvswitch-switch/ovs-vswitchd
+Priority: 100
+
+To avoid confusion, when DPDK is enabled and ovs-vswitchd-dpdk
+should be used, remove the alternative for classic ovs-vswitchd
+(which can easily be re-eneabled later if needed).
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/network/dpdk.sls | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 97a81b5..573ce8c 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -73,6 +73,15 @@ linux_network_dpdk_ovs_option_{{ option }}:
+
+ {%- endfor %}
+
++openvswitch_dpdk_ovs_alternative:
++  alternatives.remove:
++  - name: ovs-vswitchd
++  - path: /usr/lib/openvswitch-switch/ovs-vswitchd
++  - require:
++    - pkg: openvswitch_dpdk_pkgs
++  - watch_in:
++    - service: service_openvswitch
++
+ service_openvswitch:
+   service.running:
+   - name: openvswitch-switch
