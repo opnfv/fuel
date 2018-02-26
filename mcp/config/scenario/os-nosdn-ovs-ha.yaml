@@ -12,7 +12,6 @@ cluster:
     - maas
     - baremetal_init
     - virtual_control_plane
-    - dpdk
     - openstack_ha
     - networks
 virtual:

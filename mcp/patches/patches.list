@@ -19,3 +19,4 @@
 /usr/share/salt-formulas/env: 0011-routes-Skip-network-restart-on-noifupdown.patch
 /usr/share/salt-formulas/env: 0012-linux.storage.lvm-Disable-filter.patch
 /usr/share/salt-formulas/env: 0013-dpdk-Support-ovs-bridge-tagging.patch
+/usr/share/salt-formulas/env: 0015-network.dpdk-ovs-vswitchd-alternative-inversion.patch
