@@ -27,3 +27,5 @@ parameters:
           {%- if nm.vlan_private and nm.vlan_private != 'native' %}
           tag: {{ nm.vlan_private }}
           {%- endif %}
+        {{ nm.cmp001.nic_private }}:
+          type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
