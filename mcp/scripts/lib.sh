@@ -540,6 +540,9 @@ function do_templates() {
   PHAROS_GEN_CFG="./pharos/config/utils/generate_config.py"
   PHAROS_INSTALLER_ADAPTER="./pharos/config/installers/fuel/pod_config.yml.j2"
   PHAROS_INSTALLER_NETMAP="$(dirname "${PHAROS_INSTALLER_ADAPTER}")/net_map.j2"
+  PHAROS_VALIDATE_SCHEMA_SCRIPT="./pharos/config/utils/validate_schema.py"
+  PHAROS_SCHEMA_PDF="./pharos/config/pdf/pod1.schema.yaml"
+  PHAROS_SCHEMA_IDF="./pharos/config/pdf/idf-pod1.schema.yaml"
   BASE_CONFIG_PDF="${lab_config_uri}/labs/${target_lab}/${target_pod}.yaml"
   BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
   LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
@@ -555,6 +558,18 @@ function do_templates() {
       notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"
     elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
       notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
+
+    # Check first if configuration files are valid
+    elif [ "$target_pod" != "virtual1" ]; then
+      if ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_PDF}" \
+        -s "${PHAROS_SCHEMA_PDF}"; then
+        notify "[ERROR] PDF does not match yaml schema!\n" 1>&2
+        exit 1
+      elif ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_IDF}" \
+        -s "${PHAROS_SCHEMA_IDF}"; then
+        notify "[ERROR] IDF does not match yaml schema!\n" 1>&2
+        exit 1
+      fi
     elif ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
         -j "${PHAROS_INSTALLER_ADAPTER}" > "${image_dir}/pod_config.yml"; then
       notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
