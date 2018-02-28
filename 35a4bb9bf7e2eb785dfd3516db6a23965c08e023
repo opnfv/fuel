@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_a7622ad6",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-02-28T17:06:37Z",
+      "side": 1,
+      "message": "use notify_e here and you don\u0027t have to call exit explicitly",
+      "range": {
+        "startLine": 566,
+        "startChar": 8,
+        "endLine": 566,
+        "endChar": 14
+      },
+      "revId": "35a4bb9bf7e2eb785dfd3516db6a23965c08e023",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
