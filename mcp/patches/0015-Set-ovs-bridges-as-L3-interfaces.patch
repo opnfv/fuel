@@ -1,0 +1,85 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Wed, 28 Feb 2018 17:54:28 +0400
+Subject: [PATCH] Set ovs bridges as L3 interfaces
+
+Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
+
+diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
+new file mode 100644
+index 0000000..8c0f468
+--- /dev/null
++++ b/linux/files/ovs_bridge
+@@ -0,0 +1,14 @@
++auto {{ bridge_name }}
++allow-ovs {{ bridge_name }}
++iface {{ bridge_name }} inet {{ bridge.get('proto', 'manual') }}
++  ovs_type OVSBridge
++  {%- if bridge.get('proto', 'manual') == 'static' %}
++  address {{ bridge.address }}
++  netmask {{ bridge.netmask }}
++  {%- endif %}
++  {%- if bridge.gateway is defined %}
++  gateway {{ bridge.gateway }}
++  {%- endif %}
++  {%- if bridge.ovs_options is defined %}
++  ovs_options {{ bridge.ovs_options }}
++  {%- endif %}
+diff --git a/linux/files/ovs_port b/linux/files/ovs_port
+index 222ca8e..efb0307 100644
+--- a/linux/files/ovs_port
++++ b/linux/files/ovs_port
+@@ -1,6 +1,9 @@
+ auto {{ port_name }}
+ allow-{{ port.bridge }} {{ port_name }}
+ iface {{ port_name }} inet {{ port.get('proto', 'manual') }}
++{%- if '.' in port_name %}
++vlan-raw-device {{ port_name.split('.')[0] }}
++{%- endif %}
+ ovs_type {{ port.get('ovs_port_type', 'OVSIntPort') }}
+ mtu {{ port.get('mtu', '1500') }}
+ ovs_bridge {{ port.bridge }}
+diff --git a/linux/network/interface.sls b/linux/network/interface.sls
+index 7375b04..bbf2fa0 100644
+--- a/linux/network/interface.sls
++++ b/linux/network/interface.sls
+@@ -67,6 +67,32 @@ remove_cloud_init_file:
+ ovs_bridge_{{ interface_name }}:
+   openvswitch_bridge.present:
+   - name: {{ interface_name }}
++  file.managed:
++  - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
++  - makedirs: True
++  - source: salt://linux/files/ovs_bridge
++  - defaults:
++      bridge: {{ interface|yaml }}
++      bridge_name: {{ interface_name }}
++  - template: jinja
++
++linux_interfaces_include_{{ interface_name }}:
++  file.prepend:
++  - name: /etc/network/interfaces
++  - text: |
++      source /etc/network/interfaces.d/*
++      # Workaround for Upstream-Bug: https://github.com/saltstack/salt/issues/40262
++      source /etc/network/interfaces.u/*
++
++ovs_bridge_up_{{ interface_name }}:
++  cmd.run:
++  - name: ifup {{ interface_name }}
++  - require:
++    - file: ovs_bridge_{{ interface_name }}
++    - openvswitch_bridge: ovs_bridge_{{ interface_name }}
++    - file: linux_interfaces_final_include
++  - unless:
++    - ip link show {{ interface_name }} | grep -q '\<UP\>'
+
+ {# add linux network interface into OVS bridge #}
+ {%- for int_name, int in network.interface.items() %}
