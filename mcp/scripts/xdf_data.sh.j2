@@ -1,4 +1,5 @@
 #!/bin/bash -e
+# shellcheck disable=SC2034
 ##############################################################################
 # Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -10,6 +11,34 @@
 # Data derived from XDF (PDF/IDF/SDF/etc), used as input in deploy.sh
 #
 
+{%- set arch = conf[conf.MCP_JUMP_ARCH] -%}
+
+{%- macro bash_arr(_l) -%}
+  {%- for n in _l -%}'{{ n }}' {% endfor -%}
+{%- endmacro -%}
+
+{#- Pack list as ','-separated string, replacing spaces with '|' -#}
+{%- macro _p(x = []) -%}
+  {{ x | join(',') | replace(' ', '|') }}
+{%- endmacro -%}
+
+{#- Pack all vnode data as string -#}
+{%- macro serialize_vnodes(V) -%}
+  {%- set arr = [] %}
+  {%- for n in V.nodes -%}
+    {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
+    {%- do arr.append(_p([n, V[n].ram or arch.default.ram,
+                             V[n].vcpus or arch.default.vcpus])) -%}
+  {%- endfor -%}
+  {{ arr | join('|') }}
+{%- endmacro -%}
+
+{#- Pack apt_pkg data as string -#}
+{%- macro serialize_apt_pkg(C) -%}
+  {{ [_p(C.apt['keys']), _p(C.apt.repos),
+      _p(C.pkg.install), _p(C.pkg.remove)] | join('^') }}
+{%- endmacro -%}
+
 # Determine bridge names based on IDF, where all bridges are now mandatory
 {%- set bridges = conf.idf.fuel.jumphost.bridges %}
 OPNFV_BRIDGES=(
@@ -18,3 +47,20 @@ OPNFV_BRIDGES=(
   '{{ bridges.private or "internal" }}'
   '{{ bridges.public or "public" }}'
 )
+
+export CLUSTER_DOMAIN={{ conf.cluster.domain }}
+cluster_states=({{ bash_arr(conf.cluster.states) }})
+virtual_nodes=({{ bash_arr(conf.virtual.nodes) }})
+base_image={{ arch.base_image }}
+
+# Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
+virtual_nodes_data='{{ serialize_vnodes(conf.virtual) }}'
+
+# Serialize repos, packages to (pre-)install/remove for:
+# - foundation node VM base image (virtual: all VMs, baremetal: cfg01|mas01)
+# - virtualized control plane VM base image (only when VCP is used)
+virtual_repos_pkgs='{{ serialize_apt_pkg(arch.common) }}
+{%- if 'virtual_control_plane' in conf.cluster.states -%}
+^{{ serialize_apt_pkg(arch.control) }}
+{%- endif -%}
+'

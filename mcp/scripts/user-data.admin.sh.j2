@@ -8,7 +8,7 @@
 ##############################################################################
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
-echo "id: $(hostname).{{ conf.CLUSTER_DOMAIN }}" > /etc/salt/minion
+echo "id: $(hostname).{{ conf.cluster.domain }}" > /etc/salt/minion
 {#- should be in sync with 'opnfv_infra_config_pxe_address' in 'pharos/config/installers/fuel/pod_config.yml.j2 #}
 echo "master: {{ conf.idf.net_config.admin.network | ipaddr_index(2) }}" >> /etc/salt/minion
 service salt-minion restart
