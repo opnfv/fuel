@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_00277f65",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-03T17:51:50Z",
+      "side": 1,
+      "message": "We now have ~22 j2 templates. generate_config now takes roughly 22x less time with `-b`.\nAlso, I\u0027m very happy to remove the `ln` hack.",
+      "range": {
+        "startLine": 586,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 4
+      },
+      "revId": "1ea4713f79a2c1e7e57da73b3bf86eced559f201",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
