@@ -1,7 +1,7 @@
 #!/bin/bash -e
 # shellcheck disable=SC2155,SC1001,SC2015,SC2128
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -541,67 +541,5 @@ function get_nova_compute_pillar_data {
   local value=$(salt -C 'I@nova:compute and *01*' pillar.get _param:"${1}" --out yaml | cut -d ' ' -f2)
   if [ "${value}" != "''" ]; then
     echo "${value}"
-  fi
-}
-
-function do_templates() {
-  local git_repo_root=$1; shift
-  local image_dir=$1; shift
-  local target_lab=$1; shift
-  local target_pod=$1; shift
-  local lab_config_uri=$1; shift
-  local scenario_dir=${1:-}
-
-  RECLASS_CLUSTER_DIR=$(cd "${git_repo_root}/mcp/reclass/classes/cluster"; pwd)
-  PHAROS_GEN_CFG="./pharos/config/utils/generate_config.py"
-  PHAROS_IA=$(readlink -f "./pharos/config/installers/fuel/pod_config.yml.j2")
-  PHAROS_VALIDATE_SCHEMA_SCRIPT="./pharos/config/utils/validate_schema.py"
-  PHAROS_SCHEMA_PDF="./pharos/config/pdf/pod1.schema.yaml"
-  PHAROS_SCHEMA_IDF="./pharos/config/pdf/idf-pod1.schema.yaml"
-  BASE_CONFIG_PDF="${lab_config_uri}/labs/${target_lab}/${target_pod}.yaml"
-  BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
-  LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
-  LOCAL_IDF="${image_dir}/$(basename "${BASE_CONFIG_IDF}")"
-
-  # Two-stage expansion, first stage handles pod_config and scenarios only
-  if [ -n "${scenario_dir}" ]; then
-    # Make sample PDF/IDF available via default lab-config (pharos submodule)
-    ln -sf "$(readlink -f "../config/labs/local")" "./pharos/labs/"
-
-    # Expand scenario file and main reclass input (pod_config.yaml) based on PDF
-    if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
-      notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"
-    elif ! curl -o "${LOCAL_IDF}" "${BASE_CONFIG_IDF}"; then
-      notify_e "[ERROR] Could not retrieve IDF (Installer Descriptor File)!"
-    fi
-    # Check first if configuration files are valid
-    if [[ ! "$target_pod" =~ "virtual" ]]; then
-      if ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_PDF}" \
-        -s "${PHAROS_SCHEMA_PDF}"; then
-        notify_e "[ERROR] PDF does not match yaml schema!"
-      elif ! "${PHAROS_VALIDATE_SCHEMA_SCRIPT}" -y "${LOCAL_IDF}" \
-        -s "${PHAROS_SCHEMA_IDF}"; then
-        notify_e "[ERROR] IDF does not match yaml schema!"
-      fi
-    fi
-    if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
-      -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
-      notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
-    fi
-    template_dirs="${scenario_dir}"
-    template_err_str='Could not convert j2 scenario definitions!'
-  else
-    # Expand reclass and virsh network templates based on PDF + IDF
-    printenv | \
-      awk '/^(SALT|MCP|MAAS|CLUSTER).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
-    template_dirs="${RECLASS_CLUSTER_DIR} $(readlink -f virsh_net) $(readlink -f ./*j2)"
-    template_err_str='Could not convert PDF to network definitions!'
-  fi
-  # shellcheck disable=SC2086
-  j2args=$(find $template_dirs -name '*.j2' -exec echo -j {} \;)
-  # shellcheck disable=SC2086
-  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
-    -i "$(dirname "${PHAROS_IA}")"; then
-    notify_e "[ERROR] ${template_err_str}"
   fi
 }

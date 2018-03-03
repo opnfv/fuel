@@ -1,6 +1,6 @@
 #!/bin/bash
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -8,6 +8,6 @@
 ##############################################################################
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
-echo "id: $(hostname).{{ conf.CLUSTER_DOMAIN }}" > /etc/salt/minion
+echo "id: $(hostname).{{ conf.cluster.domain }}" > /etc/salt/minion
 echo "master: {{ conf.SALT_MASTER }}" >> /etc/salt/minion
 service salt-minion restart
