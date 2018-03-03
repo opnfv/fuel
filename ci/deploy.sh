@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# shellcheck disable=SC2034,SC2154,SC1090,SC1091
+# shellcheck disable=SC2034,SC2154,SC1090,SC1091,SC2155
 ##############################################################################
 # Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
 # jonas.bjurel@ericsson.com
@@ -133,6 +133,7 @@ ERASE_ENV=${ERASE_ENV:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
+source "${DEPLOY_DIR}/lib_template.sh"
 
 #
 # END of variables to customize
@@ -247,66 +248,31 @@ fi
 # Clone git submodules and apply our patches
 make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
-# Expand scenario files, pod_config based on PDF
-SCENARIO_DIR="$(readlink -f "../config/scenario")"
-do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
-             "${TARGET_POD}" "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
-
 # Check scenario file existence
-if [ ! -f  "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml" ]; then
+SCENARIO_DIR="$(readlink -f "../config/scenario")"
+if [ ! -f "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml" ] && \
+   [ ! -f "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml.j2" ]; then
     notify_e "[ERROR] Scenario definition file is missing!"
 fi
-
-# Check defaults file existence
-if [ ! -f  "${SCENARIO_DIR}/defaults-$(uname -i).yaml" ]; then
-    notify_e "[ERROR] Scenario defaults file is missing!"
-fi
-
-# Get scenario data and (jumpserver) arch defaults
-eval "$(parse_yaml "${SCENARIO_DIR}/defaults-$(uname -i).yaml")"
-eval "$(parse_yaml "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml")"
-export CLUSTER_DOMAIN=${cluster_domain}
 
 # key might not exist yet ...
 generate_ssh_key
 export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 
 # Expand jinja2 templates based on PDF data and env vars
-do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
-             "${TARGET_POD}" "${BASE_CONFIG_URI}"
-
-# Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
-for node in "${virtual_nodes[@]}"; do
-    virtual_custom_ram="virtual_${node}_ram"
-    virtual_custom_vcpus="virtual_${node}_vcpus"
-    virtual_nodes_data+="${node},"
-    virtual_nodes_data+="${!virtual_custom_ram:-$virtual_default_ram},"
-    virtual_nodes_data+="${!virtual_custom_vcpus:-$virtual_default_vcpus}|"
-done
-virtual_nodes_data=${virtual_nodes_data%|}
-
-# Serialize repos, packages to (pre-)install/remove for:
-# - foundation node VM base image (virtual: all VMs, baremetal: cfg01|mas01)
-# - virtualized control plane VM base image (only when VCP is used)
-base_image_flavors=common
-if [[ "${cluster_states[*]}" =~ virtual_control ]]; then
-  base_image_flavors+=" control"
-fi
-for sc in ${base_image_flavors}; do
-  for va in apt_keys apt_repos pkg_install pkg_remove; do
-    key=virtual_${sc}_${va}
-    eval "${key}=\${${key}[@]// /|}"
-    eval "${key}=\${${key}// /,}"
-    virtual_repos_pkgs+="${!key}^"
-  done
-done
-virtual_repos_pkgs=${virtual_repos_pkgs%^}
+export MCP_JUMP_ARCH=$(uname -i)
+do_templates_scenario "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
+                      "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
+do_templates_cluster  "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
+                      "${REPO_ROOT_PATH}" \
+                      "${SCENARIO_DIR}/defaults.yaml" \
+                      "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
 
 # Determine additional data (e.g. jump bridge names) based on XDF
 source "${DEPLOY_DIR}/xdf_data.sh"
-notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
 
 # Jumpserver prerequisites check
+notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
 jumpserver_check_requirements "${virtual_nodes[*]}" "${OPNFV_BRIDGES[@]}"
 
 # Infra setup
