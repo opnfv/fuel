@@ -1,13 +1,33 @@
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc. and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
-virtual:
+x86_64:
+  base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+  default:
+    vcpus: 2
+    ram: 4096
+  common:
+    apt:
+      keys:
+        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub
+      repos:
+        # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main
+    pkg:
+      install:
+        - salt-minion
+  control:
+    apt: ~
+    pkg:
+      install:
+        - cloud-init
+aarch64:
+  base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
   default:
     vcpus: 6
     ram: 4096
@@ -25,6 +45,7 @@ virtual:
         - linux-headers-generic-hwe-16.04-edge
         - salt-minion
   control:
+    apt: ~
     pkg:
       install:
         - cloud-init
