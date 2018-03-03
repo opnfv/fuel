@@ -120,8 +120,6 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
 STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
-BR_NAMES=('admin' 'mgmt' 'private' 'public')
-OPNFV_BRIDGES=('pxebr' 'mgmt' 'internal' 'public')
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/scripts/pharos"
 
@@ -288,11 +286,6 @@ export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 do_templates "${REPO_ROOT_PATH}" "${STORAGE_DIR}" "${TARGET_LAB}" \
              "${TARGET_POD}" "${BASE_CONFIG_URI}"
 
-# Get required infra deployment data based on PDF/IDF (after template parsing)
-set +x
-eval "$(parse_yaml "${STORAGE_DIR}/pod_config.yml")"
-[[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
-
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
 for node in "${virtual_nodes[@]}"; do
     virtual_custom_ram="virtual_${node}_ram"
@@ -320,13 +313,8 @@ for sc in ${base_image_flavors}; do
 done
 virtual_repos_pkgs=${virtual_repos_pkgs%^}
 
-# Determine 'admin', 'mgmt', 'private' and 'public' bridge names based on IDF
-for ((i = 0; i < ${#BR_NAMES[@]}; i++)); do
-    br_jump=$(eval echo "\$parameters__param_opnfv_jump_bridge_${BR_NAMES[i]}")
-    if [ -n "${br_jump}" ] && [ "${br_jump}" != 'None' ]; then
-        OPNFV_BRIDGES[${i}]="${br_jump}"
-    fi
-done
+# Determine additional data (e.g. jump bridge names) based on XDF
+source "${DEPLOY_DIR}/xdf_data.sh"
 notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
 
 # Jumpserver prerequisites check

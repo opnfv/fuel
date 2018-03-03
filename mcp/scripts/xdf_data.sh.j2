@@ -1,0 +1,20 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+#
+# Data derived from XDF (PDF/IDF/SDF/etc), used as input in deploy.sh
+#
+
+# Determine bridge names based on IDF, where all bridges are now mandatory
+{%- set bridges = conf.idf.fuel.jumphost.bridges %}
+OPNFV_BRIDGES=(
+  '{{ bridges.admin or "pxebr" }}'
+  '{{ bridges.mgmt or "mgmt" }}'
+  '{{ bridges.private or "internal" }}'
+  '{{ bridges.public or "public" }}'
+)
