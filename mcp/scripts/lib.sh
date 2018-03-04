@@ -317,6 +317,21 @@ function prepare_vms {
   fi
 }
 
+function jumpserver_pkg_install {
+  if [ -n "$(command -v apt-get)" ]; then
+    pkg_type='deb'; pkg_cmd='sudo apt-get install -y'
+  else
+    pkg_type='rpm'; pkg_cmd='sudo yum install -y --skip-broken'
+  fi
+  eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
+  for section in 'common' "$(uname -i)"; do
+    section_var="requirements_pkg_${section}[*]"
+    pkg_list+=" ${!section_var}"
+  done
+  # shellcheck disable=SC2086
+  ${pkg_cmd} ${pkg_list}
+}
+
 function jumpserver_check_requirements {
   # shellcheck disable=SC2178
   local vnodes=$1; shift

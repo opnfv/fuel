@@ -234,18 +234,7 @@ if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
     notify "[NOTE] Skipping distro pkg installation" 2
 else
     notify "[NOTE] Installing required distro pkgs" 2
-    if [ -n "$(command -v apt-get)" ]; then
-      pkg_type='deb'; pkg_cmd='sudo apt-get install -y'
-    else
-      pkg_type='rpm'; pkg_cmd='sudo yum install -y --skip-broken'
-    fi
-    eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
-    for section in 'common' "$(uname -m)"; do
-      section_var="requirements_pkg_${section}[*]"
-      pkg_list+=" ${!section_var}"
-    done
-    # shellcheck disable=SC2086
-    ${pkg_cmd} ${pkg_list}
+    jumpserver_pkg_install
 fi
 
 if ! virsh list >/dev/null 2>&1; then
