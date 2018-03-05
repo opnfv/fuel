@@ -254,6 +254,32 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 +-----------+--------------+---------------+
 
 
+===================
+Openstack Endpoints
+===================
+
+For each Openstack service three endpoints are created: admin, internal and public.
+
+.. code-block:: bash
+
+    ubuntu@ctl03:~$ openstack endpoint list --service keystone
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+--------------------------------+
+    | ID                               | Region    | Service Name | Service Type | Enabled | Interface | URL                            |
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+--------------------------------+
+    | 583a70ee2d79441aa96de9d82b8494fc | RegionOne | keystone     | identity     | True    | public    | https://10.0.16.103:5000/v2.0  |
+    | 7995bae47c81473b81ba97ded1c2c985 | RegionOne | keystone     | identity     | True    | admin     | http://172.16.10.10:35357/v2.0 |
+    | ce8336672e21461eba0b68789ad970ac | RegionOne | keystone     | identity     | True    | internal  | http://172.16.10.10:5000/v2.0  |
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+--------------------------------+
+
+MCP sets up all Openstack services to talk to each other over unencrypted
+connections on the internal management network. All admin/internal endpoints use
+plain http, while the public endpoints are https connections handled via nginx
+at the VCP proxy VMs.
+
+To access the public endpoints an SSL certificate has to be provided. For
+convenience, the installation script will copy the required certificate into
+to the cfg01 node at /etc/ssl/certs/os_cacert.
+
 =============================
 Reclass model viewer tutorial
 =============================
@@ -320,5 +346,3 @@ References
 1) `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/installation/installation.instruction.html>`_
 2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
 3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_
-
-
