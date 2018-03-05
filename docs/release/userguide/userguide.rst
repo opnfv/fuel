@@ -254,6 +254,42 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 +-----------+--------------+---------------+
 
 
+===================
+Openstack Endpoints
+===================
+
+For each Openstack service three endpoints are created: admin, internal and public.
+
+.. code-block:: bash
+
+  ubuntu@ctl01:~$ openstack endpoint list --service keystone
+  +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+  | ID                               | Region    | Service Name | Service Type | Enabled | Interface | URL                          |
+  +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+  | 008fec57922b4e9e8bf02c770039ae77 | RegionOne | keystone     | identity     | True    | internal  | http://172.16.10.26:5000/v3  |
+  | 1a1f3c3340484bda9ef7e193f50599e6 | RegionOne | keystone     | identity     | True    | admin     | http://172.16.10.26:35357/v3 |
+  | b0a47d42d0b6491b995d7e6230395de8 | RegionOne | keystone     | identity     | True    | public    | https://10.0.15.2:5000/v3    |
+  +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+
+MCP sets up all Openstack services to talk to each other over unencrypted
+connections on the internal management network. All admin/internal endpoints use
+plain http, while the public endpoints are https connections terminated via nginx
+at the VCP proxy VMs.
+
+To access the public endpoints an SSL certificate has to be provided. For
+convenience, the installation script will copy the required certificate into
+to the cfg01 node at /etc/ssl/certs/os_cacert.
+
+Copy the certificate from the cfg01 node to the client that will access the https
+endpoints and place it under /etc/ssl/certs. The SSL connection will be established
+automatically after.
+
+.. code-block:: bash
+
+  ssh -o StrictHostKeyChecking=no -i  /var/lib/opnfv/mcp.rsa  -l ubuntu 10.20.0.2 \
+  "cat /etc/ssl/certs/os_cacert" | sudo tee /etc/ssl/certs/os_cacert
+
+
 =============================
 Reclass model viewer tutorial
 =============================
@@ -320,5 +356,3 @@ References
 1) `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/installation/installation.instruction.html>`_
 2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
 3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_
-
-
