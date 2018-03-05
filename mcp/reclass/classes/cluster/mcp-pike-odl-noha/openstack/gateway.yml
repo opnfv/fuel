@@ -8,25 +8,9 @@
 ---
 classes:
   - cluster.mcp-pike-common-noha.openstack_gateway
-  - system.neutron.gateway.opendaylight.single
+  - service.gateway.opendaylight.single
   - cluster.mcp-pike-odl-noha
 parameters:
-  _param:
-    neutron_agents:
-      - neutron-dhcp-agent
-      - neutron-metadata-agent
-  neutron:
-    gateway:
-      pkgs: ${_param:neutron_agents}
-      services: ${_param:neutron_agents}
-      backend:
-        router: ${_param:opendaylight_router}
-  opendaylight:
-    client:
-      ovsdb_server_iface: ptcp:6639:127.0.0.1
-      ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
-      tunnel_ip: ${_param:tenant_address}
-      provider_mappings: physnet1:br-floating
   linux:
     network:
       interface:

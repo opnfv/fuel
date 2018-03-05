@@ -9,7 +9,7 @@
 classes:
   - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.mcp.extra
-  - system.opendaylight.server.single
+  - service.opendaylight.server.single
   - cluster.mcp-pike-odl-noha
   - cluster.mcp-pike-odl-noha.opendaylight.control_pdf
 parameters:

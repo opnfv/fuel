@@ -14,7 +14,6 @@ parameters:
     opendaylight_server_node01_single_address: ${_param:opnfv_opendaylight_server_node01_single_address}
     opendaylight_service_host: ${_param:opendaylight_server_node01_single_address}
     opendaylight_server_node01_hostname: odl01
-    opendaylight_router: odl-router_v2
 
     neutron_tenant_network_types: "flat,vxlan"
   linux:

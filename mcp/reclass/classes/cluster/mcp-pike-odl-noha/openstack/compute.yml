@@ -8,15 +8,10 @@
 ---
 classes:
   - service.neutron.compute.single
+  - service.compute.opendaylight.single
   - cluster.mcp-pike-common-noha.openstack_compute
   - cluster.mcp-pike-odl-noha
 parameters:
-  opendaylight:
-    client:
-      ovsdb_server_iface: ptcp:6639:127.0.0.1
-      ovsdb_odl_iface: tcp:${_param:opendaylight_service_host}:6640
-      tunnel_ip: ${_param:tenant_address}
-      provider_mappings: physnet1:br-floating
   linux:
     network:
       gateway: ${_param:openstack_gateway_address}

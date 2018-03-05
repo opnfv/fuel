@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.opendaylight.server.single
+  - service.opendaylight.server.single
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-pike-odl-ha
 parameters:
