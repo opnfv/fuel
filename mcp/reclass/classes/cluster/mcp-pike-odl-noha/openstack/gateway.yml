@@ -8,7 +8,7 @@
 ---
 classes:
   - cluster.mcp-pike-common-noha.openstack_gateway
-  - service.gateway.opendaylight.single
+  - service.neutron.gateway.opendaylight.single
   - cluster.mcp-pike-odl-noha
 parameters:
   linux:

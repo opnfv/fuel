@@ -8,7 +8,7 @@
 ---
 classes:
   - service.neutron.compute.single
-  - service.compute.opendaylight.single
+  - service.neutron.compute.opendaylight.single
   - cluster.mcp-pike-common-noha.openstack_compute
   - cluster.mcp-pike-odl-noha
 parameters:
