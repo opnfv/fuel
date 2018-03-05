@@ -11,10 +11,6 @@ classes:
   - cluster.mcp-pike-common-noha.openstack_control
   - cluster.mcp-pike-odl-noha
 parameters:
-  neutron:
-    server:
-      backend:
-        router: ${_param:opendaylight_router}
   haproxy:
     proxy:
       listen:
