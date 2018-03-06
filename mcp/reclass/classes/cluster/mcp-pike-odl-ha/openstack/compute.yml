@@ -7,10 +7,10 @@
 ##############################################################################
 ---
 classes:
+  - service.neutron.gateway.opendaylight.single
   - cluster.mcp-pike-common-ha.openstack_compute
   - cluster.mcp-pike-odl-ha.openstack.compute_pdf
   - cluster.mcp-pike-odl-ha.infra
-  - service.neutron.gateway.opendaylight.single
 parameters:
   neutron:
     gateway:
