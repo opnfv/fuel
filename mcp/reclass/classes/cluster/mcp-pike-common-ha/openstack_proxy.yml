@@ -43,3 +43,8 @@ parameters:
         proxy:
           alternative_names: "IP:${_param:openstack_proxy_address}"
           key_usage: 'digitalSignature, keyEncipherment'
+  keepalived:
+    cluster:
+      vrrp_scripts:
+        check_pidof:
+          args: 'nginx'
