@@ -11,4 +11,4 @@ classes:
   - cluster.mcp-pike-ovn-ha.openstack
 parameters:
   _param:
-    cluster_name: mcp-pike-ovs-ha
+    cluster_name: mcp-pike-ovn-ha
