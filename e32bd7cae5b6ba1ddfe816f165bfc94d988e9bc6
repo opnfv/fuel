@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_145981fe",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-06T10:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_1959bafe",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 137
+      },
+      "revId": "e32bd7cae5b6ba1ddfe816f165bfc94d988e9bc6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_f95deeea",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_f45df5ea",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-06T10:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_f95deeea",
+      "range": {
+        "startLine": 276,
+        "startChar": 61,
+        "endLine": 276,
+        "endChar": 68
+      },
+      "revId": "e32bd7cae5b6ba1ddfe816f165bfc94d988e9bc6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_5972227d",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2018-03-05T20:03:41Z",
       "side": 1,
       "message": "I would add 1 more paragraph explaining what to do with that cert (i.e. copy it on the machine where the client runs in /etc/ssl/certs - writing the path from memory, you might want to double check this).",
+      "revId": "e32bd7cae5b6ba1ddfe816f165bfc94d988e9bc6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_34791d30",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-06T10:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_5972227d",
       "revId": "e32bd7cae5b6ba1ddfe816f165bfc94d988e9bc6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
