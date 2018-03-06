@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_6f73cc4d",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-06T16:26:32Z",
+      "side": 1,
+      "message": "For uniformity, I\u0027d add a \u0027$\u0027 starting char.\nHowever, identation is wrong for the new code-block blocks, as well as most of the existing blocks in this file ...\n\"..code-block\" should be idented 4 spaces relative to its containing block. The contents of code-block should also be idented 4 spaces relative to the ..code-block directive.\nSee [1] for parsing output, some blocks (the one that respect the above) are displayed correctly while the others are not ...\n[1] https://github.com/opnfv/fuel/blob/master/docs/release/userguide/userguide.rst",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 68
+      },
+      "revId": "c23e001eb21c21351d832daa82ba4dd4135bd12a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
