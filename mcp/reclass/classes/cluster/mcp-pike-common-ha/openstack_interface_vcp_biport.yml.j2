@@ -6,6 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if conf.MCP_VCP %}
 classes:
   - cluster.mcp-pike-common-ha.include.maas_proxy
   - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
@@ -28,3 +29,4 @@ parameters:
           name: ${_param:single_nic}
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_public_mask}
+{%- endif %}

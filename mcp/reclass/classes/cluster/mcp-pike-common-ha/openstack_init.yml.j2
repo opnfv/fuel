@@ -12,9 +12,15 @@ parameters:
     openstack_version: pike
 
     # openstack service addresses
+{%- if conf.MCP_VCP %}
+    openstack_proxy_control_address: ${_param:opnfv_openstack_proxy_control_address}
+    openstack_proxy_node01_control_address: ${_param:opnfv_openstack_proxy_node01_control_address}
+    openstack_proxy_node02_control_address: ${_param:opnfv_openstack_proxy_node02_control_address}
+{%- else %}
     openstack_proxy_control_address: ${_param:opnfv_openstack_control_address}
     openstack_proxy_node01_control_address: ${_param:opnfv_openstack_control_node01_address}
     openstack_proxy_node02_control_address: ${_param:opnfv_openstack_control_node03_address}
+{%- endif %}
 
     openstack_proxy_address: ${_param:opnfv_openstack_proxy_address}
     openstack_proxy_node01_address: ${_param:opnfv_openstack_proxy_node01_address}
@@ -25,6 +31,22 @@ parameters:
     openstack_control_node02_address: ${_param:opnfv_openstack_control_node02_address}
     openstack_control_node03_address: ${_param:opnfv_openstack_control_node03_address}
 
+{%- if conf.MCP_VCP %}
+    openstack_database_address: ${_param:opnfv_openstack_database_address}
+    openstack_database_node01_address: ${_param:opnfv_openstack_database_node01_address}
+    openstack_database_node02_address: ${_param:opnfv_openstack_database_node02_address}
+    openstack_database_node03_address: ${_param:opnfv_openstack_database_node03_address}
+
+    openstack_message_queue_address: ${_param:opnfv_openstack_message_queue_address}
+    openstack_message_queue_node01_address: ${_param:opnfv_openstack_message_queue_node01_address}
+    openstack_message_queue_node02_address: ${_param:opnfv_openstack_message_queue_node02_address}
+    openstack_message_queue_node03_address: ${_param:opnfv_openstack_message_queue_node03_address}
+
+    openstack_telemetry_address: ${_param:opnfv_openstack_telemetry_address}
+    openstack_telemetry_node01_address: ${_param:opnfv_openstack_telemetry_node01_address}
+    openstack_telemetry_node02_address: ${_param:opnfv_openstack_telemetry_node02_address}
+    openstack_telemetry_node03_address: ${_param:opnfv_openstack_telemetry_node03_address}
+{%- else %}
     openstack_database_address: ${_param:openstack_control_address}
     openstack_database_node01_address: ${_param:openstack_control_node01_address}
     openstack_database_node02_address: ${_param:openstack_control_node02_address}
@@ -39,6 +61,7 @@ parameters:
     openstack_telemetry_node01_address: ${_param:openstack_control_node01_address}
     openstack_telemetry_node02_address: ${_param:openstack_control_node02_address}
     openstack_telemetry_node03_address: ${_param:openstack_control_node03_address}
+{%- endif %}
 
     # OpenStack Compute
     openstack_compute_node01_single_address: ${_param:opnfv_openstack_compute_node01_single_address}
@@ -54,6 +77,27 @@ parameters:
     openstack_compute_node02_external_address: ${_param:opnfv_openstack_compute_node02_external_address}
 
     # openstack service hostnames
+{%- if conf.MCP_VCP %}
+    openstack_proxy_hostname: prx
+    openstack_proxy_node01_hostname: prx01
+    openstack_proxy_node02_hostname: prx02
+    openstack_control_hostname: ctl
+    openstack_control_node01_hostname: ctl01
+    openstack_control_node02_hostname: ctl02
+    openstack_control_node03_hostname: ctl03
+    openstack_database_hostname: dbs
+    openstack_database_node01_hostname: dbs01
+    openstack_database_node02_hostname: dbs02
+    openstack_database_node03_hostname: dbs03
+    openstack_message_queue_hostname: msg
+    openstack_message_queue_node01_hostname: msg01
+    openstack_message_queue_node02_hostname: msg02
+    openstack_message_queue_node03_hostname: msg03
+    openstack_telemetry_hostname: mdb
+    openstack_telemetry_node01_hostname: mdb01
+    openstack_telemetry_node02_hostname: mdb02
+    openstack_telemetry_node03_hostname: mdb03
+{%- else %}
     openstack_proxy_hostname: ${_param:openstack_control_hostname}
     openstack_proxy_node01_hostname: ${_param:openstack_control_node01_hostname}
     openstack_proxy_node02_hostname: ${_param:openstack_control_node03_hostname}
@@ -73,10 +117,21 @@ parameters:
     openstack_telemetry_node01_hostname: ${_param:openstack_control_node01_hostname}
     openstack_telemetry_node02_hostname: ${_param:openstack_control_node02_hostname}
     openstack_telemetry_node03_hostname: ${_param:openstack_control_node03_hostname}
+{%- endif %}
 
     # openstack compute
     openstack_compute_node01_hostname: cmp001
     openstack_compute_node02_hostname: cmp002
+
+    # opendaylight options
+{%- if conf.MCP_VCP %}
+    opendaylight_server_node01_hostname: odl01
+    opendaylight_server_node01_single_address: ${_param:opnfv_opendaylight_server_node01_single_address}
+{%- else %}
+    opendaylight_control_hostname: ${_param:openstack_control_node02_hostname}
+    opendaylight_server_node01_hostname: ${_param:opendaylight_control_hostname}
+    opendaylight_server_node01_single_address: ${_param:opnfv_openstack_control_node02_address}
+{%- endif %}
 
     openstack_region: RegionOne
     admin_email: root@localhost
@@ -112,7 +167,11 @@ parameters:
     nova_service_host: ${_param:openstack_control_address}
     neutron_version: ${_param:openstack_version}
     neutron_service_host: ${_param:openstack_control_address}
+{%- if conf.MCP_VCP %}
+    glusterfs_service_host: ${_param:infra_kvm_address}
+{%- else %}
     glusterfs_service_host: ${_param:openstack_control_address}
+{%- endif %}
     mysql_admin_user: root
     mysql_admin_password: opnfv_secret
     mysql_cinder_password: opnfv_secret
@@ -202,6 +261,103 @@ parameters:
           net.ipv4.tcp_fin_timeout: 30
     network:
       host:
+{%- if conf.MCP_VCP %}
+        prx:
+          address: ${_param:openstack_proxy_control_address}
+          names:
+            - ${_param:openstack_proxy_hostname}
+            - ${_param:openstack_proxy_hostname}.${_param:cluster_domain}
+        prx01:
+          address: ${_param:openstack_proxy_node01_control_address}
+          names:
+            - ${_param:openstack_proxy_node01_hostname}
+            - ${_param:openstack_proxy_node01_hostname}.${_param:cluster_domain}
+        prx02:
+          address: ${_param:openstack_proxy_node02_control_address}
+          names:
+            - ${_param:openstack_proxy_node02_hostname}
+            - ${_param:openstack_proxy_node02_hostname}.${_param:cluster_domain}
+        ctl:
+          address: ${_param:openstack_control_address}
+          names:
+            - ${_param:openstack_control_hostname}
+            - ${_param:openstack_control_hostname}.${_param:cluster_domain}
+        ctl01:
+          address: ${_param:openstack_control_node01_address}
+          names:
+            - ${_param:openstack_control_node01_hostname}
+            - ${_param:openstack_control_node01_hostname}.${_param:cluster_domain}
+        ctl02:
+          address: ${_param:openstack_control_node02_address}
+          names:
+            - ${_param:openstack_control_node02_hostname}
+            - ${_param:openstack_control_node02_hostname}.${_param:cluster_domain}
+        ctl03:
+          address: ${_param:openstack_control_node03_address}
+          names:
+            - ${_param:openstack_control_node03_hostname}
+            - ${_param:openstack_control_node03_hostname}.${_param:cluster_domain}
+        msg:
+          address: ${_param:openstack_message_queue_address}
+          names:
+            - ${_param:openstack_message_queue_hostname}
+            - ${_param:openstack_message_queue_hostname}.${_param:cluster_domain}
+        msg01:
+          address: ${_param:openstack_message_queue_node01_address}
+          names:
+            - ${_param:openstack_message_queue_node01_hostname}
+            - ${_param:openstack_message_queue_node01_hostname}.${_param:cluster_domain}
+        msg02:
+          address: ${_param:openstack_message_queue_node02_address}
+          names:
+            - ${_param:openstack_message_queue_node02_hostname}
+            - ${_param:openstack_message_queue_node02_hostname}.${_param:cluster_domain}
+        msg03:
+          address: ${_param:openstack_message_queue_node03_address}
+          names:
+            - ${_param:openstack_message_queue_node03_hostname}
+            - ${_param:openstack_message_queue_node03_hostname}.${_param:cluster_domain}
+        dbs:
+          address: ${_param:openstack_database_address}
+          names:
+            - ${_param:openstack_database_hostname}
+            - ${_param:openstack_database_hostname}.${_param:cluster_domain}
+        dbs01:
+          address: ${_param:openstack_database_node01_address}
+          names:
+            - ${_param:openstack_database_node01_hostname}
+            - ${_param:openstack_database_node01_hostname}.${_param:cluster_domain}
+        dbs02:
+          address: ${_param:openstack_database_node02_address}
+          names:
+            - ${_param:openstack_database_node02_hostname}
+            - ${_param:openstack_database_node02_hostname}.${_param:cluster_domain}
+        dbs03:
+          address: ${_param:openstack_database_node03_address}
+          names:
+            - ${_param:openstack_database_node03_hostname}
+            - ${_param:openstack_database_node03_hostname}.${_param:cluster_domain}
+        mdb:
+          address: ${_param:openstack_telemetry_address}
+          names:
+            - ${_param:openstack_telemetry_hostname}
+            - ${_param:openstack_telemetry_hostname}.${_param:cluster_domain}
+        mdb01:
+          address: ${_param:openstack_telemetry_node01_address}
+          names:
+            - ${_param:openstack_telemetry_node01_hostname}
+            - ${_param:openstack_telemetry_node01_hostname}.${_param:cluster_domain}
+        mdb02:
+          address: ${_param:openstack_telemetry_node02_address}
+          names:
+            - ${_param:openstack_telemetry_node02_hostname}
+            - ${_param:openstack_telemetry_node02_hostname}.${_param:cluster_domain}
+        mdb03:
+          address: ${_param:openstack_telemetry_node03_address}
+          names:
+            - ${_param:openstack_telemetry_node03_hostname}
+            - ${_param:openstack_telemetry_node03_hostname}.${_param:cluster_domain}
+{%- else %}
         kvm:
           address: ${_param:openstack_control_address}
           names:
@@ -222,6 +378,7 @@ parameters:
           names:
             - ${_param:openstack_control_node03_hostname}
             - ${_param:openstack_control_node03_hostname}.${_param:cluster_domain}
+{%- endif %}
         cmp001:
           address: ${_param:openstack_compute_node01_control_address}
           names:
