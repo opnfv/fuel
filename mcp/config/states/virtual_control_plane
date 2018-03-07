@@ -57,6 +57,7 @@ wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_
 # Disable proxy dhcp routes after installation
 salt -C 'prx*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
   args='unset new_routers'
+salt -C 'prx*' state.apply opnfv.route_wrapper
 salt -C 'prx*' system.reboot
 wait_for 30.0 "salt -C 'prx*' test.ping"
 
