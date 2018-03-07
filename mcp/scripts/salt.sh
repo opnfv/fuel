@@ -123,8 +123,4 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
     mkdir -p "${OPNFV_VCP_DIR}"
     mv "${OPNFV_FUEL_DIR}/${OPNFV_VCP_IMG}" "${OPNFV_VCP_DIR}/"
   fi
-
-  # symlink manually until package with required commit is available
-  cd /usr/share/salt-formulas/env/aodh/files
-  ln -sf ocata pike
 SALT_INSTALL_END
