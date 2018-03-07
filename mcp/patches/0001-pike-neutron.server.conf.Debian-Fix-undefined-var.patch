@@ -1,0 +1,32 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 7 Mar 2018 23:44:32 +0100
+Subject: [PATCH] pike/neutron.server.conf.Debian: Fix undefined var
+
+Fixes: 1ff8865b
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ neutron/files/pike/neutron-server.conf.Debian | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/neutron/files/pike/neutron-server.conf.Debian b/neutron/files/pike/neutron-server.conf.Debian
+index 94443cf..cc75da5 100644
+--- a/neutron/files/pike/neutron-server.conf.Debian
++++ b/neutron/files/pike/neutron-server.conf.Debian
+@@ -717,7 +717,7 @@ root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+ # needs to execute commands in Dom0 in the hypervisor of XenServer, this item
+ # should be set to 'xenapi_root_helper', so that it will keep a XenAPI session
+ # to pass commands to Dom0. (string value)
+-{%- if neutron.root_helper_daemon|default(True) %}
++{%- if server.root_helper_daemon|default(True) %}
+ root_helper_daemon = sudo neutron-rootwrap-daemon /etc/neutron/rootwrap.conf
+ {%- else %}
+ #root_helper_daemon = <None>

@@ -27,6 +27,7 @@ idf:
       interface: 1  # when used, will be second vnet interface, untagged
       vlan: native
       network: 172.16.10.0
+      ip-range: 172.16.10.10-172.16.10.254  # Some IPs are in use by lab infra
       mask: 24
     storage:
       interface: 4  # when used, will be fifth vnet interface, untagged
@@ -42,6 +43,7 @@ idf:
       interface: 3  # when used, will be fourth vnet interface, untagged
       vlan: native
       network: 10.16.0.0
+      ip-range: 10.16.0.10-10.16.0.254  # Some IPs are in use by lab infra
       mask: 24
       gateway: 10.16.0.1
       dns:
