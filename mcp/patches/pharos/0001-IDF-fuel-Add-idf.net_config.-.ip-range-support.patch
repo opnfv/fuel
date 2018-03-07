@@ -1,0 +1,60 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 7 Mar 2018 20:17:39 +0100
+Subject: [PATCH] [IDF, fuel] Add idf.net_config.*.ip-range support
+
+- labs: ericsson-pod1: Restrict management and public network IP
+  ranges to exclude pre-existing infrastructe addresses;
+- fuel: Consume new ip-range network property in installer adapter;
+  NOTE: For now, we only look at range start (and ignore end addr).
+
+JIRA: FUEL-351
+
+Change-Id: If81d0214f896fd42dfd0855ae4cecb06335d2e00
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 11 +++++++++++
+ labs/ericsson/idf-pod1.yaml              |  2 ++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index 9a6b4be..1cf76d3 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -116,6 +116,17 @@
+     net_private: 1,
+     net_public: 1 } %}
+
++{%- for nn, nd in net.items() %}
++  {%- if 'ip-range' in nd and 'network' in nd and 'mask' in nd %}
++    {%- set net_nd = [nd.network, nd.mask] | join('/')  %}
++    {%- if net_nd in start_ip %}
++      {%- set nd_start_ip = nd['ip-range'].split('-')[0] %}
++      {%- set nd_start = net_nd | ipnet_range_size(net_nd | ipnet_hostmin, nd_start_ip) %}
++      {%- do start_ip.update({net_nd: nd_start}) %}
++    {%- endif %}
++  {%- endif %}
++{%- endfor %}
++
+ {%- set total_public_hosts = net_public_hosts | length + cmp_nodes  %}
+ {%- if net_public_pool_start is not defined or net_public_pool_end is not defined %}
+     {%- set net_public_pool_start = net_public | ipnet_hostaddr(total_public_hosts + start_ip[net_public] +1) %}
+diff --git a/labs/ericsson/idf-pod1.yaml b/labs/ericsson/idf-pod1.yaml
+index d904254..0d09508 100644
+--- a/labs/ericsson/idf-pod1.yaml
++++ b/labs/ericsson/idf-pod1.yaml
+@@ -24,6 +24,7 @@ idf:
+       interface: 2
+       vlan: 81
+       network: 192.168.10.0
++      ip-range: 192.168.10.10-192.168.10.254  # Some IPs are in use by lab infra
+       mask: 24
+     storage:
+       interface: 2
+@@ -39,6 +40,7 @@ idf:
+       interface: 2
+       vlan: 80
+       network: 100.64.200.0
++      ip-range: 100.64.200.10-100.64.200.254  # Some IPs are in use by lab infra
+       mask: 24
+       gateway: 100.64.200.1
+       dns:

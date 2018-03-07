@@ -125,3 +125,4 @@ parameters:
   neutron:
     server:
       vlan_aware_vms: true
+      root_helper_daemon: false
