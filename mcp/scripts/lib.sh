@@ -371,6 +371,14 @@ function jumpserver_check_requirements {
   fi
 }
 
+function scan_networks {
+  local networks_with_cidr=("$@")
+  for net in "${networks_with_cidr[@]}"; do
+    notify_n " --- Scanning for pre-existing IPs in network ${net}"
+    nmap -sn "${net}"
+  done
+}
+
 function create_networks {
   local vnode_networks=("$@")
   # create required networks, including constant "mcpcontrol"

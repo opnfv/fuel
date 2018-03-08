@@ -12,6 +12,7 @@
 #
 
 {%- set arch = conf[conf.MCP_JUMP_ARCH] -%}
+{%- set net_cfg = conf.idf.net_config -%}
 
 {%- macro bash_arr(_l) -%}
   ({%- for n in _l -%}'{{ n }}' {% endfor -%})
@@ -48,6 +49,14 @@
   '{{ pack(arr, '^') }}'
 {%- endmacro -%}
 
+{%- macro get_networks_with_cidr() -%}
+  {%- set arr = [] -%}
+  {%- for net in [net_cfg.admin, net_cfg.mgmt, net_cfg.private, net_cfg.public] -%}
+    {%- do arr.append(pack([net.network, net.mask], '/')) -%}
+  {%- endfor -%}
+  {{ bash_arr(arr) }}
+{%- endmacro -%}
+
 {%- set bridges = conf.idf.fuel.jumphost.bridges %}
 # Determine bridge names based on IDF, where all bridges are now mandatory
 OPNFV_BRIDGES=(
@@ -61,6 +70,7 @@ export CLUSTER_DOMAIN={{ conf.cluster.domain }}
 cluster_states={{ bash_arr(conf.cluster.states) }}
 virtual_nodes={{ bash_arr(conf.virtual.nodes) }}
 base_image={{ arch.base_image }}
+networks_with_cidr={{ get_networks_with_cidr() }}
 
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
 virtual_nodes_data={{ serialize_vnodes() }}

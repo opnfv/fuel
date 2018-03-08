@@ -22,6 +22,7 @@ requirements_pkg:
     - kpartx
     - libvirt
     - make
+    - nmap
     - openssl-devel
     - qemu-kvm
     - rpm-build
