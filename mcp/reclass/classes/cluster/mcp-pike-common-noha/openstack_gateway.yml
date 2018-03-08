@@ -17,3 +17,4 @@ parameters:
       notification: true
       agent_mode: ${_param:neutron_gateway_agent_mode}
       vlan_aware_vms: true
+      root_helper_daemon: false

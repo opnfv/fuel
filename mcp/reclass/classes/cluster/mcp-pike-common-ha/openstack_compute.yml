@@ -65,6 +65,7 @@ parameters:
   neutron:
     gateway:
       vlan_aware_vms: true
+      root_helper_daemon: false
   nova:
     compute:
       disk_cachemodes: file=directsync,block=none
