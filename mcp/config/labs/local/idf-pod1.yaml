@@ -25,6 +25,7 @@ idf:
       interface: 0
       vlan: 300
       network: 10.167.4.0    # Tagged, 'vlan 300' on wiki
+      ip-range: 10.167.4.10-10.167.4.254  # Some IPs are in use by lab infra
       mask: 24
     storage:
       interface: 3
@@ -40,6 +41,7 @@ idf:
       interface: 2
       vlan: native
       network: 172.30.10.0   # Untagged, 'public' on wiki
+      ip-range: 172.30.10.100-172.30.10.254  # Some IPs are in use by lab infra
       mask: 24
       gateway: 172.30.10.1
       dns:
