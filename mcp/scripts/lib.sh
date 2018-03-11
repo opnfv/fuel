@@ -120,7 +120,7 @@ function mount_image {
       break
     fi
   done
-  OPNFV_LOOP_DEV=$(losetup -f)
+  OPNFV_LOOP_DEV=$(sudo losetup -f)
   OPNFV_MAP_DEV=/dev/mapper/$(basename "${OPNFV_NBD_DEV}")p1
   export OPNFV_MNT_DIR OPNFV_LOOP_DEV
   [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
@@ -213,7 +213,7 @@ function cleanup_mounts {
     fi
   fi
   if [ -n "${OPNFV_LOOP_DEV}" ] && \
-    losetup "${OPNFV_LOOP_DEV}" 1>&2 > /dev/null; then
+    sudo losetup "${OPNFV_LOOP_DEV}" 1>&2 > /dev/null; then
       sudo losetup -d "${OPNFV_LOOP_DEV}"
   fi
   if [ -n "${OPNFV_NBD_DEV}" ]; then
