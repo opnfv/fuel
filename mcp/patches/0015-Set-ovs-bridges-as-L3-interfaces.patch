@@ -14,18 +14,16 @@ Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
 
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..8c0f468
+index 0000000..575d38f
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,12 @@
 +auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
-+iface {{ bridge_name }} inet {{ bridge.get('proto', 'manual') }}
++iface {{ bridge_name }} inet static
 +  ovs_type OVSBridge
-+  {%- if bridge.get('proto', 'manual') == 'static' %}
 +  address {{ bridge.address }}
 +  netmask {{ bridge.netmask }}
-+  {%- endif %}
 +  {%- if bridge.gateway is defined %}
 +  gateway {{ bridge.gateway }}
 +  {%- endif %}
@@ -47,13 +45,14 @@ index 222ca8e..efb0307 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index 7375b04..bbf2fa0 100644
+index 3e79847..dc7180a 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
-@@ -67,6 +67,32 @@ remove_cloud_init_file:
+@@ -72,6 +72,34 @@ remove_cloud_init_file:
  ovs_bridge_{{ interface_name }}:
    openvswitch_bridge.present:
    - name: {{ interface_name }}
++{%- if interface.get('proto', 'manual') == 'static' %}
 +  file.managed:
 +  - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
 +  - makedirs: True
@@ -80,6 +79,7 @@ index 7375b04..bbf2fa0 100644
 +    - file: linux_interfaces_final_include
 +  - unless:
 +    - ip link show {{ interface_name }} | grep -q '\<UP\>'
++{%- endif %}
 
  {# add linux network interface into OVS bridge #}
  {%- for int_name, int in network.interface.items() %}
