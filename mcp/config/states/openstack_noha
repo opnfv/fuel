@@ -42,6 +42,7 @@ salt -I 'cinder:controller' state.sls cinder
 wait_for 3 "salt -I 'cinder:volume' state.sls cinder"
 
 salt -I 'neutron:server' state.sls neutron
+salt -I 'neutron:compute' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 
