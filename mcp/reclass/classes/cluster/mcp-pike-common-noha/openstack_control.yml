@@ -56,6 +56,8 @@ parameters:
   keystone:
     server:
       admin_email: ${_param:admin_email}
+      openrc_extra:
+        volume_device_name: vdc
   glance:
     server:
       storage:
