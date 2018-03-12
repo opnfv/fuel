@@ -1,0 +1,25 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Mon, 12 Mar 2018 17:43:09 +0400
+Subject: [PATCH] Handle extra environment variables
+
+Change-Id: Ieae46ac65041630759c82238a8a5ce0535c454b2
+
+diff --git a/keystone/files/keystonercv3 b/keystone/files/keystonercv3
+index 1b7f378..984c8a2 100644
+--- a/keystone/files/keystonercv3
++++ b/keystone/files/keystonercv3
+@@ -11,3 +11,6 @@ export OS_REGION_NAME={{ server.region }}
+ export OS_INTERFACE=internal
+ export OS_ENDPOINT_TYPE="internal"
+ export OS_CACERT="{{ server.cacert }}"
++{%- for opt, value in server.get('openrc_extra', {}).iteritems() %}
++{{ "export %s=%s"|format(opt|upper, value) }}
++{%- endfor %}
