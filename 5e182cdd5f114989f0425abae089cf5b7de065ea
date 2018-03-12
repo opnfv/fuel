@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a3f45e8_15720c49",
+        "filename": "mcp/patches/0008-Handle-extra-environment-variables.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-12T19:40:58Z",
+      "side": 1,
+      "message": "sorry, just saw this now",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "5e182cdd5f114989f0425abae089cf5b7de065ea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_1d9fd453",
         "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_control.yml.j2",
         "patchSetId": 2
