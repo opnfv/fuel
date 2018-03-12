@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_ac55d41e",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-12T08:18:03Z",
+      "side": 1,
+      "message": "Is this related to the deploy script getting stuck in rootwrap ?",
+      "revId": "21273a66c4a619a71e1e6bee7a6694cf8bb278d1",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
