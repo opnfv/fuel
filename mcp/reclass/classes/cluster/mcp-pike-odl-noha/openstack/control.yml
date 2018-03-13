@@ -36,3 +36,7 @@ parameters:
               host: ${_param:opendaylight_service_host}
               port: 8282
               params: ${_param:haproxy_check}
+  neutron:
+    server:
+      backend:
+        enable_websocket: false
