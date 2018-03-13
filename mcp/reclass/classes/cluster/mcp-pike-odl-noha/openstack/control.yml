@@ -40,3 +40,10 @@ parameters:
     server:
       backend:
         enable_websocket: false
+  keystone:
+    server:
+      openrc_extra:
+        # For noHA, all public services are available through haproxy on ctl
+        sdn_controller_ip: ${_param:cluster_vip_address}
+        sdn_username: admin  # Hardcoded to default ODL values for now
+        sdn_password: admin
