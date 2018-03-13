@@ -10,7 +10,6 @@
 **/docs_output/
 **/releng/
 **/mcp/deploy/images/
-**/mcp/scripts/mcp.rsa*
 **/mcp/scripts/user-data.sh
 **/mcp/scripts/virsh_net/*.xml
 **/mcp/scripts/*.img
