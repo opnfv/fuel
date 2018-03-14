@@ -185,10 +185,10 @@ The Jumpserver node should be pre-provisioned with an operating system,
 according to the Pharos specification. Relevant network bridges should
 also be pre-configured (e.g. admin_br, mgmt_br, public_br).
 
-   - The admin bridge (admin_br) is mandatory for the baremetal nodes PXE booting during fuel installation.
-   - The management bridge (mgmt_br) is required for testing suites (e.g. functest/yardstick), it is
-     suggested to pre-configure it for debugging purposes.
-   - The public bridge (public_br) is also nice to have for debugging purposes, but not mandatory.
+- The admin bridge (admin_br) is mandatory for the baremetal nodes PXE booting during fuel installation.
+- The management bridge (mgmt_br) is required for testing suites (e.g. functest/yardstick), it is
+  suggested to pre-configure it for debugging purposes.
+- The public bridge (public_br) is also nice to have for debugging purposes, but not mandatory.
 
 The user running the deploy script on the Jumpserver should belong to "sudo" and "libvirt" groups,
 and have passwordless sudo access.
@@ -236,15 +236,15 @@ create a new sources list file `/apt/sources.list.d/armband.list` with the follo
 Fuel@OPNFV has been validated by CI using the following distributions
 installed on the Jumpserver:
 
-   - CentOS 7 (recommended by Pharos specification);
-   - Ubuntu Xenial;
+- CentOS 7 (recommended by Pharos specification);
+- Ubuntu Xenial;
 
-**NOTE**: The install script expects 'libvirt' to be already running on the Jumpserver.In case libvirt
+**NOTE**: The install script expects 'libvirt' to be already running on the Jumpserver. In case libvirt
 packages are missing, the script will install them; but depending on the OS distribution, the user
 might have to start the 'libvirtd' service manually, then run the deploy script again. Therefore, it
-is recommened to install libvirt-bin explicitly on the Jumpserver before the deployment.
+is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
 
-**NOTE**: It is also recommened to install the newer kernel on the Jumpserver before the deployment.
+**NOTE**: It is also recommended to install the newer kernel on the Jumpserver before the deployment.
 
 **NOTE**: The install script will automatically install the rest of required distro package
 dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
@@ -269,7 +269,7 @@ a reclass model. This model provides the formula inputs to Salt, to make the dep
 automatic based on deployment scenario.
 The reclass model covers:
 
-   - Infrastucture node definition: Salt Master node (cfg01) and MaaS node (mas01)
+   - Infrastructure node definition: Salt Master node (cfg01) and MaaS node (mas01)
    - OpenStack node definition: Controller nodes (ctl01, ctl02, ctl03) and Compute nodes (cmp001, cmp002)
    - Infrastructure components to install (software packages, services etc.)
    - OpenStack components and services (rabbitmq, galera etc.), as well as all configuration for them
@@ -481,15 +481,10 @@ with all its hardware characteristics and required parameters. This information
 is split into two different files:
 Pod Descriptor File (PDF) and Installer Descriptor File (IDF).
 
-
-The Pod Descriptor File is a hardware and network description of the pod
+The Pod Descriptor File is a hardware description of the pod
 infrastructure. The information is modeled under a yaml structure.
 A reference file with the expected yaml structure is available at
 *mcp/config/labs/local/pod1.yaml*
-
-A common network section describes all the internal and provider networks
-assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
-attached interface on the boards. Untagged vlans shall be defined as "native".
 
 The hardware description is arranged into a main "jumphost" node and a "nodes"
 set for all target boards. For each node the following characteristics
@@ -498,25 +493,57 @@ are defined:
 - Node parameters including CPU features and total memory.
 - A list of available disks.
 - Remote management parameters.
-- Network interfaces list including mac address, speed and advanced features.
-- IP list of fixed IPs for the node
+- Network interfaces list including mac address, speed, advanced features and name.
 
-**Note**: the fixed IPs are ignored by the MCP installer script and it will instead
-assign based on the network ranges defined under the pod network configuration.
-
+**Note**: The Jumpserver still needs to specify the admin ipaddress in PDF files
+for legacy reasons.
 
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
-and it is not considered part of the pod infrastructure. Fuel installer relies
-on the IDF model to map the networks to the bridges on the foundation node and
-to setup all node NICs by defining the expected OS device name and bus address.
+and it is not considered part of the pod infrastructure.
+The IDF file must be named after the PDF with the prefix "idf-". A reference file with the expected
+structure is available at *mcp/config/labs/local/idf-pod1.yaml*
+
+The file follows a yaml structure and two sections "net_config" and "fuel" are expected.
+
+The "net_config" section describes all the internal and provider networks
+assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
+attached interface on the boards. Untagged vlans shall be defined as "native".
+
+The "fuel" section defines several sub-sections required by the Fuel installer:
+
+- jumphost: List of bridge names for each network on the Jumpserver.
+- network: List of device name and bus address info of all the target nodes.
+  The order must be aligned with the order defined in PDF file. Fuel installer relies on the IDF model
+  to setup all node NICs by defining the expected device name and bus address.
+- maas: Defines the target nodes commission timeout and deploy timeout. (optional)
+- reclass: Defines compute parameter tuning, including huge pages, cpu pinning
+  and other DPDK settings. (optional)
+
+The following parameters can be defined in the IDF files under "reclass". Those value will
+overwrite the default configuration values in Fuel repository.
+
+- nova_cpu_pinning: List of CPU cores nova will be pinned to.
+- compute_hugepages_size: Size of each persistent huge pages. Usual values are '2M' and '1G'.
+- compute_hugepages_count: Total number of persistent huge pages.
+- compute_hugepages_mount: Mount point to use for huge pages.
+- compute_kernel_isolcpu: List of certain CPU cores that are isolated from Linux scheduler.
+- compute_dpdk_driver: Kernel module to provide userspace I/O support.
+- compute_ovs_pmd_cpu_mask: Hexadecimal mask of CPUs to run DPDK Poll-mode drivers.
+- compute_ovs_dpdk_socket_mem: Set of amount huge pages in MB to be used by OVS-DPDK daemon
+  taken for each NUMA node. Set size is equal to NUMA nodes count, elements are divided by comma.
+- compute_ovs_dpdk_lcore_mask: Hexadecimal mask of DPDK lcore parameter used to run DPDK processes.
+- compute_ovs_memory_channels: Number of memory channels to be used.
+- dpdk0_driver: NIC driver to use for physical network interface.
+- dpdk0_n_rxq: Number of RX queues.
 
 
-The file follows a yaml structure and a "fuel" section is expected. Contents and
-references must be aligned with the PDF file. The IDF file must be named after
-the PDF with the prefix "idf-". A reference file with the expected structure
-is available at *mcp/config/labs/local/idf-pod1.yaml*
+The full description of the PDF and IDF file structure are available as yaml schemas.
+The schemas are defined as a git submodule in Fule repository. Input files provided
+to the installer will be validated against the schemas.
 
+- *mcp/scripts/pharos/config/pdf/pod1.schema.yaml*
+- *mcp/scripts/pharos/config/pdf/idf-pod1.schema.yaml*
 
 =============
 Release Notes
