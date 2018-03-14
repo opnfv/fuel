@@ -233,6 +233,17 @@ create a new sources list file `/apt/sources.list.d/armband.list` with the follo
 
     $ apt-get update
 
+On the systems already deployed, if the trusted key list show KEYEXPIRED for Armband repository,
+try to manually refresh the keyring to get the updated one.
+
+.. code-block:: bash
+
+  //refresh the keyring on jumphost
+  $ sudo apt-key adv --keyserver keys.gnupg.net --recv 798AB1D1
+
+  //refresh the keyring on all nodes that already deployed, login to cfg01 and do:
+  $ sudo salt '*' cmd.run 'sudo apt-key adv --keyserver keys.gnupg.net --recv 798AB1D1'
+
 Fuel@OPNFV has been validated by CI using the following distributions
 installed on the Jumpserver:
 
@@ -481,15 +492,10 @@ with all its hardware characteristics and required parameters. This information
 is split into two different files:
 Pod Descriptor File (PDF) and Installer Descriptor File (IDF).
 
-
-The Pod Descriptor File is a hardware and network description of the pod
+The Pod Descriptor File is a hardware description of the pod
 infrastructure. The information is modeled under a yaml structure.
 A reference file with the expected yaml structure is available at
 *mcp/config/labs/local/pod1.yaml*
-
-A common network section describes all the internal and provider networks
-assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
-attached interface on the boards. Untagged vlans shall be defined as "native".
 
 The hardware description is arranged into a main "jumphost" node and a "nodes"
 set for all target boards. For each node the following characteristics
@@ -498,25 +504,45 @@ are defined:
 - Node parameters including CPU features and total memory.
 - A list of available disks.
 - Remote management parameters.
-- Network interfaces list including mac address, speed and advanced features.
-- IP list of fixed IPs for the node
+- Network interfaces list including mac address, speed, advanced features and name.
 
-**Note**: the fixed IPs are ignored by the MCP installer script and it will instead
-assign based on the network ranges defined under the pod network configuration.
-
+**Note**: The jumphost still need to specify the fixed admin ipaddress for legacy reasons.
 
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
-and it is not considered part of the pod infrastructure. Fuel installer relies
-on the IDF model to map the networks to the bridges on the foundation node and
-to setup all node NICs by defining the expected OS device name and bus address.
+and it is not considered part of the pod infrastructure.
+The IDF file must be named after the PDF with the prefix "idf-". A reference file with the expected
+structure is available at *mcp/config/labs/local/idf-pod1.yaml*
 
+The file follows a yaml structure and two sections "net_config" and "fuel" are expected.
+The "net_config" section describes all the internal and provider networks
+assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
+attached interface on the boards. Untagged vlans shall be defined as "native".
 
-The file follows a yaml structure and a "fuel" section is expected. Contents and
-references must be aligned with the PDF file. The IDF file must be named after
-the PDF with the prefix "idf-". A reference file with the expected structure
-is available at *mcp/config/labs/local/idf-pod1.yaml*
+The "fuel" section define the device name and bus address info. The order must be aligned with the
+order defined in PDF file.Fuel installer relies on the IDF model to map the networks to the bridges
+on the foundation node and to setup all node NICs by defining the expected OS device name and bus address.
 
+To support the DPDK deployment, a few addtional parameters need to defined in IDF file. Those value
+will overwrite the default DPDK configuration values in Fuel repository.
+
+The available parameters for tunning include:
+
+- nova_cpu_pinning: List of CPU cores to be tuned.
+- compute_hugepages_size: Size of persistent huge pages. Valid values are '2M' and '1G'. (Default: '2M').
+- compute_hugepages_count: Number of persistent huge pages (Default: 8192).
+- compute_hugepages_mount: Mount point to use for huge pages (Default: '/mnt/hugepages_2M').
+- compute_kernel_isolcpu: List of certain CPU cores that is isolated from Linux scheduler.
+- compute_dpdk_driver: DPDK device driver name (Default: 'uio').
+- compute_ovs_pmd_cpu_mask: The mask in hex string for the PMD threads to be pinned to cores in NUMA
+  node (eg '0xc04').
+- compute_ovs_dpdk_socket_mem: Comma separated list of memory in MB to pre-allocate from huge pages on
+  specific sockets (eg '2048,2048').
+- compute_ovs_dpdk_lcore_mask: Specifies the CPU cores on which dpdk lcore threads should be spawned
+  in hex string (eg ‘0x8’).
+- compute_ovs_memory_channels: Number of memory channels into the processor OVS will use (Default: '2').
+- dpdk0_driver: NIC driver to use for physical network interface (Default: 'igb_uio').
+- dpdk0_n_rxq: Number of RX queue (Default: 2).
 
 =============
 Release Notes
