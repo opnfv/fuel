@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_684a86c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "Message should not be longer than 50 chars",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a813eeb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "Unrelated to commit title. Adjust title to",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_2827de13",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "code-blocks should start with 4 spaces of indentation and the code have 4 more",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e845f670",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "jumphost node",
+      "range": {
+        "startLine": 509,
+        "startChar": 14,
+        "endLine": 509,
+        "endChar": 23
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c848fa89",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "needs",
+      "range": {
+        "startLine": 509,
+        "startChar": 29,
+        "endLine": 509,
+        "endChar": 33
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_08aca234",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "I would add more info now, since previous versions were much simpler:\n\nThe file follows a yaml structure and two sections \"net_config\" and \"fuel\" are expected.\n\nThe \"net_config\" section describes all the internal and provider networks\nassigned to the pod. Each network is expected to have a vlan tag, IP subnet and\nattached interface on the boards. Untagged vlans shall be defined as \"native\".\n\nThe \"fuel\" section defines several parameter groups required by the fuel installer.\nA required \"network\" group provides device names and bus addresses for all network interfaces on each node.\nThe order must be aligned with the order defined in PDF file. Fuel installer use this information to map the networks to the bridges\non the foundation node and to setup all node NICs by defining the expected OS device name and bus address.\nA required \"jumphost\" group describes the bridge names for each network on the host.\nAn optional \"maas\" group allows timeout adjusting for baremetal deployments.\nAn optional \"reclass\" group allows finer parameter tunning, including DPDK settings.",
+      "range": {
+        "startLine": 517,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 106
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_68aba61d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "For DPDK enabled deployments the following additional parameters can be defined into the IDF file:",
+      "range": {
+        "startLine": 526,
+        "startChar": 0,
+        "endLine": 529,
+        "endChar": 45
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_48a6aa54",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "Default values may change overtime. Keeping them in the doc will require alignment. It would be better to remove them from here. A common reference to the code where they are defined could be provided",
+      "range": {
+        "startLine": 532,
+        "startChar": 89,
+        "endLine": 532,
+        "endChar": 105
+      },
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_88671225",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-16T15:41:11Z",
+      "side": 1,
+      "message": "These values replace the default ones on the fuel reclass model (Set at mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2):",
+      "revId": "92fc385ae84faf274b274a7ebbe837cf5a323225",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
