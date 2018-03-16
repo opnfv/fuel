@@ -27,3 +27,5 @@ parameters:
           {%- if nm.vlan_private | int > 0 %}
           tag: {{ nm.vlan_private }}
           {%- endif %}
+        br-floating:
+          datapath_type: netdev
