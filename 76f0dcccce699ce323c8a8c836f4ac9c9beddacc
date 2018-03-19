@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_cc41293b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-19T16:15:18Z",
+      "side": 1,
+      "message": "This gets a bit confusing. Simplifying and connecting with the previous list:\n\nThe following parameters can be defined under the reclass group, redefining any default values set by the installer:",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 40
+      },
+      "revId": "76f0dcccce699ce323c8a8c836f4ac9c9beddacc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_ac3c9dc0",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-03-19T16:15:18Z",
+      "side": 1,
+      "message": "Lastly, we should provide a reference to the file schema:\n\nFull descriptions of the PDF and IDF file structure are available as yaml schemas on the following location of the Pharos repository:\n\npharos/config/pdf/pod1.schema.yaml\npharos/config/pdf/idf-pod1.schema.yaml\n\nInput files provided to the installer will be validated against the schema.",
+      "revId": "76f0dcccce699ce323c8a8c836f4ac9c9beddacc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
