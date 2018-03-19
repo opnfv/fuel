@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_a6215efe",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-19T08:41:22Z",
+      "side": 1,
+      "message": "shows \"KEYEXPIRED\"",
+      "revId": "77a249e8a29f947c61ad20d5a5afb773a1e5c51c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_062132fb",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-19T08:41:22Z",
+      "side": 1,
+      "message": "to refresh the keyring on all nodes that have already been deployed",
+      "revId": "77a249e8a29f947c61ad20d5a5afb773a1e5c51c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e61b66c8",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-19T08:41:22Z",
+      "side": 1,
+      "message": "needs",
+      "revId": "77a249e8a29f947c61ad20d5a5afb773a1e5c51c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_267d4ee8",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-19T08:41:22Z",
+      "side": 1,
+      "message": "defines",
+      "revId": "77a249e8a29f947c61ad20d5a5afb773a1e5c51c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_868422d5",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-19T08:41:22Z",
+      "side": 1,
+      "message": "need to be defined --- values",
+      "revId": "77a249e8a29f947c61ad20d5a5afb773a1e5c51c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
