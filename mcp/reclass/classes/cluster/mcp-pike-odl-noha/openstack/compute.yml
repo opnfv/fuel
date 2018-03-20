@@ -39,9 +39,4 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:external_address}
-          netmask: 255.255.255.0
-          route:
-            public:
-              address: 0.0.0.0
-              netmask: 0.0.0.0
-              gateway: ${_param:opnfv_net_public_gw}
+          netmask: ${_param:opnfv_net_public_mask}
