@@ -13,7 +13,6 @@
 /usr/share/salt-formulas/env: 0006-maas-module-Add-VLAN-DHCP-enable-support.patch
 /usr/share/salt-formulas/env: 0007-network.interface-Fix-ifup-OVS-port-with-route.patch
 /usr/share/salt-formulas/env: 0008-Handle-extra-environment-variables.patch
-/usr/share/salt-formulas/env: 0009-controller-Use-keystoneclient-to-check-project-ID.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
 /usr/share/salt-formulas/env: 0011-system.repo-Debian-Add-keyserver-proxy-support.patch
 /usr/share/salt-formulas/env: 0012-routes-Skip-network-restart-on-noifupdown.patch
