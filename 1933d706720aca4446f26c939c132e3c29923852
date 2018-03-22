@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_60ea9110",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "I think we should not add this at all in the docs.\nNew deploys are not affected, and people affected by this already are past it.",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 89
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_00e3cd33",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "I don\u0027t think this is true, unless I forgot something.\nAlso, I don\u0027t see the old \u0027fixed IP are ignored\u0027, which should stay in - we had people asking us why those values are not honored.",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 93
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c0bf25fb",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "sections and groups are not very well defined in this scope.\nAs far as yaml goes, they are all \u0027keys\u0027, I think.",
+      "range": {
+        "startLine": 517,
+        "startChar": 42,
+        "endLine": 517,
+        "endChar": 50
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_60d1f156",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "Fuel",
+      "range": {
+        "startLine": 523,
+        "startChar": 68,
+        "endLine": 523,
+        "endChar": 72
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_80cebdb2",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 533,
+        "startChar": 40,
+        "endLine": 533,
+        "endChar": 44
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_403b159c",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "\u0027nova will be pinned to\u0027 or similar",
+      "range": {
+        "startLine": 536,
+        "startChar": 38,
+        "endLine": 536,
+        "endChar": 49
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_605f31e6",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "I think this is self-explanatory. If anything, this description might make one think we\u0027re defining the total size used by all hugepages.",
+      "range": {
+        "startLine": 537,
+        "startChar": 26,
+        "endLine": 537,
+        "endChar": 55
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a042d90d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "We don\u0027t enforce this in any way. \u0027Usual\u0027 values are 2M and 1G, at least for x86_86 and AArch64 (when using 4KB pagesizes).\nOther values might pop later / with custom kernel configs (e.g. 64KB pagesize for AArch64), so let\u0027s use \u0027Usual\u0027 instead of valid.",
+      "range": {
+        "startLine": 537,
+        "startChar": 57,
+        "endLine": 537,
+        "endChar": 62
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_4062f5ad",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 540,
+        "startChar": 57,
+        "endLine": 540,
+        "endChar": 59
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_206d2999",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": ", available as a git submodule in Fuel repository under *mcp/scripts/pharos*.",
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a0101902",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-22T12:24:26Z",
+      "side": 1,
+      "message": "maybe use a path relative to Fuel git root? e.g.\nmcp/scripts/pharos/config/...",
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
