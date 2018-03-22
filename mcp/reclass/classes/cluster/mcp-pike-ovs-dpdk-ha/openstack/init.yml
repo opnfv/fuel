@@ -10,5 +10,5 @@ classes:
   - cluster.mcp-pike-common-ha.openstack_init
 parameters:
   _param:
-    neutron_tenant_network_types: "flat,vxlan"
+    neutron_tenant_network_types: "flat,vlan"
     neutron_tenant_vlan_range: "1000:1030"

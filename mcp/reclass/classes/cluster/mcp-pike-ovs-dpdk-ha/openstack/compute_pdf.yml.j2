@@ -10,6 +10,7 @@
 parameters:
   linux:
     network:
+      ovs_nowait: true
       interface:
         dpdk0:
           name: ${_param:dpdk0_name}
@@ -22,10 +23,5 @@ parameters:
         br-prv:
           enabled: true
           type: dpdk_ovs_bridge
-          address: ${_param:tenant_address}
-          netmask: 255.255.255.0
-          {%- if nm.vlan_private | int > 0 %}
-          tag: {{ nm.vlan_private }}
-          {%- endif %}
         br-floating:
           datapath_type: netdev
