@@ -38,10 +38,11 @@ function get_base_image {
 function __kernel_modules {
   # Load mandatory kernel modules: loop, nbd
   local image_dir=$1
-  sudo modprobe loop
+  test -e /dev/loop-control || sudo modprobe loop
   if sudo modprobe nbd max_part=8 || sudo modprobe -f nbd max_part=8; then
     return 0
   fi
+  if [ -e /dev/nbd0 ]; then return 0; fi  # nbd might be inbuilt
   # CentOS (or RHEL family in general) do not provide 'nbd' out of the box
   echo "[WARN] 'nbd' kernel module cannot be loaded!"
   if [ ! -e /etc/redhat-release ]; then
@@ -225,6 +226,7 @@ function cleanup_mounts {
 function cleanup_uefi {
   # Clean up Ubuntu boot entry if cfg01, kvm nodes online from previous deploy
   local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
+  ping -c 1 -w 1 "${SALT_MASTER}" || return 0
   [ ! "$(hostname)" = 'cfg01' ] || cmd_str='eval'
   ${cmd_str} "sudo salt -C 'kvm* or cmp*' cmd.run \
     \"which efibootmgr > /dev/null 2>&1 && \
