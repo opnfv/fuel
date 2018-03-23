@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_3199fd1f",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-23T20:45:43Z",
+      "side": 1,
+      "message": "Fuel",
+      "range": {
+        "startLine": 542,
+        "startChar": 46,
+        "endLine": 542,
+        "endChar": 50
+      },
+      "revId": "a378f775c1fbfb3d438ca6bfcb58db6bd6ef0dea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
