@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_3699f31f",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-23T11:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_60ea9110",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 89
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_00e3cd33",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_96a0c744",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-23T11:47:17Z",
+      "side": 1,
+      "message": "the PDF does not have \"fixed IP\" address anymore, except the jumpserver has a value \"address\"\nhttps://github.com/opnfv/pharos/blob/master/labs/arm/pod6.yaml#L64.",
+      "parentUuid": "5a3f45e8_00e3cd33",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 93
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_c0bf25fb",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-22T12:24:26Z",
       "side": 1,
       "message": "sections and groups are not very well defined in this scope.\nAs far as yaml goes, they are all \u0027keys\u0027, I think.",
+      "range": {
+        "startLine": 517,
+        "startChar": 42,
+        "endLine": 517,
+        "endChar": 50
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_364e1397",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-23T11:47:17Z",
+      "side": 1,
+      "message": "i will use section /sub-section. hope it sounds better",
+      "parentUuid": "5a3f45e8_c0bf25fb",
       "range": {
         "startLine": 517,
         "startChar": 42,
@@ -186,6 +258,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_76a37b4f",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-23T11:47:17Z",
+      "side": 1,
+      "message": "I change to \u0027Usual\u0027 to be more generic. \n\nBut the current schema will valid only two values: 2M or 1G \nhttps://github.com/opnfv/pharos/blob/master/config/pdf/idf-pod1.schema.yaml#L94.",
+      "parentUuid": "5a3f45e8_a042d90d",
+      "range": {
+        "startLine": 537,
+        "startChar": 57,
+        "endLine": 537,
+        "endChar": 62
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_4062f5ad",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 4
@@ -237,6 +333,24 @@
       "writtenOn": "2018-03-22T12:24:26Z",
       "side": 1,
       "message": "maybe use a path relative to Fuel git root? e.g.\nmcp/scripts/pharos/config/...",
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_7671bbdf",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-23T11:47:17Z",
+      "side": 1,
+      "message": "good point! will change to mcp path",
+      "parentUuid": "5a3f45e8_a0101902",
       "revId": "1933d706720aca4446f26c939c132e3c29923852",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
