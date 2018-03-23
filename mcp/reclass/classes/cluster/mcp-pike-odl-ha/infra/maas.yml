@@ -9,3 +9,6 @@
 classes:
   - cluster.mcp-pike-common-ha.infra.maas
   - cluster.mcp-pike-odl-ha.infra
+parameters:
+  _param:
+    hwe_kernel: 'ga-16.04'

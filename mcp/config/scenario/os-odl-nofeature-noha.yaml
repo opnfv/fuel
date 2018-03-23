@@ -9,9 +9,9 @@
 cluster:
   domain: mcp-pike-odl-noha.local
   states:
-    - opendaylight
     - openstack_noha
     - neutron_gateway
+    - opendaylight
     - networks
 virtual:
   nodes:
