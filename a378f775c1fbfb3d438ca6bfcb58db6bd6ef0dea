@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_fc7da9e8",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-26T09:17:30Z",
+      "side": 1,
+      "message": "We suggest people to update and use our kernel at Line217-223\nhttps://github.com/opnfv/fuel/blame/master/docs/release/installation/installation.instruction.rst#L217-L223",
+      "parentUuid": "5a3f45e8_dc21cdfc",
+      "revId": "a378f775c1fbfb3d438ca6bfcb58db6bd6ef0dea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_3199fd1f",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 5
