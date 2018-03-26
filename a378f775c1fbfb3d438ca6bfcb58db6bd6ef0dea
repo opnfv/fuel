@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a3f45e8_dc21cdfc",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-26T08:53:58Z",
+      "side": 1,
+      "message": "1)Probably latest and not newer.\n2)Should we specify kernel version for aarch64 ?\nadvise ppl to use our kernel",
+      "revId": "a378f775c1fbfb3d438ca6bfcb58db6bd6ef0dea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_3199fd1f",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 5
