@@ -249,6 +249,11 @@ parameters:
   linux:
     system:
       repo:
+        uca-staging:
+          source: "deb http://ppa.launchpad.net/ubuntu-cloud-archive/${_param:openstack_version}-staging/ubuntu xenial main"
+          architectures: amd64
+          key_id: 9F68104E
+          key_server: keyserver.ubuntu.com
         uca:
           source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
           architectures: amd64
