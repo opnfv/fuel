@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_9f42973c",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-26T12:58:19Z",
+      "side": 1,
+      "message": "I assume we add this because we need some specific version of some package.\nIf that is the case we might need to add repo priorities here and in uca",
+      "revId": "31ec9abe1648bbce8705b703097813489f07d558",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
