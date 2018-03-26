@@ -16,6 +16,52 @@
       "revId": "31ec9abe1648bbce8705b703097813489f07d558",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_1f2e8743",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-26T17:50:24Z",
+      "side": 1,
+      "message": "uca-staging",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 12
+      },
+      "revId": "31ec9abe1648bbce8705b703097813489f07d558",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_bfff93a9",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-03-26T17:50:24Z",
+      "side": 1,
+      "message": "fyi, this will need to be extended to \u0027amd64,arm64\u0027 via an Armband patch (we already have it as [1], should only be extended).\n[1] https://github.com/opnfv/armband/blob/master/patches/opnfv-fuel/0010-baremetal-virtual-Extend-arch-list-for-UCA-repo.patch",
+      "range": {
+        "startLine": 254,
+        "startChar": 25,
+        "endLine": 254,
+        "endChar": 30
+      },
+      "revId": "31ec9abe1648bbce8705b703097813489f07d558",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
