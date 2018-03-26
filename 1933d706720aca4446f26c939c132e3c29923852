@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_5c85bdce",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-03-26T09:17:30Z",
+      "side": 1,
+      "message": "OK. agree. The old text will remain.",
+      "parentUuid": "5a3f45e8_f1f79557",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 93
+      },
+      "revId": "1933d706720aca4446f26c939c132e3c29923852",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_c0bf25fb",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 4
