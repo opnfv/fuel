@@ -21,4 +21,4 @@ function odl() {
 salt -I 'opendaylight:server' service.mask opendaylight
 salt -I 'opendaylight:server' state.sls opendaylight
 
-wait_for 20 "salt --out yaml -C 'I@neutron:server and *01*' network.connect $(odl bind_ip) $(odl rest_port) | fgrep 'result: true'"
+wait_for 20 "salt --out yaml -C 'I@neutron:server and *01*' network.connect $(odl bind_ip) $(odl rest_port) | fgrep -q 'result: true'"

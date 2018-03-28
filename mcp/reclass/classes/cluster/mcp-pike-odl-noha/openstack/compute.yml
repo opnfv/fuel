@@ -14,17 +14,14 @@ classes:
 parameters:
   linux:
     network:
-      gateway: ${_param:openstack_gateway_address}
       interface:
         external_interface:
           enabled: true
+          type: eth
           name: ${_param:external_interface}
           mtu: ${_param:interface_mtu}
           proto: manual
-          ovs_port_type: OVSPort
-          type: ovs_port
           ovs_bridge: br-floating
-          bridge: br-floating
         br-mesh:
           enabled: true
           type: bridge
