@@ -1,0 +1,145 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Mon, 12 Mar 2018 16:32:50 +0400
+Subject: [PATCH] Filter out OpenDaylight client on computes
+
+OpenDaylight uses pseudo agents to manage network ports,
+therefore detach unwanted ovs agent & etc. from compute state.
+Also swap the set-manager target with tunnel_ip/provider_mappings
+settings since ovs host config should be in place before manager setup.
+
+Change-Id: I07cd760fdb4ce84aba21450af9246c8c9128118f
+
+diff --git a/neutron/compute.sls b/neutron/compute.sls
+index 418282d..e83a5b7 100644
+--- a/neutron/compute.sls
++++ b/neutron/compute.sls
+@@ -2,6 +2,36 @@
+ {%- if compute.enabled %}
+
+ {% if compute.backend.engine == "ml2" %}
++
++{% if compute.get('dhcp_agent_enabled', False) %}
++neutron_dhcp_agent_packages:
++  pkg.installed:
++  - names:
++    - neutron-dhcp-agent
++
++neutron_dhcp_agent:
++  service.running:
++    - enable: true
++    - names:
++      - neutron-dhcp-agent
++    - watch:
++      - file: /etc/neutron/dhcp_agent.ini
++    - require:
++      - pkg: neutron_dhcp_agent_packages
++
++/etc/neutron/dhcp_agent.ini:
++  file.managed:
++  - source: salt://neutron/files/{{ compute.version }}/dhcp_agent.ini
++  - template: jinja
++  - require:
++    - pkg: neutron_dhcp_agent_packages
++
++{% endif %}
++
++{%- if compute.opendaylight is defined %}
++include:
++  - .opendaylight.client
++{%- else %}
+ neutron_compute_packages:
+   pkg.installed:
+   - names: {{ compute.pkgs }}
+@@ -53,31 +83,6 @@ neutron_sriov_service:
+
+ {% endif %}
+
+-{% if compute.get('dhcp_agent_enabled', False) %}
+-neutron_dhcp_agent_packages:
+-  pkg.installed:
+-  - names:
+-    - neutron-dhcp-agent
+-
+-neutron_dhcp_agent:
+-  service.running:
+-    - enable: true
+-    - names:
+-      - neutron-dhcp-agent
+-    - watch:
+-      - file: /etc/neutron/dhcp_agent.ini
+-    - require:
+-      - pkg: neutron_dhcp_agent_packages
+-
+-/etc/neutron/dhcp_agent.ini:
+-  file.managed:
+-  - source: salt://neutron/files/{{ compute.version }}/dhcp_agent.ini
+-  - template: jinja
+-  - require:
+-    - pkg: neutron_dhcp_agent_packages
+-
+-{% endif %}
+-
+ {% if compute.dvr %}
+
+ {%- if fwaas.get('enabled', False) %}
+@@ -243,10 +248,7 @@ rabbitmq_ca_neutron_compute:
+ {%- endif %}
+ {%- endif %}
+
+-{%- if compute.opendaylight is defined %}
+-include:
+-  - .opendaylight.client
+-{%- endif %}
++{%- endif %}{# !OpenDaylight #}
+
+ {%- elif compute.backend.engine == "ovn" %}
+
+diff --git a/neutron/opendaylight/client.sls b/neutron/opendaylight/client.sls
+index 57e6bcc..79ab0a2 100644
+--- a/neutron/opendaylight/client.sls
++++ b/neutron/opendaylight/client.sls
+@@ -9,27 +9,27 @@ python-networking-odl:
+
+ {%- if not grains.get('noservices', False) %}
+
+-ovs_set_manager:
++neutron_odl_ovs_hostconfig:
+   cmd.run:
+-  - name: 'ovs-vsctl set-manager {{ neutron.opendaylight.ovsdb_server_iface }} {{ neutron.opendaylight.ovsdb_odl_iface }}'
+-  - unless: 'ovs-vsctl get-manager | fgrep -x {{ neutron.opendaylight.ovsdb_odl_iface }}'
++  - name: 'neutron-odl-ovs-hostconfig --noovs_dpdk'
++  - require:
++    - pkg: python-networking-odl
+
+ ovs_set_tunnel_endpoint:
+   cmd.run:
+   - name: 'ovs-vsctl set Open_vSwitch . other_config:local_ip={{ neutron.opendaylight.tunnel_ip }}'
+-  - unless: 'ovs-vsctl get Open_vSwitch . other_config | fgrep local_ip="{{ neutron.opendaylight.tunnel_ip }}"'
++  - unless: 'ovs-vsctl get Open_vSwitch . other_config | fgrep -q local_ip=\"{{ neutron.opendaylight.tunnel_ip }}\"'
+
+ {%- if neutron.opendaylight.provider_mappings is defined %}
+ ovs_set_provider_mappings:
+   cmd.run:
+   - name: 'ovs-vsctl set Open_vSwitch . other_config:provider_mappings={{ neutron.opendaylight.provider_mappings }}'
+-  - unless: 'ovs-vsctl get Open_vSwitch . other_config | fgrep provider_mappings="{{ neutron.opendaylight.provider_mappings }}"'
++  - unless: 'ovs-vsctl get Open_vSwitch . other_config | fgrep -q provider_mappings=\"{{ neutron.opendaylight.provider_mappings }}\"'
+ {%- endif %}
+
+-neutron_odl_ovs_hostconfig:
++ovs_set_manager:
+   cmd.run:
+-  - name: 'neutron-odl-ovs-hostconfig --noovs_dpdk'
+-  - require:
+-    - pkg: python-networking-odl
++  - name: 'ovs-vsctl set-manager {{ neutron.opendaylight.ovsdb_server_iface }} {{ neutron.opendaylight.ovsdb_odl_iface }}'
++  - unless: 'ovs-vsctl get-manager | fgrep -qx {{ neutron.opendaylight.ovsdb_odl_iface }}'
+
+ {%- endif %}
