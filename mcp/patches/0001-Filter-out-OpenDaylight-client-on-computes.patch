@@ -103,22 +103,18 @@ index 418282d..e83a5b7 100644
  {%- elif compute.backend.engine == "ovn" %}
 
 diff --git a/neutron/opendaylight/client.sls b/neutron/opendaylight/client.sls
-index 57e6bcc..79ab0a2 100644
+index 57e6bcc..bb0cf65 100644
 --- a/neutron/opendaylight/client.sls
 +++ b/neutron/opendaylight/client.sls
-@@ -9,27 +9,27 @@ python-networking-odl:
+@@ -9,21 +9,16 @@ python-networking-odl:
 
  {%- if not grains.get('noservices', False) %}
 
 -ovs_set_manager:
-+neutron_odl_ovs_hostconfig:
-   cmd.run:
+-  cmd.run:
 -  - name: 'ovs-vsctl set-manager {{ neutron.opendaylight.ovsdb_server_iface }} {{ neutron.opendaylight.ovsdb_odl_iface }}'
 -  - unless: 'ovs-vsctl get-manager | fgrep -x {{ neutron.opendaylight.ovsdb_odl_iface }}'
-+  - name: 'neutron-odl-ovs-hostconfig --noovs_dpdk'
-+  - require:
-+    - pkg: python-networking-odl
-
+-
  ovs_set_tunnel_endpoint:
    cmd.run:
    - name: 'ovs-vsctl set Open_vSwitch . other_config:local_ip={{ neutron.opendaylight.tunnel_ip }}'
@@ -133,13 +129,14 @@ index 57e6bcc..79ab0a2 100644
 +  - unless: 'ovs-vsctl get Open_vSwitch . other_config | fgrep -q provider_mappings=\"{{ neutron.opendaylight.provider_mappings }}\"'
  {%- endif %}
 
--neutron_odl_ovs_hostconfig:
+ neutron_odl_ovs_hostconfig:
+@@ -32,4 +27,9 @@ neutron_odl_ovs_hostconfig:
+   - require:
+     - pkg: python-networking-odl
+
 +ovs_set_manager:
-   cmd.run:
--  - name: 'neutron-odl-ovs-hostconfig --noovs_dpdk'
--  - require:
--    - pkg: python-networking-odl
++  cmd.run:
 +  - name: 'ovs-vsctl set-manager {{ neutron.opendaylight.ovsdb_server_iface }} {{ neutron.opendaylight.ovsdb_odl_iface }}'
 +  - unless: 'ovs-vsctl get-manager | fgrep -qx {{ neutron.opendaylight.ovsdb_odl_iface }}'
-
++
  {%- endif %}
