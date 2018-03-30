@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_ee59675b",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-03-30T13:00:34Z",
+      "side": 1,
+      "message": "should not this have arm64 as well ?",
+      "revId": "fa3eaf93c3994b87430c1546cb30d208e774a134",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
