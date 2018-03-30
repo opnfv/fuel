@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_4e885be7",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-odl-ha/opendaylight/control.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-03-30T07:23:28Z",
+      "side": 1,
+      "message": "max_mem should be equal to min_mem for better performance.",
+      "range": {
+        "startLine": 23,
+        "startChar": 20,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "a41d4308e32e118206c7e946b4a7d77380513dbe",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
