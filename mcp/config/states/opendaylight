@@ -17,11 +17,5 @@ function odl() {
   salt --out txt -I 'opendaylight:server' pillar.get "opendaylight:server:odl_$1" | cut -d ' ' -f2
 }
 
-# TODO: use service.masked state instead once salt get updated to 2017.7.0+
-salt -I 'opendaylight:server' service.mask opendaylight
 salt -I 'opendaylight:server' state.sls opendaylight
-
 wait_for 20 "salt --out yaml -C 'I@neutron:server and *01*' network.connect $(odl bind_ip) $(odl rest_port) | fgrep -q 'result: true'"
-
-# settle down neutron api and agents
-sleep 180
