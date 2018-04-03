@@ -80,6 +80,8 @@ parameters:
           proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
+          use_interfaces:
+            - {{ nm.cmp001.nic_public }}{% if nm.vlan_public | int > 0 %}.{{ nm.vlan_public }}{% endif %}
           route:
             public:
               address: 0.0.0.0

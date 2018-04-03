@@ -14,10 +14,10 @@ Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
 
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..216581f
+index 0000000..c609e45
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,10 @@
+@@ -0,0 +1,13 @@
 +auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
 +iface {{ bridge_name }} inet static
@@ -25,6 +25,9 @@ index 0000000..216581f
 +  address {{ bridge.address }}
 +  netmask {{ bridge.netmask }}
 +  mtu {{ bridge.get('mtu', '1500') }}
++  {%- if bridge.use_interfaces is defined %}
++  ovs_ports {{ bridge.use_interfaces|join(' ') }}
++  {%- endif %}
 +  {%- if bridge.datapath_type is defined %}
 +  ovs_extra set Bridge ${IFACE} datapath_type={{ bridge.datapath_type }}
 +  {%- endif %}
@@ -43,7 +46,7 @@ index 222ca8e..efb0307 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index fa37e5e..b5ed1ae 100644
+index 180f912..dcb295b 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
 @@ -91,6 +91,34 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
