@@ -29,8 +29,8 @@ opendaylight_repo:
   # https://github.com/saltstack/salt/pull/45224
   # - ppa: {{ server.repo }}
   - human_name: opendaylight-ppa
-  - name: deb http://ppa.launchpad.net/odl-team/nitrogen/ubuntu xenial main
-  - file: /etc/apt/sources.list.d/odl-team-ubuntu-nitrogen-xenial.list
+  - name: deb http://ppa.launchpad.net/odl-team/{{ server.version }}/ubuntu xenial main
+  - file: /etc/apt/sources.list.d/odl-team-ubuntu-{{ server.version }}-xenial.list
 
 opendaylight:
   pkg.installed:
@@ -78,6 +78,7 @@ opendaylight:
   ini.options_present:
     - sections:
         org.ops4j.pax.web.listening.addresses: {{ server.odl_bind_ip }}
+        org.osgi.service.http.port: {{ server.odl_rest_port }}
 
 {%- if server.get('router_enabled', false) %}
 /opt/opendaylight/etc/custom.properties:

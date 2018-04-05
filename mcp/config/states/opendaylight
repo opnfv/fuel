@@ -19,7 +19,3 @@ function odl() {
 
 salt -I 'opendaylight:server' state.sls opendaylight
 wait_for 20 "salt --out yaml -C 'I@neutron:server and *01*' network.connect $(odl bind_ip) $(odl rest_port) | fgrep -q 'result: true'"
-salt -I 'opendaylight:server' service.restart opendaylight
-
-# settle down neutron api and agents
-sleep 180
