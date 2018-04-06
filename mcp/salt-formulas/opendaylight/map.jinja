@@ -11,7 +11,7 @@
       'karaf_features': {'default': ['standard', 'wrap', 'ssh']},
       'odl_rest_port': '8282',
       'odl_bind_ip': '0.0.0.0',
-      'repo': 'odl-team/nitrogen',
+      'repo': 'odl-team/oxygen',
       'log_levels': {},
       'enable_ha': false,
       'ha_node_ips': [],
@@ -26,9 +26,3 @@
       'repo': 'opendaylight-6-testing'
     },
 }, merge=salt['pillar.get']('opendaylight:server')) %}
-
-{%- set client = salt['grains.filter_by']({
-  'Debian': {
-    'pkgs': ['python-networking-odl'],
-  },
-}, merge=salt['pillar.get']('opendaylight:client')) %}
