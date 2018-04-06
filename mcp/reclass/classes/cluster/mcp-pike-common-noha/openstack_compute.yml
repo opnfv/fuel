@@ -26,6 +26,8 @@ parameters:
       libvirt_bin: /etc/default/libvirtd
       disk_cachemodes: file=directsync,block=none
       vncproxy_url: http://${_param:cluster_vip_address}:6080
+      bind:
+        vnc_address: ${_param:single_address}
       network:
         region: ${_param:openstack_region}
         user: neutron
