@@ -6,6 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+{%- if 'maas' in conf.cluster.states %}
 parameters:
   # NOTE: Apt proxy is set by curtin, Salt minion proxy is configured below,
   # only enable proxy via /etc/environment if you need it for smth else
@@ -23,3 +24,4 @@ parameters:
           enabled: true
           http: http://${_param:infra_maas_node01_deploy_address}:8000
           https: http://${_param:infra_maas_node01_deploy_address}:8000
+{%- endif %}

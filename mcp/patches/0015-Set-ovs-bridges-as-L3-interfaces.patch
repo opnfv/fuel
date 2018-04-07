@@ -17,7 +17,7 @@ new file mode 100644
 index 0000000..c609e45
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,19 @@
 +auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
 +iface {{ bridge_name }} inet static
@@ -30,6 +30,12 @@ index 0000000..c609e45
 +  {%- endif %}
 +  {%- if bridge.datapath_type is defined %}
 +  ovs_extra set Bridge ${IFACE} datapath_type={{ bridge.datapath_type }}
++  {%- endif %}
++  {%- if bridge.gateway is defined %}
++  gateway {{ bridge.gateway }}
++  {%- endif %}
++  {%- if bridge.name_servers is defined %}
++  dns-nameservers {{ bridge.name_servers | join(' ') }}
 +  {%- endif %}
 diff --git a/linux/files/ovs_port b/linux/files/ovs_port
 index 222ca8e..efb0307 100644

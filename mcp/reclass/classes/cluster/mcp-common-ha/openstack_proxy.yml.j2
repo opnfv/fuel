@@ -39,15 +39,6 @@ parameters:
         libapache2-mod-wsgi:
           version: latest
 {%- if not conf.MCP_VCP %}
-    # Set up routes similar to prx*ovs-ha
-    network:
-      interface:
-        br-ex:
-          route:
-            public:
-              address: 0.0.0.0
-              netmask: 0.0.0.0
-              gateway: ${_param:opnfv_net_public_gw}
   nginx:
     server:
       # NOTE(armband): Define host.address for all proxies for uniformity
@@ -67,6 +58,9 @@ parameters:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_heat_cfn:
           <<: *nginx_openstack_proxy_address
+        nginx_proxy_openstack_api_heat_cloudwatch:
+          <<: *nginx_openstack_proxy_address
+          enabled: false
         nginx_proxy_openstack_api_keystone:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_keystone_private:
@@ -74,8 +68,6 @@ parameters:
         nginx_proxy_openstack_api_neutron:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_nova:
-          <<: *nginx_openstack_proxy_address
-        nginx_proxy_openstack_api_nova_ec2:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_web:
           <<: *nginx_openstack_proxy_address

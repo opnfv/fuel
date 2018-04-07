@@ -1,0 +1,33 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 18 Jun 2018 15:53:31 +0200
+Subject: [PATCH] system.repo: Pin glusterfs with higher prio
+
+When both glusterfs PPA repo and MCP repos are used on the same node,
+the MCP repos used to take priority and install a predefined version
+no matter the configuration for GlusterFS PPA.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/system/repo/glusterfs.yml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/linux/system/repo/glusterfs.yml b/linux/system/repo/glusterfs.yml
+index fb331f0f..71d063ac 100644
+--- a/linux/system/repo/glusterfs.yml
++++ b/linux/system/repo/glusterfs.yml
+@@ -9,3 +9,7 @@ parameters:
+           architectures: amd64
+           key_id: 3FE869A9
+           key_server: keyserver.ubuntu.com
++          pin:
++          - package: '*'
++            pin: release o=LP-PPA-gluster-glusterfs-${_param:glusterfs_version}
++            priority: 1100

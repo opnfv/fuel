@@ -5,7 +5,15 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{#- This class should only be inherited in NOVCP scenarios for kvm02 #}
+{%- import 'net_map.j2' as nm with context %}
 ---
-classes:
-  - cluster.all-mcp-arch-common.opnfv.runtime
-  - cluster.all-mcp-arch-common.opnfv.pod_config
+parameters:
+  linux:
+    network:
+      interface:
+        br-mgmt:
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
