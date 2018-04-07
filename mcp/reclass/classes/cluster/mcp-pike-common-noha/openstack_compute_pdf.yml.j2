@@ -10,6 +10,15 @@
 ---
 parameters:
   _param:
+    # Should later be determined via PDF/IDF, AArch64 has ESP on /dev/sda1
+{%- if conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
+    ~cinder_lvm_devices: ['/dev/vdb']
+{%- elif conf.nodes[nm.cmp001.idx].node.arch == 'aarch64' or
+         conf.nodes[nm.cmp001.idx].disks.0.disk_capacity | storage_size_num | float > 2000000000000 %}
+    ~cinder_lvm_devices: ['/dev/sda2']
+{%- else %}
+    ~cinder_lvm_devices: ['/dev/sda1']
+{%- endif %}
     primary_interface: {{ nm.cmp001.nic_mgmt }}
     tenant_interface: {{ nm.cmp001.nic_private }}
     external_interface: {{ nm.cmp001.nic_public }}
@@ -17,11 +26,16 @@ parameters:
     network:
       bridge: openvswitch
       interface:
-        dhcp_int:
+        pxe_admin_int:
           enabled: true
           name: {{ nm.cmp001.nic_admin }}
-          proto: dhcp
+          proto: static
           type: eth
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
           mtu: ${_param:interface_mtu}
         primary_interface:
           enabled: true
@@ -39,6 +53,6 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           use_interfaces:
             - ${_param:primary_interface}

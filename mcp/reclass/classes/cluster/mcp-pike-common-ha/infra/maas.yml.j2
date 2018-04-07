@@ -5,26 +5,38 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- set cluster_arch = [] %}
-{%- for node in conf.nodes %}
-  {%- if node.node.arch not in cluster_arch %}
-    {%- do cluster_arch.append(node.node.arch) %}
-  {%- endif %}
-{%- endfor %}
-{%- set net_admin = [conf.idf.net_config.admin.network,
-                     conf.idf.net_config.admin.mask] | join("/") %}
+{%- import 'net_map.j2' as nm with context %}
 ---
+classes:
+  - system.maas.region.single
+  - service.maas.cluster.single
+  - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
+  - cluster.mcp-pike-common-ha.infra.maas_pdf
 parameters:
+  _param:
+    mcpcontrol_interface: ${_param:opnfv_fn_vm_primary_interface}
+    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
+    pxe_admin_interface: ${_param:opnfv_fn_vm_tertiary_interface}
+    interface_mtu: 1500
+    # MaaS has issues using MTU > 1500 for PXE interface
+    pxe_admin_interface_mtu: 1500
+    linux_system_codename: xenial
+    maas_admin_username: opnfv
+    maas_admin_password: opnfv_secret
+    maas_db_password: opnfv_secret
+    dns_server01: '{{ nm.dns_public[0] }}'
+    single_address: ${_param:infra_maas_node01_deploy_address}
+    hwe_kernel: 'hwe-16.04'
   maas:
     region:
       subnets:
-        {{ net_admin }}:
-          name: {{ net_admin }}
-          cidr: {{ net_admin }}
+        {{ nm.net_admin }}:
+          name: {{ nm.net_admin }}
+          cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
           iprange:
-            start: ${_param:opnfv_infra_maas_pxe_start_address}
-            end: ${_param:opnfv_infra_maas_pxe_end_address}
+            start: {{ nm.net_admin_pool_start }}
+            end: {{ nm.net_admin_pool_end }}
             type: dynamic
           vlans:
             untagged:
@@ -32,10 +44,10 @@ parameters:
               dhcp_on: true
               primary_rack: ${_param:infra_maas_node01_hostname}
       # Space-separated list of dpkg architectures to be supported by MaaS
-      opnfv_arches:{%- for arch in cluster_arch %} {{ arch | dpkg_arch }}{%- endfor %}
+      opnfv_arches:{%- for arch in nm.cluster.arch %} {{ arch | dpkg_arch }}{%- endfor %}
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
-{%- if 'aarch64' in cluster_arch %}
+{%- if 'aarch64' in nm.cluster.arch %}
       package_repositories:
         armband:
           name: armband
@@ -92,3 +104,42 @@ parameters:
           {%- endif %}
       {%- endif %}
       {%- endfor %}
+      salt_master_ip: ${_param:reclass_config_master}
+      domain: ${_param:cluster_domain}
+      maas_config:
+        commissioning_distro_series: 'xenial'
+        default_distro_series: 'xenial'
+        default_osystem: 'ubuntu'
+        default_storage_layout: 'lvm'
+        enable_http_proxy: true
+        disk_erase_with_secure_erase: false
+        dnssec_validation: 'no'
+        enable_third_party_drivers: true
+        network_discovery: 'enabled'
+        default_min_hwe_kernel: ${_param:hwe_kernel}
+    cluster:
+      saltstack_repo_xenial: "http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/ xenial main"
+  linux:
+    network:
+      interface:
+        mcpcontrol_interface:
+          enabled: true
+          name: ${_param:mcpcontrol_interface}
+          type: eth
+          proto: dhcp
+        primary_interface:
+          enabled: true
+          name: ${_param:primary_interface}
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:infra_maas_node01_address}
+          netmask: ${_param:opnfv_net_mgmt_mask}
+          type: eth
+        pxe_admin_interface:
+          enabled: true
+          name: ${_param:pxe_admin_interface}
+          mtu: ${_param:pxe_admin_interface_mtu}
+          proto: static
+          address: ${_param:single_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          type: eth

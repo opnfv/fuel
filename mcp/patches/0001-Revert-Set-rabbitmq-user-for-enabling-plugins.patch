@@ -1,0 +1,27 @@
+From 797443397c02aacb2c5243d2b68f24dcbcd7e5a1 Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 30 May 2018 17:29:05 +0200
+Subject: [PATCH] Revert "Set rabbitmq user for enabling plugins"
+
+This reverts commit 12351009ce7ee8fc191ebf5fd224524c3be0b86e.
+---
+ rabbitmq/server/plugin.sls | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/rabbitmq/server/plugin.sls b/rabbitmq/server/plugin.sls
+index d0c67ad..6b04cb2 100644
+--- a/rabbitmq/server/plugin.sls
++++ b/rabbitmq/server/plugin.sls
+@@ -9,10 +9,9 @@ include:
+ rabbitmq_plugin_{{ plugin }}:
+   rabbitmq_plugin.enabled:
+   - name: {{ plugin }}
+-  - runas: rabbitmq
+   - require:
+     - service: rabbitmq_service
+ 
+ {%- endfor %}
+ 
+-{%- endif %}
++{%- endif %}
+\ No newline at end of file
