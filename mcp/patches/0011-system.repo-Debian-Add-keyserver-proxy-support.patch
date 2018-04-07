@@ -7,12 +7,10 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Mon, 22 Jan 2018 00:28:09 +0100
-Subject: [PATCH] system.repo: Debian: Add keyserver proxy support
+Date: Sun, 3 Jun 2018 19:28:18 +0200
+Subject: [PATCH] system.repo: Fix conditions order for Debian proxy
 
-Introduce a new, optional set of parameters to configure the proxy
-used for key fetching / keyserver access under:
-linux:system:proxy:keyserver:http(s).
+system.repo: Debian: Use proxy for keyservers
 
 Previously, when fetching GPG keys for APT keyring, either using
 public key download & import (as for default repos) or via keyserver,
@@ -22,37 +20,122 @@ To be able to retrieve APT keys behind a proxy, one used to have to
 configure the proxy for the Salt minion, which does not yet have
 `no_proxy` support (either *all* or *no* traffic hits the proxy).
 
-When the new http(s) proxy param is set:
+When `linux:system:proxy` http(s) proxies are set:
 - no longer pass key configuration to Salt aptpkg (until it properly
   supports `no_proxy`);
 - handle all keys explicitly with `curl` and `apt-key`;
-- set 'http(s)_proxy' env vars for `cmd.run`/`cmd.wait` calls;
+- set 'http(s)_proxy' env vars for `cmd.wait` calls;
 
-If linux:system:proxy:keyserver is not defined, the behavior is
+If `linux:system:proxy` is not defined, the behavior is
 unchanged for backwards compatibility.
 
-To allow runtime decisions whether the keyserver proxy should be used
-add an additional condition for it to match the first nameserver.
-This allows us to mix virtual nodes with MaaS-provisioned nodes in
-Fuel@OPNFV, while keeping the ext_pillar common.
+NOTE: If present, per-repo proxies are also used for keyserver access.
+
+system.repo: Fix yaml parsing for embedded key
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- README.rst            | 16 ++++++++++++++++
- linux/system/repo.sls | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ linux/system/repo.sls | 86 +++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 75 insertions(+), 11 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
+index ace6dab..54798cc 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -96,13 +96,50 @@ linux_repo_{{ name }}_key:
+@@ -5,9 +5,15 @@ linux_repo_prereq_pkgs:
+   pkg.installed:
+   - pkgs: {{ system.pkgs }}
+
++{%- set proxies = {'system': {}, 'repo': {}} %}
++
+ # global proxy setup
+-{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+ {%- if grains.os_family == 'Debian' %}
++{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
++
++{%- do proxies.system.update({'https': system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
++{%- do proxies.system.update({'http': system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
++{%- do proxies.system.update({'ftp': system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
+
+ /etc/apt/apt.conf.d/99proxies-salt:
+   file.managed:
+@@ -15,9 +21,9 @@ linux_repo_prereq_pkgs:
+   - source: salt://linux/files/apt.conf.d_proxies
+   - defaults:
+       external_host: False
+-      https: {{ system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true) }}
+-      http: {{ system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true) }}
+-      ftp: {{ system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true) }}
++      https: {{ proxies.system.https }}
++      http: {{ proxies.system.http }}
++      ftp: {{ proxies.system.ftp }}
+
+ {%- else %}
+
+@@ -25,9 +31,6 @@ linux_repo_prereq_pkgs:
+   file.absent
+
+ {%- endif %}
+-{%- endif %}
+-
+-{% set default_repos = {} %}
+
+ {%- if system.purge_repos|default(False) %}
+
+@@ -38,6 +41,10 @@ purge_sources_list_d_repos:
+
+ {%- endif %}
+
++{%- endif %}
++
++{% set default_repos = {} %}
++
+ {%- for name, repo in system.repo.items() %}
+ {%- set name=repo.get('name', name) %}
+ {%- if grains.os_family == 'Debian' %}
+@@ -45,16 +52,20 @@ purge_sources_list_d_repos:
+ # per repository proxy setup
+ {%- if repo.get('proxy', {}).get('enabled', False) %}
+ {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
++{%- do proxies.repo.update({'https': repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
++{%- do proxies.repo.update({'http': repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
++{%- do proxies.repo.update({'ftp': repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
+ /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
+   file.managed:
+   - template: jinja
+   - source: salt://linux/files/apt.conf.d_proxies
+   - defaults:
+       external_host: {{ external_host }}
+-      https: {{ repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), True) }}
+-      http: {{ repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), True) }}
+-      ftp: {{ repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), True) }}
++      https: {{ proxies.repo.https }}
++      http: {{ proxies.repo.http }}
++      ftp: {{ proxies.repo.ftp }}
+ {%- else %}
++{%- do proxies.repo.update({'https': None, 'http': None, 'ftp': None}) %}
+ /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
+   file.absent
+ {%- endif %}
+@@ -85,7 +96,7 @@ linux_repo_{{ name }}_pin:
+
+ linux_repo_{{ name }}_key:
+   cmd.wait:
+-    - name: "echo '{{ repo.key }}' | apt-key add -"
++    - name: "echo -e '{{ repo.key | replace('\n', '\\n') }}' | apt-key add -"
+     - watch:
+       - file: default_repo_list
+
+@@ -96,13 +107,63 @@ linux_repo_{{ name }}_key:
      - name: "curl -s {{ repo.key_url }} | apt-key add -"
      - watch:
        - file: default_repo_list
-+{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
++      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
++{%- endif %}
++{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
++      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
 +{%- endif %}
 
  {%- endif %}
@@ -62,49 +145,60 @@ diff --git a/linux/system/repo.sls b/linux/system/repo.sls
 
  {%- if repo.get('enabled', True) %}
 
-+{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
++{%- if system.proxy is defined %}
 +
 +{%- if repo.get('key') %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
-+    - name: "echo '{{ repo.key }}' | apt-key add -"
++    - name: "echo -e '{{ repo.key | replace('\n', '\\n') }}' | apt-key add -"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +
 +{%- elif repo.key_url|default(False) %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "curl -s {{ repo.key_url }} | apt-key add -"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
++      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
++{%- endif %}
++{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
++      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
++{%- endif %}
 +
 +{%- elif repo.key_id is defined and repo.key_server is defined %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "apt-key adv --keyserver {{ repo.key_server }} --recv {{ repo.key_id }}"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
++      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
++{%- endif %}
++{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
++      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
++{%- endif %}
 +
 +{%- endif %}
 +
-+{#- system.proxy.keyserver #}
++{#- system.proxy is defined #}
 +{%- endif %}
 +
  linux_repo_{{ name }}:
    pkgrepo.managed:
    {%- if repo.ppa is defined %}
-@@ -115,6 +152,7 @@ linux_repo_{{ name }}:
+@@ -115,6 +176,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
-+  {%- if system.proxy.keyserver is not defined or grains['dns']['nameservers'][0] not in system.proxy.keyserver.http %}
++  {%- if system.proxy is not defined %}
    {%- if repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
    {%- endif %}
-@@ -124,6 +162,7 @@ linux_repo_{{ name }}:
+@@ -124,6 +186,7 @@ linux_repo_{{ name }}:
    {%- if repo.key_url is defined %}
    - key_url: {{ repo.key_url }}
    {%- endif %}
@@ -112,7 +206,7 @@ diff --git a/linux/system/repo.sls b/linux/system/repo.sls
    - consolidate: {{ repo.get('consolidate', False) }}
    - clean_file: {{ repo.get('clean_file', False) }}
    - refresh_db: {{ repo.get('refresh_db', True) }}
-@@ -140,6 +179,7 @@ linux_repo_{{ name }}:
+@@ -140,6 +203,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    {%- endif %}
 

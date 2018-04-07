@@ -22,7 +22,9 @@ parameters:
           params:
             linux_system_codename: xenial
             single_address: ${_param:opendaylight_service_host}
+            pxe_admin_address: ${_param:opnfv_opendaylight_server_node01_pxe_admin_address}
         openstack_gateway_node01:
           params:
             tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
             external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
+            pxe_admin_address: ${_param:opnfv_openstack_gateway_node01_pxe_admin_address}

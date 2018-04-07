@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - service.neutron.compute.ovn.single
@@ -28,7 +29,7 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:tenant_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - ${_param:tenant_interface}
         br-floating:
@@ -45,8 +46,10 @@ parameters:
           type: bridge
           mtu: ${_param:interface_mtu}
           address: ${_param:external_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
           use_interfaces:
             - ${_param:external_interface}
           use_ovs_ports:
             - float-to-ex
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}
