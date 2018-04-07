@@ -1,0 +1,118 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+---
+classes:
+  - service.git.client
+  - system.linux.system.single
+  - system.linux.system.repo.mcp.salt
+  - system.salt.master.api
+  - system.salt.master.pkg
+  - system.reclass.storage.salt
+  - system.salt.minion.ca.salt_master
+  - system.salt.minion.cert.proxy
+  - system.mysql.client.single
+parameters:
+  _param:
+    openstack_control_node01_hostname: ctl01
+    reclass_data_repository: local
+    reclass_config_master: ${_param:opnfv_infra_config_pxe_admin_address}
+    salt_master_environment_repository: "https://github.com/tcpcloud"
+    salt_master_environment_revision: master
+    single_address: ${_param:opnfv_infra_config_address}
+    salt_master_host: 127.0.0.1
+    salt_master_base_environment: prd
+    salt_minion_ca_host: ${linux:network:fqdn}
+    # yamllint disable-line rule:line-length
+    salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
+  linux:
+    network:
+      interface:
+        mcpcontrol_int:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:opnfv_fn_vm_primary_interface}
+        single_int:
+          enabled: true
+          name: ${_param:opnfv_fn_vm_secondary_interface}
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: ${_param:opnfv_net_mgmt_mask}
+        pxe_admin_int:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:opnfv_fn_vm_tertiary_interface}
+          address: ${_param:opnfv_infra_config_pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+  salt:
+    master:
+      file_recv: true
+  reclass:
+    storage:
+      data_source:
+        engine: local
+      node:
+        openstack_control_node01:
+          name: ${_param:openstack_control_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.openstack.control
+          params:
+            linux_system_codename: xenial
+            salt_master_host: ${_param:reclass_config_master}
+            single_address: ${_param:openstack_control_node01_address}
+            pxe_admin_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}
+        # We support per-node (not only per-role) compute configuration via IDF
+{%- for cmp in range(1, conf.nodes | length - nm.cmp001.idx + 1) %}
+{%- set n = '%02d' | format(cmp) %}
+        openstack_compute_node{{ n }}:
+          name: cmp{{ '%03d' | format(cmp) }}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.openstack.compute
+          params:
+            pxe_admin_address: ${_param:openstack_compute_node{{ n }}_pxe_admin_address}
+            single_address: ${_param:openstack_compute_node{{ n }}_control_address}
+            tenant_address: ${_param:openstack_compute_node{{ n }}_tenant_address}
+            external_address: ${_param:openstack_compute_node{{ n }}_external_address}
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: xenial
+{%- endfor %}
+## NOTE: We can't use `repeat` like below because it conflicts with all-common/infra/config*pdf.yml
+## NOTE: We can't drop all openstack_compute_node* params either without duplicating pod_config here ...
+######### openstack_compute_node01:
+##          name: cmp<<count>>
+##          domain: ${_param:cluster_domain}
+##          classes:
+##            - cluster.${_param:cluster_name}.openstack.compute
+##          repeat:
+##            count: ${_param:openstack_compute_node_count}
+##            digits: 3
+##            params:
+##              pxe_admin_address:
+##                value: openstack_compute_node<<count>>_pxe_admin_address
+##                digits: 2
+##                interpolate: true
+##              single_address:
+##                value: openstack_compute_node<<count>>_control_address
+##                digits: 2
+##                interpolate: true
+##              tenant_address:
+##                value: openstack_compute_node<<count>>_tenant_address
+##                digits: 2
+##                interpolate: true
+##              external_address:
+##                value: openstack_compute_node<<count>>_external_address
+##                digits: 2
+##                interpolate: true
+##          params:
+##            salt_master_host: ${_param:reclass_config_master}
+##            linux_system_codename: xenial

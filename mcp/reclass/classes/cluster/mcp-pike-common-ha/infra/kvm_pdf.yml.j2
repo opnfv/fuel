@@ -20,8 +20,6 @@ parameters:
           enabled: true
           type: eth
           proto: manual
-          address: 0.0.0.0
-          netmask: 255.255.255.0
           name: {{ nic }}
           noifupdown: true
 {%- endfor %}
@@ -41,7 +39,12 @@ parameters:
 
         br-mgmt:
           enabled: true
-          proto: dhcp
+          proto: static
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
           type: bridge
           use_interfaces:
             - {{ nm.ctl01.nic_admin }}{% if nm.vlan_admin | int > 0 %}.{{ nm.vlan_admin }}{% endif %}
@@ -51,15 +54,13 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           use_interfaces:
             - {{ nm.ctl01.nic_mgmt }}{% if nm.vlan_mgmt | int > 0 %}.{{ nm.vlan_mgmt }}{% endif %}
           noifupdown: true
         br-ex:
           enabled: true
           proto: manual
-          address: 0.0.0.0
-          netmask: ${_param:opnfv_net_public_mask}
           type: bridge
           use_interfaces:
             - {{ nm.ctl01.nic_public }}{% if nm.vlan_public | int > 0 %}.{{ nm.vlan_public }}{% endif %}

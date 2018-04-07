@@ -16,8 +16,8 @@ virtual:
   nodes:
     - cfg01
     - ctl01
-    - cmp01
-    - cmp02
+    - cmp001
+    - cmp002
     - gtw01
   ctl01:
     vcpus: 4
