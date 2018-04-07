@@ -7,13 +7,14 @@
  http://www.apache.org/licenses/LICENSE-2.0
 -->
 {#- conf.MCPCONTROL_NET & co are mandatory, defaults are set via globals.sh #}
+{%- set net_mcpcontrol = [conf.MCPCONTROL_NET, conf.MCPCONTROL_PREFIX] | join("/") %}
 <network>
   <name>mcpcontrol</name>
   <bridge name="mcpcontrol"/>
   <forward mode="nat"/>
-  <ip address="{{ conf.MCPCONTROL_NET | ipaddr_index(1) }}" netmask="{{ conf.MCPCONTROL_PREFIX | netmask }}">
+  <ip address="{{ net_mcpcontrol | ipnet_hostaddr(1) }}" netmask="{{ net_mcpcontrol | ipnet_netmask }}">
     <dhcp>
-      <range start="{{ conf.MCPCONTROL_NET | ipaddr_index(2) }}" end="{{ conf.MCPCONTROL_NET | ipaddr_index(254) }}"/>
+      <range start="{{ net_mcpcontrol | ipnet_hostaddr(2) }}" end="{{ net_mcpcontrol | ipnet_hostmax }}"/>
     </dhcp>
   </ip>
 </network>
