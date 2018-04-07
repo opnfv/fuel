@@ -64,7 +64,6 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   ln -sf ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt
   ln -sf ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt
   ln -sf ${OPNFV_FUEL_DIR}/mcp/scripts/mcp.rsa $(dirname "${OPNFV_FUEL_DIR}")
-  cd /srv/salt/${OPNFV_RDIR} && rm -f arch && ln -sf "\$(uname -i)" arch
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \

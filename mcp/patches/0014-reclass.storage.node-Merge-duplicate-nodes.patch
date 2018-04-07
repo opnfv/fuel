@@ -7,7 +7,7 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Sun, 03 Dec 2017 22:03:01 +0200
+Date: Sun, 3 Dec 2017 22:03:01 +0200
 Subject: [PATCH] reclass.storage.node: Merge duplicate nodes
 
 Reclass does not support duplicate nodes in top pillar, so merge all
@@ -15,30 +15,45 @@ nodes with the same name into a single node, inheriting classes from
 all instances.
 
 This allows using multiple "system.reclass.storage.system.*_cluster"
-classes for the same node, based on re-using the name (hostname).
+classes for the same node, based on re-using the name (hostname); by
+simply overriding the hostname parameters, e.g.:
+  openstack_gateway_node01_hostname: ctl01
 
 NOTE: defaults.merge module does not merge lists (e.g. for classes),
-so handle that case separately.
+so handle that case separately. Also, leave repeated nodes alone.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
+ reclass/storage/node.sls | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/reclass/storage/node.sls b/reclass/storage/node.sls
+index e3ce328..a0bed79 100644
 --- a/reclass/storage/node.sls
 +++ b/reclass/storage/node.sls
-@@ -1,7 +1,15 @@
+@@ -1,8 +1,25 @@
  {%- from "reclass/map.jinja" import storage with context %}
  {%- if storage.enabled %}
 
 +{%- set storage_by_name = {} %}
++
  {%- for node_name, node in storage.get('node', {}).iteritems() %}
-+{%- set new_node_name = node.get('name', node_name) %}
-+{%- set new_node = storage_by_name.get(new_node_name, {'classes': []}) %}
-+{%- do salt['defaults.merge'](node, {'classes': new_node.classes + node.classes}) %}
-+{%- do salt['defaults.merge'](storage_by_name, {new_node_name: node}) %}
+
++{%- if node.name is defined and node.repeat is not defined %}
++{%- set node_name = node.name %}
++
++{%- if node_name in storage_by_name and storage_by_name[node_name].classes is defined %}
++{%- do node.update({'classes': storage_by_name[node_name].classes + node.get('classes', []) }) %}
++{%- endif %}
++
++{%- endif %}
++
++{%- do salt['defaults.merge'](storage_by_name, {node_name: node}) %}
++
 +{%- endfor %}
 +
 +{%- for node_name, node in storage_by_name.iteritems() %}
-
++
  {%- if node.repeat is defined %}
 
+ {%- for i in range(node.repeat.count) %}

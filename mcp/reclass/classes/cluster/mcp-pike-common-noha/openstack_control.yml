@@ -134,7 +134,7 @@ parameters:
           path: /srv/nova/instances
           host:
             nova:
-              host: ${_param:single_address}/24
+              host: ${_param:single_address}/${_param:opnfv_net_mgmt_mask}
               params:
                 - rw
                 - no_root_squash
