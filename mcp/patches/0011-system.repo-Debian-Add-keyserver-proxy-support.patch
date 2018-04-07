@@ -7,12 +7,54 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Mon, 22 Jan 2018 00:28:09 +0100
-Subject: [PATCH] system.repo: Debian: Add keyserver proxy support
+Date: Sun, 3 Jun 2018 19:28:18 +0200
+Subject: [PATCH 1/4] system.repo: Fix conditions order for Debian proxy
 
-Introduce a new, optional set of parameters to configure the proxy
-used for key fetching / keyserver access under:
-linux:system:proxy:keyserver:http(s).
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/system/repo.sls | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/linux/system/repo.sls b/linux/system/repo.sls
+index ace6dab..eb2b9d7 100644
+--- a/linux/system/repo.sls
++++ b/linux/system/repo.sls
+@@ -6,8 +6,8 @@ linux_repo_prereq_pkgs:
+   - pkgs: {{ system.pkgs }}
+
+ # global proxy setup
+-{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+ {%- if grains.os_family == 'Debian' %}
++{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+
+ /etc/apt/apt.conf.d/99proxies-salt:
+   file.managed:
+@@ -25,9 +25,6 @@ linux_repo_prereq_pkgs:
+   file.absent
+
+ {%- endif %}
+-{%- endif %}
+-
+-{% set default_repos = {} %}
+
+ {%- if system.purge_repos|default(False) %}
+
+@@ -38,6 +35,10 @@ purge_sources_list_d_repos:
+
+ {%- endif %}
+
++{%- endif %}
++
++{% set default_repos = {} %}
++
+ {%- for name, repo in system.repo.items() %}
+ {%- set name=repo.get('name', name) %}
+ {%- if grains.os_family == 'Debian' %}
+
+From a8bbb31c5194cf05a9555994c75e4f599aafd42e Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 22 Jan 2018 00:28:09 +0100
+Subject: [PATCH 2/4] system.repo: Debian: Use proxy for keyservers
 
 Previously, when fetching GPG keys for APT keyring, either using
 public key download & import (as for default repos) or via keyserver,
@@ -22,37 +64,81 @@ To be able to retrieve APT keys behind a proxy, one used to have to
 configure the proxy for the Salt minion, which does not yet have
 `no_proxy` support (either *all* or *no* traffic hits the proxy).
 
-When the new http(s) proxy param is set:
+When `linux:system:proxy` http(s) proxies are set:
 - no longer pass key configuration to Salt aptpkg (until it properly
   supports `no_proxy`);
 - handle all keys explicitly with `curl` and `apt-key`;
-- set 'http(s)_proxy' env vars for `cmd.run`/`cmd.wait` calls;
+- set 'http(s)_proxy' env vars for `cmd.wait` calls;
 
-If linux:system:proxy:keyserver is not defined, the behavior is
+If `linux:system:proxy` is not defined, the behavior is
 unchanged for backwards compatibility.
 
-To allow runtime decisions whether the keyserver proxy should be used
-add an additional condition for it to match the first nameserver.
-This allows us to mix virtual nodes with MaaS-provisioned nodes in
-Fuel@OPNFV, while keeping the ext_pillar common.
+NOTE: If present, per-repo proxies are also used for keyserver access.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- README.rst            | 16 ++++++++++++++++
- linux/system/repo.sls | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ linux/system/repo.sls | 72 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 66 insertions(+), 6 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
+index eb2b9d7..5130ddb 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -96,13 +96,50 @@ linux_repo_{{ name }}_key:
+@@ -9,15 +9,19 @@ linux_repo_prereq_pkgs:
+ {%- if grains.os_family == 'Debian' %}
+ {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+
++{%- set system_proxy_pkg_https = system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true) %}
++{%- set system_proxy_pkg_http = system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true) %}
++{%- set system_proxy_pkg_ftp = system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true) %}
++
+ /etc/apt/apt.conf.d/99proxies-salt:
+   file.managed:
+   - template: jinja
+   - source: salt://linux/files/apt.conf.d_proxies
+   - defaults:
+       external_host: False
+-      https: {{ system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true) }}
+-      http: {{ system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true) }}
+-      ftp: {{ system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true) }}
++      https: {{ system_proxy_pkg_https }}
++      http: {{ system_proxy_pkg_http }}
++      ftp: {{ system_proxy_pkg_ftp }}
+
+ {%- else %}
+
+@@ -46,15 +50,18 @@ purge_sources_list_d_repos:
+ # per repository proxy setup
+ {%- if repo.get('proxy', {}).get('enabled', False) %}
+ {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
++{%- set repo_proxy_pkg_https = repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), True) %}
++{%- set repo_proxy_pkg_http = repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), True) %}
++{%- set repo_proxy_pkg_ftp = repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), True) %}
+ /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
+   file.managed:
+   - template: jinja
+   - source: salt://linux/files/apt.conf.d_proxies
+   - defaults:
+       external_host: {{ external_host }}
+-      https: {{ repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), True) }}
+-      http: {{ repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), True) }}
+-      ftp: {{ repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), True) }}
++      https: {{ repo_proxy_pkg_https }}
++      http: {{ repo_proxy_pkg_http }}
++      ftp: {{ repo_proxy_pkg_ftp }}
+ {%- else %}
+ /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
+   file.absent
+@@ -97,13 +104,63 @@ linux_repo_{{ name }}_key:
      - name: "curl -s {{ repo.key_url }} | apt-key add -"
      - watch:
        - file: default_repo_list
-+{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if repo_proxy_pkg_https is defined and repo_proxy_pkg_https or system_proxy_pkg_https %}
++      - https_proxy: {{ repo_proxy_pkg_https | default(system_proxy_pkg_https, true) }}
++{%- endif %}
++{%- if repo_proxy_pkg_http is defined and repo_proxy_pkg_http or system_proxy_pkg_http %}
++      - http_proxy: {{ repo_proxy_pkg_http | default(system_proxy_pkg_http, true) }}
 +{%- endif %}
 
  {%- endif %}
@@ -62,49 +148,60 @@ diff --git a/linux/system/repo.sls b/linux/system/repo.sls
 
  {%- if repo.get('enabled', True) %}
 
-+{%- if system.proxy.keyserver is defined and grains['dns']['nameservers'][0] in system.proxy.keyserver.http %}
++{%- if system.proxy is defined %}
 +
 +{%- if repo.get('key') %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "echo '{{ repo.key }}' | apt-key add -"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +
 +{%- elif repo.key_url|default(False) %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "curl -s {{ repo.key_url }} | apt-key add -"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if repo_proxy_pkg_https is defined and repo_proxy_pkg_https or system_proxy_pkg_https %}
++      - https_proxy: {{ repo_proxy_pkg_https | default(system_proxy_pkg_https, true) }}
++{%- endif %}
++{%- if repo_proxy_pkg_http is defined and repo_proxy_pkg_http or system_proxy_pkg_http %}
++      - http_proxy: {{ repo_proxy_pkg_http | default(system_proxy_pkg_http, true) }}
++{%- endif %}
 +
 +{%- elif repo.key_id is defined and repo.key_server is defined %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "apt-key adv --keyserver {{ repo.key_server }} --recv {{ repo.key_id }}"
++    - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
 +    - env:
-+      - http_proxy: {{ system.proxy.get('keyserver', {}).get('http', '') }}
-+      - https_proxy: {{ system.proxy.get('keyserver', {}).get('https', '') }}
++{%- if repo_proxy_pkg_https is defined and repo_proxy_pkg_https or system_proxy_pkg_https %}
++      - https_proxy: {{ repo_proxy_pkg_https | default(system_proxy_pkg_https, true) }}
++{%- endif %}
++{%- if repo_proxy_pkg_http is defined and repo_proxy_pkg_http or system_proxy_pkg_http %}
++      - http_proxy: {{ repo_proxy_pkg_http | default(system_proxy_pkg_http, true) }}
++{%- endif %}
 +
 +{%- endif %}
 +
-+{#- system.proxy.keyserver #}
++{#- system.proxy is defined #}
 +{%- endif %}
 +
  linux_repo_{{ name }}:
    pkgrepo.managed:
    {%- if repo.ppa is defined %}
-@@ -115,6 +152,7 @@ linux_repo_{{ name }}:
+@@ -116,6 +173,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
-+  {%- if system.proxy.keyserver is not defined or grains['dns']['nameservers'][0] not in system.proxy.keyserver.http %}
++  {%- if system.proxy is not defined %}
    {%- if repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
    {%- endif %}
-@@ -124,6 +162,7 @@ linux_repo_{{ name }}:
+@@ -125,6 +183,7 @@ linux_repo_{{ name }}:
    {%- if repo.key_url is defined %}
    - key_url: {{ repo.key_url }}
    {%- endif %}
@@ -112,7 +209,7 @@ diff --git a/linux/system/repo.sls b/linux/system/repo.sls
    - consolidate: {{ repo.get('consolidate', False) }}
    - clean_file: {{ repo.get('clean_file', False) }}
    - refresh_db: {{ repo.get('refresh_db', True) }}
-@@ -140,6 +179,7 @@ linux_repo_{{ name }}:
+@@ -141,6 +200,7 @@ linux_repo_{{ name }}:
    {%- endif %}
    {%- endif %}
 
@@ -120,3 +217,36 @@ diff --git a/linux/system/repo.sls b/linux/system/repo.sls
  {%- else %}
 
  linux_repo_{{ name }}_absent:
+
+From d4176b8f8f5b0bddf23ca0901c4c6fca6b92075f Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 4 Jun 2018 04:42:35 +0200
+Subject: [PATCH 3/4] system.repo: Fix yaml parsing for embedded key
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/system/repo.sls | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/linux/system/repo.sls b/linux/system/repo.sls
+index 5130ddb..4c2a8ee 100644
+--- a/linux/system/repo.sls
++++ b/linux/system/repo.sls
+@@ -93,7 +93,7 @@ linux_repo_{{ name }}_pin:
+
+ linux_repo_{{ name }}_key:
+   cmd.wait:
+-    - name: "echo '{{ repo.key }}' | apt-key add -"
++    - name: "echo -e '{{ repo.key | replace('\n', '\\n') }}' | apt-key add -"
+     - watch:
+       - file: default_repo_list
+
+@@ -125,7 +125,7 @@ linux_repo_{{ name }}_key:
+
+ linux_repo_{{ name }}_key:
+   cmd.run:
+-    - name: "echo '{{ repo.key }}' | apt-key add -"
++    - name: "echo -e '{{ repo.key | replace('\n', '\\n') }}' | apt-key add -"
+     - unless: 'test -e /etc/apt/sources.list.d/{{ name }}.list'
+
+ {%- elif repo.key_url|default(False) %}

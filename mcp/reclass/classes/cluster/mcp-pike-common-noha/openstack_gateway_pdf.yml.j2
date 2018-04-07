@@ -16,11 +16,13 @@ parameters:
     network:
       bridge: openvswitch
       interface:
-        dhcp_int:
+        pxe_admin_int:
           enabled: true
           name: {{ nm.ctl01.nic_admin }}
-          proto: dhcp
+          proto: static
           type: eth
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
           mtu: ${_param:interface_mtu}
         primary_interface:
           enabled: true
@@ -40,6 +42,8 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}
         br-floating:
           enabled: true
           type: ovs_bridge
@@ -49,7 +53,7 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           mtu: ${_param:interface_mtu}
           use_interfaces:
             - ${_param:primary_interface}
@@ -63,7 +67,7 @@ parameters:
           type: bridge
           mtu: ${_param:interface_mtu}
           address: ${_param:external_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
           use_interfaces:
             - ${_param:external_interface}
           use_ovs_ports:
