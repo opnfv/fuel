@@ -6,15 +6,9 @@
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
-{%- if conf.idf.net_config.mgmt is defined %}
-  {%- set mgmt_network = conf.idf.net_config.mgmt.network %}
-  {%- set mgmt_prefix = conf.idf.net_config.mgmt.mask %}
-{%- else %}
-  {%- set mgmt_network = '172.16.10.0' %}
-  {%- set mgmt_prefix = '24' %}
-{%- endif %}
+{%- import 'net_map.j2' as nm with context %}
 <network>
   <name>mgmt</name>
   <bridge name="mgmt"/>
-  <ip address="{{ mgmt_network | ipaddr_index(1) }}" netmask="{{ mgmt_prefix | netmask }}"/>
+  <ip address="{{ nm.net_mgmt | ipnet_hostmin }}" netmask="{{ nm.net_mgmt | ipnet_netmask }}"/>
 </network>
