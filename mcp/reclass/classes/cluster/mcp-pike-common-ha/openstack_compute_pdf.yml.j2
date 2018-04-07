@@ -8,8 +8,8 @@
 {#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
 {%- import 'net_map.j2' as nm with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
-{%- set nics = { nm.cmp001.nic_admin: True, nm.cmp001.nic_mgmt: True } %}
-{%- set vlans = { nm.vlan_admin: nm.cmp001.nic_admin, nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
+{%- set nics = { nm.cmp001.nic_mgmt: True } %}
+{%- set vlans = { nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
 ---
 parameters:
   _param:
@@ -26,27 +26,23 @@ parameters:
     network:
       bridge: openvswitch
       interface:
-{%- for nic in nics %}
-    {%- if nic == nm.cmp001.nic_admin %}
-        {{ nic }}:
+        # PXE/admin is always untagged on computes
+        pxe_admin_int:
           enabled: true
+          name: {{ nm.cmp001.nic_admin }}
+          proto: static
           type: eth
-          proto: dhcp
-          name: {{ nic }}
-    {%- else %}
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          mtu: ${_param:interface_mtu}
+
+{%- for nic in nics %}
         {{ nic }}:
           enabled: true
           type: eth
           proto: manual
-          address: 0.0.0.0
-          {%- if nic == nm.cmp001.nic_public %}
-          netmask: ${_param:opnfv_net_public_mask}
-          {%- else %}
-          netmask: 255.255.255.0
-          {%- endif %}
           mtu: ${_param:interface_mtu}
           name: {{ nic }}
-    {%- endif %}
 {%- endfor %}
 
 {%- for vlan in vlans %}
@@ -66,7 +62,7 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           use_interfaces:
             - {{ nm.cmp001.nic_mgmt }}{% if nm.vlan_mgmt | int > 0 %}.{{ nm.vlan_mgmt }}{% endif %}
         br-floating:

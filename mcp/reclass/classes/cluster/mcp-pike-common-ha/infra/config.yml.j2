@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - service.git.client
@@ -34,35 +35,35 @@ parameters:
     salt_master_environment_revision: master
     single_address: ${_param:infra_config_address}
     deploy_address: ${_param:infra_config_deploy_address}
-    pxe_address: ${_param:opnfv_infra_config_pxe_address}
+    pxe_admin_address: ${_param:opnfv_infra_config_pxe_admin_address}
     salt_master_host: ${_param:infra_config_deploy_address}
     # yamllint disable rule:line-length
     salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
-    dhcp_nic: ${_param:opnfv_fn_vm_primary_interface}
+    mcpcontrol_nic: ${_param:opnfv_fn_vm_primary_interface}
     single_nic: ${_param:opnfv_fn_vm_secondary_interface}
-    pxe_nic: ${_param:opnfv_fn_vm_tertiary_interface}
+    pxe_admin_nic: ${_param:opnfv_fn_vm_tertiary_interface}
   linux:
     network:
       interface:
-        dhcp:
+        mcpcontrol_int:
           enabled: true
           type: eth
           proto: dhcp
-          name: ${_param:dhcp_nic}
+          name: ${_param:mcpcontrol_nic}
         single:
           enabled: true
           type: eth
           proto: static
           name: ${_param:single_nic}
           address: ${_param:single_address}
-          netmask: 255.255.255.0
-        pxe:
+          netmask: ${_param:opnfv_net_mgmt_mask}
+        pxe_admin_int:
           enabled: true
           type: eth
           proto: static
-          name: ${_param:pxe_nic}
-          address: ${_param:pxe_address}
-          netmask: 255.255.255.0
+          name: ${_param:pxe_admin_nic}
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
   salt:
     master:
       accept_policy: open_mode
@@ -76,38 +77,49 @@ parameters:
           params:
             keepalived_vip_priority: 100
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_infra_kvm_node01_pxe_admin_address}
         infra_kvm_node02:
           params:
             keepalived_vip_priority: 101
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_infra_kvm_node02_pxe_admin_address}
         infra_kvm_node03:
           params:
             keepalived_vip_priority: 102
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_infra_kvm_node03_pxe_admin_address}
         openstack_telemetry_node01:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_telemetry_node01_pxe_admin_address}
         openstack_telemetry_node02:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_telemetry_node02_pxe_admin_address}
         openstack_telemetry_node03:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_telemetry_node03_pxe_admin_address}
         openstack_message_queue_node01:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_message_queue_node01_pxe_admin_address}
         openstack_message_queue_node02:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_message_queue_node02_pxe_admin_address}
         openstack_message_queue_node03:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_message_queue_node03_pxe_admin_address}
         openstack_proxy_node01:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node01_pxe_admin_address}
         openstack_proxy_node02:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node02_pxe_admin_address}
         # stacklight_log_node01:
         #   classes:
         #     - system.elasticsearch.client.single
@@ -122,46 +134,44 @@ parameters:
             linux_system_codename: xenial
             # NOTE: When VCP is present, external_address is not used
             external_address: ${_param:openstack_proxy_node01_address}
+            pxe_admin_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}
         openstack_control_node02:
           params:
             linux_system_codename: xenial
             external_address: 0.0.0.0
+            pxe_admin_address: ${_param:opnfv_openstack_control_node02_pxe_admin_address}
         openstack_control_node03:
           params:
             linux_system_codename: xenial
             external_address: ${_param:openstack_proxy_node02_address}
+            pxe_admin_address: ${_param:opnfv_openstack_control_node03_pxe_admin_address}
         openstack_database_node01:
           classes:
             - cluster.mcp-pike-common-ha.openstack_database_init
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_database_node01_pxe_admin_address}
         openstack_database_node02:
           params:
             linux_system_codename: xenial
+            pxe_admin_address: ${_param:opnfv_openstack_database_node02_pxe_admin_address}
         openstack_database_node03:
           params:
             linux_system_codename: xenial
-        openstack_compute_node01:
-          name: ${_param:openstack_compute_node01_hostname}
+            pxe_admin_address: ${_param:opnfv_openstack_database_node03_pxe_admin_address}
+        # We support per-node (not only per-role) compute configuration via IDF
+{%- for cmp in range(1, conf.nodes | length - nm.cmp001.idx + 1) %}
+{%- set n = '%02d' | format(cmp) %}
+        openstack_compute_node{{ n }}:
+          name: cmp{{ '%03d' | format(cmp) }}
           domain: ${_param:cluster_domain}
           classes:
             - cluster.${_param:cluster_name}.openstack.compute
           params:
+            pxe_admin_address: ${_param:openstack_compute_node{{ n }}_pxe_admin_address}
+            single_address: ${_param:openstack_compute_node{{ n }}_control_address}
+            tenant_address: ${_param:openstack_compute_node{{ n }}_tenant_address}
+            external_address: ${_param:openstack_compute_node{{ n }}_external_address}
             salt_master_host: ${_param:reclass_config_master}
             linux_system_codename: xenial
-            control_address: ${_param:openstack_compute_node01_control_address}
-            single_address: ${_param:openstack_compute_node01_single_address}
-            tenant_address: ${_param:openstack_compute_node01_tenant_address}
-            external_address: ${_param:openstack_compute_node01_external_address}
-        openstack_compute_node02:
-          name: ${_param:openstack_compute_node02_hostname}
-          domain: ${_param:cluster_domain}
-          classes:
-            - cluster.${_param:cluster_name}.openstack.compute
-          params:
-            salt_master_host: ${_param:reclass_config_master}
-            linux_system_codename: xenial
-            control_address: ${_param:openstack_compute_node02_control_address}
-            single_address: ${_param:openstack_compute_node02_single_address}
-            tenant_address: ${_param:openstack_compute_node02_tenant_address}
-            external_address: ${_param:openstack_compute_node02_external_address}
+{%- endfor %}

@@ -19,11 +19,7 @@ parameters:
         {{ nic }}:
           enabled: true
           type: eth
-    {%- if nic == nm.cmp001.nic_admin %}
-          proto: dhcp
-    {%- else %}
           proto: manual
-    {%- endif %}
           name: {{ nic }}
 {%- endfor %}
 
@@ -43,7 +39,7 @@ parameters:
           enabled: true
           type: bridge
           address: ${_param:tenant_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_private_mask}
           mtu: 1500
           use_interfaces:
             - {{ nm.cmp001.nic_private }}{% if vlan_private_start | int > 0 %}.{{ vlan_private_start }}{% endif %}

@@ -12,17 +12,19 @@ classes:
   - cluster.mcp-pike-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    pxe_admin_interface: ${_param:opnfv_vcp_vm_primary_interface}
     single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
     control_nic: ${_param:opnfv_vcp_vm_tertiary_interface}
   linux:
     network:
       interface:
-        dhcp_int:
+        pxe_admin:
           enabled: true
           type: eth
-          proto: dhcp
-          name: ${_param:dhcp_nic}
+          proto: static
+          name: ${_param:pxe_admin_interface}
+	  address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
         single_int:
           enabled: true
           type: eth
@@ -41,5 +43,5 @@ parameters:
           proto: static
           name: ${_param:control_nic}
           address: ${_param:control_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
 {%- endif %}

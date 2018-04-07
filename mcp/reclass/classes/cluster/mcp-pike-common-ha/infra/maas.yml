@@ -13,18 +13,18 @@ classes:
   - cluster.mcp-pike-common-ha.infra.maas_pdf
 parameters:
   _param:
-    dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
+    mcpcontrol_interface: ${_param:opnfv_fn_vm_primary_interface}
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
-    pxe_interface: ${_param:opnfv_fn_vm_tertiary_interface}
+    pxe_admin_interface: ${_param:opnfv_fn_vm_tertiary_interface}
     interface_mtu: 1500
     # MaaS has issues using MTU > 1500 for PXE interface
-    pxe_interface_mtu: 1500
+    pxe_admin_interface_mtu: 1500
     linux_system_codename: xenial
     maas_admin_username: opnfv
     maas_admin_password: opnfv_secret
     maas_db_password: opnfv_secret
     dns_server01: ${_param:opnfv_dns_server01}
-    single_address: ${_param:infra_maas_node01_deploy_address}
+    single_address: ${_param:infra_maas_node01_pxe_admin_address}
     hwe_kernel: 'hwe-16.04'
   maas:
     region:
@@ -60,9 +60,9 @@ parameters:
   linux:
     network:
       interface:
-        dhcp_interface:
+        mcpcontrol_interface:
           enabled: true
-          name: ${_param:dhcp_interface}
+          name: ${_param:mcpcontrol_interface}
           type: eth
           proto: dhcp
         primary_interface:
@@ -71,13 +71,13 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:infra_maas_node01_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           type: eth
-        pxe_interface:
+        pxe_admin_interface:
           enabled: true
-          name: ${_param:pxe_interface}
-          mtu: ${_param:pxe_interface_mtu}
+          name: ${_param:pxe_admin_interface}
+          mtu: ${_param:pxe_admin_interface_mtu}
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_admin_mask}
           type: eth
