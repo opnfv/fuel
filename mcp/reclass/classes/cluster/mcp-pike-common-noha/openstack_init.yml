@@ -126,13 +126,13 @@ parameters:
           names:
             - gtw01
             - gtw01.${_param:cluster_domain}
-        cmp01:
-          address: ${_param:opnfv_openstack_compute_node01_control_address}
+        cmp001:
+          address: ${_param:openstack_compute_node01_control_address}
           names:
-            - cmp01
-            - cmp01.${_param:cluster_domain}
-        cmp02:
-          address: ${_param:opnfv_openstack_compute_node02_control_address}
+            - cmp001
+            - cmp001.${_param:cluster_domain}
+        cmp002:
+          address: ${_param:openstack_compute_node02_control_address}
           names:
-            - cmp02
-            - cmp02.${_param:cluster_domain}
+            - cmp002
+            - cmp002.${_param:cluster_domain}

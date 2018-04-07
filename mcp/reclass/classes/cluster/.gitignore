@@ -1,5 +1,8 @@
 **/*_pdf.yml
+all-mcp-arch-common/init.yml
+mcp-pike-common-*/infra/config.yml
 mcp-pike-common-ha/infra/init.yml
+mcp-pike-common-ha/infra/maas.yml
 mcp-pike-common-ha/openstack_control.yml
 mcp-pike-common-ha/openstack_init.yml
 mcp-pike-common-ha/openstack_interface_vcp_biport.yml

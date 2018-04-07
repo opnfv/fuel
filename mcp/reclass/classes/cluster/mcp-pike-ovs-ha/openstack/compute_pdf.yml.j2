@@ -6,6 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.cmp001.nic_private: True } %}
 {%- set vlan_private_start = nm.vlan_private.rsplit('-')[0] %}
@@ -15,35 +16,16 @@ parameters:
   linux:
     network:
       interface:
-{%- for nic in nics %}
-        {{ nic }}:
-          enabled: true
-          type: eth
-    {%- if nic == nm.cmp001.nic_admin %}
-          proto: dhcp
-    {%- else %}
-          proto: manual
-    {%- endif %}
-          name: {{ nic }}
-{%- endfor %}
 
-{%- for vlan in vlans %}
-    {%- if vlan | int > 0 %}
-        {{ vlans[vlan] }}.{{ vlan }}:
-          enabled: true
-          proto: manual
-          type: vlan
-          name: {{ vlans[vlan] }}.{{ vlan }}
-          use_interfaces:
-            - {{ vlans[vlan] }}
-    {%- endif %}
-{%- endfor %}
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
 
         br-mesh:
           enabled: true
           type: bridge
           address: ${_param:tenant_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_private_mask}
           mtu: 1500
           use_interfaces:
-            - {{ nm.cmp001.nic_private }}{% if vlan_private_start | int > 0 %}.{{ vlan_private_start }}{% endif %}
+            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}

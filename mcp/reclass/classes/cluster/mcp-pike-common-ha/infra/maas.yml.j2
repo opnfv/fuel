@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - system.maas.region.single
@@ -13,21 +14,23 @@ classes:
   - cluster.mcp-pike-common-ha.infra.maas_pdf
 parameters:
   _param:
-    dhcp_interface: ${_param:opnfv_fn_vm_primary_interface}
+    mcpcontrol_interface: ${_param:opnfv_fn_vm_primary_interface}
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
-    pxe_interface: ${_param:opnfv_fn_vm_tertiary_interface}
+    pxe_admin_interface: ${_param:opnfv_fn_vm_tertiary_interface}
     interface_mtu: 1500
     # MaaS has issues using MTU > 1500 for PXE interface
-    pxe_interface_mtu: 1500
+    pxe_admin_interface_mtu: 1500
     linux_system_codename: xenial
     maas_admin_username: opnfv
     maas_admin_password: opnfv_secret
     maas_db_password: opnfv_secret
-    dns_server01: ${_param:opnfv_dns_server01}
+    dns_server01: '{{ nm.dns_public[0] }}'
     single_address: ${_param:infra_maas_node01_deploy_address}
     hwe_kernel: 'hwe-16.04'
   maas:
     region:
+      sshprefs:
+        - '{{ conf.MAAS_SSH_KEY }}'
       salt_master_ip: ${_param:reclass_config_master}
       domain: ${_param:cluster_domain}
       maas_config:
@@ -43,12 +46,12 @@ parameters:
         default_min_hwe_kernel: ${_param:hwe_kernel}
       subnets:
         opnfv_maas_pxe:
-          name: ${_param:opnfv_infra_maas_pxe_network_address}/24
-          cidr: ${_param:opnfv_infra_maas_pxe_network_address}/24
+          name: {{ nm.net_admin }}
+          cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
           iprange:
-            start: ${_param:opnfv_infra_maas_pxe_start_address}
-            end: ${_param:opnfv_infra_maas_pxe_end_address}
+            start: {{ nm.net_admin_pool_start }}
+            end: {{ nm.net_admin_pool_end }}
             type: dynamic
           vlans:
             untagged:
@@ -60,9 +63,9 @@ parameters:
   linux:
     network:
       interface:
-        dhcp_interface:
+        mcpcontrol_interface:
           enabled: true
-          name: ${_param:dhcp_interface}
+          name: ${_param:mcpcontrol_interface}
           type: eth
           proto: dhcp
         primary_interface:
@@ -71,13 +74,13 @@ parameters:
           mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:infra_maas_node01_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           type: eth
-        pxe_interface:
+        pxe_admin_interface:
           enabled: true
-          name: ${_param:pxe_interface}
-          mtu: ${_param:pxe_interface_mtu}
+          name: ${_param:pxe_admin_interface}
+          mtu: ${_param:pxe_admin_interface_mtu}
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_admin_mask}
           type: eth

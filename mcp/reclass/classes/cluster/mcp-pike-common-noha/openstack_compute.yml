@@ -20,7 +20,6 @@ parameters:
   _param:
     interface_mtu: 9000
     linux_system_codename: xenial
-    ~cinder_lvm_devices: ['/dev/vdb']
   nova:
     compute:
       libvirt_service: libvirtd
