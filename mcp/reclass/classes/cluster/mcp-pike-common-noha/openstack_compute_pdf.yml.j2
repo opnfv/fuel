@@ -17,11 +17,16 @@ parameters:
     network:
       bridge: openvswitch
       interface:
-        dhcp_int:
+        pxe_admin_int:
           enabled: true
           name: {{ nm.cmp001.nic_admin }}
-          proto: dhcp
+          proto: static
           type: eth
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
           mtu: ${_param:interface_mtu}
         primary_interface:
           enabled: true
@@ -39,6 +44,6 @@ parameters:
           type: bridge
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
           use_interfaces:
             - ${_param:primary_interface}
