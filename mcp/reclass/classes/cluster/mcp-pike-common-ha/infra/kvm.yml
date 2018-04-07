@@ -34,6 +34,7 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
+    interface_mtu: 1500
   linux:
     system:
       kernel:
