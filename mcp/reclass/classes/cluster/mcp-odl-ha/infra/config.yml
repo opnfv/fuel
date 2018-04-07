@@ -10,7 +10,6 @@ classes:
   - system.reclass.storage.system.opendaylight_control_single
   - cluster.mcp-common-ha.infra.config
   - cluster.mcp-odl-ha.infra
-  - cluster.all-mcp-arch-common.infra.config_pdf
 parameters:
   reclass:
     storage:
@@ -21,3 +20,4 @@ parameters:
           params:
             linux_system_codename: xenial
             single_address: ${_param:opendaylight_server_node01_single_address}
+            pxe_admin_address: ${_param:opnfv_opendaylight_server_node01_pxe_admin_address}

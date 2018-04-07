@@ -11,22 +11,26 @@ parameters:
   linux:
     network:
       interface:
-        dhcp_int:
+        pxe_admin_int:
           enabled: true
           name: {{ nm.ctl01.nic_admin }}
-          proto: dhcp
+          proto: static
           type: eth
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
         single_int:
           enabled: true
           name: {{ nm.ctl01.nic_mgmt }}
           type: eth
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
         public_int:
           enabled: true
           name: {{ nm.ctl01.nic_public }}
           type: eth
           proto: static
           address: ${_param:cluster_public_host}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_public_mask}
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}

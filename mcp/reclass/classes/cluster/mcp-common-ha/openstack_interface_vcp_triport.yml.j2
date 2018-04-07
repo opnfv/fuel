@@ -5,6 +5,8 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
 ---
 {%- if conf.MCP_VCP %}
 classes:
@@ -12,17 +14,19 @@ classes:
   - cluster.mcp-common-ha.include.lab_proxy_pdf
 parameters:
   _param:
-    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    pxe_admin_interface: ${_param:opnfv_vcp_vm_primary_interface}
     single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
     control_nic: ${_param:opnfv_vcp_vm_tertiary_interface}
   linux:
     network:
       interface:
-        dhcp_int:
+        pxe_admin:
           enabled: true
           type: eth
-          proto: dhcp
-          name: ${_param:dhcp_nic}
+          proto: static
+          name: ${_param:pxe_admin_interface}
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
         single_int:
           enabled: true
           type: eth
@@ -30,16 +34,23 @@ parameters:
           name: ${_param:single_nic}
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_public_mask}
-          route:
-            public:
-              address: 0.0.0.0
-              netmask: 0.0.0.0
-              gateway: ${_param:opnfv_net_public_gw}
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}
         control_int:
           enabled: true
           type: eth
           proto: static
           name: ${_param:control_nic}
           address: ${_param:control_address}
-          netmask: 255.255.255.0
+          netmask: ${_param:opnfv_net_mgmt_mask}
+{%- else %}
+{#- For NOVCP scenarios, base config is in kvm_pdf, only add/override gw #}
+parameters:
+  linux:
+    network:
+      interface:
+        br-ex:
+          proto: static
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}
 {%- endif %}

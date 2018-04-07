@@ -39,15 +39,6 @@ parameters:
         libapache2-mod-wsgi:
           version: latest
 {%- if not conf.MCP_VCP %}
-    # Set up routes similar to prx*ovs-ha
-    network:
-      interface:
-        br-ex:
-          route:
-            public:
-              address: 0.0.0.0
-              netmask: 0.0.0.0
-              gateway: ${_param:opnfv_net_public_gw}
   nginx:
     server:
       # NOTE(armband): Define host.address for all proxies for uniformity

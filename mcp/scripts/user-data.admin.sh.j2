@@ -6,9 +6,9 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
 echo "id: $(hostname).{{ conf.cluster.domain }}" > /etc/salt/minion
-{#- should be in sync with 'opnfv_infra_config_pxe_address' in 'pharos/config/installers/fuel/pod_config.yml.j2 #}
-echo "master: {{ conf.idf.net_config.admin.network | ipaddr_index(2) }}" >> /etc/salt/minion
+echo "master: {{ nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_config_pxe_admin_address') +1) }}" >> /etc/salt/minion
 service salt-minion restart

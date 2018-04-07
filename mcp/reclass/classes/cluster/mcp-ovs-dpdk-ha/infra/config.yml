@@ -9,4 +9,4 @@
 classes:
   - cluster.mcp-common-ha.infra.config
   - cluster.mcp-ovs-dpdk-ha.infra
-  - cluster.all-mcp-arch-common.infra.config_dpdk_pdf
+  - cluster.all-mcp-arch-common.infra.config_pdf
