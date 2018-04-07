@@ -6,6 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
+# NOTE: pod_config is generated and transferred into its final location on
+# cfg01 only during deployment to prevent leaking sensitive data
 classes:
-  - cluster.all-mcp-arch-common.opnfv.runtime
   - cluster.all-mcp-arch-common.opnfv.pod_config

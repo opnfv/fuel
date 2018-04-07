@@ -15,7 +15,7 @@ iptables_pxe_nat:
     - chain: POSTROUTING
     - jump: MASQUERADE
     - destination: 0/0
-    - source: {{ salt['pillar.get']('_param:single_address') }}/24
+    - source: {{ salt['pillar.get']('_param:single_address') }}/{{ salt['pillar.get']('_param:opnfv_net_admin_mask') }}
     - save: True
 
 iptables_pxe_source:
@@ -24,7 +24,7 @@ iptables_pxe_source:
     - chain: INPUT
     - jump: ACCEPT
     - destination: 0/0
-    - source: {{ salt['pillar.get']('_param:single_address') }}/24
+    - source: {{ salt['pillar.get']('_param:single_address') }}/{{ salt['pillar.get']('_param:opnfv_net_admin_mask') }}
     - save: True
 
 iptables_pxe_destination:
@@ -32,6 +32,6 @@ iptables_pxe_destination:
     - table: filter
     - chain: INPUT
     - jump: ACCEPT
-    - destination: {{ salt['pillar.get']('_param:single_address') }}/24
+    - destination: {{ salt['pillar.get']('_param:single_address') }}/{{ salt['pillar.get']('_param:opnfv_net_admin_mask') }}
     - source: 0/0
     - save: True

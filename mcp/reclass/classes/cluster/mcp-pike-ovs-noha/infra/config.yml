@@ -10,7 +10,6 @@ classes:
   - system.reclass.storage.system.openstack_gateway_single
   - cluster.mcp-pike-common-noha.infra.config
   - cluster.mcp-pike-ovs-noha
-  - cluster.all-mcp-arch-common.infra.config_pdf
 parameters:
   reclass:
     storage:
@@ -19,3 +18,4 @@ parameters:
           params:
             tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
             external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
+            pxe_admin_address: ${_param:opnfv_openstack_gateway_node01_pxe_admin_address}
