@@ -50,6 +50,7 @@ function do_templates_scenario {
     fi
   fi
   if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
+    -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
     -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
     notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
   fi

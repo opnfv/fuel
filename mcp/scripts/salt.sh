@@ -64,7 +64,6 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   ln -sf ${OPNFV_FUEL_DIR}/mcp/reclass /srv/salt
   ln -sf ${OPNFV_FUEL_DIR}/mcp/deploy/scripts /srv/salt
   ln -sf ${OPNFV_FUEL_DIR}/mcp/scripts/mcp.rsa $(dirname "${OPNFV_FUEL_DIR}")
-  cd /srv/salt/${OPNFV_RDIR} && rm -f arch && ln -sf "\$(uname -i)" arch
 
   cp -r ${OPNFV_FUEL_DIR}/mcp/metadata/service /usr/share/salt-formulas/reclass
   cd /srv/salt/reclass/classes/service && \
@@ -113,7 +112,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt'
 
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.system,linux.storage'
-  wait_for 2.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.network' || true
+  wait_for 2.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.network'
   salt -C "E@^(${NODE_MASK}).*" state.sls opnfv.route_wrapper
   salt -C "E@^(${NODE_MASK}).*" system.reboot
   wait_for 90.0 'salt -C "E@^(${NODE_MASK}).*" test.ping'
