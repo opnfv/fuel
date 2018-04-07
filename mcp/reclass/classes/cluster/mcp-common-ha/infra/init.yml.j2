@@ -19,14 +19,14 @@ parameters:
     cluster_domain: ${_param:cluster_name}.local
     # stacklight_environment: ${_param:cluster_domain}
     reclass_data_revision: master
-    reclass_config_master: ${_param:opnfv_infra_config_pxe_address}
+    reclass_config_master: ${_param:opnfv_infra_config_pxe_admin_address}
     cluster_public_host: ${_param:openstack_proxy_address}
     infra_config_hostname: cfg01
     infra_maas_database_password: opnfv_secret
 
     # infra service addresses
     infra_config_address: ${_param:opnfv_infra_config_address}
-    infra_config_deploy_address: ${_param:opnfv_salt_master_ip}
+    infra_config_deploy_address: {{ conf.SALT_MASTER }}
     infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
     infra_maas_node01_deploy_address: ${_param:opnfv_infra_maas_node01_deploy_address}
 
@@ -47,9 +47,6 @@ parameters:
     infra_kvm_node02_hostname: kvm02
     infra_kvm_node03_hostname: kvm03
 
-    ntp_strata_host1: 1.pool.ntp.org
-    ntp_strata_host2: 0.pool.ntp.org
-
     # Interface definitions
     reclass:
       storage:
@@ -64,9 +61,11 @@ parameters:
         openstack_proxy_node01:
           params:
             control_address: ${_param:openstack_proxy_node01_control_address}
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node01_pxe_admin_address}
         openstack_proxy_node02:
           params:
             control_address: ${_param:openstack_proxy_node02_control_address}
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node02_pxe_admin_address}
   linux:
     system:
       apt:
