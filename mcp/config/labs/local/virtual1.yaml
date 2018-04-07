@@ -58,7 +58,7 @@ jumphost:
       vlan: native
 ##############################################################################
 nodes:
-  - name: node-1
+  - name: node-1  # noha ctl01 or ha (novcp) kvm01
     node: &nodeparams
       # Fuel overrides certain params (e.g. cpus, mem) based on node role later
       type: virtual
@@ -102,25 +102,25 @@ nodes:
         mac_address: "00:00:00:00:00:00"
         vlan: native
   ############################################################################
-  - name: node-2
+  - name: node-2  # noha gtw01 or ha (novcp) kvm02
     node: *nodeparams
     disks: *disks
     remote_management: *remotemgmt
     interfaces: *interfaces
   ############################################################################
-  - name: node-3
+  - name: node-3  # noha odl01 / unused or ha (novcp) kvm02
     node: *nodeparams
     disks: *disks
     remote_management: *remotemgmt
     interfaces: *interfaces
   ############################################################################
-  - name: node-4
+  - name: node-4  # cmp001
     node: *nodeparams
     disks: *disks
     remote_management: *remotemgmt
     interfaces: *interfaces
   ############################################################################
-  - name: node-5
+  - name: node-5  # cmp002
     node: *nodeparams
     disks: *disks
     remote_management: *remotemgmt

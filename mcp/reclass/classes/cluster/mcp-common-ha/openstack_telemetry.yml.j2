@@ -70,8 +70,10 @@ parameters:
   apache:
     server:
       ~modules:
-        - wsgi
         - rewrite
+{%- if conf.MCP_VCP %} {#- wsgi module will be enabled by a different class inherited later #}
+        - wsgi
+{%- endif %}
       site:
         gnocchi:
           wsgi:

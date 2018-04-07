@@ -6,21 +6,14 @@
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
-{%- if conf.idf.net_config.admin is defined %}
-  {%- set pxebr_network = conf.idf.net_config.admin.network %}
-  {%- set pxebr_prefix = conf.idf.net_config.admin.mask %}
-{%- else %}
-  {%- set pxebr_network = '192.168.11.0' %}
-  {%- set pxebr_prefix = '24' %}
-{%- endif %}
+{%- import 'net_map.j2' as nm with context %}
 <network>
   <name>pxebr</name>
   <forward mode="nat"/>
   <bridge name="pxebr"/>
-  <ip address="{{ pxebr_network | ipaddr_index(1) }}" netmask="{{ pxebr_prefix | netmask }}">
-    <!-- NOTE: .254 is harcoded for now (for /24 prefix), should be computed instead. -->
+  <ip address="{{ nm.net_admin_gw }}" netmask="{{ nm.net_admin | ipnet_netmask }}">
     <dhcp>
-      <range start="{{ pxebr_network | ipaddr_index(4) }}" end="{{ pxebr_network | ipaddr_index(254) }}"/>
+      <range start="{{ nm.net_admin_pool_start }}" end="{{ nm.net_admin_pool_end }}"/>
     </dhcp>
   </ip>
 </network>

@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - system.nova.compute.nfv.hugepages
@@ -20,6 +21,11 @@ parameters:
   linux:
     network:
       interface:
+        pxe_admin_int:
+          # For scenarios without public network on cmp, set admin gw
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
         dpdk0:
           name: ${_param:dpdk0_name}
           pci: ${_param:dpdk0_pci}

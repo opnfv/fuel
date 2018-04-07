@@ -35,6 +35,7 @@ parameters:
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
     linux_system_codename: xenial
+    single_address: ${_param:control_address}
     glusterfs_version: '3.13'
   glusterfs:
     client:
