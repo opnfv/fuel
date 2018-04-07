@@ -17,17 +17,17 @@ virtual:
   nodes:
     - cfg01
     - ctl01
-    - cmp01
-    - cmp02
+    - cmp001
+    - cmp002
     - gtw01
   ctl01:
     vcpus: 4
     ram: 14336
   gtw01:
     ram: 2048
-  cmp01:
+  cmp001:
     vcpus: 4
     ram: 8192
-  cmp02:
+  cmp002:
     vcpus: 4
     ram: 8192

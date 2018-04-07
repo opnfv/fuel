@@ -31,10 +31,6 @@ wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply opnfv.route_wrapper"
 salt -C 'cmp*' state.apply linux.network || true
 wait_for 30.0 "salt -C 'kvm* or cmp*' test.ping"
 
-# disable dhcp offered routes on compute nodes
-salt -C 'cmp*' file.write /etc/dhcp/dhclient-enter-hooks.d/no-default-route \
-  args='unset new_routers'
-
 salt -C 'kvm* or cmp*' system.reboot
 wait_for 90.0 "salt -C 'kvm* or cmp*' test.ping"
 

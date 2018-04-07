@@ -6,27 +6,15 @@
  which accompanies this distribution, and is available at
  http://www.apache.org/licenses/LICENSE-2.0
 -->
-{%- set cluster = {'has_virtual_nodes': False} %}
-{%- for node in conf.nodes %}
-  {%- if not cluster.has_virtual_nodes and node.node.type == 'virtual' %}
-    {%- do cluster.update({'has_virtual_nodes': True}) %}
-  {%- endif %}
-{%- endfor %}
-{%- if conf.idf.net_config.public is defined %}
-  {%- set public_network = conf.idf.net_config.public.network %}
-  {%- set public_prefix = conf.idf.net_config.public.mask %}
-{%- else %}
-  {%- set public_network = '10.16.0.0' %}
-  {%- set public_prefix = '24' %}
-{%- endif %}
+{%- import 'net_map.j2' as nm with context %}
 <network>
   <name>public</name>
   <bridge name="public"/>
-{%- if cluster.has_virtual_nodes %}
+{%- if nm.cluster.has_virtual_nodes %}
 {#- Ideally, jumpserver would have a real Linux bridge we will hook to.
     In case it doesn't, we use this virsh network as a *mock* public.
     The *mock* public should NOT overlap with the real public in any way. #}
   <forward mode="nat"/>
-  <ip address="{{ public_network | ipaddr_index(1) }}" netmask="{{ public_prefix | netmask }}"/>
+  <ip address="{{ nm.net_public | ipnet_hostmin }}" netmask="{{ nm.net_public | ipnet_netmask }}"/>
 {%- endif %}
 </network>

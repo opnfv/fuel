@@ -9,4 +9,3 @@
 classes:
   - cluster.mcp-pike-common-ha.infra.config
   - cluster.mcp-pike-ovs-ha.infra
-  - cluster.all-mcp-arch-common.infra.config_pdf
