@@ -1,0 +1,126 @@
+From 2cfced66a9f92b4b98069d5358858d016a66ee8c Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 7 Apr 2018 10:58:08 +0200
+Subject: [PATCH] Add PXE/admin static IPs
+
+- add param defitions for PXE/admin static IP for each machine,
+  moving MaaS DHCP range start after the new addresses, similar to
+  public network;
+- drop 'opnfv_' prefix for compute parameters;
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 59 ++++++++++++++++++++++++++------
+ 1 file changed, 49 insertions(+), 10 deletions(-)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index 1cf76d3..4069983 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -5,6 +5,8 @@
+ # which accompanies this distribution, and is available at
+ # http://www.apache.org/licenses/LICENSE-2.0
+ ##############################################################################
++{%- import 'net_map.j2' as nm with context %}
++
+ {%- set net = conf.idf.net_config %}
+ {%- set net_admin = [net.admin.network, net.admin.mask] | join("/")  %}
+ {%- set net_mgmt = [net.mgmt.network, net.mgmt.mask] | join("/")  %}
+@@ -38,12 +40,41 @@
+     {%- set maas_timeout_deploying = 15 %}
+ {%- endif %}
+ 
+-{%- set cmp_nodes =  3 %}
++{%- set cmp_nodes = conf.nodes | length - nm.cmp001.idx %}
+ 
+ {%- set net_admin_hosts = [
+-    'opnfv_infra_config_pxe_address',
+-    'opnfv_infra_maas_node01_deploy_address',
+-    'opnfv_infra_maas_pxe_start_address'] %}
++    'opnfv_infra_config_pxe_admin_address',
++    'opnfv_infra_maas_node01_pxe_admin_address',
++    'opnfv_openstack_proxy_node01_pxe_admin_address',
++    'opnfv_openstack_proxy_node02_pxe_admin_address',
++    'opnfv_openstack_gateway_node01_pxe_admin_address',
++    'opnfv_openstack_gateway_node02_pxe_admin_address',
++    'opnfv_openstack_gateway_node03_pxe_admin_address',
++    'opnfv_infra_kvm_node01_pxe_admin_address',
++    'opnfv_infra_kvm_node02_pxe_admin_address',
++    'opnfv_infra_kvm_node03_pxe_admin_address',
++    'opnfv_openstack_database_node01_pxe_admin_address',
++    'opnfv_openstack_database_node02_pxe_admin_address',
++    'opnfv_openstack_database_node03_pxe_admin_address',
++    'opnfv_openstack_message_queue_node01_pxe_admin_address',
++    'opnfv_openstack_message_queue_node02_pxe_admin_address',
++    'opnfv_openstack_message_queue_node03_pxe_admin_address',
++    'opnfv_openstack_telemetry_node01_pxe_admin_address',
++    'opnfv_openstack_telemetry_node02_pxe_admin_address',
++    'opnfv_openstack_telemetry_node03_pxe_admin_address',
++    'opnfv_openstack_control_node01_pxe_admin_address',
++    'opnfv_openstack_control_node02_pxe_admin_address',
++    'opnfv_openstack_control_node03_pxe_admin_address',
++    'opnfv_opendaylight_server_node01_pxe_admin_address',
++    'opnfv_stacklight_monitor_node01_pxe_admin_address',
++    'opnfv_stacklight_monitor_node02_pxe_admin_address',
++    'opnfv_stacklight_monitor_node03_pxe_admin_address',
++    'opnfv_stacklight_log_node01_pxe_admin_address',
++    'opnfv_stacklight_log_node02_pxe_admin_address',
++    'opnfv_stacklight_log_node03_pxe_admin_address',
++    'opnfv_stacklight_telemetry_node01_pxe_admin_address',
++    'opnfv_stacklight_telemetry_node02_pxe_admin_address',
++    'opnfv_stacklight_telemetry_node03_pxe_admin_address'] %}
+ 
+ {%- set net_mgmt_hosts = [
+     'opnfv_infra_config_address',
+@@ -127,10 +158,14 @@
+   {%- endif %}
+ {%- endfor %}
+ 
++{%- set total_admin_hosts = net_admin_hosts | length + cmp_nodes  %}
++{%- set net_admin_pool_start = net_admin | ipnet_hostaddr(total_admin_hosts + start_ip[net_admin] +1) %}
++{%- set net_admin_pool_end = net_admin | ipnet_hostmax %}
++
+ {%- set total_public_hosts = net_public_hosts | length + cmp_nodes  %}
+ {%- if net_public_pool_start is not defined or net_public_pool_end is not defined %}
+     {%- set net_public_pool_start = net_public | ipnet_hostaddr(total_public_hosts + start_ip[net_public] +1) %}
+-    {%- set net_public_pool_end = net_public | ipnet_hostmax -1  %}
++    {%- set net_public_pool_end = net_public | ipnet_hostmax -1 %}
+ {%- endif %}
+ 
+ ---
+@@ -146,7 +181,8 @@ parameters:
+     opnfv_jump_bridge_public: {{ conf.idf.fuel.jumphost.bridges.public }}
+ 
+     opnfv_infra_maas_pxe_network_address: {{ net.admin.network }}
+-    opnfv_infra_maas_pxe_end_address: {{ net_admin | ipnet_hostmax }}
++    opnfv_infra_maas_pxe_start_address: {{ net_admin_pool_start }}
++    opnfv_infra_maas_pxe_end_address: {{ net_admin_pool_end }}
+     opnfv_net_public: {{ net_public }}
+     opnfv_net_public_mask: {{ net_public | ipnet_netmask }}
+     opnfv_net_public_gw: {{ net_public_gw }}
+@@ -164,15 +200,18 @@ parameters:
+ {%- endfor %}
+ {%- endfor %}
+ 
++    openstack_compute_node_count: {{ cmp_nodes }}
++
+ {%- for cmp in range(1, cmp_nodes +1) %}
+   {%- set n = '%02d' | format(cmp) %}
++    {%- set admin = net_admin_hosts | length + start_ip[net_admin] + loop.index %}
+     {%- set mgmt = net_mgmt_hosts | length + start_ip[net_mgmt] + loop.index %}
+     {%- set pub = net_public_hosts | length + start_ip[net_public] + loop.index %}
+     {%- set pri = net_private_hosts | length + start_ip[net_private] + loop.index %}
+-    opnfv_openstack_compute_node{{n}}_single_address: {{ net_mgmt | ipnet_hostaddr(mgmt) }}
+-    opnfv_openstack_compute_node{{n}}_control_address: {{ net_mgmt | ipnet_hostaddr(mgmt) }}
+-    opnfv_openstack_compute_node{{n}}_tenant_address: {{ net_private | ipnet_hostaddr(pri) }}
+-    opnfv_openstack_compute_node{{n}}_external_address: {{ net_public | ipnet_hostaddr(pub) }}
++    openstack_compute_node{{n}}_pxe_admin_address: {{ net_admin | ipnet_hostaddr(admin) }}
++    openstack_compute_node{{n}}_control_address: {{ net_mgmt | ipnet_hostaddr(mgmt) }}
++    openstack_compute_node{{n}}_tenant_address: {{ net_private | ipnet_hostaddr(pri) }}
++    openstack_compute_node{{n}}_external_address: {{ net_public | ipnet_hostaddr(pub) }}
+ {%- endfor %}
+ 
+ {%- for node in conf.nodes %}
+-- 
+2.16.2
+

@@ -18,7 +18,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/ceilometer/server/cluster.yml b/ceilometer/server/cluster.yml
-index 11488fb..2d19e31 100644
+index 11488fb2..2d19e310 100644
 --- a/ceilometer/server/cluster.yml
 +++ b/ceilometer/server/cluster.yml
 @@ -14,6 +14,7 @@ parameters:

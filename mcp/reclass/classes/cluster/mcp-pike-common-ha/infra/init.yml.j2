@@ -28,7 +28,7 @@ parameters:
     infra_config_address: ${_param:opnfv_infra_config_address}
     infra_config_deploy_address: ${_param:opnfv_salt_master_ip}
     infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
-    infra_maas_node01_deploy_address: ${_param:opnfv_infra_maas_node01_deploy_address}
+    infra_maas_node01_pxe_admin_address: ${_param:opnfv_infra_maas_node01_pxe_admin_address}
 
     infra_kvm_address: ${_param:opnfv_infra_kvm_address}
 {%- if conf.MCP_VCP %}
@@ -64,9 +64,11 @@ parameters:
         openstack_proxy_node01:
           params:
             control_address: ${_param:openstack_proxy_node01_control_address}
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node01_pxe_admin_address}
         openstack_proxy_node02:
           params:
             control_address: ${_param:openstack_proxy_node02_control_address}
+            pxe_admin_address: ${_param:opnfv_openstack_proxy_node02_pxe_admin_address}
   linux:
     system:
       apt:

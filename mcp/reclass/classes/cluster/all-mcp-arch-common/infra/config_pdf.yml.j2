@@ -11,13 +11,16 @@ parameters:
   reclass:
     storage:
       node:
-        # NOTE: Until SDF is in place, assume all computes are identical
-        openstack_compute_node01: &openstack_compute_node01
+        # We support per-node (not only per-role) compute configuration via IDF
+{%- for cmp in range(1, conf.nodes | length - nm.cmp001.idx + 1) %}
+{%- set n = '%02d' | format(cmp) %}
+{%- set i = nm.cmp001.idx + cmp - 1 %}
+        openstack_compute_node{{ n }}:
           params:
 {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
 {%- if conf.idf.fuel.reclass is defined %}
-{%- if conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.common is defined %}
-{%- set _common = conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.common %}
+{%- if conf.idf.fuel.reclass.node[i].compute_params.common is defined %}
+{%- set _common = conf.idf.fuel.reclass.node[i].compute_params.common %}
 {%- for _i in _common %}
             {{ _i }}: '"{{ _common[_i] }}"'
 {%- endfor %}
@@ -31,5 +34,4 @@ parameters:
             compute_hugepages_mount: /mnt/hugepages_1G
             compute_kernel_isolcpu: *nova_cpu_pinning_common
 {%- endif %}
-        openstack_compute_node02:
-          <<: *openstack_compute_node01
+{%- endfor %}

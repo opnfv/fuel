@@ -12,13 +12,13 @@ parameters:
   # linux:
   #   system:
   #     env:
-  #       http_proxy: http://${_param:infra_maas_node01_deploy_address}:8000
-  #       https_proxy: http://${_param:infra_maas_node01_deploy_address}:8000
+  #       http_proxy: http://${_param:infra_maas_node01_pxe_admin_address}:8000
+  #       https_proxy: http://${_param:infra_maas_node01_pxe_admin_address}:8000
   #       no_proxy:
   #         - .local
   linux:
     system:
       proxy:
         keyserver:
-          http: http://${_param:infra_maas_node01_deploy_address}:8000
-          https: http://${_param:infra_maas_node01_deploy_address}:8000
+          http: http://${_param:infra_maas_node01_pxe_admin_address}:8000
+          https: http://${_param:infra_maas_node01_pxe_admin_address}:8000

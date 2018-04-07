@@ -11,14 +11,17 @@ parameters:
   reclass:
     storage:
       node:
-        # NOTE: Until SDF is in place, assume all computes are identical
-        openstack_compute_node01: &openstack_compute_node01
+        # We support per-node (not only per-role) compute configuration via IDF
+{%- for cmp in range(1, conf.nodes | length - nm.cmp001.idx + 1) %}
+{%- set n = '%02d' | format(cmp) %}
+{%- set i = nm.cmp001.idx + cmp - 1 %}
+        openstack_compute_node{{ n }}:
           params:
 {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
 {%- if conf.idf.fuel.reclass is defined %}
-{%- if conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.dpdk is defined %}
+{%- if conf.idf.fuel.reclass.node[i].compute_params.dpdk is defined %}
 {#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}
-{%- set _dpdk = conf.idf.fuel.reclass.node[nm.cmp001.idx].compute_params.dpdk %}
+{%- set _dpdk = conf.idf.fuel.reclass.node[i].compute_params.dpdk %}
 {%- for _i in _dpdk %}
             {{ _i }}: '"{{ _dpdk[_i] }}"'
 {%- endfor %}
@@ -37,7 +40,6 @@ parameters:
             dpdk0_driver: igb_uio
             dpdk0_n_rxq: 2
 {%- endif %}
-            dpdk0_name: {{ nm.cmp001.nic_private }}
-            dpdk0_pci: '"{{ nm.cmp001.bus_private }}"'
-        openstack_compute_node02:
-          <<: *openstack_compute_node01
+            dpdk0_name: {{ conf.idf.fuel.network.node[i].interfaces[nm.idx_private] }}
+            dpdk0_pci: '"{{ conf.idf.fuel.network.node[i].busaddr[nm.idx_private] }}"'
+{%- endfor %}
