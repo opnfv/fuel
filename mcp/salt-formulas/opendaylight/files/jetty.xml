@@ -84,43 +84,12 @@ DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
                     <Property name="jetty.host"/>
                 </Set>
                 <Set name="port">
-                    <Property name="jetty.port" default="8181"/>
+                    <Property name="jetty.port" default="{{ server.odl_rest_port }}"/>
                 </Set>
                 <Set name="idleTimeout">
                     <Property name="http.timeout" default="300000"/>
                 </Set>
                 <Set name="name">jetty-default</Set>
-            </New>
-        </Arg>
-    </Call>
-
-    <Call name="addConnector">
-        <Arg>
-            <New class="org.eclipse.jetty.server.ServerConnector">
-                <Arg name="server">
-                    <Ref refid="Server" />
-                </Arg>
-                <Arg name="factories">
-                    <Array type="org.eclipse.jetty.server.ConnectionFactory">
-                        <Item>
-                            <New class="org.eclipse.jetty.server.HttpConnectionFactory">
-                                <Arg name="config">
-                                    <Ref refid="http-legacy" />
-                                </Arg>
-                            </New>
-                        </Item>
-                    </Array>
-                </Arg>
-                <Set name="host">{{ server.odl_bind_ip }}
-                    <Property name="jetty.host"/>
-                </Set>
-                <Set name="port">
-                    <Property name="jetty.port" default="{{ server.odl_rest_port }}"/>
-                </Set>
-                <Set name="idleTimeout">
-                    <Property name="http.timeout" default="300000"/>
-                </Set>q
-                <Set name="name">jetty-legacy</Set>
             </New>
         </Arg>
     </Call>

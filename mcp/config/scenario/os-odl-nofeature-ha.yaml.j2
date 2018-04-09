@@ -23,8 +23,8 @@ cluster:
 {%- if conf.MCP_VCP %}
     - virtual_control_plane
 {%- endif %}
-    - openstack_ha
     - opendaylight
+    - openstack_ha
     - networks
 virtual:
   nodes:

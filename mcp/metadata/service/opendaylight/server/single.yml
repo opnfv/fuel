@@ -9,8 +9,12 @@
 applications:
   - opendaylight
 parameters:
+  _param:
+    version: oxygen
   opendaylight:
     server:
       enabled: 'True'
+      version: ${_param:version}
+      repo: 'odl-team/${_param:version}'
       logging:
         engine: syslog
