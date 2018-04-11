@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_6d7f05ac",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-odl-ha/opendaylight/control.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-11T19:06:42Z",
+      "side": 1,
+      "message": "great, I saw some spurious issues with odl-dlux-all in karaf.log if I remember right",
+      "revId": "40024dcf6ffd202a63110a38620d13262e8fc324",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
