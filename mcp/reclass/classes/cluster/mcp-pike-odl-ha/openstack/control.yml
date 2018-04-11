@@ -12,10 +12,6 @@ classes:
   - cluster.mcp-pike-common-ha.openstack_control
   - cluster.mcp-pike-odl-ha.infra
 parameters:
-  neutron:
-    server:
-      backend:
-        enable_websocket: false
   keystone:
     server:
       openrc_extra:
