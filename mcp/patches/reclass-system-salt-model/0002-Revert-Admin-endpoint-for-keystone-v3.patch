@@ -24,7 +24,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/service/keystone3.yml b/keystone/client/service/keystone3.yml
-index 5138c4f..9b69294 100644
+index 5138c4fc..9b69294b 100644
 --- a/keystone/client/service/keystone3.yml
 +++ b/keystone/client/service/keystone3.yml
 @@ -22,5 +22,5 @@ parameters:
