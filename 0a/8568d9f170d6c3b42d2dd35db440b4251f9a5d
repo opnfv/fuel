@@ -1,0 +1,9 @@
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Workflow+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Code-Review+1: Delia Popescu <delia.popescu@enea.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Thu, 12 Apr 2018 09:39:51 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/55419
+Project: fuel
+Branch: refs/heads/master
