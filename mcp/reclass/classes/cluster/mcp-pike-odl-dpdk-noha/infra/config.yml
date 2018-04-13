@@ -1,0 +1,28 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.reclass.storage.system.opendaylight_control_single
+  - system.reclass.storage.system.openstack_gateway_single
+  - cluster.mcp-pike-common-noha.infra.config
+  - cluster.mcp-pike-odl-dpdk-noha
+  - cluster.all-mcp-arch-common.infra.config_dpdk_pdf
+parameters:
+  reclass:
+    storage:
+      node:
+        opendaylight_control_node01:
+          classes:
+            - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            linux_system_codename: xenial
+            single_address: ${_param:opendaylight_service_host}
+        openstack_gateway_node01:
+          params:
+            tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+            external_address: ${_param:opnfv_openstack_gateway_node01_external_address}

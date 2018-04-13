@@ -1,0 +1,60 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - service.neutron.compute.single
+  - service.neutron.compute.opendaylight.single
+  - system.nova.compute.nfv.hugepages
+  - system.neutron.compute.nfv.dpdk
+  - cluster.mcp-pike-common-noha.openstack_compute
+  - cluster.mcp-pike-odl-dpdk-noha
+parameters:
+  linux:
+    network:
+      interface:
+        dpdk0:
+          name: ${_param:dpdk0_name}
+          pci: ${_param:dpdk0_pci}
+          driver: ${_param:dpdk0_driver}
+          enabled: true
+          bridge: br-prv
+          type: dpdk_ovs_port
+          n_rxq: ${_param:dpdk0_n_rxq}
+        br-prv:
+          enabled: true
+          type: dpdk_ovs_bridge
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
+        tenant_interface:
+          type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
+        external_interface:
+          enabled: true
+          type: eth
+          name: ${_param:external_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+          mtu: ${_param:interface_mtu}
+        float-to-ex:
+          enabled: true
+          type: ovs_port
+          mtu: ${_param:interface_mtu}
+          bridge: br-floating
+        br-ex:
+          enabled: true
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          address: ${_param:external_address}
+          netmask: ${_param:opnfv_net_public_mask}
+          use_interfaces:
+            - ${_param:external_interface}
+          use_ovs_ports:
+            - float-to-ex
