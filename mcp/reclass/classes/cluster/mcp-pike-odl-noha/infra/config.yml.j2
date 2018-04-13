@@ -11,7 +11,7 @@ classes:
   - system.reclass.storage.system.openstack_gateway_single
   - cluster.mcp-pike-common-noha.infra.config
   - cluster.mcp-pike-odl-noha
-  - cluster.all-mcp-arch-common.infra.config_pdf
+  - cluster.all-mcp-arch-common.infra.config{%- if conf.MCP_DPDK_MODE %}_dpdk{%- endif %}_pdf
 parameters:
   reclass:
     storage:
