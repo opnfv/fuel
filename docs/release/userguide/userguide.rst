@@ -253,6 +253,35 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 | cmp002    | x.y.z.102    | 172.16.10.102 |
 +-----------+--------------+---------------+
 
+==============================
+Guest Operating System Support
+==============================
+
+There are a number of possibilies regarding the virtual machines which can be spawned on the
+compute nodes. The current host kernel (4.15.0-13-generic) supports the following UEFI-images
+and kernels for the guests:
+
++------------------+-------------------+------------------+
+| Os Name          | guest Kernel      | status           |
++==================+===================+==================+
+| Ubuntu 17.10     | 4.13.0-38-generic | Full support     |
++------------------+-------------------+------------------+
+| Ubuntu 16.04     | 4.4.0-119-generic | Full support     |
++------------------+-------------------+------------------+
+| Ubuntu 14.04     | 4.4.0-119-generic | Full support     |
++------------------+-------------------+------------------+
+| Fedora atomic 27 | 4.13.9-300.fc27   | Full support     |
++------------------+-------------------+------------------+
+| Fedora cloud 27  | 4.13.9-300.fc27   | Not supported    |
++------------------+-------------------+------------------+
+| Debian           | 4.9.0-6           | Full support     |
++------------------+-------------------+------------------+
+| Centos 7         | 4.11.0-22.el7a    | Limited support  |
++------------------+-------------------+------------------+
+
+The images (.img files) for the above OSes can be found in their respective websites.
+
+
 
 ===================
 Openstack Endpoints
