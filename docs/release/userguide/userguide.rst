@@ -253,6 +253,35 @@ For Virtual deploys, the most commonly used IPs are in the table below.
 | cmp002    | x.y.z.102    | 172.16.10.102 |
 +-----------+--------------+---------------+
 
+==============================
+Guest Operating System Support
+==============================
+
+There are a number of possibilities regarding the gues operating systems which can be spawned on the
+compute nodes. The current system spawns virtual machines for VCP VMs and VMs requested by users in
+OpenStack. Currently the system supports the following UEFI-images for the guests:
+
++------------------+-------------------+------------------+
+| OS name          | x86_64 status     | aarch64 status   |
++==================+===================+==================+
+| Ubuntu 17.10     | untested          | Full support     |
++------------------+-------------------+------------------+
+| Ubuntu 16.04     | Full support      | Full support     |
++------------------+-------------------+------------------+
+| Ubuntu 14.04     | untested          | Full support     |
++------------------+-------------------+------------------+
+| Fedora atomic 27 | untested          | Not supported    |
++------------------+-------------------+------------------+
+| Fedora cloud 27  | untested          | Not supported    |
++------------------+-------------------+------------------+
+| Debian           | untested          | Full support     |
++------------------+-------------------+------------------+
+| Centos 7         | untested          | Not supported    |
++------------------+-------------------+------------------+
+
+The images for the above operating systems can be found in their respective websites.
+
+
 
 ===================
 Openstack Endpoints
