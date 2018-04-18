@@ -11,4 +11,4 @@ classes:
 parameters:
   _param:
     neutron_tenant_network_types: "flat,vlan"
-    neutron_tenant_vlan_range: "1000:1030"
+    neutron_tenant_vlan_range: ${_param:opnfv_net_tenant_vlan}

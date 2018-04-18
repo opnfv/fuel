@@ -14,4 +14,4 @@ parameters:
   neutron:
     server:
       backend:
-        tenant_vlan_range: 1000:1999
+        tenant_vlan_range: ${_param:opnfv_net_tenant_vlan}
