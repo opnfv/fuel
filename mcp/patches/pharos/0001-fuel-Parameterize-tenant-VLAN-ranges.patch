@@ -1,0 +1,128 @@
+From e57424bae2ec474c48a3581b3a0428c7e9a33d01 Mon Sep 17 00:00:00 2001
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 18 Apr 2018 18:37:29 +0200
+Subject: [PATCH] [fuel] Parameterize tenant VLAN ranges
+
+- IDF: convert all tenant VLANs to ranges;
+- IA: convert 'M-N' to 'M:N' for `opnfv_net_tenant_vlan`;
+
+Change-Id: Ic9211235281c81ba082d10806651c35116ba4c35
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 2 +-
+ labs/arm/idf-pod5.yaml                   | 2 +-
+ labs/arm/idf-pod6.yaml                   | 2 +-
+ labs/arm/idf-pod7.yaml                   | 2 +-
+ labs/bii/idf-pod1.yaml                   | 2 +-
+ labs/ericsson/idf-pod1.yaml              | 2 +-
+ labs/lf/idf-pod2.yaml                    | 2 +-
+ labs/zte/idf-pod1.yaml                   | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index 1cf76d3..69a3101 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -155,7 +155,7 @@ parameters:
+     opnfv_name_servers: {{ dns_public }}
+     opnfv_dns_server01: '{{ dns_public[0] }}'
+     opnfv_net_mgmt_vlan: {{ vlan_mgmt }}
+-    opnfv_net_tenant_vlan: {{ vlan_private }}
++    opnfv_net_tenant_vlan: {{ vlan_private | split('-') | join(':') }}
+ 
+ {%- for network in networks %}
+ {%- for key in hosts[network] %}
+diff --git a/labs/arm/idf-pod5.yaml b/labs/arm/idf-pod5.yaml
+index 5c9df09..50db0cf 100644
+--- a/labs/arm/idf-pod5.yaml
++++ b/labs/arm/idf-pod5.yaml
+@@ -35,7 +35,7 @@ idf:
+       mask: 24
+     private:
+       interface: 1
+-      vlan: 2185
++      vlan: 2185-2200
+       network: 10.1.0.0
+       mask: 24
+     public:
+diff --git a/labs/arm/idf-pod6.yaml b/labs/arm/idf-pod6.yaml
+index 17f0150..4d81fa0 100644
+--- a/labs/arm/idf-pod6.yaml
++++ b/labs/arm/idf-pod6.yaml
+@@ -33,7 +33,7 @@ idf:
+       mask: 24
+     private:
+       interface: 2
+-      vlan: 2325
++      vlan: 2325-2340
+       network: 10.1.0.0
+       mask: 24
+     public:
+diff --git a/labs/arm/idf-pod7.yaml b/labs/arm/idf-pod7.yaml
+index a8041a2..7745cda 100644
+--- a/labs/arm/idf-pod7.yaml
++++ b/labs/arm/idf-pod7.yaml
+@@ -35,7 +35,7 @@ idf:
+       mask: 24
+     private:
+       interface: 1
+-      vlan: 2345
++      vlan: 2345-2360
+       network: 10.1.0.0
+       mask: 24
+     public:
+diff --git a/labs/bii/idf-pod1.yaml b/labs/bii/idf-pod1.yaml
+index 281e63a..bd81019 100644
+--- a/labs/bii/idf-pod1.yaml
++++ b/labs/bii/idf-pod1.yaml
+@@ -30,7 +30,7 @@ idf:
+       mask: 24
+     private:
+       interface: 3
+-      vlan: 102
++      vlan: 102-132
+       network: 192.168.102.0
+       mask: 24
+     public:
+diff --git a/labs/ericsson/idf-pod1.yaml b/labs/ericsson/idf-pod1.yaml
+index 5f99082..91227d6 100644
+--- a/labs/ericsson/idf-pod1.yaml
++++ b/labs/ericsson/idf-pod1.yaml
+@@ -34,7 +34,7 @@ idf:
+       mask: 24
+     private:
+       interface: 3
+-      vlan: 1000
++      vlan: 1000-1030
+       network: 192.168.2.0
+       mask: 24
+     public:
+diff --git a/labs/lf/idf-pod2.yaml b/labs/lf/idf-pod2.yaml
+index a8c370d..f2ccef8 100644
+--- a/labs/lf/idf-pod2.yaml
++++ b/labs/lf/idf-pod2.yaml
+@@ -35,7 +35,7 @@ idf:
+       mask: 24
+     private:
+       interface: 1
+-      vlan: 1000
++      vlan: 1000-1030
+       network: 10.1.0.0      # Tagged, not the same with 'private' on wiki
+       mask: 24
+     public:
+diff --git a/labs/zte/idf-pod1.yaml b/labs/zte/idf-pod1.yaml
+index 6e8c134..fb81729 100644
+--- a/labs/zte/idf-pod1.yaml
++++ b/labs/zte/idf-pod1.yaml
+@@ -33,7 +33,7 @@ idf:
+       mask: 24
+     private:
+       interface: 3
+-      vlan: 1120
++      vlan: 1120-1150
+       network: 192.168.63.0
+       mask: 24
+     public:
+-- 
+2.16.2
+
