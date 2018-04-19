@@ -22,6 +22,161 @@
       "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_55943e42",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 260,
+        "startChar": 22,
+        "endLine": 260,
+        "endChar": 33
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b59dc268",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "guest operating systems",
+      "range": {
+        "startLine": 260,
+        "startChar": 48,
+        "endLine": 260,
+        "endChar": 64
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_959a466c",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "redundant (and these limitations actually apply to what we can spawn on kvm0*, but we only use Ubuntu there)",
+      "range": {
+        "startLine": 260,
+        "startChar": 86,
+        "endLine": 261,
+        "endChar": 13
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_f58aaa19",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "Do not hardcode package versions in docs.\nHowever, for the record:\n- Armband uses 4.15 in most if not all places (and definitely on all baremetal nodes in all scenarios);\n- x86_64 has 4.4 on most scenarios, 4.8 in some (if I remember right) etc.\n\nAlso, the guest OSes support is determined by multiple things, not only the kernel (in fact the host kernel plays a very small role nowadays):\n- firmware image (e.g. AAVMF on aarch64);\n- qemu/libvirt\n- host kernel\n- machine config\netc.",
+      "range": {
+        "startLine": 261,
+        "startChar": 39,
+        "endLine": 261,
+        "endChar": 58
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d58fae28",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "This seems aarch64 specific.\nEither cover x86 as well, or explicitly state that everything here applies only to aarch64. It\u0027d be nice to test x86 too, at least the images that don\u0027t work on aarch64, as I expect them to work on x86 (the problem being the incompat between AAVMF and guest kernel).",
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3581b2fb",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "1. drop the guest kernel column - that would go in a test report, as it would be re-evaluated for each release, while docs should be updated when something major changes (e.g. Centos starts working). imo, you should specify the kernel version tested for the ones that don\u0027t work\n2. add arch",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 59
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_15863613",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-19T23:10:52Z",
+      "side": 1,
+      "message": "rm, some images are .qcow2 or img.xz\nimo, this line is redudant",
+      "range": {
+        "startLine": 282,
+        "startChar": 11,
+        "endLine": 282,
+        "endChar": 23
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
