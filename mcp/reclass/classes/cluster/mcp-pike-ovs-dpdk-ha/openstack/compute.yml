@@ -22,3 +22,7 @@ parameters:
     compute:
       libvirt_service: libvirtd
       libvirt_bin: /etc/default/libvirtd
+  linux:
+    system:
+      kernel:
+        isolcpu: ${_param:compute_kernel_isolcpu}

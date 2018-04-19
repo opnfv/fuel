@@ -11,10 +11,6 @@
 {%- set nics = { nm.cmp001.nic_admin: True, nm.cmp001.nic_mgmt: True } %}
 {%- set vlans = { nm.vlan_admin: nm.cmp001.nic_admin, nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
 ---
-{%- if not conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
-classes:
-  - system.nova.compute.nfv.cpu_pinning
-{%- endif %}
 parameters:
   _param:
     # Should later be determined via PDF/IDF, AArch64 has ESP on /dev/sda1
