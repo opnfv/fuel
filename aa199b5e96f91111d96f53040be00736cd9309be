@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_0a10d1a6",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_dpdk_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-04-19T14:21:19Z",
+      "side": 0,
+      "message": "These are just the default values. For armband CPU pinning is read from IDF so I think we need to remove it from there too.",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "aa199b5e96f91111d96f53040be00736cd9309be",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
