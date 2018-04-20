@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_70222853",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_b59dc268",
+      "range": {
+        "startLine": 260,
+        "startChar": 48,
+        "endLine": 260,
+        "endChar": 64
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3025405c",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_55943e42",
+      "range": {
+        "startLine": 260,
+        "startChar": 22,
+        "endLine": 260,
+        "endChar": 33
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_959a466c",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 6
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_901534e7",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "This is a nice comment. I only considered what a possible user might read in this manual not an admin, so i never thought that these findings are true for the VCP nodes as well. Interesting find and i will merge them",
+      "parentUuid": "5a3f45e8_959a466c",
+      "range": {
+        "startLine": 260,
+        "startChar": 86,
+        "endLine": 261,
+        "endChar": 13
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_d58fae28",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 6
@@ -128,6 +200,24 @@
       "writtenOn": "2018-04-19T23:10:52Z",
       "side": 1,
       "message": "This seems aarch64 specific.\nEither cover x86 as well, or explicitly state that everything here applies only to aarch64. It\u0027d be nice to test x86 too, at least the images that don\u0027t work on aarch64, as I expect them to work on x86 (the problem being the incompat between AAVMF and guest kernel).",
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_10af6495",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "I added a new column for x86 and we should somehow fill it up.\nDo you know anyone who has a baremetal pod available that we can borrow (or he can try the OSs and fill the table)?",
+      "parentUuid": "5a3f45e8_d58fae28",
       "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -157,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_9071b446",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "I edited the columns but I still think that the guest kernel should be present here. The kernel version does not change on OS releases AFAIK.",
+      "parentUuid": "5a3f45e8_3581b2fb",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 59
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_15863613",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 6
@@ -168,6 +282,30 @@
       "writtenOn": "2018-04-19T23:10:52Z",
       "side": 1,
       "message": "rm, some images are .qcow2 or img.xz\nimo, this line is redudant",
+      "range": {
+        "startLine": 282,
+        "startChar": 11,
+        "endLine": 282,
+        "endChar": 23
+      },
+      "revId": "0a90bd931c0602e75d8da1c908286b6c60691d9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d08fbc28",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-04-20T08:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_15863613",
       "range": {
         "startLine": 282,
         "startChar": 11,
