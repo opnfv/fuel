@@ -8,7 +8,8 @@
 {%- import 'net_map.j2' as nm with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.cmp001.nic_private: True } %}
-{%- set vlans = { nm.vlan_private: nm.cmp001.nic_private } %}
+{%- set vlan_private_start = nm.vlan_private.rsplit('-')[0] %}
+{%- set vlans = { vlan_private_start: nm.cmp001.nic_private } %}
 ---
 parameters:
   linux:
@@ -45,4 +46,4 @@ parameters:
           netmask: 255.255.255.0
           mtu: 1500
           use_interfaces:
-            - {{ nm.cmp001.nic_private }}{% if nm.vlan_private | int > 0 %}.{{ nm.vlan_private }}{% endif %}
+            - {{ nm.cmp001.nic_private }}{% if vlan_private_start | int > 0 %}.{{ vlan_private_start }}{% endif %}
