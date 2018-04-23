@@ -11,6 +11,9 @@ classes:
   - cluster.mcp-pike-common-noha.openstack_compute
   - cluster.mcp-pike-ovn-noha
 parameters:
+  neutron:
+    compute:
+      controller_vip: ${_param:cluster_local_address}
   linux:
     network:
       interface:
