@@ -34,6 +34,24 @@
       "revId": "ed7bb355c93af5c163d5ae7926012652021abf75",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9ddd48e3",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-23T10:07:56Z",
+      "side": 1,
+      "message": "Ty, I realized that we don\u0027t have a dedicated \u0027network\u0027 node after I asked the question.",
+      "parentUuid": "5a3f45e8_fda8cc8e",
+      "revId": "ed7bb355c93af5c163d5ae7926012652021abf75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
