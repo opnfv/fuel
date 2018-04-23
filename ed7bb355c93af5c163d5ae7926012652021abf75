@@ -16,6 +16,24 @@
       "revId": "ed7bb355c93af5c163d5ae7926012652021abf75",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_fda8cc8e",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-04-23T08:20:20Z",
+      "side": 1,
+      "message": "We use combined roles for \"compute\" node: compute for nova and for neutron it\u0027s gateway.",
+      "parentUuid": "5a3f45e8_9d98a8c1",
+      "revId": "ed7bb355c93af5c163d5ae7926012652021abf75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
