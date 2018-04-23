@@ -24,11 +24,10 @@ parameters:
 {%- endfor %}
 {%- endif %}
 {%- else %}
-            nova_cpu_pinning: '"5-7,13-15"'
             compute_hugepages_size: 2M
             compute_hugepages_count: 8192
             compute_hugepages_mount: /mnt/hugepages_2M
-            compute_kernel_isolcpu: 2,3,5,6,7,10,11,13,14,15
+            compute_kernel_isolcpu: 2,3,10,11
             compute_dpdk_driver: uio
             compute_ovs_pmd_cpu_mask: '"0xc04"'
             compute_ovs_dpdk_socket_mem: '"2048,2048"'

@@ -25,11 +25,9 @@ parameters:
             dummy_value: ~
 {%- endif %}
 {%- else %}
-            nova_cpu_pinning: &nova_cpu_pinning_common '"1,2,3,4,5,7,8,9,10,11"'
             compute_hugepages_size: 1G
             compute_hugepages_count: 16
             compute_hugepages_mount: /mnt/hugepages_1G
-            compute_kernel_isolcpu: *nova_cpu_pinning_common
 {%- endif %}
         openstack_compute_node02:
           <<: *openstack_compute_node01
