@@ -36,7 +36,7 @@ idf:
       mask: 24
     private:
       interface: 2  # when used, will be third vnet interface, untagged
-      vlan: native
+      vlan: 1000-1999
       network: 10.1.0.0
       mask: 24
     public:
