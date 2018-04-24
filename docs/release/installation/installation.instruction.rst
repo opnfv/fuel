@@ -6,7 +6,7 @@
 Abstract
 ========
 
-This document describes how to install the Euphrates release of
+This document describes how to install the Fraser release of
 OPNFV when using Fuel as a deployment tool, covering its usage,
 limitations, dependencies and required system resources.
 This is an unified documentation for both x86_64 and aarch64
@@ -18,14 +18,14 @@ Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the Euphrates release of OPNFV when using Fuel as a
+configure the Fraser release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options provide a high degree of
 freedom in how the system is set up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This document provides a
-step-by-step guide that results in an OPNFV Euphrates compliant
+step-by-step guide that results in an OPNFV Fraser compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge of
@@ -35,7 +35,7 @@ networking and Unix/Linux administration.
 Preface
 =======
 
-Before starting the installation of the Euphrates release of
+Before starting the installation of the Fraser release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -69,7 +69,7 @@ Hardware Requirements for Virtual Deploys
 =========================================
 
 The following minimum hardware requirements must be met for the virtual
-installation of Euphrates using Fuel:
+installation of Fraser using Fuel:
 
 +----------------------------+--------------------------------------------------------+
 | **HW Aspect**              | **Requirement**                                        |
@@ -92,7 +92,7 @@ Hardware Requirements for Baremetal Deploys
 ===========================================
 
 The following minimum hardware requirements must be met for the baremetal
-installation of Euphrates using Fuel:
+installation of Fraser using Fuel:
 
 +-------------------------+------------------------------------------------------+
 | **HW Aspect**           | **Requirement**                                      |
@@ -173,7 +173,7 @@ the Fuel OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
 
-Manual configuration of the Euphrates hardware platform should
+Manual configuration of the Fraser hardware platform should
 be carried out according to the `OPNFV Pharos Specification
 <https://wiki.opnfv.org/display/pharos/Pharos+Specification>`_.
 
@@ -387,11 +387,11 @@ These steps are common both for virtual and baremetal deploys.
        $ git clone https://git.opnfv.org/armband
        $ cd armband
 
-#. Checkout the Euphrates release
+#. Checkout the Fraser release
 
    .. code-block:: bash
 
-       $ git checkout opnfv-5.0.2
+       $ git checkout opnfv-6.0.0
 
 #. Start the deploy script
 
@@ -563,7 +563,7 @@ OPNFV
 
 OpenStack
 
-4) `OpenStack Ocata Release Artifacts <http://www.openstack.org/software/ocata>`_
+4) `OpenStack Pike Release Artifacts <http://www.openstack.org/software/pike>`_
 5) `OpenStack Documentation <http://docs.openstack.org>`_
 
 OpenDaylight

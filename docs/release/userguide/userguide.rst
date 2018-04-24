@@ -6,7 +6,7 @@
 Abstract
 ========
 
-This document contains details about how to use OPNFV Fuel - Euphrates
+This document contains details about how to use OPNFV Fuel - Fraser
 release - after it was deployed. For details on how to deploy check the
 installation instructions in the :ref:`references` section.
 
@@ -107,10 +107,10 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~$ salt "*" network.ip_addrs
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.baremetal-mcp-pike-odl-ha.local:
            - 10.20.0.2
            - 172.16.10.100
-        mas01.baremetal-mcp-ocata-odl-ha.local:
+        mas01.baremetal-mcp-pike-odl-ha.local:
            - 10.20.0.3
            - 172.16.10.3
            - 192.168.11.3
@@ -123,7 +123,7 @@ with *root* user.
 
         root@cfg01:~$ salt "*" network.interfaces --out yaml --output-file interfaces.yaml
         root@cfg01:~# cat interfaces.yaml
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.baremetal-mcp-pike-odl-ha.local:
          enp1s0:
            hwaddr: 52:54:00:72:77:12
            inet:
@@ -144,7 +144,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt "mas*" pkg.list_pkgs
-        mas01.baremetal-mcp-ocata-odl-ha.local:
+        mas01.baremetal-mcp-pike-odl-ha.local:
             ----------
             accountsservice:
                 0.6.40-2ubuntu11.3
@@ -164,7 +164,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt "*" cmd.run 'ls /var/log'
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.baremetal-mcp-pike-odl-ha.local:
            alternatives.log
            apt
            auth.log
@@ -180,7 +180,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt -C '* and cfg01*' cmd.run 'ls /var/log'
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.baremetal-mcp-pike-odl-ha.local:
            alternatives.log
            apt
            auth.log
@@ -196,7 +196,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt -I 'nova:compute' cmd.run 'ls /var/log'
-        cmp001.baremetal-mcp-ocata-odl-ha.local:
+        cmp001.baremetal-mcp-pike-odl-ha.local:
            alternatives.log
            apache2
            apt
@@ -353,6 +353,6 @@ After the installation is done, a webbrowser on the host can be used to view the
 References
 ==========
 
-1) `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/installation/installation.instruction.html>`_
+1) :ref:`fuel-release-installation-label`
 2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
 3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_

@@ -6,7 +6,7 @@
 Abstract
 ========
 
-This document compiles the release notes for the Euphrates release of
+This document compiles the release notes for the Fraser release of
 OPNFV when using Fuel as a deployment tool. This is an unified documentation
 for both x86_64 and aarch64 architectures. All information is common for
 both architectures except when explicitly stated.
@@ -17,9 +17,9 @@ Important Notes
 ===============
 
 These notes provides release information for the use of Fuel as deployment
-tool for the Euphrates release of OPNFV.
+tool for the Fraser release of OPNFV.
 
-The goal of the Euphrates release and this Fuel-based deployment process is
+The goal of the Fraser release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
@@ -29,7 +29,7 @@ Carefully follow the installation-instructions.
 Summary
 =======
 
-For Euphrates, the typical use of Fuel as an OpenStack installer is
+For Fraser, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
 - `OpenDaylight <http://www.opendaylight.org/software>`_
@@ -37,7 +37,7 @@ supplemented with OPNFV unique components such as:
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
 
-This Euphrates artifact provides Fuel as the deployment stage tool in the
+This Fraser artifact provides Fuel as the deployment stage tool in the
 OPNFV CI pipeline including:
 
 - Documentation built by Jenkins
@@ -48,10 +48,10 @@ OPNFV CI pipeline including:
 
   - installation instructions
 
-- Automated deployment of Euphrates with running on bare metal or a nested
+- Automated deployment of Fraser with running on bare metal or a nested
   hypervisor environment (KVM)
 
-- Automated validation of the Euphrates deployment
+- Automated validation of the Fraser deployment
 
 ============
 Release Data
@@ -61,22 +61,23 @@ Release Data
 | **Project**                          | fuel/armband                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-5.1.0                          |
+| **Repo/tag**                         | opnfv-6.0.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Euphrates 5.1                        |
+| **Release designation**              | Fraser 6.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | December 15 2017                     |
+| **Release date**                     | April 27 2018                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Euphrates alignment to Released      |
+| **Purpose of the delivery**          | Fraser alignment to Released         |
 |                                      | MCP 1.0 baseline + features and      |
 |                                      | bug-fixes for the following          |
 |                                      | feaures:                             |
 |                                      |                                      |
 |                                      | - Open vSwitch for NFV               |
 |                                      | - OpenDaylight                       |
+|                                      | - DPDK                               |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -84,25 +85,25 @@ Version Change
 
 Module Version Changes
 ----------------------
-This is the Euphrates 5.1 release.
+This is the Fraser 6.0 release.
 It is based on following upstream versions:
 
 - MCP 1.0 Base Release
 
-- OpenStack Ocata Release
+- OpenStack Pike Release
 
 - OpenDaylight
 
 Document Changes
 ----------------
-This is the Euphrates 5.1 release.
+This is the Fraser 6.0 release.
 It comes with the following documentation:
 
-- `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/armband/docs/release/installation/installation.instruction.html>`_
+- :ref:`fuel-release-installation-label`
 
 - Release notes (This document)
 
-- `User guide <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/userguide/userguide.html>`_
+- :ref:`fuel-release-userguide-label`
 
 Reason for Version
 ==================
@@ -111,14 +112,14 @@ Feature Additions
 -----------------
 
 **JIRA TICKETS:**
-`Euphrates 5.1 new features  <https://jira.opnfv.org/issues/?filter=12114>`_
+`Fraser 6.0 new features  <https://jira.opnfv.org/issues/?filter=12302>`_
 
 Bug Corrections
 ---------------
 
 **JIRA TICKETS:**
 
-`Euphrates 5.1 bug fixes  <https://jira.opnfv.org/issues/?filter=12115>`_
+`Fraser 6.0 bug fixes  <https://jira.opnfv.org/issues/?filter=12303>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -135,12 +136,11 @@ Software Deliverables
 Documentation Deliverables
 --------------------------
 
-- `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/armband/docs/release/installation/installation.instruction.html>`_
+- :ref:`fuel-release-installation-label`
 
 - Release notes (This document)
 
-- `User guide <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/userguide/userguide.html>`_
-
+- :ref:`fuel-release-userguide-label`
 
 =========================================
 Known Limitations, Issues and Workarounds
@@ -163,7 +163,7 @@ Known Issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=12116>`_
+`Known issues <https://jira.opnfv.org/issues/?filter=12304>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -179,13 +179,13 @@ Workarounds
 ============
 Test Results
 ============
-The Euphrates 5.1 release with the Fuel deployment tool has undergone QA test
+The Fraser 6.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Euphrates 5.1 release, please see:
+For more information on the OPNFV Fraser 6.0 release, please see:
 
 OPNFV
 =====
@@ -197,7 +197,7 @@ OPNFV
 OpenStack
 =========
 
-4) `OpenStack Ocata Release Artifacts <http://www.openstack.org/software/ocata>`_
+4) `OpenStack Pike Release Artifacts <http://www.openstack.org/software/pike>`_
 
 5) `OpenStack Documentation <http://docs.openstack.org>`_
 
