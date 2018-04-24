@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_a9fe02ac",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T14:30:03Z",
+      "side": 1,
+      "message": "Let\u0027s add a note here saying that non-UEFI images for x86 are all expected to work, and this table only covers the OVMF/AAVMF guest support.\nAlso, +1 for Ting\u0027s oberservation about listing Cirros VM too.",
+      "revId": "4f9c5b4452817ae5cfcf0344a5f65e09d3a10e80",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
