@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_911ed05d",
+        "filename": "mcp/config/states/opendaylight",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T18:02:16Z",
+      "side": 1,
+      "message": "Only happened once during:\nhttps://build.opnfv.org/ci/view/armband/job/fuel-deploy-armband-baremetal-daily-fraser/31/consoleFull",
+      "revId": "fb38eee892d1f21959234a0bae4e1d6c5f1ffe3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_712344a7",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T18:02:16Z",
+      "side": 1,
+      "message": "happened once during:\nhttps://build.opnfv.org/ci/view/armband/job/fuel-deploy-armband-baremetal-daily-fraser/31/consoleFull",
+      "revId": "fb38eee892d1f21959234a0bae4e1d6c5f1ffe3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d13b38cf",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T18:02:16Z",
+      "side": 1,
+      "message": "happened once in Armband",
+      "revId": "fb38eee892d1f21959234a0bae4e1d6c5f1ffe3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b1382cd4",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T18:02:16Z",
+      "side": 1,
+      "message": "didn\u0027t see this one timeout/no resp, but it won\u0027t hurt",
+      "revId": "fb38eee892d1f21959234a0bae4e1d6c5f1ffe3e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
