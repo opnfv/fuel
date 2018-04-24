@@ -12,8 +12,8 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
-salt -I 'keepalived:cluster' state.sls keepalived -b 1
-salt -I 'keepalived:cluster' pillar.get keepalived:cluster:instance:VIP:address
+wait_for 5.0 "salt -I 'keepalived:cluster' state.sls keepalived -b 1"
+wait_for 5.0 "salt -I 'keepalived:cluster' pillar.get keepalived:cluster:instance:VIP:address"
 
 salt -C 'I@rabbitmq:server and *01*' state.sls rabbitmq
 salt -I 'rabbitmq:server' state.sls rabbitmq
@@ -28,7 +28,7 @@ salt -I 'galera:master' state.sls galera
 salt -I 'galera:slave' state.sls galera
 salt -I 'galera:master' mysql.status | grep -A1 wsrep_cluster_size
 
-salt -I 'memcached:server' state.sls memcached
+wait_for 3.0 "salt -I 'memcached:server' state.sls memcached"
 
 salt -I 'haproxy:proxy' state.sls haproxy
 salt -I 'haproxy:proxy' service.status haproxy
@@ -38,15 +38,15 @@ set +e; salt -I 'keystone:server' state.sls keystone.server -b 1; set -e
 salt -I 'keystone:server' service.restart apache2
 salt -I 'keystone:server' state.sls keystone.server -b 1
 
-wait_for 30 "salt -I 'keystone:client' state.sls keystone.client"
+wait_for 30.0 "salt -I 'keystone:client' state.sls keystone.client"
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
 salt -I 'nova:controller' state.sls nova -b 1
 salt -I 'heat:server' state.sls heat -b 1
 
-wait_for 5 "salt -I 'cinder:controller' state.sls cinder -b 1"
-wait_for 3 "salt -I 'cinder:volume' state.sls cinder"
+wait_for 5.0 "salt -I 'cinder:controller' state.sls cinder -b 1"
+wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
 
 salt -I 'neutron:server' state.sls neutron -b 1
 salt -I 'neutron:gateway' state.sls neutron.gateway
@@ -54,7 +54,7 @@ salt -I 'neutron:gateway' state.sls neutron.gateway
 salt -I 'nova:compute' state.sls nova
 
 salt -C 'I@mongodb:server and *01*' state.sls mongodb || true
-wait_for 10 "salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin'"
+wait_for 10.0 "salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin'"
 salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin --eval "rs.initiate()"'
 salt -I 'mongodb:server' state.sls mongodb
 
