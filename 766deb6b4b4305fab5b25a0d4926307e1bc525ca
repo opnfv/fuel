@@ -1,0 +1,526 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_a9e0c296",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "missing closing )",
+      "range": {
+        "startLine": 86,
+        "startChar": 45,
+        "endLine": 86,
+        "endChar": 85
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_09f1f66a",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "Fuel",
+      "range": {
+        "startLine": 188,
+        "startChar": 86,
+        "endLine": 188,
+        "endChar": 90
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_69019a37",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "rm, no longer true for Fraser. In case the PXE/admin bridge is not present as a Linux bridge, we create a virsh network instead (separated now from mcpcontrol) to align with the baremetal layout where PXE/admin is managed by MaaS.",
+      "range": {
+        "startLine": 312,
+        "startChar": 60,
+        "endLine": 313,
+        "endChar": 53
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c9fa6e42",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "minor note - we moved the ODL VM from kvm01 to kvm02 to balance the load on the kvm nodes. the diagrams should be updated at some point, but I don\u0027t think it\u0027s worth doing that now.",
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_0998d61a",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "rm, by default we now rely on embedded Pharos git submodule + `mcp/config/labs/local/*virtual*`.\nSo it makes sense to NOT clone Pharos separately for this, but instead use the PDF/IDF for vPOD from `mcp/config/labs/local`.\nThe same (not passing -b) might be true for baremetal OPNFV PODs already present in Pharos, but to make it easier for non-OPNFV POD users to understand where to put the PDF/IDF for their pods, we can leave `-b` in for baremetal for now.",
+      "range": {
+        "startLine": 426,
+        "startChar": 24,
+        "endLine": 426,
+        "endChar": 65
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e99c8a11",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "ditto, this is superfluous since lf-pod2 has up to date PDF/IDF in Pharos. not sure whether we should keep it here or not, it\u0027s up to you.",
+      "range": {
+        "startLine": 443,
+        "startChar": 24,
+        "endLine": 443,
+        "endChar": 66
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_499e5e08",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "currently disabled due to upstream issues in salt-formula-sphinx, probably already fixed meanwhile.\nWe can leave this as-is and fix it in 6.1.0 (we do have a bug for this).",
+      "range": {
+        "startLine": 457,
+        "startChar": 46,
+        "endLine": 457,
+        "endChar": 71
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_29a31250",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "Pod \u0026 Installer",
+      "range": {
+        "startLine": 476,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 3
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a98e02ce",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "defined in PDF",
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_09bf3662",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "Each used\n(net_config defines \u0027storage\u0027, which we ignore in Fuel)",
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e9c3eaea",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "currently disabled if I remember right",
+      "range": {
+        "startLine": 526,
+        "startChar": 2,
+        "endLine": 526,
+        "endChar": 18
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_49b5be7c",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "I think we are using 1.1 now, but I\u0027m not sure. If in doubt, rm",
+      "range": {
+        "startLine": 74,
+        "startChar": 45,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_29baf26d",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "Oxygen release",
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_89b22692",
+        "filename": "docs/release/scenarios/os-nosdn-ovs-noha/os-nosdn-ovs-noha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "-noha",
+      "range": {
+        "startLine": 27,
+        "startChar": 53,
+        "endLine": 27,
+        "endChar": 56
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_69afda2a",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "baremetal \u0026 virtual\nI think we can drop this whole column now, baremetal/virtual network layouts are now in sync.",
+      "range": {
+        "startLine": 29,
+        "startChar": 21,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c9a8ae22",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "and/or Salt control network",
+      "range": {
+        "startLine": 29,
+        "startChar": 72,
+        "endLine": 29,
+        "endChar": 75
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a9a56248",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "rm",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 81
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e96acaec",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "Starting with this release, we also support logging in to cluster nodes from salt master, with the great advantage of being able to use cluster hostnames like:\n$ sudo -i\n$ ssh -i mcp.rsa ubuntu@ctl01",
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_496c9e08",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "I don\u0027t know how this got in in this form.\nThis is only true for Armband, Fuel does not add the `opnfv` user.",
+      "range": {
+        "startLine": 71,
+        "startChar": 69,
+        "endLine": 73,
+        "endChar": 45
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_297152e0",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "on x86 it doesn\u0027t exist at all",
+      "range": {
+        "startLine": 83,
+        "startChar": 31,
+        "endLine": 83,
+        "endChar": 84
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_6976bad8",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "as",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 4
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_094d769a",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "I only noticed this now, not a huge deal, but we renamed the clusters to drop the \u0027baremetal-\u0027 or \u0027virtual-\u0027 prefix (see [1]), so this should be:\ncmp001.mcp-pike-odl-ha.local\n[1] https://github.com/opnfv/fuel/tree/master/mcp/reclass/classes/cluster",
+      "range": {
+        "startLine": 199,
+        "startChar": 15,
+        "endLine": 199,
+        "endChar": 24
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e9512a37",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "the default controller IP changed after Guillermo\u0027s IP rework, not sure this is worth updating.\nHowever, for baremetal nodes, the Horizon dashboard is available at:\nhttp://\u003cproxy public VIP\u003e (no port, :80 will redirect to :443; we can\u0027t hit 8078 directly since baremetal has SSL enabled and bypassing nginx would cause CSRF cookie errors)",
+      "range": {
+        "startLine": 232,
+        "startChar": 83,
+        "endLine": 232,
+        "endChar": 106
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_4943fe6b",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-24T17:02:52Z",
+      "side": 1,
+      "message": "out of date, should be updated or removed since we now use hostnames for ssh logins, so this is not as relevant as it used to be",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 44
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
