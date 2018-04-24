@@ -6,7 +6,7 @@
 Abstract
 ========
 
-This document describes how to install the Euphrates release of
+This document describes how to install the Fraser release of
 OPNFV when using Fuel as a deployment tool, covering its usage,
 limitations, dependencies and required system resources.
 This is an unified documentation for both x86_64 and aarch64
@@ -18,14 +18,14 @@ Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the Euphrates release of OPNFV when using Fuel as a
+configure the Fraser release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options provide a high degree of
 freedom in how the system is set up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This document provides a
-step-by-step guide that results in an OPNFV Euphrates compliant
+step-by-step guide that results in an OPNFV Fraser compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge of
@@ -35,7 +35,7 @@ networking and Unix/Linux administration.
 Preface
 =======
 
-Before starting the installation of the Euphrates release of
+Before starting the installation of the Fraser release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -69,7 +69,7 @@ Hardware Requirements for Virtual Deploys
 =========================================
 
 The following minimum hardware requirements must be met for the virtual
-installation of Euphrates using Fuel:
+installation of Fraser using Fuel:
 
 +----------------------------+--------------------------------------------------------+
 | **HW Aspect**              | **Requirement**                                        |
@@ -83,7 +83,7 @@ installation of Euphrates using Fuel:
 +----------------------------+--------------------------------------------------------+
 | **RAM**                    | Minimum 32GB/server (Depending on VNF work load)       |
 +----------------------------+--------------------------------------------------------+
-| **Disk**                   | Minimum 100GB (SSD or SCSI (15krpm) highly recommended |
+| **Disk**                   | Minimum 100GB (SSD or SCSI (15krpm) highly recommended)|
 +----------------------------+--------------------------------------------------------+
 
 
@@ -92,7 +92,7 @@ Hardware Requirements for Baremetal Deploys
 ===========================================
 
 The following minimum hardware requirements must be met for the baremetal
-installation of Euphrates using Fuel:
+installation of Fraser using Fuel:
 
 +-------------------------+------------------------------------------------------+
 | **HW Aspect**           | **Requirement**                                      |
@@ -173,7 +173,7 @@ the Fuel OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
 
-Manual configuration of the Euphrates hardware platform should
+Manual configuration of the Fraser hardware platform should
 be carried out according to the `OPNFV Pharos Specification
 <https://wiki.opnfv.org/display/pharos/Pharos+Specification>`_.
 
@@ -185,7 +185,7 @@ The Jumpserver node should be pre-provisioned with an operating system,
 according to the Pharos specification. Relevant network bridges should
 also be pre-configured (e.g. admin_br, mgmt_br, public_br).
 
-- The admin bridge (admin_br) is mandatory for the baremetal nodes PXE booting during fuel installation.
+- The admin bridge (admin_br) is mandatory for the baremetal nodes PXE booting during Fuel installation.
 - The management bridge (mgmt_br) is required for testing suites (e.g. functest/yardstick), it is
   suggested to pre-configure it for debugging purposes.
 - The public bridge (public_br) is also nice to have for debugging purposes, but not mandatory.
@@ -309,17 +309,18 @@ In this figure there are examples of two virtual deploys:
    - Jumphost 2 has a mix of Linux and virsh bridges; When Linux bridge exists for a specified network,
      the deploy script will skip creating a virsh bridge for it
 
-**Note**: A virtual network "mcpcontrol" is always created. For virtual deploys, "mcpcontrol" is also
- used for Admin, leaving the PXE/Admin bridge unused.
+**Note**: A virtual network "mcpcontrol" is always created for initial connection
+of the VMs on Jumphost.
 
 
 Automatic Installation of a Baremetal POD
 =========================================
 
 The baremetal installation process can be done by editing the information about
-hardware and environment in the reclass files, or by using a Pod Descriptor File (PDF).
-This file contains all the information about the hardware and network of the deployment
-the will be fed to the reclass model during deployment.
+hardware and environment in the reclass files, or by using the files Pod Descriptor
+File (PDF) and Installer Descriptor File (IDF) as described in the OPNFV Pharos project.
+These files contain all the information about the hardware and network of the deployment
+that will be fed to the reclass model during deployment.
 
 The installation is done automatically with the deploy script, which will:
 
@@ -362,8 +363,8 @@ In the baremetal deploy all bridges but "mcpcontrol" are Linux bridges. For the 
 required to pre-configure at least the admin_br bridge for the PXE/Admin.
 For the targets, the bridges are created by the deploy script.
 
-**Note**: A virtual network "mcpcontrol" is always created. For baremetal deploys, PXE bridge is used
-for baremetal node provisioning, while "mcpcontrol" is used to provision the infrastructure VMs only.
+**Note**: A virtual network "mcpcontrol" is always created for initial connection
+of the VMs on Jumphost.
 
 
 Steps to Start the Automatic Deploy
@@ -387,11 +388,11 @@ These steps are common both for virtual and baremetal deploys.
        $ git clone https://git.opnfv.org/armband
        $ cd armband
 
-#. Checkout the Euphrates release
+#. Checkout the Fraser release
 
    .. code-block:: bash
 
-       $ git checkout opnfv-5.0.2
+       $ git checkout opnfv-6.0.0
 
 #. Start the deploy script
 
@@ -423,15 +424,14 @@ Examples
 
       .. code-block:: bash
 
-         $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                        -l ericsson \
-                        -p virtual3 \
-                        -s os-nosdn-nofeature-noha \
-                        -D \
-                        -S /home/jenkins/tmpdir |& tee deploy.log
+          $ ci/deploy.sh -l ericsson \
+                         -p virtual3 \
+                         -s os-nosdn-nofeature-noha \
+                         -D \
+                         -S /home/jenkins/tmpdir |& tee deploy.log
 
-   Once the deployment is complete, the OpenStack Dashboard, Horizon is
-   available at http://<controller VIP>:8078, e.g. http://10.16.0.11:8078.
+   Once the deployment is complete, the OpenStack Dashboard, Horizon, is
+   available at http://<controller VIP>:8078
    The administrator credentials are **admin** / **opnfv_secret**.
 
 #. Baremetal deploy
@@ -440,8 +440,7 @@ Examples
 
       .. code-block:: bash
 
-          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                         -l lf \
+          $ ci/deploy.sh -l lf \
                          -p pod2 \
                          -s os-nosdn-nofeature-ha \
                          -D \
@@ -453,15 +452,11 @@ Examples
 
          Fuel@OPNFV LF POD2 Network Layout
 
-   Once the deployment is complete, the SaltStack Deployment Documentation is
-   available at http://<Proxy VIP>:8090, e.g. http://172.30.10.103:8090.
-
    An aarch64 deploy on pod5 from Arm lab
 
       .. code-block:: bash
 
-          $ ci/deploy.sh -b file:///home/jenkins/tmpdir/securedlab \
-                         -l arm \
+          $ ci/deploy.sh -l arm \
                          -p pod5 \
                          -s os-nosdn-nofeature-ha \
                          -D \
@@ -473,8 +468,32 @@ Examples
 
          Fuel@OPNFV ARM POD5 Network Layout
 
-Pod Descriptor Files
-====================
+   Once the deployment is complete, the SaltStack Deployment Documentation is
+   available at http://<proxy public VIP>:8090
+
+**NOTE**: The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
+for hardware and network configuration of all current OPNFV PODs.
+When deploying a new POD, one can pass the `-b` flag to the deploy script to override
+the path for the labconfig directory structure containing the PDF and IDF.
+
+   .. code-block:: bash
+
+       $ ci/deploy.sh -b file://<absolute_path_to_labconfig> \
+                      -l <lab_name> \
+                      -p <pod_name> \
+                      -s <scenario> \
+                      -D \
+                      -S <tmp_folder> |& tee deploy.log
+
+   - <absolute_path_to_labconfig> is the absolute path to a local directory, populated
+     similar to Pharos, i.e. PDF/IDF reside in <absolute_path_to_labconfig>/labs/<lab_name>
+   - <lab_name> is the same as the directory in the path above
+   - <pod_name> is the name used for the PDF (<pod_name>.yaml) and IDF (idf-<pod_name>.yaml) files
+
+
+
+Pod and Installer Descriptor Files
+==================================
 
 Descriptor files provide the installer with an abstraction of the target pod
 with all its hardware characteristics and required parameters. This information
@@ -496,7 +515,7 @@ are defined:
 - Network interfaces list including mac address, speed, advanced features and name.
 
 **Note**: The fixed IPs are ignored by the MCP installer script and it will instead
-assign based on the network ranges defined under the pod network configuration.
+assign based on the network ranges defined in IDF.
 
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
@@ -507,7 +526,7 @@ structure is available at *mcp/config/labs/local/idf-pod1.yaml*
 The file follows a yaml structure and two sections "net_config" and "fuel" are expected.
 
 The "net_config" section describes all the internal and provider networks
-assigned to the pod. Each network is expected to have a vlan tag, IP subnet and
+assigned to the pod. Each used network is expected to have a vlan tag, IP subnet and
 attached interface on the boards. Untagged vlans shall be defined as "native".
 
 The "fuel" section defines several sub-sections required by the Fuel installer:
@@ -521,9 +540,9 @@ The "fuel" section defines several sub-sections required by the Fuel installer:
   and other DPDK settings. (optional)
 
 The following parameters can be defined in the IDF files under "reclass". Those value will
-overwrite the default configuration values in Fuel repository.
+overwrite the default configuration values in Fuel repository:
 
-- nova_cpu_pinning: List of CPU cores nova will be pinned to.
+- nova_cpu_pinning: List of CPU cores nova will be pinned to. Currently disabled.
 - compute_hugepages_size: Size of each persistent huge pages. Usual values are '2M' and '1G'.
 - compute_hugepages_count: Total number of persistent huge pages.
 - compute_hugepages_mount: Mount point to use for huge pages.
@@ -563,7 +582,7 @@ OPNFV
 
 OpenStack
 
-4) `OpenStack Ocata Release Artifacts <http://www.openstack.org/software/ocata>`_
+4) `OpenStack Pike Release Artifacts <http://www.openstack.org/software/pike>`_
 5) `OpenStack Documentation <http://docs.openstack.org>`_
 
 OpenDaylight

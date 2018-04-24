@@ -6,9 +6,9 @@
 Abstract
 ========
 
-This document contains details about how to use OPNFV Fuel - Euphrates
+This document contains details about how to use OPNFV Fuel - Fraser
 release - after it was deployed. For details on how to deploy check the
-installation instructions in the :ref:`references` section.
+installation instructions in the :ref:`fuel_userguide_references` section.
 
 This is an unified documentation for both x86_64 and aarch64
 architectures. All information is common for both architectures
@@ -22,26 +22,25 @@ Network Overview
 
 Fuel uses several networks to deploy and administer the cloud:
 
-+------------------+-------------------+---------------------------------------------------------+
-| Network name     | Deploy Type       | Description                                             |
-|                  |                   |                                                         |
-+==================+===================+=========================================================+
-| **PXE/ADMIN**    | baremetal only    | Used for booting the nodes via PXE                      |
-+------------------+-------------------+---------------------------------------------------------+
-| **MCPCONTROL**   | baremetal &       | Used to provision the infrastructure VMs (Salt & MaaS). |
-|                  | virtual           | On virtual deploys, it is used for Admin too (on target |
-|                  |                   | VMs) leaving the PXE/Admin bridge unused                |
-+------------------+-------------------+---------------------------------------------------------+
-| **Mgmt**         | baremetal &       | Used for internal communication between                 |
-|                  | virtual           | OpenStack components                                    |
-+------------------+-------------------+---------------------------------------------------------+
-| **Internal**     | baremetal &       | Used for VM data communication within the               |
-|                  | virtual           | cloud deployment                                        |
-+------------------+-------------------+---------------------------------------------------------+
-| **Public**       | baremetal &       | Used to provide Virtual IPs for public endpoints        |
-|                  | virtual           | that are used to connect to OpenStack services APIs.    |
-|                  |                   | Used by Virtual machines to access the Internet         |
-+------------------+-------------------+---------------------------------------------------------+
++------------------+---------------------------------------------------------+
+| Network name     | Description                                             |
+|                  |                                                         |
++==================+=========================================================+
+| **PXE/ADMIN**    | Used for booting the nodes via PXE and/or Salt          |
+|                  | control network                                         |
++------------------+---------------------------------------------------------+
+| **MCPCONTROL**   | Used to provision the infrastructure VMs (Salt & MaaS)  |
++------------------+---------------------------------------------------------+
+| **Mgmt**         | Used for internal communication between                 |
+|                  | OpenStack components                                    |
++------------------+---------------------------------------------------------+
+| **Internal**     | Used for VM data communication within the               |
+|                  | cloud deployment                                        |
++------------------+---------------------------------------------------------+
+| **Public**       | Used to provide Virtual IPs for public endpoints        |
+|                  | that are used to connect to OpenStack services APIs.    |
+|                  | Used by Virtual machines to access the Internet         |
++------------------+---------------------------------------------------------+
 
 
 These networks - except mcpcontrol - can be linux bridges configured before the deploy on the
@@ -66,21 +65,15 @@ ssh key */var/lib/opnfv/mcp.rsa*. The example below is a connection to Salt mast
 
 **Note**: The Salt master IP is not hard set, it is configurable via INSTALLER_IP during deployment
 
-
-The Fuel baremetal deploy has a Virtualized Control Plane (VCP) which means that the controller
-services are installed in VMs on the baremetal targets (kvm servers). These VMs can also be
-accessed with virsh console: user *opnfv*, password *opnfv_secret*. This method does not apply
-to infrastructure VMs (Salt master and MaaS).
-
-The example below is a connection to a controller VM. The connection is made from the baremetal
-server kvm01.
+Logging in to cluster nodes is possible from the Jumpserver and from Salt master. On the Salt master
+cluster hostnames can be used instead of IP addresses:
 
     .. code-block:: bash
 
-        $ ssh -o StrictHostKeyChecking=no -i  /var/lib/opnfv/mcp.rsa  -l ubuntu x.y.z.141
-        ubuntu@kvm01:~$ virsh console ctl01
+        $ sudo -i
+        $ ssh -i mcp.rsa ubuntu@ctl01
 
-User *ubuntu* has sudo rights. User *opnfv* has sudo rights only on aarch64 deploys.
+User *ubuntu* has sudo rights.
 
 
 =============================
@@ -96,10 +89,10 @@ For example tell salt to execute a ping to 8.8.8.8 on all the nodes.
 .. figure:: img/saltstack.png
 
 Complex filters can be done to the target like compound queries or node roles.
-For more information about Salt see the :ref:`references` section.
+For more information about Salt see the :ref:`fuel_userguide_references` section.
 
 Some examples are listed below. Note that these commands are issued from Salt master
-with *root* user.
+as *root* user.
 
 
 #. View the IPs of all the components
@@ -107,10 +100,10 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~$ salt "*" network.ip_addrs
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.mcp-pike-odl-ha.local:
            - 10.20.0.2
            - 172.16.10.100
-        mas01.baremetal-mcp-ocata-odl-ha.local:
+        mas01.mcp-pike-odl-ha.local:
            - 10.20.0.3
            - 172.16.10.3
            - 192.168.11.3
@@ -123,7 +116,7 @@ with *root* user.
 
         root@cfg01:~$ salt "*" network.interfaces --out yaml --output-file interfaces.yaml
         root@cfg01:~# cat interfaces.yaml
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.mcp-pike-odl-ha.local:
          enp1s0:
            hwaddr: 52:54:00:72:77:12
            inet:
@@ -144,7 +137,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt "mas*" pkg.list_pkgs
-        mas01.baremetal-mcp-ocata-odl-ha.local:
+        mas01.mcp-pike-odl-ha.local:
             ----------
             accountsservice:
                 0.6.40-2ubuntu11.3
@@ -164,7 +157,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt "*" cmd.run 'ls /var/log'
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.mcp-pike-odl-ha.local:
            alternatives.log
            apt
            auth.log
@@ -180,7 +173,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt -C '* and cfg01*' cmd.run 'ls /var/log'
-        cfg01.baremetal-mcp-ocata-odl-ha.local:
+        cfg01.mcp-pike-odl-ha.local:
            alternatives.log
            apt
            auth.log
@@ -196,7 +189,7 @@ with *root* user.
     .. code-block:: bash
 
         root@cfg01:~# salt -I 'nova:compute' cmd.run 'ls /var/log'
-        cmp001.baremetal-mcp-ocata-odl-ha.local:
+        cmp001.mcp-pike-odl-ha.local:
            alternatives.log
            apache2
            apt
@@ -229,7 +222,7 @@ Openstack credentials are at */root/keystonercv3*.
         +--------------------------------------+-----------------------------------------------+--------+
 
 
-The OpenStack Dashboard, Horizon is available at http://<controller VIP>:8078, e.g. http://10.16.0.11:8078.
+The OpenStack Dashboard, Horizon, is available at http://<proxy public VIP>
 The administrator credentials are *admin*/*opnfv_secret*.
 
 .. figure:: img/horizon_login.png
@@ -238,20 +231,6 @@ The administrator credentials are *admin*/*opnfv_secret*.
 A full list of IPs/services is available at <proxy public VIP>:8090 for baremetal deploys.
 
 .. figure:: img/salt_services_ip.png
-
-For Virtual deploys, the most commonly used IPs are in the table below.
-
-+-----------+--------------+---------------+
-| Component | IP           | Default value |
-+===========+==============+===============+
-| gtw01     | x.y.z.124    | 172.16.10.124 |
-+-----------+--------------+---------------+
-| ctl01     | x.y.z.11     | 172.16.10.11  |
-+-----------+--------------+---------------+
-| cmp001    | x.y.z.101    | 172.16.10.101 |
-+-----------+--------------+---------------+
-| cmp002    | x.y.z.102    | 172.16.10.102 |
-+-----------+--------------+---------------+
 
 ==============================
 Guest Operating System Support
@@ -384,12 +363,12 @@ After the installation is done, a webbrowser on the host can be used to view the
    .. figure:: img/reclass_doc.png
 
 
-.. _references:
+.. _fuel_userguide_references:
 
 ==========
 References
 ==========
 
-1) `Installation instructions <http://docs.opnfv.org/en/stable-euphrates/submodules/fuel/docs/release/installation/installation.instruction.html>`_
+1) :ref:`fuel-release-installation-label`
 2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
-3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_
+3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/>`_
