@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_f448e2b4",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-04-25T15:35:09Z",
+      "side": 1,
+      "message": "MaaS is for baremetal only. This section is for Virtual deploys",
+      "parentUuid": "5a3f45e8_544f166b",
+      "range": {
+        "startLine": 79,
+        "startChar": 43,
+        "endLine": 79,
+        "endChar": 57
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_a9e0c296",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 1
