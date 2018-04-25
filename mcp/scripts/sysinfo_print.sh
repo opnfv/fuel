@@ -10,6 +10,11 @@
 # Collect jump server system information for deploy debugging
 #
 
+# HW info
+cat /proc/cpuinfo
+free -mh
+df -h
+
 # Network info
 brctl show
 
