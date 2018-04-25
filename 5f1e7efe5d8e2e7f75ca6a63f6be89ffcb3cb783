@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_f7458443",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "101 now. but this doesn\u0027t work (returns 404) due to disabled sphinx state",
+      "range": {
+        "startLine": 472,
+        "startChar": 70,
+        "endLine": 472,
+        "endChar": 73
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5776f8a4",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "Pharos",
+      "range": {
+        "startLine": 474,
+        "startChar": 37,
+        "endLine": 474,
+        "endChar": 43
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_377b6c8d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "Pharos",
+      "range": {
+        "startLine": 477,
+        "startChar": 80,
+        "endLine": 477,
+        "endChar": 86
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_1760f0cd",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "wrong identation",
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_f75c641b",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "\u0027file://\u0027 is the common part, the 3rd \u0027/\u0027 is part of the path\n\u003cpath_to_your_IDF/PDF\u003e is misleading, people might drop 2 yamls in a dir and pass that. the directory should have a \u0027labs\u0027 subdir, which has a subdir matching the desired lab name etc.",
+      "range": {
+        "startLine": 481,
+        "startChar": 31,
+        "endLine": 481,
+        "endChar": 54
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b7665ceb",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "wrong identation",
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_97a360ff",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "rm, mcp does not disable this, we do for the OPNFV test\u0027s sake",
+      "range": {
+        "startLine": 539,
+        "startChar": 81,
+        "endLine": 539,
+        "endChar": 87
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b7adbceb",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "instead of IP addresses:",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_d7b04845",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "ws, wrong identation relative to code-block",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_f7b3c44a",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "accessing the serial is available everywhere, it\u0027s the user that is only created for AArch64",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 79,
+        "endChar": 62
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3789ac75",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "this is only useful for developers, not for end-users.\nend-users should not have to log in over serial to VCP VMs (or baremetal nodes) unless something goes really, really wrong; otherwise mcp.rsa should work just fine.\nImo, this does not belong in the userguide and should be removed.",
+      "range": {
+        "startLine": 80,
+        "startChar": 39,
+        "endLine": 87,
+        "endChar": 65
+      },
+      "revId": "5f1e7efe5d8e2e7f75ca6a63f6be89ffcb3cb783",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
