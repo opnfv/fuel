@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_975520fc",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "we can leave that out. for novcp virtual deploys (ha virtual), the situation is more complicated, no need to describe all possible things, only the common denominator imo",
+      "parentUuid": "5a3f45e8_544f166b",
+      "range": {
+        "startLine": 79,
+        "startChar": 43,
+        "endLine": 79,
+        "endChar": 57
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_a9e0c296",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 1
@@ -203,6 +227,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_d742083d",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "1. this is a virtual deploy, there\u0027s no \u003cproxy public VIP\u003e; virtual does not have a prx node, but a gtw node - however the Horizon is running on ctl there. tl;dr revert this to http://\u003ccontroller VIP\u003e:8078\n2. we can add notes about maas dashboard later, I think whoever wants to access that should have a good enough undestanding of the installer configuration to not need that info here",
+      "parentUuid": "5a3f45e8_94335e61",
+      "range": {
+        "startLine": 433,
+        "startChar": 3,
+        "endLine": 434,
+        "endChar": 74
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_e99c8a11",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 1
@@ -260,6 +308,30 @@
       "writtenOn": "2018-04-25T11:02:53Z",
       "side": 1,
       "message": "should it point to pharos dir?",
+      "range": {
+        "startLine": 463,
+        "startChar": 25,
+        "endLine": 463,
+        "endChar": 66
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_b73f7cb3",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "no, it points to pharos submodule embedded in Fuel by default",
+      "parentUuid": "5a3f45e8_1418ee1c",
       "range": {
         "startLine": 463,
         "startChar": 25,
@@ -830,6 +902,30 @@
       "side": 1,
       "message": "dont we need https:\u003cproxy public VIP\u003e?",
       "parentUuid": "5a3f45e8_e9512a37",
+      "range": {
+        "startLine": 232,
+        "startChar": 83,
+        "endLine": 232,
+        "endChar": 106
+      },
+      "revId": "766deb6b4b4305fab5b25a0d4926307e1bc525ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_977a4075",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-25T14:05:58Z",
+      "side": 1,
+      "message": "http redirects to https",
+      "parentUuid": "5a3f45e8_d4d206ff",
       "range": {
         "startLine": 232,
         "startChar": 83,
