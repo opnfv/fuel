@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - system.linux.system.repo.mcp.openstack
   - system.linux.system.repo.glusterfs
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
