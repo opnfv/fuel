@@ -13,18 +13,18 @@ Subject: [PATCH] Set boot source selections
 Change-Id: I8dc738b3e6e6f1bfcc1348873f162651aff8bbdf
 
 diff --git a/maas/region.sls b/maas/region.sls
-index 39844bd..e231795 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -171,6 +171,12 @@ maas_login_admin:
+@@ -171,6 +171,13 @@ maas_login_admin:
    cmd.run:
    - name: "maas-region apikey --username {{ region.admin.username }} > /var/lib/maas/.maas_credentials"
 
 +boot_source_selections:
 +  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-source-selections create 1 os='ubuntu' release='{{ region.maas_config.default_distro_series }}' arches='{{ pillar._param.opnfv_maas_node01_architecture.split('/')[0] }}' subarches='*' labels='*'"
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-source-selection update 1 1 release='{{ region.maas_config.default_distro_series }}'"
 +  - require:
 +    - cmd: maas_login_admin
++  - unless: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-source-selections read 1 | grep -q {{ region.maas_config.default_distro_series }}"
 +
  maas_force_artifact_sync:
    cmd.script:
