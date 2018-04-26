@@ -45,6 +45,30 @@
       "revId": "d7ab894b988d8dd6fe49714e0d8d6077e08ebb16",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9aad40ec",
+        "filename": "mcp/patches/0016-Set-boot-source-selections.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-26T17:43:14Z",
+      "side": 1,
+      "message": "On second thought, I think it\u0027d be marginally faster 9at least for the first execution) to not even add an `unless` clause here, as the `update` is idempotent by design ...\nf mass anyway",
+      "parentUuid": "5a3f45e8_da5ce81b",
+      "range": {
+        "startLine": 27,
+        "startChar": 151,
+        "endLine": 27,
+        "endChar": 180
+      },
+      "revId": "d7ab894b988d8dd6fe49714e0d8d6077e08ebb16",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
