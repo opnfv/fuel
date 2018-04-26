@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_cb1edd0b",
+        "filename": "mcp/scripts/sysinfo_print.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-04-26T09:05:45Z",
+      "side": 1,
+      "message": "sudo lshw -c disk\nsudo lsblk",
+      "revId": "e9c4ac8a6df04eec248f8a8579bca526a3fbbdf8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_8b121507",
+        "filename": "mcp/scripts/sysinfo_print.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-04-26T09:05:45Z",
+      "side": 1,
+      "message": "add \"ifconfig -a\"?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 14
+      },
+      "revId": "e9c4ac8a6df04eec248f8a8579bca526a3fbbdf8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
