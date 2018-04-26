@@ -16,3 +16,4 @@
 /usr/share/salt-formulas/env: 0011-system.repo-Debian-Add-keyserver-proxy-support.patch
 /usr/share/salt-formulas/env: 0012-routes-Skip-network-restart-on-noifupdown.patch
 /usr/share/salt-formulas/env: 0015-Set-ovs-bridges-as-L3-interfaces.patch
+/usr/share/salt-formulas/env: 0016-Set-boot-source-selections.patch
