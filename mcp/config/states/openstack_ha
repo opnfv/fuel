@@ -25,7 +25,7 @@ salt -I 'glusterfs:server' cmd.run "gluster peer status; gluster volume status" 
 salt -I 'glusterfs:client' state.sls glusterfs.client
 
 salt -I 'galera:master' state.sls galera
-salt -I 'galera:slave' state.sls galera
+salt -I 'galera:slave' state.sls galera -b 1
 salt -I 'galera:master' mysql.status | grep -A1 wsrep_cluster_size
 
 wait_for 3.0 "salt -I 'memcached:server' state.sls memcached"
