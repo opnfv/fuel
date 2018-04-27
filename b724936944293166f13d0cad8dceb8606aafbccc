@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_339d37bd",
+        "filename": "INFO.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-27T18:27:30Z",
+      "side": 1,
+      "message": "should this file have a license header?",
+      "revId": "b724936944293166f13d0cad8dceb8606aafbccc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_13a2bbfc",
+        "filename": "INFO.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-04-27T18:27:30Z",
+      "side": 1,
+      "message": "we are in the process of cleaning up committers, so things below are subject to change",
+      "revId": "b724936944293166f13d0cad8dceb8606aafbccc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
