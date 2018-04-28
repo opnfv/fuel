@@ -14,17 +14,6 @@ parameters:
   haproxy:
     proxy:
       listen:
-        opendaylight-web:
-          type: general-service
-          service_name: opendaylight
-          binds:
-            - address: ${_param:cluster_vip_address}
-              port: 8181
-          servers:
-            - name: odl01
-              host: ${_param:opendaylight_service_host}
-              port: 8181
-              params: ${_param:haproxy_check}
         opendaylight-rest:
           type: general-service
           service_name: opendaylight
