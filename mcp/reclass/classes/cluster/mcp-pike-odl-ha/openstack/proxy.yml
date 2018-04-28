@@ -14,18 +14,6 @@ parameters:
   nginx:
     server:
       site:
-        nginx_proxy_opendaylight_web:
-          enabled: true
-          type: nginx_proxy
-          name: opendaylight_web
-          check: false
-          proxy:
-            host: ${_param:opendaylight_service_host}
-            port: 8181
-            protocol: http
-          host:
-            name: ${_param:nginx_proxy_openstack_api_host}
-            port: 8181
         nginx_proxy_opendaylight_rest:
           enabled: true
           type: nginx_proxy
