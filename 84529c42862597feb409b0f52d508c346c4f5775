@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_a8f0a967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-03T09:10:22Z",
+      "side": 1,
+      "message": "I assume this will change as the patch moves forward.",
+      "revId": "84529c42862597feb409b0f52d508c346c4f5775",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_88f5ed58",
+        "filename": "mcp/config/scenario/os-ovn-nofeature-noha.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-03T09:10:22Z",
+      "side": 1,
+      "message": "How can vcpu count be an odd number?",
+      "revId": "84529c42862597feb409b0f52d508c346c4f5775",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_28049948",
+        "filename": "mcp/patches/pharos/0001-Add-PXE-admin-static-IPs.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-03T09:10:22Z",
+      "side": 1,
+      "message": "whitespaces + this files might need our patches-copyright",
+      "revId": "84529c42862597feb409b0f52d508c346c4f5775",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
