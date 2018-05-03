@@ -28,5 +28,16 @@ parameters:
           architecture: {{ node.node.arch | dpkg_arch }}/generic
           distro_series: xenial
           hwe_kernel: ${_param:hwe_kernel}
+          {%- if node_roles[loop.index0] == 'cmp*' %}
+          {{ node_roles[loop.index0] }}:
+            disk_layout:
+              type: lvm
+              root_size: 30G
+              root_device: vda
+              volume_group: vg1
+              volume_name: root
+              volume_size: 8
+              bootable_device: vda
+          {%- endif %}          
       {%- endif %}
       {%- endfor %}
