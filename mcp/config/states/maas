@@ -62,9 +62,10 @@ function maas_fixup() {
       local node_hostname=$(echo "${statusout}" | \
         grep -Pzo 'hostname: \K.+(?=\n.+\n\s+system_id: '"${node_system_id}"')')
       if [[ "${node_hostname}" =~ ^cmp ]]; then
-        salt -C 'mas01*' state.apply maas.machines.set_storage_layout \
-          pillar="{'system_id': '${node_system_id}', 'lv_size': '32212254720'}"
-        sleep 10
+        #salt -C 'mas01*' state.apply maas.machines.set_storage_layout \
+        #  pillar="{'system_id': '${node_system_id}', 'lv_size': '32212254720'}"
+        #sleep 10
+        salt -C 'mas01*' state.sls maas.machines.storage
       fi
     done
     salt -C 'mas01*' state.apply maas.machines.deploy
