@@ -56,17 +56,12 @@ function maas_fixup() {
       pillar="{'system_id': '${node_system_id}'}"
     sleep 10
   done
+
   if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
-    for node_system_id in ${fdnodes} ${rnodes}; do
-      # For now, we allocate 30GB (fixed) for / on cmp nodes
-      local node_hostname=$(echo "${statusout}" | \
-        grep -Pzo 'hostname: \K.+(?=\n.+\n\s+system_id: '"${node_system_id}"')')
-      if [[ "${node_hostname}" =~ ^cmp ]]; then
-        salt -C 'mas01*' state.apply maas.machines.set_storage_layout \
-          pillar="{'system_id': '${node_system_id}', 'lv_size': '32212254720'}"
-        sleep 10
-      fi
-    done
+    #iterating over all nodes that have a custom layout defined
+    # to allocate 30GB (fixed) for cmp nodes
+    salt -C 'mas01*' state.sls maas.machines.storage
+    #deploy them all once
     salt -C 'mas01*' state.apply maas.machines.deploy
     return 1
   fi
