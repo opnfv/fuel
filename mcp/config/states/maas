@@ -17,57 +17,75 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 bm_nodes=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
            awk '/^\s+\w+[[:digit:]]+:$/ {gsub(/:$/, "*"); printf "%s ", $1}')
 
+
 # Wait for MaaS commissioning/deploy to finish, retry on failure
 function maas_fixup() {
+  # check status
   local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
-  local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
-    grep -cE '^\s{2}\w+:$')
-
-  # wait_for has 10sec timeout * 96 = 16 min > 15min for Failed state
-  wait_for 96 "${statuscmd} | tee /dev/stderr | " \
-    "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
   local statusout=$(eval "${statuscmd}")
 
+  # for 'Failed commissioning' nodes, delete them
+  # for 'Failed testing' nodes, override them
+  # then redo machines state and wait to be ready
   local fcnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: Failed commissioning\n\s+system_id: \K.+\n')
   local ftnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: Failed testing\n\s+system_id: \K.+\n')
+
   for node_system_id in ${fcnodes}; do
     salt -C 'mas01*' state.apply maas.machines.delete \
       pillar="{'system_id': '${node_system_id}'}"
     sleep 10
   done
+
   for node_system_id in ${ftnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.override_failed_testing \
-      pillar="{'system_id': '${node_system_id}'}"
+    salt -C 'mas01*' state.apply maas.machines.override_failed_testing
     sleep 10
   done
+
   if [ -n "${fcnodes}" ] || [ -n "${ftnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
+    salt -C 'mas01*' state.apply maas.machines.wait_for_machines_ready
     return 1
   fi
 
+  # for 'Failed deployment' nodes, mark-broken/fixed/testing
   local fdnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: (Failed deployment|Allocated)\n\s+system_id: \K.+\n')
+  if [ -n "${ctnodes}" ]; then
+    for node_system_id in ${fdnodes}; do
+      salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
+        pillar="{'system_id': '${node_system_id}'}"
+      sleep 10
+    done
+    return 1
+  fi
+
+  # for 'Commissioning/Testing' nodes, wait to be ready
+  local ctnodes=$(echo "${statusout}" | \
+    grep -Pzo 'status: (Commissioning|Testing)\n\s+system_id: \K.+\n')
+  if [ -n "${ctnodes}" ]; then
+    salt -C 'mas01*' state.apply maas.machines.wait_for_machines_ready
+    return 1
+  fi
+
+  # for 'Ready' nodes
+  # allocate 30GB (fixed) for cmp nodes
+  # deploy them all and wait to be deployed
   local rnodes=$(echo "${statusout}" | \
     grep -Pzo 'status: Ready\n\s+system_id: \K.+\n')
-  for node_system_id in ${fdnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
-  done
-  if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
-    for node_system_id in ${fdnodes} ${rnodes}; do
-      # For now, we allocate 30GB (fixed) for / on cmp nodes
-      local node_hostname=$(echo "${statusout}" | \
-        grep -Pzo 'hostname: \K.+(?=\n.+\n\s+system_id: '"${node_system_id}"')')
-      if [[ "${node_hostname}" =~ ^cmp ]]; then
-        salt -C 'mas01*' state.apply maas.machines.set_storage_layout \
-          pillar="{'system_id': '${node_system_id}', 'lv_size': '32212254720'}"
-        sleep 10
-      fi
-    done
+  if [ -n "${rnodes}" ]; then
+    salt -C 'mas01*' state.sls maas.machines.storage
     salt -C 'mas01*' state.apply maas.machines.deploy
+    salt -C 'mas01*' state.sls maas.machines.wait_for_machines_deployed
+    return 1
+  fi
+
+  # for 'Deploying' nodes, wait to be deployed
+  local dnodes=$(echo "${statusout}" | \
+    grep -Pzo 'status: Deploying\n\s+system_id: \K.+\n')
+  if [ -n "${dnodes}" ]; then
+    salt -C 'mas01*' state.apply maas.machines.wait_for_machines_deployed
     return 1
   fi
 
@@ -98,11 +116,10 @@ if [ -n "${bm_nodes}" ]; then
 fi
 
 # cleanup outdated salt keys
-sleep 30
 salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
   xargs --no-run-if-empty -I{} salt-key -yd {}
 
-# MaaS node deployment
+# MaaS node deployment, max 10 attmpts
 wait_for 10 maas_fixup
 
 salt -C 'mas01*' pillar.item\
