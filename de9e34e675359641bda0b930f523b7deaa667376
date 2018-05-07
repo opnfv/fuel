@@ -22,6 +22,30 @@
       "revId": "de9e34e675359641bda0b930f523b7deaa667376",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e8dbcc79",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-05-07T09:44:15Z",
+      "side": 1,
+      "message": "I thought about to have one reclass (cluster domain) for odl and odl/dpdk scenarios. Inside scenario reclass will make a condition to turn on/off dpdk for odl.",
+      "parentUuid": "5a3f45e8_74c31ced",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "de9e34e675359641bda0b930f523b7deaa667376",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
