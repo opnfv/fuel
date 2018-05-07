@@ -270,6 +270,37 @@ to make.
 
 The images for the above operating systems can be found in their respective websites.
 
+
+=================
+OpenStack Storage
+=================
+
+OpenStack Cinder is the project behind block storage in OpenStack and Fuel@OPNFV supports LVM out of the box.
+By default x86 supports 2 additional block storage devices and ARMBand supports only one.
+More devices can be supported if the OS-image created has additional properties allowing block storage devices
+to be spawned as SCSI drives. To do this, add the properties below to the server:
+
+    .. code-block:: bash
+
+        openstack image set --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi' <image>
+
+The choice regarding which bus to use for the storage drives is an important one. Virtio-blk is the default
+choice for Fuel@OPNFV which attaches the drives in /dev/vdX. However, since we want to be able to attach a
+larger number of volumes to the virtual machines, we recommend the switch to SCSI drives which are attached
+in /dev/sdX instead. Virtio-scsi is a little worse in terms of performance but the ability to add a larger
+number of drives combined with added features like ZFS, Ceph et al, leads us to suggest the use of virtio-scsi in Fuel@OPNFV for both architectures.
+
+More details regarding the differences and performance of virtio-blk vs virtio-scsi are beyond the scope
+of this manual but can be easily found in other sources online like `4`_ or `5`_.
+
+.. _4: https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/
+
+.. _5 : https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/
+
+Additional configuration for configuring images in openstack can be found in the OpenStack Glance documentation.
+
+
+
 ===================
 Openstack Endpoints
 ===================
@@ -372,3 +403,5 @@ References
 1) :ref:`fuel-release-installation-label`
 2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
 3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/>`_
+4) `Virtio performance <https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/>`_
+5) `Virtio SCSI <https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/>`_
