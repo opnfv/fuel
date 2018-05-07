@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_2b712e44",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-07T19:14:53Z",
+      "side": 1,
+      "message": "Sure. Just to be sure though, this is a userguide not an admin guide. So I will probably add links etc rather than information. Usually the user has no access to the underlying infra anyway.",
+      "parentUuid": "5a3f45e8_2b8bee68",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 92
+      },
+      "revId": "5ea087fde1e5c547ac529a3dd4686c109984b03b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_0b98b2be",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 3
