@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_2b8bee68",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-07T16:58:03Z",
+      "side": 1,
+      "message": "I think we should add more info here:\n- what are the benefits/pitfalls of virtio-scsi over virtio-blk (feel free to copy or summarize some of the info in the articles linked to the JIRA) - PCI slot limitation, throughput etc.;\n- consequences in guest device path (/dev/sdX instead of /dev/vdX);\n- our recommendation towards using virtio-scsi as it seems more robust;\n- why this is a service-level knob and we can\u0027t enforce it via nova.conf or altering the nova driver default;",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 92
+      },
+      "revId": "5ea087fde1e5c547ac529a3dd4686c109984b03b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_0b98b2be",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-07T16:58:03Z",
+      "side": 1,
+      "message": "I would recommend using the full command here, as an example, to avoid any possible questions about where this goes precisely. It should be obvious for an Openstack-savvy engineer, but let\u0027s make it explicit.",
+      "range": {
+        "startLine": 285,
+        "startChar": 7,
+        "endLine": 285,
+        "endChar": 75
+      },
+      "revId": "5ea087fde1e5c547ac529a3dd4686c109984b03b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
