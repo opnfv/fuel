@@ -33,6 +33,23 @@
       "revId": "b724936944293166f13d0cad8dceb8606aafbccc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_ae127106",
+        "filename": "INFO.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4253
+      },
+      "writtenOn": "2018-05-07T17:49:10Z",
+      "side": 1,
+      "message": "company name is juniper.net",
+      "revId": "b724936944293166f13d0cad8dceb8606aafbccc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
