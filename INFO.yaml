@@ -1,0 +1,54 @@
+---
+project: 'Fuel based OPNFV installer (Fuel@OPNFV)'
+project_creation_date: '2015.07.07'
+project_category: 'Integration and testing'
+lifecycle_state: 'Incubation'
+project_lead: &opnfv_fuel_ptl
+    name: 'Gregory Elkinbard'
+    email: 'elkinbar@gmail.com'
+    company: 'mirantis.com'
+    id: 'gelkinbard'
+primary_contact: *opnfv_fuel_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.opnfv.org/projects/FUEL'
+    key: 'FUEL'
+mailing_list:
+    type: 'mailman2'
+    url: 'opnfv-tech-discuss@lists.opnfv.org'
+    tag: '[fuel]'
+realtime_discussion:
+    type: irc
+    server: 'freenode.net'
+    channel: '#opnfv-fuel'
+meetings:
+    - type: 'gotomeeting+irc'
+      agenda:  # eg: 'https://wiki.opnfv.org/display/'
+      url:  # eg: 'https://global.gotomeeting.com/join/819733085'
+      server: 'freenode.net'
+      channel: '#opnfv-meeting'
+      repeats: 'weekly'
+      time:  # eg: '16:00 UTC'
+repositories:
+    - 'fuel'
+committers:
+    - <<: *opnfv_fuel_ptl
+    - name: 'Alexandru Avadanii'
+      email: 'Alexandru.Avadanii@enea.com'
+      company: 'enea.com'
+      id: 'AlexandruAvadanii'
+    - name: 'Michael Polenchuk'
+      email: 'mpolenchuk@mirantis.com'
+      company: 'mirantis.com'
+      id: 'mpolenchuk'
+    - name: 'Guillermo Herrero'
+      email: 'guillermo.herrero@enea.com'
+      company: 'enea.com'
+      id: 'gherrero'
+tsc:
+    # yamllint disable rule:line-length
+    approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-07-07-13.59.log.html'
+    # yamllint enable rule:line-length
+    changes:
+        - type: 'promotion'
+          link: 'http://ircbot.wl.linuxfoundation.org/meetings/opnfv-fuel/2016/opnfv-fuel.2016-04-28-11.49.html'
