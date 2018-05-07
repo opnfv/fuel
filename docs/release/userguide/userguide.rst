@@ -270,6 +270,24 @@ to make.
 
 The images for the above operating systems can be found in their respective websites.
 
+
+=================
+OpenStack Storage
+=================
+
+OpenStack Cinder is the project behind block storage in OpenStack and opnfv supports LVM out of the box.
+By default x86 supports 2 additional block storage devices and ARMBand supports only one.
+More devices can be supported if the OS-image created has additional properties allowing block storage devices
+to be spawned as scsi drives. To do this, add the properties below when creating the server:
+
+    .. code-block:: bash
+
+       --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi'
+
+More information and additional configuration can be found in the OpenStack Glance documentation.
+
+
+
 ===================
 Openstack Endpoints
 ===================
