@@ -270,6 +270,33 @@ to make.
 
 The images for the above operating systems can be found in their respective websites.
 
+
+=================
+OpenStack Storage
+=================
+
+OpenStack Cinder is the project behind block storage in OpenStack and opnfv supports LVM out of the box.
+By default x86 supports 2 additional block storage devices and ARMBand supports only one.
+More devices can be supported if the OS-image created has additional properties allowing block storage devices
+to be spawned as scsi drives. To do this, add the properties below to the server:
+
+    .. code-block:: bash
+
+       openstack image set --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi' <image>
+
+The choice regarding which bus to use for the storage drives is an important one. Virtio-blk is the default
+choice for opnfv-fuel which attaches the drives in /dev/vdX. However the default ubuntu kernel in 16.04
+and 14.04 guest does not see these devices in aarch64. So in order to use any volumes in ARMband a switch
+has to be made to virtio-scsi and attach all drives in /dev/sdX. Virtio-scsi is a little worse in terms of
+performance but the ability to add a large number of drives combined with added features like ZFS, Ceph et al,
+leads us to suggest the use of virtio-scsi in opnfv-fuel.
+
+More details regarding the differences and performance of virtio-blk vs virtio-scsi are beyond the scope
+of this manual but can be easily found in other sources online.
+Additional configuration for configuring images in openstack can be found in the OpenStack Glance documentation.
+
+
+
 ===================
 Openstack Endpoints
 ===================
