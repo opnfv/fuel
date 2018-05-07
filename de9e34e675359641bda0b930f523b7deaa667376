@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_74c31ced",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-07T03:38:07Z",
+      "side": 1,
+      "message": "Using this, we could merge the DPDK scenario(s) into the ovs/odl ones.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "de9e34e675359641bda0b930f523b7deaa667376",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
