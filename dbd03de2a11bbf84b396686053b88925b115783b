@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_81914349",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-05-08T12:49:45Z",
+      "side": 1,
+      "message": "since in the command below you update the server, change this to \"to the server\"",
+      "range": {
+        "startLine": 281,
+        "startChar": 67,
+        "endLine": 281,
+        "endChar": 91
+      },
+      "revId": "dbd03de2a11bbf84b396686053b88925b115783b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
