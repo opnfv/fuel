@@ -1,0 +1,10 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Michael Polenchuk <mpolenchuk@mirantis.com>
+Code-Review+2: Guillermo Herrero <guillermo.herrero@enea.com>
+Code-Review+2: Gregory Elkinbard <elkinbar@gmail.com>
+Workflow+1: Gregory Elkinbard <elkinbar@gmail.com>
+Submitted-by: Gregory Elkinbard <elkinbar@gmail.com>
+Submitted-at: Tue, 08 May 2018 15:24:58 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/57167
+Project: fuel
+Branch: refs/heads/master
