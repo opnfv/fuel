@@ -4,10 +4,10 @@ project_creation_date: '2015.07.07'
 project_category: 'Integration and testing'
 lifecycle_state: 'Incubation'
 project_lead: &opnfv_fuel_ptl
-    name: 'Gregory Elkinbard'
-    email: 'elkinbar@gmail.com'
-    company: 'mirantis.com'
-    id: 'gelkinbard'
+    name: 'Alexandru Avadanii'
+    email: 'Alexandru.Avadanii@enea.com'
+    company: 'enea.com'
+    id: 'AlexandruAvadanii'
 primary_contact: *opnfv_fuel_ptl
 issue_tracking:
     type: 'jira'
@@ -33,10 +33,6 @@ repositories:
     - 'fuel'
 committers:
     - <<: *opnfv_fuel_ptl
-    - name: 'Alexandru Avadanii'
-      email: 'Alexandru.Avadanii@enea.com'
-      company: 'enea.com'
-      id: 'AlexandruAvadanii'
     - name: 'Michael Polenchuk'
       email: 'mpolenchuk@mirantis.com'
       company: 'mirantis.com'
