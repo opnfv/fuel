@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_613877ef",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "Fuel@OPNFV",
+      "range": {
+        "startLine": 278,
+        "startChar": 70,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_a13effd7",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "Either add more details (which additional block storage we support on each arch, pros and cons), or remove this.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 89
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_0127f3ca",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "SCSI",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_e123e7ba",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "identation should be 4 spaces relative to \u0027.. code-block\u0027",
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_412d7ba7",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "Fuel@OPNFV",
+      "range": {
+        "startLine": 288,
+        "startChar": 11,
+        "endLine": 288,
+        "endChar": 21
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_212aef8f",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "Ubuntu",
+      "range": {
+        "startLine": 288,
+        "startChar": 81,
+        "endLine": 288,
+        "endChar": 87
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_811ae37a",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "afaik, this is only true in certain corner cases, like attaching the device during guest boot.\nI would remove the bits about AArch64, they are too complex to properly describe here.\nInstead, we should try to make the case for using virtio-scsi no matter the arch.\nAlthough not that obvious, virtio-blk causes issues on x86 too, virtio-scsi is the better choice there too.",
+      "range": {
+        "startLine": 289,
+        "startChar": 10,
+        "endLine": 289,
+        "endChar": 53
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_611fd76c",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "only for certain operations. it is actually better for certain use cases.\nI think a link to external resources (like the links you attached to the JIRA) would be better.",
+      "range": {
+        "startLine": 290,
+        "startChar": 65,
+        "endLine": 291,
+        "endChar": 11
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_c1106b5b",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T15:22:36Z",
+      "side": 1,
+      "message": "add links to some of those",
+      "range": {
+        "startLine": 295,
+        "startChar": 56,
+        "endLine": 295,
+        "endChar": 62
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
