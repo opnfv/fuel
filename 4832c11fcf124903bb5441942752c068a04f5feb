@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_9cf6caf7",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "the previous approach was bad especially because of this - we used to iterate the pool of nodes that failed to deploy (and were marked broken, then fixed above, so they should be in \u0027Ready\u0027 state at this point) or are already in \u0027Ready\u0027 state after a comissioning.\nFor each node, if it was a compute, we\u0027d manually (via MaaS CLI) set the storage layout. Then at the end, we\u0027d deploy them all at once.\nThe new mechanism, using maas.machines.storage already does this (iterating over all nodes that have a custom layout defined), so we only have to call `maas.machines.storage` once for all computes.\nSo just rm the for loop.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 50
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_fcdeee6b",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "rm, no longer needed",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 17
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_dcdb327a",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "this will be parsed as (if \u0027..\u0027 \u003d\u003d \u0027cmp001\u0027) or (\u0027cmp002\u0027)\nThe condition should be more generic anyway, as we\u0027re planning to support a dynamic number of cmps.\nsomething like (if we assume all nodes after \u0027cmp001\u0027 will also be computes):\nif loop.index \u003e node_roles.index(\u0027cmp001\u0027):",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3ce5f637",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "there is no vda on baremetal nodes\nideally, we\u0027d read this from PDF/IDF later, for now we can use sda",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_1ce2ba2e",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "I\u0027ll have to double check this, I don\u0027t remember what we call the main VG on baremetal, but it needs to be aligned with the model used by linux.storage.",
+      "range": {
+        "startLine": 36,
+        "startChar": 26,
+        "endLine": 36,
+        "endChar": 29
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_7cd2de5c",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "same as for volume_group",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5cd7224b",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "I\u0027ll have to double check this, I don\u0027t know what \u00278\u0027 means, but it doesn\u0027t look right.",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_bcc8e6a8",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-08T19:30:41Z",
+      "side": 1,
+      "message": "ditto\nAlso, I don\u0027t think we need \u0027bootable_device\u0027 at all, the default behavior should be fine for us.\nAfaik, bootable_device is only required when we do things differently (raid, non-standard boot partition layout etc).",
+      "range": {
+        "startLine": 39,
+        "startChar": 29,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "4832c11fcf124903bb5441942752c068a04f5feb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
