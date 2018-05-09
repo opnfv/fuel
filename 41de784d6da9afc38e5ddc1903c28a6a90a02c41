@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_9c388a3e",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-09T09:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_613877ef",
+      "range": {
+        "startLine": 278,
+        "startChar": 70,
+        "endLine": 278,
+        "endChar": 75
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_a13effd7",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-08T15:22:36Z",
       "side": 1,
       "message": "Either add more details (which additional block storage we support on each arch, pros and cons), or remove this.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 89
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_5c19e2d5",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-09T09:38:11Z",
+      "side": 1,
+      "message": "I dont know what you mean here. I am only talking about the fact that you can only have one additional disk attached in armband and 2 in x86. I am not talking about any underlying tech.",
+      "parentUuid": "5a3f45e8_a13effd7",
       "range": {
         "startLine": 279,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_bc0aa676",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-09T09:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_0127f3ca",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_e123e7ba",
         "filename": "docs/release/userguide/userguide.rst",
         "patchSetId": 7
@@ -82,6 +154,24 @@
       "writtenOn": "2018-05-08T15:22:36Z",
       "side": 1,
       "message": "identation should be 4 spaces relative to \u0027.. code-block\u0027",
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9c0fea87",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-09T09:38:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_e123e7ba",
       "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -145,6 +235,30 @@
       "writtenOn": "2018-05-08T15:22:36Z",
       "side": 1,
       "message": "afaik, this is only true in certain corner cases, like attaching the device during guest boot.\nI would remove the bits about AArch64, they are too complex to properly describe here.\nInstead, we should try to make the case for using virtio-scsi no matter the arch.\nAlthough not that obvious, virtio-blk causes issues on x86 too, virtio-scsi is the better choice there too.",
+      "range": {
+        "startLine": 289,
+        "startChar": 10,
+        "endLine": 289,
+        "endChar": 53
+      },
+      "revId": "41de784d6da9afc38e5ddc1903c28a6a90a02c41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3cf05690",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-09T09:38:11Z",
+      "side": 1,
+      "message": "Actually all vda block storage devices are not picked up from the guest. not only the ones where we attach during spawn time.",
+      "parentUuid": "5a3f45e8_811ae37a",
       "range": {
         "startLine": 289,
         "startChar": 10,
