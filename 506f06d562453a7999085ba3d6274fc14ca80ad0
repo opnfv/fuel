@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_3bbc976c",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-14T11:42:45Z",
+      "side": 1,
+      "message": "is this 30 GB to host the OS ?",
+      "revId": "506f06d562453a7999085ba3d6274fc14ca80ad0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
