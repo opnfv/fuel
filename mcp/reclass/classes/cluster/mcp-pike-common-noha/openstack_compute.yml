@@ -16,6 +16,7 @@ classes:
   - system.ceilometer.client.cinder_volume
   - system.linux.system.repo.mcp.openstack
   - cluster.mcp-pike-common-noha.openstack_compute_pdf
+  - system.ceilometer.agent.polling.default
 parameters:
   _param:
     interface_mtu: 9000

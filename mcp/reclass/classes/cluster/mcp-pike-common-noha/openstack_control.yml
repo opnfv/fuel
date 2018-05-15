@@ -9,8 +9,6 @@
 classes:
   - system.linux.system.lowmem
   - service.nfs.server
-  - system.mongodb.server.single
-  - system.mongodb.server.database.ceilometer
   - system.ceilometer.client
   - system.ceilometer.client.neutron
   - system.memcached.server.single
@@ -45,9 +43,26 @@ classes:
   - service.haproxy.proxy.single
   - cluster.mcp-pike-common-noha.haproxy_openstack_api
   - cluster.mcp-pike-common-noha.openstack_control_pdf
+
+  - system.keystone.client.service.gnocchi
+  - system.keystone.client.service.panko
+  - system.galera.server.database.gnocchi
+  - system.galera.server.database.panko
+  - system.apache.server.site.gnocchi
+  - system.gnocchi.server.single
+#  - system.gnocchi.common.storage.incoming.redis
+  - system.gnocchi.common.storage.file
+  - system.gnocchi.common.coordination.redis
+  - system.apache.server.site.panko
+  - service.panko.server.single
+  - system.ceilometer.server.coordination.redis
+  - system.ceilometer.server.backend.default
+  - system.aodh.server.coordination.redis
+
 parameters:
   _param:
     linux_system_codename: xenial
+    ceilometer_create_gnocchi_resources: True
   linux:
     system:
       package:
@@ -106,12 +121,9 @@ parameters:
       thread_cache_size: 12
       query_cache_limit: 2
       query_cache_size: 0
-  mongodb:
+  ceilometer:
     server:
-      bind:
-        address: ${_param:cluster_local_address},127.0.0.1
-      logging:
-        verbose: v
+      ~database: ~
   nfs:
     server:
       share:
