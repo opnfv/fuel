@@ -84,13 +84,20 @@ parameters:
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
     horizon_identity_version: 3
-    mongodb_server_replica_set: ceilometer
-    mongodb_ceilometer_password: opnfv_secret
-    mongodb_admin_password: opnfv_secret
-    mongodb_shared_key: eoTh1AwahlahqueingeejooLughah4tei9feing0eeVaephooDi2li1TaeV1ooth
     aodh_version: ${_param:openstack_version}
     keystone_aodh_password: opnfv_secret
     aodh_service_host: ${_param:cluster_local_address}
+    gnocchi_version: 4.0
+    gnocchi_service_host: ${_param:cluster_local_address}
+    mysql_gnocchi_password: opnfv_secret
+    keystone_gnocchi_password: opnfv_secret
+    panko_version: ${_param:openstack_version}
+    panko_service_host: ${_param:cluster_local_address}
+    mysql_panko_password: opnfv_secret
+    keystone_panko_password: opnfv_secret
+    ceilometer_agent_default_polling_interval: 180
+    ceilometer_agent_default_polling_meters:
+      - "*"
   linux:
     system:
       kernel:

@@ -46,7 +46,9 @@ salt -I 'neutron:compute' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 
-wait_for 3 "salt -I 'mongodb:server' state.sls mongodb"
+salt -I 'redis:server' state.sls redis
+salt -I 'gnocchi:server' state.sls gnocchi
+salt -I 'panko:server' state.sls panko
 salt -I 'aodh:server' state.sls aodh
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
