@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - system.linux.system.repo.mcp.openstack
   - cluster.mcp-pike-common-noha.openstack_gateway_pdf
 parameters:
   _param:

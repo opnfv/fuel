@@ -8,6 +8,7 @@
 ---
 classes:
   - system.linux.system.lowmem
+  - system.linux.system.repo.mcp.openstack
   - service.nfs.server
   - system.mongodb.server.single
   - system.mongodb.server.database.ceilometer
@@ -21,7 +22,6 @@ classes:
   - system.keystone.client.single
   - system.keystone.client.service.nova21
   - system.keystone.client.service.nova-placement
-  - system.keystone.client.service.glare
   - system.keystone.client.service.cinder3
   - system.keystone.client.service.ceilometer
   - system.keystone.client.service.aodh
@@ -58,6 +58,11 @@ parameters:
       admin_email: ${_param:admin_email}
       openrc_extra:
         volume_device_name: vdc
+      pkgs:
+        - keystone
+        - python-psycopg2
+        - python-mysqldb
+        - python-openstackclient
   glance:
     server:
       storage:
@@ -76,13 +81,6 @@ parameters:
         novncproxy_port: 6080
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       workers: 1
-      pkgs:
-        - nova-api
-        - nova-conductor
-        - nova-consoleauth
-        - nova-novncproxy
-        - nova-scheduler
-        - python-novaclient
   horizon:
     server:
       # yamllint disable-line rule:truthy
