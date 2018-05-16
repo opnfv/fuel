@@ -45,17 +45,6 @@ parameters:
               host: ${_param:cluster_node01_address}
               port: 9191
               params: ${_param:haproxy_check}
-        glare:
-          type: general-service
-          service_name: glare
-          binds:
-            - address: ${_param:cluster_vip_address}
-              port: 9494
-          servers:
-            - name: ctl01
-              host: ${_param:cluster_node01_address}
-              port: 9494
-              params: ${_param:haproxy_check}
         heat_cloudwatch_api:
           type: openstack-service
           service_name: heat
@@ -138,18 +127,6 @@ parameters:
             - name: ctl01
               host: ${_param:cluster_node01_address}
               port: 8778
-              params: ${_param:haproxy_check}
-        nova_ec2_api:
-          type: general-service
-          service_name: nova
-          check: false
-          binds:
-            - address: ${_param:cluster_vip_address}
-              port: 8773
-          servers:
-            - name: ctl01
-              host: ${_param:cluster_node01_address}
-              port: 8773
               params: ${_param:haproxy_check}
         nova_api:
           type: openstack-service

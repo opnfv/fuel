@@ -93,17 +93,6 @@ parameters:
     aodh_service_host: ${_param:cluster_local_address}
   linux:
     system:
-      repo:
-        uca-staging:
-          # yamllint disable rule:line-length
-          source: "deb http://ppa.launchpad.net/ubuntu-cloud-archive/${_param:openstack_version}-staging/ubuntu xenial main"
-          key_id: 9F68104E
-          key_server: keyserver.ubuntu.com
-          # yamllint enable rule:line-length
-        uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
       kernel:
         sysctl:
           net.ipv4.tcp_congestion_control: yeah
