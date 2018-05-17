@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_f5a9987c",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-17T07:21:20Z",
+      "side": 1,
+      "message": "fix",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_35bb00c6",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-17T07:21:20Z",
+      "side": 1,
+      "message": "Create and commision the nodes?\nBut what does create mean?",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_55b68cdd",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-17T07:21:20Z",
+      "side": 1,
+      "message": "typo +: There is no need for so many comments IMO",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_95b014df",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-17T07:21:20Z",
+      "side": 1,
+      "message": "probably wait_for_deployed_machines is better",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_75b588cc",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_ready_timeout.sls",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-17T07:21:20Z",
+      "side": 1,
+      "message": "same",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
