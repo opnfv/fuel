@@ -14,6 +14,7 @@ classes:
   - system.ceilometer.agent.cluster
   - system.ceilometer.client.nova_compute
   - system.ceilometer.client.cinder_volume
+  - system.ceilometer.agent.polling.default
   - system.linux.system.repo.mcp.openstack
   - cluster.mcp-pike-common-noha.openstack_compute_pdf
 parameters:
