@@ -16,6 +16,7 @@ classes:
   - system.cinder.volume.single
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
+  - system.ceilometer.agent.polling.default
   - cluster.mcp-pike-common-ha.openstack_compute_pdf
   - cluster.mcp-pike-common-ha.include.maas_proxy
   - cluster.mcp-pike-common-ha.include.lab_proxy_pdf

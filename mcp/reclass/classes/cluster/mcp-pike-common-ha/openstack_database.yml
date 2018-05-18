@@ -14,11 +14,13 @@ classes:
   - system.galera.server.database.cinder
   - system.galera.server.database.designate
   - system.galera.server.database.glance
+  - system.galera.server.database.gnocchi
   - system.galera.server.database.grafana
   - system.galera.server.database.heat
   - system.galera.server.database.keystone
   - system.galera.server.database.nova
   - system.galera.server.database.neutron
+  - system.galera.server.database.panko
 parameters:
   _param:
     keepalived_vip_interface: ${_param:single_nic}

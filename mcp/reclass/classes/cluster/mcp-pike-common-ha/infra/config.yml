@@ -87,12 +87,18 @@ parameters:
         openstack_telemetry_node01:
           params:
             linux_system_codename: xenial
+            # create resources only from 1 controller
+            # to prevent race conditions
+            ceilometer_create_gnocchi_resources: true
+            redis_cluster_role: 'master'
         openstack_telemetry_node02:
           params:
             linux_system_codename: xenial
+            redis_cluster_role: 'slave'
         openstack_telemetry_node03:
           params:
             linux_system_codename: xenial
+            redis_cluster_role: 'slave'
         openstack_message_queue_node01:
           params:
             linux_system_codename: xenial
