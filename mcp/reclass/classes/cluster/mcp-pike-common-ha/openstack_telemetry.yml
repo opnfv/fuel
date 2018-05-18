@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.extra
+  - system.linux.system.repo.mcp.openstack
   - system.mongodb.server.cluster
   - system.mongodb.server.database.ceilometer
   - system.ceilometer.server.backend.mongodb
