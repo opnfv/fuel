@@ -201,13 +201,20 @@ parameters:
     horizon_identity_host: ${_param:openstack_control_address}
     horizon_identity_encryption: none
     horizon_identity_version: 3
-    mongodb_server_replica_set: ceilometer
-    mongodb_ceilometer_password: opnfv_secret
-    mongodb_admin_password: opnfv_secret
-    mongodb_shared_key: eoTh1AwahlahqueingeejooLughah4tei9feing0eeVaephooDi2li1TaeV1ooth
     metadata_password: opnfv_secret
     openstack_telemetry_keepalived_password: opnfv_secret
     aodh_service_host: ${_param:openstack_telemetry_address}
+    gnocchi_version: 4.0
+    gnocchi_service_host: ${_param:openstack_telemetry_address}
+    mysql_gnocchi_password: opnfv_secret
+    keystone_gnocchi_password: opnfv_secret
+    panko_version: ${_param:openstack_version}
+    panko_service_host: ${_param:openstack_telemetry_address}
+    mysql_panko_password: opnfv_secret
+    keystone_panko_password: opnfv_secret
+    ceilometer_agent_default_polling_interval: 180
+    ceilometer_agent_default_polling_meters:
+      - "*"
     designate_service_host: ${_param:openstack_control_address}
     designate_bind9_rndc_key: 4pc+X4PDqb2q+5o72dISm72LM1Ds9X2EYZjqg+nmsS7FhdTwzFFY8l/iEDmHxnyjkA33EQC8H+z0fLLBunoitw==
     designate_domain_id: 5186883b-91fb-4891-bd49-e6769234a8fc

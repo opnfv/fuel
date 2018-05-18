@@ -14,3 +14,5 @@ classes:
   - system.keystone.client.service.nova-placement
   - system.keystone.client.service.cinder3
   - system.keystone.client.service.designate
+  - system.keystone.client.service.gnocchi
+  - system.keystone.client.service.panko

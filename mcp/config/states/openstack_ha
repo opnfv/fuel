@@ -53,11 +53,10 @@ salt -I 'neutron:gateway' state.sls neutron.gateway
 
 salt -I 'nova:compute' state.sls nova
 
-salt -C 'I@mongodb:server and *01*' state.sls mongodb || true
-wait_for 10.0 "salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin'"
-salt -C 'I@mongodb:server and *01*' cmd.run 'mongo localhost:27017/admin --eval "rs.initiate()"'
-salt -I 'mongodb:server' state.sls mongodb
-
+salt -I 'redis:cluster:role:master' state.sls redis
+salt -I 'redis:server' state.sls redis
+salt -I 'gnocchi:server' state.sls gnocchi -b 1
+salt -I 'panko:server' state.sls panko -b 1
 salt -I 'aodh:server' state.sls aodh -b 1
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
