@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_1a554cc6",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/openstack_init.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-20T17:54:17Z",
+      "side": 1,
+      "message": "I assume we still need this for some packages that are too old in main Ubuntu archive, but not in MCP archive.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 42
+      },
+      "revId": "a021366c0934d74889ac7d64e0857e35bdd0319c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
