@@ -19,6 +19,75 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_781298b5",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-21T17:13:57Z",
+      "side": 1,
+      "message": "\u0027mark-fixed\u0027 nodes are also \u0027ready\u0027 nodes",
+      "range": {
+        "startLine": 70,
+        "startChar": 22,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_5817dca3",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-21T17:13:57Z",
+      "side": 1,
+      "message": "rm, size is determined via reclass, so adding a cross-reference to that value in the state file here is not recommended (most likely we\u0027ll forget to update this if we ever update the value in reclass).\nStating that the root partition size is fixed is enough; eventually state it is determined via reclass.",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 17
+      },
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_1846f4bf",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-21T17:13:57Z",
+      "side": 1,
+      "message": "state.sls and state.apply are the same thing, but let\u0027s keep using salt.apply as it\u0027s already uniform across the rest of this file",
+      "range": {
+        "startLine": 74,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 30
+      },
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_35bb00c6",
         "filename": "mcp/config/states/maas",
         "patchSetId": 8
@@ -53,6 +122,29 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_981164af",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-21T17:13:57Z",
+      "side": 1,
+      "message": "why limit the root VG size to 128G?\nThe default (and previous behavior) was leaving this unset when calling set-storage-layout, letting it default to the whole disk (100%) - i.e. the VG spans across the whole disk, while the OS LV only takes 30G, the rest is left free for cinder or others. See [1].\nI think removing this line is enough to achieve the same.\n[1] https://docs.maas.io/2.3/en/installconfig-storage",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 26
+      },
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_95b014df",
         "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
         "patchSetId": 8
@@ -64,6 +156,29 @@
       "writtenOn": "2018-05-17T07:21:20Z",
       "side": 1,
       "message": "probably wait_for_deployed_machines is better",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_d83bec36",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-21T17:13:57Z",
+      "side": 1,
+      "message": "I think we can rework this only by relying on [1].\nThere is a subtle difference between the salt timeout (how many times we poll for machine status until we bail out if they are not ready) and the maas internal timeout (how much maas itself waits for each machine to reach a certain state).\nIf salt timeout (default is 60 * 120 [s], i.e. 2h) is greater than maas timeout (determined via IDF.maas.timeout_...), maas will put the node in \u0027failed deployment\u0027 state, while salt will keep waiting for the rest of the period (using current defaults of 20 min maas timeout for deploy vs 120 min salt timeout for deploy), we end up waiting 100 min for nothing.\n\nThis is not as easy to deal with as it looks, ideally we\u0027d alter the upstream salt-formula-maas to also handle automatic node recovery (delete node + re-add for comissioning, respectively mark-broken + mark-fixed for deploying).\n\n[1] https://github.com/salt-formulas/salt-formula-maas/blob/master/maas/machines/wait_for_deployed.sls",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 20
+      },
       "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
