@@ -48,6 +48,13 @@ salt -I 'heat:server' state.sls heat -b 1
 wait_for 5.0 "salt -I 'cinder:controller' state.sls cinder -b 1"
 wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
 
+# FUEL-329 upstream temp fix
+onv_ops_pike="/srv/salt/env/prd/neutron/files/pike/ovn_central_options"
+onv_ops_queens="/srv/salt/env/prd/neutron/files/queens/ovn_central_options"
+if [ ! -f $onv_ops_queens ]; then
+  cp $onv_ops_pike $onv_ops_queens
+fi
+
 salt -I 'neutron:server' state.sls neutron -b 1
 salt -I 'neutron:gateway' state.sls neutron.gateway
 
