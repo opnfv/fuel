@@ -29,5 +29,8 @@ parameters:
     cluster_node03_address: ${_param:openstack_telemetry_node03_address}
   mongodb:
     server:
+      admin:
+        user: admin
+        password: ${_param:mongodb_admin_password}
       logging:
         verbose: v
