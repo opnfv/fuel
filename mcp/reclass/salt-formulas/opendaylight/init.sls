@@ -1,18 +1,12 @@
 ##############################################################################
-# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2017 Mirantis Inc. and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
----
-classes:
-  - service.neutron.compute.ovn.single
-  - cluster.mcp-pike-common-ha.openstack_compute
-  - cluster.mcp-pike-ovn-ha.openstack.compute_pdf
-  - cluster.mcp-pike-ovn-ha.infra
-parameters:
-  nova:
-    compute:
-      libvirt_service: libvirtd
-      libvirt_bin: /etc/default/libvirtd
+
+include:
+{% if pillar.opendaylight.server is defined %}
+- opendaylight.server
+{% endif %}

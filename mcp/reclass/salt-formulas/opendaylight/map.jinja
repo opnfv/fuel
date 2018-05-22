@@ -1,0 +1,28 @@
+##############################################################################
+# Copyright (c) 2017 Mirantis Inc. and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+{% set server = salt['grains.filter_by']({
+    'Debian': {
+      'karaf_features': {'default': ['standard', 'wrap', 'ssh']},
+      'odl_rest_port': '8282',
+      'odl_bind_ip': '0.0.0.0',
+      'repo': 'odl-team/oxygen',
+      'log_levels': {},
+      'enable_ha': false,
+      'ha_node_ips': [],
+      'ha_node_index': 0,
+      'security_group_mode': 'stateful',
+      'vpp_routing_node': '',
+      'java_extra_opts': '-Djava.net.preferIPv4Stack=true -XX:+UseG1GC',
+      'java_min_mem': '1g',
+      'java_max_mem': '2g',
+    },
+    'RedHat': {
+      'repo': 'opendaylight-6-testing'
+    },
+}, merge=salt['pillar.get']('opendaylight:server')) %}
