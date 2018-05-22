@@ -22,6 +22,30 @@
       "revId": "dfdcc68baf030a2233dd808e6ad527315a119a80",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_ce64c6e7",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-22T14:07:50Z",
+      "side": 1,
+      "message": "It looks horrible without this line + a one line comment does not look bad. I will wait for further input from others",
+      "parentUuid": "1a494da4_13d8971c",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 105
+      },
+      "revId": "dfdcc68baf030a2233dd808e6ad527315a119a80",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
