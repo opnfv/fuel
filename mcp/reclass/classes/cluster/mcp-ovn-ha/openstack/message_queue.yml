@@ -9,4 +9,4 @@
 classes:
   - cluster.mcp-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-common-ha.openstack_message_queue
-  - cluster.mcp-ovn-ha.infra_vcp
+  - cluster.mcp-ovn-ha.infra.init_vcp
