@@ -108,6 +108,9 @@ parameters:
       query_cache_size: 0
   mongodb:
     server:
+      admin:
+        user: admin
+        password: ${_param:mongodb_admin_password}
       bind:
         address: ${_param:cluster_local_address},127.0.0.1
       logging:
