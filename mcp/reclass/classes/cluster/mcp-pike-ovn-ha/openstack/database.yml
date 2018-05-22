@@ -9,4 +9,4 @@
 classes:
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-pike-common-ha.openstack_database
-  - cluster.mcp-pike-ovn-ha.infra_vcp
+  - cluster.mcp-pike-ovn-ha.infra.init_vcp
