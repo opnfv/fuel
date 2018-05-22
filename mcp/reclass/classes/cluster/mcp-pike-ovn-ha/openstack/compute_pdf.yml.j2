@@ -8,7 +8,7 @@
 {%- import 'net_map.j2' as nm with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.cmp001.nic_private: True } %}
-{%- set vlan_private_start = nm.vlan_private.rsplit('-')[0] %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 {%- set vlans = { vlan_private_start: nm.cmp001.nic_private } %}
 ---
 parameters:
