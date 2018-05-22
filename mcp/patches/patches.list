@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+/usr/share/salt-formulas/env: 0001-server-Fix-generate_dhparams-j2-var-manipulation.patch
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0003-maas-region-force-artifact-download.patch
 /usr/share/salt-formulas/env: 0004-network.dpdk-Move-ifcfg-br-prv-to-interfaces.u.patch
