@@ -7,7 +7,60 @@
 ##############################################################################
 ---
 classes:
-  - system.neutron.control.openvswitch.cluster
+  - system.neutron.control.cluster
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-pike-common-ha.openstack_control
   - cluster.mcp-pike-ovn-ha.infra
+parameters:
+  _param:
+    neutron_control_dvr: False
+    neutron_l3_ha: False
+    neutron_global_physnet_mtu: 1500
+    neutron_external_mtu: 1500
+    neutron_enable_qos: False
+    neutron_enable_vlan_aware_vms: False
+  neutron:
+      server:
+        global_physnet_mtu: ${_param:neutron_global_physnet_mtu}
+        l3_ha: ${_param:neutron_l3_ha}
+        dvr: ${_param:neutron_control_dvr}
+        qos: ${_param:neutron_enable_qos}
+        vlan_aware_vms: ${_param:neutron_enable_vlan_aware_vms}
+        backend:
+          engine: ovn
+          tenant_network_types: "${_param:neutron_tenant_network_types}"
+          external_mtu: ${_param:neutron_external_mtu}
+          mechanism:
+            ovn:
+              driver: ovn
+        compute:
+          region: ${_param:openstack_region}
+        database:
+          host: ${_param:openstack_database_address}
+        identity:
+          region: ${_param:openstack_region}
+          protocol: ${_param:cluster_internal_protocol}
+        message_queue:
+          members:
+            - host: ${_param:openstack_message_queue_node01_address}
+            - host: ${_param:openstack_message_queue_node02_address}
+            - host: ${_param:openstack_message_queue_node03_address}
+        ovn_ctl_opts:
+          db-nb-create-insecure-remote: 'yes'
+          db-sb-create-insecure-remote: 'yes'
+          db-nb-addr: ${_param:cluster_vip_address}
+          db-sb-addr: ${_param:cluster_vip_address}
+  mysql:
+    server:
+      database:
+        neutron:
+          encoding: utf8
+          users:
+          - name: neutron
+            password: ${_param:mysql_neutron_password}
+            host: '%'
+            rights: all
+          - name: neutron
+            password: ${_param:mysql_neutron_password}
+            host: ${_param:cluster_local_address}
+            rights: all

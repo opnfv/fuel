@@ -11,6 +11,9 @@ classes:
   - cluster.mcp-pike-ovn-ha.openstack.compute_pdf
   - cluster.mcp-pike-ovn-ha.infra
 parameters:
+  neutron:
+    backend:
+      engine: ovn
   nova:
     compute:
       libvirt_service: libvirtd
