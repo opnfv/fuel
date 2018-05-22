@@ -7,7 +7,15 @@
 ##############################################################################
 ---
 classes:
-  - system.neutron.control.openvswitch.cluster
+  - system.neutron.control.ovn.single
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-pike-common-ha.openstack_control
   - cluster.mcp-pike-ovn-ha.infra
+parameters:
+  neutron:
+    server:
+      backend:
+        tenant_network_types: ${_param:neutron_tenant_network_types}
+      ovn_ctl_opts:
+        db-nb-create-insecure-remote: 'yes'
+        db-sb-create-insecure-remote: 'yes'
