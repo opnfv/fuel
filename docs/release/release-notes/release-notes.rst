@@ -61,13 +61,13 @@ Release Data
 | **Project**                          | fuel/armband                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-6.0.0                          |
+| **Repo/tag**                         | opnfv-6.1.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Fraser 6.0                           |
+| **Release designation**              | Fraser 6.1                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | April 27 2018                        |
+| **Release date**                     | May 25 2018                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | Fraser alignment to Released         |
@@ -85,7 +85,7 @@ Version Change
 
 Module Version Changes
 ----------------------
-This is the Fraser 6.0 release.
+This is the Fraser 6.1 release.
 It is based on following upstream versions:
 
 - MCP Base Release
@@ -96,7 +96,7 @@ It is based on following upstream versions:
 
 Document Changes
 ----------------
-This is the Fraser 6.0 release.
+This is the Fraser 6.1 release.
 It comes with the following documentation:
 
 - :ref:`fuel-release-installation-label`
@@ -112,14 +112,14 @@ Feature Additions
 -----------------
 
 **JIRA TICKETS:**
-`Fraser 6.0 new features  <https://jira.opnfv.org/issues/?filter=12302>`_
+`Fraser 6.1 new features  <https://jira.opnfv.org/issues/?filter=12306>`_
 
 Bug Corrections
 ---------------
 
 **JIRA TICKETS:**
 
-`Fraser 6.0 bug fixes  <https://jira.opnfv.org/issues/?filter=12303>`_
+`Fraser 6.1 bug fixes  <https://jira.opnfv.org/issues/?filter=12307>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -163,7 +163,7 @@ Known Issues
 
 **JIRA TICKETS:**
 
-`Known issues <https://jira.opnfv.org/issues/?filter=12304>`_
+`Known issues <https://jira.opnfv.org/issues/?filter=12308>`_
 
 (Also See respective Integrated feature project's bug tracking)
 
@@ -172,20 +172,24 @@ Workarounds
 
 **JIRA TICKETS:**
 
--
+- As a workaround to certain limitations in qemu and virtio-blk, all volumes are attached as scsi drives.
+
+`Workarounds <https://jira.opnfv.org/issues/?filter=12309>`_
+
+
 
 (Also See respective Integrated feature project's bug tracking)
 
 ============
 Test Results
 ============
-The Fraser 6.0 release with the Fuel deployment tool has undergone QA test
+The Fraser 6.1 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 ==========
 References
 ==========
-For more information on the OPNFV Fraser 6.0 release, please see:
+For more information on the OPNFV Fraser 6.1 release, please see:
 
 OPNFV
 =====
