@@ -9,4 +9,4 @@
 classes:
   - cluster.mcp-common-ha.openstack_interface_vcp_triport
   - cluster.mcp-common-ha.openstack_proxy
-  - cluster.mcp-ovn-ha.infra_vcp
+  - cluster.mcp-ovn-ha.infra.init_vcp

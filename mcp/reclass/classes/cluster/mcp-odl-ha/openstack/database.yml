@@ -7,6 +7,12 @@
 ##############################################################################
 ---
 classes:
+<<<<<<< HEAD:mcp/reclass/classes/cluster/mcp-odl-ha/openstack/database.yml
   - cluster.mcp-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-common-ha.openstack_database
   - cluster.mcp-odl-ha.infra.init_vcp
+=======
+  - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
+  - cluster.mcp-pike-common-ha.openstack_database
+  - cluster.mcp-pike-ovn-ha.infra.init_vcp
+>>>>>>> [ha] Add OVN scenario:mcp/reclass/classes/cluster/mcp-pike-ovn-ha/openstack/database.yml

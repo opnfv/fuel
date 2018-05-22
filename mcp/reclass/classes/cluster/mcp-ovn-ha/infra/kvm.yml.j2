@@ -9,6 +9,6 @@
 {%- if conf.MCP_VCP %}
 # NOTE(armband): we don't want to pull in salt.control for novcp
 classes:
-  - cluster.mcp-common-ha.infra.kvm
-  - cluster.mcp-ovn-ha.infra
-{%- endif %}
+  - cluster.mcp-common-ha.openstack_interface_vcp_biport
+  - cluster.mcp-common-ha.openstack_message_queue
+  - cluster.mcp-ovn-ha.infra.init_vcp
