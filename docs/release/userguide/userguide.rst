@@ -250,9 +250,9 @@ UEFI-images for the guests:
 +------------------+-------------------+------------------+
 | Ubuntu 14.04     | untested          | Full support     |
 +------------------+-------------------+------------------+
-| Fedora atomic 27 | untested          | Not supported    |
+| Fedora atomic 27 | untested          | Full support     |
 +------------------+-------------------+------------------+
-| Fedora cloud 27  | untested          | Not supported    |
+| Fedora cloud 27  | untested          | Full support     |
 +------------------+-------------------+------------------+
 | Debian           | untested          | Full support     |
 +------------------+-------------------+------------------+
