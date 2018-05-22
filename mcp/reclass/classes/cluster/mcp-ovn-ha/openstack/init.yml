@@ -10,4 +10,4 @@ classes:
   - cluster.mcp-common-ha.openstack_init
 parameters:
   _param:
-    neutron_tenant_network_types: "flat,vxlan"
+    neutron_tenant_network_types: "geneve,flat"
