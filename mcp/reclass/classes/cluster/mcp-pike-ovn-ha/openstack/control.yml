@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.neutron.control.openvswitch.cluster
+  - system.neutron.control.ovn.single
   - cluster.mcp-pike-common-ha.openstack_interface_vcp_biport
   - cluster.mcp-pike-common-ha.openstack_control
   - cluster.mcp-pike-ovn-ha.infra
