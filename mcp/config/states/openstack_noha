@@ -54,13 +54,3 @@ salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
 salt -I 'horizon:server' state.sls horizon
-
-# workaround for the pike horizon is missing css, FUEL-324
-salt -I 'horizon:server' file.symlink \
-  /var/lib/openstack-dashboard/static \
-  /usr/share/openstack-dashboard/static
-salt -I 'horizon:server' cmd.run "/usr/share/openstack-dashboard/manage.py collectstatic --noinput"
-salt -I 'horizon:server' cmd.run "/usr/share/openstack-dashboard/manage.py compress --force"
-salt -I 'horizon:server' file.append /etc/openstack-dashboard/local_settings.py \
-  "AVAILABLE_THEMES = [ ('default', 'Default', 'themes/default'),]"
-salt -I 'horizon:server' service.reload apache2
