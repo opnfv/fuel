@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_8d8f6323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-23T16:41:19Z",
+      "side": 1,
+      "message": "For clarity, I would write this as:\n[maas] Adopt maas.machines.storage",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "e4868444fb66601535855386530f65df99e7a976",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_cd996b70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-23T16:41:19Z",
+      "side": 1,
+      "message": "let\u0027s remove \u0027part1\u0027, we don\u0027t know yet how many parts this will have and how they will land time-wise. I think they are decoupled, so let\u0027s treat them as separate things.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "e4868444fb66601535855386530f65df99e7a976",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_6d949737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-23T16:41:19Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "e4868444fb66601535855386530f65df99e7a976",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
