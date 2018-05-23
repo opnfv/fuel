@@ -392,7 +392,7 @@ These steps are common both for virtual and baremetal deploys.
 
    .. code-block:: bash
 
-       $ git checkout opnfv-6.0.0
+       $ git checkout opnfv-6.1.0
 
 #. Start the deploy script
 
