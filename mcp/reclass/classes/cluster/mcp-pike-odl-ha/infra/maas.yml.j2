@@ -5,10 +5,18 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- set cluster_arch = [] %}
+{%- for node in conf.nodes %}
+  {%- if node.node.arch not in cluster_arch %}
+    {%- do cluster_arch.append(node.node.arch) %}
+  {%- endif %}
+{%- endfor %}
 ---
 classes:
   - cluster.mcp-pike-common-ha.infra.maas
   - cluster.mcp-pike-odl-ha.infra
+{%- if 'aarch64' not in cluster_arch %}
 parameters:
   _param:
     hwe_kernel: 'ga-16.04'
+{%- endif %}

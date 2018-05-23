@@ -43,8 +43,7 @@ aarch64:
         - armband 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
     pkg:
       install:
-        - linux-image-generic-hwe-16.04-edge
-        - linux-headers-generic-hwe-16.04-edge
+        - linux-generic-hwe-16.04
         - python-futures
         - salt-minion
   control:
