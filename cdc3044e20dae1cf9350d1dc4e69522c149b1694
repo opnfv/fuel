@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_554a0c84",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-23T08:55:38Z",
+      "side": 1,
+      "message": "maas.machines will add the new machines and commission them. maas call it \"create__machines\"",
+      "parentUuid": "1a494da4_35bb00c6",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_55b68cdd",
         "filename": "mcp/config/states/maas",
         "patchSetId": 8
@@ -162,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_9512d460",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-23T08:55:38Z",
+      "side": 1,
+      "message": "i follow the example name\nhttps://github.com/salt-formulas/salt-formula-maas/blame/master/README.rst#L345. But I will change the file name to \"wait_for_machines_deployed.sls\"",
+      "parentUuid": "1a494da4_95b014df",
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_d83bec36",
         "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
         "patchSetId": 8
@@ -173,6 +209,30 @@
       "writtenOn": "2018-05-21T17:13:57Z",
       "side": 1,
       "message": "I think we can rework this only by relying on [1].\nThere is a subtle difference between the salt timeout (how many times we poll for machine status until we bail out if they are not ready) and the maas internal timeout (how much maas itself waits for each machine to reach a certain state).\nIf salt timeout (default is 60 * 120 [s], i.e. 2h) is greater than maas timeout (determined via IDF.maas.timeout_...), maas will put the node in \u0027failed deployment\u0027 state, while salt will keep waiting for the rest of the period (using current defaults of 20 min maas timeout for deploy vs 120 min salt timeout for deploy), we end up waiting 100 min for nothing.\n\nThis is not as easy to deal with as it looks, ideally we\u0027d alter the upstream salt-formula-maas to also handle automatic node recovery (delete node + re-add for comissioning, respectively mark-broken + mark-fixed for deploying).\n\n[1] https://github.com/salt-formulas/salt-formula-maas/blob/master/maas/machines/wait_for_deployed.sls",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "cdc3044e20dae1cf9350d1dc4e69522c149b1694",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_89b0f8f5",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_deployed_timeout.sls",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-23T08:55:38Z",
+      "side": 1,
+      "message": "correct. That is why we need to reduce the salt timeout to allign with the value in IDF. If we just use [1], the default 2h is used, we will waste time to wait.",
+      "parentUuid": "1a494da4_d83bec36",
       "range": {
         "startLine": 12,
         "startChar": 8,
