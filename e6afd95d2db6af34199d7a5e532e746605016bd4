@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_b0b554cf",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6947
+      },
+      "writtenOn": "2018-05-24T08:31:20Z",
+      "side": 1,
+      "message": "Are not these two blocks of code the same ??\nOr am I missing something ?",
+      "revId": "e6afd95d2db6af34199d7a5e532e746605016bd4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
