@@ -16,6 +16,24 @@
       "revId": "e6afd95d2db6af34199d7a5e532e746605016bd4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_339cae69",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-24T16:12:43Z",
+      "side": 1,
+      "message": "lol, yes. nice catch",
+      "parentUuid": "1a494da4_b0b554cf",
+      "revId": "e6afd95d2db6af34199d7a5e532e746605016bd4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
