@@ -70,4 +70,4 @@ new file mode 100644
 +wait_for 30 "maas opnfv boot-resources import"
 +wait_for 90 "! maas opnfv boot-resources is-importing | grep -q 'true'"
 +maas opnfv rack-controllers import-boot-images || exit 3
-+wait_for 30 "true {%- for arch in region.opnfv_arches %} && test -d /var/lib/maas/boot-resources/current/ubuntu/{{ arch }}{%- endfor %}"
++wait_for 30 "true {%- for arch in region.opnfv_arches.split(' ') %} && test -d /var/lib/maas/boot-resources/current/ubuntu/{{ arch }}{%- endfor %}"

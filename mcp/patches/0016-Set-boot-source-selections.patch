@@ -21,7 +21,7 @@ diff --git a/maas/region.sls b/maas/region.sls
 
 +boot_source_selections:
 +  cmd.run:
-+  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-source-selection update 1 1 release='{{ region.maas_config.default_distro_series }}' {%- for arch in region.opnfv_arches.split(' ') %} arches='{{ arch }}' {%- endfor %}"
++  - name: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-resources stop-import && maas opnfv boot-source-selection update 1 1 release='{{ region.maas_config.default_distro_series }}' {%- for arch in region.opnfv_arches.split(' ') %} arches='{{ arch }}' subarches='generic ga-16.04 hwe-16.04' {%- endfor %}"
 +  - require:
 +    - cmd: maas_login_admin
 +  - unless: "maas login {{ region.admin.username }} http://{{ region.bind.host }}:5240/MAAS/api/2.0 - < /var/lib/maas/.maas_credentials && maas opnfv boot-source-selections read 1 | grep -q {{ region.maas_config.default_distro_series }}"
