@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_70c10ce4",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-05-24T11:19:00Z",
+      "side": 1,
+      "message": "What about to increase this value?",
+      "range": {
+        "startLine": 37,
+        "startChar": 25,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "ea7fce4e04a17658be9054ea738719681fe83019",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
