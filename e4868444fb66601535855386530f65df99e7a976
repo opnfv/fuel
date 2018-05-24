@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_309024ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-24T11:18:29Z",
+      "side": 1,
+      "message": "agree.  thanks.",
+      "parentUuid": "1a494da4_8d8f6323",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "e4868444fb66601535855386530f65df99e7a976",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_cd996b70",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -82,6 +106,30 @@
       "writtenOn": "2018-05-24T07:14:35Z",
       "side": 1,
       "message": "Maybe need to increase this size keeping in mind that on this partition also reside the logs \u0026 etc.",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "e4868444fb66601535855386530f65df99e7a976",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_509330fa",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas_pdf.yml.j2",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-24T11:18:29Z",
+      "side": 1,
+      "message": "30G is what is allocated in fuel today[1]. How much should we increase? e,g 60G?\n[1]https://github.com/opnfv/fuel/blob/master/mcp/config/states/maas#L66",
+      "parentUuid": "1a494da4_708d8c31",
       "range": {
         "startLine": 37,
         "startChar": 24,
