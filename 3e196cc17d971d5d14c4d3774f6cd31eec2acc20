@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_a217c650",
+        "filename": "mcp/salt-formulas/opendaylight/server.sls",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-05-29T13:11:10Z",
+      "side": 1,
+      "message": "It\u0027ll fail for amd64 as empty pkg.installed state will be generated.\nLet\u0027s use the following:\n\n{%- if grains[\u0027cpuarch\u0027] \u003d\u003d \u0027aarch64\u0027 %}\narmband-odl-leveldb-fix:\n  pkg.installed\n{%- endif %}",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "3e196cc17d971d5d14c4d3774f6cd31eec2acc20",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
