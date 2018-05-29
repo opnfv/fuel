@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_62365e05",
+        "filename": "mcp/config/states/maas",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-29T12:44:19Z",
+      "side": 1,
+      "message": "it would be nice if we could refactor our custom \u0027machines.mark_broken_fixed\u0027 and \u0027machines.delete\u0027 and propose them upstream in salt-formula-maas, integrated as part of the current \u0027wait_for_...\u0027 states.\nI\u0027m thinking one extra kwarg (similar to timeout) could enable/disable these self-recovery mechanisms ...",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 66
+      },
+      "revId": "dc3378cef3287304b59397d10a6230fbcf7cceba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_a2bb4671",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_machines_deployed.sls",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-05-29T12:44:19Z",
+      "side": 1,
+      "message": "afaict, this is the only difference compared to [1].\nimo, it\u0027s not worth duplicating states for this, but instead we should try to submit a pull request upstream and extend the existing state with support for parametric timeouts, something like:\n(reclass pillar data)\nmaas:\n  region:\n    timeout:\n      deployed: 900\n      ready: 900\n(timeout passed in [1] and wait_for_ready only when defined in reclass)\n{%- if region.timeout is defined and region.timeout.deployed is defined %}\n    timeout: 900\n{%- endif %}\n\n[1] https://github.com/salt-formulas/salt-formula-maas/blob/master/maas/machines/wait_for_deployed.sls",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "dc3378cef3287304b59397d10a6230fbcf7cceba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
