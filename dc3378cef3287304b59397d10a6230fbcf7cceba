@@ -45,6 +45,30 @@
       "revId": "dc3378cef3287304b59397d10a6230fbcf7cceba",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_acba18df",
+        "filename": "mcp/salt-formulas/maas/machines/wait_for_machines_deployed.sls",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7053
+      },
+      "writtenOn": "2018-05-31T03:06:06Z",
+      "side": 1,
+      "message": "a new pull request is made on salt-fomula-mass. does it look OK?\nhttps://github.com/salt-formulas/salt-formula-maas/pull/34",
+      "parentUuid": "1a494da4_a2bb4671",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "dc3378cef3287304b59397d10a6230fbcf7cceba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
