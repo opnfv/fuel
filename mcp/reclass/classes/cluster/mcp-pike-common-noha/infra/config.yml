@@ -14,7 +14,6 @@ classes:
   - system.salt.master.pkg
   - system.reclass.storage.salt
   - system.salt.minion.ca.salt_master
-  - system.salt.minion.cert.proxy
   - system.mysql.client.single
   - system.reclass.storage.system.openstack_compute_multi
 parameters:
