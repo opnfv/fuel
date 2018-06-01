@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_0af68cd7",
+        "filename": "mcp/metadata/service/tacker/server/single.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-06-01T13:17:32Z",
+      "side": 1,
+      "message": "let\u0027s add a license header",
+      "revId": "13bee9b574bc6160eec0da4806301f68dddebce8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
