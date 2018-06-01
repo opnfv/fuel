@@ -1,0 +1,15 @@
+
+{% set server = salt['grains.filter_by']({
+  'Debian': {
+    'pkgs': ['python-heat-translator', 'python-tosca-parser', 'python-tackerclient'],
+    'bind_host': '0.0.0.0',
+    'git': {
+      'source': 'https://github.com/openstack/tacker',
+      'target': '/tmp/tacker',
+      'branch': 'master',
+    },
+  },
+  'RedHat': {
+    'pkgs': 'openstack-tacker'
+  },
+}, merge=salt['pillar.get']('tacker:server')) %}
