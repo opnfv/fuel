@@ -1,0 +1,27 @@
+---
+classes:
+  - service.git.client
+parameters:
+  _param:
+    keystone_tacker_endpoint_type: internalURL
+  tacker:
+    server:
+      bind_host: ${_param:cluster_local_address}
+      enabled: true
+      branch: stable/queens
+      database:
+        engine: mysql
+        host: ${_param:single_address}
+        port: 3306
+        name: tacker
+        user: tacker
+        password: ${_param:mysql_tacker_password}
+      identity:
+        engine: keystone
+        region: RegionOne
+        host: ${_param:single_address}
+        port: 35357
+        user: tacker
+        password: ${_param:keystone_tacker_password}
+        tenant: service
+        endpoint_type: ${_param:keystone_tacker_endpoint_type}
