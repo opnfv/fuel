@@ -21,33 +21,14 @@ This fixup should be temporary at best.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
+ maas/files/maas-artifact-sync.sh | 20 ++++++++++++++++++++
+ maas/region.sls                  | 10 +++++++++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 maas/files/maas-artifact-sync.sh
 
-diff --git a/maas/region.sls b/maas/region.sls
---- a/maas/region.sls
-+++ b/maas/region.sls
-@@ -109,11 +109,19 @@
-   cmd.run:
-   - name: "maas-region apikey --username {{ region.admin.username }} > /var/lib/maas/.maas_credentials"
-
-+maas_force_artifact_sync:
-+  cmd.script:
-+  - name: salt://maas/files/maas-artifact-sync.sh
-+  - template: jinja
-+  - shell: /bin/bash
-+  - require:
-+    - cmd: maas_login_admin
-+
- maas_config:
-   module.run:
-   - name: maas.process_maas_config
-   - require:
--    - cmd: maas_login_admin
-+    - cmd: maas_force_artifact_sync
-
- maas_commissioning_scripts:
-   module.run:
 diff --git a/maas/files/maas-artifact-sync.sh b/maas/files/maas-artifact-sync.sh
 new file mode 100644
+index 0000000..1715c51
 --- /dev/null
 +++ b/maas/files/maas-artifact-sync.sh
 @@ -0,0 +1,20 @@
@@ -71,3 +52,28 @@ new file mode 100644
 +wait_for 90 "! maas opnfv boot-resources is-importing | grep -q 'true'"
 +maas opnfv rack-controllers import-boot-images || exit 3
 +wait_for 30 "true {%- for arch in region.opnfv_arches.split(' ') %} && test -d /var/lib/maas/boot-resources/current/ubuntu/{{ arch }}{%- endfor %}"
+diff --git a/maas/region.sls b/maas/region.sls
+index aed295d..d6d28bb 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -161,11 +161,19 @@ maas_login_admin:
+   - onlyif: /bin/false
+   {%- endif %}
+
++maas_force_artifact_sync:
++  cmd.script:
++  - name: salt://maas/files/maas-artifact-sync.sh
++  - template: jinja
++  - shell: /bin/bash
++  - require:
++    - cmd: maas_login_admin
++
+ maas_config:
+   module.run:
+   - name: maas.process_maas_config
+   - require:
+-    - cmd: maas_login_admin
++    - cmd: maas_force_artifact_sync
+   {%- if grains.get('kitchen-test') %}
+   - onlyif: /bin/false
+   {%- endif %}
