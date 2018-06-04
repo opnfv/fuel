@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: mcp-pike-ovs-dpdk-noha.local
+  domain: mcp-ovs-dpdk-noha.local
   states:
     - dpdk
     - openstack_noha

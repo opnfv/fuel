@@ -14,10 +14,10 @@ x86_64:
   common:
     apt:
       keys:
-        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub
+        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
       repos:
         # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main
+        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
     pkg:
       install:
         - linux-generic-hwe-16.04
@@ -35,12 +35,12 @@ aarch64:
   common:
     apt:
       keys:
-        - https://linux.enea.com/mcp-repos/pike/xenial/archive-mcppike.key
-        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/SALTSTACK-GPG-KEY.pub
+        - https://linux.enea.com/mcp-repos/queens/xenial/archive-mcpqueens.key
+        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
       repos:
         # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main
-        - armband 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
+        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
+        - armband 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/queens/xenial queens-armband main
     pkg:
       install:
         - linux-generic-hwe-16.04

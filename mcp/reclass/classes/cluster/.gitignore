@@ -15,5 +15,5 @@ mcp-pike-ovn-ha/infra/init_vcp.yml
 mcp-pike-ovn-ha/infra/kvm.yml
 mcp-pike-odl-ha/opendaylight/control.yml
 mcp-pike-odl-ha/openstack/init.yml
-mcp-pike-odl-noha/infra/config.yml
-mcp-pike-odl-noha/openstack/compute.yml
+mcp-odl-noha/infra/config.yml
+mcp-odl-noha/openstack/compute.yml
