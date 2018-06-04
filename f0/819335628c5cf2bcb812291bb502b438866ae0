@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Guillermo Herrero <guillermo.herrero@enea.com>
+Workflow+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Mon, 04 Jun 2018 15:57:06 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/58191
+Project: fuel
+Branch: refs/heads/stable/fraser
