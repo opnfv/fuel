@@ -6,33 +6,20 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-cluster:
-  domain: mcp-odl-noha.local
-  states:
-    - dpdk
-    - opendaylight
-    - openstack_noha
-    - neutron_gateway
-    - networks
-virtual:
-  nodes:
-    - cfg01
-    - ctl01
-    - cmp01
-    - cmp02
-    - gtw01
-    - odl01
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 1024
-  odl01:
-    vcpus: 4
-    ram: 5120
-  cmp01:
-    vcpus: 4
-    ram: 8192
-  cmp02:
-    vcpus: 4
-    ram: 8192
+classes:
+  - cluster.mcp-common-noha.openstack_gateway
+  - service.neutron.gateway.opendaylight.single
+  - cluster.mcp-odl-noha
+parameters:
+  linux:
+    network:
+      interface:
+        br-mesh:
+          enabled: true
+          type: bridge
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: 255.255.255.0
+          use_interfaces:
+            - ${_param:tenant_interface}

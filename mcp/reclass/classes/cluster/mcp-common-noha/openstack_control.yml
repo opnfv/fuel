@@ -1,0 +1,167 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.lowmem
+  - system.linux.system.repo.mcp.openstack
+  - service.nfs.server
+  - system.ceilometer.client
+  - system.ceilometer.client.neutron
+  - system.memcached.server.single
+  - system.rabbitmq.server.single
+  - system.rabbitmq.server.vhost.openstack
+  - system.keystone.server.wsgi
+  - system.keystone.server.single
+  - system.keystone.client.single
+  - system.keystone.client.v3.service.keystone
+  - system.keystone.client.service.nova21
+  - system.keystone.client.service.nova-placement
+  - system.keystone.client.service.cinder3
+  - system.keystone.client.service.ceilometer
+  - system.keystone.client.service.aodh
+  - system.keystone.client.service.gnocchi
+  - system.keystone.client.service.panko
+  - system.glance.control.single
+  - system.nova.control.single
+  - system.cinder.control.single
+  - system.cinder.control.backend.lvm
+  - system.heat.server.single
+  - service.mysql.server.single
+  - system.galera.server.database.cinder
+  - system.galera.server.database.glance
+  - system.galera.server.database.grafana
+  - system.galera.server.database.heat
+  - system.galera.server.database.keystone
+  - system.galera.server.database.nova
+  - system.galera.server.database.ceilometer
+  - system.galera.server.database.aodh
+  - system.galera.server.database.gnocchi
+  - system.galera.server.database.panko
+  - service.redis.server.single
+  - service.ceilometer.server.single
+  - system.ceilometer.server.coordination.redis
+  - system.ceilometer.server.backend.default
+  - system.aodh.server.single
+  - system.aodh.server.coordination.redis
+  - system.gnocchi.server.single
+  - system.gnocchi.common.storage.incoming.redis
+  - system.gnocchi.common.storage.redis
+  - system.gnocchi.common.coordination.redis
+  - service.panko.server.single
+  - system.apache.server.site.gnocchi
+  - system.apache.server.site.panko
+  - system.horizon.server.single
+  - service.haproxy.proxy.single
+  - cluster.mcp-common-noha.haproxy_openstack_api
+  - cluster.mcp-common-noha.openstack_control_pdf
+parameters:
+  _param:
+    linux_system_codename: xenial
+    ceilometer_create_gnocchi_resources: 'True'
+  linux:
+    system:
+      package:
+        python-msgpack:
+          version: latest
+  keystone:
+    server:
+      admin_email: ${_param:admin_email}
+      openrc_extra:
+        volume_device_name: vdc
+      pkgs:
+        - keystone
+        - python-psycopg2
+        - python-mysqldb
+        - python-openstackclient
+        - python-tornado
+    client:
+      enabled: true
+      resources:
+        v3:
+          enabled: true
+      server:
+        identity:
+          admin:
+            api_version: 3
+        admin_identity:
+          admin:
+            api_version: ''
+            user_domain_name: 'Default'
+            project_domain_name: 'Default'
+  glance:
+    server:
+      storage:
+        engine: file
+      images: []
+      workers: 1
+  nova:
+    controller:
+      networking: dvr
+      cpu_allocation: 54
+      metadata:
+        password: ${_param:metadata_password}
+      bind:
+        private_address: ${_param:cluster_local_address}
+        public_address: ${_param:cluster_vip_address}
+        novncproxy_port: 6080
+      vncproxy_url: http://${_param:cluster_vip_address}:6080
+      workers: 1
+  horizon:
+    server:
+      # yamllint disable-line rule:truthy
+      secure: False
+  heat:
+    server:
+      bind:
+        api_cfn:
+          address: ${_param:single_address}
+        api_cloudwatch:
+          address: ${_param:single_address}
+  mysql:
+    server:
+      version: '5.7'
+      bind:
+        address: ${_param:cluster_local_address}
+      key_buffer: 8
+      max_allowed_packet: 128
+      max_connections: 2048
+      thread_stack: 512
+      thread_cache_size: 12
+      query_cache_limit: 2
+      query_cache_size: 0
+  ceilometer:
+    server:
+      ~database: ~
+  redis:
+    server:
+      version: 3.0
+      appendfsync: 'no'
+      bind:
+        address: ${_param:single_address}
+  nfs:
+    server:
+      share:
+        nova_instances:
+          path: /srv/nova/instances
+          host:
+            nova:
+              host: ${_param:single_address}/24
+              params:
+                - rw
+                - no_root_squash
+                - async
+  neutron:
+    server:
+      vlan_aware_vms: true
+      root_helper_daemon: false
+  apache:
+    server:
+      site:
+        gnocchi:
+          wsgi:
+            threads: 1
