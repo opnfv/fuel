@@ -1,0 +1,112 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.single
+  - cluster.all-mcp-arch-common
+  # - cluster.mcp-common-ha.stacklight
+  # - cluster.mcp-common-ha.stacklight.client
+parameters:
+  _param:
+    apt_mk_version: nightly
+    mcp_repo_version: 1.1
+    salt_version: 2017.7
+    cluster_domain: ${_param:cluster_name}.local
+    # stacklight_environment: ${_param:cluster_domain}
+    reclass_data_revision: master
+    reclass_config_master: ${_param:opnfv_infra_config_pxe_address}
+    cluster_public_host: ${_param:openstack_proxy_address}
+    infra_config_hostname: cfg01
+    infra_maas_database_password: opnfv_secret
+
+    # infra service addresses
+    infra_config_address: ${_param:opnfv_infra_config_address}
+    infra_config_deploy_address: ${_param:opnfv_salt_master_ip}
+    infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
+    infra_maas_node01_deploy_address: ${_param:opnfv_infra_maas_node01_deploy_address}
+
+    infra_kvm_address: ${_param:opnfv_infra_kvm_address}
+{%- if conf.MCP_VCP %}
+    infra_kvm_node01_address: ${_param:opnfv_infra_kvm_node01_address}
+    infra_kvm_node02_address: ${_param:opnfv_infra_kvm_node02_address}
+    infra_kvm_node03_address: ${_param:opnfv_infra_kvm_node03_address}
+{%- else %}
+    # For NOVCP, we override kvm addresses to overlap with ctl
+    infra_kvm_node01_address: ${_param:openstack_control_node01_address}
+    infra_kvm_node02_address: ${_param:openstack_control_node02_address}
+    infra_kvm_node03_address: ${_param:openstack_control_node03_address}
+{%- endif %}
+
+    infra_maas_node01_hostname: mas01
+    infra_kvm_node01_hostname: kvm01
+    infra_kvm_node02_hostname: kvm02
+    infra_kvm_node03_hostname: kvm03
+
+    ntp_strata_host1: 1.pool.ntp.org
+    ntp_strata_host2: 0.pool.ntp.org
+
+    # Interface definitions
+    reclass:
+      storage:
+        node:
+          name: default
+
+    # yamllint disable-line rule:line-length
+    salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
+  reclass:
+    storage:
+      node:
+        openstack_proxy_node01:
+          params:
+            control_address: ${_param:openstack_proxy_node01_control_address}
+        openstack_proxy_node02:
+          params:
+            control_address: ${_param:openstack_proxy_node02_control_address}
+  linux:
+    system:
+      apt:
+        config:
+          prefer_ipv4:
+            Acquire::ForceIPv4: true
+      user:
+        ubuntu:
+          enabled: true
+          sudo: true
+          home: /home/ubuntu
+    network:
+      host:
+        cfg01:
+          address: ${_param:infra_config_address}
+          names:
+            - cfg01
+            - cfg01.${_param:cluster_domain}
+        cfg:
+          address: ${_param:infra_config_address}
+          names:
+            - ${_param:infra_config_hostname}
+            - ${_param:infra_config_hostname}.${_param:cluster_domain}
+        mas01:
+          address: ${_param:infra_maas_node01_address}
+          names:
+            - ${_param:infra_maas_node01_hostname}
+            - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
+        kvm01:
+          address: ${_param:infra_kvm_node01_address}
+          names:
+            - ${_param:infra_kvm_node01_hostname}
+            - ${_param:infra_kvm_node01_hostname}.${_param:cluster_domain}
+        kvm02:
+          address: ${_param:infra_kvm_node02_address}
+          names:
+            - ${_param:infra_kvm_node02_hostname}
+            - ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+        kvm03:
+          address: ${_param:infra_kvm_node03_address}
+          names:
+            - ${_param:infra_kvm_node03_hostname}
+            - ${_param:infra_kvm_node03_hostname}.${_param:cluster_domain}
