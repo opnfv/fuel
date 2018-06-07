@@ -18,7 +18,8 @@ parameters:
   linux:
     system:
       proxy:
-        keyserver:
+        pkg:
+          enabled: true
           http: http://{{ upstream_proxy.address }}:{{ upstream_proxy.port }}
           https: http://{{ upstream_proxy.address }}:{{ upstream_proxy.port }}
 {%- endif %}
