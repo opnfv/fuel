@@ -19,6 +19,7 @@ parameters:
   linux:
     system:
       proxy:
-        keyserver:
+        pkg:
+          enabled: true
           http: http://${_param:infra_maas_node01_deploy_address}:8000
           https: http://${_param:infra_maas_node01_deploy_address}:8000
