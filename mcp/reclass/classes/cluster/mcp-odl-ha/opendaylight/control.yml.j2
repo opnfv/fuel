@@ -1,0 +1,30 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - service.opendaylight.server.single
+  - cluster.mcp-common-ha.openstack_interface_vcp_biport
+{%- if conf.MCP_VCP %}
+  - cluster.mcp-odl-ha
+{%- endif %}
+parameters:
+  _param:
+    linux_system_codename: xenial
+  opendaylight:
+    server:
+      odl_bind_ip: ${_param:single_address}
+      odl_rest_port: 8282
+      java_min_mem: 6g
+      java_max_mem: 6g
+      router_enabled: true
+      karaf_features:
+        odl_default:
+          - odl-restconf-all
+          - odl-aaa-authn
+        netvirt:
+          - odl-netvirt-openstack
