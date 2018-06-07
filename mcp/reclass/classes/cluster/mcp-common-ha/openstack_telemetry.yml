@@ -1,0 +1,87 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.linux.system.repo.mcp.mirror.v1.openstack
+  - service.redis.server.single
+  - system.ceilometer.server.cluster
+  - system.ceilometer.server.coordination.redis
+  - system.ceilometer.server.backend.default
+  - system.aodh.server.cluster
+  - system.aodh.server.coordination.redis
+  - system.memcached.server.single
+  - system.apache.server.single
+  - system.apache.server.site.gnocchi
+  - system.apache.server.site.panko
+  - system.gnocchi.server.cluster
+  - system.gnocchi.common.storage.incoming.redis
+  - system.gnocchi.common.storage.redis
+  - system.gnocchi.common.coordination.redis
+  - system.panko.server.cluster
+parameters:
+  _param:
+    keepalived_openstack_telemetry_vip_interface: ${_param:single_nic}
+    keepalived_vip_virtual_router_id: 230
+    cluster_vip_address: ${_param:openstack_telemetry_address}
+    cluster_local_address: ${_param:single_address}
+    cluster_node01_hostname: ${_param:openstack_telemetry_node01_hostname}
+    cluster_node01_address: ${_param:openstack_telemetry_node01_address}
+    cluster_node02_hostname: ${_param:openstack_telemetry_node02_hostname}
+    cluster_node02_address: ${_param:openstack_telemetry_node02_address}
+    cluster_node03_hostname: ${_param:openstack_telemetry_node03_hostname}
+    cluster_node03_address: ${_param:openstack_telemetry_node03_address}
+    redis_sentinel_node01_address: ${_param:openstack_telemetry_node01_address}
+    redis_sentinel_node02_address: ${_param:openstack_telemetry_node02_address}
+    redis_sentinel_node03_address: ${_param:openstack_telemetry_node03_address}
+    # yamllint disable-line rule:line-length
+    openstack_telemetry_redis_url: redis://${_param:redis_sentinel_node01_address}:26379?sentinel=master_1&sentinel_fallback=${_param:redis_sentinel_node02_address}:26379&sentinel_fallback=${_param:redis_sentinel_node03_address}:26379
+    gnocchi_coordination_url: ${_param:openstack_telemetry_redis_url}
+    gnocchi_storage_incoming_redis_url: ${_param:openstack_telemetry_redis_url}
+  redis:
+    server:
+      version: 3.0
+      appendfsync: 'no'
+      bind:
+        address: ${_param:single_address}
+    cluster:
+      enabled: true
+      mode: sentinel
+      role: ${_param:redis_cluster_role}
+      quorum: 2
+      master:
+        host: ${_param:cluster_node01_address}
+        port: 6379
+      sentinel:
+        address: ${_param:single_address}
+  gnocchi:
+    common:
+      database:
+        host: ${_param:openstack_database_address}
+    server:
+      pkgs:
+        - gnocchi-api
+        - gnocchi-metricd
+        - python-memcache
+  apache:
+    server:
+      ~modules:
+        - wsgi
+        - rewrite
+      site:
+        gnocchi:
+          wsgi:
+            threads: 1
+  aodh:
+    server:
+      coordination_backend:
+        url: ${_param:openstack_telemetry_redis_url}
+  ceilometer:
+    server:
+      ~database: ~
+      coordination_backend:
+        url: ${_param:openstack_telemetry_redis_url}

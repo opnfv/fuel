@@ -1,0 +1,45 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+{%- if conf.MCP_VCP %}
+classes:
+  - cluster.mcp-common-ha.include.maas_proxy
+  - cluster.mcp-common-ha.include.lab_proxy_pdf
+parameters:
+  _param:
+    dhcp_nic: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
+    control_nic: ${_param:opnfv_vcp_vm_tertiary_interface}
+  linux:
+    network:
+      interface:
+        dhcp_int:
+          enabled: true
+          type: eth
+          proto: dhcp
+          name: ${_param:dhcp_nic}
+        single_int:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:single_nic}
+          address: ${_param:single_address}
+          netmask: ${_param:opnfv_net_public_mask}
+          route:
+            public:
+              address: 0.0.0.0
+              netmask: 0.0.0.0
+              gateway: ${_param:opnfv_net_public_gw}
+        control_int:
+          enabled: true
+          type: eth
+          proto: static
+          name: ${_param:control_nic}
+          address: ${_param:control_address}
+          netmask: 255.255.255.0
+{%- endif %}
