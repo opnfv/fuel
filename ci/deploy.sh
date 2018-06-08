@@ -90,7 +90,10 @@ $(notify_i "Input parameters to the build script are:" 2)
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
+   For the sample configuration in <./mcp/config>, lab name is 'local'.
 -p POD name as defined in the configuration directory, e.g. pod2
+   For the sample configuration in <./mcp/config>, POD name is 'virtual1'
+   for virtual deployments or 'pod1' for baremetal (based on lf-pod2).
 -N Experimental: Instead of virtualizing the control plane (VCP), deploy
    control plane directly on baremetal nodes
 -P Skip installing dependency distro packages on current host
@@ -187,11 +190,6 @@ do
             ;;
         p)
             TARGET_POD=${OPTARG}
-            if [[ "${TARGET_POD}" =~ virtual ]]; then
-                # All vPODs will use 'local-virtual1' PDF/IDF for now
-                TARGET_LAB='local'
-                TARGET_POD='virtual1'
-            fi
             ;;
         P)
             USE_EXISTING_PKGS=1
