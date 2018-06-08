@@ -1,0 +1,20 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc. and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+[Unit]
+Description = OpenStack Tacker service
+
+[Service]
+ExecReload = /bin/kill -HUP $MAINPID
+TimeoutStopSec = 300
+KillMode = process
+WorkingDirectory = /tmp
+ExecStartPre=/bin/mkdir -p /var/log/tacker
+ExecStart=/usr/local/bin/tacker-server --config-file /usr/local/etc/tacker/tacker.conf --log-file /var/log/tacker/tacker.log
+
+[Install]
+WantedBy = multi-user.target
