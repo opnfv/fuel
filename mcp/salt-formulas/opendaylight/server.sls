@@ -32,6 +32,10 @@ opendaylight_repo:
   - name: deb http://ppa.launchpad.net/odl-team/{{ server.version }}/ubuntu xenial main
   - file: /etc/apt/sources.list.d/odl-team-ubuntu-{{ server.version }}-xenial.list
 
+opendaylight_service_mask:
+  service.masked:
+  - name: opendaylight
+
 opendaylight:
   pkg.installed:
   - require:
@@ -43,18 +47,12 @@ opendaylight:
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
   service.running:
   - enable: true
+  - unmask: true
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
-
-# TODO: use service.masked state once salt get updated to 2017.7.0+
-service.mask:
-  module.run:
-  - m_name: opendaylight
-  - require_in:
-    - pkg: opendaylight
 
 /opt/opendaylight/etc/jetty.xml:
   file.managed:
