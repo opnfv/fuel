@@ -22,13 +22,13 @@ salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
   pattern="^\s{8}__salt__\['pkg.install'\]\('vlan'\)" \
   repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
 
-salt -C 'kvm*' pkg.install bridge-utils
+salt -C 'kvm* or cmp*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network,linux.system.kernel
 salt -C 'kvm* or cmp*' state.apply salt.minion
 wait_for 5.0 "salt -C 'cmp*' state.apply linux.system"
 # wrap distro `route` binary to silence errors when route already exists
 wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply opnfv.route_wrapper"
-salt -C 'cmp*' state.apply linux.network || true
+wait_for 5.0 "salt -C 'cmp*' state.apply linux.network"
 wait_for 30.0 "salt -C 'kvm* or cmp*' test.ping"
 
 # disable dhcp offered routes on compute nodes
