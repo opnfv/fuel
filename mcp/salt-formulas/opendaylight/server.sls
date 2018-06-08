@@ -43,16 +43,13 @@ opendaylight:
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
   service.running:
   - enable: true
+  - unmask: true
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
-
-# TODO: use service.masked state once salt get updated to 2017.7.0+
-service.mask:
-  module.run:
-  - m_name: opendaylight
+  service.masked:
   - require_in:
     - pkg: opendaylight
 
