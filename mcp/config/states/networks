@@ -35,3 +35,6 @@ salt -C 'I@nova:controller and *01*' cmd.run ". /root/keystonercv3; \
   openstack subnet create --gateway ${PUBLIC_NET_GATEWAY} --no-dhcp \
   --allocation-pool start=${POOL_START_IP},end=${POOL_END_IP} \
   --network floating_net --subnet-range ${PUBLIC_NET} floating_subnet"
+
+# Discover compute hosts after they are registered
+salt -C 'I@nova:controller and *01*' state.sls_id nova_controller_discover_hosts nova
