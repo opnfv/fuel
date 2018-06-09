@@ -67,8 +67,6 @@ parameters:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_heat_cfn:
           <<: *nginx_openstack_proxy_address
-        nginx_proxy_openstack_api_heat_cloudwatch:
-          <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_keystone:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_keystone_private:
@@ -85,6 +83,12 @@ parameters:
           <<: *nginx_openstack_proxy_address
         nginx_static_reclass_doc:
           <<: *nginx_openstack_proxy_address
+{%- else %}
+  nginx:
+    server:
+      site:
+        nginx_proxy_openstack_api_heat_cloudwatch:
+          enabled: false
 {%- endif %}
   salt:
     minion:

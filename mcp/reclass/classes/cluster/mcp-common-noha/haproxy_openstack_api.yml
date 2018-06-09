@@ -45,17 +45,6 @@ parameters:
               host: ${_param:cluster_node01_address}
               port: 9191
               params: ${_param:haproxy_check}
-        heat_cloudwatch_api:
-          type: openstack-service
-          service_name: heat
-          binds:
-            - address: ${_param:cluster_vip_address}
-              port: 8003
-          servers:
-            - name: ctl01
-              host: ${_param:cluster_node01_address}
-              port: 8003
-              params: ${_param:haproxy_check}
         heat_api:
           type: openstack-service
           service_name: heat
@@ -122,7 +111,7 @@ parameters:
           health-check:
             http:
               options:
-                - expect status 401
+                - expect status 405
           servers:
             - name: ctl01
               host: ${_param:cluster_node01_address}
