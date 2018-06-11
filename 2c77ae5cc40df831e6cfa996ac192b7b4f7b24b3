@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_25f2b99a",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/openstack_control.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-06-11T18:19:30Z",
+      "side": 1,
+      "message": "This creates an unexpected issue with [1] (see [2] for logs):\n    Rendering SLS \u0027base:salt.minion.grains\u0027 failed: Jinja variable \u0027dict object\u0027 has no attribute \u0027binds\u0027\n/var/cache/salt/minion/files/base/haproxy/meta/sphinx.yml(13):\n---\n[...]\n      param:\n        version:\n          value: \"{{ salt[\u0027cmd.shell\u0027](\u0027haproxy -v 2\u003e/dev/null || echo unknown\u0027)|replace(\u0027HA-Proxy version \u0027, \u0027\u0027) }}\"\n      endpoint:\n        {%- for listen_name, listen in proxy.get(\u0027listen\u0027, {}).iteritems() %}\n        {%- if listen.binds.0.address not in [\"127.0.0.1\", \"localhost\", \"::1\"] %}    \u003c\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nThat state does not check whether each server definition is enabled or not, it just tries to read the binds subkey.\nI think we can just leave it filled in, but disabled, i.e. remove these 2 lines altogether (I applied this manually in [2] to see whether it actually works).\n\n[1] https://github.com/salt-formulas/salt-formula-haproxy/blob/5b099ff98911be297c8c7877d221cf1541292a56/haproxy/meta/sphinx.yml#L13\n[2] https://build.opnfv.org/ci/view/armband/job/fuel-deploy-armband-baremetal-daily-master/780/console",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "2c77ae5cc40df831e6cfa996ac192b7b4f7b24b3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
