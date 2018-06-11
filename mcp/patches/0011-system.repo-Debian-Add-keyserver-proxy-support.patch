@@ -33,11 +33,11 @@ system.repo: Fix conditions order for Debian proxy
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- linux/system/repo.sls | 69 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 53 insertions(+), 16 deletions(-)
+ linux/system/repo.sls | 71 +++++++++++++++++++++++++++++++++----------
+ 1 file changed, 55 insertions(+), 16 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index b734498..61f203e 100644
+index 8b93ecb..bbfbde3 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
 @@ -5,9 +5,15 @@ linux_repo_prereq_pkgs:
@@ -115,10 +115,23 @@ index b734498..61f203e 100644
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.absent
  {%- endif %}
-@@ -96,9 +107,17 @@ linux_repo_{{ name }}_key:
-     - name: "curl -sL {{ repo.key_url }} | apt-key add -"
-     - watch:
+@@ -81,10 +92,8 @@ linux_repo_{{ name }}_pin:
+
+ linux_repo_{{ name }}_key:
+   cmd.run:
+-    - name: |
+-            echo "{{ repo.key | indent(12) }}" | apt-key add -
+-    - unless: |
+-            apt-key finger --with-colons | grep -qF $(echo "{{ repo.key| indent(12) }}" | gpg --with-fingerprint --with-colons | grep -E '^fpr')
++    - name: "echo '{{ repo.key | indent(12) }}' | apt-key add -"
++    - unless: "apt-key finger --with-colons | grep -qF $(echo '{{ repo.key| indent(12) }}' | gpg --with-fingerprint --with-colons | grep -E '^fpr')"
+     - require_in:
+     {%- if repo.get('default', False) %}
        - file: default_repo_list
+@@ -104,6 +113,13 @@ linux_repo_{{ name }}_key:
+     {% else %}
+       - pkgrepo: linux_repo_{{ name }}
+     {% endif %}
 +    - env:
 +{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
 +      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
@@ -127,38 +140,37 @@ index b734498..61f203e 100644
 +      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
 +{%- endif %}
 
- {%- endif %}
+ {%- endif %} {# 2 #}
 
-+{#- repo.default is false #}
- {%- else %}
+@@ -114,6 +130,10 @@ linux_repo_{{ name }}_key:
 
  {%- if repo.get('enabled', True) %}
-@@ -115,12 +134,6 @@ linux_repo_{{ name }}:
+
++{%- set use_proxy = ( ( proxies.repo.get('https', None) or proxies.system.get('https', None) or
++                        proxies.repo.get('http', None) or proxies.system.get('http', None) ) and
++                        repo.key_id is defined and repo.key_server is defined ) %}
++
+ linux_repo_{{ name }}:
+   pkgrepo.managed:
+   {%- if repo.ppa is defined %}
+@@ -126,10 +146,10 @@ linux_repo_{{ name }}:
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
 -  {%- if repo.key_id is defined %}
--  - keyid: {{ repo.key_id }}
--  {%- endif %}
++  {%- if not use_proxy and repo.key_id is defined %}
+   - keyid: {{ repo.key_id }}
+   {%- endif %}
 -  {%- if repo.key_server is defined %}
--  - keyserver: {{ repo.key_server }}
--  {%- endif %}
++  {%- if not use_proxy and repo.key_server is defined %}
+   - keyserver: {{ repo.key_server }}
+   {%- endif %}
    - consolidate: {{ repo.get('consolidate', False) }}
-   - clean_file: {{ repo.get('clean_file', False) }}
-   - refresh_db: {{ repo.get('refresh_db', True) }}
-@@ -154,9 +167,33 @@ linux_repo_{{ name }}_key:
-     - unless: "apt-key finger --with-colons | grep -qF $(curl -sL {{ repo.key_url }} | gpg --with-fingerprint --with-colons | grep -E '^fpr')"
-     - require_in:
-       - pkgrepo: linux_repo_{{ name }}
-+    - env:
-+{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
-+      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
-+{%- endif %}
-+{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
-+      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
-+{%- endif %}
+@@ -148,6 +168,25 @@ linux_repo_{{ name }}:
+   {%- endif %}
+   {%- endif %}
 
-+{%- elif repo.key_id is defined and repo.key_server is defined %}
++{%- if use_proxy and repo.key_id is defined and repo.key_server is defined %}
 +
 +linux_repo_{{ name }}_key:
 +  cmd.run:
@@ -172,8 +184,8 @@ index b734498..61f203e 100644
 +{%- endif %}
 +{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
 +      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
- {%- endif %}
-
++{%- endif %}
++
 +{%- endif %}
 +
 +{#- repo.enabled is false #}
