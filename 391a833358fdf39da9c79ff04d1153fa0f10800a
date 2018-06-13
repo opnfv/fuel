@@ -22,6 +22,30 @@
       "revId": "391a833358fdf39da9c79ff04d1153fa0f10800a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_16736d4e",
+        "filename": "mcp/reclass/classes/cluster/mcp-ovn-ha/openstack/control.yml",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-06-13T14:00:14Z",
+      "side": 1,
+      "message": "VLAN trunk support may not be ready yet on OVN.\nUntil I have a working configuration I think is better to leave it out and test it later, incrementally.\nBut I understand this is a desired feature.",
+      "parentUuid": "da5c1566_f6dcf976",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "391a833358fdf39da9c79ff04d1153fa0f10800a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
