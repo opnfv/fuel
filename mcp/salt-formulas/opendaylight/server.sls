@@ -32,9 +32,15 @@ opendaylight_repo:
   - name: deb http://ppa.launchpad.net/odl-team/{{ server.version }}/ubuntu xenial main
   - file: /etc/apt/sources.list.d/odl-team-ubuntu-{{ server.version }}-xenial.list
 
+{%- if grains['saltversioninfo'] < [2017, 7] %}
+service.mask:
+  module.run:
+  - m_name: opendaylight
+{%- else %}
 opendaylight_service_mask:
   service.masked:
   - name: opendaylight
+{%- endif %}
 
 opendaylight:
   pkg.installed:
@@ -47,7 +53,9 @@ opendaylight:
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
   service.running:
   - enable: true
+{%- if grains['saltversioninfo'] >= [2017, 7] %}
   - unmask: true
+{%- endif %}
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
     - file: /opt/opendaylight/bin/setenv
