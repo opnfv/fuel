@@ -33,11 +33,11 @@ system.repo: Fix conditions order for Debian proxy
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- linux/system/repo.sls | 71 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 55 insertions(+), 16 deletions(-)
+ linux/system/repo.sls | 65 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 53 insertions(+), 12 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index 8b93ecb..bbfbde3 100644
+index 303ea9c..5dfc4c1 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
 @@ -5,9 +5,15 @@ linux_repo_prereq_pkgs:
@@ -115,20 +115,7 @@ index 8b93ecb..bbfbde3 100644
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.absent
  {%- endif %}
-@@ -81,10 +92,8 @@ linux_repo_{{ name }}_pin:
-
- linux_repo_{{ name }}_key:
-   cmd.run:
--    - name: |
--            echo "{{ repo.key | indent(12) }}" | apt-key add -
--    - unless: |
--            apt-key finger --with-colons | grep -qF $(echo "{{ repo.key| indent(12) }}" | gpg --with-fingerprint --with-colons | grep -E '^fpr')
-+    - name: "echo '{{ repo.key | indent(12) }}' | apt-key add -"
-+    - unless: "apt-key finger --with-colons | grep -qF $(echo '{{ repo.key| indent(12) }}' | gpg --with-fingerprint --with-colons | grep -E '^fpr')"
-     - require_in:
-     {%- if repo.get('default', False) %}
-       - file: default_repo_list
-@@ -104,6 +113,13 @@ linux_repo_{{ name }}_key:
+@@ -110,6 +121,13 @@ linux_repo_{{ name }}_key:
      {% else %}
        - pkgrepo: linux_repo_{{ name }}
      {% endif %}
@@ -142,7 +129,7 @@ index 8b93ecb..bbfbde3 100644
 
  {%- endif %} {# 2 #}
 
-@@ -114,6 +130,10 @@ linux_repo_{{ name }}_key:
+@@ -120,6 +138,10 @@ linux_repo_{{ name }}_key:
 
  {%- if repo.get('enabled', True) %}
 
@@ -153,7 +140,7 @@ index 8b93ecb..bbfbde3 100644
  linux_repo_{{ name }}:
    pkgrepo.managed:
    {%- if repo.ppa is defined %}
-@@ -126,10 +146,10 @@ linux_repo_{{ name }}:
+@@ -132,10 +154,10 @@ linux_repo_{{ name }}:
    {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
@@ -165,8 +152,8 @@ index 8b93ecb..bbfbde3 100644
 +  {%- if not use_proxy and repo.key_server is defined %}
    - keyserver: {{ repo.key_server }}
    {%- endif %}
-   - consolidate: {{ repo.get('consolidate', False) }}
-@@ -148,6 +168,25 @@ linux_repo_{{ name }}:
+   {%- if repo.key_url is defined and (grains['saltversioninfo'] >= [2017, 7] or repo.key_url.startswith('salt://')) %}
+@@ -157,6 +179,25 @@ linux_repo_{{ name }}:
    {%- endif %}
    {%- endif %}
 
