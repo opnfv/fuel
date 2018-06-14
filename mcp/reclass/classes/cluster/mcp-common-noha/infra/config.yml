@@ -54,6 +54,8 @@ parameters:
   salt:
     master:
       file_recv: true
+      worker_threads: 2
+      command_timeout: 20
   reclass:
     storage:
       data_source:
