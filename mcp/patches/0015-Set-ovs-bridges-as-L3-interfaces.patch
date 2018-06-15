@@ -35,8 +35,11 @@ diff --git a/linux/files/ovs_port b/linux/files/ovs_port
 index 222ca8e..efb0307 100644
 --- a/linux/files/ovs_port
 +++ b/linux/files/ovs_port
-@@ -1,6 +1,9 @@
- auto {{ port_name }}
+@@ -1,6 +1,11 @@
++# With systemd, adding OVS bridges as 'auto' can cause race conditions
++# https://github.com/openvswitch/ovs/blob/master/debian/openvswitch-switch.README.Debian
++# auto {{ port_name }}
+-auto {{ port_name }}
  allow-{{ port.bridge }} {{ port_name }}
  iface {{ port_name }} inet {{ port.get('proto', 'manual') }}
 +{%- if '.' in port_name %}
