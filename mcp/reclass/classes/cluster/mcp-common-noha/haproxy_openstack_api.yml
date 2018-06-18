@@ -101,17 +101,10 @@ parameters:
               port: 9696
               params: ${_param:haproxy_check}
         nova_placement_api:
-          mode: http
+          type: openstack-service
           binds:
             - address: ${_param:cluster_vip_address}
               port: 8778
-          options:
-            - httpclose
-            - httplog
-          health-check:
-            http:
-              options:
-                - expect status 405
           servers:
             - name: ctl01
               host: ${_param:cluster_node01_address}

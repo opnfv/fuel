@@ -21,7 +21,7 @@ classes:
   - system.designate.server.cluster
   - system.designate.server.backend.bind
   - system.bind.server.single
-  - system.haproxy.proxy.listen.openstack.nova-placement
+  - system.haproxy.proxy.listen.openstack.placement
   - system.glusterfs.client.cluster
   - system.glusterfs.client.volume.glance
   - system.glusterfs.client.volume.keystone
@@ -134,11 +134,6 @@ parameters:
   haproxy:
     proxy:
       listen:
-        nova_placement_api:
-          health-check:
-            http:
-              ~options:
-                - expect status 405
         heat_cloudwatch_api:
           enabled: false
   bind:

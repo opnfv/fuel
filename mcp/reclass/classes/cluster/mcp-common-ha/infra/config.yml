@@ -67,7 +67,7 @@ parameters:
     master:
       accept_policy: open_mode
       file_recv: true
-      worker_threads: 4
+      worker_threads: 8
       command_timeout: 20
   reclass:
     storage:

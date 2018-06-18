@@ -71,3 +71,4 @@ parameters:
   nova:
     compute:
       disk_cachemodes: file=directsync,block=none
+      preallocate_images: space
