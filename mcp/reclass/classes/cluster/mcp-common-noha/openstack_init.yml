@@ -87,7 +87,7 @@ parameters:
     aodh_version: ${_param:openstack_version}
     keystone_aodh_password: opnfv_secret
     aodh_service_host: ${_param:cluster_local_address}
-    gnocchi_version: 4.0
+    gnocchi_version: 4.2
     gnocchi_service_host: ${_param:cluster_local_address}
     mysql_gnocchi_password: opnfv_secret
     keystone_gnocchi_password: opnfv_secret
