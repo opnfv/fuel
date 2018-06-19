@@ -33,6 +33,19 @@ parameters:
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
     region:
+      boot_sources_delete_all_others: true
+      boot_sources:
+        resources_mirror:
+          url: http://images.maas.io/ephemeral-v3/
+          keyring_file: /usr/share/keyrings/ubuntu-cloudimage-keyring.gpg
+      boot_sources_selections:
+        xenial:
+          url: "http://images.maas.io/ephemeral-v3/"
+          os: "ubuntu"
+          release: "${_param:linux_system_codename}"
+          arches: "{%- for arch in nm.cluster.arch %} {{ arch | dpkg_arch }}{%- endfor %}"
+          subarches: '"generic ga-16.04 hwe-16.04"'
+          labels: '"*"'
       subnets:
         {{ nm.net_admin }}:
           name: {{ nm.net_admin }}
@@ -47,8 +60,6 @@ parameters:
               vid: 0
               dhcp_on: true
               primary_rack: ${_param:infra_maas_node01_hostname}
-      # Space-separated list of dpkg architectures to be supported by MaaS
-      opnfv_arches:{%- for arch in nm.cluster.arch %} {{ arch | dpkg_arch }}{%- endfor %}
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
 {%- if 'aarch64' in nm.cluster.arch %}
