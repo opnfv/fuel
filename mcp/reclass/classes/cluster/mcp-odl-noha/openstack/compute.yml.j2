@@ -37,13 +37,7 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
         tenant_interface:
           type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
-{%- endif %}
-        external_interface:
-          enabled: true
-          type: eth
-          name: ${_param:external_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
+{%- else %}
         br-mesh:
           enabled: true
           type: bridge
@@ -52,6 +46,13 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - ${_param:tenant_interface}
+{%- endif %}
+        external_interface:
+          enabled: true
+          type: eth
+          name: ${_param:external_interface}
+          mtu: ${_param:interface_mtu}
+          proto: manual
         br-floating:
           enabled: true
           type: ovs_bridge

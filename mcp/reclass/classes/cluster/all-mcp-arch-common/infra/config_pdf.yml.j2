@@ -55,7 +55,7 @@ parameters:
             linux_system_codename: xenial
 
   {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
-  {%- if 'dpdk' in conf.cluster.domain %}
+  {%- if 'dpdk' in conf.cluster.domain or conf.MCP_DPDK_MODE %}
     {%- if conf.idf.fuel.reclass is defined %}
       {%- if conf.idf.fuel.reclass.node[i].compute_params.dpdk is defined %}
         {#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}
