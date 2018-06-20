@@ -36,6 +36,12 @@ parameters:
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
           mtu: ${_param:interface_mtu}
+          noifupdown: true
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.cmp001.nic_admin in nics %}
+  {%- do nics.pop(nm.cmp001.nic_admin) %}
+{%- endif %}
 
 {{ ma.linux_network_interfaces_nic(nics) }}
 
