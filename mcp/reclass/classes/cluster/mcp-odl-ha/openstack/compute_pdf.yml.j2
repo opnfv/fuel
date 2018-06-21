@@ -17,6 +17,11 @@ parameters:
     network:
       interface:
 
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.cmp001.nic_admin in nics %}
+  {%- do nics.pop(nm.cmp001.nic_admin) %}
+{%- endif %}
+
 {{ ma.linux_network_interfaces_nic(nics) }}
 
 {{ ma.linux_network_interfaces_vlan(vlans) }}
