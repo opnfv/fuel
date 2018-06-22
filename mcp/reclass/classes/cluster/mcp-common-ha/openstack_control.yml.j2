@@ -67,9 +67,37 @@ parameters:
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
     glusterfs_version: '3.13'
+  nova:
+    controller: &db_conn_recycle_time
+      database:
+        connection_recycle_time: ${_param:db_connection_recycle_time}
+  cinder:
+    controller:
+      <<: *db_conn_recycle_time
+  neutron:
+    server:
+      <<: *db_conn_recycle_time
+      vlan_aware_vms: true
+      root_helper_daemon: false
+  keystone:
+    server:
+      <<: *db_conn_recycle_time
+      cacert: /etc/ssl/certs/mcp_os_cacert
+      openrc_extra:
+        volume_device_name: vdc
+  glance:
+    server:
+      <<: *db_conn_recycle_time
+  aodh:
+    server:
+      <<: *db_conn_recycle_time
+  panko:
+    server:
+      <<: *db_conn_recycle_time
 {%- if conf.MCP_VCP %}
   heat:
     server:
+      <<: *db_conn_recycle_time
       metadata:
         host: ${_param:openstack_proxy_control_address}
         port: 8000
@@ -119,20 +147,14 @@ parameters:
             diagnostics.client-log-level: WARNING
             diagnostics.brick-log-level: WARNING
 {%- endif %}
-  neutron:
-    server:
-      vlan_aware_vms: true
-      root_helper_daemon: false
-  keystone:
-    server:
-      cacert: /etc/ssl/certs/mcp_os_cacert
-      openrc_extra:
-        volume_device_name: vdc
   haproxy:
     proxy:
       listen:
         heat_cloudwatch_api:
           enabled: false
+        neutron_api:
+          # Set source balancing
+          type: heat
   bind:
     server:
       control:

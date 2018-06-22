@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.mirror.v1.openstack
   - system.linux.system.repo.glusterfs
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
@@ -51,6 +50,8 @@ parameters:
         lvm-driver:
           # Align system.cinder.volume.backend.lvm and MaaS data
           volume_group: ${linux:storage:lvm:cinder-vg:name}
+      database:
+        connection_recycle_time: ${_param:db_connection_recycle_time}
   linux:
     storage:
       lvm:

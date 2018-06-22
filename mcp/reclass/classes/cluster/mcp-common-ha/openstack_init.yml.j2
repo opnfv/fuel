@@ -123,6 +123,7 @@ parameters:
 
     openstack_region: RegionOne
     admin_email: root@localhost
+    db_connection_recycle_time: 300
     # Neutron osv/nodvr
     neutron_control_dvr: 'False'
     neutron_global_physnet_mtu: 1500
@@ -247,6 +248,10 @@ parameters:
           source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
           key_id: EC4926EA
           key_server: keyserver.ubuntu.com
+          pin:
+            - pin: 'release o=Canonical'
+              priority: 1200
+              package: 'python-pymysql'
       kernel:
         sysctl:
           net.ipv4.tcp_congestion_control: yeah
