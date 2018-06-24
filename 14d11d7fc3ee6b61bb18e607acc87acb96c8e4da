@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_1f13705d",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/infra/maas.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-06-24T21:29:19Z",
+      "side": 1,
+      "message": "salt-formula-maas docs are wrong afaict, this needs \u0027daily\u0027 to be present in the URI.\nalso, no trailing \u0027/\u0027 to trick maasng into thinking this is  a different boot source than the default (already present one)",
+      "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_ff0f9c2c",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/infra/maas.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-06-24T21:29:19Z",
+      "side": 1,
+      "message": "couldn\u0027t convince maasng into selecting only a few subarches, let maas fetch all of them again",
+      "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
