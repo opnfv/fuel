@@ -51,6 +51,24 @@
       "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_7a31daa1",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/infra/maas.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-06-25T12:30:52Z",
+      "side": 1,
+      "message": "That example only works for maas mirrors as a filter when syncing.\nHowever, I retested this with a YAML subarch array and it seems to work as expected (previously I saw two warnings that made me think it doesn\u0027t).",
+      "parentUuid": "da5c1566_3f1d94be",
+      "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
