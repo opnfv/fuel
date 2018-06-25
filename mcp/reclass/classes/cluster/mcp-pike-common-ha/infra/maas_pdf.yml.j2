@@ -22,15 +22,18 @@ parameters:
           name: {{ net_admin }}
           cidr: {{ net_admin }}
           gateway_ip: ${_param:single_address}
+          fabric: fabric-2
           iprange:
             start: ${_param:opnfv_infra_maas_pxe_start_address}
             end: ${_param:opnfv_infra_maas_pxe_end_address}
             type: dynamic
-          vlans:
-            untagged:
-              vid: 0
-              dhcp_on: true
-              primary_rack: ${_param:infra_maas_node01_hostname}
+      fabrics:
+        fabric-2:
+          description: "Fabric Admin"
+          vlan:
+            0:
+              description: "VLAN 0"
+              dhcp: true
       # Space-separated list of dpkg architectures to be supported by MaaS
       opnfv_arches:{%- for arch in cluster_arch %} {{ arch | dpkg_arch }}{%- endfor %}
       sshprefs:
