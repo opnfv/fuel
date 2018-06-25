@@ -33,6 +33,24 @@
       "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_3f1d94be",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/infra/maas.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-06-25T09:39:32Z",
+      "side": 1,
+      "message": "The example from README doesn\u0027t work?\nfilters: [\u0027subarch~(generic|hwe-16.04$|ga-16.04)\u0027]",
+      "parentUuid": "da5c1566_ff0f9c2c",
+      "revId": "14d11d7fc3ee6b61bb18e607acc87acb96c8e4da",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
