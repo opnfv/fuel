@@ -31,6 +31,7 @@ parameters:
     hwe_kernel: 'hwe-16.04'
     opnfv_maas_timeout_comissioning: {{ nm.maas_timeout_comissioning }}
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
+    maas_fabric_admin: fabric-2
   maas:
     region:
       boot_sources_delete_all_others: true
@@ -57,15 +58,18 @@ parameters:
           name: {{ nm.net_admin }}
           cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
+          fabric: ${_param:maas_fabric_admin}
           iprange:
             start: {{ nm.net_admin_pool_start }}
             end: {{ nm.net_admin_pool_end }}
             type: dynamic
-          vlans:
-            untagged:
-              vid: 0
-              dhcp_on: true
-              primary_rack: ${_param:infra_maas_node01_hostname}
+      fabrics:
+        ${_param:maas_fabric_admin}:
+          description: "Fabric Admin"
+          vlan:
+            0:
+              description: "VLAN 0"
+              dhcp: true
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
 {%- if 'aarch64' in nm.cluster.arch %}

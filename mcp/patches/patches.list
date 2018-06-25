@@ -6,7 +6,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
-/usr/share/salt-formulas/env: 0006-maas-module-Add-VLAN-DHCP-enable-support.patch
 /usr/share/salt-formulas/env: 0007-network.interface-Fix-ifup-OVS-port-with-route.patch
 /usr/share/salt-formulas/env: 0008-Handle-extra-environment-variables.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
