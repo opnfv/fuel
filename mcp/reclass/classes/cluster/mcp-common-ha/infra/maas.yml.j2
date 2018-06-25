@@ -57,6 +57,7 @@ parameters:
           name: {{ nm.net_admin }}
           cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
+          fabric: fabric-2
           iprange:
             start: {{ nm.net_admin_pool_start }}
             end: {{ nm.net_admin_pool_end }}
