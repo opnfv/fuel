@@ -67,6 +67,12 @@ parameters:
     master:
       accept_policy: open_mode
       file_recv: true
+      environment:
+        prd:
+          formula:
+            maas:
+              # Pin MaaS formula before subnet/fabric rework
+              version: 0.0.1+201806201913.cb54d14~xenial1
   reclass:
     storage:
       data_source:
