@@ -46,6 +46,30 @@
       "revId": "c875da0f72a06e05bdf76f1f2ab9e1a7136b8ae3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_155b5088",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/openstack_init.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-06-26T10:38:27Z",
+      "side": 1,
+      "message": "Thought about to get ipxe-qemu as well, so it seems leading asterisk ain\u0027t required.",
+      "parentUuid": "da5c1566_1584f0d2",
+      "range": {
+        "startLine": 254,
+        "startChar": 48,
+        "endLine": 254,
+        "endChar": 54
+      },
+      "revId": "c875da0f72a06e05bdf76f1f2ab9e1a7136b8ae3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
