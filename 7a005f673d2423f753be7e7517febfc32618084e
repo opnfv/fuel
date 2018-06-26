@@ -45,6 +45,30 @@
       "revId": "7a005f673d2423f753be7e7517febfc32618084e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_15ffd068",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/infra/maas.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-06-26T10:10:57Z",
+      "side": 1,
+      "message": "you\u0027re right, will hardcode it then",
+      "parentUuid": "da5c1566_35a01490",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "7a005f673d2423f753be7e7517febfc32618084e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
