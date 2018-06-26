@@ -57,15 +57,18 @@ parameters:
           name: {{ nm.net_admin }}
           cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
+          fabric: fabric-2
           iprange:
             start: {{ nm.net_admin_pool_start }}
             end: {{ nm.net_admin_pool_end }}
             type: dynamic
-          vlans:
-            untagged:
-              vid: 0
-              dhcp_on: true
-              primary_rack: ${_param:infra_maas_node01_hostname}
+      fabrics:
+        fabric-2:
+          description: "Fabric Admin"
+          vlan:
+            0:
+              description: "VLAN 0"
+              dhcp: true
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
 {%- if 'aarch64' in nm.cluster.arch %}
