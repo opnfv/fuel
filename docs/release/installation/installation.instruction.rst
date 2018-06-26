@@ -228,8 +228,8 @@ create a new sources list file `/apt/sources.list.d/armband.list` with the follo
 .. code-block:: bash
 
     $ cat /etc/apt/sources.list.d/armband.list
-    //for OpenStack Pike release
-    deb http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
+    //for OpenStack Queens release
+    deb http://linux.enea.com/mcp-repos/queens/xenial queens-armband main
 
     $ apt-get update
 
@@ -412,6 +412,11 @@ These steps are common both for virtual and baremetal deploys.
                       -D \
                       -S <Storage directory for disk images> |& tee deploy.log
 
+   **NOTE**: The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
+   for hardware and network configuration of all current OPNFV PODs.
+   When deploying a new POD, one can pass the `-b` flag to the deploy script to override
+   the path for the labconfig directory structure containing the PDF and IDF (see below).
+
 Examples
 --------
 #. Virtual deploy
@@ -433,6 +438,19 @@ Examples
    Once the deployment is complete, the OpenStack Dashboard, Horizon, is
    available at http://<controller VIP>:8078
    The administrator credentials are **admin** / **opnfv_secret**.
+
+   A simple (and generic) sample PDF/IDF set of configuration files may
+   be used for virtual deployments by setting lab/POD name to 'local-virtual1'.
+   This sample configuration is x86_64 specific and hardcodes certain parameters,
+   like public network address space, so a dedicated PDF/IDF is highly recommended.
+
+      .. code-block:: bash
+
+          $ ci/deploy.sh -l local \
+                         -p virtual1 \
+                         -s os-nosdn-nofeature-noha \
+                         -D \
+                         -S /home/jenkins/tmpdir |& tee deploy.log
 
 #. Baremetal deploy
 
@@ -471,10 +489,8 @@ Examples
    Once the deployment is complete, the SaltStack Deployment Documentation is
    available at http://<proxy public VIP>:8090
 
-**NOTE**: The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
-for hardware and network configuration of all current OPNFV PODs.
-When deploying a new POD, one can pass the `-b` flag to the deploy script to override
-the path for the labconfig directory structure containing the PDF and IDF.
+   When deploying a new POD, one can pass the `-b` flag to the deploy script to override
+   the path for the labconfig directory structure containing the PDF and IDF.
 
    .. code-block:: bash
 
@@ -582,7 +598,7 @@ OPNFV
 
 OpenStack
 
-4) `OpenStack Pike Release Artifacts <http://www.openstack.org/software/pike>`_
+4) `OpenStack Queens Release Artifacts <http://www.openstack.org/software/queens>`_
 5) `OpenStack Documentation <http://docs.openstack.org>`_
 
 OpenDaylight
