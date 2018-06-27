@@ -16,6 +16,7 @@ classes:
   - system.ceilometer.client.cinder_volume
   - system.ceilometer.agent.polling.default
   - system.linux.system.repo.mcp.openstack
+  - service.barbican.client.single
   - cluster.mcp-common-noha.openstack_compute_pdf
 parameters:
   _param:
@@ -34,6 +35,8 @@ parameters:
         user: neutron
         tenant: service
         password: ${_param:keystone_neutron_password}
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   neutron:
     compute:
       notification: true
@@ -54,6 +57,8 @@ parameters:
         host: ${_param:cluster_local_address}
       message_queue:
         host: ${_param:cluster_local_address}
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   nfs:
     client:
       mount:

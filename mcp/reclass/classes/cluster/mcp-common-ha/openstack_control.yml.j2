@@ -20,6 +20,9 @@ classes:
   - system.heat.server.cluster
   - system.designate.server.cluster
   - system.designate.server.backend.bind
+  - system.barbican.server.cluster
+  - system.apache.server.site.barbican
+  - service.barbican.server.plugin.simple_crypto
   - system.bind.server.single
   - system.haproxy.proxy.listen.openstack.placement
   - system.glusterfs.client.cluster
@@ -71,6 +74,8 @@ parameters:
     controller: &db_conn_recycle_time
       database:
         connection_recycle_time: ${_param:db_connection_recycle_time}
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   cinder:
     controller:
       <<: *db_conn_recycle_time
@@ -149,6 +154,17 @@ parameters:
         neutron_api:
           # Set source balancing
           type: heat
+  barbican:
+    server:
+      ks_notifications_enable: true
+      store:
+        software:
+          crypto_plugin: simple_crypto
+          store_plugin: store_crypto
+          global_default: true
+      database:
+        connection_recycle_time: ${_param:db_connection_recycle_time}
+        host: ${_param:openstack_database_address}
   bind:
     server:
       control:

@@ -153,3 +153,25 @@ parameters:
               host: ${_param:cluster_node01_address}
               port: 8042
               params: ${_param:haproxy_check}
+        barbican_api:
+          type: openstack-service
+          service_name: barbican
+          binds:
+            - address: ${_param:cluster_vip_address}
+              port: 9311
+          servers:
+            - name: ctl01
+              host: ${_param:cluster_node01_address}
+              port: 9311
+              params: ${_param:haproxy_check}
+        barbican_admin_api:
+          type: openstack-service
+          service_name: barbican
+          binds:
+            - address: ${_param:cluster_vip_address}
+              port: 9312
+          servers:
+            - name: ctl01
+              host: ${_param:cluster_node01_address}
+              port: 9312
+              params: ${_param:haproxy_check}
