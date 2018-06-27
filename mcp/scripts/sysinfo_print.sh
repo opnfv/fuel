@@ -19,6 +19,7 @@ df -h
 brctl show
 ip a
 route -n
+iptables -S
 
 # Distro & pkg info
 cat /etc/*-release
