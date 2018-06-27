@@ -320,6 +320,13 @@ fi
 
 popd > /dev/null
 
+# Set iptables rule to allow forwarding return traffic for container
+redirect=/dev/stdout
+if ! sudo iptables -C FORWARD -j RETURN 2> ${redirect} || ! sudo iptables -L FORWARD | awk 'NR==3' | grep RETURN 2> ${redirect}; then
+    sudo iptables -I FORWARD -j RETURN
+fi
+sudo iptables -S
+
 #
 # END of main
 ##############################################################################
