@@ -19,6 +19,11 @@ df -h
 brctl show
 ip a
 route -n
+sudo iptables -S
+set +e
+rc=0; while [ $rc -eq 0 ]; do sudo iptables -D FORWARD -j RETURN; rc=$?; done
+set -e
+sudo iptables -S
 
 # Distro & pkg info
 cat /etc/*-release
