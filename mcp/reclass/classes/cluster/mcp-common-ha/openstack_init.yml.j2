@@ -184,6 +184,14 @@ parameters:
     keystone_neutron_password: opnfv_secret
     keystone_nova_password: opnfv_secret
     keystone_designate_password: opnfv_secret
+
+    barbican_version: ${_param:openstack_version}
+    barbican_service_host: ${_param:openstack_control_address}
+    mysql_barbican_password: opnfv_secret
+    keystone_barbican_password: opnfv_secret
+    barbican_simple_crypto_kek: "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY="
+    barbican_integration_enabled: 'True'
+
     ceilometer_secret_key: opnfv_secret
     horizon_version: ${_param:openstack_version}
     horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e

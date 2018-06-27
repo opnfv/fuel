@@ -26,6 +26,7 @@ classes:
   - system.keystone.client.service.aodh
   - system.keystone.client.service.gnocchi
   - system.keystone.client.service.panko
+  - system.keystone.client.service.barbican
   - system.glance.control.single
   - system.nova.control.single
   - system.cinder.control.single
@@ -42,6 +43,9 @@ classes:
   - system.galera.server.database.aodh
   - system.galera.server.database.gnocchi
   - system.galera.server.database.panko
+  - system.galera.server.database.barbican
+  - system.barbican.server.single
+  - service.barbican.server.plugin.simple_crypto
   - service.redis.server.single
   - service.ceilometer.server.single
   - system.ceilometer.server.coordination.redis
@@ -55,6 +59,7 @@ classes:
   - service.panko.server.single
   - system.apache.server.site.gnocchi
   - system.apache.server.site.panko
+  - system.apache.server.site.barbican
   - system.horizon.server.single
   - service.haproxy.proxy.single
   - cluster.mcp-common-noha.haproxy_openstack_api
@@ -99,6 +104,12 @@ parameters:
         engine: file
       images: []
       workers: 1
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
+  cinder:
+    controller:
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   nova:
     controller:
       networking: dvr
@@ -111,6 +122,8 @@ parameters:
         novncproxy_port: 6080
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       workers: 1
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   horizon:
     server:
       # yamllint disable-line rule:truthy
@@ -162,6 +175,18 @@ parameters:
   apache:
     server:
       site:
-        gnocchi:
+        gnocchi: &wsgi_threads
           wsgi:
             threads: 1
+        barbican:
+          <<: *wsgi_threads
+        barbican_admin:
+          <<: *wsgi_threads
+  barbican:
+    server:
+      ks_notifications_enable: 'True'
+      store:
+        software:
+          crypto_plugin: simple_crypto
+          store_plugin: store_crypto
+          global_default: 'True'
