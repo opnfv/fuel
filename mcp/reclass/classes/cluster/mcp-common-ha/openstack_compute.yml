@@ -17,6 +17,7 @@ classes:
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
   - system.ceilometer.agent.polling.default
+  - service.barbican.client.cluster
   - cluster.mcp-common-ha.openstack_compute_pdf
   - cluster.mcp-common-ha.include.maas_proxy
   - cluster.mcp-common-ha.include.lab_proxy_pdf
@@ -53,6 +54,8 @@ parameters:
           volume_group: ${linux:storage:lvm:cinder-vg:name}
       database:
         connection_recycle_time: ${_param:db_connection_recycle_time}
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
   linux:
     storage:
       lvm:
@@ -75,3 +78,5 @@ parameters:
     compute:
       disk_cachemodes: file=directsync,block=none
       preallocate_images: space
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
