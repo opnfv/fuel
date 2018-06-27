@@ -2,7 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) 2017 Mirantis Inc., Enea Software AB and others
 
-This document provides scenario level details for Fraser 6.1 of
+This document provides scenario level details for Fraser 6.2 of
 deployment with no SDN controller and no extra features enabled.
 
 ============
