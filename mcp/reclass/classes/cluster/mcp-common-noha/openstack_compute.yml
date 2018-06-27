@@ -16,6 +16,7 @@ classes:
   - system.ceilometer.client.cinder_volume
   - system.ceilometer.agent.polling.default
   - system.linux.system.repo.mcp.openstack
+  - service.barbican.client.single
   - cluster.mcp-common-noha.openstack_compute_pdf
 parameters:
   _param:

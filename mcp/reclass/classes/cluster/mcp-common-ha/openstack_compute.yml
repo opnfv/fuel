@@ -17,6 +17,7 @@ classes:
   - system.cinder.volume.backend.lvm
   - system.ceilometer.agent.cluster
   - system.ceilometer.agent.polling.default
+  - service.barbican.client.cluster
   - cluster.mcp-common-ha.openstack_compute_pdf
   - cluster.mcp-common-ha.include.maas_proxy
   - cluster.mcp-common-ha.include.lab_proxy_pdf

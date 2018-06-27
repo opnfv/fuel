@@ -46,6 +46,9 @@ salt -I 'neutron:compute' state.sls neutron
 
 salt -I 'nova:compute' state.sls nova
 
+salt -I 'barbican:server' state.sls barbican
+salt -I 'barbican:client' state.sls barbican
+
 salt -I 'redis:server' state.sls redis
 salt -I 'gnocchi:server' state.sls gnocchi
 salt -I 'panko:server' state.sls panko
