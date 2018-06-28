@@ -1,0 +1,71 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 28 Jun 2018 20:48:09 +0200
+Subject: [PATCH] maasng: Allow fabric ID to be determined from CIDR
+
+MaaS usually creates network resources (e.g. subnets, fabrics)
+automatically based on existing network interface definitions.
+However, the fabric naming is not guaranteed across deployments,
+so the same interface/subnet CIDR might end up as 'fabric-2' or
+'fabric-5' depending on non-deterministic factors.
+
+To allow configuring VLAN DHCP on such network segments we need a
+mechanism that does not hardcode the fabric ID in pillar data, but
+instead determines it at runtime based on subnet CIDR.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ README.rst         | 20 +++++++++++++++++++-
+ _modules/maasng.py |  7 ++++++-
+ maas/region.sls    | 13 +++++++++++++
+ 3 files changed, 38 insertions(+), 2 deletions(-)
+
+diff --git a/_modules/maasng.py b/_modules/maasng.py
+index ce8e99e..b731681 100644
+--- a/_modules/maasng.py
++++ b/_modules/maasng.py
+@@ -966,7 +966,12 @@ def get_fabricid(fabric):
+     try:
+         return list_fabric()[fabric]['id']
+     except KeyError:
+-        return {"error": "Frabic not found on MaaS server"}
++        # fabric might be specified as CIDR, try to find the actual fabric ID
++        maas_subnets = list_subnet()
++        for subnet in maas_subnets.keys():
++            if maas_subnets[subnet]['cidr'] == cidr:
++                return maas_subnets[subnet]['vlan']['fabric_id']
++        return {"error": "Fabric not found on MaaS server"}
+
+
+ def update_vlan(name, fabric, vid, description, primary_rack, dhcp_on=False):
+diff --git a/maas/region.sls b/maas/region.sls
+index f50b901..4ca434a 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -305,6 +305,19 @@ maas_create_subnet_{{ subnet_name }}:
+     {%- endif %}
+ {%- endfor %}
+
++{%- for subnet_name, subnet in region.subnets.iteritems() %}
++{%- for vid, vlan in subnet.get('vlan', {}).items() %}
++maas_update_vlan_for_{{ subnet_name }}_{{ vid }}:
++  maasng.update_vlan:
++  - vid: {{ vid }}
++  - fabric: {{ subnet.cidr }}
++  - name: {{ vlan.get('name', '') }}
++  - description: {{ vlan.description }}
++  - primary_rack: {{ region.maas_config.maas_name }}
++  - dhcp_on: {{ vlan.get('dhcp','False') }}
++{%- endfor %}
++{%- endfor %}
++
+ {%- for subnet_name, subnet in region.subnets.iteritems() %}
+ {%- if subnet.get('multiple') == True %}
+ {%- for range_name, iprange in subnet.get('iprange',{}).items() %}
