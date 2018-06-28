@@ -1,0 +1,127 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 29 Jun 2018 02:48:55 +0200
+Subject: [PATCH] maasng: Allow fabric ID to be determined from CIDR
+
+MaaS usually creates network resources (e.g. subnets, fabrics)
+automatically based on existing network interface definitions.
+However, the fabric naming is not guaranteed across deployments,
+so the same interface/subnet CIDR might end up as 'fabric-2' or
+'fabric-5' depending on non-deterministic factors.
+
+To allow configuring VLAN DHCP on such network segments we need a
+mechanism that does not hardcode the fabric ID in pillar data, but
+instead determines it at runtime based on subnet CIDR.
+
+maasng module: Fix 'name' arg in update_vlan
+
+name argument is silently overridden to use the state name if the
+value passed is not a string, leading to all kinds of breakage.
+
+While at it, default to using the VLAN ID as the name if not
+explicitly set.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ README.rst         | 20 +++++++++++++++++++-
+ _modules/maasng.py |  7 ++++++-
+ maas/region.sls    | 16 +++++++++++++++-
+ 3 files changed, 40 insertions(+), 3 deletions(-)
+
+diff --git a/README.rst b/README.rst
+index 5a7429e..e03d5a1 100644
+--- a/README.rst
++++ b/README.rst
+@@ -202,7 +202,7 @@ Multiple ip ranges for one particular subnet.
+               comment: 'Comment 2'
+
+
+-Update Vlan
++Update Vlan based on fabric name
+
+ NOTE: Vid 0 has default name untagged in MaaS UI
+
+@@ -221,6 +221,24 @@ NOTE: Vid 0 has default name untagged in MaaS UI
+               description: "Your VLAN 13"
+               dhcp: False
+
++Update Vlan based on subnet CIDR (if maas:region:fabrics is not defined)
++
++.. code-block:: yaml
++
++  maas:
++    region:
++      subnets:
++        subnet1:
++          fabric: fabric-2  # Created by MaaS based on network interfaces
++          cidr: 2.2.3.0/24  # cidr is used to match this subnet to its fabric
++          vlan:
++            0:
++              description: "Your VLAN 0"
++              dhcp: True
++            13:
++              description: "Your VLAN 13"
++              dhcp: False
++
+ Create disk schema per machine via maas/client.sls with default lvm schema + default values
+
+ NOTE: This should be used mostly for custom root partitioning and RAID configuration. For not-root partitions please use salt-formulas/salt-formula-linux.
+diff --git a/_modules/maasng.py b/_modules/maasng.py
+index ce8e99e..706c0ec 100644
+--- a/_modules/maasng.py
++++ b/_modules/maasng.py
+@@ -966,7 +966,12 @@ def get_fabricid(fabric):
+     try:
+         return list_fabric()[fabric]['id']
+     except KeyError:
+-        return {"error": "Frabic not found on MaaS server"}
++        # fabric might be specified as CIDR, try to find the actual fabric ID
++        maas_subnets = list_subnet()
++        for subnet in maas_subnets.keys():
++            if maas_subnets[subnet]['cidr'] == fabric:
++                return maas_subnets[subnet]['vlan']['fabric_id']
++        return {"error": "Fabric not found on MaaS server"}
+
+
+ def update_vlan(name, fabric, vid, description, primary_rack, dhcp_on=False):
+diff --git a/maas/region.sls b/maas/region.sls
+index f50b901..61ef805 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -305,6 +305,20 @@ maas_create_subnet_{{ subnet_name }}:
+     {%- endif %}
+ {%- endfor %}
+
++{%- for subnet_name, subnet in region.subnets.iteritems() %}
++{%- for vid, vlan in subnet.get('vlan', {}).items() %}
++maas_update_vlan_for_{{ subnet_name }}_{{ vid }}:
++  module.run:
++  - name: maasng.update_vlan
++  - vid: {{ vid }}
++  - fabric: {{ subnet.cidr }}
++  - name: '{{ vlan.get('name', vid) }}'
++  - description: {{ vlan.description }}
++  - primary_rack: {{ region.maas_config.maas_name }}
++  - dhcp_on: {{ vlan.get('dhcp','False') }}
++{%- endfor %}
++{%- endfor %}
++
+ {%- for subnet_name, subnet in region.subnets.iteritems() %}
+ {%- if subnet.get('multiple') == True %}
+ {%- for range_name, iprange in subnet.get('iprange',{}).items() %}
+@@ -375,7 +389,7 @@ maas_update_vlan_for_{{ fabric_name }}_{{ vid }}:
+   maasng.update_vlan:
+   - vid: {{ vid }}
+   - fabric: {{ fabric_name }}
+-  - name: {{ vlan.get('name','') }}
++  - name: '{{ vlan.get('name', vid) }}'
+   - description: {{ vlan.description }}
+   - primary_rack: {{ region.maas_config.maas_name }}
+   - dhcp_on: {{ vlan.get('dhcp','False') }}
