@@ -13,12 +13,14 @@
 opendaylight_repo_key:
   cmd.run:
     - name: "apt-key adv --keyserver keyserver.ubuntu.com --recv 44C05248"
+{%- if system.proxy is defined and system.proxy.pkg is defined %}
     - env:
 {%- if system.proxy.pkg.http is defined %}
       - http_proxy: {{ system.proxy.pkg.http }}
 {%- endif %}
 {%- if system.proxy.pkg.https is defined %}
       - https_proxy: {{ system.proxy.pkg.https }}
+{%- endif %}
 {%- endif %}
 
 opendaylight_repo:
