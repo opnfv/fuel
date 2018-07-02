@@ -72,6 +72,8 @@ parameters:
         config:
           prefer_ipv4:
             Acquire::ForceIPv4: true
+          allow_downgrades:
+            APT::Get::allow-downgrades: true
       user:
         ubuntu:
           enabled: true
