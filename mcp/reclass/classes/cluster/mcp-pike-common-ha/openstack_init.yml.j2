@@ -5,6 +5,12 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- set cluster_arch = [] %}
+{%- for node in conf.nodes %}
+  {%- if node.node.arch not in cluster_arch %}
+    {%- do cluster_arch.append(node.node.arch) %}
+  {%- endif %}
+{%- endfor %}
 ---
 parameters:
   _param:
@@ -260,6 +266,14 @@ parameters:
             - pin: 'release o=Canonical'
               priority: 1200
               package: 'openvswitch* python-openvswitch ovn*'
+{%- if 'aarch64' in cluster_arch %}
+        armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
+          source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
+          pin:
+            - pin: 'release a=${_param:openstack_version}-armband'
+              priority: 1201
+              package: '*'
+{%- endif %}
       kernel:
         sysctl:
           net.ipv4.tcp_congestion_control: yeah

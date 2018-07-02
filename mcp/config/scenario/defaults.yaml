@@ -40,7 +40,7 @@ aarch64:
       repos:
         # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
         - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11 xenial main
-        - armband 1100 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
+        - armband 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/pike/xenial pike-armband main
     pkg:
       install:
         - linux-generic-hwe-16.04
