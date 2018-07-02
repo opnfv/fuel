@@ -252,6 +252,14 @@ parameters:
             - pin: 'release o=Canonical'
               priority: 1200
               package: 'python-pymysql libvirt* *qemu*'
+{%- if 'aarch64' in nm.cluster.arch %}
+        armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
+          source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
+          pin:
+            - pin: 'release a=${_param:openstack_version}-armband'
+              priority: 1201
+              package: '*'
+{%- endif %}
       kernel:
         sysctl:
           net.ipv4.tcp_congestion_control: yeah
