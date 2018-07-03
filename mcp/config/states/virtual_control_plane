@@ -54,7 +54,6 @@ wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
 wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"
 
-salt -C 'prx*' state.apply opnfv.route_wrapper
 salt -C 'prx*' system.reboot
 wait_for 30.0 "salt -C 'prx*' test.ping"
 
