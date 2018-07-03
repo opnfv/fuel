@@ -113,7 +113,6 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
 
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.system,linux.storage'
   wait_for 2.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.network'
-  salt -C "E@^(${NODE_MASK}).*" state.sls opnfv.route_wrapper
   salt -C "E@^(${NODE_MASK}).*" system.reboot
   wait_for 90.0 'salt -C "E@^(${NODE_MASK}).*" test.ping'
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" pkg.upgrade refresh=False dist_upgrade=True'
