@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_c360f137",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 20
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-07-04T13:33:07Z",
+      "side": 1,
+      "message": "Without this, neutron state does not install cmp required packages [1]\n\n1. https://github.com/salt-formulas/salt-formula-neutron/blob/master/neutron/compute.sls#L270",
+      "range": {
+        "startLine": 53,
+        "startChar": 36,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "c95151025e5f0e33c05154fb67298ae38f983cb8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
