@@ -5,7 +5,6 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-/usr/share/salt-formulas/env: 0001-maasng-Allow-fabric-ID-to-be-determined-from-CIDR.patch
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0003-maas-region-force-artifact-download.patch
 /usr/share/salt-formulas/env: 0007-network.interface-Fix-ifup-OVS-port-with-route.patch

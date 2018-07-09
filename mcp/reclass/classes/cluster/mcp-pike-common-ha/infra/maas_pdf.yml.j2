@@ -17,20 +17,28 @@
 parameters:
   maas:
     region:
+      fabrics:
+        pxe_admin:
+          name: 'pxe_admin'
+          description: Fabric for PXE/admin
+          vlans:
+            0:
+              name: 'vlan 0'
+              description: PXE/admin VLAN
+              dhcp: true
+              primary_rack: "${linux:network:hostname}"
       subnets:
         {{ net_admin }}:
           name: {{ net_admin }}
           cidr: {{ net_admin }}
           gateway_ip: ${_param:single_address}
-          fabric: fabric-2
-          iprange:
-            start: ${_param:opnfv_infra_maas_pxe_start_address}
-            end: ${_param:opnfv_infra_maas_pxe_end_address}
-            type: dynamic
-          vlan:
-            0:
-              description: "VLAN 0"
-              dhcp: true
+          fabric: ${maas:region:fabrics:pxe_admin:name}
+          vlan: 0
+          ipranges:
+            1:
+              start: ${_param:opnfv_infra_maas_pxe_start_address}
+              end: ${_param:opnfv_infra_maas_pxe_end_address}
+              type: dynamic
       # Space-separated list of dpkg architectures to be supported by MaaS
       opnfv_arches:{%- for arch in cluster_arch %} {{ arch | dpkg_arch }}{%- endfor %}
       sshprefs:
