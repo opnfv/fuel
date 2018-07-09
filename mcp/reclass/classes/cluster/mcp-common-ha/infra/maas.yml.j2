@@ -52,20 +52,28 @@ parameters:
             - "ga-16.04"
             - "hwe-16.04"
           labels: '"*"'
+      fabrics:
+        pxe_admin:
+          name: 'pxe_admin'
+          description: Fabric for PXE/admin
+          vlans:
+            0:
+              name: 'vlan 0'
+              description: PXE/admin VLAN
+              dhcp: true
+              primary_rack: "${linux:network:hostname}"
       subnets:
         {{ nm.net_admin }}:
           name: {{ nm.net_admin }}
           cidr: {{ nm.net_admin }}
           gateway_ip: ${_param:single_address}
-          fabric: fabric-2
-          iprange:
-            start: {{ nm.net_admin_pool_start }}
-            end: {{ nm.net_admin_pool_end }}
-            type: dynamic
-          vlan:
-            0:
-              description: "VLAN 0"
-              dhcp: true
+          fabric: ${maas:region:fabrics:pxe_admin:name}
+          vlan: 0
+          ipranges:
+            1:
+              start: {{ nm.net_admin_pool_start }}
+              end: {{ nm.net_admin_pool_end }}
+              type: dynamic
       sshprefs:
         - '{{ conf.MAAS_SSH_KEY }}'
 {%- if 'aarch64' in nm.cluster.arch %}
