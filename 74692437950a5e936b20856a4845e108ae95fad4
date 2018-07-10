@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_322c9447",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6741
+      },
+      "writtenOn": "2018-07-10T15:04:20Z",
+      "side": 1,
+      "message": "For a STORAGE_PATH (/home/ubuntu/work/fuel/tmp-dir) inside the cloned fuel repo (F_GIT_ROOT\u003d/home/ubuntu/work/fuel), the output will look like this:\n\n  ++ dirname /home/ubuntu/work/fuel/tmp-dir//pod_config.yml\n  + STORAGE_DIR\u003d/home/ubuntu/work/fuel/tmp-dir\n  + REL_STORAGE_DIR_PATH\u003d/tmp-dir\n  + [[ /tmp-dir \u003d\u003d /home/ubuntu/tmp-dir ]]\n  + rsync -Erl --delete -e \u0027ssh -o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null -i /var/lib/opnfv/mcp.rsa\u0027 --exclude\u003d.gitignore --exclude\u003d/tmp-dir /home/ubuntu/work/fuel/ ubuntu@10.20.0.2:opnfv/",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "74692437950a5e936b20856a4845e108ae95fad4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_122d1047",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6741
+      },
+      "writtenOn": "2018-07-10T15:04:20Z",
+      "side": 1,
+      "message": "For a STORAGE_PATH (/home/ubuntu/tmp-dir) outside the cloned fuel repo (F_GIT_ROOT\u003d/home/ubuntu/work/fuel), the output will look like this:\n\n  ++ dirname /home/ubuntu/tmp-dir//pod_config.yml\n  + STORAGE_DIR\u003d/home/ubuntu/tmp-dir\n  + REL_STORAGE_DIR_PATH\u003d/home/ubuntu/tmp-dir\n  + [[ /home/ubuntu/tmp-dir \u003d\u003d /home/ubuntu/tmp-dir ]]\n  + REL_STORAGE_DIR_PATH\u003d\u0027\"\"\u0027\n  + rsync -Erl --delete -e \u0027ssh -o StrictHostKeyChecking\u003dno -o UserKnownHostsFile\u003d/dev/null -i /var/lib/opnfv/mcp.rsa\u0027 --exclude\u003d.gitignore \u0027--exclude\u003d\"\"\u0027 /home/ubuntu/work/fuel/ ubuntu@10.20.0.2:opnfv/",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "74692437950a5e936b20856a4845e108ae95fad4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
