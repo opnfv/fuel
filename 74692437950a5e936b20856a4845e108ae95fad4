@@ -45,6 +45,30 @@
       "revId": "74692437950a5e936b20856a4845e108ae95fad4",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_92ce4082",
+        "filename": "mcp/scripts/salt.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-07-10T16:46:14Z",
+      "side": 1,
+      "message": "Thank you, I\u0027ll try to review this within a week, as I\u0027m currently on vacation; meanwhile I\u0027ll add the rest of the team as reviewers.\nBtw, you should run shellcheck on this (either as a CLI tool available in any major distro, or online at shellcheck.net), it shows a few warnings that might be nice to fix.",
+      "parentUuid": "da5c1566_322c9447",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "74692437950a5e936b20856a4845e108ae95fad4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
