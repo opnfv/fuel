@@ -16,6 +16,24 @@
       "revId": "9ab74e630a62d78e0d9ce603b588cb8c26f32200",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_58b167e0",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-07-12T10:30:32Z",
+      "side": 1,
+      "message": "You were right. I tested the patch on an ovs scenario:\n\nSummary for cmp001.mcp-ovs-ha.local\n-------------\nSucceeded: 19\nFailed:     0\n-------------\nTotal states run:     19\nTotal run time:    1.980 s\n+ salt -I neutron:compute state.sls neutron.compute\nERROR: No return received\nNo minions matched the target. No command was sent, no jid was assigned.",
+      "parentUuid": "da5c1566_d2c8b876",
+      "revId": "9ab74e630a62d78e0d9ce603b588cb8c26f32200",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
