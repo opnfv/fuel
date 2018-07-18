@@ -48,7 +48,7 @@ parameters:
             - cluster.${_param:cluster_name}.openstack.compute
           params:
             pxe_admin_address: {{ nm.net_admin | ipnet_hostaddr(admin) }}
-            control_address: {{ nm.net_mgmt | ipnet_hostaddr(mgmt) }}
+            single_address: {{ nm.net_mgmt | ipnet_hostaddr(mgmt) }}
             tenant_address: {{ nm.net_private | ipnet_hostaddr(pri) }}
             external_address: {{ nm.net_public | ipnet_hostaddr(pub) }}
             salt_master_host: ${_param:reclass_config_master}
