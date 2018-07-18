@@ -19,11 +19,11 @@ parameters:
           service_name: opendaylight
           binds:
             - address: ${_param:cluster_vip_address}
-              port: 8282
+              port: ${_param:opendaylight_rest_port}
           servers:
             - name: odl01
               host: ${_param:opendaylight_service_host}
-              port: 8282
+              port: ${_param:opendaylight_rest_port}
               params: ${_param:haproxy_check}
   keystone:
     server:
@@ -32,3 +32,5 @@ parameters:
         sdn_controller_ip: ${_param:cluster_vip_address}
         sdn_username: admin  # Hardcoded to default ODL values for now
         sdn_password: admin
+        sdn_controller_webport: ${_param:opendaylight_rest_port}
+        sdn_controller_restconfport: ${_param:opendaylight_rest_port}
