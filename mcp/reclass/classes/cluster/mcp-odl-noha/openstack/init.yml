@@ -12,6 +12,7 @@ parameters:
   _param:
     neutron_tenant_network_types: "flat,vxlan"
     opendaylight_router: odl-router_v2
+    opendaylight_rest_port: 8282
   linux:
     network:
       host:

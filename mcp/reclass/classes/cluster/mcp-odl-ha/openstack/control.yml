@@ -19,3 +19,5 @@ parameters:
         sdn_controller_ip: ${_param:cluster_public_host}
         sdn_username: admin  # Hardcoded to default ODL values for now
         sdn_password: admin
+        sdn_controller_webport: ${_param:opendaylight_rest_port}
+        sdn_controller_restconfport: ${_param:opendaylight_rest_port}

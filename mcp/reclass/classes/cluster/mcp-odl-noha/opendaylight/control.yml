@@ -18,7 +18,7 @@ parameters:
   opendaylight:
     server:
       odl_bind_ip: ${_param:single_address}
-      odl_rest_port: 8282
+      odl_rest_port: ${_param:opendaylight_rest_port}
       java_min_mem: 3g
       java_max_mem: 3g
       router_enabled: true

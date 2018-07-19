@@ -12,6 +12,7 @@ parameters:
   _param:
     # opendaylight options
     opendaylight_service_host: ${_param:opendaylight_server_node01_single_address}
+    opendaylight_rest_port: 8282
 
     neutron_tenant_network_types: "flat,vxlan"
 {%- if conf.MCP_VCP %}

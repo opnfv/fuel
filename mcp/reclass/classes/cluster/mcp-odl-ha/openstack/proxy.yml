@@ -21,8 +21,8 @@ parameters:
           check: false
           proxy:
             host: ${_param:opendaylight_service_host}
-            port: 8282
+            port: ${_param:opendaylight_rest_port}
             protocol: http
           host:
             name: ${_param:nginx_proxy_openstack_api_host}
-            port: 8282
+            port: ${_param:opendaylight_rest_port}
