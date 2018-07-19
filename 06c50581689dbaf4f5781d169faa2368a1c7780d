@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_710e3836",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-07-19T10:57:49Z",
+      "side": 1,
+      "message": "if I remember right, we used to set both single_addr and control_addr via params here (both to the same value), so I tried to use only one of them, probably breaking things ...",
+      "range": {
+        "startLine": 51,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "06c50581689dbaf4f5781d169faa2368a1c7780d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
