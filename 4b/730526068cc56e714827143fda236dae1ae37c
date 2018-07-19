@@ -1,0 +1,11 @@
+Code-Review+2: Guillermo Herrero <guillermo.herrero@enea.com>
+Code-Review+1: Cristina Pauna <cristina.pauna@enea.com>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Code-Review+1: Delia Popescu <delia.popescu@enea.com>
+Workflow+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Verified+1: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Thu, 19 Jul 2018 15:37:19 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/59929
+Project: fuel
+Branch: refs/heads/master
