@@ -17,7 +17,7 @@ parameters:
       openrc_extra:
         # For HA, all public services are available through nginx on prx
         sdn_controller_ip: ${_param:cluster_public_host}
-        sdn_username: admin  # Hardcoded to default ODL values for now
-        sdn_password: admin
+        sdn_controller_user: admin  # Hardcoded to default ODL values for now
+        sdn_controller_password: admin
         sdn_controller_webport: ${_param:opendaylight_rest_port}
         sdn_controller_restconfport: ${_param:opendaylight_rest_port}
