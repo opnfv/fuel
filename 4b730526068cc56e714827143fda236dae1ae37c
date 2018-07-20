@@ -16,6 +16,24 @@
       "revId": "4b730526068cc56e714827143fda236dae1ae37c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_0cf2439a",
+        "filename": "mcp/reclass/classes/cluster/mcp-odl-ha/openstack/control.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-07-20T08:42:22Z",
+      "side": 1,
+      "message": "Sure, will do.",
+      "parentUuid": "9a561d44_6c9e5f58",
+      "revId": "4b730526068cc56e714827143fda236dae1ae37c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
