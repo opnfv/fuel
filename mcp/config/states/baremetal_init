@@ -25,10 +25,7 @@ salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
 salt -C 'kvm* or cmp*' pkg.install bridge-utils
 salt -C 'kvm*' state.apply linux.network,linux.system.kernel
 wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply salt.minion"
-wait_for 5.0 "salt -C 'cmp*' state.apply linux.system"
-# wrap distro `route` binary to silence errors when route already exists
-wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply opnfv.route_wrapper"
-wait_for 5.0 "salt -C 'cmp*' state.apply linux.network"
+wait_for 5.0 "salt -C 'cmp*' state.apply linux.system,linux.network"
 wait_for 30.0 "salt -C 'kvm* or cmp*' test.ping"
 
 salt -C 'kvm* or cmp*' system.reboot
