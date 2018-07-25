@@ -115,7 +115,7 @@ ssh ${SSH_OPTS} "${SSH_SALT}" bash -s -e << SALT_INSTALL_END
     wait_for 3.0 '(for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping || exit; done)'
   fi
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" saltutil.sync_all'
-  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt'
+  wait_for 3.0 'salt -C "E@^(${NODE_MASK}|cfg01).*" state.apply salt exclude="[{id: /etc/salt/minion.d/_orchestration.conf}]"'
 
   wait_for 3.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.system,linux.storage'
   wait_for 2.0 'salt -C "E@^(${NODE_MASK}).*" state.sls linux.network'
