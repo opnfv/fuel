@@ -85,6 +85,15 @@ parameters:
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
     horizon_identity_version: 3
+
+    barbican_version: ${_param:openstack_version}
+    barbican_service_host: ${_param:cluster_local_address}
+    apache_barbican_api_address: ${_param:single_address}
+    mysql_barbican_password: opnfv_secret
+    keystone_barbican_password: opnfv_secret
+    barbican_simple_crypto_kek: "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY="
+    barbican_integration_enabled: false
+
     aodh_version: ${_param:openstack_version}
     keystone_aodh_password: opnfv_secret
     aodh_service_host: ${_param:cluster_local_address}

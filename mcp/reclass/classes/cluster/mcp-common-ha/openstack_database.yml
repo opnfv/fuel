@@ -21,6 +21,7 @@ classes:
   - system.galera.server.database.nova
   - system.galera.server.database.neutron
   - system.galera.server.database.panko
+  - system.galera.server.database.barbican
 parameters:
   _param:
     keepalived_vip_interface: ${_param:single_nic}
