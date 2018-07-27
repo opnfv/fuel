@@ -49,6 +49,7 @@ parameters:
         host: ${_param:openstack_control_address}
   cinder:
     volume:
+      my_ip: ${_param:single_address}
       database:
         host: ${_param:cluster_local_address}
       identity:
