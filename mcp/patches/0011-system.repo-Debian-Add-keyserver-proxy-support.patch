@@ -32,32 +32,31 @@ NOTE: If present, per-repo proxies are also used for keyserver access.
 system.repo: Fix conditions order for Debian proxy
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
----
- linux/system/repo.sls | 65 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 53 insertions(+), 12 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index 303ea9c..5dfc4c1 100644
+index e098a43..c36b3bf 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -5,9 +5,15 @@ linux_repo_prereq_pkgs:
+@@ -5,9 +5,16 @@ linux_repo_prereq_pkgs:
    pkg.installed:
    - pkgs: {{ system.pkgs }}
 
-+{%- set proxies = {'system': {}, 'repo': {}} %}
++  {%- set proxies = {'system': {}, 'repo': {}} %}
 +
- # global proxy setup
--{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
- {%- if grains.os_family == 'Debian' %}
-+{%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+   # global proxy setup
+-  {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+-    {%- if grains.os_family == 'Debian' %}
++  {%- if grains.os_family == 'Debian' %}
 +
-+{%- do proxies.system.update({'https': system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
-+{%- do proxies.system.update({'http': system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
-+{%- do proxies.system.update({'ftp': system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
++    {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
++
++      {%- do proxies.system.update({'https': system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
++      {%- do proxies.system.update({'http': system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
++      {%- do proxies.system.update({'ftp': system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
 
  /etc/apt/apt.conf.d/99proxies-salt:
    file.managed:
-@@ -15,9 +21,9 @@ linux_repo_prereq_pkgs:
+@@ -15,16 +22,14 @@ linux_repo_prereq_pkgs:
    - source: salt://linux/files/apt.conf.d_proxies
    - defaults:
        external_host: False
@@ -67,37 +66,34 @@ index 303ea9c..5dfc4c1 100644
 +      https: {{ proxies.system.https }}
 +      http: {{ proxies.system.http }}
 +      ftp: {{ proxies.system.ftp }}
-
- {%- else %}
-
-@@ -25,9 +31,6 @@ linux_repo_prereq_pkgs:
++
+     {%- else %}
+ /etc/apt/apt.conf.d/99proxies-salt:
    file.absent
-
- {%- endif %}
--{%- endif %}
+     {%- endif %}
+-  {%- endif %}
 -
--{% set default_repos = {} %}
+-  {% set default_repos = {} %}
 
- {%- if system.purge_repos|default(False) %}
+   {%- if system.purge_repos|default(False) %}
+ purge_sources_list_d_repos:
+@@ -33,6 +38,9 @@ purge_sources_list_d_repos:
+    - clean: True
+   {%- endif %}
 
-@@ -38,6 +41,10 @@ purge_sources_list_d_repos:
-
- {%- endif %}
-
-+{%- endif %}
++  {%- endif %}
 +
-+{% set default_repos = {} %}
-+
- {%- for name, repo in system.repo.items() %}
- {%- set name=repo.get('name', name) %}
- {%- if grains.os_family == 'Debian' %}
-@@ -45,16 +52,20 @@ purge_sources_list_d_repos:
++  {% set default_repos = {} %}
+   {%- for name, repo in system.repo.items() %}
+     {%- set name=repo.get('name', name) %}
+     {%- if grains.os_family == 'Debian' %}
+@@ -40,16 +48,20 @@ purge_sources_list_d_repos:
  # per repository proxy setup
- {%- if repo.get('proxy', {}).get('enabled', False) %}
- {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
-+{%- do proxies.repo.update({'https': repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
-+{%- do proxies.repo.update({'http': repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
-+{%- do proxies.repo.update({'ftp': repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
+       {%- if repo.get('proxy', {}).get('enabled', False) %}
+         {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
++        {%- do proxies.repo.update({'https': repo.proxy.get('https', None) or system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
++        {%- do proxies.repo.update({'http': repo.proxy.get('http', None) or system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
++        {%- do proxies.repo.update({'ftp': repo.proxy.get('ftp', None) or system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.managed:
    - template: jinja
@@ -110,55 +106,53 @@ index 303ea9c..5dfc4c1 100644
 +      https: {{ proxies.repo.https }}
 +      http: {{ proxies.repo.http }}
 +      ftp: {{ proxies.repo.ftp }}
- {%- else %}
-+{%- do proxies.repo.update({'https': None, 'http': None, 'ftp': None}) %}
+       {%- else %}
++        {%- do proxies.repo.update({'https': None, 'http': None, 'ftp': None}) %}
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.absent
- {%- endif %}
-@@ -110,6 +121,13 @@ linux_repo_{{ name }}_key:
-     {% else %}
+       {%- endif %}
+@@ -101,6 +113,13 @@ linux_repo_{{ name }}_key:
+         {% else %}
        - pkgrepo: linux_repo_{{ name }}
-     {% endif %}
+         {% endif %}
 +    - env:
-+{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
++        {%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
 +      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
-+{%- endif %}
-+{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
++        {%- endif %}
++        {%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
 +      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
-+{%- endif %}
++        {%- endif %}
+       {%- endif %}
 
- {%- endif %} {# 2 #}
+       {%- if repo.get('default', False) %}
+@@ -108,6 +127,9 @@ linux_repo_{{ name }}_key:
+       {%- else %}
 
-@@ -120,6 +138,10 @@ linux_repo_{{ name }}_key:
-
- {%- if repo.get('enabled', True) %}
-
-+{%- set use_proxy = ( ( proxies.repo.get('https', None) or proxies.system.get('https', None) or
-+                        proxies.repo.get('http', None) or proxies.system.get('http', None) ) and
-+                        repo.key_id is defined and repo.key_server is defined ) %}
-+
+         {%- if repo.get('enabled', True) %}
++          {%- set use_proxy = ( ( proxies.repo.get('https', None) or proxies.system.get('https', None) or
++                                  proxies.repo.get('http', None) or proxies.system.get('http', None) ) and
++                                  repo.key_id is defined and repo.key_server is defined ) %}
  linux_repo_{{ name }}:
    pkgrepo.managed:
-   {%- if repo.ppa is defined %}
-@@ -132,10 +154,10 @@ linux_repo_{{ name }}:
-   {%- endif %}
+           {%- if repo.ppa is defined %}
+@@ -120,10 +142,10 @@ linux_repo_{{ name }}:
+             {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.clean|default(True) }}
--  {%- if repo.key_id is defined %}
-+  {%- if not use_proxy and repo.key_id is defined %}
+-            {%- if repo.key_id is defined %}
++            {%- if not use_proxy and repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
-   {%- endif %}
--  {%- if repo.key_server is defined %}
-+  {%- if not use_proxy and repo.key_server is defined %}
+             {%- endif %}
+-            {%- if repo.key_server is defined %}
++            {%- if not use_proxy and repo.key_server is defined %}
    - keyserver: {{ repo.key_server }}
-   {%- endif %}
-   {%- if repo.key_url is defined and (grains['saltversioninfo'] >= [2017, 7] or repo.key_url.startswith('salt://')) %}
-@@ -157,6 +179,25 @@ linux_repo_{{ name }}:
-   {%- endif %}
-   {%- endif %}
-
-+{%- if use_proxy and repo.key_id is defined and repo.key_server is defined %}
-+
+             {%- endif %}
+             {%- if repo.key_url is defined and (grains['saltversioninfo'] >= [2017, 7] or repo.key_url.startswith('salt://')) %}
+@@ -145,6 +167,22 @@ linux_repo_{{ name }}:
+     - file: purge_sources_list_d_repos
+             {%- endif %}
+           {%- endif %}
++          {%- if use_proxy and repo.key_id is defined and repo.key_server is defined %}
 +linux_repo_{{ name }}_key:
 +  cmd.run:
 +    - name: "apt-key adv --keyserver {{ repo.key_server }} --recv {{ repo.key_id }}"
@@ -166,16 +160,14 @@ index 303ea9c..5dfc4c1 100644
 +    - require_in:
 +      - pkgrepo: linux_repo_{{ name }}
 +    - env:
-+{%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
++            {%- if proxies.repo.get('https', None) or proxies.system.get('https', None) %}
 +      - https_proxy: {{ proxies.repo.get('https', None) or proxies.system.get('https', None) }}
-+{%- endif %}
-+{%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
++            {%- endif %}
++            {%- if proxies.repo.get('http', None) or proxies.system.get('http', None) %}
 +      - http_proxy: {{ proxies.repo.get('http', None) or proxies.system.get('http', None) }}
-+{%- endif %}
-+
-+{%- endif %}
-+
-+{#- repo.enabled is false #}
- {%- else %}
-
++            {%- endif %}
++          {%- endif %}
++        {#- repo.enabled is false #}
+         {%- else %}
  linux_repo_{{ name }}_absent:
+   pkgrepo.absent:
