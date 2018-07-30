@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_4c9391fa",
+        "filename": "mcp/reclass/classes/cluster/mcp-pike-common-ha/infra/maas.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-07-30T14:24:00Z",
+      "side": 1,
+      "message": "Redefined to aviod else entry on [1] that generates wrong line in:\nubuntu@cmp002:/var/log$ cat /etc/apt/sources.list.d/mcp_saltstack.list \n\ndeb [arch\u003damd64]http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2016.11/ xenial main \n\n1. https://github.com/salt-formulas/salt-formula-maas/blob/master/maas/files/curtin_userdata_amd64_generic_xenial#L28",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "ee1ad8053b03024a09955ace1709522506ae58c3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
