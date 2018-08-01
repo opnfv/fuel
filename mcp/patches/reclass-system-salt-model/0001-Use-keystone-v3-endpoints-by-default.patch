@@ -20,10 +20,10 @@ Change-Id: I7e9a1b180f4e0ddb24ec72ed9f08c9e2580c7897
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/single.yml b/keystone/client/single.yml
-index a79ed7ec..86b4e09e 100644
+index ad2d55a1..120a2359 100644
 --- a/keystone/client/single.yml
 +++ b/keystone/client/single.yml
-@@ -4,7 +4,7 @@ classes:
+@@ -5,7 +5,7 @@ classes:
  - system.keystone.client.service.glance
  - system.keystone.client.service.heat
  - system.keystone.client.service.heat-cfn
