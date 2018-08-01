@@ -23,7 +23,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  2 files changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/salt-master-init.sh b/salt-master-init.sh
-index a4ec138..db90a22 100755
+index 343324c..48a05b9 100755
 --- a/salt-master-init.sh
 +++ b/salt-master-init.sh
 @@ -24,6 +24,12 @@ options() {
@@ -40,7 +40,7 @@ index a4ec138..db90a22 100755
      export YELLOW='\033[1;33m'
      export BLUE='\033[0;35m'
 diff --git a/salt-master-setup.sh b/salt-master-setup.sh
-index 0dd3036..a0c6311 100755
+index cba21fb..c2decde 100755
 --- a/salt-master-setup.sh
 +++ b/salt-master-setup.sh
 @@ -347,15 +347,17 @@ install_salt_formula_pkg()
