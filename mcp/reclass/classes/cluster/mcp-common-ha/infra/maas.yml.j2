@@ -108,11 +108,13 @@ parameters:
 {%- endif %}
       machines:
       {%- set pxe_interface = conf.idf.net_config.admin.interface %}
-      {#- We only support exactly 5 nodes for now, hardcoded order #}
-      {%- set node_roles = ['kvm01', 'kvm02', 'kvm03', 'cmp001', 'cmp002'] %}
       {%- for node in conf.nodes %}
       {%- if node.node.type == 'baremetal' %}
-        {{ node_roles[loop.index0] }}:
+        {%- if loop.index > nm.cmp001.idx %}
+        cmp{{ '%03d' | format(loop.index - nm.cmp001.idx) }}:
+        {%- else %}
+        kvm{{ '%02d' | format(loop.index) }}:
+        {%- endif %}
           interface:
             mac: {{ node.interfaces[pxe_interface].mac_address }}
           power_parameters:
@@ -123,7 +125,7 @@ parameters:
           architecture: {{ node.node.arch | dpkg_arch }}/generic
           distro_series: xenial
           hwe_kernel: ${_param:hwe_kernel}
-          {%- if loop.index0 >= node_roles.index('cmp001')  %}
+          {%- if loop.index > nm.cmp001.idx %}
           disk_layout:
             type: lvm
             root_device: sda
