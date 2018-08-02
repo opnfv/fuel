@@ -243,7 +243,8 @@ function cleanup_vms {
   for node in $(virsh list --name --all | grep -P '\w{3}\d{2}'); do
     virsh domblklist "${node}" | awk '/^.da/ {print $2}' | \
       xargs --no-run-if-empty -I{} sudo rm -f {}
-    virsh undefine "${node}" --remove-all-storage --nvram
+    virsh undefine "${node}" --remove-all-storage --nvram || \
+      virsh undefine "${node}" --remove-all-storage
   done
 }
 
