@@ -451,6 +451,17 @@ function update_mcpcontrol_network {
     "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
 }
 
+function reset_vms {
+  local vnodes=("$@")
+
+  # reset non-infrastructure vms
+  for node in "${vnodes[@]}"; do
+    if [[ ! "${node}" =~ (cfg01|mas01) ]]; then
+      virsh reset "${node}"
+    fi
+  done
+}
+
 function start_vms {
   local vnodes=("$@")
 
