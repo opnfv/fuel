@@ -263,6 +263,8 @@ parameters:
 {%- if 'aarch64' in nm.cluster.arch %}
         armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
           source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
+          key_id: 798AB1D1
+          key_server: keys.gnupg.net
           pin:
             - pin: 'release a=${_param:openstack_version}-armband'
               priority: 1201
