@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+/usr/share/salt-formulas/env: 0001-system-repo-Fix-duplicate-file.absent-sls-IDs.patch
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0008-Handle-extra-environment-variables.patch
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
