@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_1e55371d",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-08-03T08:42:52Z",
+      "side": 1,
+      "message": "Is this reset going to happen for the non-hybrid pods too?",
+      "range": {
+        "startLine": 316,
+        "startChar": 1,
+        "endLine": 316,
+        "endChar": 40
+      },
+      "revId": "b2e27c4601d43bd3678be2c8c6fab4375fcdf5cb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
