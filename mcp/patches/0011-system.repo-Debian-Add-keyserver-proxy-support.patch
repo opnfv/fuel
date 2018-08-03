@@ -32,14 +32,17 @@ NOTE: If present, per-repo proxies are also used for keyserver access.
 system.repo: Fix conditions order for Debian proxy
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/system/repo.sls | 66 ++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 52 insertions(+), 14 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index e098a43..c36b3bf 100644
+index ddb4a99..0b66546 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -5,9 +5,16 @@ linux_repo_prereq_pkgs:
-   pkg.installed:
+@@ -7,9 +7,16 @@ linux_repo_prereq_pkgs:
    - pkgs: {{ system.pkgs }}
+   {%- endif %}
 
 +  {%- set proxies = {'system': {}, 'repo': {}} %}
 +
@@ -56,7 +59,7 @@ index e098a43..c36b3bf 100644
 
  /etc/apt/apt.conf.d/99proxies-salt:
    file.managed:
-@@ -15,16 +22,14 @@ linux_repo_prereq_pkgs:
+@@ -17,24 +24,25 @@ linux_repo_prereq_pkgs:
    - source: salt://linux/files/apt.conf.d_proxies
    - defaults:
        external_host: False
@@ -72,22 +75,24 @@ index e098a43..c36b3bf 100644
    file.absent
      {%- endif %}
 -  {%- endif %}
--
--  {% set default_repos = {} %}
 
-   {%- if system.purge_repos|default(False) %}
+-  {% set default_repos = {} %}
+-
+-  {%- if system.purge_repos|default(False) %}
++    {%- if system.purge_repos|default(False) %}
  purge_sources_list_d_repos:
-@@ -33,6 +38,9 @@ purge_sources_list_d_repos:
+    file.directory:
+    - name: /etc/apt/sources.list.d/
     - clean: True
++    {%- endif %}
    {%- endif %}
 
-+  {%- endif %}
-+
 +  {% set default_repos = {} %}
++
    {%- for name, repo in system.repo.items() %}
      {%- set name=repo.get('name', name) %}
      {%- if grains.os_family == 'Debian' %}
-@@ -40,16 +48,20 @@ purge_sources_list_d_repos:
+@@ -42,16 +50,20 @@ purge_sources_list_d_repos:
  # per repository proxy setup
        {%- if repo.get('proxy', {}).get('enabled', False) %}
          {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
@@ -111,7 +116,7 @@ index e098a43..c36b3bf 100644
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.absent
        {%- endif %}
-@@ -101,6 +113,13 @@ linux_repo_{{ name }}_key:
+@@ -103,6 +115,13 @@ linux_repo_{{ name }}_key:
          {% else %}
        - pkgrepo: linux_repo_{{ name }}
          {% endif %}
@@ -125,7 +130,7 @@ index e098a43..c36b3bf 100644
        {%- endif %}
 
        {%- if repo.get('default', False) %}
-@@ -108,6 +127,9 @@ linux_repo_{{ name }}_key:
+@@ -110,6 +129,9 @@ linux_repo_{{ name }}_key:
        {%- else %}
 
          {%- if repo.get('enabled', True) %}
@@ -134,11 +139,11 @@ index e098a43..c36b3bf 100644
 +                                  repo.key_id is defined and repo.key_server is defined ) %}
  linux_repo_{{ name }}:
    pkgrepo.managed:
-           {%- if repo.ppa is defined %}
-@@ -120,10 +142,10 @@ linux_repo_{{ name }}:
+   - refresh_db: False
+@@ -125,10 +147,10 @@ linux_repo_{{ name }}:
              {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
-   - clean_file: {{ repo.clean|default(True) }}
+   - clean_file: {{ repo.get('clean_file', True) }}
 -            {%- if repo.key_id is defined %}
 +            {%- if not use_proxy and repo.key_id is defined %}
    - keyid: {{ repo.key_id }}
@@ -148,8 +153,8 @@ index e098a43..c36b3bf 100644
    - keyserver: {{ repo.key_server }}
              {%- endif %}
              {%- if repo.key_url is defined and (grains['saltversioninfo'] >= [2017, 7] or repo.key_url.startswith('salt://')) %}
-@@ -145,6 +167,22 @@ linux_repo_{{ name }}:
-     - file: purge_sources_list_d_repos
+@@ -148,6 +170,22 @@ linux_repo_{{ name }}:
+               {%- endif %}
              {%- endif %}
            {%- endif %}
 +          {%- if use_proxy and repo.key_id is defined and repo.key_server is defined %}
