@@ -25,3 +25,4 @@ mcp-odl-ha/opendaylight/control.yml
 mcp-odl-ha/openstack/init.yml
 mcp-odl-noha/infra/config.yml
 mcp-*-noha/openstack/compute.yml
+mcp-*-noha/openstack/gateway.yml

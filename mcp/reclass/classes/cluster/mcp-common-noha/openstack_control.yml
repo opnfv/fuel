@@ -66,6 +66,7 @@ classes:
   - cluster.mcp-common-noha.openstack_control_pdf
 parameters:
   _param:
+    interface_mtu: 9000
     linux_system_codename: xenial
     ceilometer_create_gnocchi_resources: 'True'
   linux:
