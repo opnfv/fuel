@@ -37,5 +37,5 @@ parameters:
         br-prv:
           enabled: true
           type: dpdk_ovs_bridge
-        tenant_interface:
+        {{ nm.cmp001.nic_private }}:  # FIXME: remove vlan iface?
           type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
