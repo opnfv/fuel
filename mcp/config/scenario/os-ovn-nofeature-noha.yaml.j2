@@ -5,16 +5,24 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 cluster:
   domain: mcp-ovn-noha.local
   states:
+{%- if nm.cluster.has_baremetal_nodes %}
+    - maas
+    - baremetal_init
+{%- endif %}
     - openstack_noha
     - networks
 virtual:
   nodes:
     infra:
       - cfg01
+{%- if nm.cluster.has_baremetal_nodes %}
+      - mas01
+{%- endif %}
     control:
       - ctl01
     compute:
