@@ -7,5 +7,5 @@
 ##############################################################################
 ---
 classes:
-  - cluster.mcp-common-ha.infra.maas
+  - cluster.all-mcp-arch-common.infra.maas
   - cluster.mcp-ovs-dpdk-ha.infra

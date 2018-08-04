@@ -22,8 +22,8 @@ classes:
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
   - cluster.mcp-common-ha.infra.kvm_pdf
-  - cluster.mcp-common-ha.include.maas_proxy
-  - cluster.mcp-common-ha.include.lab_proxy_pdf
+  - cluster.all-mcp-arch-common.opnfv.maas_proxy
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
 parameters:
   _param:
     linux_system_codename: xenial

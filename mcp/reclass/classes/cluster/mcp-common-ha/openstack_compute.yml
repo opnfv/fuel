@@ -19,8 +19,8 @@ classes:
   - system.ceilometer.agent.polling.default
   - service.barbican.client.cluster
   - cluster.mcp-common-ha.openstack_compute_pdf
-  - cluster.mcp-common-ha.include.maas_proxy
-  - cluster.mcp-common-ha.include.lab_proxy_pdf
+  - cluster.all-mcp-arch-common.opnfv.maas_proxy
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_control_address}
