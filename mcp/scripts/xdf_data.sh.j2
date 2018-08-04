@@ -89,6 +89,7 @@ OPNFV_BRIDGES=(
 export CLUSTER_DOMAIN={{ conf.cluster.domain }}
 cluster_states={{ bash_arr(conf.cluster.states) }}
 virtual_nodes={{ filter_nodes('virtual') }}
+control_nodes_query={{ filter_nodes(['baremetal', 'virtual'], True, ['control']) }}
 base_image={{ arch.base_image }}
 
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
