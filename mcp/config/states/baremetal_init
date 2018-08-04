@@ -11,25 +11,29 @@ CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 # shellcheck disable=SC1090
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/xdf_data.sh"
+
+cluster_nodes_query="${control_nodes_query} or cmp*"
+compute_nodes_query='cmp*'
 
 # KVM, compute node prereqs
 # patch the networking module for Debian based distros
 debian_ip_source=/usr/lib/python2.7/dist-packages/salt/modules/debian_ip.py
-salt -C 'kvm* or cmp*' file.line $debian_ip_source \
+salt -C "${cluster_nodes_query}" file.line $debian_ip_source \
   content='iface = iface.lower()' mode='delete'
 
-salt -C 'kvm* or cmp*' file.replace $debian_ip_source \
+salt -C "${cluster_nodes_query}" file.replace $debian_ip_source \
   pattern="^\s{8}__salt__\['pkg.install'\]\('vlan'\)" \
   repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
 
-salt -C 'kvm* or cmp*' pkg.install bridge-utils
-salt -C 'kvm*' state.apply linux.network,linux.system.kernel
-wait_for 5.0 "salt -C 'kvm* or cmp*' state.apply salt.minion"
-wait_for 5.0 "salt -C 'cmp*' state.apply linux.system,linux.network"
-wait_for 30.0 "salt -C 'kvm* or cmp*' test.ping"
+salt -C "${cluster_nodes_query}" pkg.install bridge-utils
+salt -C "${control_nodes_query}" state.apply linux.network,linux.system.kernel
+wait_for 5.0 "salt -C '${cluster_nodes_query}' state.apply salt.minion"
+wait_for 5.0 "salt -C '${compute_nodes_query}' state.apply linux.system,linux.network"
+wait_for 30.0 "salt -C '${cluster_nodes_query}' test.ping"
 
-salt -C 'kvm* or cmp*' system.reboot
-wait_for 90.0 "salt -C 'kvm* or cmp*' test.ping"
+salt -C "${cluster_nodes_query}" system.reboot
+wait_for 90.0 "salt -C '${cluster_nodes_query}' test.ping"
 
-salt -C 'kvm* or cmp*' state.apply linux,ntp
-salt -C 'kvm* or cmp*' pkg.upgrade refresh=False
+salt -C "${cluster_nodes_query}" state.apply linux,ntp
+salt -C "${cluster_nodes_query}" pkg.upgrade refresh=False
