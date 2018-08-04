@@ -7,6 +7,11 @@
 ##############################################################################
 {#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.cmp001.nic_mgmt: True, nm.cmp001.nic_private: True } %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
+{%- set vlans = { nm.vlan_mgmt: nm.cmp001.nic_mgmt, vlan_private_start: nm.cmp001.nic_private } %}
 ---
 parameters:
   _param:
@@ -19,9 +24,6 @@ parameters:
 {%- else %}
     ~cinder_lvm_devices: ['/dev/sda1']
 {%- endif %}
-    primary_interface: {{ nm.cmp001.nic_mgmt }}
-    tenant_interface: {{ nm.cmp001.nic_private }}
-    external_interface: {{ nm.cmp001.nic_public }}
   linux:
     network:
       bridge: openvswitch
@@ -34,17 +36,17 @@ parameters:
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
           mtu: ${_param:interface_mtu}
-        primary_interface:
-          enabled: true
-          name: ${_param:primary_interface}
-          proto: manual
-          type: eth
-        tenant_interface:
-          enabled: true
-          name: ${_param:tenant_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
+          noifupdown: true
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.cmp001.nic_admin in nics %}
+  {%- do nics.pop(nm.cmp001.nic_admin) %}
+{%- endif %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
         br-mgmt:
           enabled: true
           type: bridge
@@ -52,4 +54,4 @@ parameters:
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
           use_interfaces:
-            - ${_param:primary_interface}
+            - {{ ma.interface_str(nm.cmp001.nic_mgmt, nm.vlan_mgmt) }}

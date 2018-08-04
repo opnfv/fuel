@@ -6,6 +6,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 ---
 classes:
   - service.neutron.compute.single
@@ -35,7 +37,7 @@ parameters:
           proto: static
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}
-        tenant_interface:
+        {{ nm.cmp001.nic_private }}:
           type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
 {%- else %}
         br-mesh:
@@ -45,11 +47,11 @@ parameters:
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
-            - ${_param:tenant_interface}
+            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
 {%- endif %}
-        external_interface:
+        ovs_port_{{ nm.cmp001.nic_public }}:
           enabled: true
-          name: ${_param:external_interface}
+          name: {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
@@ -63,6 +65,6 @@ parameters:
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
           use_interfaces:
-            - ${_param:external_interface}
+            - {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
