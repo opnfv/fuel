@@ -16,12 +16,15 @@ cluster:
     - networks
 virtual:
   nodes:
-    - cfg01
-    - ctl01
-    - cmp001
-    - cmp002
-    - gtw01
-    - odl01
+    infra:
+      - cfg01
+    control:
+      - ctl01
+      - gtw01
+      - odl01
+    compute:
+      - cmp001
+      - cmp002
   ctl01:
     vcpus: 4
     ram: 14336

@@ -22,25 +22,22 @@ cluster:
     - networks
 virtual:
   nodes:
-    - cfg01
+    infra:
+      - cfg01
 {%- if nm.cluster.has_baremetal_nodes %}
-    - mas01
+      - mas01
 {%- endif %}
-{#- Most likely, controllers will always have the same type and number (3) #}
-{%- if conf.nodes[nm.ctl01.idx].node.type == 'virtual' %}
-    - kvm01
-    - kvm02
-    - kvm03
-{%- endif %}
-{#- Later, we might have mixed computes here, for hybrid multi-arch testing #}
-{%- if conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
-    - cmp001
-    - cmp002
-{%- endif %}
+    control:
+      - kvm01
+      - kvm02
+      - kvm03
+    compute:
+      - cmp001
+      - cmp002
+  # Below values are only used for each node if said node is virtual
   cfg01:
     vcpus: 4
     ram: 6144
-  # Below values are only used when nodes are defined in virtual.nodes above
   mas01:
     vcpus: 4
     ram: 6144

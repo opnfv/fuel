@@ -11,7 +11,14 @@
 # Data derived from XDF (PDF/IDF/SDF/etc), used as input in deploy.sh
 #
 
+{%- import 'net_map.j2' as nm with context -%}
 {%- set arch = conf[conf.MCP_JUMP_ARCH] -%}
+{%- set V = conf.virtual -%}
+{%- set section_map = {
+  'infra': -1,
+  'control': nm.ctl01.idx,
+  'compute': nm.cmp001.idx
+} -%}
 
 {%- macro bash_arr(_l) -%}
   ({%- for n in _l -%}'{{ n }}' {% endfor -%})
@@ -24,14 +31,36 @@
 
 {#- Pack all vnode data as string -#}
 {%- macro serialize_vnodes() -%}
-  {%- set V = conf.virtual -%}
   {%- set arr = [] -%}
-  {%- for n in V.nodes -%}
-    {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
-    {%- do arr.append(pack([n, V[n].ram or arch.default.ram,
-                               V[n].vcpus or arch.default.vcpus])) -%}
+  {%- for section in section_map -%}
+    {%- for n in V.nodes[section] -%}
+      {%- if section_map[section] < 0 or conf.nodes[section_map[section] + loop.index0].node.type == 'virtual' -%}
+        {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
+        {%- do arr.append(pack([n, V[n].ram or arch.default.ram,
+                                   V[n].vcpus or arch.default.vcpus])) -%}
+      {%- endif -%}
+    {%- endfor -%}
   {%- endfor -%}
   '{{ pack(arr, '|') }}'
+{%- endmacro -%}
+
+{#- Return a bash array of node names or a Salt query, optionally filtered by type #}
+{%- macro filter_nodes(type, output_as_query = False, sections = section_map) -%}
+  {%- set arr = [] -%}
+  {%- for section in sections -%}
+    {%- for n in V.nodes[section] -%}
+      {%- if ( (section_map[section] < 0 and type == 'virtual') or
+               (section_map[section] >= 0 and
+                conf.nodes[section_map[section] + loop.index0].node.type in type) ) -%}
+        {%- do arr.append(n) -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {%- if output_as_query -%}
+  '{{ arr | join('* or ') }}*'
+  {%- else -%}
+  {{ bash_arr(arr) }}
+  {%- endif -%}
 {%- endmacro -%}
 
 {#- Pack apt_pkg data as string -#}
@@ -59,7 +88,7 @@ OPNFV_BRIDGES=(
 
 export CLUSTER_DOMAIN={{ conf.cluster.domain }}
 cluster_states={{ bash_arr(conf.cluster.states) }}
-virtual_nodes={{ bash_arr(conf.virtual.nodes) }}
+virtual_nodes={{ filter_nodes('virtual') }}
 base_image={{ arch.base_image }}
 
 # Serialize vnode data as '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
