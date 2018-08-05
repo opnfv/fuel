@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.single
   - cluster.mcp-common-noha.init_options
   - cluster.mcp-ovn-noha.infra
   - cluster.mcp-ovn-noha.openstack
