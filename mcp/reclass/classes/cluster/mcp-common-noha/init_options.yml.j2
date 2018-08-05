@@ -12,6 +12,7 @@ parameters:
   _param:
     # infra service addresses
     infra_config_address: ${_param:opnfv_infra_config_address}
+    infra_config_deploy_address: {{ conf.SALT_MASTER }}
     # openstack service addresses
     openstack_control_address: ${_param:opnfv_openstack_control_node01_address}
     openstack_control_node01_address: ${_param:opnfv_openstack_control_node01_address}

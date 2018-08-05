@@ -13,7 +13,6 @@ classes:
 parameters:
   _param:
     openstack_control_node01_hostname: ctl01
-    reclass_config_master: ${_param:opnfv_infra_config_pxe_admin_address}
     single_address: ${_param:opnfv_infra_config_address}
     salt_master_host: 127.0.0.1
     salt_minion_ca_host: ${linux:network:fqdn}

@@ -9,9 +9,6 @@
 ---
 parameters:
   _param:
-
-    openstack_version: queens
-
     # openstack service addresses
 {%- if conf.MCP_VCP %}
     openstack_proxy_control_address: ${_param:opnfv_openstack_proxy_control_address}
