@@ -5,10 +5,18 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
+classes:
+  - cluster.all-mcp-arch-common
 parameters:
   _param:
     cluster_domain: ${_param:cluster_name}.local
+    infra_maas_database_password: opnfv_secret
+    reclass_config_master: ${_param:opnfv_infra_config_pxe_admin_address}
+    infra_maas_node01_hostname: mas01
+    infra_maas_node01_address: ${_param:opnfv_infra_maas_node01_address}
+    infra_maas_node01_deploy_address: ${_param:opnfv_infra_maas_node01_deploy_address}
   linux:
     system:
       apt:
@@ -20,12 +28,19 @@ parameters:
     network:
       host:
         cfg01:
-          address: ${_param:infra_config_address}
+          address: ${_param:opnfv_infra_config_address}
           names:
             - cfg01
             - cfg01.${_param:cluster_domain}
         cfg:
-          address: ${_param:infra_config_address}
+          address: ${_param:opnfv_infra_config_address}
           names:
             - cfg
             - cfg.${_param:cluster_domain}
+{%- if nm.cluster.has_baremetal_nodes %}
+        mas01:
+          address: ${_param:infra_maas_node01_address}
+          names:
+            - ${_param:infra_maas_node01_hostname}
+            - ${_param:infra_maas_node01_hostname}.${_param:cluster_domain}
+{%- endif %}
