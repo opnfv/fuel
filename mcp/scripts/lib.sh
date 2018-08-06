@@ -452,6 +452,23 @@ function update_mcpcontrol_network {
     "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
 }
 
+function reset_vms {
+  local vnodes=("$@")
+  local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
+
+  # reset non-infrastructure vms, wait for them to come back online
+  for node in "${vnodes[@]}"; do
+    if [[ ! "${node}" =~ (cfg01|mas01) ]]; then
+      virsh reset "${node}"
+    fi
+  done
+  for node in "${vnodes[@]}"; do
+    if [[ ! "${node}" =~ (cfg01|mas01) ]]; then
+      wait_for 20.0 "${cmd_str} sudo salt -C '${node}*' saltutil.sync_all"
+    fi
+  done
+}
+
 function start_vms {
   local vnodes=("$@")
 
