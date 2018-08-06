@@ -163,11 +163,21 @@ parameters:
         primary_interface:
           enabled: true
           name: ${_param:primary_interface}
+          type: eth
+{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) and (nm.vlan_mgmt | int > 0) %}
+          proto: manual
           mtu: ${_param:interface_mtu}
+        primary_interface_vlan:
+          enabled: true
+          type: vlan
+          name: ${_param:primary_interface}.{{ nm.vlan_mgmt }}
+          use_interfaces:
+            - ${_param:primary_interface}
+{%- endif %}
           proto: static
+          mtu: ${_param:interface_mtu}
           address: ${_param:infra_maas_node01_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
-          type: eth
         pxe_admin_interface:
           enabled: true
           name: ${_param:pxe_admin_interface}
