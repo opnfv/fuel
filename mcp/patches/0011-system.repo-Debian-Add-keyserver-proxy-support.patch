@@ -33,33 +33,31 @@ system.repo: Fix conditions order for Debian proxy
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- linux/system/repo.sls | 66 ++++++++++++++++++++++++++++++++++---------
- 1 file changed, 52 insertions(+), 14 deletions(-)
+ linux/system/repo.sls | 55 ++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 8 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index ddb4a99..0b66546 100644
+index 9664129..d9f567e 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
-@@ -7,9 +7,16 @@ linux_repo_prereq_pkgs:
+@@ -7,18 +7,27 @@ linux_repo_prereq_pkgs:
    - pkgs: {{ system.pkgs }}
    {%- endif %}
 
 +  {%- set proxies = {'system': {}, 'repo': {}} %}
 +
    # global proxy setup
--  {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
--    {%- if grains.os_family == 'Debian' %}
-+  {%- if grains.os_family == 'Debian' %}
+   {%- if grains.os_family == 'Debian' %}
 +
-+    {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
+     {%- if system.proxy.get('pkg', {}).get('enabled', False) %}
 +
 +      {%- do proxies.system.update({'https': system.proxy.get('pkg', {}).get('https', None) | default(system.proxy.get('https', None), true)}) %}
 +      {%- do proxies.system.update({'http': system.proxy.get('pkg', {}).get('http', None) | default(system.proxy.get('http', None), true)}) %}
 +      {%- do proxies.system.update({'ftp': system.proxy.get('pkg', {}).get('ftp', None) | default(system.proxy.get('ftp', None), true)}) %}
-
++
  /etc/apt/apt.conf.d/99proxies-salt:
    file.managed:
-@@ -17,24 +24,25 @@ linux_repo_prereq_pkgs:
+   - template: jinja
    - source: salt://linux/files/apt.conf.d_proxies
    - defaults:
        external_host: False
@@ -73,26 +71,7 @@ index ddb4a99..0b66546 100644
      {%- else %}
  /etc/apt/apt.conf.d/99proxies-salt:
    file.absent
-     {%- endif %}
--  {%- endif %}
-
--  {% set default_repos = {} %}
--
--  {%- if system.purge_repos|default(False) %}
-+    {%- if system.purge_repos|default(False) %}
- purge_sources_list_d_repos:
-    file.directory:
-    - name: /etc/apt/sources.list.d/
-    - clean: True
-+    {%- endif %}
-   {%- endif %}
-
-+  {% set default_repos = {} %}
-+
-   {%- for name, repo in system.repo.items() %}
-     {%- set name=repo.get('name', name) %}
-     {%- if grains.os_family == 'Debian' %}
-@@ -42,16 +50,20 @@ purge_sources_list_d_repos:
+@@ -43,16 +52,20 @@ purge_sources_list_d_repos:
  # per repository proxy setup
        {%- if repo.get('proxy', {}).get('enabled', False) %}
          {%- set external_host = repo.proxy.get('host', None) or repo.source.split('/')[2] %}
@@ -116,7 +95,7 @@ index ddb4a99..0b66546 100644
  /etc/apt/apt.conf.d/99proxies-salt-{{ name }}:
    file.absent
        {%- endif %}
-@@ -103,6 +115,13 @@ linux_repo_{{ name }}_key:
+@@ -104,6 +117,13 @@ linux_repo_{{ name }}_key:
          {% else %}
        - pkgrepo: linux_repo_{{ name }}
          {% endif %}
@@ -130,7 +109,7 @@ index ddb4a99..0b66546 100644
        {%- endif %}
 
        {%- if repo.get('default', False) %}
-@@ -110,6 +129,9 @@ linux_repo_{{ name }}_key:
+@@ -111,6 +131,9 @@ linux_repo_{{ name }}_key:
        {%- else %}
 
          {%- if repo.get('enabled', True) %}
@@ -140,7 +119,7 @@ index ddb4a99..0b66546 100644
  linux_repo_{{ name }}:
    pkgrepo.managed:
    - refresh_db: False
-@@ -125,10 +147,10 @@ linux_repo_{{ name }}:
+@@ -126,10 +149,10 @@ linux_repo_{{ name }}:
              {%- endif %}
    - file: /etc/apt/sources.list.d/{{ name }}.list
    - clean_file: {{ repo.get('clean_file', True) }}
@@ -153,8 +132,8 @@ index ddb4a99..0b66546 100644
    - keyserver: {{ repo.key_server }}
              {%- endif %}
              {%- if repo.key_url is defined and (grains['saltversioninfo'] >= [2017, 7] or repo.key_url.startswith('salt://')) %}
-@@ -148,6 +170,22 @@ linux_repo_{{ name }}:
-               {%- endif %}
+@@ -143,6 +166,22 @@ linux_repo_{{ name }}:
+     - file: purge_sources_list_d_repos
              {%- endif %}
            {%- endif %}
 +          {%- if use_proxy and repo.key_id is defined and repo.key_server is defined %}
@@ -174,5 +153,5 @@ index ddb4a99..0b66546 100644
 +          {%- endif %}
 +        {#- repo.enabled is false #}
          {%- else %}
- linux_repo_{{ name }}_absent:
+ linux_repo_{{ name }}:
    pkgrepo.absent:
