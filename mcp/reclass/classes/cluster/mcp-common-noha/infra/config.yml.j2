@@ -28,6 +28,15 @@ parameters:
           enabled: true
           name: ${_param:opnfv_fn_vm_secondary_interface}
           type: eth
+{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) and (nm.vlan_mgmt | int > 0) %}
+          proto: manual
+        single_int_vlan:
+          enabled: true
+          type: vlan
+          name: ${_param:opnfv_fn_vm_secondary_interface}.{{ nm.vlan_mgmt }}
+          use_interfaces:
+            - ${_param:opnfv_fn_vm_secondary_interface}
+{%- endif %}
           proto: static
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_mgmt_mask}

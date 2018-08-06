@@ -40,8 +40,17 @@ parameters:
         single:
           enabled: true
           type: eth
-          proto: static
           name: ${_param:single_nic}
+{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) and (nm.vlan_mgmt | int > 0) %}
+          proto: manual
+        single_vlan:
+          enabled: true
+          type: vlan
+          name: ${_param:single_nic}.{{ nm.vlan_mgmt }}
+          use_interfaces:
+            - ${_param:single_nic}
+{%- endif %}
+          proto: static
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
         pxe_admin_int:
