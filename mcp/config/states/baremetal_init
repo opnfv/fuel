@@ -36,4 +36,4 @@ salt -C "${cluster_nodes_query}" system.reboot
 wait_for 90.0 "salt -C '${cluster_nodes_query}' test.ping"
 
 salt -C "${cluster_nodes_query}" state.apply linux,ntp
-salt -C "${cluster_nodes_query}" pkg.upgrade refresh=False
+salt -C "${cluster_nodes_query}" pkg.upgrade refresh=False dist_upgrade=True
