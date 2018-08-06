@@ -47,6 +47,7 @@ parameters:
           opts: "defaults,backup-volfile-servers=${_param:cluster_node01_address}:${_param:cluster_node02_address}:${_param:cluster_node03_address}"
   cinder:
     volume:
+      my_ip: ${_param:single_address}
       backend:
         lvm-driver:
           # Align system.cinder.volume.backend.lvm and MaaS data
