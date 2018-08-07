@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_abba0adf",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/maas.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-08-07T07:44:21Z",
+      "side": 1,
+      "message": "should there be an else here?",
+      "revId": "d645f98514f524484c138a1224b5858fd23aa847",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
