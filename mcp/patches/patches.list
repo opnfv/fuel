@@ -10,3 +10,4 @@
 /usr/share/salt-formulas/env: 0010-maas-region-allow-timeout-override.patch
 /usr/share/salt-formulas/env: 0011-system.repo-Debian-Add-keyserver-proxy-support.patch
 /usr/share/salt-formulas/env: 0015-Set-ovs-bridges-as-L3-interfaces.patch
+/usr/share/salt-formulas/env: 0016-Disable-glance-signature-verification.patch
