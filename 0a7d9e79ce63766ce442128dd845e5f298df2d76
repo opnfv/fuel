@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_4b7eceaf",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-08-07T09:35:45Z",
+      "side": 1,
+      "message": "The value of \"barbican_integration_enabled\" might be overwritten here.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "0a7d9e79ce63766ce442128dd845e5f298df2d76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
