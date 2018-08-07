@@ -36,7 +36,7 @@ parameters:
         tenant: service
         password: ${_param:keystone_neutron_password}
       barbican:
-        enabled: ${_param:barbican_integration_enabled}
+        enabled: true
   neutron:
     compute:
       notification: true
@@ -59,7 +59,7 @@ parameters:
       message_queue:
         host: ${_param:cluster_local_address}
       barbican:
-        enabled: ${_param:barbican_integration_enabled}
+        enabled: true
   nfs:
     client:
       mount:
