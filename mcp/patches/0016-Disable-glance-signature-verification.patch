@@ -1,0 +1,36 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Delia Popescu <delia.popescu@enea.com>
+Date: Mon, 6 Aug 2018 17:09:14 +0300
+Subject: [PATCH] Disable glance signature verification
+
+Disable glance signature verification if barbican
+integration is enabled on compute nodes
+
+Signed-off-by: Delia Popescu <delia.popescu@enea.com>
+---
+ nova/files/queens/nova-compute.conf.Debian | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/nova/files/queens/nova-compute.conf.Debian b/nova/files/queens/nova-compute.conf.Debian
+index d471a264..47a4e890 100644
+--- a/nova/files/queens/nova-compute.conf.Debian
++++ b/nova/files/queens/nova-compute.conf.Debian
+@@ -5447,9 +5447,9 @@ api_servers = {{ compute.image.get('protocol', 'http') }}://{{ compute.image.hos
+ #   below depend on this option being enabled.
+ #  (boolean value)
+ {%- if compute.get('barbican', {}).get('enabled', False) %}
+-verify_glance_signatures=true
++#verify_glance_signatures=true
+ {%- else %}
+-#verify_glance_signatures=false
++verify_glance_signatures=false
+ {%- endif %}
+
+ # DEPRECATED:
