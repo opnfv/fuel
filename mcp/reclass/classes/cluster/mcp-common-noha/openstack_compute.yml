@@ -49,6 +49,10 @@ parameters:
         host: ${_param:openstack_control_address}
   cinder:
     volume:
+      backend:
+        lvm-driver:
+          # Align system.cinder.volume.backend.lvm and MaaS data
+          volume_group: ${linux:storage:lvm:cinder-vg:name}
       my_ip: ${_param:single_address}
       database:
         host: ${_param:cluster_local_address}
@@ -68,6 +72,11 @@ parameters:
           fstype: nfs
           device: ${_param:openstack_control_address}:/srv/nova/instances
   linux:
+    storage:
+      lvm:
+        # Align with both system.cinder.volume.backend.lvm and MaaS data
+        cinder-vg:
+          name: vgroot
     system:
       kernel:
         sysctl:

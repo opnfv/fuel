@@ -10,8 +10,8 @@
 ---
 {%- if conf.MCP_VCP %}
 classes:
-  - cluster.mcp-common-ha.include.maas_proxy
-  - cluster.mcp-common-ha.include.lab_proxy_pdf
+  - cluster.all-mcp-arch-common.opnfv.maas_proxy
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
 parameters:
   _param:
     pxe_admin_interface: ${_param:opnfv_vcp_vm_primary_interface}

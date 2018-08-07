@@ -3,9 +3,9 @@ all-mcp-arch-common/init.yml
 all-mcp-arch-common/opnfv/init.yml
 mcp*common-*/infra/config.yml
 mcp-common-ha/infra/init.yml
-mcp-common-ha/infra/maas.yml
+all-mcp-arch-common/infra/maas.yml
 mcp-common-ha/infra/kvm_novcp.yml
-mcp-common-ha/include/maas_proxy.yml
+all-mcp-arch-common/opnfv/maas_proxy.yml
 mcp-common-ha/openstack_control.yml
 mcp-common-ha/openstack_telemetry.yml
 mcp*common-*/openstack_init.yml
