@@ -5,11 +5,15 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 cluster:
-  domain: mcp-ovs-dpdk-noha.local
+  domain: mcp-ovs-noha.local
   states:
-    - dpdk
+{%- if nm.cluster.has_baremetal_nodes %}
+    - maas
+    - baremetal_init
+{%- endif %}
     - openstack_noha
     - neutron_gateway
     - networks
@@ -17,6 +21,9 @@ virtual:
   nodes:
     infra:
       - cfg01
+{%- if nm.cluster.has_baremetal_nodes %}
+      - mas01
+{%- endif %}
     control:
       - ctl01
       - gtw01
@@ -28,9 +35,3 @@ virtual:
     ram: 14336
   gtw01:
     ram: 2048
-  cmp001:
-    vcpus: 4
-    ram: 8192
-  cmp002:
-    vcpus: 4
-    ram: 8192
