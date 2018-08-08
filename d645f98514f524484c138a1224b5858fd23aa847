@@ -16,6 +16,24 @@
       "revId": "d645f98514f524484c138a1224b5858fd23aa847",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_3c1abe6e",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/maas.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-08-08T13:26:46Z",
+      "side": 1,
+      "message": "No, if mgmt is trunked we want both the interface and the vlan defition on top of it.\nBy leaving below arguments last, the IP addr will be applied either to the interface or the vlan definition.",
+      "parentUuid": "9a561d44_abba0adf",
+      "revId": "d645f98514f524484c138a1224b5858fd23aa847",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
