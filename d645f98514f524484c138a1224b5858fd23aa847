@@ -34,6 +34,24 @@
       "revId": "d645f98514f524484c138a1224b5858fd23aa847",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_5c34d2dd",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/maas.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-08-08T13:52:05Z",
+      "side": 1,
+      "message": "Ok, I was under the impression you are creating either one or the other. But you are actually creating either 1 or 2 interfaces.",
+      "parentUuid": "9a561d44_3c1abe6e",
+      "revId": "d645f98514f524484c138a1224b5858fd23aa847",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
