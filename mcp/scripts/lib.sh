@@ -407,6 +407,7 @@ function create_vms {
 
   # create vms with specified options
   for serialized_vnode_data in "${vnodes[@]}"; do
+    if [ -z "${serialized_vnode_data}" ]; then continue; fi
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
 
     # prepare network args
