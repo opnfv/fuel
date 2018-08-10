@@ -79,7 +79,8 @@ function do_templates_cluster {
     awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
   done
   # shellcheck disable=SC2046
-  j2args=$(find "${RECLASS_CLUSTER_DIR}" "$(readlink -f virsh_net)" $(readlink -f ./*j2) \
+  j2args=$(find "${RECLASS_CLUSTER_DIR}" "$(readlink -f virsh_net)" \
+           "$(readlink -f docker-compose)" $(readlink -f ./*j2) \
            -name '*.j2' -exec echo -j {} \;)
   # shellcheck disable=SC2086
   if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
