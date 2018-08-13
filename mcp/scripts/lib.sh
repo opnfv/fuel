@@ -546,6 +546,13 @@ function wait_for {
   )
 }
 
+function do_udev_cfg {
+  local _conf='/etc/udev/rules.d/99-opnfv-fuel-vnet-mtu.rules'
+  # http://linuxaleph.blogspot.com/2013/01/how-to-network-jumbo-frames-to-kvm-guest.html
+  echo 'SUBSYSTEM=="net", ACTION=="add", KERNEL=="vnet*", RUN+="/sbin/ip link set mtu 9000 dev '"'"%k"'"'"' |& sudo tee "${_conf}"
+  sudo udevadm control --reload || true
+}
+
 function do_sysctl_cfg {
   local _conf='/etc/sysctl.d/99-opnfv-fuel-bridge.conf'
   # https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf
