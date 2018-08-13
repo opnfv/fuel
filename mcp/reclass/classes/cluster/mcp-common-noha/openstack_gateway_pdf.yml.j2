@@ -24,6 +24,7 @@ parameters:
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
           mtu: ${_param:interface_mtu}
+          noifupdown: true
         primary_interface:
           enabled: true
           name: ${_param:primary_interface}

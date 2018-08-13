@@ -18,6 +18,7 @@ parameters:
           type: eth
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
+          noifupdown: true
         single_int:
           enabled: true
           name: {{ nm.ctl01.nic_mgmt }}

@@ -21,6 +21,7 @@ parameters:
           gateway: {{ nm.net_admin_gw }}
           name_servers:
             - {{ nm.net_admin_gw }}
+          noifupdown: true
         single_int:
           enabled: true
           name: {{ nm.ctl01.nic_mgmt }}

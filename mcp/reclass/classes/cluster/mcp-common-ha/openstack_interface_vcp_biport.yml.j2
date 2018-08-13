@@ -28,6 +28,7 @@ parameters:
           gateway: {{ nm.net_admin_gw }}
           name_servers:
             - {{ nm.net_admin_gw }}
+          noifupdown: true
         single:
           enabled: true
           type: eth
