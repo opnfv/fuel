@@ -293,6 +293,7 @@ else
       "${virtual_nodes[@]}"
     create_networks "${OPNFV_BRIDGES[@]}"
     do_sysctl_cfg
+    do_udev_cfg
     create_vms "${STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
     start_vms "${virtual_nodes[@]}"
