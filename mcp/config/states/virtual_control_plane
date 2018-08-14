@@ -57,4 +57,4 @@ wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_
 salt -C 'prx*' system.reboot
 wait_for 30.0 "salt -C 'prx*' test.ping"
 
-salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.upgrade refresh=False
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.upgrade refresh=False dist_upgrade=True
