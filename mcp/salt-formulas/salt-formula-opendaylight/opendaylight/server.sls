@@ -46,11 +46,6 @@ opendaylight:
   pkg.installed:
   - require:
     - pkgrepo: opendaylight_repo
-  - require_in:
-    - file: /opt/opendaylight/etc/jetty.xml
-    - file: /opt/opendaylight/bin/setenv
-    - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
-    - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
   service.running:
   - enable: true
 {%- if grains['saltversioninfo'] >= [2017, 7] %}
@@ -58,6 +53,7 @@ opendaylight:
 {%- endif %}
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
+    - file: /opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-dhcpservice-config.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
@@ -104,6 +100,12 @@ opendaylight:
     - watch_in:
       - service: opendaylight
 {%- endif %}
+
+/opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-dhcpservice-config.xml:
+  file.managed:
+  - source: salt://opendaylight/files/netvirt-dhcpservice-config.xml
+  - use:
+    - file: /opt/opendaylight/etc/jetty.xml
 
 {%- if grains['cpuarch'] == 'aarch64' %}
 opendaylight-leveldbjni:
