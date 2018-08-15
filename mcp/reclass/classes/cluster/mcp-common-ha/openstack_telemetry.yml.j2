@@ -69,6 +69,8 @@ parameters:
         - python-memcache
   apache:
     server:
+      bind:
+        listen_default_ports: false
       ~modules:
         - rewrite
 {%- if conf.MCP_VCP %} {#- wsgi module will be enabled by a different class inherited later #}

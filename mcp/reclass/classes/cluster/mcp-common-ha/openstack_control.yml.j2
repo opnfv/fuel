@@ -23,6 +23,7 @@ classes:
   - system.barbican.server.cluster
   - system.apache.server.site.barbican
   - service.barbican.server.plugin.simple_crypto
+  - system.apache.server.single
   - system.bind.server.single
   - system.haproxy.proxy.listen.openstack.placement
   - system.glusterfs.client.cluster
@@ -125,7 +126,7 @@ parameters:
   apache:
     server:
       bind:
-        ~ports: ~
+        listen_default_ports: false
   # sync from common-ha kvm role
   glusterfs:
     server:

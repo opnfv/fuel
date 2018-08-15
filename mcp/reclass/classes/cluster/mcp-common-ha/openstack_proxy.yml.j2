@@ -14,6 +14,7 @@ classes:
   - system.nginx.server.proxy.openstack_web
   - system.nginx.server.proxy.openstack.aodh
   - system.nginx.server.proxy.openstack.ceilometer
+  - system.apache.server.single
   - system.horizon.server.single
   - system.salt.minion.cert.proxy
   - system.sphinx.server.doc.reclass
@@ -93,3 +94,7 @@ parameters:
       vrrp_scripts:
         check_pidof:
           args: 'nginx'
+  apache:
+    server:
+      bind:
+        listen_default_ports: false

@@ -68,7 +68,7 @@ salt -I 'aodh:server' state.sls aodh -b 1
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
-salt -I 'horizon:server' state.sls horizon
+salt -I 'horizon:server' state.sls apache,horizon
 salt -I 'nginx:server' state.sls nginx
 
 cluster_public_host=$(salt -C 'I@nginx:server and *01*' --out=yaml \

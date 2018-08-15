@@ -60,6 +60,7 @@ classes:
   - system.apache.server.site.gnocchi
   - system.apache.server.site.panko
   - system.apache.server.site.barbican
+  - system.apache.server.single
   - system.horizon.server.single
   - service.haproxy.proxy.single
   - cluster.mcp-common-noha.haproxy_openstack_api
@@ -174,6 +175,8 @@ parameters:
       root_helper_daemon: false
   apache:
     server:
+      bind:
+        listen_default_ports: false
       site:
         gnocchi: &wsgi_threads
           wsgi:
