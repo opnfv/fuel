@@ -71,6 +71,7 @@ parameters:
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
     glusterfs_version: '3.13'
+    barbican_integration_enabled: 'false'
   nova:
     controller: &db_conn_recycle_time
       database:

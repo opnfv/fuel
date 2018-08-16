@@ -69,6 +69,7 @@ parameters:
   _param:
     linux_system_codename: xenial
     ceilometer_create_gnocchi_resources: 'True'
+    barbican_integration_enabled: 'false'
   linux:
     system:
       package:
