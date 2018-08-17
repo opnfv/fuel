@@ -5,21 +5,23 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - cluster.mcp-common-noha.openstack_gateway
   - service.neutron.gateway.single
-  - cluster.mcp-ovs-noha
+  - cluster.mcp-ovs-dpdk-noha
 parameters:
+  neutron:
+    gateway:
+      backend:
+        tenant_network_types: ${_param:neutron_tenant_network_types}
   linux:
     network:
       interface:
-        br-mesh:
+        {{ nm.cmp001.nic_private }}:
+          ovs_bridge: br-prv
+        br-prv:
           enabled: true
-          type: bridge
+          type: ovs_bridge
           mtu: ${_param:interface_mtu}
-          proto: static
-          address: ${_param:tenant_address}
-          netmask: ${_param:opnfv_net_private_mask}
-          use_interfaces:
-            - ${_param:tenant_interface}

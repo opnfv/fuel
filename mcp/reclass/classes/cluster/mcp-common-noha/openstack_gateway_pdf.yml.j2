@@ -7,11 +7,12 @@
 ##############################################################################
 ---
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_mgmt: True, nm.ctl01.nic_private: True } %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
+{%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt, vlan_private_start: nm.ctl01.nic_private } %}
 parameters:
-  _param:
-    primary_interface: {{ nm.ctl01.nic_mgmt }}
-    tenant_interface: {{ nm.ctl01.nic_private }}
-    external_interface: {{ nm.ctl01.nic_public }}
   linux:
     network:
       bridge: openvswitch
@@ -25,21 +26,19 @@ parameters:
           netmask: ${_param:opnfv_net_admin_mask}
           mtu: ${_param:interface_mtu}
           noifupdown: true
-        primary_interface:
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.ctl01.nic_admin in nics %}
+  {%- do nics.pop(nm.ctl01.nic_admin) %}
+{%- endif %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
+        ovs_port_{{ nm.ctl01.nic_public }}:
           enabled: true
-          name: ${_param:primary_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
-        tenant_interface:
-          enabled: true
-          name: ${_param:tenant_interface}
-          mtu: ${_param:interface_mtu}
-          proto: manual
-          type: eth
-        external_interface:
-          enabled: true
-          name: ${_param:external_interface}
+          name: {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
@@ -53,7 +52,7 @@ parameters:
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
           use_interfaces:
-            - ${_param:external_interface}
+            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
         br-mgmt:
@@ -64,4 +63,4 @@ parameters:
           netmask: ${_param:opnfv_net_mgmt_mask}
           mtu: ${_param:interface_mtu}
           use_interfaces:
-            - ${_param:primary_interface}
+            - {{ ma.interface_str(nm.ctl01.nic_mgmt, nm.vlan_mgmt) }}

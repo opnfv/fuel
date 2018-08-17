@@ -6,6 +6,10 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_mgmt: True, nm.ctl01.nic_public: True } %}
+{%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt, nm.vlan_public: nm.ctl01.nic_public } %}
 ---
 parameters:
   linux:
@@ -19,19 +23,33 @@ parameters:
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
           noifupdown: true
-        single_int:
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.ctl01.nic_admin in nics %}
+  {%- do nics.pop(nm.ctl01.nic_admin) %}
+{%- endif %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
+        br-ctl:
           enabled: true
-          name: {{ nm.ctl01.nic_mgmt }}
-          type: eth
+          type: bridge
           proto: static
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
-        public_int:
+          noifupdown: true
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_mgmt, nm.vlan_mgmt) }}
+        br-ext:
           enabled: true
-          name: {{ nm.ctl01.nic_public }}
-          type: eth
+          type: bridge
           proto: static
           address: ${_param:cluster_public_host}
           netmask: ${_param:opnfv_net_public_mask}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
+          noifupdown: true

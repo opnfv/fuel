@@ -27,3 +27,4 @@ mcp-odl-noha/infra/config.yml
 mcp-*-noha/openstack/compute.yml
 mcp-common-noha/infra/init.yml
 mcp-common-noha/init_options.yml
+mcp-*-noha/openstack/gateway.yml
