@@ -43,7 +43,6 @@ aarch64:
         - armband 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/queens/xenial queens-armband main
     pkg:
       install:
-        - linux-generic-hwe-16.04
         - python-futures
         - salt-minion
   control:
