@@ -37,7 +37,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 47 insertions(+), 8 deletions(-)
 
 diff --git a/linux/system/repo.sls b/linux/system/repo.sls
-index 9664129..d9f567e 100644
+index 0c0b026..82661f0 100644
 --- a/linux/system/repo.sls
 +++ b/linux/system/repo.sls
 @@ -7,18 +7,27 @@ linux_repo_prereq_pkgs:
