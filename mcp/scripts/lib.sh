@@ -454,10 +454,7 @@ function create_vms {
 
 function update_mcpcontrol_network {
   # set static ip address for salt master node, MaaS node
-  local cmac=$(virsh domiflist cfg01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
   local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
-  virsh net-update "mcpcontrol" add ip-dhcp-host \
-    "<host mac='${cmac}' name='cfg01' ip='${SALT_MASTER}'/>" --live --config
   [ -z "${amac}" ] || virsh net-update "mcpcontrol" add ip-dhcp-host \
     "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
 }
@@ -487,6 +484,27 @@ function start_vms {
     virsh start "${node}"
     sleep $((RANDOM%5+1))
   done
+}
+
+function prepare_containers {
+  local image_dir=$1
+  [ -n "${image_dir}" ] || exit 1
+  [ -n "${MCP_REPO_ROOT_PATH}" ] || exit 1
+
+  docker-compose -f docker-compose/docker-compose.yaml down
+  sudo rm -rf "${image_dir}/salt"
+  mkdir -p "${image_dir}/salt/"{master.d,minion.d}
+  # salt state does not properly configure file_roots in master.conf, hard set it
+  sed -e 's/user: salt/user: root/' -e 's/auto_accept:/open_mode:/' \
+      "${MCP_REPO_ROOT_PATH}/docker/files/salt/master.conf" > \
+      "${image_dir}/salt/master.d/opnfv.conf"
+  echo 'master: localhost' > "${image_dir}/salt/minion.d/opnfv.conf"
+  cp "${MCP_REPO_ROOT_PATH}/mcp/scripts/docker-compose/files/hosts" \
+      "${image_dir}/hosts"
+}
+
+function start_containers {
+  docker-compose -f docker-compose/docker-compose.yaml up --quiet-pull -d
 }
 
 function check_connection {
@@ -589,5 +607,13 @@ function docker_install {
     rm get-docker.sh
     # On RHEL distros, the Docker service should be explicitly started
     sudo systemctl start docker
+  fi
+  # Distro-provided docker-compose might be simply broken (Ubuntu 16.04)
+  COMPOSE_VERSION='1.22.0'
+  COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}"
+  COMPOSE_BIN='/usr/local/bin/docker-compose'
+  if ! docker-compose --version | grep -q -e "${COMPOSE_VERSION}"; then
+    sudo curl -L "${COMPOSE_URL}/docker-compose-$(uname -s)-$(uname -m)" -o "${COMPOSE_BIN}"
+    sudo chmod +x "${COMPOSE_BIN}"
   fi
 }

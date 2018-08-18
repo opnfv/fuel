@@ -11,6 +11,9 @@ Date: Mon, 12 Mar 2018 17:43:09 +0400
 Subject: [PATCH] Handle extra environment variables
 
 Change-Id: Ieae46ac65041630759c82238a8a5ce0535c454b2
+---
+ keystone/files/keystonercv3 | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/keystone/files/keystonercv3 b/keystone/files/keystonercv3
 index 1b7f378..984c8a2 100644

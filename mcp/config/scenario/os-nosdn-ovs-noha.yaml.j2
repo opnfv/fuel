@@ -10,6 +10,7 @@
 cluster:
   domain: mcp-ovs-dpdk-noha.local
   states:
+    - virtual_init
 {%- if nm.cluster.has_baremetal_nodes %}
     - maas
     - baremetal_init
@@ -21,7 +22,6 @@ cluster:
 virtual:
   nodes:
     infra:
-      - cfg01
 {%- if nm.cluster.has_baremetal_nodes %}
       - mas01
 {%- endif %}
