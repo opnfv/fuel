@@ -35,18 +35,20 @@ node's PXE physical interface, but that overcomplicates things.
 blocksize to be 1008. We can force it to be 1464 and gain some performance due
 to MTU beeing 1500 (i.e. allow bigger packets).
 
-
 JIRA: FUEL-316
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
+ maas/region.sls | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/maas/region.sls b/maas/region.sls
+index 5844f22..d844bb4 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -19,6 +19,46 @@
-   - require:
-     - pkg: maas_region_packages
+@@ -38,6 +38,46 @@ restore_maas_database_{{ region.database.name }}:
+
+ {%- endif %}
 
 +maas_timeout_commissioning:
 +  file.replace:
