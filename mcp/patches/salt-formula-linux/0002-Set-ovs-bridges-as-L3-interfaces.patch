@@ -11,10 +11,16 @@ Date: Wed, 28 Feb 2018 17:54:28 +0400
 Subject: [PATCH] Set ovs bridges as L3 interfaces
 
 Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
+---
+ linux/files/ovs_bridge      | 19 +++++++++++++++++++
+ linux/files/ovs_port        |  7 ++++++-
+ linux/network/interface.sls | 28 ++++++++++++++++++++++++++++
+ 3 files changed, 53 insertions(+), 1 deletion(-)
+ create mode 100644 linux/files/ovs_bridge
 
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..c609e45
+index 0000000..073c91c
 --- /dev/null
 +++ b/linux/files/ovs_bridge
 @@ -0,0 +1,19 @@
@@ -38,14 +44,14 @@ index 0000000..c609e45
 +  dns-nameservers {{ bridge.name_servers | join(' ') }}
 +  {%- endif %}
 diff --git a/linux/files/ovs_port b/linux/files/ovs_port
-index 222ca8e..efb0307 100644
+index 222ca8e..03072cd 100644
 --- a/linux/files/ovs_port
 +++ b/linux/files/ovs_port
 @@ -1,6 +1,11 @@
+-auto {{ port_name }}
 +# With systemd, adding OVS bridges as 'auto' can cause race conditions
 +# https://github.com/openvswitch/ovs/blob/master/debian/openvswitch-switch.README.Debian
 +# auto {{ port_name }}
--auto {{ port_name }}
  allow-{{ port.bridge }} {{ port_name }}
  iface {{ port_name }} inet {{ port.get('proto', 'manual') }}
 +{%- if '.' in port_name %}
@@ -55,7 +61,7 @@ index 222ca8e..efb0307 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index 180f912..dcb295b 100644
+index c2d2a23..01131fa 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
 @@ -91,6 +91,34 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
