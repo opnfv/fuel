@@ -376,9 +376,9 @@ function jumpserver_check_requirements {
 }
 
 function create_networks {
-  local vnode_networks=("$@")
+  local all_vnode_networks=("mcpcontrol" "$@")
   # create required networks, including constant "mcpcontrol"
-  for net in "mcpcontrol" "${vnode_networks[@]}"; do
+  for net in "${all_vnode_networks[@]}"; do
     if virsh net-info "${net}" >/dev/null 2>&1; then
       virsh net-destroy "${net}" || true
       virsh net-undefine "${net}"
@@ -390,6 +390,14 @@ function create_networks {
       virsh net-autostart "${net}"
       virsh net-start "${net}"
     fi
+  done
+  # create veth pairs for relevant networks (mcpcontrol, pxebr, mgmt)
+  for i in $(seq 0 2 4); do
+    sudo ip link del "veth_mcp$i" || true
+    sudo ip link add "veth_mcp$i" type veth peer name "veth_mcp$((i+1))"
+    sudo ip link set "veth_mcp$i" up mtu 9000
+    sudo ip link set "veth_mcp$((i+1))" up mtu 9000
+    sudo brctl addif "${all_vnode_networks[$((i/2))]}" "veth_mcp$i"
   done
 }
 
