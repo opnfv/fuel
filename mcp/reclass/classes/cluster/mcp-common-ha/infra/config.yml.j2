@@ -29,37 +29,6 @@ parameters:
     mcpcontrol_nic: ${_param:opnfv_fn_vm_primary_interface}
     single_nic: ${_param:opnfv_fn_vm_secondary_interface}
     pxe_admin_nic: ${_param:opnfv_fn_vm_tertiary_interface}
-  linux:
-    network:
-      interface:
-        mcpcontrol_int:
-          enabled: true
-          type: eth
-          proto: dhcp
-          name: ${_param:mcpcontrol_nic}
-        single:
-          enabled: true
-          type: eth
-          name: ${_param:single_nic}
-{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) and (nm.vlan_mgmt | int > 0) %}
-          proto: manual
-        single_vlan:
-          enabled: true
-          type: vlan
-          name: ${_param:single_nic}.{{ nm.vlan_mgmt }}
-          use_interfaces:
-            - ${_param:single_nic}
-{%- endif %}
-          proto: static
-          address: ${_param:single_address}
-          netmask: ${_param:opnfv_net_mgmt_mask}
-        pxe_admin_int:
-          enabled: true
-          type: eth
-          proto: static
-          name: ${_param:pxe_admin_nic}
-          address: ${_param:pxe_admin_address}
-          netmask: ${_param:opnfv_net_admin_mask}
   salt:
     master:
       accept_policy: open_mode

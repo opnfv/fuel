@@ -1,0 +1,44 @@
+#!/bin/bash -e
+# shellcheck disable=SC1090
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+
+# shellcheck disable=SC1090
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/xdf_data.sh"
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+# shellcheck disable=SC2154,SC2086,SC2116
+LOCAL_VIRT_NODES=$(echo ${virtual_nodes[*]}) # unquoted to filter space
+NODE_MASK="${LOCAL_VIRT_NODES// /|}"
+
+wait_for 3.0 "salt-call state.apply salt exclude='[{id: salt_master_service}]'"
+wait_for 3.0 "salt -C 'cfg01.*' state.sls reclass"
+
+# NOTE: domain name changes are not yet supported without a clean redeploy
+
+# Init specific to VMs on FN (all for virtual, cfg|mas for baremetal)
+wait_for 3.0 "salt-call state.apply linux exclude=linux.system.kernel"
+if [[ "${LOCAL_VIRT_NODES}" =~ mas ]]; then
+  wait_for 3.0 "salt -C 'mas*' test.ping"
+else
+  wait_for 3.0 "(for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping || exit; done)"
+fi
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.sync_all"
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.refresh_pillar"
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' state.apply salt"
+
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.system,linux.storage"
+wait_for 2.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.network"
+salt -C "E@^(${NODE_MASK}).*" system.reboot
+wait_for 90.0 "salt -C 'E@^(${NODE_MASK}).*' test.ping"
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' pkg.upgrade refresh=False dist_upgrade=True"
+
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' state.sls ntp"
