@@ -10,6 +10,7 @@
 cluster:
   domain: mcp-odl-ha.local
   states:
+    - virtual_init
 {%- if nm.cluster.has_baremetal_nodes %}
     - maas
     - baremetal_init
@@ -23,7 +24,6 @@ cluster:
 virtual:
   nodes:
     infra:
-      - cfg01
 {%- if nm.cluster.has_baremetal_nodes %}
       - mas01
 {%- endif %}
@@ -35,9 +35,6 @@ virtual:
       - cmp001
       - cmp002
   # Below values are only used for each node if said node is virtual
-  cfg01:
-    vcpus: 4
-    ram: 6144
   mas01:
     vcpus: 4
     ram: 6144
