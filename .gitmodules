@@ -10,3 +10,7 @@
 	path = mcp/scripts/pharos
 	url = https://github.com/opnfv/pharos
 	branch = master
+[submodule "docker"]
+	path = docker
+	url = https://github.com/epcim/docker-salt-formulas
+	branch = master
