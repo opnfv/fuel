@@ -1,0 +1,78 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 21 Aug 2018 02:42:35 +0200
+Subject: [PATCH] OPNFV tag convention alignment
+
+* (arch)- prefix Docker tags
+  Hacky implementation that only detects 'arm64', otherwise it will
+  default to 'amd64'.
+  Note that Docker arch notation uses 'arm64' instead of 'aarch64'.
+* Override Docker tag to align with OPNFV format
+* use Docker repository: opnfv/fuel
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ invoke.yml | 2 +-
+ tasks.py   | 7 +++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/invoke.yml b/invoke.yml
+index 0bd793e..291f4c7 100644
+--- a/invoke.yml
++++ b/invoke.yml
+@@ -65,7 +65,7 @@ target:
+
+ dockermake:
+   destination: 'images'
+-  repository:  'docker.io/epcim/salt'
++  repository:  'docker.io/opnfv/fuel'
+   # options: '--no-cache'
+   # options: '--bust-cache reclass'
+   # options: '--registry-user epcim'
+diff --git a/tasks.py b/tasks.py
+index d6bf3bc..092c6e7 100644
+--- a/tasks.py
++++ b/tasks.py
+@@ -6,6 +6,7 @@ from invoke import Collection, task
+ from string import Template
+ import re
+ import ast
++import platform
+
+ # TODOs:
+ # - WIP - use namespace to expose images/targets as inoke tasks # image = Collection('image')
+@@ -25,8 +26,9 @@ def all(ctx, dry=False, push=False, dry_targets=False, filter=None, **kwargs):
+                      dry=dry, push=push, dry_targets=dry_targets, filter=filter, **kwargs)
+
+ @task
+-def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, push=False, dry=False, dry_targets=False, **kwargs):
++def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, opnfv_tag='latest', push=False, dry=False, dry_targets=False, **kwargs):
+
++    kwargs['arch'] = 'arm64' if platform.machine() == 'aarch64' else 'amd64'
+     kwargs['dist'] = dist
+     kwargs['dist_rel'] = dist_rel
+     kwargs['dry'] = True if dry_targets or dry else False
+@@ -35,6 +37,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
+     kwargs['require'] = require
+     kwargs['salt'] = salt
+     kwargs['target'] = target
++    kwargs['opnfv_tag'] = opnfv_tag
+     # command formating + update
+     fmt = {'tag': ''}
+     fmt.update(ctx.dockermake)
+@@ -56,7 +59,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
+     # execute
+     cmd = Template("""
+             ${dry}docker-make -f DockerMake.${dist}.yml -u ${repository}: --name ${target} \
+-            \t-t ${dist}-${dist_rel}${tag} \
++            \t-t ${arch}-${opnfv_tag} \
+             \t--requires ${requires} \
+             \t--build-arg SALT_VERSION="${salt}" \
+             \t--build-arg SALT_FORMULA_VERSION="${formula_rev}" \
