@@ -572,3 +572,14 @@ function get_nova_compute_pillar_data {
     echo "${value}"
   fi
 }
+
+function docker_install {
+  # Mininum effort attempt at installing Docker if missing
+  if ! which docker; then
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    rm get-docker.sh
+    # On RHEL distros, the Docker service should be explicitly started
+    sudo systemctl start docker
+  fi
+}
