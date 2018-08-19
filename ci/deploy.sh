@@ -240,7 +240,7 @@ if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
     notify "[NOTE] Skipping distro pkg installation" 2
 else
     notify "[NOTE] Installing required distro pkgs" 2
-    jumpserver_pkg_install
+    jumpserver_pkg_install 'deploy'
 fi
 
 if ! virsh list >/dev/null 2>&1; then

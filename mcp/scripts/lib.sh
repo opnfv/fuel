@@ -321,6 +321,7 @@ function prepare_vms {
 }
 
 function jumpserver_pkg_install {
+  local req_type=$1
   if [ -n "$(command -v apt-get)" ]; then
     pkg_type='deb'; pkg_cmd='sudo apt-get install -y'
   else
@@ -328,7 +329,7 @@ function jumpserver_pkg_install {
   fi
   eval "$(parse_yaml "./requirements_${pkg_type}.yaml")"
   for section in 'common' "$(uname -i)"; do
-    section_var="requirements_pkg_${section}[*]"
+    section_var="${req_type}_${section}[*]"
     pkg_list+=" ${!section_var}"
   done
   # shellcheck disable=SC2086

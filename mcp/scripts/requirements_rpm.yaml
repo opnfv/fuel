@@ -6,13 +6,18 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 ---
-requirements_pkg:
+build:
+  # Common pkgs required for all builds, no matter the type, arch etc.
+  common:
+    - python-pip
+deploy:
   # Common pkgs required for all deploys, no matter the type, arch etc.
   common:
     - bc
     - bridge-utils
     - cloud-utils-growpart
     - curl
+    - docker-compose
     - elfutils-libelf-devel
     - e2fsprogs
     - genisoimage
