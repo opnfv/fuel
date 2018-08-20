@@ -10,8 +10,11 @@
 {%- import 'net_macros.j2' as ma with context %}
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.ctl01.nic_mgmt: True, nm.ctl01.nic_private: True } %}
+{%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt } %}
+{%- if 'dpdk' not in conf.cluster.domain and not conf.MCP_DPDK_MODE %}
 {%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
-{%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt, vlan_private_start: nm.ctl01.nic_private } %}
+{%- do vlans.update({ vlan_private_start: nm.ctl01.nic_private }) %}
+{%- endif %}
 parameters:
   linux:
     network:
