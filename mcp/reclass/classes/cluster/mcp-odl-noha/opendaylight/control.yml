@@ -14,6 +14,7 @@ classes:
   - cluster.mcp-odl-noha.opendaylight.control_pdf
 parameters:
   _param:
+    interface_mtu: 1500
     linux_system_codename: xenial
   opendaylight:
     server:
