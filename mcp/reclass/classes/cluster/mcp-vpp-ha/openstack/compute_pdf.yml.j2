@@ -1,0 +1,36 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.cmp001.nic_private: True } %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
+{%- set vlans = { vlan_private_start: nm.cmp001.nic_private } %}
+---
+parameters:
+  linux:
+    network:
+      interface:
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.cmp001.nic_admin in nics %}
+  {%- do nics.pop(nm.cmp001.nic_admin) %}
+{%- endif %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
+        br-mesh:
+          enabled: true
+          type: bridge
+          address: ${_param:tenant_address}
+          netmask: ${_param:opnfv_net_private_mask}
+          mtu: 1500
+          use_interfaces:
+            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}

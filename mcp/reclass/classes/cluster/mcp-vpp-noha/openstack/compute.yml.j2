@@ -1,0 +1,32 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
+---
+classes:
+  - service.neutron.compute.single
+  - cluster.mcp-common-noha.openstack_compute
+  - cluster.mcp-vpp-noha
+parameters:
+  linux:
+    network:
+      interface:
+        pxe_admin_int:
+          # For scenarios without public network on cmp, set admin gw
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
+        br-mesh:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: ${_param:opnfv_net_private_mask}
+          use_interfaces:
+            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
