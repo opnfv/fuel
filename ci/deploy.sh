@@ -123,11 +123,11 @@ EOF
 # BEGIN of variables to customize
 #
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
-REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
-DEPLOY_DIR=$(cd "${REPO_ROOT_PATH}/mcp/scripts"; pwd)
-STORAGE_DIR=$(cd "${REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
+MCP_REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
+DEPLOY_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/scripts"; pwd)
+MCP_STORAGE_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
 URI_REGEXP='(file|https?|ftp)://.*'
-BASE_CONFIG_URI="file://${REPO_ROOT_PATH}/mcp/scripts/pharos"
+BASE_CONFIG_URI="file://${MCP_REPO_ROOT_PATH}/mcp/scripts/pharos"
 
 # Customize deploy workflow
 DRY_RUN=${DRY_RUN:-0}
@@ -199,7 +199,7 @@ do
             ;;
         S)
             if [[ ${OPTARG} ]]; then
-                STORAGE_DIR="${OPTARG}"
+                MCP_STORAGE_DIR="${OPTARG}"
             fi
             ;;
         h)
@@ -251,7 +251,7 @@ fi
 ./sysinfo_print.sh
 
 # Clone git submodules and apply our patches
-make -C "${REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
+make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
 # Check scenario file existence
 SCENARIO_DIR="$(readlink -f "../config/scenario")"
@@ -266,11 +266,12 @@ export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 
 MCP_DPDK_MODE=$([[ "$DEPLOY_SCENARIO" =~ ovs ]] && echo 1 || echo 0)
 # Expand jinja2 templates based on PDF data and env vars
-export MCP_VCP MCP_DPDK_MODE MCP_JUMP_ARCH=$(uname -i)
-do_templates_scenario "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
+export MCP_REPO_ROOT_PATH MCP_VCP MCP_DPDK_MODE MCP_STORAGE_DIR \
+       MCP_JUMP_ARCH=$(uname -i)
+do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
-do_templates_cluster  "${STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
-                      "${REPO_ROOT_PATH}" \
+do_templates_cluster  "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
+                      "${MCP_REPO_ROOT_PATH}" \
                       "${SCENARIO_DIR}/defaults.yaml" \
                       "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
 
@@ -289,18 +290,18 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     notify "[NOTE] Use existing infra" 2
     check_connection
 else
-    prepare_vms "${base_image}" "${STORAGE_DIR}" "${virtual_repos_pkgs}" \
+    prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
     create_networks "${OPNFV_BRIDGES[@]}"
     do_sysctl_cfg
     do_udev_cfg
-    create_vms "${STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
+    create_vms "${MCP_STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
     start_vms "${virtual_nodes[@]}"
     check_connection
 fi
 if [ ${USE_EXISTING_INFRA} -lt 2 ]; then
-    wait_for 5 "./salt.sh ${STORAGE_DIR}/pod_config.yml ${virtual_nodes[*]}"
+    wait_for 5 "./salt.sh ${MCP_STORAGE_DIR}/pod_config.yml ${virtual_nodes[*]}"
 fi
 
 # Openstack cluster setup
