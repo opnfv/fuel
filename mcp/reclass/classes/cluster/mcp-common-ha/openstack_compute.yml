@@ -80,3 +80,5 @@ parameters:
       preallocate_images: space
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      image:
+        verify_glance_signatures: false

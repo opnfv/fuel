@@ -37,6 +37,8 @@ parameters:
         password: ${_param:keystone_neutron_password}
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      image:
+        verify_glance_signatures: false
   neutron:
     compute:
       notification: true
