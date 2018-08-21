@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_6b9c606a",
+        "filename": "ci/build.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-08-21T18:17:26Z",
+      "side": 1,
+      "message": "the resulting tag (partly enforced by dockermake logic) will be one of:\n- saltmaster-reclass-amd64-latest\n- saltmaster-reclass-arm64-latest\n- saltmaster-reclass-amd64-\u003crelease\u003e\n- saltmaster-reclass-arm64-\u003crelease\u003e\n\nWhich will be hidden behind an arch-indep tag using manifest-tool in releng to:\n- saltmaster-reclass-latest\n- saltmaster-reclass-\u003crelease\u003e",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 29
+      },
+      "revId": "7d35eed8eb4b0c1047dba575f365060cebac9659",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
