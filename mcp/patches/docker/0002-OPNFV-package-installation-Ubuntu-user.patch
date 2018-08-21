@@ -1,0 +1,63 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 22 Aug 2018 01:35:06 +0200
+Subject: [PATCH] OPNFV package installation, Ubuntu user
+
+* Install OpenSSH server (and client), so other OPNFV projects can
+  easily connect to the Salt master node;
+* Install 'salt-formula-gnocchi' distro package (empty git formula
+  workaround);
+* While at it, create 'ubuntu' user so other OPNFV projects don't
+  have to switch to 'root' login;
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index 2c75586..9b044a3 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -108,6 +108,34 @@ salt-formulas:
+       && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
+       && eval ${LAYER_CLEANUP}
+
++opnfv:
++  build: |
++    # Some formulas have empty git repos, use the package version
++    ARG SALT_FORMULA_VERSION="nightly"
++    ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
++    ARG SALT_FORMULA_LIST="salt-formula-gnocchi"
++    ENV SALT_FORMULA_LIST $SALT_FORMULA_LIST
++    ENV APT_REPOSITORY "deb http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
++    ENV APT_REPOSITORY_GPG "http://apt.mirantis.com/public.gpg"
++    RUN echo "Layer extra salt-formulas packages" \
++      && echo "$APT_REPOSITORY" | tee /etc/apt/sources.list.d/salt-formulas.list >/dev/null \
++      && curl -sL $APT_REPOSITORY_GPG | $SUDO apt-key add - \
++      && eval ${LAYER_PKGUPDT} \
++      && ${LAYER_INSTALL} ${SALT_FORMULA_LIST} -y --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
++      && eval ${LAYER_CLEANUP}
++    RUN echo "Layer with OPNFV packages" \
++      && eval ${LAYER_PKGUPDT} \
++      && ${LAYER_INSTALL} \
++           gawk \
++           inetutils-ping \
++           kmod \
++           net-tools \
++           openssh-server \
++      && useradd -m ubuntu \
++      && echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ubuntu \
++      && eval ${LAYER_CLEANUP}
++
++
+ wheel:
+   requires:
+     - base
