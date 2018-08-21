@@ -64,7 +64,7 @@ pipenv --two
 pipenv install
 pipenv shell \
   "invoke build saltmaster-reclass \
-    --require 'salt salt-formulas reclass tini-saltmaster' \
+    --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
     --dist-rel=xenial \
     --formula-rev=nightly \
