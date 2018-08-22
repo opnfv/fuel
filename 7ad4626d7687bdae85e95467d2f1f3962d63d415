@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_66c5b75a",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-08-22T07:35:34Z",
+      "side": 1,
+      "message": "Actually this check should be vxlan vs vlan mode since it doesn\u0027t depend on DPDK is enabled or not.",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "7ad4626d7687bdae85e95467d2f1f3962d63d415",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
