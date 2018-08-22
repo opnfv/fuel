@@ -7,7 +7,7 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 {%- import 'net_macros.j2' as ma with context %}
-{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
+{%- set vlan_private_start = 0 if conf.MCP_DPDK_MODE else (nm.vlan_private | string).rsplit('-')[0] %}
 ---
 classes:
   - cluster.mcp-common-noha.openstack_gateway
