@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_a6650f47",
+        "filename": "mcp/scripts/requirements_deb.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-08-22T11:42:32Z",
+      "side": 1,
+      "message": "If you need docker-compose here don\u0027t you need docker as well?",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "2f4c3eca2cc08caa3560da153cf5ba6a2268c10e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
