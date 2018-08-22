@@ -38,7 +38,7 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f[f]] [-F] [-e | -E[E]] [-d] [-D] [-N]
+    [-f] [-F] [-e | -E[E]] [-d] [-D] [-N]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -46,14 +46,14 @@ $(notify "OPTIONS:" 2)
   -D  Debug logging
   -e  Do not launch environment deployment
   -E  Remove existing VCP VMs (use twice to redeploy baremetal nodes)
-  -f  Deploy on existing Salt master (use twice to also skip config sync)
-  -F  Do only create a Salt master
+  -f  Deploy on existing Salt master (use twice or more to skip states)
+  -F  Same as -e, do not launch environment deployment (legacy option)
   -h  Print this message and exit
   -l  Lab-name
   -p  Pod-name
   -P  Skip installation of package dependencies
   -s  Deploy-scenario short-name
-  -S  Storage dir for VM images
+  -S  Storage dir for VM images and other deploy artifacts
   -L  Deployment log path and file name
   -N  Experimental: Do not virtualize control plane (novcp)
 
@@ -84,9 +84,10 @@ $(notify_i "Input parameters to the build script are:" 2)
    Only applicable for baremetal deploys.
 -f Deploy on existing Salt master. It will skip infrastructure VM creation,
    but it will still sync reclass configuration from current repo to Salt
-   Master node. If specified twice (e.g. -f -f), config sync will also be
-   skipped.
--F Do only create a Salt master
+   Master node.
+   Each additional use skips one more state file. For example, -fff would
+   skip the first 3 state files (e.g. virtual_init, maas, baremetal_init).
+-F Same as -e, do not launch environment deployment (legacy option)
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
@@ -133,7 +134,6 @@ BASE_CONFIG_URI="file://${MCP_REPO_ROOT_PATH}/mcp/scripts/pharos"
 DRY_RUN=${DRY_RUN:-0}
 USE_EXISTING_PKGS=${USE_EXISTING_PKGS:-0}
 USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
-INFRA_CREATION_ONLY=${INFRA_CREATION_ONLY:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
@@ -170,10 +170,7 @@ do
         f)
             ((USE_EXISTING_INFRA+=1))
             ;;
-        F)
-            INFRA_CREATION_ONLY=1
-            ;;
-        e)
+        F|e)
             NO_DEPLOY_ENVIRONMENT=1
             ;;
         E)
@@ -288,7 +285,8 @@ if [ ${DRY_RUN} -eq 1 ]; then
     notify "[NOTE] Dry run, skipping all deployment tasks" 2
     exit 0
 elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
-    notify "[NOTE] Use existing infra" 2
+    notify "[NOTE] Use existing infra: skip first ${USE_EXISTING_INFRA} states" 2
+    notify "[STATE] Skipping: ${cluster_states[*]::${USE_EXISTING_INFRA}}" 2
 else
     prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
@@ -306,10 +304,10 @@ check_connection
 
 # Openstack cluster setup
 set +x
-if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
+if [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
     notify "[NOTE] Skip openstack cluster setup" 2
 else
-    for state in "${cluster_states[@]}"; do
+    for state in "${cluster_states[@]:${USE_EXISTING_INFRA}}"; do
         notify "[STATE] Applying state: ${state}" 2
         # shellcheck disable=SC2086,2029
         wait_for 5 "ssh ${SSH_OPTS} ${SSH_SALT} sudo \
