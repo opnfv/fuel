@@ -60,6 +60,9 @@ parameters:
         br-floating:
           enabled: true
           type: ovs_bridge
+{%- if conf.MCP_DPDK_MODE %}
+          datapath_type: netdev
+{%- endif %}
           mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:external_address}
