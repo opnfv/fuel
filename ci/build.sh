@@ -59,7 +59,7 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install distro packages and pip-managed prerequisites
 PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
-PATH="$PATH:$PYTHON_BIN_PATH"
+export PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
 pip install pipenv --user
@@ -70,16 +70,15 @@ pushd "${DOCKER_DIR}" > /dev/null
 
 pipenv --two
 pipenv install
-pipenv shell \
-  "invoke build saltmaster-reclass \
+pipenv run \
+  invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
     --dist-rel=xenial \
     --formula-rev=nightly \
     --opnfv-tag='${DOCKER_TAG}' \
     --salt='stable 2017.7' \
-    ${DOCKER_PUSH}; \
-  exit"
+    ${DOCKER_PUSH}
 
 popd > /dev/null
 
