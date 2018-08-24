@@ -31,9 +31,12 @@ MCP_REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/scripts"; pwd)
 DOCKER_DIR=$(cd "${MCP_REPO_ROOT_PATH}/docker"; pwd)
 DOCKER_TAG=${1:-latest}
+DOCKER_PUSH=${2:---push}  # pass an empty second arg to disable push
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
+
+[ ! "${TERM:-unknown}" = 'unknown' ] || export TERM=vt220
 
 #
 # END of variables to customize
@@ -52,13 +55,16 @@ umask 0000
 # Clone git submodules and apply our patches
 make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
-pushd "${DOCKER_DIR}" > /dev/null
+pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install distro packages and pip-managed prerequisites
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
 pip install pipenv --user
 docker_install
+
+popd > /dev/null
+pushd "${DOCKER_DIR}" > /dev/null
 
 pipenv --two
 pipenv install
@@ -69,7 +75,8 @@ pipenv shell \
     --dist-rel=xenial \
     --formula-rev=nightly \
     --opnfv-tag='${DOCKER_TAG}' \
-    --salt='stable 2017.7'; \
+    --salt='stable 2017.7' \
+    ${DOCKER_PUSH}; \
   exit"
 
 popd > /dev/null
