@@ -62,24 +62,20 @@ PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
 PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
-pip install pipenv --user
+sudo -H pip install -U dockermake pyinvoke
 docker_install
 
 popd > /dev/null
 pushd "${DOCKER_DIR}" > /dev/null
 
-pipenv --two
-pipenv install
-pipenv shell \
-  "invoke build saltmaster-reclass \
-    --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
-    --dist=ubuntu \
-    --dist-rel=xenial \
-    --formula-rev=nightly \
-    --opnfv-tag='${DOCKER_TAG}' \
-    --salt='stable 2017.7' \
-    ${DOCKER_PUSH}; \
-  exit"
+invoke build saltmaster-reclass \
+  --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
+  --dist=ubuntu \
+  --dist-rel=xenial \
+  --formula-rev=nightly \
+  --opnfv-tag='${DOCKER_TAG}' \
+  --salt='stable 2017.7' \
+  ${DOCKER_PUSH}
 
 popd > /dev/null
 
