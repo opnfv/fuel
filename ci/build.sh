@@ -58,6 +58,8 @@ make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install distro packages and pip-managed prerequisites
+PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
+PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
 pip install pipenv --user
