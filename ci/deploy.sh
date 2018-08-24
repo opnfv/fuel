@@ -230,6 +230,7 @@ trap do_exit SIGINT SIGTERM EXIT
 
 # Set no restrictive umask so that Jenkins can remove any residuals
 umask 0000
+"${MCP_REPO_ROOT_PATH}/ci/build.sh" '' ''
 
 pushd "${DEPLOY_DIR}" > /dev/null
 # Prepare the deploy config files based on lab/pod information, deployment

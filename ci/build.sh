@@ -70,16 +70,16 @@ pushd "${DOCKER_DIR}" > /dev/null
 
 pipenv --two
 pipenv install
-pipenv shell \
-  "invoke build saltmaster-reclass \
+pipenv install invoke
+pipenv run \
+  invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
     --dist-rel=xenial \
     --formula-rev=nightly \
     --opnfv-tag='${DOCKER_TAG}' \
     --salt='stable 2017.7' \
-    ${DOCKER_PUSH}; \
-  exit"
+    ${DOCKER_PUSH}
 
 popd > /dev/null
 
