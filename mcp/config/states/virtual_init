@@ -32,13 +32,13 @@ else
   wait_for 3.0 "(for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping || exit; done)"
 fi
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.sync_all"
-wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.refresh_pillar"
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.apply salt"
 
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.system,linux.storage"
 wait_for 2.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.network"
 salt -C "E@^(${NODE_MASK}).*" system.reboot
-wait_for 90.0 "salt -C 'E@^(${NODE_MASK}).*' test.ping"
+salt-key -Dy
+wait_for 30.0 "(for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping || exit; done)"
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' pkg.upgrade refresh=False dist_upgrade=True"
 
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' state.sls ntp"
