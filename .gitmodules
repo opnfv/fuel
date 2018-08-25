@@ -26,3 +26,7 @@
 	path = mcp/salt-formulas/salt-formula-maas
 	url = https://github.com/salt-formulas/salt-formula-maas
 	branch = master
+[submodule "salt-formula-salt"]
+	path = mcp/salt-formulas/salt-formula-salt
+	url = https://github.com/salt-formulas/salt-formula-salt
+	branch = master
