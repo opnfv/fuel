@@ -34,6 +34,7 @@ deploy:
     - python-jinja2
     - python-yaml
     - python-jsonschema
+    - systemd
   # Optional, arch-specific requirements, matched by key name = $(uname -m)
   aarch64:
     # AArch64 VMs use AAVMF (guest UEFI)
