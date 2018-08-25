@@ -58,6 +58,7 @@ parameters:
             - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          noifupdown: true
         br-mgmt:
           enabled: true
           type: bridge

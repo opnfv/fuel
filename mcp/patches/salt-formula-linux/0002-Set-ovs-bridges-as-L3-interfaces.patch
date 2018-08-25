@@ -61,7 +61,7 @@ index 222ca8e..03072cd 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index c2d2a23..01131fa 100644
+index c2d2a23..7efdc80 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
 @@ -91,6 +91,34 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
@@ -88,7 +88,7 @@ index c2d2a23..01131fa 100644
 +
 +ovs_bridge_up_{{ interface_name }}:
 +  cmd.run:
-+  - name: ifup {{ interface_name }}
++  - name: ifup --ignore-errors {{ interface_name }}
 +  - require:
 +    - file: ovs_bridge_{{ interface_name }}
 +    - openvswitch_bridge: ovs_bridge_{{ interface_name }}
