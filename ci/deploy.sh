@@ -250,6 +250,7 @@ fi
 
 # Collect jump server system information for deploy debugging
 ./sysinfo_print.sh
+which ip
 
 # Clone git submodules and apply our patches
 make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
@@ -298,11 +299,16 @@ else
     do_udev_cfg
     create_vms "${MCP_STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     update_mcpcontrol_network
+    udevadm trigger --attr-match=subsystem=net
     start_vms "${virtual_nodes[@]}"
+    udevadm trigger --attr-match=subsystem=net
 fi
 
 start_containers "${MCP_STORAGE_DIR}"
 check_connection
+
+sudo udevadm trigger --attr-match=subsystem=net
+ip link
 
 # Openstack cluster setup
 set +x
