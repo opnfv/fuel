@@ -8,3 +8,15 @@
 ---
 classes:
   - cluster.mcp-common-noha.openstack_init
+parameters:
+  linux:
+    system:
+      repo:
+        uca:
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
+          key_id: EC4926EA
+          key_server: keyserver.ubuntu.com
+          pin:
+            - pin: 'release o=Canonical'
+              priority: 1200
+              package: 'openvswitch* python-openvswitch ovn*'
