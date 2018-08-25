@@ -577,9 +577,11 @@ function wait_for {
 
 function do_udev_cfg {
   local _conf='/etc/udev/rules.d/99-opnfv-fuel-vnet-mtu.rules'
+  sudo mkdir -p '/etc/udev/rules.d'
   # http://linuxaleph.blogspot.com/2013/01/how-to-network-jumbo-frames-to-kvm-guest.html
   echo 'SUBSYSTEM=="net", ACTION=="add", KERNEL=="vnet*", RUN+="/sbin/ip link set mtu 9000 dev '"'"%k"'"'"' |& sudo tee "${_conf}"
   sudo udevadm control --reload || true
+  sudo udevadm trigger --attr-match=subsystem=net || true
 }
 
 function do_sysctl_cfg {
