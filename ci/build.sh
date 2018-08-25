@@ -62,7 +62,7 @@ PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
 PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
-pip install pipenv --user
+python -m pip install pipenv --user
 docker_install
 
 popd > /dev/null
