@@ -292,6 +292,7 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
 else
     prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
+    sudo service docker restart
     prepare_containers "${MCP_STORAGE_DIR}"
     create_networks "${OPNFV_BRIDGES[@]}"
     do_sysctl_cfg
