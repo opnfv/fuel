@@ -1,0 +1,32 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 25 Aug 2018 23:58:01 +0200
+Subject: [PATCH] minion.conf: Allow tcp_keepalive* properties
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ salt/files/minion.conf | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/salt/files/minion.conf b/salt/files/minion.conf
+index 87bb5b4..93bd4e1 100644
+--- a/salt/files/minion.conf
++++ b/salt/files/minion.conf
+@@ -26,7 +26,9 @@ id: {{ minion.id | default(system.name~"."~system.domain) }}
+   'max_event_size',
+   'random_reauth_delay',
+   'recon_default',
+-  'recon_max'
++  'recon_max',
++  'tcp_keepalive',
++  'tcp_keepalive_idle'
+ ] %}
+ {%- for opt in opt_list %}
+ {%- if minion.get(opt) %}
