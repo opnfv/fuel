@@ -27,3 +27,7 @@ parameters:
     {{key}}: {{ network | ipnet_hostaddr(i) }}
 {%- endfor %}
 {%- endfor %}
+  salt:
+    minion:
+      tcp_keepalive: True
+      tcp_keepalive_idle: 60
