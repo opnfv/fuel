@@ -579,7 +579,8 @@ function do_udev_cfg {
   local _conf='/etc/udev/rules.d/99-opnfv-fuel-vnet-mtu.rules'
   # http://linuxaleph.blogspot.com/2013/01/how-to-network-jumbo-frames-to-kvm-guest.html
   echo 'SUBSYSTEM=="net", ACTION=="add|change", KERNEL=="vnet*", ATTR{mtu}="9000"' |& sudo tee "${_conf}"
-  sudo udevadm control --reload || true
+  sudo systemctl restart systemd-udev-trigger.service
+  # sudo systemctl restart udev
 }
 
 function do_sysctl_cfg {
