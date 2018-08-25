@@ -33,12 +33,12 @@ else
 fi
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.sync_all"
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' saltutil.refresh_pillar"
-wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.apply salt"
 
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.system,linux.storage"
 wait_for 2.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux.network"
 salt -C "E@^(${NODE_MASK}).*" system.reboot
 wait_for 90.0 "salt -C 'E@^(${NODE_MASK}).*' test.ping"
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' pkg.upgrade refresh=False dist_upgrade=True"
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.apply salt"
 
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}|cfg01).*' state.sls ntp"
