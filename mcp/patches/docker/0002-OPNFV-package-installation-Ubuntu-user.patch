@@ -23,7 +23,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 28 insertions(+)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..9b044a3 100644
+index 2c75586..4883e2c 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -108,6 +108,34 @@ salt-formulas:
@@ -37,7 +37,7 @@ index 2c75586..9b044a3 100644
 +    ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
 +    ARG SALT_FORMULA_LIST="salt-formula-gnocchi"
 +    ENV SALT_FORMULA_LIST $SALT_FORMULA_LIST
-+    ENV APT_REPOSITORY "deb http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
++    ENV APT_REPOSITORY "deb [arch=amd64] http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
 +    ENV APT_REPOSITORY_GPG "http://apt.mirantis.com/public.gpg"
 +    RUN echo "Layer extra salt-formulas packages" \
 +      && echo "$APT_REPOSITORY" | tee /etc/apt/sources.list.d/salt-formulas.list >/dev/null \

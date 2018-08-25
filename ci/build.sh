@@ -77,9 +77,9 @@ pipenv run \
     --dist=ubuntu \
     --dist-rel=xenial \
     --formula-rev=nightly \
-    --opnfv-tag='${DOCKER_TAG}' \
+    --opnfv-tag="${DOCKER_TAG}" \
     --salt='stable 2017.7' \
-    ${DOCKER_PUSH}
+    "${DOCKER_PUSH}"
 
 popd > /dev/null
 
