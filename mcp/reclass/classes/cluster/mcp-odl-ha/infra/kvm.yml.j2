@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 {%- if conf.MCP_VCP %}
 # NOTE(armband): we don't want to pull in salt.control for novcp
@@ -29,4 +30,12 @@ parameters:
               provider: ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
               image: ${_param:salt_control_xenial_image}
               size: opendaylight.server
+{%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
+              machine: virt
+              cpu_mode: host-passthrough
+              loader:
+                readonly: 'yes'
+                type: pflash
+                path: /usr/share/AAVMF/AAVMF_CODE.fd
+{%- endif %}
 {%- endif %}

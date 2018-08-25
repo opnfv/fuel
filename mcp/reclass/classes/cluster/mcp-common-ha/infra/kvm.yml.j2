@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
   - system.linux.system.repo.glusterfs
@@ -92,34 +93,42 @@ parameters:
       cluster:
         internal:
           node:
-            mdb01:
+            mdb01: &salt_control_xenial_image_common_attr
               image: ${_param:salt_control_xenial_image}
+{%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
+              machine: virt
+              cpu_mode: host-passthrough
+              loader:
+                readonly: 'yes'
+                type: pflash
+                path: /usr/share/AAVMF/AAVMF_CODE.fd
+{%- endif %}
             mdb02:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             mdb03:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             ctl01:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             ctl02:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             ctl03:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             dbs01:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             dbs02:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             dbs03:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             msg01:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             msg02:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             msg03:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             prx01:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
             prx02:
-              image: ${_param:salt_control_xenial_image}
+              <<: *salt_control_xenial_image_common_attr
               provider: kvm03.${_param:cluster_domain}
   virt:
     nic:
