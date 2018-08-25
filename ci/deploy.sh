@@ -304,6 +304,9 @@ fi
 start_containers "${MCP_STORAGE_DIR}"
 check_connection
 
+do_experiment
+ip link
+
 # Openstack cluster setup
 set +x
 if [ ${INFRA_CREATION_ONLY} -eq 1 ] || [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
