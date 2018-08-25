@@ -44,3 +44,7 @@ parameters:
 
     ntp_strata_host1: {{ conf.idf.fuel.network.ntp_strata_host1 or '1.pool.ntp.org' }}
     ntp_strata_host2: {{ conf.idf.fuel.network.ntp_strata_host2 or '0.pool.ntp.org' }}
+  salt:
+    minion:
+      tcp_keepalive: True
+      tcp_keepalive_idle: 60
