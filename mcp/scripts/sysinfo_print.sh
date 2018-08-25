@@ -18,6 +18,7 @@ df -h
 # Network info
 brctl show
 ip a
+ip link
 route -n
 sudo iptables -S
 
@@ -27,3 +28,4 @@ uname -a
 
 # Misc info
 sudo losetup -a
+sudo virsh list --all
