@@ -27,3 +27,4 @@ uname -a
 
 # Misc info
 sudo losetup -a
+sudo virsh list --all
