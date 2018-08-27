@@ -440,7 +440,7 @@ function create_vms {
 
     # shellcheck disable=SC2086
     virt-install --name "${vnode_data[0]}" \
-    --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
+    --ram "${vnode_data[1]}" --vcpus vcpus="${vnode_data[2]}",sockets="${vnode_data[3]}",cores="${vnode_data[4]}",threads="${vnode_data[5]}" \
     --cpu host-passthrough --accelerate ${net_args} \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     ${virt_extra_storage} \
