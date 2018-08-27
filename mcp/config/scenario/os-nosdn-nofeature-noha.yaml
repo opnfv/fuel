@@ -25,3 +25,17 @@ virtual:
     ram: 14336
   gtw01:
     ram: 2048
+  cmp001:
+    vcpus: 8
+    ram: 16384
+    cpu_topology:
+      sockets: 2
+      cores: 2
+      threads: 2
+  cmp002:
+    vcpus: 8
+    ram: 16384
+    cpu_topology:
+      sockets: 2
+      cores: 2
+      threads: 2
