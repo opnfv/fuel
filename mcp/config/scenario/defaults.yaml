@@ -11,6 +11,10 @@ x86_64:
   default:
     vcpus: 2
     ram: 4096
+    cpu_topology:
+      sockets: 1
+      cores: 2
+      threads: 1
   common:
     apt:
       keys:
@@ -32,6 +36,10 @@ aarch64:
   default:
     vcpus: 6
     ram: 4096
+    cpu_topology:
+      sockets: 1
+      cores: 6
+      threads: 1
   common:
     apt:
       keys:

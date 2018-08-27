@@ -37,7 +37,10 @@
       {%- if section_map[section] < 0 or conf.nodes[section_map[section] + loop.index0].node.type == 'virtual' -%}
         {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
         {%- do arr.append(pack([n, V[n].ram or arch.default.ram,
-                                   V[n].vcpus or arch.default.vcpus])) -%}
+                                   V[n].vcpus or arch.default.vcpus,
+                                   V[n].cpu_topology.sockets or arch.default.cpu_topology.sockets,
+                                   V[n].cpu_topology.cores or arch.default.cpu_topology.cores,
+                                   V[n].cpu_topology.threads or arch.default.cpu_topology.threads])) -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}
