@@ -21,6 +21,7 @@ deploy:
     - e2fsprogs
     - git
     - kpartx
+    - libglib2.0-bin
     - libvirt-bin
     - make
     - mkisofs
