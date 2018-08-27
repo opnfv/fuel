@@ -37,8 +37,12 @@
     {%- for n in V.nodes[section] or [] -%}
       {%- if section_map[section] < 0 or conf.nodes[section_map[section] + loop.index0].node.type == 'virtual' -%}
         {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
+        {%- set cpu_topo = conf.MCP_CMP_SS and 'cpu_topology' in V[n] -%}
         {%- do arr.append(pack([n, V[n].ram or arch.default.ram,
-                                   V[n].vcpus or arch.default.vcpus])) -%}
+                                   V[n].vcpus or arch.default.vcpus,
+                                   '' if not cpu_topo else V[n].cpu_topology.sockets,
+                                   '' if not cpu_topo else V[n].cpu_topology.cores,
+                                   '' if not cpu_topo else V[n].cpu_topology.threads])) -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endfor -%}

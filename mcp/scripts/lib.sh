@@ -419,6 +419,12 @@ function create_vms {
     if [ -z "${serialized_vnode_data}" ]; then continue; fi
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
 
+    # prepare VM CPU count and topology (optional)
+    local virt_cpu_args="--vcpus vcpus=${vnode_data[2]}"
+    if [ -n "${vnode_data[5]}" ]; then
+      virt_cpu_args="${virt_cpu_args},sockets=${vnode_data[3]},cores=${vnode_data[4]},threads=${vnode_data[5]}"
+    fi
+
     # prepare network args
     local vnode_networks=("$@")
     if [[ "${vnode_data[0]}" =~ ^(cfg01|mas01) ]]; then
@@ -440,8 +446,8 @@ function create_vms {
 
     # shellcheck disable=SC2086
     virt-install --name "${vnode_data[0]}" \
-    --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
     --cpu host-passthrough --accelerate ${net_args} \
+    --ram "${vnode_data[1]}" ${virt_cpu_args} \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     ${virt_extra_storage} \
     --os-type linux --os-variant none \
