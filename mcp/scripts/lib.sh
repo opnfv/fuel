@@ -404,7 +404,8 @@ function create_networks {
 function create_vms {
   local image_dir=$1; shift
   # vnode data should be serialized with the following format:
-  # '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
+  #   <name0>,<ram0>,<vcpu0>[,<sockets0>,<cores0>,<threads0>[,<cell0name0>,<cell0memory0>,
+  #   <cell0cpus0>,<cell1name0>,<cell1memory0>,<cell1cpus0>]]|<name1>,...'
   IFS='|' read -r -a vnodes <<< "$1"; shift
 
   # AArch64: prepare arch specific arguments
@@ -418,6 +419,19 @@ function create_vms {
   for serialized_vnode_data in "${vnodes[@]}"; do
     if [ -z "${serialized_vnode_data}" ]; then continue; fi
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
+
+    # prepare VM CPU model, count, topology (optional), NUMA cells (optional, requires topo)
+    local virt_cpu_args=' --cpu host-passthrough'
+    local idx=6  # cell0.name index in serialized data
+    while [ -n "${vnode_data[${idx}]}" ]; do
+      virt_cpu_args+=",${vnode_data[${idx}]}.memory=${vnode_data[$((${idx} + 1))]}"
+      virt_cpu_args+=",${vnode_data[${idx}]}.cpus=${vnode_data[$((${idx} + 2))]}"
+      idx=$((idx+3))
+    done
+    virt_cpu_args+=" --vcpus vcpus=${vnode_data[2]}"
+    if [ -n "${vnode_data[5]}" ]; then
+      virt_cpu_args+=",sockets=${vnode_data[3]},cores=${vnode_data[4]},threads=${vnode_data[5]}"
+    fi
 
     # prepare network args
     local vnode_networks=("$@")
@@ -440,8 +454,9 @@ function create_vms {
 
     # shellcheck disable=SC2086
     virt-install --name "${vnode_data[0]}" \
-    --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
-    --cpu host-passthrough --accelerate ${net_args} \
+    ${virt_cpu_args} --accelerate \
+    ${net_args} \
+    --ram "${vnode_data[1]}" \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     ${virt_extra_storage} \
     --os-type linux --os-variant none \
