@@ -404,7 +404,8 @@ function create_networks {
 function create_vms {
   local image_dir=$1; shift
   # vnode data should be serialized with the following format:
-  # '<name0>,<ram0>,<vcpu0>|<name1>,<ram1>,<vcpu1>[...]'
+  #   <name0>,<ram0>,<vcpu0>[,<sockets0>,<cores0>,<threads0>[,<cell0name0>,<cell0memory0>,
+  #   <cell0cpus0>,<cell1name0>,<cell1memory0>,<cell1cpus0>]]|<name1>,...'
   IFS='|' read -r -a vnodes <<< "$1"; shift
 
   # AArch64: prepare arch specific arguments
@@ -418,6 +419,19 @@ function create_vms {
   for serialized_vnode_data in "${vnodes[@]}"; do
     if [ -z "${serialized_vnode_data}" ]; then continue; fi
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
+
+    # prepare VM CPU model, count, topology (optional), NUMA cells (optional, requires topo)
+    local virt_cpu_args=' --cpu host-passthrough'
+    local idx=6  # cell0.name index in serialized data
+    while [ -n "${vnode_data[${idx}]}" ]; do
+      virt_cpu_args+=",${vnode_data[${idx}]}.memory=${vnode_data[$((idx + 1))]}"
+      virt_cpu_args+=",${vnode_data[${idx}]}.cpus=${vnode_data[$((idx + 2))]}"
+      idx=$((idx+3))
+    done
+    virt_cpu_args+=" --vcpus vcpus=${vnode_data[2]}"
+    if [ -n "${vnode_data[5]}" ]; then
+      virt_cpu_args+=",sockets=${vnode_data[3]},cores=${vnode_data[4]},threads=${vnode_data[5]}"
+    fi
 
     # prepare network args
     local vnode_networks=("$@")
@@ -438,10 +452,12 @@ function create_vms {
       virt_extra_storage="--disk path=${image_dir}/mcp_${vnode_data[0]}_storage.qcow2,format=qcow2,bus=virtio,cache=none,io=native"
     fi
 
+    [ ! -e "${image_dir}/virt-manager" ] || VIRT_PREFIX="${image_dir}/virt-manager/"
     # shellcheck disable=SC2086
-    virt-install --name "${vnode_data[0]}" \
-    --ram "${vnode_data[1]}" --vcpus "${vnode_data[2]}" \
-    --cpu host-passthrough --accelerate ${net_args} \
+    ${VIRT_PREFIX}virt-install --name "${vnode_data[0]}" \
+    ${virt_cpu_args} --accelerate \
+    ${net_args} \
+    --ram "${vnode_data[1]}" \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     ${virt_extra_storage} \
     --os-type linux --os-variant none \
@@ -624,6 +640,22 @@ function docker_install {
       COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}"
       sudo curl -L "${COMPOSE_URL}/docker-compose-$(uname -s)-$(uname -m)" -o "${COMPOSE_BIN}"
       sudo chmod +x "${COMPOSE_BIN}"
+    fi
+  fi
+}
+
+function virtinst_install {
+  local image_dir=$1
+  VIRT_VER=$(virt-install --version 2>&1)
+  if [ "${VIRT_VER//./}" -lt 140 ]; then
+    VIRT_TGZ="${image_dir}/virt-manager.tar.gz"
+    VIRT_VER='1.4.3'
+    VIRT_URL="https://github.com/virt-manager/virt-manager/archive/v${VIRT_VER}.tar.gz"
+    notify_n "[WARN] Using virt-install ${VIRT_VER} from ${VIRT_TGZ}" 3
+    if [ ! -e "${VIRT_TGZ}" ]; then
+      curl -L "${VIRT_URL}" -o "${VIRT_TGZ}"
+      mkdir -p "${image_dir}/virt-manager"
+      tar xzf "${VIRT_TGZ}" -C "${image_dir}/virt-manager" --strip-components=1
     fi
   fi
 }
