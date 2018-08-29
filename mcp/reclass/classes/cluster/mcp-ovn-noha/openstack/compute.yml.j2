@@ -23,6 +23,7 @@ parameters:
         ovs_port_{{ nm.cmp001.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
+          mtu: ${_param:interface_mtu}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
