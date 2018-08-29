@@ -5,6 +5,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+/usr/share/salt-formulas/env: 0001-Revert-Make-module-list-unique.patch
 /usr/share/salt-formulas/env: 0002-maas-region-skip-credentials-update.patch
 /usr/share/salt-formulas/env: 0003-maas-region-force-artifact-download.patch
 /usr/share/salt-formulas/env: 0007-network.interface-Fix-ifup-OVS-port-with-route.patch

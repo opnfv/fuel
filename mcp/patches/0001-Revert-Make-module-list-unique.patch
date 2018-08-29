@@ -1,0 +1,24 @@
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 29 Aug 2018 17:46:22 +0200
+Subject: [PATCH] Revert "Make module list unique"
+
+This reverts commit 117016e8c71df50e073c896786b9fc0c83c76e7a.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ apache/server/service/modules.sls | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/apache/server/service/modules.sls b/apache/server/service/modules.sls
+index d48e012..9214543 100644
+--- a/apache/server/service/modules.sls
++++ b/apache/server/service/modules.sls
+@@ -1,7 +1,7 @@
+ {%- from "apache/map.jinja" import server with context %}
+ {%- if server.enabled %}
+
+-{%- for module in server.modules |unique %}
++{%- for module in server.modules %}
+
+ {%- if module == 'passenger' %}
+
