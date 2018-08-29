@@ -17,14 +17,13 @@ new file mode 100644
 index 0000000..c609e45
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,19 @@
+@@ -0,0 +1,18 @@
 +auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
 +iface {{ bridge_name }} inet static
 +  ovs_type OVSBridge
 +  address {{ bridge.address }}
 +  netmask {{ bridge.netmask }}
-+  mtu {{ bridge.get('mtu', '1500') }}
 +  {%- if bridge.use_interfaces is defined %}
 +  ovs_ports {{ bridge.use_interfaces|join(' ') }}
 +  {%- endif %}

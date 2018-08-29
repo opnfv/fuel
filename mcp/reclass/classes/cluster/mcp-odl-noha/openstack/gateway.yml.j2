@@ -7,7 +7,7 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 {%- import 'net_macros.j2' as ma with context %}
-{%- set vlan_private_start = 0 if conf.MCP_DPDK_MODE else (nm.vlan_private | string).rsplit('-')[0] %}
+{%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 ---
 classes:
   - cluster.mcp-common-noha.openstack_gateway
@@ -17,6 +17,17 @@ parameters:
   linux:
     network:
       interface:
+{%- if conf.MCP_DPDK_MODE %}
+        {{ nm.cmp001.nic_private }}:
+          ovs_bridge: br-prv
+        br-prv:
+          enabled: true
+          type: ovs_bridge
+          mtu: ${_param:interface_mtu}
+          proto: static
+          address: ${_param:tenant_address}
+          netmask: ${_param:opnfv_net_private_mask}
+{%- else %}
         br-mesh:
           enabled: true
           type: bridge
@@ -26,3 +37,4 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
+{%- endif %}
