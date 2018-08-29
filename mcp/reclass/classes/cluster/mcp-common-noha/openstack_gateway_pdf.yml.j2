@@ -42,6 +42,7 @@ parameters:
         ovs_port_{{ nm.ctl01.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
+          mtu: ${_param:interface_mtu}
           proto: manual
           ovs_port_type: OVSPort
           type: ovs_port
@@ -50,7 +51,6 @@ parameters:
         br-floating:
           enabled: true
           type: ovs_bridge
-          mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
