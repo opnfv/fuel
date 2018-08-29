@@ -175,6 +175,9 @@ parameters:
     server:
       vlan_aware_vms: true
       root_helper_daemon: false
+      global_physnet_mtu: 9000
+      backend:
+        external_mtu: 9000
   apache:
     server:
       bind:
