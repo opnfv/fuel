@@ -38,3 +38,6 @@ salt -C 'I@nova:controller and *01*' cmd.run ". /root/keystonercv3; \
 
 # Discover compute hosts after they are registered
 salt -C 'I@nova:controller and *01*' state.sls_id nova_controller_discover_hosts nova
+
+# Set datapath type to netdev for public bridge
+((MCP_DPDK_MODE)) && salt -I 'nova:compute' cmd.run 'ovs-vsctl set bridge br-floating datapath_type=netdev'
