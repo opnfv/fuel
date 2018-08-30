@@ -39,6 +39,30 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
         {{ nm.cmp001.nic_private }}:
           type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
+        {{ nm.cmp001.nic_public }}:
+          enabled: true
+          type: eth
+          mtu: ${_param:interface_mtu}
+          proto: manual
+        br-floating:
+          enabled: true
+          type: ovs_bridge
+        float-to-ex:
+          enabled: true
+          type: ovs_port
+          mtu: ${_param:interface_mtu}
+          bridge: br-floating
+        br-ex:
+          enabled: true
+          type: bridge
+          address: ${_param:external_address}
+          netmask: ${_param:opnfv_net_public_mask}
+          use_interfaces:
+            - {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
+          use_ovs_ports:
+            - float-to-ex
+          gateway: ${_param:opnfv_net_public_gw}
+          name_servers: {{ nm.dns_public }}
 {%- else %}
         br-mesh:
           enabled: true
@@ -48,7 +72,6 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
-{%- endif %}
         ovs_port_{{ nm.cmp001.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
@@ -61,9 +84,6 @@ parameters:
         br-floating:
           enabled: true
           type: ovs_bridge
-{%- if conf.MCP_DPDK_MODE %}
-          datapath_type: netdev
-{%- endif %}
           proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
@@ -71,3 +91,4 @@ parameters:
             - {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+{%- endif %}
