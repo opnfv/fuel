@@ -1,0 +1,64 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 31 Aug 2018 02:13:10 +0200
+Subject: [PATCH] IA: sync maas:machines changes
+
+Change-Id: Ib4859e4ada3d72e7e848114620ff5405c26b3126
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/pod_config.yml.j2 | 30 +++++++++++++++---------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
+
+diff --git a/config/installers/fuel/pod_config.yml.j2 b/config/installers/fuel/pod_config.yml.j2
+index 769e55d..0b2b220 100644
+--- a/config/installers/fuel/pod_config.yml.j2
++++ b/config/installers/fuel/pod_config.yml.j2
+@@ -12,14 +12,15 @@ parameters:
+   maas:
+     region:
+       machines:
+-{%- for node in conf.nodes %}
+-{%- if node.node.type == 'baremetal' %}
+-
+-{%- if loop.index > nm.cmp001.idx %}
+-        {{ 'cmp%03d' | format(loop.index - nm.cmp001.idx) }}:
+-{%- else %}
+-        {{ 'kvm%02d' | format(loop.index) }}:
+-{%- endif %}
++      {%- set ctl_roles = conf.virtual.nodes.control | length %}
++      {%- for node in conf.nodes %}
++      {%- if (node.node.type == 'baremetal' and (
++              loop.index > nm.cmp001.idx or loop.index0 < ctl_roles)) %}
++        {%- if loop.index > nm.cmp001.idx %}
++        cmp{{ '%03d' | format(loop.index - nm.cmp001.idx) }}:
++        {%- else %}
++        {{ conf.virtual.nodes.control[loop.index0] }}:
++        {%- endif %}
+           interface:
+             mac: {{ node.interfaces[nm.idx_admin].mac_address }}
+           power_parameters:
+@@ -30,7 +31,14 @@ parameters:
+           architecture: {{ node.node.arch | dpkg_arch }}/generic
+           distro_series: xenial
+           hwe_kernel: ${_param:hwe_kernel}
+-
+-{%- endif %}
+-{%- endfor %}
++          {%- if loop.index > nm.cmp001.idx %}
++          disk_layout:
++            type: lvm
++            root_device: sda
++            volume_group: vgroot
++            volume_name: lvroot
++            volume_size: 100
++          {%- endif %}
++      {%- endif %}
++      {%- endfor %}
+ {%- endif %}
