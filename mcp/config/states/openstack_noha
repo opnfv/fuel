@@ -61,3 +61,9 @@ salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
 salt -I 'horizon:server' state.sls apache,horizon
+
+# glance default hw_disk_bus
+salt -I 'glance:server' file.line /etc/glance/metadefs/compute-libvirt-image.json \
+  mode=insert \
+  after='Specifies the type of disk controller to attach disk devices to.' \
+  content='            "default": "scsi",'
