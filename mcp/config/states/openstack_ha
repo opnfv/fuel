@@ -86,3 +86,9 @@ cd /etc/ssl/certs && \
 # glance v1 api is required by orchestra tests
 salt -I 'glance:server' ini.set_option /etc/glance/glance-api.conf '{DEFAULT: {enable_v1_api: True}}'
 salt -I 'glance:server' service.restart glance-api
+
+# glance hw_disk_bus
+salt -I 'glance:server' file.line /etc/glance/metadefs/compute-libvirt-image.json \
+  mode=insert \
+  after='Specifies the type of disk controller to attach disk devices to.' \
+  content='            "default": "scsi",'
