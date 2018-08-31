@@ -493,7 +493,7 @@ function prepare_containers {
   docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
 
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
-  sudo rm -rf "${image_dir}/salt" "${image_dir}/nodes/"*
+  sudo rm -rf "${image_dir}/"{salt,hosts} "${image_dir}/nodes/"*
   mkdir -p "${image_dir}/salt/"{master.d,minion.d}
   # salt state does not properly configure file_roots in master.conf, hard set it
   sed -e 's/user: salt/user: root\nfile_recv: True/' -e 's/auto_accept:/open_mode:/' \
