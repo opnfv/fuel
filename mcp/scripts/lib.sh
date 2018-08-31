@@ -490,8 +490,9 @@ function prepare_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
   [ -n "${MCP_REPO_ROOT_PATH}" ] || exit 1
+  docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
 
-  "${image_dir}/docker-compose" -f docker-compose/docker-compose.yaml down
+  "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
   sudo rm -rf "${image_dir}/salt" "${image_dir}/nodes/"*
   mkdir -p "${image_dir}/salt/"{master.d,minion.d}
   # salt state does not properly configure file_roots in master.conf, hard set it
@@ -506,7 +507,9 @@ function prepare_containers {
 function start_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
-  "${image_dir}/docker-compose" -f docker-compose/docker-compose.yaml up --quiet-pull -d
+  docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
+  "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml pull
+  "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml up -d
 }
 
 function check_connection {
@@ -619,12 +622,14 @@ function docker_install {
     fi
   fi
   # Distro-provided docker-compose might be simply broken (Ubuntu 16.04, CentOS 7)
-  COMPOSE_BIN="${image_dir}/docker-compose"
-  COMPOSE_VERSION='1.22.0'
-  notify_n "[WARN] Using docker-compose ${COMPOSE_VERSION} in ${COMPOSE_BIN}" 3
-  if [ ! -e "${COMPOSE_BIN}" ]; then
-    COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}"
-    sudo curl -L "${COMPOSE_URL}/docker-compose-$(uname -s)-$(uname -m)" -o "${COMPOSE_BIN}"
-    sudo chmod +x "${COMPOSE_BIN}"
+  if ! docker-compose --version > /dev/null 2>&1; then
+    COMPOSE_BIN="${image_dir}/docker-compose"
+    COMPOSE_VERSION='1.22.0'
+    notify_n "[WARN] Using docker-compose ${COMPOSE_VERSION} in ${COMPOSE_BIN}" 3
+    if [ ! -e "${COMPOSE_BIN}" ]; then
+      COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}"
+      sudo curl -L "${COMPOSE_URL}/docker-compose-$(uname -s)-$(uname -m)" -o "${COMPOSE_BIN}"
+      sudo chmod +x "${COMPOSE_BIN}"
+    fi
   fi
 }
