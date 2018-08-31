@@ -91,7 +91,7 @@ parameters:
       <<: *db_conn_recycle_time
       cacert: /etc/ssl/certs/mcp_os_cacert
       openrc_extra:
-        volume_device_name: vdc
+        volume_device_name: sdc
   glance:
     server:
       <<: *db_conn_recycle_time
