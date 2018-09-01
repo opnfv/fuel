@@ -20,7 +20,7 @@ LOCAL_VIRT_NODES=$(echo ${virtual_nodes[*]}) # unquoted to filter space
 NODE_MASK="${LOCAL_VIRT_NODES// /|}"
 
 # wait_for 3.0 "salt-call state.apply salt exclude='[{id: salt_master_service}]'"
-wait_for 5.0 "salt-call state.sls reclass,linux.network"
+wait_for 5.0 "salt-call state.sls reclass,linux.network,salt.minion"
 wait_for 3.0 "salt -C '*' saltutil.refresh_pillar"
 
 # NOTE: domain name changes are not yet supported without a clean redeploy

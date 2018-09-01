@@ -25,6 +25,7 @@ services:
        - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml
        - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
        - {{ conf.MCP_STORAGE_DIR }}/nodes:/srv/salt/reclass/nodes
+       - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
        - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt
        - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts
     hostname: cfg01
