@@ -18,6 +18,16 @@ if [ ! -f /home/ubuntu/.ssh/authorized_keys ]; then
                          /home/ubuntu/.ssh/authorized_keys
 fi
 
+if ! grep -q localhost /etc/hosts; then
+    # overwrite hosts only on first container up, to preserve cluster nodes
+    cp -a /root/fuel/mcp/scripts/docker-compose/files/hosts /etc/hosts
+fi
+
+# salt state does not properly configure file_roots in master.conf, hard set it
+cp -a /root/fuel/mcp/scripts/docker-compose/files/opnfv_master.conf \
+      /etc/salt/master.d/opnfv_master.conf
+echo 'master: localhost' > /etc/salt/minion.d/opnfv_slave.conf
+
 # NOTE: Most Salt and/or reclass tools have issues traversing Docker mounts
 # or detecting them as directories inside the container.
 # For now, let's do a lot of copy operations to bypass this.
