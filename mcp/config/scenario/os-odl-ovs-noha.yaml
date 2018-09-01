@@ -5,49 +5,32 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- import 'net_map.j2' as nm with context %}
 ---
 cluster:
-  domain: mcp-odl-ha.local
+  domain: mcp-odl-noha.local
   states:
-    - virtual_init
-{%- if nm.cluster.has_baremetal_nodes %}
-    - maas
-    - baremetal_init
-{%- endif %}
-{%- if conf.MCP_VCP %}
-    - virtual_control_plane
-{%- endif %}
+    - dpdk
     - opendaylight
-    - openstack_ha
+    - openstack_noha
+    - neutron_gateway
     - networks
 virtual:
   nodes:
-    infra:
-{%- if nm.cluster.has_baremetal_nodes %}
-      - mas01
-{%- endif %}
     control:
-      - kvm01
-      - kvm02
-      - kvm03
+      - ctl01
+      - gtw01
+      - odl01
     compute:
       - cmp001
       - cmp002
-  # Below values are only used for each node if said node is virtual
-  mas01:
-    vcpus: 4
-    ram: 6144
-  # NOTE: We might need to add more RAM here
-  kvm01:
+  ctl01:
     vcpus: 4
     ram: 14336
-  kvm02:
+  gtw01:
+    ram: 1024
+  odl01:
     vcpus: 4
-    ram: 14336
-  kvm03:
-    vcpus: 4
-    ram: 14336
+    ram: 5120
   cmp001:
     vcpus: 4
     ram: 8192
