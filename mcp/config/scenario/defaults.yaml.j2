@@ -5,12 +5,29 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
 ---
 x86_64:
   base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
   default:
     vcpus: 2
     ram: 4096
+    virtual: &arch_default_virtual_nodes_infra
+      nodes:
+        infra:
+{%- if nm.cluster.has_baremetal_nodes %}
+          - mas01
+{%- endif %}
+    cluster: &arch_default_cluster_states
+      states:
+        - virtual_init
+{%- if nm.cluster.has_baremetal_nodes %}
+        - maas
+        - baremetal_init
+{%- endif %}
+{%- if conf.MCP_VCP %}
+        - virtual_control_plane
+{%- endif %}
   common:
     apt:
       keys:
@@ -32,6 +49,8 @@ aarch64:
   default:
     vcpus: 6
     ram: 4096
+    virtual: *arch_default_virtual_nodes_infra
+    cluster: *arch_default_cluster_states
   common:
     apt:
       keys:
