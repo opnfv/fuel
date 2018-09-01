@@ -12,15 +12,15 @@ Subject: [PATCH] Set ovs bridges as L3 interfaces
 
 Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
 ---
- linux/files/ovs_bridge      | 19 +++++++++++++++++++
+ linux/files/ovs_bridge      | 18 ++++++++++++++++++
  linux/files/ovs_port        |  7 ++++++-
  linux/network/interface.sls | 28 ++++++++++++++++++++++++++++
- 3 files changed, 53 insertions(+), 1 deletion(-)
+ 3 files changed, 52 insertions(+), 1 deletion(-)
  create mode 100644 linux/files/ovs_bridge
 
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..073c91c
+index 0000000..d33864c
 --- /dev/null
 +++ b/linux/files/ovs_bridge
 @@ -0,0 +1,18 @@

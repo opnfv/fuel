@@ -182,6 +182,9 @@ parameters:
           keys:
             - designate
   designate:
+    _support:
+      sphinx:
+        enabled: False  # Workaround broken meta/sphinx.yml in salt-formula-designate
     server:
       pools:
         default:
