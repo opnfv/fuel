@@ -14,10 +14,6 @@
 	path = mcp/salt-formulas/salt-formula-linux
 	url = https://github.com/salt-formulas/salt-formula-linux
 	branch = master
-[submodule "salt-formula-nova"]
-	path = mcp/salt-formulas/salt-formula-nova
-	url = https://github.com/salt-formulas/salt-formula-nova
-	branch = master
 [submodule "salt-formula-keystone"]
 	path = mcp/salt-formulas/salt-formula-keystone
 	url = https://github.com/salt-formulas/salt-formula-keystone
@@ -25,8 +21,4 @@
 [submodule "salt-formula-maas"]
 	path = mcp/salt-formulas/salt-formula-maas
 	url = https://github.com/salt-formulas/salt-formula-maas
-	branch = master
-[submodule "salt-formula-salt"]
-	path = mcp/salt-formulas/salt-formula-salt
-	url = https://github.com/salt-formulas/salt-formula-salt
 	branch = master
