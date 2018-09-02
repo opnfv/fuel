@@ -28,33 +28,11 @@ cp -a /root/fuel/mcp/scripts/docker-compose/files/opnfv_master.conf \
       /etc/salt/master.d/opnfv_master.conf
 echo 'master: localhost' > /etc/salt/minion.d/opnfv_slave.conf
 
-# NOTE: Most Salt and/or reclass tools have issues traversing Docker mounts
-# or detecting them as directories inside the container.
-# For now, let's do a lot of copy operations to bypass this.
-# Later, we will inject the OPNFV patched reclass model during image build.
-rm -rf /srv/salt/reclass/classes/*
-cp -ar /root/fuel/mcp/reclass/classes/* /srv/salt/reclass/classes
-cp -ar /root/fuel/mcp/reclass/nodes/* /srv/salt/reclass/nodes
+source /root/fuel/mcp/scripts/xdf_data.sh
+cp -a "/root/fuel/mcp/reclass/nodes/cfg01.${CLUSTER_DOMAIN}.yml" /srv/salt/reclass/nodes/
 # Sensitive data should stay out of /root/fuel, which is exposed via Jenkins WS
-cp -a /root/pod_config.yml \
+cp -a /var/lib/opnfv/pod_config.yml \
       /srv/salt/reclass/classes/cluster/all-mcp-arch-common/opnfv/pod_config.yml
-
-# OPNFV formulas
-prefix=/srv/salt/formula/salt-formulas
-rm -f /root/fuel/mcp/salt-formulas/*/.git
-cp -ar /root/fuel/mcp/salt-formulas/* ${prefix}/
-for formula in 'armband' 'opendaylight' 'tacker' 'quagga'; do
-    ln -sf /root/fuel/mcp/salt-formulas/salt-formula-${formula}/* \
-           /srv/salt/env/prd/
-done
-
-# Re-create classes.service links that we destroyed above
-for formula in ${prefix}/*; do
-    if [ -e "${formula}/metadata/service" ] && [[ ! $formula =~ \. ]]; then
-        ln -sf "${formula}/metadata/service" \
-               "/srv/salt/reclass/classes/service/${formula#${prefix}/salt-formula-}"
-    fi
-done
 
 # Create links for salt-formula-* packages to mimic git-style salt-formulas
 for artifact in /usr/share/salt-formulas/env/_*/*; do
