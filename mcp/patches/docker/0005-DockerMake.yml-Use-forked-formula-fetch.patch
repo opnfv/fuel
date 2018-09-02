@@ -1,0 +1,30 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 9 Sep 2018 21:13:47 +0200
+Subject: [PATCH] DockerMake.yml: Use forked formula-fetch
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index 120df61..8185ac2 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -107,7 +107,7 @@ salt-formulas:
+     RUN echo "Layer python/salt module prerequisites, formulas (23 Sep 2018)" \
+       && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /srv/salt \
+-      && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
++      && curl -sSqL https://raw.githubusercontent.com/alexandruavadanii/salt-formulas-scripts/local-fs-git-formulas/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
+       && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
+       && eval ${LAYER_CLEANUP}
+
