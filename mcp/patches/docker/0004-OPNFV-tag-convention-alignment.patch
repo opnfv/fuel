@@ -37,10 +37,10 @@ index 0bd793e..291f4c7 100644
    # options: '--bust-cache reclass'
    # options: '--registry-user epcim'
 diff --git a/tasks.py b/tasks.py
-index d6bf3bc..092c6e7 100644
+index 59e217d..8afbde9 100644
 --- a/tasks.py
 +++ b/tasks.py
-@@ -6,6 +6,7 @@ from invoke import Collection, task
+@@ -7,6 +7,7 @@ from shlex import split
  from string import Template
  import re
  import ast
@@ -48,26 +48,26 @@ index d6bf3bc..092c6e7 100644
 
  # TODOs:
  # - WIP - use namespace to expose images/targets as inoke tasks # image = Collection('image')
-@@ -25,8 +26,9 @@ def all(ctx, dry=False, push=False, dry_targets=False, filter=None, **kwargs):
+@@ -26,8 +27,9 @@ def all(ctx, dry=False, push=False, dry_targets=False, filter=None, **kwargs):
                       dry=dry, push=push, dry_targets=dry_targets, filter=filter, **kwargs)
 
  @task
--def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, push=False, dry=False, dry_targets=False, **kwargs):
-+def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, opnfv_tag='latest', push=False, dry=False, dry_targets=False, **kwargs):
+-def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, push=False, dry=False, dry_targets=False, build_arg_extra='', **kwargs):
++def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, opnfv_tag='latest', push=False, dry=False, dry_targets=False, build_arg_extra='', **kwargs):
 
 +    kwargs['arch'] = 'arm64' if platform.machine() == 'aarch64' else 'amd64'
      kwargs['dist'] = dist
      kwargs['dist_rel'] = dist_rel
      kwargs['dry'] = True if dry_targets or dry else False
-@@ -35,6 +37,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
-     kwargs['require'] = require
+@@ -37,6 +39,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
      kwargs['salt'] = salt
      kwargs['target'] = target
+     kwargs['build_arg_extra'] = ' --build-arg '.join([''] + split(build_arg_extra.replace('"', '"\\"')))
 +    kwargs['opnfv_tag'] = opnfv_tag
      # command formating + update
      fmt = {'tag': ''}
      fmt.update(ctx.dockermake)
-@@ -56,7 +59,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
+@@ -58,7 +61,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
      # execute
      cmd = Template("""
              ${dry}docker-make -f DockerMake.${dist}.yml -u ${repository}: --name ${target} \

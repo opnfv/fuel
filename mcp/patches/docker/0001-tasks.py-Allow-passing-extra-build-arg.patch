@@ -1,0 +1,59 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 9 Sep 2018 23:18:39 +0200
+Subject: [PATCH] tasks.py: Allow passing extra --build-arg
+
+E.g. A, B with values "a", respectively "b c":
+$ invoke build saltmaster-reclass --build-arg-extra='A="a" B="b c"'
+will be passed down as:
+--build-arg A="a" --build-arg B="b c"
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ tasks.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/tasks.py b/tasks.py
+index d6bf3bc..59e217d 100644
+--- a/tasks.py
++++ b/tasks.py
+@@ -3,6 +3,7 @@
+
+
+ from invoke import Collection, task
++from shlex import split
+ from string import Template
+ import re
+ import ast
+@@ -25,7 +26,7 @@ def all(ctx, dry=False, push=False, dry_targets=False, filter=None, **kwargs):
+                      dry=dry, push=push, dry_targets=dry_targets, filter=filter, **kwargs)
+
+ @task
+-def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, push=False, dry=False, dry_targets=False, **kwargs):
++def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None, formula_rev=None, push=False, dry=False, dry_targets=False, build_arg_extra='', **kwargs):
+
+     kwargs['dist'] = dist
+     kwargs['dist_rel'] = dist_rel
+@@ -35,6 +36,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
+     kwargs['require'] = require
+     kwargs['salt'] = salt
+     kwargs['target'] = target
++    kwargs['build_arg_extra'] = ' --build-arg '.join([''] + split(build_arg_extra.replace('"', '"\\"')))
+     # command formating + update
+     fmt = {'tag': ''}
+     fmt.update(ctx.dockermake)
+@@ -60,6 +62,7 @@ def build(ctx, target, require=[], dist='debian', dist_rel='stretch', salt=None,
+             \t--requires ${requires} \
+             \t--build-arg SALT_VERSION="${salt}" \
+             \t--build-arg SALT_FORMULA_VERSION="${formula_rev}" \
++            \t${build_arg_extra} \
+             \t${push} ${options} \
+             ${fin}""").safe_substitute(fmt)
+     ctx.run(cmd.replace('  ', ''))
