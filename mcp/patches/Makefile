@@ -80,7 +80,7 @@ patches-import: sub .cachepatched
 	@cd ${F_GIT_ROOT} && git submodule -q foreach ' \
 		SUB_DIR=${F_PATCH_DIR}/$$name; mkdir -p $$SUB_DIR && \
 		git tag ${F_OPNFV_TAG}-root && \
-		git checkout -q -b opnfv-fuel && \
+		git checkout -q -b nightly && \
 		find $$SUB_DIR -type d | sort | while read p_dir; do \
 			SUB_PATCHES=$$(ls $$p_dir/*.patch 2>/dev/null); \
 			if [ -n "$$SUB_PATCHES" ]; then \
@@ -111,7 +111,7 @@ clean:
 	@cd ${F_GIT_ROOT} && git submodule -q foreach ' \
 		git am -q --abort > /dev/null 2>&1; \
 		git checkout -q -f ${F_OPNFV_TAG}-root > /dev/null 2>&1; \
-		git branch -q -D opnfv-fuel > /dev/null 2>&1; \
+		git branch -q -D nightly > /dev/null 2>&1; \
 		git tag | grep ${F_OPNFV_TAG} | xargs git tag -d > /dev/null 2>&1; \
 		git reset -q --hard HEAD; \
 		git clean -xdff'
