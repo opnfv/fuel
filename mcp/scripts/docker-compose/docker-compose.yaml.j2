@@ -14,15 +14,18 @@ services:
   opnfv-fuel-salt-master:
     container_name: "fuel"
     image: "opnfv/fuel:saltmaster-reclass-{{ conf.MCP_DOCKER_TAG }}"
+    environment:
+      - CLUSTER_DOMAIN={{ conf.cluster.domain }}
     networks:
       - mcpcontrol
       - pxebr
       - mgmt
     volumes:
        - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
-       - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel
-       - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint.sh:/entrypoint.sh
-       - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml
+       - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel:ro
+       - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint.sh:/entrypoint.sh:ro
+       - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/reclass/classes/cluster:/srv/salt/reclass/classes/cluster
+       - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml:ro
        - {{ conf.MCP_STORAGE_DIR }}/nodes:/srv/salt/reclass/nodes
        - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
        - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt

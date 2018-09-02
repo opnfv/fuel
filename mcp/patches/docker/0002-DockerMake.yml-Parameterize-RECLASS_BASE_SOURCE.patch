@@ -1,0 +1,36 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 9 Sep 2018 22:11:03 +0200
+Subject: [PATCH] DockerMake.yml: Parameterize RECLASS_BASE_SOURCE
+
+Allow reclass.system source URI override via env vars.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index 2c75586..258c529 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -138,9 +138,11 @@ reclass:
+     ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
+     ARG RECLASS_BASE="/srv/salt/reclass"
+     ENV RECLASS_BASE $RECLASS_BASE
++    ARG RECLASS_BASE_SOURCE="https://github.com/Mirantis/reclass-system-salt-model"
++    ENV RECLASS_BASE_SOURCE $RECLASS_BASE_SOURCE
+     RUN echo "Layer reclass" \
+       && mkdir -p /etc/reclass $RECLASS_BASE/classes/system \
+-      && git clone https://github.com/Mirantis/reclass-system-salt-model $RECLASS_BASE/classes/system \
++      && git clone --no-hardlinks $RECLASS_BASE_SOURCE $RECLASS_BASE/classes/system \
+       && find $RECLASS_BASE/classes/system
+     RUN pip install --install-option="--prefix=/usr/local" -I \
+            "git+https://github.com/salt-formulas/reclass.git@$RECLASS_VERSION"

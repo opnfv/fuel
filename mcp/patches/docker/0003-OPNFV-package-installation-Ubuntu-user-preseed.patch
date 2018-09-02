@@ -1,0 +1,112 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 22 Aug 2018 01:35:06 +0200
+Subject: [PATCH] OPNFV package installation, Ubuntu user, preseed
+
+* Install OpenSSH server (and client), so other OPNFV projects can
+  easily connect to the Salt master node;
+* While at it, create 'ubuntu' user so other OPNFV projects don't
+  have to switch to 'root' login;
+* Preinstall `salt_minion_dependency_packages` and
+  `salt_minion_reclass_dependencies`;
+* Fetch opnfv.tar if OPNFV_EXTRA URI is set (to be used for injecting
+  OPFNV formulas and reclass.system git repos during build);
+* reclass: Remove broken symlinks in /srv/salt, silences recurring
+  warnings;
+* tini: init system resembles upstart very much, but needs a little
+  adjustment in salt upstart module;
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 36 +++++++++++++++++++++++++++++++++++-
+ Pipfile        |  1 +
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index 258c529..1df357b 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -102,12 +102,38 @@ salt-formulas:
+     ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
+     ARG RECLASS_BASE="/srv/salt/reclass"
+     ENV RECLASS_BASE $RECLASS_BASE
+-    RUN echo "Layer python/salt module prerequisites, formulas" \
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
++    RUN echo "Layer python/salt module prerequisites, formulas (21 Sep 2018)" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /srv/salt \
+       && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
+       && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
+       && eval ${LAYER_CLEANUP}
+
++opnfv:
++  build: |
++    RUN echo "Layer with OPNFV packages" \
++      && eval ${LAYER_PKGUPDT} \
++      && ${LAYER_INSTALL} \
++           gawk \
++           inetutils-ping \
++           kmod \
++           less \
++           net-tools \
++           openssh-server \
++           python-m2crypto \
++           python-msgpack \
++           python-netaddr \
++           python-oauth \
++           python-psutil \
++           python-yaml \
++           vim \
++      && useradd -m ubuntu \
++      && echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ubuntu \
++      && eval ${LAYER_CLEANUP}
++
++
+ wheel:
+   requires:
+     - base
+@@ -140,9 +166,14 @@ reclass:
+     ENV RECLASS_BASE $RECLASS_BASE
+     ARG RECLASS_BASE_SOURCE="https://github.com/Mirantis/reclass-system-salt-model"
+     ENV RECLASS_BASE_SOURCE $RECLASS_BASE_SOURCE
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
+     RUN echo "Layer reclass" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /etc/reclass $RECLASS_BASE/classes/system \
+       && git clone --no-hardlinks $RECLASS_BASE_SOURCE $RECLASS_BASE/classes/system \
++      && rm -rf /tmp/opnfv \
++      && find -L $(dirname $RECLASS_BASE) $SALT_ENV_PATH_/_* -maxdepth 1 -type l -delete \
+       && find $RECLASS_BASE/classes/system
+     RUN pip install --install-option="--prefix=/usr/local" -I \
+            "git+https://github.com/salt-formulas/reclass.git@$RECLASS_VERSION"
+@@ -176,6 +207,9 @@ tini:
+     ENV TINI_PGP 0527A9B7
+     ENV TINI_URL https://github.com/krallin/tini/releases/download
+     RUN gpg --keyserver keyserver.ubuntu.com --recv-key ${TINI_PGP} \
++      && sed -i -e "s|return 'start/running' in |return 'is running' in |" \
++                -e "s|ret = _default_runlevel|return _default_runlevel|" \
++             /usr/lib/python2.7/dist-packages/salt/modules/upstart.py \
+       && curl -s -S -L "${TINI_URL}/v${TINI_VERSION}/tini-static-$(dpkg --print-architecture).asc" -o /bin/tini.asc \
+       && curl -s -S -L "${TINI_URL}/v${TINI_VERSION}/tini-static-$(dpkg --print-architecture)" -o /bin/tini \
+       && gpg --verify /bin/tini.asc \
+diff --git a/Pipfile b/Pipfile
+index d3e8d66..6067dd2 100644
+--- a/Pipfile
++++ b/Pipfile
+@@ -9,6 +9,7 @@ name = "pypi"
+ pygithub = "*"
+ docker-make = {git = "https://github.com/avirshup/DockerMake"}
+ dockermake = {git = "https://github.com/avirshup/DockerMake"}
++invoke = "*"
+
+ [requires]
+ python_version = "3.6"
