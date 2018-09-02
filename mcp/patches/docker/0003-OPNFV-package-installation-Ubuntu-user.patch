@@ -12,20 +12,25 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
 
 * Install OpenSSH server (and client), so other OPNFV projects can
   easily connect to the Salt master node;
-* Install 'salt-formula-gnocchi' distro package (empty git formula
-  workaround);
 * While at it, create 'ubuntu' user so other OPNFV projects don't
   have to switch to 'root' login;
 * Preinstall `salt_minion_dependency_packages` and
   `salt_minion_reclass_dependencies`;
+* Fetch opnfv.tar if OPNFV_EXTRA URI is set (to be used for injecting
+  OPFNV formulas and reclass.system git repos during build);
+* Use formula-fetch.sh from pending PR #38 [1] that allows local FS
+  and/or Gerrit URIs for salt formula sources;
+
+[1] https://github.com/salt-formulas/salt-formulas-scripts/pull/38
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- DockerMake.yml | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+ DockerMake.yml | 36 ++++++++++++++++++++++++++++++++++--
+ Pipfile        |  1 +
+ 2 files changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..9ab7195 100644
+index 2c75586..48f1d23 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -29,6 +29,7 @@ common-cleanup:
@@ -36,34 +41,22 @@ index 2c75586..9ab7195 100644
      RUN echo "Layer with common packages" \
        && eval ${LAYER_PKGUPDT} \
        && apt-get upgrade -qy \
-@@ -94,7 +95,7 @@ salt-formulas:
-   build: |
-     ARG SALT_FORMULA_VERSION="master"
-     ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
--    ARG SALT_FORMULA_SOURCES="https://github.com/salt-formulas https://github.com/saltstack-formulas"
-+    ARG SALT_FORMULA_SOURCES="https://github.com/salt-formulas"
-     ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
-     ARG SALT_FORMULAS_BASE="/srv/salt/formula"
-     ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
-@@ -108,6 +109,41 @@ salt-formulas:
+@@ -102,12 +103,37 @@ salt-formulas:
+     ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
+     ARG RECLASS_BASE="/srv/salt/reclass"
+     ENV RECLASS_BASE $RECLASS_BASE
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
+     RUN echo "Layer python/salt module prerequisites, formulas" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /srv/salt \
+-      && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
++      && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/252ddc6/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
        && eval ${LAYER_CLEANUP}
 
 +opnfv:
 +  build: |
-+    # Some formulas have empty git repos, use the package version
-+    ARG SALT_FORMULA_VERSION="nightly"
-+    ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
-+    ARG SALT_FORMULA_LIST="salt-formula-gnocchi"
-+    ENV SALT_FORMULA_LIST $SALT_FORMULA_LIST
-+    ENV APT_REPOSITORY "deb [arch=amd64] http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
-+    ENV APT_REPOSITORY_GPG "http://apt.mirantis.com/public.gpg"
-+    RUN echo "Layer extra salt-formulas packages" \
-+      && echo "$APT_REPOSITORY" | tee /etc/apt/sources.list.d/salt-formulas.list >/dev/null \
-+      && curl -sL $APT_REPOSITORY_GPG | $SUDO apt-key add - \
-+      && eval ${LAYER_PKGUPDT} \
-+      && ${LAYER_INSTALL} ${SALT_FORMULA_LIST} -y --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-+      && eval ${LAYER_CLEANUP}
 +    RUN echo "Layer with OPNFV packages" \
 +      && eval ${LAYER_PKGUPDT} \
 +      && ${LAYER_INSTALL} \
@@ -87,3 +80,32 @@ index 2c75586..9ab7195 100644
  wheel:
    requires:
      - base
+@@ -138,9 +164,15 @@ reclass:
+     ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
+     ARG RECLASS_BASE="/srv/salt/reclass"
+     ENV RECLASS_BASE $RECLASS_BASE
++    ARG RECLASS_BASE_SOURCE="https://github.com/Mirantis/reclass-system-salt-model"
++    ENV RECLASS_BASE_SOURCE $RECLASS_BASE_SOURCE
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
+     RUN echo "Layer reclass" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /etc/reclass $RECLASS_BASE/classes/system \
+-      && git clone https://github.com/Mirantis/reclass-system-salt-model $RECLASS_BASE/classes/system \
++      && git clone --no-hardlinks $RECLASS_BASE_SOURCE $RECLASS_BASE/classes/system \
++      && rm -rf /tmp/opnfv \
+       && find $RECLASS_BASE/classes/system
+     RUN pip install --install-option="--prefix=/usr/local" -I \
+            "git+https://github.com/salt-formulas/reclass.git@$RECLASS_VERSION"
+diff --git a/Pipfile b/Pipfile
+index d3e8d66..6067dd2 100644
+--- a/Pipfile
++++ b/Pipfile
+@@ -9,6 +9,7 @@ name = "pypi"
+ pygithub = "*"
+ docker-make = {git = "https://github.com/avirshup/DockerMake"}
+ dockermake = {git = "https://github.com/avirshup/DockerMake"}
++invoke = "*"
+
+ [requires]
+ python_version = "3.6"
