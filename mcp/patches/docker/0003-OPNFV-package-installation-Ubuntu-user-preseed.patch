@@ -8,7 +8,7 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 Date: Wed, 22 Aug 2018 01:35:06 +0200
-Subject: [PATCH] OPNFV package installation, Ubuntu user
+Subject: [PATCH] OPNFV package installation, Ubuntu user, preseed
 
 * Install OpenSSH server (and client), so other OPNFV projects can
   easily connect to the Salt master node;
@@ -18,11 +18,17 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
   have to switch to 'root' login;
 * Preinstall `salt_minion_dependency_packages` and
   `salt_minion_reclass_dependencies`;
+* Fetch opnfv.tar if OPNFV_EXTRA URI is set (to be used for injecting
+  OPFNV formulas and reclass.system git repos during build);
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 45 +++++++++++++++++++++++++++++++++++++++++++--
+ Pipfile        |  1 +
+ 2 files changed, 44 insertions(+), 2 deletions(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..13813a2 100644
+index 258c529..faecf66 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -94,7 +94,7 @@ salt-formulas:
@@ -34,12 +40,15 @@ index 2c75586..13813a2 100644
      ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
      ARG SALT_FORMULAS_BASE="/srv/salt/formula"
      ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
-@@ -102,12 +102,46 @@ salt-formulas:
+@@ -102,12 +102,49 @@ salt-formulas:
      ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
      ARG RECLASS_BASE="/srv/salt/reclass"
      ENV RECLASS_BASE $RECLASS_BASE
 -    RUN echo "Layer python/salt module prerequisites, formulas" \
-+    RUN echo "Layer python/salt module prerequisites, formulas (09 Nov 2018)" \
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
++    RUN echo "Layer python/salt module prerequisites, formulas (13 Nov 2018)" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
        && mkdir -p /srv/salt \
        && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
@@ -82,3 +91,29 @@ index 2c75586..13813a2 100644
  wheel:
    requires:
      - base
+@@ -140,9 +177,13 @@ reclass:
+     ENV RECLASS_BASE $RECLASS_BASE
+     ARG RECLASS_BASE_SOURCE="https://github.com/Mirantis/reclass-system-salt-model"
+     ENV RECLASS_BASE_SOURCE $RECLASS_BASE_SOURCE
++    ARG OPNFV_EXTRA=""
++    ENV OPNFV_EXTRA $OPNFV_EXTRA
+     RUN echo "Layer reclass" \
++      && test -z "$OPNFV_EXTRA" || curl -sSqL $OPNFV_EXTRA | tar xf - -C /tmp \
+       && mkdir -p /etc/reclass $RECLASS_BASE/classes/system \
+       && git clone --no-hardlinks $RECLASS_BASE_SOURCE $RECLASS_BASE/classes/system \
++      && rm -rf /tmp/opnfv \
+       && find $RECLASS_BASE/classes/system
+     RUN pip install --install-option="--prefix=/usr/local" -I \
+            "git+https://github.com/salt-formulas/reclass.git@$RECLASS_VERSION"
+diff --git a/Pipfile b/Pipfile
+index d3e8d66..6067dd2 100644
+--- a/Pipfile
++++ b/Pipfile
+@@ -9,6 +9,7 @@ name = "pypi"
+ pygithub = "*"
+ docker-make = {git = "https://github.com/avirshup/DockerMake"}
+ dockermake = {git = "https://github.com/avirshup/DockerMake"}
++invoke = "*"
+
+ [requires]
+ python_version = "3.6"
