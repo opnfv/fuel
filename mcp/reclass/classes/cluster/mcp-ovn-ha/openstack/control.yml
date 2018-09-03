@@ -33,6 +33,8 @@ parameters:
         mechanism:
           ovn:
             driver: ovn
+      database:
+        host: ${_param:opnfv_openstack_database_address}
       ovn_ctl_opts:
         db-nb-create-insecure-remote: 'yes'
         db-sb-create-insecure-remote: 'yes'
