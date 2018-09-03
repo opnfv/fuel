@@ -22,6 +22,29 @@
       "revId": "34d812e03b3e039c69f3b18c098cd924e10551c5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1f54eb1f",
+        "filename": "mcp/config/states/networks",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-03T12:13:15Z",
+      "side": 1,
+      "message": "we could pass it from ci/deploy.sh where it\u0027s set, just like we do with CI_DEBUG and ENV_ERASE; or query pillar data to determine whether dpdk is used\nThis should work a lot easier if we switched to using pepper in state files ...",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 15
+      },
+      "revId": "34d812e03b3e039c69f3b18c098cd924e10551c5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
