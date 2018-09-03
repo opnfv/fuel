@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_bf45ff71",
+        "filename": "mcp/config/states/networks",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-09-03T12:06:10Z",
+      "side": 1,
+      "message": "I was sure this variable is available here, but ... it\u0027s empty. Will shift it into dpdk state. Also dpdk0 port have to be configured with jumbo frames as well (will update the linux formula to support it).",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 15
+      },
+      "revId": "34d812e03b3e039c69f3b18c098cd924e10551c5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
