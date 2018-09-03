@@ -52,7 +52,11 @@ networks:
   mgmt:
     driver: macvlan
     driver_opts:
+{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) %}
       parent: {{ ma.interface_str('veth_mcp5', nm.vlan_mgmt) }}
+{%- else %}
+      parent: veth_mcp5  # Untagged by default
+{%- endif %}
     ipam:
       config:
         - subnet: {{ nm.net_mgmt }}
