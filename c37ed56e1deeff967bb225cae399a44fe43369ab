@@ -22,6 +22,30 @@
       "revId": "c37ed56e1deeff967bb225cae399a44fe43369ab",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_e5688a23",
+        "filename": "mcp/scripts/xdf_data.sh.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-04T07:51:37Z",
+      "side": 1,
+      "message": "So you are suggesting to erase the default part (right of the \"or\") and keep only the override part (left of the \"or\") ?\n\nHow are we gonna apply the override cpu topology if we do not append it to the virt-install command in lib.sh?",
+      "parentUuid": "9a561d44_c510e603",
+      "range": {
+        "startLine": 41,
+        "startChar": 40,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "c37ed56e1deeff967bb225cae399a44fe43369ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
