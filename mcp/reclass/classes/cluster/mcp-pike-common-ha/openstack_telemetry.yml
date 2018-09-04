@@ -11,6 +11,7 @@ classes:
   - system.mongodb.server.cluster
   - system.mongodb.server.database.ceilometer
   - system.ceilometer.server.backend.mongodb
+  - system.apache.server.single
   # - system.ceilometer.server.backend.influxdb
   # - system.heka.ceilometer_collector.single
   - system.ceilometer.server.cluster
@@ -34,3 +35,7 @@ parameters:
         password: ${_param:mongodb_admin_password}
       logging:
         verbose: v
+  apache:
+    server:
+      bind:
+        listen_default_ports: false
