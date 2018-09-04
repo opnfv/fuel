@@ -41,6 +41,7 @@ classes:
   - system.galera.server.database.aodh
   - service.ceilometer.server.single
   - system.aodh.server.single
+  - system.apache.server.single
   - system.horizon.server.single
   - service.haproxy.proxy.single
   - cluster.mcp-pike-common-noha.haproxy_openstack_api
@@ -87,6 +88,10 @@ parameters:
     server:
       # yamllint disable-line rule:truthy
       secure: False
+  apache:
+    server:
+      bind:
+        listen_default_ports: false
   heat:
     server:
       bind:

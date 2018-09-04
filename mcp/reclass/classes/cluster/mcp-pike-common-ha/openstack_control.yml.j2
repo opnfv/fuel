@@ -19,6 +19,7 @@ classes:
   - system.heat.server.cluster
   - system.designate.server.cluster
   - system.designate.server.backend.bind
+  - system.apache.server.single
   - system.bind.server.single
   - system.haproxy.proxy.listen.openstack.nova-placement
   - system.haproxy.proxy.listen.openstack.glare
@@ -107,7 +108,7 @@ parameters:
   apache:
     server:
       bind:
-        ~ports: ~
+        listen_default_ports: false
       ~modules:
         - rewrite
         - wsgi
