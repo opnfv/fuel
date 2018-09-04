@@ -29,6 +29,7 @@ parameters:
 {%- endif %}
   linux:
     network:
+      ovs_nowait: true
       bridge: openvswitch
       interface:
         pxe_admin_int:
