@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_48918b98",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-04T11:32:28Z",
+      "side": 1,
+      "message": "cool",
+      "revId": "e5ff32c6ceccc185e43bb4225a0db8dbd048669e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
