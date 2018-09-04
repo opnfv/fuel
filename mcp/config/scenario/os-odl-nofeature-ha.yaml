@@ -5,27 +5,15 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- import 'net_map.j2' as nm with context %}
 ---
 cluster:
-  domain: mcp-ovn-ha.local
+  domain: mcp-odl-ha.local
   states:
-    - virtual_init
-{%- if nm.cluster.has_baremetal_nodes %}
-    - maas
-    - baremetal_init
-{%- endif %}
-{%- if conf.MCP_VCP %}
-    - virtual_control_plane
-{%- endif %}
+    - opendaylight
     - openstack_ha
     - networks
 virtual:
   nodes:
-    infra:
-{%- if nm.cluster.has_baremetal_nodes %}
-      - mas01
-{%- endif %}
     control:
       - kvm01
       - kvm02
