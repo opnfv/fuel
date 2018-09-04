@@ -46,6 +46,30 @@
       "revId": "c37ed56e1deeff967bb225cae399a44fe43369ab",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_0555be4f",
+        "filename": "mcp/scripts/xdf_data.sh.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-04T07:58:59Z",
+      "side": 1,
+      "message": "By the way we need the cpu_topology because is a requirement for NUMA architecture which I will write down later in this patch",
+      "parentUuid": "9a561d44_e5688a23",
+      "range": {
+        "startLine": 41,
+        "startChar": 40,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "c37ed56e1deeff967bb225cae399a44fe43369ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
