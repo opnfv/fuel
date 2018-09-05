@@ -31,6 +31,7 @@ parameters:
           bridge: br-prv
           type: dpdk_ovs_port
           n_rxq: ${_param:dpdk0_n_rxq}
+          mtu: ${_param:interface_mtu}
         br-prv:
           enabled: true
           type: dpdk_ovs_bridge
