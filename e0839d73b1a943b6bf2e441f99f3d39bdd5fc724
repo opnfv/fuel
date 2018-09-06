@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_55e20c04",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-06T06:59:47Z",
+      "side": 1,
+      "message": "Is this a typo? Do you mean virt_install?",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 12
+      },
+      "revId": "e0839d73b1a943b6bf2e441f99f3d39bdd5fc724",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_35a150aa",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-06T06:59:47Z",
+      "side": 1,
+      "message": "typo? Do you mean virt_install?",
+      "range": {
+        "startLine": 647,
+        "startChar": 9,
+        "endLine": 647,
+        "endChar": 25
+      },
+      "revId": "e0839d73b1a943b6bf2e441f99f3d39bdd5fc724",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
