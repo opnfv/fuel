@@ -16,4 +16,4 @@ salt -I 'nova:compute' alternatives.set ovs-vswitchd /usr/lib/openvswitch-switch
 salt -I 'nova:compute' service.restart openvswitch-switch
 
 # Set datapath type to netdev for public bridge
-salt -I 'nova:compute' cmd.run 'ovs-vsctl set bridge br-floating datapath_type=netdev'
+salt -I 'nova:compute' cmd.run 'ovs-vsctl br-exists br-floating && ovs-vsctl set bridge br-floating datapath_type=netdev' ignore_retcode=True
