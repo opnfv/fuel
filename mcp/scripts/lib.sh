@@ -572,6 +572,25 @@ function wait_for {
   )
 }
 
+function do_sshc_cfg {
+  local _conf="${HOME}/.ssh/config"
+  [ -n "${SSH_KEY}" ] || exit 1
+
+  [ -e "${_conf}" ] || install -D -m 0600 /dev/null "${_conf}"
+  if ! grep -q -e "Host ${SALT_MASTER}" "${_conf}"; then
+    cat <<-EOF >> "${_conf}"
+
+	Host ${SALT_MASTER}
+	  StrictHostKeyChecking no
+	  UserKnownHostsFile /dev/null
+	  ServerAliveInterval 30
+	  ServerAliveCountMax 1
+	  User ubuntu
+	  IdentityFile ${SSH_KEY}
+	EOF
+  fi
+}
+
 function do_udev_cfg {
   local _conf='/etc/udev/rules.d/99-opnfv-fuel-vnet-mtu.rules'
   # http://linuxaleph.blogspot.com/2013/01/how-to-network-jumbo-frames-to-kvm-guest.html
