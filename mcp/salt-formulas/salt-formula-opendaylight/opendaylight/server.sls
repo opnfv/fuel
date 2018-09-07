@@ -53,7 +53,6 @@ opendaylight:
 {%- endif %}
   - watch:
     - file: /opt/opendaylight/etc/jetty.xml
-    - file: /opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-dhcpservice-config.xml
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
@@ -101,11 +100,16 @@ opendaylight:
       - service: opendaylight
 {%- endif %}
 
+{%- if server.dhcp.enabled %}
 /opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-dhcpservice-config.xml:
   file.managed:
   - source: salt://opendaylight/files/netvirt-dhcpservice-config.xml
+  - makedirs: true
+  - watch_in:
+    - service: opendaylight
   - use:
     - file: /opt/opendaylight/etc/jetty.xml
+{%- endif %}
 
 {%- if grains['cpuarch'] == 'aarch64' %}
 opendaylight-leveldbjni:
