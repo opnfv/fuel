@@ -34,6 +34,10 @@ FPATCHES = $(shell find ${F_PATCH_DIR} -name '*.patch')
 # Leaving this var empty will bind each git submodule to its saved commit.
 FUEL_TRACK_REMOTES ?=
 
+# Limit submodule operations to a subset (based on submodule path)
+# `deepclean` required for filter changes to take effect on subsequent use
+SUBMODULE_FILTER ?=
+
 .PHONY: all
 all: release
 
@@ -48,9 +52,9 @@ sub: .cachefuelinfo
 
 .cachefuelinfo:
 	@if [ -n "${FUEL_TRACK_REMOTES}" ]; then \
-		cd ${F_GIT_ROOT} && git submodule update --init --remote 2>/dev/null; \
+		cd ${F_GIT_ROOT} && git submodule update --init --remote ${SUBMODULE_FILTER} 2>/dev/null; \
 	else \
-		cd ${F_GIT_ROOT} && git submodule update --init 2>/dev/null; \
+		cd ${F_GIT_ROOT} && git submodule update --init ${SUBMODULE_FILTER} 2>/dev/null; \
 	fi
 	@touch $@
 
