@@ -258,8 +258,9 @@ fi
 # Collect jump server system information for deploy debugging
 ./sysinfo_print.sh
 
-# Clone git submodules and apply our patches
-make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
+# Clone git submodules (only required) and apply our patches
+SUBMODULE_FILTER=mcp/scripts/pharos \
+  make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
 
 # Check scenario file existence
 SCENARIO_DIR="$(readlink -f "../config/scenario")"
