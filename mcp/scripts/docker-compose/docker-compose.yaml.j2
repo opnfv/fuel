@@ -13,7 +13,7 @@ version: '2'
 services:
   opnfv-fuel-salt-master:
     container_name: "fuel"
-    image: "opnfv/fuel:saltmaster-reclass-latest"
+    image: "opnfv/fuel:saltmaster-reclass-{{ conf.MCP_DOCKER_TAG }}"
     networks:
       - mcpcontrol
       - pxebr
