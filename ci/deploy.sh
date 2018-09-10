@@ -38,7 +38,7 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f] [-F] [-e | -E[E]] [-d] [-D] [-N]
+    [-f] [-F] [-e | -E[E]] [-d] [-D] [-N] [-m]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -55,6 +55,7 @@ $(notify "OPTIONS:" 2)
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images and other deploy artifacts
   -L  Deployment log path and file name
+  -m  Use single socket CPU compute nodes (only affects virtual computes)
   -N  Experimental: Do not virtualize control plane (novcp)
 
 $(notify_i "Description:" 2)
@@ -95,6 +96,9 @@ $(notify_i "Input parameters to the build script are:" 2)
 -p POD name as defined in the configuration directory, e.g. pod2
    For the sample configuration in <./mcp/config>, POD name is 'virtual1'
    for virtual deployments or 'pod1' for baremetal (based on lf-pod2).
+-m Use single socket compute nodes. Instead of using default NUMA-enabled
+   topology for virtual compute nodes created via libvirt, configure a
+   single guest CPU socket.
 -N Experimental: Instead of virtualizing the control plane (VCP), deploy
    control plane directly on baremetal nodes
 -P Skip installing dependency distro packages on current host
@@ -138,6 +142,7 @@ NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
 MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-latest}
+MCP_CMP_SS=${MCP_CMP_SS:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
@@ -182,6 +187,9 @@ do
             ;;
         L)
             DEPLOY_LOG="${OPTARG}"
+            ;;
+        m)
+            MCP_CMP_SS=1
             ;;
         N)
             MCP_VCP=0
@@ -240,6 +248,7 @@ else
     notify "[NOTE] Installing required distro pkgs" 2
     jumpserver_pkg_install 'deploy'
     docker_install "${MCP_STORAGE_DIR}"
+    virtinst_install "${MCP_STORAGE_DIR}"
 fi
 
 if ! virsh list >/dev/null 2>&1; then
@@ -266,7 +275,7 @@ export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 MCP_DPDK_MODE=$([[ "$DEPLOY_SCENARIO" =~ ovs ]] && echo 1 || echo 0)
 # Expand jinja2 templates based on PDF data and env vars
 export MCP_REPO_ROOT_PATH MCP_VCP MCP_DPDK_MODE MCP_STORAGE_DIR MCP_DOCKER_TAG \
-       MCP_JUMP_ARCH=$(uname -i)
+       MCP_CMP_SS MCP_JUMP_ARCH=$(uname -i)
 do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${BASE_CONFIG_URI}" "${SCENARIO_DIR}" \
                       "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
