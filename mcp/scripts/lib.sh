@@ -493,6 +493,9 @@ function prepare_containers {
   docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
 
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
+  if [ ! "${MCP_DOCKER_TAG}" = 'verify' ]; then
+    "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml pull
+  fi
   sudo rm -rf "${image_dir}/"{salt,hosts,pki} "${image_dir}/nodes/"*
   mkdir -p "${image_dir}/salt/"{master.d,minion.d}
   touch "${image_dir}/hosts"
@@ -502,7 +505,6 @@ function start_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
   docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
-  "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml pull
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml up -d
 }
 
