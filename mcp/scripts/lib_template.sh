@@ -23,7 +23,8 @@ function do_templates_scenario {
   local target_lab=$1; shift
   local target_pod=$1; shift
   local lab_config_uri=$1; shift
-  local scenario_dir=$1
+  local scenario_dir=$1; shift
+  local extra_yaml=("$@")
 
   BASE_CONFIG_PDF="${lab_config_uri}/labs/${target_lab}/${target_pod}.yaml"
   BASE_CONFIG_IDF="${lab_config_uri}/labs/${target_lab}/idf-${target_pod}.yaml"
@@ -49,6 +50,9 @@ function do_templates_scenario {
       notify_e "[ERROR] IDF does not match yaml schema!"
     fi
   fi
+  for _yaml in "${extra_yaml[@]}"; do
+    awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
+  done
   if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
     -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then

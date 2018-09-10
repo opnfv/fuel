@@ -268,11 +268,11 @@ MCP_DPDK_MODE=$([[ "$DEPLOY_SCENARIO" =~ ovs ]] && echo 1 || echo 0)
 export MCP_REPO_ROOT_PATH MCP_VCP MCP_DPDK_MODE MCP_STORAGE_DIR MCP_DOCKER_TAG \
        MCP_JUMP_ARCH=$(uname -i)
 do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
-                      "${BASE_CONFIG_URI}" "${SCENARIO_DIR}"
+                      "${BASE_CONFIG_URI}" "${SCENARIO_DIR}" \
+                      "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
 do_templates_cluster  "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${MCP_REPO_ROOT_PATH}" \
-                      "${SCENARIO_DIR}/defaults.yaml" \
-                      "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
+                      "${SCENARIO_DIR}/defaults.yaml"
 
 # Determine additional data (e.g. jump bridge names) based on XDF
 source "${DEPLOY_DIR}/xdf_data.sh"
