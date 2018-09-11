@@ -6,8 +6,14 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- set infra_nodes = conf[conf.MCP_JUMP_ARCH].default.virtual.nodes.infra %}
 rm /etc/salt/minion_id
 rm -f /etc/salt/pki/minion/minion_master.pub
 echo "id: $(hostname).{{ conf.cluster.domain }}" > /etc/salt/minion
-echo "master: {{ conf.SALT_MASTER }}" >> /etc/salt/minion
+if [[ "{{ infra_nodes or [] | join(' ') }}" =~ $(hostname) ]]; then
+  echo "master: {{ conf.SALT_MASTER }}" >> /etc/salt/minion
+else
+  echo "master: {{ nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_config_pxe_admin_address') +1) }}" >> /etc/salt/minion
+fi
 service salt-minion restart

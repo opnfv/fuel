@@ -287,13 +287,8 @@ function prepare_vms {
 
   # Create config ISO and resize OS disk image for each foundation node VM
   for node in "${vnodes[@]}"; do
-    if [[ "${node}" =~ ^(cfg01|mas01) ]]; then
-      user_data='user-data.mcp.sh'
-    else
-      user_data='user-data.admin.sh'
-    fi
     ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" \
-       -u "${user_data}" -h "${node}" "${image_dir}/mcp_${node}.iso"
+       -u 'user-data.sh' -h "${node}" "${image_dir}/mcp_${node}.iso"
     cp "${image_dir}/${image}" "${image_dir}/mcp_${node}.qcow2"
     qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
     # Prepare dedicated drive for cinder on cmp nodes
