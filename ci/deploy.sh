@@ -107,7 +107,9 @@ $(notify_i "Input parameters to the build script are:" 2)
    Note that without the required packages, deploy will fail.
 -s Deployment-scenario, this points to a short deployment scenario name, which
    has to be defined in config directory (e.g. os-odl-nofeature-ha).
--S Storage dir for VM images, default is mcp/deploy/images
+-S Storage dir for VM images, default is /var/lib/opnfv/tmpdir
+   It is recommended to store the deploy artifacts on a fast disk, outside of
+   the current git repository (so clean operations won't erase it).
 
 $(notify_i "[NOTE] sudo & virsh priviledges are needed for this script to run" 3)
 
@@ -116,7 +118,8 @@ Example:
 $(notify_i "sudo $(basename "$0") \\
   -b file:///home/jenkins/securedlab \\
   -l lf -p pod2 \\
-  -s os-odl-nofeature-ha" 2)
+  -s os-odl-nofeature-ha \\
+  -S /home/jenkins/tmpdir" 2)
 EOF
 }
 
@@ -130,7 +133,7 @@ EOF
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 MCP_REPO_ROOT_PATH=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 DEPLOY_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/scripts"; pwd)
-MCP_STORAGE_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/deploy/images"; pwd)
+MCP_STORAGE_DIR='/var/lib/opnfv/tmpdir'
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${MCP_REPO_ROOT_PATH}/mcp/scripts/pharos"
 
@@ -242,6 +245,8 @@ pushd "${DEPLOY_DIR}" > /dev/null
 # scenario, etc.
 
 # Install required packages on jump server
+sudo mkdir -p "${MCP_STORAGE_DIR}"
+sudo chown "${USER}:${USER}" "${MCP_STORAGE_DIR}"
 if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
     notify "[NOTE] Skipping distro pkg installation" 2
 else
