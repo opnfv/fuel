@@ -10,11 +10,11 @@ applications:
   - opendaylight
 parameters:
   _param:
-    version: oxygen
+    opendaylight_version: fluorine
   opendaylight:
     server:
       enabled: 'True'
-      version: ${_param:version}
-      repo: 'odl-team/${_param:version}'
+      version: ${_param:opendaylight_version}
+      repo: 'odl-team/${_param:opendaylight_version}'
       logging:
         engine: syslog
