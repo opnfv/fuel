@@ -40,7 +40,7 @@ networks:
       config:
         - subnet: {{ net_mcpcontrol }}
           gateway: {{ net_mcpcontrol | ipnet_hostaddr(1) }}
-          ip_range: {{ [net_mcpcontrol | ipnet_hostaddr(2), conf.MCPCONTROL_PREFIX] | join("/") }}
+          ip_range: {{ [conf.SALT_MASTER, conf.MCPCONTROL_PREFIX] | join("/") }}
   pxebr:
     driver: macvlan
     driver_opts:

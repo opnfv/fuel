@@ -14,7 +14,7 @@
   <forward mode="nat"/>
   <ip address="{{ net_mcpcontrol | ipnet_hostaddr(1) }}" netmask="{{ net_mcpcontrol | ipnet_netmask }}">
     <dhcp>
-      <range start="{{ net_mcpcontrol | ipnet_hostaddr(2) }}" end="{{ net_mcpcontrol | ipnet_hostmax }}"/>
+      <range start="{{ net_mcpcontrol | ipnet_hostaddr(3) }}" end="{{ net_mcpcontrol | ipnet_hostmax }}"/>
     </dhcp>
   </ip>
 </network>

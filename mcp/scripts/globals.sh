@@ -1,6 +1,6 @@
 #!/bin/bash -e
 ##############################################################################
-# Copyright (c) 2017 Ericsson AB, Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -16,7 +16,6 @@ export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 # Derived from INSTALLER_IP
 export MCPCONTROL_NET=${MCPCONTROL_NET:-${SALT_MASTER%.*}.0}
 export MCPCONTROL_PREFIX=${MCPCONTROL_PREFIX:-24}
-export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 
 # Derived from above global vars, not overideable
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"
