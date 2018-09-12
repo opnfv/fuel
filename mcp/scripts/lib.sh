@@ -497,7 +497,7 @@ function prepare_containers {
   docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
 
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
-  if [ ! "${MCP_DOCKER_TAG}" = 'verify' ]; then
+  if [[ ! "${MCP_DOCKER_TAG}" =~ 'verify' ]]; then
     "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml pull
   fi
   sudo rm -rf "${image_dir}/"{salt,hosts,pki} "${image_dir}/nodes/"*
