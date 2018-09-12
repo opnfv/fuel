@@ -71,6 +71,7 @@ pushd "${DOCKER_DIR}" > /dev/null
 pipenv --two
 pipenv install
 pipenv install invoke
+# shellcheck disable=SC2086
 pipenv run \
   invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
@@ -79,7 +80,7 @@ pipenv run \
     --formula-rev=nightly \
     --opnfv-tag="${DOCKER_TAG}" \
     --salt='stable 2017.7' \
-    "${DOCKER_PUSH}"
+    ${DOCKER_PUSH}
 
 popd > /dev/null
 
