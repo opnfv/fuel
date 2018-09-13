@@ -32,7 +32,7 @@ Summary
 For Fraser, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
-- `OpenDaylight <http://www.opendaylight.org/software>`_
+- `OpenDaylight <https://www.opendaylight.org/software>`_
 - `Open vSwitch for NFV <https://wiki.opnfv.org/ovsnfv>`_
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
@@ -190,21 +190,21 @@ For more information on the OPNFV Fraser 6.2 release, please see:
 OPNFV
 =====
 
-1) `OPNFV Home Page <http://www.opnfv.org>`_
-2) `OPNFV Documentation <http://docs.opnfv.org>`_
+1) `OPNFV Home Page <https://www.opnfv.org>`_
+2) `OPNFV Documentation <https://docs.opnfv.org>`_
 3) `OPNFV Software Downloads <https://www.opnfv.org/software/download>`_
 
 OpenStack
 =========
 
-4) `OpenStack Pike Release Artifacts <http://www.openstack.org/software/pike>`_
+4) `OpenStack Pike Release Artifacts <https://www.openstack.org/software/pike>`_
 
-5) `OpenStack Documentation <http://docs.openstack.org>`_
+5) `OpenStack Documentation <https://docs.openstack.org>`_
 
 OpenDaylight
 ============
 
-6) `OpenDaylight Artifacts <http://www.opendaylight.org/software/downloads>`_
+6) `OpenDaylight Artifacts <https://www.opendaylight.org/software/downloads>`_
 
 Fuel
 ====

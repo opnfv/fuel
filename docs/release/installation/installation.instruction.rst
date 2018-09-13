@@ -611,18 +611,18 @@ References
 
 OPNFV
 
-1) `OPNFV Home Page <http://www.opnfv.org>`_
-2) `OPNFV documentation <http://docs.opnfv.org>`_
+1) `OPNFV Home Page <https://www.opnfv.org>`_
+2) `OPNFV documentation <https://docs.opnfv.org>`_
 3) `Software downloads <https://www.opnfv.org/software/download>`_
 
 OpenStack
 
-4) `OpenStack Queens Release Artifacts <http://www.openstack.org/software/queens>`_
-5) `OpenStack Documentation <http://docs.openstack.org>`_
+4) `OpenStack Queens Release Artifacts <https://www.openstack.org/software/queens>`_
+5) `OpenStack Documentation <https://docs.openstack.org>`_
 
 OpenDaylight
 
-6) `OpenDaylight Artifacts <http://www.opendaylight.org/software/downloads>`_
+6) `OpenDaylight Artifacts <https://www.opendaylight.org/software/downloads>`_
 
 Fuel
 
@@ -631,8 +631,8 @@ Fuel
 Salt
 
 8) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
-9) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_
+9) `Saltstack Formulas <https://salt-formulas.readthedocs.io/en/latest/develop/overview-reclass.html>`_
 
 Reclass
 
-10) `Reclass model <http://reclass.pantsfullofunix.net>`_
+10) `Reclass model <https://reclass.pantsfullofunix.net>`_
