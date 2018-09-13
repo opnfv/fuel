@@ -39,4 +39,4 @@ References
 ==========
 
 For more information on the OPNFV Gambia release, please visit
-http://www.opnfv.org/software
+https://www.opnfv.org/software
