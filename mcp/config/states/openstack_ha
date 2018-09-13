@@ -82,7 +82,3 @@ dashboard_host=$(salt -C 'I@nginx:server and *01*' --out=yaml cp.push \
   upload_path='certs/os_cacert' | cut -d':' -f1)
 cd /etc/ssl/certs && \
   ln -sf "/var/cache/salt/master/minions/${dashboard_host}/files/certs/os_cacert"
-
-# glance v1 api is required by orchestra tests
-salt -I 'glance:server' ini.set_option /etc/glance/glance-api.conf '{DEFAULT: {enable_v1_api: True}}'
-salt -I 'glance:server' service.restart glance-api
