@@ -34,10 +34,10 @@ virtual:
       threads: 2
     numa:
       cell0:
-        memory: 4194304
+        memory: 8388608
         cpus: 0-3
       cell1:
-        memory: 4194304
+        memory: 8388608
         cpus: 4-7
   cmp002:
     vcpus: 8
@@ -48,8 +48,8 @@ virtual:
       threads: 2
     numa:
       cell0:
-        memory: 4194304
+        memory: 8388608
         cpus: 0-3
       cell1:
-        memory: 4194304
+        memory: 8388608
         cpus: 4-7
