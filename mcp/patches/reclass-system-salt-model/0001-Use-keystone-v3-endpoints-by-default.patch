@@ -20,7 +20,7 @@ Change-Id: I7e9a1b180f4e0ddb24ec72ed9f08c9e2580c7897
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/keystone/client/single.yml b/keystone/client/single.yml
-index ad2d55a1..120a2359 100644
+index b8ab7f1b..98cf359c 100644
 --- a/keystone/client/single.yml
 +++ b/keystone/client/single.yml
 @@ -5,7 +5,7 @@ classes:

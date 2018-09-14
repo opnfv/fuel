@@ -63,6 +63,11 @@ classes:
   - system.apache.server.single
   - system.horizon.server.single
   - service.haproxy.proxy.single
+{%- if '-sfc-' in conf.MCP_DEPLOY_SCENARIO %}
+  - system.keystone.client.service.tacker
+  - system.galera.server.database.tacker
+  - service.tacker.server.single
+{%- endif %}
   - cluster.mcp-common-noha.haproxy_openstack_api
   - cluster.mcp-common-noha.openstack_control_pdf
 parameters:
