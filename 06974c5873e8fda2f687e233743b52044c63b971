@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_08734a4e",
+        "filename": "mcp/config/scenario/os-odl-sfc-noha.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 2091
+      },
+      "writtenOn": "2018-09-14T18:32:15Z",
+      "side": 1,
+      "message": "Not sure if this comes here but we would need networking-sfc and ovs 2.9.2 with a specific openvswitch kernel module. For Ubuntu, Dimitris Markou can tell you more because he is the maintainer of the repo that provides the kernel module for Ubuntu 16.04",
+      "revId": "06974c5873e8fda2f687e233743b52044c63b971",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
