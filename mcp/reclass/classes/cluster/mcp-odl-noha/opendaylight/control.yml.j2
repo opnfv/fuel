@@ -29,3 +29,6 @@ parameters:
           - odl-aaa-authn
         netvirt:
           - odl-netvirt-openstack
+{%- if conf.MCP_SFC_ENABLED %}
+          - odl-netvirt-sfc
+{%- endif %}
