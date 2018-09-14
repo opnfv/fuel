@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_edf7008b",
+        "filename": "mcp/patches/docker/0005-DockerMake.yml-Use-forked-formula-fetch.patch",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-09-14T08:57:23Z",
+      "side": 1,
+      "message": "Is this a temporary solution?",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "b9b96da39fea6d4ee4e832b473452319d08e0356",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
