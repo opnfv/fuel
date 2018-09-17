@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_033fac26",
+        "filename": "mcp/reclass/classes/cluster/mcp-ovs-noha/openstack/compute.yml.j2",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-09-17T12:25:38Z",
+      "side": 1,
+      "message": "Not sure about turning on hugepages for nofeature scenario (i.e. the memory should be enough to allocate w/ and w/o large pages flavors), it\u0027s more suitable for dpdk one I guess.",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 37
+      },
+      "revId": "52ae8bdff334e2f618a64baa4a67867e6e23d620",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
