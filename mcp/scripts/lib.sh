@@ -245,6 +245,10 @@ function cleanup_vms {
       xargs --no-run-if-empty -I{} sudo rm -f {}
     virsh undefine "${node}" --remove-all-storage --nvram
   done
+  # Newer Fuel@OPNFV releases run containers that conflict with the infra VMs
+  if which docker > /dev/null 2>&1; then
+    docker ps -a -q --filter="name=fuel" | xargs --no-run-if-empty docker stop
+  fi
 }
 
 function prepare_vms {
