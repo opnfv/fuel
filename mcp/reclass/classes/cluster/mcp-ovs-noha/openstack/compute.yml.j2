@@ -30,3 +30,7 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
+system:
+  package:
+    cgroup-tools:
+      version: latest

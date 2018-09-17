@@ -10,3 +10,9 @@ classes:
   - system.neutron.control.openvswitch.single
   - cluster.mcp-common-noha.openstack_control
   - cluster.mcp-ovs-noha
+parameters:
+  nova:
+    controller:
+      scheduler_default_filters: "DifferentHostFilter,SameHostFilter,RetryFilter,AvailabilityZoneFilter,RamFilter,\
+                                 CoreFilter,DiskFilter,ComputeFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,\
+                                 ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter,NUMATopologyFilter"
