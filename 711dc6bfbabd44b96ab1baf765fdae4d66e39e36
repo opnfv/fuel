@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_09022b3e",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-18T13:33:34Z",
+      "side": 1,
+      "message": "`sudo systemctl restart docker` to align with [1] (armband CI runs deploy.sh as non-root user)\n[1] https://github.com/opnfv/fuel/blob/master/mcp/scripts/lib.sh#L617",
+      "range": {
+        "startLine": 311,
+        "startChar": 4,
+        "endLine": 311,
+        "endChar": 26
+      },
+      "revId": "711dc6bfbabd44b96ab1baf765fdae4d66e39e36",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
