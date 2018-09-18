@@ -23,7 +23,6 @@ All services are in HA, meaning that there are multiple cloned instances of
 each service, and they are balanced by HA Proxy using a Virtual IP Address
 per service.
 
-
 Scenario usage overview
 =======================
 

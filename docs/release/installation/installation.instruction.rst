@@ -128,9 +128,11 @@ installation of Fraser using Fuel:
 |                         | order (e.g. IPMI)                                    |
 +-------------------------+------------------------------------------------------+
 
-**NOTE:** All nodes including the Jumpserver must have the same architecture (either x86_64 or aarch64).
+.. NOTE::
+    All nodes including the Jumpserver must have the same architecture (either x86_64 or aarch64).
 
-**NOTE:** For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
+.. NOTE::
+    For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
 
 ===============================
 Help with Hardware Requirements
@@ -239,18 +241,22 @@ installed on the Jumpserver:
 - CentOS 7 (recommended by Pharos specification);
 - Ubuntu Xenial;
 
-**NOTE**: The install script expects 'libvirt' to be already running on the Jumpserver. In case libvirt
-packages are missing, the script will install them; but depending on the OS distribution, the user
-might have to start the 'libvirtd' service manually, then run the deploy script again. Therefore, it
-is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
+.. NOTE::
+    The install script expects 'libvirt' to be already running on the Jumpserver. In case libvirt
+    packages are missing, the script will install them; but depending on the OS distribution, the user
+    might have to start the 'libvirtd' service manually, then run the deploy script again. Therefore, it
+    is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
 
-**NOTE**: It is also recommended to install the newer kernel on the Jumpserver before the deployment.
+.. NOTE::
+    It is also recommended to install the newer kernel on the Jumpserver before the deployment.
 
-**NOTE**: The install script will automatically install the rest of required distro package
-dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
-Python, QEMU, libvirt etc.
+.. NOTE::
+    The install script will automatically install the rest of required distro package
+    dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
+    Python, QEMU, libvirt etc.
 
-**NOTE**: The install script will alter Jumpserver sysconf and disable `net.bridge.bridge-nf-call`.
+.. NOTE::
+    The install script will alter Jumpserver sysconf and disable `net.bridge.bridge-nf-call`.
 
 .. code-block:: bash
 
@@ -309,8 +315,8 @@ In this figure there are examples of two virtual deploys:
    - Jumphost 2 has a mix of Linux and virsh bridges; When Linux bridge exists for a specified network,
      the deploy script will skip creating a virsh bridge for it
 
-**Note**: A virtual network "mcpcontrol" is always created for initial connection
-of the VMs on Jumphost.
+.. NOTE::
+    A virtual network "mcpcontrol" is always created for initial connection of the VMs on Jumphost.
 
 
 Automatic Installation of a Baremetal POD
@@ -363,8 +369,8 @@ In the baremetal deploy all bridges but "mcpcontrol" are Linux bridges. For the 
 required to pre-configure at least the admin_br bridge for the PXE/Admin.
 For the targets, the bridges are created by the deploy script.
 
-**Note**: A virtual network "mcpcontrol" is always created for initial connection
-of the VMs on Jumphost.
+.. NOTE::
+    A virtual network "mcpcontrol" is always created for initial connection of the VMs on Jumphost.
 
 
 Steps to Start the Automatic Deploy
@@ -412,10 +418,11 @@ These steps are common both for virtual and baremetal deploys.
                       -D \
                       -S <Storage directory for disk images> |& tee deploy.log
 
-   **NOTE**: The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
-   for hardware and network configuration of all current OPNFV PODs.
-   When deploying a new POD, one can pass the `-b` flag to the deploy script to override
-   the path for the labconfig directory structure containing the PDF and IDF (see below).
+.. NOTE::
+    The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
+    for hardware and network configuration of all current OPNFV PODs.
+    When deploying a new POD, one can pass the `-b` flag to the deploy script to override
+    the path for the labconfig directory structure containing the PDF and IDF (see below).
 
 Examples
 --------
@@ -530,8 +537,9 @@ are defined:
 - Remote management parameters.
 - Network interfaces list including mac address, speed, advanced features and name.
 
-**Note**: The fixed IPs are ignored by the MCP installer script and it will instead
-assign based on the network ranges defined in IDF.
+.. NOTE::
+    The fixed IPs are ignored by the MCP installer script and it will instead
+    assign based on the network ranges defined in IDF.
 
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
