@@ -9,8 +9,6 @@ Scenarios for Fuel\@OPNFV
 *************************
 
 .. toctree::
-   :numbered:
-   :maxdepth: 2
 
    os-nosdn-ovs-noha/index.rst
    os-nosdn-ovs-ha/index.rst

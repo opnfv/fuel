@@ -10,8 +10,15 @@
 Installation instruction for Fuel\@OPNFV
 ****************************************
 
+Contents:
+
 .. toctree::
    :numbered:
    :maxdepth: 2
 
    installation.instruction.rst
+
+Indices and tables
+==================
+
+* :ref:`search`
