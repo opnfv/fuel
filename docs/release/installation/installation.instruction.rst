@@ -128,9 +128,13 @@ installation of Fraser using Fuel:
 |                         | order (e.g. IPMI)                                    |
 +-------------------------+------------------------------------------------------+
 
-**NOTE:** All nodes including the Jumpserver must have the same architecture (either x86_64 or aarch64).
+.. NOTE::
 
-**NOTE:** For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
+    All nodes including the Jumpserver must have the same architecture (either x86_64 or aarch64).
+
+.. NOTE::
+
+    For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
 
 ===============================
 Help with Hardware Requirements
@@ -190,10 +194,10 @@ also be pre-configured (e.g. admin_br, mgmt_br, public_br).
   suggested to pre-configure it for debugging purposes.
 - The public bridge (public_br) is also nice to have for debugging purposes, but not mandatory.
 
-The user running the deploy script on the Jumpserver should belong to "sudo" and "libvirt" groups,
+The user running the deploy script on the Jumpserver should belong to ``sudo`` and ``libvirt`` groups,
 and have passwordless sudo access.
 
-The following example adds the groups to the user "jenkins"
+The following example adds the groups to the user ``jenkins``
 
 .. code-block:: bash
 
@@ -207,14 +211,14 @@ The following example adds the groups to the user "jenkins"
     ...
     %jenkins ALL=(ALL) NOPASSWD:ALL
 
-The folder containing the temporary deploy artifacts (/home/jenkins/tmpdir in the examples below)
+The folder containing the temporary deploy artifacts (``/home/jenkins/tmpdir`` in the examples below)
 needs to have mask 777 in order for libvirt to be able to use them.
 
 .. code-block:: bash
 
     $ mkdir -p -m 777 /home/jenkins/tmpdir
 
-For an AArch64 Jumpserver, the "libvirt" minimum required version is 3.x, 3.5 or newer highly recommended.
+For an AArch64 Jumpserver, the ``libvirt`` minimum required version is 3.x, 3.5 or newer highly recommended.
 While not mandatory, upgrading the kernel and QEMU on the Jumpserver is also highly recommended
 (especially on AArch64 Jumpservers).
 
@@ -223,7 +227,7 @@ For Ubuntu 16.04 (arm64), distro packages are too old and 3rd party repositories
 For convenience, Armband provides a DEB repository holding all the required packages.
 
 To add and enable the Armband repository on an Ubuntu 16.04 system,
-create a new sources list file `/apt/sources.list.d/armband.list` with the following contents:
+create a new sources list file ``/apt/sources.list.d/armband.list`` with the following contents:
 
 .. code-block:: bash
 
@@ -239,18 +243,27 @@ installed on the Jumpserver:
 - CentOS 7 (recommended by Pharos specification);
 - Ubuntu Xenial;
 
-**NOTE**: The install script expects 'libvirt' to be already running on the Jumpserver. In case libvirt
-packages are missing, the script will install them; but depending on the OS distribution, the user
-might have to start the 'libvirtd' service manually, then run the deploy script again. Therefore, it
-is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
+.. WARNING::
 
-**NOTE**: It is also recommended to install the newer kernel on the Jumpserver before the deployment.
+    The install script expects ``libvirt`` to be already running on the Jumpserver.
+    In case ``libvirt`` packages are missing, the script will install them; but
+    depending on the OS distribution, the user might have to start the ``libvirtd``
+    service manually, then run the deploy script again. Therefore, it
+    is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
 
-**NOTE**: The install script will automatically install the rest of required distro package
-dependencies on the Jumpserver, unless explicitly asked not to (via -P deploy arg). This includes
-Python, QEMU, libvirt etc.
+.. NOTE::
 
-**NOTE**: The install script will alter Jumpserver sysconf and disable `net.bridge.bridge-nf-call`.
+    It is also recommended to install the newer kernel on the Jumpserver before the deployment.
+
+.. WARNING::
+
+    The install script will automatically install the rest of required distro package
+    dependencies on the Jumpserver, unless explicitly asked not to (via ``-P`` deploy arg).
+    This includes Python, QEMU, libvirt etc.
+
+.. WARNING::
+
+    The install script will alter Jumpserver sysconf and disable ``net.bridge.bridge-nf-call``.
 
 .. code-block:: bash
 
@@ -309,8 +322,9 @@ In this figure there are examples of two virtual deploys:
    - Jumphost 2 has a mix of Linux and virsh bridges; When Linux bridge exists for a specified network,
      the deploy script will skip creating a virsh bridge for it
 
-**Note**: A virtual network "mcpcontrol" is always created for initial connection
-of the VMs on Jumphost.
+.. NOTE::
+
+    A virtual network ``mcpcontrol`` is always created for initial connection of the VMs on Jumphost.
 
 
 Automatic Installation of a Baremetal POD
@@ -363,8 +377,9 @@ In the baremetal deploy all bridges but "mcpcontrol" are Linux bridges. For the 
 required to pre-configure at least the admin_br bridge for the PXE/Admin.
 For the targets, the bridges are created by the deploy script.
 
-**Note**: A virtual network "mcpcontrol" is always created for initial connection
-of the VMs on Jumphost.
+.. NOTE::
+
+    A virtual network ``mcpcontrol`` is always created for initial connection of the VMs on Jumphost.
 
 
 Steps to Start the Automatic Deploy
@@ -398,10 +413,10 @@ These steps are common both for virtual and baremetal deploys.
 
     Besides the basic options,  there are other recommended deploy arguments:
 
-    - use **-D** option to enable the debug info
-    - use **-S** option to point to a tmp dir where the disk images are saved. The images will be
+    - use ``-D`` option to enable the debug info
+    - use ``-S`` option to point to a tmp dir where the disk images are saved. The images will be
       re-used between deploys
-    - use **|& tee** to save the deploy log to a file
+    - use ``|& tee`` to save the deploy log to a file
 
    .. code-block:: bash
 
@@ -412,16 +427,18 @@ These steps are common both for virtual and baremetal deploys.
                       -D \
                       -S <Storage directory for disk images> |& tee deploy.log
 
-   **NOTE**: The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
-   for hardware and network configuration of all current OPNFV PODs.
-   When deploying a new POD, one can pass the `-b` flag to the deploy script to override
-   the path for the labconfig directory structure containing the PDF and IDF (see below).
+.. NOTE::
+
+    The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
+    for hardware and network configuration of all current OPNFV PODs.
+    When deploying a new POD, one can pass the ``-b`` flag to the deploy script to override
+    the path for the labconfig directory structure containing the PDF and IDF (see below).
 
 Examples
 --------
 #. Virtual deploy
 
-   To start a virtual deployment, it is required to have the `virtual` keyword
+   To start a virtual deployment, it is required to have the **virtual** keyword
    while specifying the pod name to the installer script.
 
    It will create the required bridges and networks, configure Salt Master and
@@ -436,11 +453,11 @@ Examples
                          -S /home/jenkins/tmpdir |& tee deploy.log
 
    Once the deployment is complete, the OpenStack Dashboard, Horizon, is
-   available at http://<controller VIP>:8078
+   available at ``http://<controller VIP>:8078``
    The administrator credentials are **admin** / **opnfv_secret**.
 
    A simple (and generic) sample PDF/IDF set of configuration files may
-   be used for virtual deployments by setting lab/POD name to 'local-virtual1'.
+   be used for virtual deployments by setting lab/POD name to ``local-virtual1``.
    This sample configuration is x86_64 specific and hardcodes certain parameters,
    like public network address space, so a dedicated PDF/IDF is highly recommended.
 
@@ -487,9 +504,9 @@ Examples
          Fuel@OPNFV ARM POD5 Network Layout
 
    Once the deployment is complete, the SaltStack Deployment Documentation is
-   available at http://<proxy public VIP>:8090
+   available at ``http://<proxy public VIP>:8090``.
 
-   When deploying a new POD, one can pass the `-b` flag to the deploy script to override
+   When deploying a new POD, one can pass the ``-b`` flag to the deploy script to override
    the path for the labconfig directory structure containing the PDF and IDF.
 
    .. code-block:: bash
@@ -502,9 +519,9 @@ Examples
                       -S <tmp_folder> |& tee deploy.log
 
    - <absolute_path_to_labconfig> is the absolute path to a local directory, populated
-     similar to Pharos, i.e. PDF/IDF reside in <absolute_path_to_labconfig>/labs/<lab_name>
+     similar to Pharos, i.e. PDF/IDF reside in ``<absolute_path_to_labconfig>/labs/<lab_name>``
    - <lab_name> is the same as the directory in the path above
-   - <pod_name> is the name used for the PDF (<pod_name>.yaml) and IDF (idf-<pod_name>.yaml) files
+   - <pod_name> is the name used for the PDF (``<pod_name>.yaml``) and IDF (``idf-<pod_name>.yaml``) files
 
 
 
@@ -519,7 +536,7 @@ Pod Descriptor File (PDF) and Installer Descriptor File (IDF).
 The Pod Descriptor File is a hardware description of the pod
 infrastructure. The information is modeled under a yaml structure.
 A reference file with the expected yaml structure is available at
-*mcp/config/labs/local/pod1.yaml*
+``mcp/config/labs/local/pod1.yaml``.
 
 The hardware description is arranged into a main "jumphost" node and a "nodes"
 set for all target boards. For each node the following characteristics
@@ -530,14 +547,16 @@ are defined:
 - Remote management parameters.
 - Network interfaces list including mac address, speed, advanced features and name.
 
-**Note**: The fixed IPs are ignored by the MCP installer script and it will instead
-assign based on the network ranges defined in IDF.
+.. NOTE::
+
+    The fixed IPs are ignored by the MCP installer script and it will instead
+    assign based on the network ranges defined in IDF.
 
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
 and it is not considered part of the pod infrastructure.
 The IDF file must be named after the PDF with the prefix "idf-". A reference file with the expected
-structure is available at *mcp/config/labs/local/idf-pod1.yaml*
+structure is available at ``mcp/config/labs/local/idf-pod1.yaml``.
 
 The file follows a yaml structure and two sections "net_config" and "fuel" are expected.
 
@@ -577,8 +596,8 @@ The full description of the PDF and IDF file structure are available as yaml sch
 The schemas are defined as a git submodule in Fuel repository. Input files provided
 to the installer will be validated against the schemas.
 
-- *mcp/scripts/pharos/config/pdf/pod1.schema.yaml*
-- *mcp/scripts/pharos/config/pdf/idf-pod1.schema.yaml*
+- ``mcp/scripts/pharos/config/pdf/pod1.schema.yaml``
+- ``mcp/scripts/pharos/config/pdf/idf-pod1.schema.yaml``
 
 =============
 Release Notes

@@ -57,13 +57,15 @@ Accessing the Cloud
 ===================
 
 Access to any component of the deployed cloud is done from Jumpserver to user *ubuntu* with
-ssh key */var/lib/opnfv/mcp.rsa*. The example below is a connection to Salt master.
+ssh key ``/var/lib/opnfv/mcp.rsa``. The example below is a connection to Salt master.
 
     .. code-block:: bash
 
-        $ ssh -o StrictHostKeyChecking=no -i  /var/lib/opnfv/mcp.rsa  -l ubuntu 10.20.0.2
+        $ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2
 
-**Note**: The Salt master IP is not hard set, it is configurable via INSTALLER_IP during deployment
+.. NOTE::
+
+    The Salt master IP is not hard set, it is configurable via ``INSTALLER_IP`` during deployment
 
 Logging in to cluster nodes is possible from the Jumpserver and from Salt master. On the Salt master
 cluster hostnames can be used instead of IP addresses:
@@ -84,7 +86,7 @@ To gather information about the cloud, the salt commands can be used. It is base
 around a master-minion idea where the salt-master pushes config to the minions to
 execute actions.
 
-For example tell salt to execute a ping to 8.8.8.8 on all the nodes.
+For example tell salt to execute a ping to ``8.8.8.8`` on all the nodes.
 
 .. figure:: img/saltstack.png
 
@@ -152,7 +154,7 @@ as *root* user.
         .........................
 
 
-#. Execute any linux command on all nodes (list the content of */var/log* in this example)
+#. Execute any linux command on all nodes (list the content of ``/var/log`` in this example)
 
     .. code-block:: bash
 
@@ -208,7 +210,7 @@ Accessing Openstack
 ===================
 
 Once the deployment is complete, Openstack CLI is accessible from controller VMs (ctl01..03).
-Openstack credentials are at */root/keystonercv3*.
+Openstack credentials are at ``/root/keystonercv3``.
 
     .. code-block:: bash
 
@@ -222,13 +224,13 @@ Openstack credentials are at */root/keystonercv3*.
         +--------------------------------------+-----------------------------------------------+--------+
 
 
-The OpenStack Dashboard, Horizon, is available at http://<proxy public VIP>
-The administrator credentials are *admin*/*opnfv_secret*.
+The OpenStack Dashboard, Horizon, is available at ``http://<proxy public VIP>``.
+The administrator credentials are **admin**/**opnfv_secret**.
 
 .. figure:: img/horizon_login.png
 
 
-A full list of IPs/services is available at <proxy public VIP>:8090 for baremetal deploys.
+A full list of IPs/services is available at ``<proxy public VIP>:8090`` for baremetal deploys.
 
 .. figure:: img/salt_services_ip.png
 
@@ -282,12 +284,12 @@ to be spawned as SCSI drives. To do this, add the properties below to the server
 
     .. code-block:: bash
 
-        openstack image set --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi' <image>
+        $ openstack image set --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi' <image>
 
 The choice regarding which bus to use for the storage drives is an important one. Virtio-blk is the default
-choice for Fuel@OPNFV which attaches the drives in /dev/vdX. However, since we want to be able to attach a
+choice for Fuel@OPNFV which attaches the drives in ``/dev/vdX``. However, since we want to be able to attach a
 larger number of volumes to the virtual machines, we recommend the switch to SCSI drives which are attached
-in /dev/sdX instead. Virtio-scsi is a little worse in terms of performance but the ability to add a larger
+in ``/dev/sdX`` instead. Virtio-scsi is a little worse in terms of performance but the ability to add a larger
 number of drives combined with added features like ZFS, Ceph et al, leads us to suggest the use of virtio-scsi in Fuel@OPNFV for both architectures.
 
 More details regarding the differences and performance of virtio-blk vs virtio-scsi are beyond the scope
@@ -295,7 +297,7 @@ of this manual but can be easily found in other sources online like `4`_ or `5`_
 
 .. _4: https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/
 
-.. _5 : https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/
+.. _5: https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/
 
 Additional configuration for configuring images in openstack can be found in the OpenStack Glance documentation.
 
@@ -305,7 +307,7 @@ Additional configuration for configuring images in openstack can be found in the
 Openstack Endpoints
 ===================
 
-For each Openstack service three endpoints are created: admin, internal and public.
+For each Openstack service three endpoints are created: ``admin``, ``internal`` and ``public``.
 
     .. code-block:: bash
 
@@ -325,16 +327,16 @@ at the VCP proxy VMs.
 
 To access the public endpoints an SSL certificate has to be provided. For
 convenience, the installation script will copy the required certificate into
-to the cfg01 node at /etc/ssl/certs/os_cacert.
+to the cfg01 node at ``/etc/ssl/certs/os_cacert``.
 
 Copy the certificate from the cfg01 node to the client that will access the https
-endpoints and place it under /etc/ssl/certs. The SSL connection will be established
+endpoints and place it under ``/etc/ssl/certs/``. The SSL connection will be established
 automatically after.
 
     .. code-block:: bash
 
-        $ ssh -o StrictHostKeyChecking=no -i  /var/lib/opnfv/mcp.rsa  -l ubuntu 10.20.0.2 \
-        "cat /etc/ssl/certs/os_cacert" | sudo tee /etc/ssl/certs/os_cacert
+        $ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2 \
+          "cat /etc/ssl/certs/os_cacert" | sudo tee /etc/ssl/certs/os_cacert
 
 
 =============================
@@ -348,8 +350,10 @@ A simplified installation can be done with the use of a docker ubuntu container.
 approach will avoid installing packages on the host, which might collide with other packages.
 After the installation is done, a webbrowser on the host can be used to view the results.
 
-**NOTE**: The host can be any device with Docker package already installed.
-          The user which runs the docker needs to have root priviledges.
+.. NOTE::
+
+    The host can be any device with Docker package already installed.
+    The user which runs the docker needs to have root priviledges.
 
 
 **Instructions**
