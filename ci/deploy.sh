@@ -300,12 +300,16 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
 else
     prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}" \
       "${virtual_nodes[@]}"
-    prepare_containers "${MCP_STORAGE_DIR}"
     create_networks "${OPNFV_BRIDGES[@]}"
     do_sysctl_cfg
     do_udev_cfg
     create_vms "${MCP_STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
     start_vms "${virtual_nodes[@]}"
+
+    # https://github.com/docker/libnetwork/issues/1743
+    # rm -f /var/lib/docker/network/files/local-kv.db
+    sudo systemctl restart docker
+    prepare_containers "${MCP_STORAGE_DIR}"
 fi
 
 start_containers "${MCP_STORAGE_DIR}"
