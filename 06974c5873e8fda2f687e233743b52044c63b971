@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_578dde30",
+        "filename": "ci/deploy.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-09-19T07:37:12Z",
+      "side": 1,
+      "message": "Let\u0027s export MCP_DEPLOY_SCENARIO",
+      "parentUuid": "5a682502_834a9c81",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 70
+      },
+      "revId": "06974c5873e8fda2f687e233743b52044c63b971",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_c3449476",
         "filename": "mcp/config/scenario/os-odl-sfc-noha.yaml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-17T14:11:12Z",
       "side": 1,
       "message": "should we use a separate cluster domain like mcp-odl-sfc-noha.local?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "06974c5873e8fda2f687e233743b52044c63b971",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_b78272fe",
+        "filename": "mcp/config/scenario/os-odl-sfc-noha.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-09-19T07:37:12Z",
+      "side": 1,
+      "message": "There are just a few changes to enable SFC, so it\u0027d be almost copy of this model.",
+      "parentUuid": "5a682502_c3449476",
       "range": {
         "startLine": 10,
         "startChar": 10,
