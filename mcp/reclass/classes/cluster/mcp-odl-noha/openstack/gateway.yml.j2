@@ -17,7 +17,7 @@ parameters:
   linux:
     network:
       interface:
-{%- if conf.MCP_DPDK_MODE %}
+{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
         {{ nm.cmp001.nic_private }}:
           ovs_bridge: br-prv
         br-prv:
