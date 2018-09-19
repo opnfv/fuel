@@ -9,8 +9,6 @@
 **/docs_build/
 **/docs_output/
 **/releng/
-**/mcp/deploy/images/
-**/mcp/scripts/user-data.sh
 **/mcp/scripts/virsh_net/*.xml
 **/mcp/scripts/docker-compose/*.yaml
 **/mcp/scripts/*.img
