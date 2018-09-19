@@ -8,7 +8,6 @@
 ---
 classes:
   - system.linux.system.repo.mcp.mirror.v1.openstack
-  - system.linux.system.repo.glusterfs
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
   - system.nova.compute.nfv.hugepages
@@ -18,6 +17,7 @@ classes:
   - system.ceilometer.agent.cluster
   - system.ceilometer.agent.polling.default
   - service.barbican.client.cluster
+  - cluster.mcp-common-ha.glusterfs_repo
   - cluster.mcp-common-ha.openstack_compute_pdf
   - cluster.all-mcp-arch-common.opnfv.maas_proxy
   - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
@@ -36,7 +36,6 @@ parameters:
     keepalived_vip_interface: br-ctl
     keepalived_vip_virtual_router_id: 69
     linux_system_codename: xenial
-    glusterfs_version: '3.13'
   glusterfs:
     client:
       volumes:

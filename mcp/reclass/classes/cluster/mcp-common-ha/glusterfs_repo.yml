@@ -1,0 +1,22 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+parameters:
+  _param:
+    glusterfs_version: "3.13"
+  linux:
+    system:
+      repo:
+        glusterfs-ppa:
+          source: "deb http://ppa.launchpad.net/gluster/glusterfs-${_param:glusterfs_version}/ubuntu ${_param:linux_system_codename} main"
+          key_id: 3FE869A9
+          key_server: keyserver.ubuntu.com
+          pin:
+          - package: '*'
+            pin: release o=LP-PPA-gluster-glusterfs-${_param:glusterfs_version}
+            priority: 1100
