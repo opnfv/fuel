@@ -12,7 +12,7 @@
 classes:
   - service.neutron.compute.single
   - service.neutron.compute.opendaylight.single
-{%- if conf.MCP_DPDK_MODE %}
+{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
   - system.nova.compute.nfv.hugepages
   - system.neutron.compute.nfv.dpdk
 {%- endif %}
@@ -22,7 +22,7 @@ parameters:
   linux:
     network:
       interface:
-{%- if conf.MCP_DPDK_MODE %}
+{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
         dpdk0:
           name: ${_param:dpdk0_name}
           pci: ${_param:dpdk0_pci}

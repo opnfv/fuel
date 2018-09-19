@@ -11,7 +11,7 @@
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.cmp001.nic_mgmt: True, nm.cmp001.nic_private: True } %}
 {%- set vlans = { nm.vlan_mgmt: nm.cmp001.nic_mgmt } %}
-{%- if 'dpdk' not in conf.cluster.domain and not conf.MCP_DPDK_MODE %}
+{%- if '-ovs-' not in conf.MCP_DEPLOY_SCENARIO %}
 {%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 {%- do vlans.update({ vlan_private_start: nm.cmp001.nic_private }) %}
 {%- endif %}
