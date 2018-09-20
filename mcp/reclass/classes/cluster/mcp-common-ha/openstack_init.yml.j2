@@ -7,6 +7,8 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 ---
+classes:
+  - cluster.all-mcp-arch-common.uca_repo
 parameters:
   _param:
     # openstack service addresses
@@ -250,9 +252,6 @@ parameters:
     system:
       repo:
         uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
           pin:
             - pin: 'release o=Canonical'
               priority: 1200
@@ -260,8 +259,7 @@ parameters:
 {%- if 'aarch64' in nm.cluster.arch %}
         armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
           source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
-          key_id: 798AB1D1
-          key_server: keys.gnupg.net
+          key: ${_param:armband_key}
           pin:
             - pin: 'release a=${_param:openstack_version}-armband'
               priority: 1201
