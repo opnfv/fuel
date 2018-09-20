@@ -463,6 +463,13 @@ function create_vms {
   done
 }
 
+function update_mcpcontrol_network {
+  # set static ip address for salt master node, MaaS node
+  local amac=$(virsh domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
+  [ -z "${amac}" ] || virsh net-update "mcpcontrol" add ip-dhcp-host \
+    "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
+}
+
 function reset_vms {
   local vnodes=("$@")
   local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
