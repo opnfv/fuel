@@ -7,6 +7,8 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 ---
+classes:
+  - cluster.all-mcp-arch-common.uca_repo
 parameters:
   _param:
     apt_mk_version: nightly
@@ -122,9 +124,6 @@ parameters:
           net.ipv4.tcp_fin_timeout: 30
       repo:
         uca:
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
-          key_id: EC4926EA
-          key_server: keyserver.ubuntu.com
           pin:
             - pin: 'release o=Canonical'
               priority: 1200
