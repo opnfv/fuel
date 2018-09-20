@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_4f8d3e7b",
+        "filename": "mcp/scripts/lib.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-20T21:00:04Z",
+      "side": 1,
+      "message": "now that MCP_VCP \u003d\u003d 0 for noha, when docker-compose tried to mount the non-existing VCP image, it automatically created a directory with the same name, breaking ulterior deployments",
+      "revId": "3ee785abc3b36e10a5c89e879168725a135b731b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
