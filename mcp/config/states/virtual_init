@@ -17,6 +17,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/xdf_data.sh"
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 # shellcheck disable=SC2154,SC2086,SC2116
 LOCAL_VIRT_NODES=$(echo ${virtual_nodes[*]}) # unquoted to filter space
+[[ ! "${LOCAL_VIRT_NODES}" =~ mas01 ]] || LOCAL_VIRT_NODES='mas01'
 NODE_MASK="${LOCAL_VIRT_NODES// /|}"
 
 wait_for 5.0 "salt-call state.sls reclass,linux.network,salt.minion \
