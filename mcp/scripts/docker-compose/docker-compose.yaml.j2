@@ -23,11 +23,13 @@ services:
        - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel
        - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint.sh:/entrypoint.sh
        - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml
-       - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
        - {{ conf.MCP_STORAGE_DIR }}/nodes:/srv/salt/reclass/nodes
        - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
        - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt
        - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts
+{%- if conf.MCP_VCP %}
+       - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
+{%- endif %}
     hostname: cfg01
     domainname: {{ conf.cluster.domain }}
     privileged: true

@@ -270,7 +270,7 @@ function prepare_vms {
   if [ "${image_dir}/${_tmp}" -ef "${image_dir}/${image}" ]; then
     echo "[INFO] Patched base image found"
   else
-    rm -f "${image_dir}/${image%.*}"*
+    rm -rf "${image_dir}/${image%.*}"*
     if [[ ! "${repos_pkgs_str}" =~ ^\^+$ ]]; then
       echo "[INFO] Patching base image ..."
       cp "${image_dir}/${_o}" "${image_dir}/${_tmp}"
