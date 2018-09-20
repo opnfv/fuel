@@ -16,6 +16,7 @@ export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 # Derived from INSTALLER_IP
 export MCPCONTROL_NET=${MCPCONTROL_NET:-${SALT_MASTER%.*}.0}
 export MCPCONTROL_PREFIX=${MCPCONTROL_PREFIX:-24}
+export MAAS_IP=${MAAS_IP:-${SALT_MASTER%.*}.3}
 
 # Derived from above global vars, not overideable
 export SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SSH_KEY}"

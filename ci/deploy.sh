@@ -308,6 +308,7 @@ else
     do_sysctl_cfg
     do_udev_cfg
     create_vms "${MCP_STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
+    update_mcpcontrol_network
     start_vms "${virtual_nodes[@]}"
 
     # https://github.com/docker/libnetwork/issues/1743
