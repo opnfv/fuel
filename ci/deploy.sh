@@ -278,6 +278,7 @@ generate_ssh_key
 export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 
 # Expand jinja2 templates based on PDF data and env vars
+[[ "${DEPLOY_SCENARIO}" =~ -ha$ ]] || MCP_VCP=0
 export MCP_REPO_ROOT_PATH MCP_VCP MCP_STORAGE_DIR MCP_DOCKER_TAG MCP_CMP_SS \
        MCP_JUMP_ARCH=$(uname -i) MCP_DEPLOY_SCENARIO="${DEPLOY_SCENARIO}"
 do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
