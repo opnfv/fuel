@@ -109,7 +109,11 @@ parameters:
 {%- endif %}
       salt_master_ip: ${_param:reclass_config_master}
       domain: ${_param:cluster_domain}
-      maas_config:
+      ~maas_config:
+        maas_name: mas01
+        active_discovery_interval: 600
+        ntp_external_only: true
+        upstream_dns: ${_param:dns_server01}
         commissioning_distro_series: 'xenial'
         default_distro_series: 'xenial'
         default_osystem: 'ubuntu'
