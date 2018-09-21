@@ -41,6 +41,8 @@ opendaylight_service_mask:
   service.masked:
   - name: opendaylight
 {%- endif %}
+  - prereq:
+    - pkg: opendaylight
 
 opendaylight:
   pkg.installed:
@@ -56,6 +58,7 @@ opendaylight:
     - file: /opt/opendaylight/bin/setenv
     - ini: /opt/opendaylight/etc/org.apache.karaf.features.cfg
     - ini: /opt/opendaylight/etc/org.ops4j.pax.web.cfg
+    - ini: /opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg
 
 /opt/opendaylight/etc/jetty.xml:
   file.managed:
@@ -87,6 +90,11 @@ opendaylight:
     - sections:
         org.ops4j.pax.web.listening.addresses: {{ server.odl_bind_ip }}
         org.osgi.service.http.port: {{ server.odl_rest_port }}
+
+/opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg:
+  ini.options_present:
+    - sections:
+        is-statistics-polling-on: {{ server.stats_polling_enabled }}
 
 {%- if server.get('router_enabled', false) %}
 /opt/opendaylight/etc/custom.properties:
