@@ -6,7 +6,7 @@ mcp-common-ha/infra/init.yml
 all-mcp-arch-common/infra/maas.yml
 mcp-common-ha/infra/kvm_novcp.yml
 all-mcp-arch-common/opnfv/maas_proxy.yml
-mcp-common-ha/openstack_control.yml
+mcp-common-*/openstack_control.yml
 mcp-common-ha/openstack_telemetry.yml
 mcp*common-*/openstack_init.yml
 mcp-common-ha/openstack_interface_vcp_biport.yml
@@ -15,7 +15,7 @@ mcp-common-ha/openstack_proxy.yml
 mcp-*-ha/infra/kvm.yml
 mcp-*-ha/infra/init_vcp.yml
 mcp-odl-ha/infra/maas.yml
-mcp-odl-ha/opendaylight/control.yml
+mcp-odl-*/opendaylight/control.yml
 mcp-odl-ha/openstack/init.yml
 mcp-odl-noha/infra/config.yml
 mcp-*-noha/openstack/compute.yml
