@@ -338,9 +338,9 @@ else
             reset_vms "${virtual_nodes[@]}"
         fi
     done
-fi
 
-./log.sh "${DEPLOY_LOG}"
+    ./log.sh "${DEPLOY_LOG}"
+fi
 
 popd > /dev/null
 
