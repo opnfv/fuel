@@ -62,17 +62,17 @@ PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
 PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
-pip install pipenv --user
+python -m pip install --upgrade pipenv --user
 docker_install
 
 popd > /dev/null
 pushd "${DOCKER_DIR}" > /dev/null
 
-pipenv --two
-pipenv install
-pipenv install invoke
+python -m pipenv --two
+env VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install
+env VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
 # shellcheck disable=SC2086
-pipenv run \
+python -m pipenv run \
   invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
