@@ -37,7 +37,7 @@ function notify() {
 function notify_i() {
     tput setaf "${2:-1}" || true
     echo -en "${1:-"[WARN] Unsupported opt arg: $3\\n"}"
-    tput sgr0
+    tput sgr0 || true
 }
 
 # same as `notify` + extra '\n' before and after;
