@@ -1,0 +1,93 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 23 Sep 2018 03:57:27 +0200
+Subject: [PATCH] maas.py: Extend wait_for states with timeout param
+
+Extend the wait_for states with a timeout parameter.
+The timeout value is taken from reclass pillar data if
+defined. Oterwise, the states use the default value.
+
+Based on Ting's PR [1], slightly refactored.
+
+[1] https://github.com/salt-formulas/salt-formula-maas/pull/34
+
+Signed-off-by: ting wu <ting.wu@enea.com>
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ README.rst                          | 7 +++++--
+ maas/machines/wait_for_deployed.sls | 1 +
+ maas/machines/wait_for_ready.sls    | 2 ++
+ tests/pillar/maas_region.sls        | 3 +++
+ 4 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/README.rst b/README.rst
+index 7675d9e..1aeff88 100644
+--- a/README.rst
++++ b/README.rst
+@@ -530,12 +530,15 @@ Wait for status of selected machine's:
+             machines:
+               - kvm01
+               - kvm02
+-            timeout: 1200 # in seconds
++            timeout: {{ region.get('timeout', {}).get('ready', 1200) }}
+             req_status: "Ready"
+       - require:
+         - cmd: maas_login_admin
+       ...
+
++The timeout setting is taken from the reclass pillar data.
++If the pillar data is not defined, it will use the default value.
++
+ If module run w/\o any extra paremeters,
+ ``wait_for_machines_ready`` will wait for defined in salt
+ machines. In this case, it is usefull to skip some machines:
+@@ -550,7 +553,7 @@ machines. In this case, it is usefull to skip some machines:
+       module.run:
+       - name: maas.wait_for_machine_status
+       - kwargs:
+-            timeout: 1200 # in seconds
++            timeout: {{ region.get('timeout', {}).get('deployed', 7200) }}
+             req_status: "Deployed"
+             ignore_machines:
+                - kvm01 # in case it's broken or whatever
+diff --git a/maas/machines/wait_for_deployed.sls b/maas/machines/wait_for_deployed.sls
+index ebeedac..ddd3549 100644
+--- a/maas/machines/wait_for_deployed.sls
++++ b/maas/machines/wait_for_deployed.sls
+@@ -9,5 +9,6 @@ wait_for_machines_deployed:
+   - name: maas.wait_for_machine_status
+   - kwargs:
+         req_status: "Deployed"
++        timeout: {{ region.get('timeout', {}).get('deployed', 7200) }}
+   - require:
+     - cmd: maas_login_admin
+diff --git a/maas/machines/wait_for_ready.sls b/maas/machines/wait_for_ready.sls
+index c5d3c28..c0adcd9 100644
+--- a/maas/machines/wait_for_ready.sls
++++ b/maas/machines/wait_for_ready.sls
+@@ -7,5 +7,7 @@ maas_login_admin:
+ wait_for_machines_ready:
+   module.run:
+   - name: maas.wait_for_machine_status
++  - kwargs:
++        timeout: {{ region.get('timeout', {}).get('ready', 1200) }}
+   - require:
+     - cmd: maas_login_admin
+diff --git a/tests/pillar/maas_region.sls b/tests/pillar/maas_region.sls
+index a150389..36241bd 100644
+--- a/tests/pillar/maas_region.sls
++++ b/tests/pillar/maas_region.sls
+@@ -23,3 +23,6 @@ maas:
+       password: password
+       username: maas
+     salt_master_ip: 127.0.0.1
++    timeout:
++      deployed: 900
++      ready: 900
