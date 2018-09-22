@@ -1,7 +1,7 @@
 #!/bin/bash -e
-# shellcheck disable=SC1090,SC2155
+# shellcheck disable=SC1090
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -17,69 +17,16 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 bm_nodes=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
            awk '/^\s+\w+[[:digit:]]+:$/ {gsub(/:$/, "*"); printf "%s ", $1}')
 
-# Wait for MaaS commissioning/deploy to finish, retry on failure
-function maas_fixup() {
-  local statuscmd="salt 'mas01*' --out yaml state.apply maas.machines.status"
-  local ncount=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
-    grep -cE '^\s{2}\w+:$')
-
-  # wait_for has 10sec timeout * 96 = 16 min > 15min for Failed state
-  wait_for 96 "${statuscmd} | tee /dev/stderr | " \
-    "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
-  local statusout=$(eval "${statuscmd}")
-
-  local fcnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Failed commissioning\n\s+system_id: \K.+\n')
-  local ftnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Failed testing\n\s+system_id: \K.+\n')
-  for node_system_id in ${fcnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.delete \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
-  done
-  for node_system_id in ${ftnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.override_failed_testing \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
-  done
-  if [ -n "${fcnodes}" ] || [ -n "${ftnodes}" ]; then
-    salt -C 'mas01*' state.apply maas.machines
-    return 1
-  fi
-
-  local fdnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: (Failed deployment|Allocated)\n\s+system_id: \K.+\n')
-  local rnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Ready\n\s+system_id: \K.+\n')
-  for node_system_id in ${fdnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
-  done
-  if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
-    salt -C 'mas01*' state.apply maas.machines.storage
-    salt -C 'mas01*' state.apply maas.machines.deploy
-    return 1
-  fi
-
-  return 0
-}
-
 # Optionally destroy MaaS machines from a previous run
 if [ "${ERASE_ENV}" -gt 1 ]; then
-  set +e; dnodes=$(salt 'mas01*' --out yaml state.apply maas.machines.status | \
-    grep -Pzo '\s+system_id: \K.+\n'); set -e
   cleanup_uefi
-  for node_system_id in ${dnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.delete \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
+  for node_hostname in ${bm_nodes//\*/}; do
+    salt -C 'mas01*' maasng.delete_machine "${node_hostname}" || true
   done
 fi
 
 # MaaS rack/region controller, node commissioning
-wait_for 10.0 "salt -C 'mas01*' state.apply linux,salt,openssh,ntp"
-salt -C 'mas01*' state.apply maas.pxe_nat
+wait_for 10.0 "salt -C 'mas01*' state.apply linux,salt,openssh,ntp,iptables"
 salt -C 'mas01*' state.apply maas.cluster
 
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"
@@ -94,11 +41,13 @@ salt-key --out yaml | awk '!/^(minions|- cfg01|- mas01)/ {print $2}' | \
   xargs --no-run-if-empty -I{} salt-key -yd {}
 
 # MaaS node deployment
-wait_for 10 maas_fixup
-
-salt -C 'mas01*' pillar.item\
-  maas:region:admin:username \
-  maas:region:admin:password
+if [ -n "${bm_nodes}" ]; then
+  notify "[NOTE] MaaS operations might take a long time, please be patient" 2
+  salt -C 'mas01*' state.apply maas.machines.wait_for_ready_or_deployed
+  salt -C 'mas01*' state.apply maas.machines.storage
+  salt -C 'mas01*' state.apply maas.machines.deploy
+  salt -C 'mas01*' state.apply maas.machines.wait_for_deployed
+fi
 
 # Check all baremetal nodes are available
 wait_for 10.0 "(for n in ${bm_nodes}; do salt \${n} test.ping 2>/dev/null || exit; done)"

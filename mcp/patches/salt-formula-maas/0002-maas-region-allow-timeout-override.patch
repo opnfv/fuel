@@ -43,7 +43,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 30 insertions(+)
 
 diff --git a/maas/region.sls b/maas/region.sls
-index e0f65b0..5da3a7f 100644
+index de5054a..4a7f6cc 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
 @@ -38,6 +38,36 @@ restore_maas_database_{{ region.database.name }}:

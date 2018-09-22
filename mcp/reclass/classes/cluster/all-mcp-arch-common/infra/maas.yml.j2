@@ -29,6 +29,11 @@ parameters:
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
     region:
+      timeout:
+        # Set maas.wait_for_<state> timeouts to ~2.5x of MaaS <state> timeout
+        ready: {{ nm.maas_timeout_comissioning * 150 }}
+        deployed: {{ nm.maas_timeout_deploying * 150 }}
+        attempts: 3
       boot_sources_delete_all_others: true
       boot_sources:
         resources_mirror:
@@ -103,6 +108,10 @@ parameters:
     cluster:
       saltstack_repo_xenial: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/ xenial main"
   linux:
+    system:
+      kernel:
+        sysctl:
+          net.ipv4.ip_forward: 1
     network:
       interface:
         mcpcontrol_interface:
@@ -138,3 +147,22 @@ parameters:
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_admin_mask}
           type: eth
+  iptables:
+    service:
+      enabled: True
+      chain:
+        POSTROUTING:
+          rules:
+            - table: nat
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: MASQUERADE
+        INPUT:
+          rules:
+            - table: filter
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
+        INPUT:
+          rules:
+            - table: filter
+              destination_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
