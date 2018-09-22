@@ -1,0 +1,161 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sun, 23 Sep 2018 00:19:23 +0200
+Subject: [PATCH] maas.py: wait_for_*: Add attempts arg
+
+Introduce a new parameter that allows a maximum number of automatic
+recovery attempts for the common failures w/ machine operations.
+If not present in pillar data, it defaults to 0 (OFF).
+
+Common error states, possible cause and automatic recovery pattern:
+* New
+  - usually indicates issues with BMC connectivity (no network route,
+    but on rare occassions it happens due to MaaS API being flaky);
+  - fix: delete the machine, (re)process machine definitions;
+* Failed commissioning
+  - various causes, usually a simple retry works;
+  - fix: delete the machine, (re)process machine definitions;
+* Failed testing
+  - incompatible hardware, missing drivers etc.
+  - usually consistent and board-specific;
+  - fix: override failed testing
+* Allocated
+  - on rare ocassions nodes get stuck in this state instead 'Deploy';
+  - fix: mark-broken, mark-fixed, perform a fio test (fixes another
+    unrelated spurious issue with encrypted disks from previous
+    deployments), (re)deploy machines;
+* Failed deployment
+  - various causes, usually a simple retry works;
+  - fix: same as for nodes stuck in 'Allocated';
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ README.rst                          |  2 ++
+ _modules/maas.py                    | 38 ++++++++++++++++++++++++++---
+ maas/machines/wait_for_deployed.sls |  1 +
+ maas/machines/wait_for_ready.sls    |  1 +
+ tests/pillar/maas_region.sls        |  1 +
+ 5 files changed, 39 insertions(+), 4 deletions(-)
+
+diff --git a/README.rst b/README.rst
+index 1aeff88..f2678d6 100644
+--- a/README.rst
++++ b/README.rst
+@@ -531,6 +531,7 @@ Wait for status of selected machine's:
+               - kvm01
+               - kvm02
+             timeout: {{ region.get('timeout', {}).get('ready', 1200) }}
++            attempts: {{ region.get('timeout', {}).get('attempts', 0) }}
+             req_status: "Ready"
+       - require:
+         - cmd: maas_login_admin
+@@ -554,6 +555,7 @@ machines. In this case, it is usefull to skip some machines:
+       - name: maas.wait_for_machine_status
+       - kwargs:
+             timeout: {{ region.get('timeout', {}).get('deployed', 7200) }}
++            attempts: {{ region.get('timeout', {}).get('attempts', 0) }}
+             req_status: "Deployed"
+             ignore_machines:
+                - kvm01 # in case it's broken or whatever
+diff --git a/_modules/maas.py b/_modules/maas.py
+index 426aff5..03c6889 100644
+--- a/_modules/maas.py
++++ b/_modules/maas.py
+@@ -891,6 +891,7 @@ class MachinesStatus(MaasObject):
+             req_status: string; Polling status
+             machines:   list; machine names
+             ignore_machines: list; machine names
++            attempts:   max number of automatic hard retries
+         :ret: True
+                  Exception - if something fail/timeout reached
+         """
+@@ -899,6 +900,8 @@ class MachinesStatus(MaasObject):
+         req_status = kwargs.get("req_status", "Ready")
+         to_discover = kwargs.get("machines", None)
+         ignore_machines = kwargs.get("ignore_machines", None)
++        attempts = kwargs.get("attempts", 0)
++        d = {}
+         if not to_discover:
+             try:
+                 to_discover = __salt__['config.get']('maas')['region'][
+@@ -913,11 +916,38 @@ class MachinesStatus(MaasObject):
+         while len(total) <= len(to_discover):
+             for m in to_discover:
+                 for discovered in MachinesStatus.execute()['machines']:
+-                    if m == discovered['hostname'] and \
+-                            discovered['status'].lower() == req_status.lower():
+-                        if m in total:
++                    if m == discovered['hostname'] and m in total:
++                        if discovered['status'].lower() == req_status.lower():
+                             total.remove(m)
+-
++                        elif attempts > 0 and (m not in d or d[m] < attempts):
++                            status = discovered['status']
++                            sid = discovered['system_id']
++                            if status in ['Failed commissioning', 'New']:
++                                LOG.info('Machine {0} deleted'.format(sid))
++                                self._maas.delete(u'api/2.0/machines/{0}/'
++                                    .format(sid))
++                                Machine().process()
++                                d[m] = d[m] + 1
++                            elif status in ['Failed testing']:
++                                LOG.info('Machine {0} overriden'.format(sid))
++                                action = 'override_failed_testing'
++                                self._maas.post(u'api/2.0/machines/{0}/'
++                                    .format(sid, action, {}))
++                                d[m] = d[m] + 1
++                            elif status in ['Failed deployment', 'Allocated']:
++                                data = {}
++                                LOG.info('Machine {0} mark broken'.format(sid))
++                                self._maas.post(u'api/2.0/machines/{0}/'
++                                    .format(sid, 'mark_broken', **data))
++                                LOG.info('Machine {0} mark fixed'.format(sid))
++                                self._maas.post(u'api/2.0/machines/{0}/'
++                                    .format(sid, 'mark_fixed', **data))
++                                LOG.info('Machine {0} fio test'.format(sid))
++                                data['testing_scripts'] = 'fio'
++                                self._maas.post(u'api/2.0/machines/{0}/'
++                                    .format(sid, 'commission', **data))
++                                DeployMachines().process()
++                                d[m] = d[m] + 1
+             if len(total) <= 0:
+                 LOG.debug(
+                     "Machines:{} are:{}".format(to_discover, req_status))
+diff --git a/maas/machines/wait_for_deployed.sls b/maas/machines/wait_for_deployed.sls
+index ddd3549..b3bd04c 100644
+--- a/maas/machines/wait_for_deployed.sls
++++ b/maas/machines/wait_for_deployed.sls
+@@ -10,5 +10,6 @@ wait_for_machines_deployed:
+   - kwargs:
+         req_status: "Deployed"
+         timeout: {{ region.get('timeout', {}).get('deployed', 7200) }}
++        attempts: {{ region.get('timeout', {}).get('attempts', 0) }}
+   - require:
+     - cmd: maas_login_admin
+diff --git a/maas/machines/wait_for_ready.sls b/maas/machines/wait_for_ready.sls
+index c0adcd9..d8aff00 100644
+--- a/maas/machines/wait_for_ready.sls
++++ b/maas/machines/wait_for_ready.sls
+@@ -9,5 +9,6 @@ wait_for_machines_ready:
+   - name: maas.wait_for_machine_status
+   - kwargs:
+         timeout: {{ region.get('timeout', {}).get('ready', 1200) }}
++        attempts: {{ region.get('timeout', {}).get('attempts', 0) }}
+   - require:
+     - cmd: maas_login_admin
+diff --git a/tests/pillar/maas_region.sls b/tests/pillar/maas_region.sls
+index 36241bd..554a6fa 100644
+--- a/tests/pillar/maas_region.sls
++++ b/tests/pillar/maas_region.sls
+@@ -26,3 +26,4 @@ maas:
+     timeout:
+       deployed: 900
+       ready: 900
++      attempts: 2
