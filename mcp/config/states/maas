@@ -26,35 +26,29 @@ function maas_fixup() {
   # wait_for has 10sec timeout * 96 = 16 min > 15min for Failed state
   wait_for 96 "${statuscmd} | tee /dev/stderr | " \
     "grep -Eq '((Deployed|Ready): ${ncount}|status: (Failed|Allocated))'"
-  local statusout=$(eval "${statuscmd}")
 
-  local fcnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Failed commissioning\n\s+system_id: \K.+\n')
-  local ftnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Failed testing\n\s+system_id: \K.+\n')
-  for node_system_id in ${fcnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.delete \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
+  local fcnodes=$(salt 'mas01*' --out yaml maasng.list_machines \
+    status_filter=['Failed commissioning','New'] | grep -Po 'hostname: \K.+')
+  local ftnodes=$(salt 'mas01*' --out yaml maasng.list_machines \
+    status_filter=['Failed testing'] | grep -Po 'hostname: \K.+')
+  for node_hostname in ${fcnodes}; do
+    salt -C 'mas01*' maasng.delete_machine "${node_hostname}"
   done
-  for node_system_id in ${ftnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.override_failed_testing \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
+  for node_hostname in ${ftnodes}; do
+    salt -C 'mas01*' maasng.action_machine override_failed_testing "${node_hostname}"
   done
   if [ -n "${fcnodes}" ] || [ -n "${ftnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines
     return 1
   fi
 
-  local fdnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: (Failed deployment|Allocated)\n\s+system_id: \K.+\n')
-  local rnodes=$(echo "${statusout}" | \
-    grep -Pzo 'status: Ready\n\s+system_id: \K.+\n')
-  for node_system_id in ${fdnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.mark_broken_fixed \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
+  local fdnodes=$(salt 'mas01*' --out yaml maasng.list_machines \
+    status_filter=['Failed deployment','Allocated'] | grep -Po 'hostname: \K.+')
+  local rnodes=$(salt 'mas01*' --out yaml maasng.list_machines \
+    status_filter=['Ready'] | grep -Po 'hostname: \K.+')
+  for node_hostname in ${fdnodes}; do
+    salt -C 'mas01*' maasng.action_machine mark_broken "${node_hostname}"
+    salt -C 'mas01*' maasng.action_machine mark_fixed "${node_hostname}"
   done
   if [ -n "${fdnodes}" ] || [ -n "${rnodes}" ]; then
     salt -C 'mas01*' state.apply maas.machines.storage
@@ -67,19 +61,14 @@ function maas_fixup() {
 
 # Optionally destroy MaaS machines from a previous run
 if [ "${ERASE_ENV}" -gt 1 ]; then
-  set +e; dnodes=$(salt 'mas01*' --out yaml state.apply maas.machines.status | \
-    grep -Pzo '\s+system_id: \K.+\n'); set -e
   cleanup_uefi
-  for node_system_id in ${dnodes}; do
-    salt -C 'mas01*' state.apply maas.machines.delete \
-      pillar="{'system_id': '${node_system_id}'}"
-    sleep 10
+  for node_hostname in ${bm_nodes//\*/}; do
+    salt -C 'mas01*' maasng.delete_machine "${node_hostname}" || true
   done
 fi
 
 # MaaS rack/region controller, node commissioning
-salt -C 'mas01*' state.apply linux,salt,openssh,ntp
-salt -C 'mas01*' state.apply maas.pxe_nat
+salt -C 'mas01*' state.apply linux,salt,openssh,ntp,iptables
 salt -C 'mas01*' state.apply maas.cluster
 
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"

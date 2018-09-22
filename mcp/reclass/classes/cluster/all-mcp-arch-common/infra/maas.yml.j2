@@ -164,3 +164,22 @@ parameters:
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_admin_mask}
           type: eth
+  iptables:
+    service:
+      enabled: True
+      chain:
+        POSTROUTING:
+          rules:
+            - table: nat
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: MASQUERADE
+        INPUT:
+          rules:
+            - table: filter
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
+        INPUT:
+          rules:
+            - table: filter
+              destination_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
