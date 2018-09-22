@@ -150,6 +150,8 @@ MCP_CMP_SS=${MCP_CMP_SS:-0}
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
 source "${DEPLOY_DIR}/lib_template.sh"
+source "${DEPLOY_DIR}/lib_jump_common.sh"
+source "${DEPLOY_DIR}/lib_jump_deploy.sh"
 
 #
 # END of variables to customize

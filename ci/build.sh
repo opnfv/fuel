@@ -35,6 +35,7 @@ DOCKER_PUSH=${2---push}  # pass an empty second arg to disable push
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
+source "${DEPLOY_DIR}/lib_jump_common.sh"
 
 [ ! "${TERM:-unknown}" = 'unknown' ] || export TERM=vt220
 
