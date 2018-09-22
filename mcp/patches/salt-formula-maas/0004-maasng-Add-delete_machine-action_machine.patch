@@ -1,0 +1,78 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 22 Sep 2018 20:14:10 +0200
+Subject: [PATCH] maasng: Add delete_machine, action_machine
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ _modules/maasng.py | 50 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/_modules/maasng.py b/_modules/maasng.py
+index 0f0ef4d..2eb000a 100644
+--- a/_modules/maasng.py
++++ b/_modules/maasng.py
+@@ -159,6 +159,56 @@ def update_machine():
+
+     return False
+
++def delete_machine(hostname):
++    """
++    Delete specified machine
++
++    CLI Example:
++
++    .. code-block:: bash
++
++        salt 'maas-node' maasng.delete_machine server_hostname
++        salt-call maasng.delete_machine server_hostname
++    """
++    result = {}
++    maas = _create_maas_client()
++    system_id = get_machine(hostname)["system_id"]
++    LOG.debug('delete_machine: {}'.format(system_id))
++    maas.delete(
++        u"api/2.0/machines/{0}/".format(system_id)).read()
++
++    result["new"] = "Machine {0} deleted".format(hostname)
++    return result
++
++def action_machine(hostname, action, comment=None):
++    """
++    Send simple action (e.g. mark_broken, mark_fixed) to machine.
++
++    :param action:  Action to send for machine (one of MaaS' op codes)
++    :param comment: Optional comment for the event log.
++
++    CLI Example:
++
++    .. code-block:: bash
++
++        salt 'maas-node' maasng.action_machine server_hostname mark_broken comment='dead'
++    """
++    result = {}
++    data = {}
++    maas = _create_maas_client()
++    system_id = get_machine(hostname)["system_id"]
++    LOG.debug('action_machine: {}'.format(system_id))
++
++    # TODO validation
++    if comment:
++        data["comment"] = comment
++    json_res = json.loads(maas.post(
++        u"api/2.0/machines/{0}/".format(system_id), action, **data).read())
++    LOG.info(json_res)
++    result["new"] = "Machine {0} action {1} executed".format(hostname, action)
++
++    return result
++
+ # END MACHINE SECTION
+ # RAID SECTION
+
