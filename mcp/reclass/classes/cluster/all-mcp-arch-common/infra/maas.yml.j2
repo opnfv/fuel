@@ -34,6 +34,11 @@ parameters:
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
     region:
+      timeout:
+        # Set maas.wait_for_<state> timeouts to ~1.5x of MaaS <state> timeout
+        ready: {{ nm.maas_timeout_comissioning * 90 }}
+        deployed: {{ nm.maas_timeout_deploying * 90 }}
+        attempts: 1
       boot_sources_delete_all_others: true
       boot_sources:
         resources_mirror:
@@ -129,6 +134,8 @@ parameters:
   linux:
     system:
       kernel:
+        sysctl:
+          net.ipv4.ip_forward: 1
         ~boot_options:
           - ipv6.disable=0
     network:
@@ -164,3 +171,22 @@ parameters:
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_admin_mask}
           type: eth
+  iptables:
+    service:
+      enabled: True
+      chain:
+        POSTROUTING:
+          rules:
+            - table: nat
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: MASQUERADE
+        INPUT:
+          rules:
+            - table: filter
+              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
+        INPUT:
+          rules:
+            - table: filter
+              destination_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
+              jump: ACCEPT
