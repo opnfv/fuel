@@ -91,6 +91,12 @@ opendaylight:
         org.ops4j.pax.web.listening.addresses: {{ server.odl_bind_ip }}
         org.osgi.service.http.port: {{ server.odl_rest_port }}
 
+/opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg_present:
+  file.managed:
+    - name: /opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg
+    - require_in:
+      - ini: /opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg
+
 /opt/opendaylight/etc/org.opendaylight.openflowplugin.cfg:
   ini.options_present:
     - sections:
