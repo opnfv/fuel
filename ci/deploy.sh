@@ -248,7 +248,7 @@ pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install required packages on jump server
 sudo mkdir -p "${MCP_STORAGE_DIR}"
-sudo chown "${USER}:${USER}" "${MCP_STORAGE_DIR}"
+sudo chown -R "${USER}:${USER}" "${MCP_STORAGE_DIR}"
 if [ ${USE_EXISTING_PKGS} -eq 1 ]; then
     notify "[NOTE] Skipping distro pkg installation" 2
 else

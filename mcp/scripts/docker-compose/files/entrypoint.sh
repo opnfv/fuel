@@ -78,7 +78,7 @@ sed -i -e "s|return 'start/running' in |return 'is running' in |" \
 find -L /srv/salt /srv/salt/env/prd/_* -maxdepth 1 -type l -delete
 
 # Fix up any permissions after above file shuffling
-sudo chown root:root -R /srv/salt
+chown root:root -R /srv/salt
 
 service ssh start
 service salt-minion start
