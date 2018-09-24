@@ -31,6 +31,6 @@ parameters:
         # For noHA, all public services are available through haproxy on ctl
         sdn_controller_ip: ${_param:cluster_vip_address}
         sdn_controller_user: admin  # Hardcoded to default ODL values for now
-        sdn_controller_password: admin
+        sdn_controller_password: ${_param:opendaylight_password}
         sdn_controller_webport: ${_param:opendaylight_rest_port}
         sdn_controller_restconfport: ${_param:opendaylight_rest_port}
