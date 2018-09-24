@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_f9f853e7",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/openstack_init.yml.j2",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-24T21:53:40Z",
+      "side": 1,
+      "message": "I wonder what we should do about usernames. Some of them are cross-references (and hardcoded in different calls across the repo), but some of them are really configurable ...",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "2830c15b1aad6cdd62cd553284d7b220c120ae76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
