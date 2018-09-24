@@ -1,0 +1,29 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 24 Sep 2018 14:06:32 +0000
+Subject: [PATCH] bgpvpn: db sync depends on bgpvpn pkgs
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ neutron/db/plugins/service/bgpvpn.sls | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/neutron/db/plugins/service/bgpvpn.sls b/neutron/db/plugins/service/bgpvpn.sls
+index 4441ce8..dbbca32 100644
+--- a/neutron/db/plugins/service/bgpvpn.sls
++++ b/neutron/db/plugins/service/bgpvpn.sls
+@@ -9,3 +9,7 @@ bgpvpn_db_manage:
+   cmd.run:
+   - name: neutron-db-manage --config-file /etc/neutron/neutron.conf --subproject networking-bgpvpn upgrade head
+   - onlyif: {{ should_run }}
++{%- if should_run == '/bin/true' %}
++  - require:
++    - pkg: bgpvpn_packages
++{%- endif %}
