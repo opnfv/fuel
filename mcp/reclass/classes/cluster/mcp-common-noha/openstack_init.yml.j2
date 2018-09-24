@@ -26,8 +26,6 @@ parameters:
     neutron_compute_agent_mode: legacy
     neutron_compute_external_access: 'False'
     galera_server_cluster_name: openstack_cluster
-    galera_server_maintenance_password: opnfv_secret
-    galera_server_admin_password: opnfv_secret
     cluster_vip_address: ${_param:cluster_public_host}
     cluster_local_address: ${_param:openstack_control_address}
     cluster_node01_hostname: ctl01
@@ -36,17 +34,12 @@ parameters:
     cluster_node02_address: ${_param:opnfv_openstack_control_node02_address}
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:opnfv_openstack_control_node03_address}
-    rabbitmq_secret_key: opnfv_secret
-    rabbitmq_admin_password: opnfv_secret
-    rabbitmq_openstack_password: opnfv_secret
-    rabbitmq_cold_password: opnfv_secret
     glance_version: ${_param:openstack_version}
     glance_service_host: ${_param:cluster_local_address}
     keystone_version: ${_param:openstack_version}
     keystone_service_host: ${_param:cluster_local_address}
     heat_version: ${_param:openstack_version}
     heat_service_host: ${_param:cluster_local_address}
-    heat_domain_admin_password: opnfv_secret
     ceilometer_version: ${_param:openstack_version}
     ceilometer_service_host: ${_param:cluster_local_address}
     ceilometer_database_host: ${_param:cluster_local_address}
@@ -58,27 +51,6 @@ parameters:
     neutron_version: ${_param:openstack_version}
     neutron_service_host: ${_param:cluster_local_address}
     mysql_admin_user: root
-    mysql_admin_password: opnfv_secret
-    mysql_cinder_password: opnfv_secret
-    mysql_ceilometer_password: opnfv_secret
-    mysql_glance_password: opnfv_secret
-    mysql_grafana_password: opnfv_secret
-    mysql_heat_password: opnfv_secret
-    mysql_keystone_password: opnfv_secret
-    mysql_neutron_password: opnfv_secret
-    mysql_nova_password: opnfv_secret
-    mysql_aodh_password: opnfv_secret
-    keystone_service_token: opnfv_secret
-    keystone_admin_password: opnfv_secret
-    keystone_ceilometer_password: opnfv_secret
-    keystone_cinder_password: opnfv_secret
-    keystone_glance_password: opnfv_secret
-    keystone_heat_password: opnfv_secret
-    keystone_keystone_password: opnfv_secret
-    keystone_neutron_password: opnfv_secret
-    keystone_nova_password: opnfv_secret
-    ceilometer_secret_key: opnfv_secret
-    metadata_password: opnfv_secret
     horizon_version: ${_param:openstack_version}
     horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e
     horizon_identity_host: ${_param:cluster_vip_address}
@@ -88,8 +60,6 @@ parameters:
     barbican_version: ${_param:openstack_version}
     barbican_service_host: ${_param:cluster_local_address}
     apache_barbican_api_address: ${_param:single_address}
-    mysql_barbican_password: opnfv_secret
-    keystone_barbican_password: opnfv_secret
     barbican_simple_crypto_kek: "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY="
     barbican_integration_enabled: true
 
@@ -100,16 +70,11 @@ parameters:
 {%- endif %}
 
     aodh_version: ${_param:openstack_version}
-    keystone_aodh_password: opnfv_secret
     aodh_service_host: ${_param:cluster_local_address}
     gnocchi_version: 4.2
     gnocchi_service_host: ${_param:cluster_local_address}
-    mysql_gnocchi_password: opnfv_secret
-    keystone_gnocchi_password: opnfv_secret
     panko_version: ${_param:openstack_version}
     panko_service_host: ${_param:cluster_local_address}
-    mysql_panko_password: opnfv_secret
-    keystone_panko_password: opnfv_secret
     ceilometer_agent_default_polling_interval: 180
     ceilometer_agent_default_polling_meters:
       - "*"
