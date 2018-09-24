@@ -22,3 +22,7 @@
 	path = mcp/salt-formulas/salt-formula-maas
 	url = https://github.com/salt-formulas/salt-formula-maas
 	branch = master
+[submodule "salt-formula-neutron"]
+	path = mcp/salt-formulas/salt-formula-neutron
+	url = https://github.com/salt-formulas/salt-formula-neutron
+	branch = master
