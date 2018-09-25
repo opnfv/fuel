@@ -405,7 +405,7 @@ References
 ==========
 
 1) :ref:`fuel-release-installation-label`
-2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics>`_
-3) `Saltstack Formulas <http://salt-formulas.readthedocs.io/en/latest/>`_
+2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics/>`_
+3) `Saltstack Formulas <https://salt-formulas.readthedocs.io/en/latest/>`_
 4) `Virtio performance <https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/>`_
 5) `Virtio SCSI <https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/>`_
