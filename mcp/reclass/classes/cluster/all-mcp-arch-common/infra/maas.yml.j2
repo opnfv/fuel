@@ -26,7 +26,8 @@ parameters:
     linux_system_codename: xenial
     maas_admin_username: opnfv
     dns_server01: '{{ nm.dns_public[0] }}'
-    single_address: ${_param:infra_maas_node01_deploy_address}
+    pxe_admin_address: ${_param:infra_maas_node01_deploy_address}
+    single_address: ${_param:pxe_admin_address}
     hwe_kernel: 'hwe-16.04'
     opnfv_maas_timeout_comissioning: {{ nm.maas_timeout_comissioning }}
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
