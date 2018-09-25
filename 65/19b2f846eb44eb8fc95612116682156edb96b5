@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Guillermo Herrero <guillermo.herrero@enea.com>
+Code-Review+1: Aric Gardner <agardner@linuxfoundation.org>
+Workflow+1: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Tue, 25 Sep 2018 18:19:59 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/62749
+Project: fuel
+Branch: refs/heads/master
