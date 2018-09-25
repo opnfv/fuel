@@ -22,6 +22,30 @@
       "revId": "2830c15b1aad6cdd62cd553284d7b220c120ae76",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_593fc725",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-ha/openstack_init.yml.j2",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6819
+      },
+      "writtenOn": "2018-09-25T09:27:17Z",
+      "side": 1,
+      "message": "I suggest we leave them out for this change and only handle passwords.\n\nIf we include them in the file, the best thing imho would be having variable pairs user/passwd together and also a quick way for the end users to check which user and password is defined per service whenever you actually need to log in by cli or to integrate an interface. Documentation wise is also  easier to just reference to the file.\n\nRe-configuring usernames should be also possible. Unless some salt functions use hard-coded ones or the included .conf files.",
+      "parentUuid": "5a682502_f9f853e7",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 20
+      },
+      "revId": "2830c15b1aad6cdd62cd553284d7b220c120ae76",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
