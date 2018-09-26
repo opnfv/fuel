@@ -126,6 +126,15 @@ parameters:
             - pin: 'release o=Canonical'
               priority: 1200
               package: 'openvswitch* python-openvswitch ovn* dpdk* libdpdk*'
+{%- if 'aarch64' in nm.cluster.arch %}
+        armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
+          source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
+          key: ${_param:armband_key}
+          pin:
+            - pin: 'release a=${_param:openstack_version}-armband'
+              priority: 1201
+              package: '*'
+{%- endif %}
     network:
       host:
         ctl:
