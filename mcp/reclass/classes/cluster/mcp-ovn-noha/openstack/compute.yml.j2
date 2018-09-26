@@ -17,6 +17,7 @@ parameters:
   neutron:
     compute:
       controller_vip: ${_param:cluster_local_address}
+      ~message_queue: ~
   linux:
     network:
       interface:

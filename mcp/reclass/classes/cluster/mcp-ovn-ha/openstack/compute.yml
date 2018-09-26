@@ -16,3 +16,6 @@ parameters:
     compute:
       libvirt_service: libvirtd
       libvirt_bin: /etc/default/libvirtd
+  neutron:
+    gateway:
+      ~message_queue: ~
