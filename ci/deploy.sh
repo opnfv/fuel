@@ -150,6 +150,8 @@ MCP_CMP_SS=${MCP_CMP_SS:-0}
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
 source "${DEPLOY_DIR}/lib_template.sh"
+source "${DEPLOY_DIR}/lib_jump_common.sh"
+source "${DEPLOY_DIR}/lib_jump_deploy.sh"
 
 #
 # END of variables to customize
@@ -256,7 +258,7 @@ else
     virtinst_install "${MCP_STORAGE_DIR}"
 fi
 
-if ! virsh list >/dev/null 2>&1; then
+if ! ${VIRSH} list >/dev/null 2>&1; then
     notify_e "[ERROR] This script requires hypervisor access"
 fi
 
