@@ -10,3 +10,9 @@ classes:
   - system.neutron.control.ovn.single
   - cluster.mcp-common-noha.openstack_control
   - cluster.mcp-ovn-noha
+parameters:
+  neutron:
+    server:
+      backend:
+        ovn:
+          metadata_enabled: true

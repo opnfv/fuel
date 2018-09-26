@@ -33,6 +33,8 @@ parameters:
         mechanism:
           ovn:
             driver: ovn
+        ovn:
+          metadata_enabled: true
       compute:
         region: ${_param:openstack_region}
       database:
