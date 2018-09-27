@@ -12,7 +12,7 @@ export CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
-export VIRSH=${VIRSH:-'virsh -c qemu:///system'}
+export VIRSH=${VIRSH:-'virsh --connect qemu:///system'}
 
 # Derived from INSTALLER_IP
 export MCPCONTROL_NET=${MCPCONTROL_NET:-${SALT_MASTER%.*}.0}
