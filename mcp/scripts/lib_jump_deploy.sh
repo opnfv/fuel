@@ -360,7 +360,7 @@ function create_vms {
 
     [ ! -e "${image_dir}/virt-manager" ] || VIRT_PREFIX="${image_dir}/virt-manager/"
     # shellcheck disable=SC2086
-    ${VIRT_PREFIX}virt-install --name "${vnode_data[0]}" \
+    ${VIRT_PREFIX}${VIRSH/virsh/virt-install} --name "${vnode_data[0]}" \
     ${virt_cpu_args} --accelerate \
     ${net_args} \
     --ram "${vnode_data[1]}" \
