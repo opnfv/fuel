@@ -111,6 +111,7 @@ parameters:
     openstack_compute_node02_hostname: cmp002
 
     # opendaylight options
+    opnfv_opendaylight_server_external_address: ${_param:opnfv_opendaylight_server_external_address}
 {%- if conf.MCP_VCP %}
     opendaylight_server_node01_hostname: odl01
     opendaylight_server_node01_single_address: ${_param:opnfv_opendaylight_server_node01_single_address}
