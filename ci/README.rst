@@ -4,99 +4,94 @@
 
 Abstract
 ========
-The fuel/ci directory holds all Fuel@OPNFV programatic abstractions for
-the OPNFV community release and continous integration pipeline.
-There is now only one Fuel@OPNFV autonomous script for this, complying to the
+
+The ``ci`` directory holds all OPNFV Fuel programatic abstractions for
+the OPNFV community release and continuous integration pipeline.
+There are now two OPNFV Fuel autonomous scripts for this, complying to the
 OPNFV CI pipeline guideline:
- - deploy.sh
 
-USAGE
+- ``build.sh``
+- ``deploy.sh``
+
+Usage
 =====
-For usage information of the CI/CD scripts, please run:
 
-    .. code-block:: bash
+For usage information of the CI/CD deploy script, please run:
 
-        $ ./deploy.sh -h
+.. code-block:: console
 
-Details on the CI/CD deployment framework
+    jenkins@jumpserver:~/fuel/ci$ ./deploy.sh -h
+
+Details on the CI/CD Deployment Framework
 =========================================
 
-Overview and purpose
+Overview and Purpose
 --------------------
-The CI/CD deployment script relies on a configuration structure, providing base
-installer configuration (part of fuel repo: mcp/config), per POD specific
-configuration (part of a separate classified POD configuration repo: securedlab
-and deployment scenario configuration (part of fuel repo: mcp/config/scenario).
 
-- The base installer configuration resembles the least common denominator of all
+The CI/CD deployment script relies on a configuration structure, providing:
+
+- per POD specific configuration (part of a separate, optionally encrypted,
+  repo available as a git submodule at ``mcp/scripts/pharos`` or overrideable
+  via the ``-b`` deploy argument).
+  The POD specific parameters follow the ``PDF``/``IDF`` formats defined by
+  the Pharos OPNFV project.
+- deployment scenario configuration, part of fuel repo: ``mcp/config/scenario``.
+  Provides a high level, POD/HW environment independent scenario configuration
+  for a specific deployment. It defines what features shall be deployed - as
+  well as needed overrides of the base installer, POD/HW environment
+  configurations. Objects allowed to override are governed by the OPNFV Fuel
+  project.
+- base installer configuration, part of fuel repo: ``mcp/config/states``,
+  ``mcp/reclass``.
+  The base installer configuration resembles the least common denominator of all
   HW/POD environment and deployment scenarios. These configurations are
-  normally carried by the the installer projects in this case (Fuel@OPNFV).
-- Per POD specific configuration specifies POD unique parameters, the POD
-  parameter possible to alter is governed by the Fuel@OPNFV project.
-- Deployment scenario configuration - provides a high level, POD/HW environment
-  independent scenario configuration for a specifiv deployment. It defines what
-  features shall be deployed - as well needed overrides of the base
-  installer, POD/HW environment configurations. Objects allowed to override
-  are governed by the Fuel@OPNFV project.
+  normally carried by the the installer projects in this case (OPNFV Fuel).
 
-Executing a deployment
+Executing a Deployment
 ----------------------
-deploy.sh must be executed locally at the target lab/pod/jumpserver
+
+``deploy.sh`` must be executed locally on the target lab/pod/jumpserver.
 A configuration structure must be provided - see the section below.
 It is straight forward to execute a deployment task - as an example:
 
-    .. code-block:: bash
+.. code-block:: console
 
-        $ sudo deploy.sh -b file:///home/jenkins/config
-                         -l lf -p pod2 -s os-nosdn-nofeature-ha
+    jenkins@jumpserver:~/fuel/ci$ ./deploy.sh -b file:///home/jenkins/config \
+                                              -l lf \
+                                              -p pod2 \
+                                              -s os-nosdn-nofeature-ha
 
--b and -i arguments should be expressed in URI style (eg: file://...
-or http://...). The resources can thus be local or remote.
+``-b`` argument should be expressed in URI style (eg: ``file://...`` or
+``http://...``). The resources can thus be local or remote.
 
-Configuration repository structure
+Configuration Repository Structure
 ----------------------------------
+
 The CI deployment engine relies on a configuration directory/file structure
-pointed to by the -b option described above.
-Normally this points to the secure classified OPNFV securedlab repo to which
-only jenkins and andmins have access to, but you may point to any local or
-remote strcture fullfilling the diectory/file structure below.
-The reason that this configuration structure needs to be secure/hidden
-is that there are security sensitive information in the various configuration
-files.
+pointed to by the ``-b`` option described above.
+Normally this points to the ``mcp/scripts/pharos`` git repo submodule, but you
+may point to any local or remote strcture fullfilling the diectory/file
+structure below.
+This configuration structure supports optional encryption of certain security
+sensitive data, mechanism described in the Pharos documentation.
 
-FIXME: Below information is out of date and should be refreshed after PDF
-support is fully implemented.
-
-A local stripped version of this configuration structure with virtual
-deployment configurations also exist under build/config/.
 Following configuration directory and file structure should adheare to:
 
-    .. code-block:: bash
+.. code-block:: console
 
-        TOP
-        !
-        +---- labs
-               !
-               +---- lab-name-1
-               !        !
-               !        +---- pod-name-1
-               !        !        !
-               !        !        +---- fuel
-               !        !               !
-               !        !               +---- config
-               !        !                       !
-               !        !                       +---- dea-pod-override.yaml
-               !        !                       !
-               !        !                       +---- dha.yaml
-               !        !
-               !        +---- pod-name-2
-               !                 !
-               !
-               +---- lab-name-2
-               !        !
-
-
-Creating a deployment scenario
-------------------------------
-Please find `mcp/config/README.rst` for instructions on how to create a new
-deployment scenario.
+    TOP
+    !
+    +---- labs
+           !
+           +---- lab-name-1
+           !        !
+           !        +---- pod1.yaml
+           !        !
+           !        +---- idf-pod1.yaml
+           !        !
+           !        +---- pod2.yaml
+           !        !
+           !        +---- idf-pod2.yaml
+           !
+           +---- lab-name-2
+           !        !

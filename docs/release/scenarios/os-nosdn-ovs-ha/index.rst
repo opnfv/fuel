@@ -9,8 +9,6 @@ os-nosdn-ovs-ha overview and description
 ========================================
 
 .. toctree::
-   :numbered:
    :maxdepth: 2
 
-   os-nosdn-ovs-ha.rst
-
+.. include:: os-nosdn-ovs-ha.rst
