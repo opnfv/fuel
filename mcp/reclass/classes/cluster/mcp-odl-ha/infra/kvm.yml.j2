@@ -25,17 +25,19 @@ parameters:
       cluster:
         internal:
           node:
-            odl01:
-              name: ${_param:opendaylight_server_node01_hostname}
-              provider: ${_param:infra_kvm_node02_hostname}.${_param:cluster_domain}
+  {% for i in range(1, 4) %}
+            odl0{{ i }}:
+              name: ${_param:opendaylight_server_node0{{ i }}_hostname}
+              provider: ${_param:infra_kvm_node0{{ i }}_hostname}.${_param:cluster_domain}
               image: ${_param:salt_control_xenial_image}
               size: opendaylight.server
-{%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
+    {%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
               machine: virt
               cpu_mode: host-passthrough
               loader:
                 readonly: 'yes'
                 type: pflash
                 path: /usr/share/AAVMF/AAVMF_CODE.fd
-{%- endif %}
+    {%- endif %}
+  {% endfor %}
 {%- endif %}
