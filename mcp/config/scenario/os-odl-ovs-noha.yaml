@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: mcp-odl-noha.local
+  domain: mcp-odl-dpdk-noha.local
   states:
     - dpdk
     - opendaylight

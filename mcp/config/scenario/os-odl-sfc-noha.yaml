@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 cluster:
-  domain: mcp-odl-noha.local
+  domain: mcp-odl-sfc-noha.local
   states:
     - opendaylight
     - openstack_noha
