@@ -1,5 +1,5 @@
 ---
-project: 'Fuel based OPNFV installer (Fuel@OPNFV)'
+project: 'Fuel based OPNFV installer (OPNFV Fuel)'
 project_creation_date: '2015.07.07'
 project_category: 'Integration and testing'
 lifecycle_state: 'Incubation'

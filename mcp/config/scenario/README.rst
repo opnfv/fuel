@@ -2,13 +2,13 @@
 .. SPDX-License-Identifier: CC-BY-4.0
 .. (c) 2017 Mirantis Inc., Enea AB and others.
 
-Fuel@OPNFV Scenario Configuration
+OPNFV Fuel Scenario Configuration
 =================================
 
-Abstract:
----------
+Abstract
+--------
 This directory contains configuration files for different OPNFV deployment
-feature scenarios used by Fuel@OPNFV, e.g.:
+feature scenarios used by OPNFV Fuel, e.g.:
 
 - High availability configuration;
 - Type of SDN controller to be deployed;
@@ -16,7 +16,8 @@ feature scenarios used by Fuel@OPNFV, e.g.:
 - Provisioning of any other sevices;
 - POD configuration (baremetal, virtual);
 
-NOTES:
-------
+NOTES
+-----
 This directory is highly likely to change and/or be replaced/complemented
-by the new PDF (Pod Descriptor File) info in Pharos OPNFV git repo.
+by the new ``SDF`` (Scenario Descriptor File) info in Pharos OPNFV git repo
+in upcoming OPNFV releases.

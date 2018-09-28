@@ -2,6 +2,54 @@
 .. SPDX-License-Identifier: CC-BY-4.0
 .. (c) 2018 Ericsson AB, Mirantis Inc., Enea AB and others.
 
+==========
+OPNFV Fuel
+==========
+
+|docs|
+
+.. |docs| image:: https://readthedocs.org/projects/opnfv-fuel/badge/?version=latest
+    :alt: OPNFV Fuel Documentation Status
+    :scale: 100%
+    :target: https://opnfv-fuel.readthedocs.io/en/latest/?badge=latest
+
+Description
+===========
+
+TBD
+
+Installation
+============
+
+`Installation Instruction <docs/release/installation/installation.instruction.rst>`_
+
+TBD: RTD links isntead?
+
+Usage
+=====
+
+`User Guide <docs/release/userguide/userguide.rst>`_
+
+TBD: RTD links isntead?
+
+Release Notes
+=============
+
+`Release Notes <docs/release/release-notes/release-notes.rst>`_
+
+TBD: RTD links isntead?
+
+Contributing
+============
+
+See `OPNFV Fuel Contributing`_, `OPNFV Contribution Guidelines`_,
+`OPNFV Developer Getting Started`_.
+
+Support
+=======
+
+TBD
+
 LICENSE
 =======
 
@@ -84,3 +132,32 @@ Licenses as listed below (non-exhaustive list, depending on end-user config):
 | MaaS           | GNU AGPL v3.0.                                                 |
 |                | http://www.fsf.org/licensing/licenses/agpl-3.0.html            |
 +----------------+----------------------------------------------------------------+
+
+References
+==========
+
+For more information on the OPNFV Gambia 7.0 release, please see:
+
+#. `OPNFV Home Page`_
+#. `OPNFV Documentation`_
+#. `OPNFV Software Downloads`_
+#. `OPNFV Gambia Wiki Page`_
+#. `OpenStack Queens Release Artifacts`_
+#. `OpenStack Documentation`_
+#. `OpenDaylight Artifacts`_
+#. `Mirantis Cloud Platform Documentation`_
+#. `OPNFV Fuel Contributing`_
+
+.. _`OpenDaylight`: https://www.opendaylight.org/software
+.. _`OpenDaylight Artifacts`: https://www.opendaylight.org/software/downloads
+.. _`Apache 2.0 License`: http://www.apache.org/licenses/
+.. _`MCP`: https://www.mirantis.com/software/mcp/
+.. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
+.. _`fuel git repository`: https://git.opnfv.org/fuel
+.. _`OpenStack Documentation`: https://docs.openstack.org
+.. _`OpenStack Queens Release Artifacts`: https://www.openstack.org/software/queens
+.. _`OPNFV Home Page`: https://www.opnfv.org
+.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/releases/Gambia
+.. _`OPNFV Documentation`: https://docs.opnfv.org
+.. _`OPNFV Software Downloads`: https://www.opnfv.org/software/download
+.. _`OPNFV Fuel Contributing`: CONTRIBUTING.rst
