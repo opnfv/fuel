@@ -22,6 +22,30 @@
       "revId": "0f1dcd80f315d63f201e749f581a18447d6c8cae",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_4286acba",
+        "filename": "mcp/config/scenario/os-odl-bgpvpn-noha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-28T12:06:27Z",
+      "side": 1,
+      "message": "Please disregard this obs, as Michael pointed out in [1], it needs to match the reclass model, so the current value is correct and not only aesthetic.\n[1] https://gerrit.opnfv.org/gerrit/#/c/63019/",
+      "parentUuid": "5a682502_c230fc58",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "0f1dcd80f315d63f201e749f581a18447d6c8cae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
