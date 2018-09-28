@@ -22,6 +22,30 @@
       "revId": "c2d33fe8545f0090498f20424465b0ca4da94d4d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_e29538e5",
+        "filename": "mcp/config/scenario/os-odl-sfc-noha.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-28T12:04:30Z",
+      "side": 1,
+      "message": "I totally forgot about that mapping, thank you!",
+      "parentUuid": "5a682502_42ffcc34",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c2d33fe8545f0090498f20424465b0ca4da94d4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
