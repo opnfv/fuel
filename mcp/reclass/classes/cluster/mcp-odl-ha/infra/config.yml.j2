@@ -1,0 +1,32 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - cluster.mcp-common-ha.infra.config
+  - cluster.mcp-odl-ha.infra
+parameters:
+  _param:
+    opendaylight_server_node01_hostname: odl01
+    opendaylight_server_node02_hostname: odl02
+    opendaylight_server_node03_hostname: odl03
+  reclass:
+    storage:
+      node:
+{%- for i in range(1, 4) %}
+        opendaylight_control_node0{{ i }}:
+          name: ${_param:opendaylight_server_node0{{ i }}_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: ${_param:linux_system_codename}
+            single_address: ${_param:opendaylight_server_node0{{ i }}_address}
+            pxe_admin_address: ${_param:opnfv_opendaylight_server_node0{{ i }}_pxe_admin_address}
+            keepalived_vip_priority: 10{{ i }}
+{%- endfor %}
