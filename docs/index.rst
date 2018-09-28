@@ -9,6 +9,8 @@ FUEL
 ====
 
 .. toctree::
+   :numbered:
+   :maxdepth: 2
 
    release/release-notes/index
    release/installation/index

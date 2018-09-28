@@ -4,11 +4,12 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Open Platform for NFV Project, Inc. and its contributors
 
-*************************
-Scenarios for Fuel\@OPNFV
-*************************
+********************
+OPNFV Fuel Scenarios
+********************
 
 .. toctree::
+   :maxdepth: 2
 
    os-nosdn-ovs-noha/index.rst
    os-nosdn-ovs-ha/index.rst
