@@ -9,8 +9,6 @@ os-nosdn-vpp-ha overview and description
 ========================================
 
 .. toctree::
-   :numbered:
    :maxdepth: 2
 
-   os-nosdn-vpp-ha.rst
-
+.. include:: os-nosdn-vpp-ha.rst

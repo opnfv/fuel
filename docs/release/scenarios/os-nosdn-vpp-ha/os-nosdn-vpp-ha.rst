@@ -5,7 +5,6 @@
 This document provides scenario level details for Gambia 7.0 of
 deployment with no SDN controller and VPP enabled as virtual switch.
 
-============
 Introduction
 ============
 

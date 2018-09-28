@@ -6,7 +6,6 @@ This document provides scenario level details for Gambia 7.0 of deployment
 with Open Virtual Network (OVN) providing Layers 2 and 3 networking and no
 extra features enabled.
 
-============
 Introduction
 ============
 
