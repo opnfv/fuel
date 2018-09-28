@@ -31,9 +31,6 @@ function do_templates_scenario {
   LOCAL_PDF="${image_dir}/$(basename "${BASE_CONFIG_PDF}")"
   LOCAL_IDF="${image_dir}/$(basename "${BASE_CONFIG_IDF}")"
 
-  # Make sample PDF/IDF available via default lab-config (pharos submodule)
-  ln -sf "$(readlink -f "../config/labs/local")" "./pharos/labs/"
-
   # Expand scenario file and main reclass input (pod_config.yaml) based on PDF
   if ! curl --create-dirs -o "${LOCAL_PDF}" "${BASE_CONFIG_PDF}"; then
     notify_e "[ERROR] Could not retrieve PDF (Pod Descriptor File)!"

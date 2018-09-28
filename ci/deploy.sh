@@ -32,7 +32,7 @@ usage ()
 {
 cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-$(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
+$(notify "$(basename "$0"): Deploy the OPNFV Fuel MCP stack" 3)
 
 $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
@@ -59,9 +59,9 @@ $(notify "OPTIONS:" 2)
   -N  Experimental: Do not virtualize control plane (novcp)
 
 $(notify_i "Description:" 2)
-Deploys the Fuel@OPNFV stack on the indicated lab resource.
+Deploys the OPNFV Fuel stack on the indicated lab resource.
 
-This script provides the Fuel@OPNFV deployment abstraction.
+This script provides the OPNFV Fuel deployment abstraction.
 It depends on the OPNFV official configuration directory/file structure
 and provides a fairly simple mechanism to execute a deployment.
 
@@ -74,8 +74,6 @@ $(notify_i "Input parameters to the build script are:" 2)
    <base-uri>/labs/<lab-name>/idf-<pod-name>.yaml
    The default is using the git submodule tracking 'OPNFV Pharos' in
    <./mcp/scripts/pharos>.
-   An example config is provided inside current repo in
-   <./mcp/config>, automatically linked as <./mcp/scripts/pharos/labs/local>.
 -d Dry-run - Produce deploy config files, but do not execute deploy
 -D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
@@ -92,10 +90,7 @@ $(notify_i "Input parameters to the build script are:" 2)
 -h Print this message and exit
 -L Deployment log path and name, eg. -L /home/jenkins/job.log.tar.gz
 -l Lab name as defined in the configuration directory, e.g. lf
-   For the sample configuration in <./mcp/config>, lab name is 'local'.
 -p POD name as defined in the configuration directory, e.g. pod2
-   For the sample configuration in <./mcp/config>, POD name is 'virtual1'
-   for virtual deployments or 'pod1' for baremetal (based on lf-pod2).
 -m Use single socket compute nodes. Instead of using default NUMA-enabled
    topology for virtual compute nodes created via libvirt, configure a
    single guest CPU socket.
