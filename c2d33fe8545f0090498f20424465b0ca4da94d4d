@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_42ffcc34",
+        "filename": "mcp/config/scenario/os-odl-sfc-noha.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-09-28T11:54:41Z",
+      "side": 1,
+      "message": "not sure it\u0027ll work as there is no such domain in reclass.",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "c2d33fe8545f0090498f20424465b0ca4da94d4d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
