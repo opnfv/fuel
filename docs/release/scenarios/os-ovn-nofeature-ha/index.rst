@@ -9,8 +9,6 @@ os-ovn-nofeature-ha overview and description
 ============================================
 
 .. toctree::
-   :numbered:
    :maxdepth: 2
 
-   os-ovn-nofeature-ha.rst
-
+.. include:: os-ovn-nofeature-ha.rst
