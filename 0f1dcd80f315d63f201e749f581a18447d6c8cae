@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_c230fc58",
+        "filename": "mcp/config/scenario/os-odl-bgpvpn-noha.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-09-28T10:27:07Z",
+      "side": 1,
+      "message": "I think should be \u0027mcp-odl-bgpvpn\u0027 to align with the filename. I noticed the sfc scenario has the same issue, I\u0027ll fix it soon, although it\u0027s only an aesthetic thing.",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "0f1dcd80f315d63f201e749f581a18447d6c8cae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
