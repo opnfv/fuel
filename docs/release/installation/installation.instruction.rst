@@ -2,40 +2,41 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Open Platform for NFV Project, Inc. and its contributors
 
-========
+***********************************
+OPNFV Fuel Installation Instruction
+***********************************
+
 Abstract
 ========
 
-This document describes how to install the Fraser release of
+This document describes how to install the Gambia release of
 OPNFV when using Fuel as a deployment tool, covering its usage,
 limitations, dependencies and required system resources.
-This is an unified documentation for both x86_64 and aarch64
+This is an unified documentation for both ``x86_64`` and ``aarch64``
 architectures. All information is common for both architectures
 except when explicitly stated.
 
-============
 Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the Fraser release of OPNFV when using Fuel as a
+configure the Gambia release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options provide a high degree of
 freedom in how the system is set up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This document provides a
-step-by-step guide that results in an OPNFV Fraser compliant
+step-by-step guide that results in an OPNFV Gambia compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge of
 networking and Unix/Linux administration.
 
-=======
 Preface
 =======
 
-Before starting the installation of the Fraser release of
+Before starting the installation of the Gambia release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -60,24 +61,22 @@ Prior to installation, a number of deployment specific parameters must be collec
 
 #.     Other options not covered in the document are available in the links above
 
-
 This information will be needed for the configuration procedures
 provided in this document.
 
-=========================================
 Hardware Requirements for Virtual Deploys
 =========================================
 
 The following minimum hardware requirements must be met for the virtual
-installation of Fraser using Fuel:
+installation of Gambia using Fuel:
 
 +----------------------------+--------------------------------------------------------+
 | **HW Aspect**              | **Requirement**                                        |
 |                            |                                                        |
 +============================+========================================================+
 | **1 Jumpserver**           | A physical node (also called Foundation Node) that     |
-|                            | will host a Salt Master VM and each of the VM nodes in |
-|                            | the virtual deploy                                     |
+|                            | will host a Salt Master container and each of the VM   |
+|                            | nodes in the virtual deploy                            |
 +----------------------------+--------------------------------------------------------+
 | **CPU**                    | Minimum 1 socket with Virtualization support           |
 +----------------------------+--------------------------------------------------------+
@@ -86,18 +85,19 @@ installation of Fraser using Fuel:
 | **Disk**                   | Minimum 100GB (SSD or SCSI (15krpm) highly recommended)|
 +----------------------------+--------------------------------------------------------+
 
-
-===========================================
 Hardware Requirements for Baremetal Deploys
 ===========================================
 
 The following minimum hardware requirements must be met for the baremetal
-installation of Fraser using Fuel:
+installation of Gambia using Fuel:
 
 +-------------------------+------------------------------------------------------+
 | **HW Aspect**           | **Requirement**                                      |
 |                         |                                                      |
 +=========================+======================================================+
+| **1 Jumpserver**        | A physical node (also called Foundation Node) that   |
+|                         | hosts the Salt Master container and MaaS VM          |
++-------------------------+------------------------------------------------------+
 | **# of nodes**          | Minimum 5                                            |
 |                         |                                                      |
 |                         | - 3 KVM servers which will run all the controller    |
@@ -120,23 +120,21 @@ installation of Fraser using Fuel:
 |                         | Note: These can be allocated to a single NIC -       |
 |                         | or spread out over multiple NICs                     |
 +-------------------------+------------------------------------------------------+
-| **1 Jumpserver**        | A physical node (also called Foundation Node) that   |
-|                         | hosts the Salt Master and MaaS VMs                   |
-+-------------------------+------------------------------------------------------+
 | **Power management**    | All targets need to have power management tools that |
 |                         | allow rebooting the hardware and setting the boot    |
 |                         | order (e.g. IPMI)                                    |
 +-------------------------+------------------------------------------------------+
 
+.. WARNING::
+
+    ``kvm01..03`` nodes and the Jumpserver must have the same architecture
+    (either ``x86_64`` or ``aarch64``).
+
 .. NOTE::
 
-    All nodes including the Jumpserver must have the same architecture (either x86_64 or aarch64).
+    For ``aarch64`` deployments an ``UEFI`` compatible firmware with PXE
+    support is needed (e.g. ``EDK2``).
 
-.. NOTE::
-
-    For aarch64 deployments an UEFI compatible firmware with PXE support is needed (e.g. EDK2).
-
-===============================
 Help with Hardware Requirements
 ===============================
 
@@ -156,7 +154,6 @@ environment, you should think about:
 
 - Networking -- Depends on the Choose Network Topology, the network bandwidth per virtual machine, and network storage.
 
-================================================
 Top of the Rack (TOR) Configuration Requirements
 ================================================
 
@@ -177,11 +174,10 @@ the Fuel OPNFV reference platform. All the networks involved in the OPNFV
 infrastructure as well as the provider networks and the private tenant
 VLANs needs to be manually configured.
 
-Manual configuration of the Fraser hardware platform should
+Manual configuration of the Gambia hardware platform should
 be carried out according to the `OPNFV Pharos Specification
 <https://wiki.opnfv.org/display/pharos/Pharos+Specification>`_.
 
-============================
 OPNFV Software Prerequisites
 ============================
 
@@ -199,24 +195,24 @@ and have passwordless sudo access.
 
 The following example adds the groups to the user ``jenkins``
 
-.. code-block:: bash
+.. code-block:: console
 
-    $ sudo usermod -aG sudo jenkins
-    $ sudo usermod -aG libvirt jenkins
-    $ reboot
-    $ groups
+    jenkins@jumpserver:~$ sudo usermod -aG sudo jenkins
+    jenkins@jumpserver:~$ sudo usermod -aG libvirt jenkins
+    jenkins@jumpserver:~$ sudo reboot
+    jenkins@jumpserver:~$ groups
     jenkins sudo libvirt
 
-    $ sudo visudo
+    jenkins@jumpserver:~$ sudo visudo
     ...
     %jenkins ALL=(ALL) NOPASSWD:ALL
 
 The folder containing the temporary deploy artifacts (``/home/jenkins/tmpdir`` in the examples below)
-needs to have mask 777 in order for libvirt to be able to use them.
+needs to have mask ``777`` in order for libvirt to be able to use them.
 
-.. code-block:: bash
+.. code-block:: console
 
-    $ mkdir -p -m 777 /home/jenkins/tmpdir
+    jenkins@jumpserver:~$ mkdir -p -m 777 /home/jenkins/tmpdir
 
 For an AArch64 Jumpserver, the ``libvirt`` minimum required version is 3.x, 3.5 or newer highly recommended.
 While not mandatory, upgrading the kernel and QEMU on the Jumpserver is also highly recommended
@@ -229,15 +225,14 @@ For convenience, Armband provides a DEB repository holding all the required pack
 To add and enable the Armband repository on an Ubuntu 16.04 system,
 create a new sources list file ``/apt/sources.list.d/armband.list`` with the following contents:
 
-.. code-block:: bash
+.. code-block:: console
 
-    $ cat /etc/apt/sources.list.d/armband.list
-    //for OpenStack Queens release
+    jenkins@jumpserver:~$ cat /etc/apt/sources.list.d/armband.list
     deb http://linux.enea.com/mcp-repos/queens/xenial queens-armband main
 
-    $ apt-get update
+    jenkins@jumpserver:~$ sudo apt-get update
 
-Fuel@OPNFV has been validated by CI using the following distributions
+OPNFV Fuel has been validated by CI using the following distributions
 installed on the Jumpserver:
 
 - CentOS 7 (recommended by Pharos specification);
@@ -251,7 +246,7 @@ installed on the Jumpserver:
     service manually, then run the deploy script again. Therefore, it
     is recommended to install libvirt-bin explicitly on the Jumpserver before the deployment.
 
-.. NOTE::
+.. TIP::
 
     It is also recommended to install the newer kernel on the Jumpserver before the deployment.
 
@@ -265,12 +260,10 @@ installed on the Jumpserver:
 
     The install script will alter Jumpserver sysconf and disable ``net.bridge.bridge-nf-call``.
 
-.. code-block:: bash
+.. code-block:: console
 
-    $ apt-get install linux-image-generic-hwe-16.04-edge libvirt-bin
+    jenkins@jumpserver:~$ sudo apt-get install linux-image-generic-hwe-16.04-edge libvirt-bin
 
-
-==========================================
 OPNFV Software Installation and Deployment
 ==========================================
 
@@ -280,13 +273,13 @@ deploy the full OPNFV reference platform stack across a server cluster.
 The installation is done with Mirantis Cloud Platform (MCP), which is based on
 a reclass model. This model provides the formula inputs to Salt, to make the deploy
 automatic based on deployment scenario.
+
 The reclass model covers:
 
-   - Infrastructure node definition: Salt Master node (cfg01) and MaaS node (mas01)
-   - OpenStack node definition: Controller nodes (ctl01, ctl02, ctl03) and Compute nodes (cmp001, cmp002)
-   - Infrastructure components to install (software packages, services etc.)
-   - OpenStack components and services (rabbitmq, galera etc.), as well as all configuration for them
-
+- Infrastructure node definition: Salt Master node (cfg01) and MaaS node (mas01)
+- OpenStack node definition: Controller nodes (ctl01, ctl02, ctl03) and Compute nodes (cmp001, cmp002)
+- Infrastructure components to install (software packages, services etc.)
+- OpenStack components and services (rabbitmq, galera etc.), as well as all configuration for them
 
 Automatic Installation of a Virtual POD
 =======================================
@@ -300,9 +293,10 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
 
 .. figure:: img/fuel_virtual.png
    :align: center
-   :alt: Fuel@OPNFV Virtual POD Network Layout Examples
+   :width: 60%
+   :alt: OPNFV Fuel Virtual POD Network Layout Examples
 
-   Fuel@OPNFV Virtual POD Network Layout Examples
+   OPNFV Fuel Virtual POD Network Layout Examples
 
    +-----------------------+------------------------------------------------------------------------+
    | cfg01                 | Salt Master VM                                                         |
@@ -316,7 +310,6 @@ For virtual deploys all the targets are VMs on the Jumpserver. The deploy script
    | odl01                 | VM on which ODL runs (for scenarios deployed with ODL)                 |
    +-----------------------+------------------------------------------------------------------------+
 
-
 In this figure there are examples of two virtual deploys:
    - Jumphost 1 has only virsh bridges, created by the deploy script
    - Jumphost 2 has a mix of Linux and virsh bridges; When Linux bridge exists for a specified network,
@@ -325,7 +318,6 @@ In this figure there are examples of two virtual deploys:
 .. NOTE::
 
     A virtual network ``mcpcontrol`` is always created for initial connection of the VMs on Jumphost.
-
 
 Automatic Installation of a Baremetal POD
 =========================================
@@ -347,9 +339,10 @@ The installation is done automatically with the deploy script, which will:
 
 .. figure:: img/fuel_baremetal.png
    :align: center
-   :alt: Fuel@OPNFV Baremetal POD Network Layout Example
+   :width: 60%
+   :alt: OPNFV Fuel Baremetal POD Network Layout Example
 
-   Fuel@OPNFV Baremetal POD Network Layout Example
+   OPNFV Fuel Baremetal POD Network Layout Example
 
    +-----------------------+---------------------------------------------------------+
    | cfg01                 | Salt Master VM                                          |
@@ -373,157 +366,152 @@ The installation is done automatically with the deploy script, which will:
    | Tenant VM             | VM running in the cloud                                 |
    +-----------------------+---------------------------------------------------------+
 
-In the baremetal deploy all bridges but "mcpcontrol" are Linux bridges. For the Jumpserver, it is
-required to pre-configure at least the admin_br bridge for the PXE/Admin.
+In the baremetal deploy all bridges but ``mcpcontrol`` are Linux bridges. For the Jumpserver, it is
+required to pre-configure at least the ``admin_br`` bridge for the PXE/Admin.
 For the targets, the bridges are created by the deploy script.
 
 .. NOTE::
 
     A virtual network ``mcpcontrol`` is always created for initial connection of the VMs on Jumphost.
 
-
 Steps to Start the Automatic Deploy
 ===================================
 
-These steps are common both for virtual and baremetal deploys.
+These steps are common for virtual and baremetal deploys, ``x86_64`` and/or ``aarch64``.
 
-#. Clone the Fuel code from gerrit
+Clone the Fuel code from gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   For x86_64
+.. code-block:: console
 
-   .. code-block:: bash
+    jenkins@jumpserver:~$ git clone https://git.opnfv.org/fuel
+    jenkins@jumpserver:~$ cd fuel
 
-       $ git clone https://git.opnfv.org/fuel
-       $ cd fuel
+Checkout the Gambia release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   For aarch64
+.. code-block:: console
 
-   .. code-block:: bash
+    jenkins@jumpserver:~$ git checkout opnfv-7.0.0
 
-       $ git clone https://git.opnfv.org/armband
-       $ cd armband
+Start the deploy script
+~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Checkout the Fraser release
+Besides the basic options,  there are other recommended deploy arguments:
 
-   .. code-block:: bash
+- use ``-D`` option to enable the debug info
+- use ``-S`` option to point to a tmp dir where the disk images are saved. The images will be
+  re-used between deploys
+- use ``|& tee`` to save the deploy log to a file
 
-       $ git checkout opnfv-6.2.1
+.. code-block:: console
 
-#. Start the deploy script
-
-    Besides the basic options,  there are other recommended deploy arguments:
-
-    - use ``-D`` option to enable the debug info
-    - use ``-S`` option to point to a tmp dir where the disk images are saved. The images will be
-      re-used between deploys
-    - use ``|& tee`` to save the deploy log to a file
-
-   .. code-block:: bash
-
-       $ ci/deploy.sh -l <lab_name> \
-                      -p <pod_name> \
-                      -b <URI to configuration repo containing the PDF file> \
-                      -s <scenario> \
-                      -D \
-                      -S <Storage directory for disk images> |& tee deploy.log
+    jenkins@jumpserver:~$ ci/deploy.sh -l <lab_name> \
+                                       -p <pod_name> \
+                                       -b <URI to configuration repo containing the PDF file> \
+                                       -s <scenario> \
+                                       -D \
+                                       -S <Storage directory for disk images> |& tee deploy.log
 
 .. NOTE::
 
-    The deployment uses the OPNFV Pharos project as input (PDF and IDF files)
+    The deployment uses the OPNFV Pharos project as input (``PDF`` and ``IDF`` files)
     for hardware and network configuration of all current OPNFV PODs.
     When deploying a new POD, one can pass the ``-b`` flag to the deploy script to override
-    the path for the labconfig directory structure containing the PDF and IDF (see below).
+    the path for the labconfig directory structure containing the ``PDF`` and ``IDF`` (see below).
 
 Examples
 --------
-#. Virtual deploy
 
-   To start a virtual deployment, it is required to have the **virtual** keyword
-   while specifying the pod name to the installer script.
+Virtual deploy
+~~~~~~~~~~~~~~
 
-   It will create the required bridges and networks, configure Salt Master and
-   install OpenStack.
+To start a virtual deployment, it is required to have the ``virtual`` keyword
+while specifying the pod name to the installer script.
 
-      .. code-block:: bash
+It will create the required bridges and networks, configure Salt Master and
+install OpenStack.
 
-          $ ci/deploy.sh -l ericsson \
-                         -p virtual3 \
-                         -s os-nosdn-nofeature-noha \
-                         -D \
-                         -S /home/jenkins/tmpdir |& tee deploy.log
+.. code-block:: console
 
-   Once the deployment is complete, the OpenStack Dashboard, Horizon, is
-   available at ``http://<controller VIP>:8078``
-   The administrator credentials are **admin** / **opnfv_secret**.
+    jenkins@jumpserver:~$ ci/deploy.sh -l ericsson \
+                                       -p virtual3 \
+                                       -s os-nosdn-nofeature-noha \
+                                       -D \
+                                       -S /home/jenkins/tmpdir |& tee deploy.log
 
-   A simple (and generic) sample PDF/IDF set of configuration files may
-   be used for virtual deployments by setting lab/POD name to ``local-virtual1``.
-   This sample configuration is x86_64 specific and hardcodes certain parameters,
-   like public network address space, so a dedicated PDF/IDF is highly recommended.
+Once the deployment is complete, the OpenStack Dashboard, Horizon, is
+available at ``http://<controller VIP>:8078``
+The administrator credentials are ``admin`` / ``opnfv_secret``.
 
-      .. code-block:: bash
+A simple (and generic) sample ``PDF``/``IDF`` set of configuration files may
+be used for virtual deployments by setting lab/POD name to ``local-virtual1``.
+This sample configuration is ``x86_64`` specific and hardcodes certain parameters,
+like public network address space, so a dedicated ``PDF``/``IDF`` is highly recommended.
 
-          $ ci/deploy.sh -l local \
-                         -p virtual1 \
-                         -s os-nosdn-nofeature-noha \
-                         -D \
-                         -S /home/jenkins/tmpdir |& tee deploy.log
+.. code-block:: console
+
+    jenkins@jumpserver:~$ ci/deploy.sh -l local \
+                                       -p virtual1 \
+                                       -s os-nosdn-nofeature-noha \
+                                       -D \
+                                       -S /home/jenkins/tmpdir |& tee deploy.log
 
 #. Baremetal deploy
 
-   A x86 deploy on pod2 from Linux Foundation lab
+An ``x86_x64`` deploy on pod2 from Linux Foundation lab
 
-      .. code-block:: bash
+.. code-block:: console
 
-          $ ci/deploy.sh -l lf \
-                         -p pod2 \
-                         -s os-nosdn-nofeature-ha \
-                         -D \
-                         -S /home/jenkins/tmpdir |& tee deploy.log
+    jenkins@jumpserver:~$ ci/deploy.sh -l lf \
+                                       -p pod2 \
+                                       -s os-nosdn-nofeature-ha \
+                                       -D \
+                                       -S /home/jenkins/tmpdir |& tee deploy.log
 
-      .. figure:: img/lf_pod2.png
-         :align: center
-         :alt: Fuel@OPNFV LF POD2 Network Layout
+.. figure:: img/lf_pod2.png
+   :align: center
+   :width: 60%
+   :alt: OPNFV Fuel LF POD2 Network Layout
 
-         Fuel@OPNFV LF POD2 Network Layout
+   OPNFV Fuel LF POD2 Network Layout
 
-   An aarch64 deploy on pod5 from Arm lab
+An ``aarch64`` deploy on pod5 from Arm lab
 
-      .. code-block:: bash
+.. code-block:: console
 
-          $ ci/deploy.sh -l arm \
-                         -p pod5 \
-                         -s os-nosdn-nofeature-ha \
-                         -D \
-                         -S /home/jenkins/tmpdir |& tee deploy.log
+    jenkins@jumpserver:~$ ci/deploy.sh -l arm \
+                                       -p pod5 \
+                                       -s os-nosdn-nofeature-ha \
+                                       -D \
+                                       -S /home/jenkins/tmpdir |& tee deploy.log
 
-      .. figure:: img/arm_pod5.png
-         :align: center
-         :alt: Fuel@OPNFV ARM POD5 Network Layout
+.. figure:: img/arm_pod5.png
+   :align: center
+   :width: 60%
+   :alt: OPNFV Fuel ARM POD5 Network Layout
 
-         Fuel@OPNFV ARM POD5 Network Layout
+   OPNFV Fuel ARM POD5 Network Layout
 
-   Once the deployment is complete, the SaltStack Deployment Documentation is
-   available at ``http://<proxy public VIP>:8090``.
+Once the deployment is complete, the SaltStack Deployment Documentation is
+available at ``http://<proxy public VIP>:8090``.
 
-   When deploying a new POD, one can pass the ``-b`` flag to the deploy script to override
-   the path for the labconfig directory structure containing the PDF and IDF.
+When deploying a new POD, one can pass the ``-b`` flag to the deploy script to override
+the path for the labconfig directory structure containing the ``PDF`` and ``IDF``.
 
-   .. code-block:: bash
+.. code-block:: console
 
-       $ ci/deploy.sh -b file://<absolute_path_to_labconfig> \
-                      -l <lab_name> \
-                      -p <pod_name> \
-                      -s <scenario> \
-                      -D \
-                      -S <tmp_folder> |& tee deploy.log
+    jenkins@jumpserver:~$ ci/deploy.sh -b file://<absolute_path_to_labconfig> \
+                                       -l <lab_name> \
+                                       -p <pod_name> \
+                                       -s <scenario> \
+                                       -D \
+                                       -S <tmp_folder> |& tee deploy.log
 
-   - <absolute_path_to_labconfig> is the absolute path to a local directory, populated
-     similar to Pharos, i.e. PDF/IDF reside in ``<absolute_path_to_labconfig>/labs/<lab_name>``
-   - <lab_name> is the same as the directory in the path above
-   - <pod_name> is the name used for the PDF (``<pod_name>.yaml``) and IDF (``idf-<pod_name>.yaml``) files
-
-
+- ``<absolute_path_to_labconfig>`` is the absolute path to a local directory, populated
+  similar to Pharos, i.e. ``PDF``/``IDF`` reside in ``<absolute_path_to_labconfig>/labs/<lab_name>``
+- ``<lab_name>`` is the same as the directory in the path above
+- ``<pod_name>`` is the name used for the ``PDF`` (``<pod_name>.yaml``) and ``IDF`` (``idf-<pod_name>.yaml``) files
 
 Pod and Installer Descriptor Files
 ==================================
@@ -531,7 +519,7 @@ Pod and Installer Descriptor Files
 Descriptor files provide the installer with an abstraction of the target pod
 with all its hardware characteristics and required parameters. This information
 is split into two different files:
-Pod Descriptor File (PDF) and Installer Descriptor File (IDF).
+Pod Descriptor File (``PDF``) and Installer Descriptor File (``IDF``).
 
 The Pod Descriptor File is a hardware description of the pod
 infrastructure. The information is modeled under a yaml structure.
@@ -555,16 +543,16 @@ are defined:
 The Installer Descriptor File extends the PDF with pod related parameters
 required by the installer. This information may differ per each installer type
 and it is not considered part of the pod infrastructure.
-The IDF file must be named after the PDF with the prefix "idf-". A reference file with the expected
+The IDF file must be named after the PDF with the prefix ``idf-``. A reference file with the expected
 structure is available at ``mcp/config/labs/local/idf-pod1.yaml``.
 
 The file follows a yaml structure and two sections "net_config" and "fuel" are expected.
 
-The "net_config" section describes all the internal and provider networks
+The ``net_config`` section describes all the internal and provider networks
 assigned to the pod. Each used network is expected to have a vlan tag, IP subnet and
-attached interface on the boards. Untagged vlans shall be defined as "native".
+attached interface on the boards. Untagged vlans shall be defined as ``native``.
 
-The "fuel" section defines several sub-sections required by the Fuel installer:
+The ``fuel`` section defines several sub-sections required by the Fuel installer:
 
 - jumphost: List of bridge names for each network on the Jumpserver.
 - network: List of device name and bus address info of all the target nodes.
@@ -574,7 +562,7 @@ The "fuel" section defines several sub-sections required by the Fuel installer:
 - reclass: Defines compute parameter tuning, including huge pages, cpu pinning
   and other DPDK settings. (optional)
 
-The following parameters can be defined in the IDF files under "reclass". Those value will
+The following parameters can be defined in the IDF files under ``reclass``. Those value will
 overwrite the default configuration values in Fuel repository:
 
 - nova_cpu_pinning: List of CPU cores nova will be pinned to. Currently disabled.
@@ -591,7 +579,6 @@ overwrite the default configuration values in Fuel repository:
 - dpdk0_driver: NIC driver to use for physical network interface.
 - dpdk0_n_rxq: Number of RX queues.
 
-
 The full description of the PDF and IDF file structure are available as yaml schemas.
 The schemas are defined as a git submodule in Fuel repository. Input files provided
 to the installer will be validated against the schemas.
@@ -599,13 +586,11 @@ to the installer will be validated against the schemas.
 - ``mcp/scripts/pharos/config/pdf/pod1.schema.yaml``
 - ``mcp/scripts/pharos/config/pdf/idf-pod1.schema.yaml``
 
-=============
 Release Notes
 =============
 
-Please refer to the :ref:`Release Notes <fuel-release-notes-label>` article.
+Please refer to the :ref:`OPNFV Fuel Release Notes <fuel-releasenotes>` article.
 
-==========
 References
 ==========
 

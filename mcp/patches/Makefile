@@ -25,7 +25,7 @@ FPATCHES = $(shell find ${F_PATCH_DIR} -name '*.patch')
 # In order to keep things sort of separate, we should only pass up (to main
 # Makefile) the fully-patched repos, and gather any fingerprinting info here.
 
-# Fuel@OPNFV relies on upstream git repos (one per component) in 1 of 2 ways:
+# OPNFV Fuel relies on upstream git repos (one per component) in 1 of 2 ways:
 #   - pinned down to tag objects (e.g. "9.0.1")
 #   - tracking upstream remote HEAD on a stable or master branch
 # FIXME(alav): Should we support mixed cases? (e.g. pin down only fuel-main)

@@ -2,21 +2,21 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Open Platform for NFV Project, Inc. and its contributors
 
-========
+*********************
+OPNFV Fuel User Guide
+*********************
+
 Abstract
 ========
 
-This document contains details about how to use OPNFV Fuel - Fraser
-release - after it was deployed. For details on how to deploy check the
-installation instructions in the :ref:`fuel_userguide_references` section.
+This document contains details about using OPNFV Fuel Gambia release after it
+was deployed. For details on how to deploy OpenStack, check
+the installation instructions in the :ref:`fuel_userguide_references` section.
 
-This is an unified documentation for both x86_64 and aarch64
+This is an unified documentation for both ``x86_64`` and ``aarch64``
 architectures. All information is common for both architectures
 except when explicitly stated.
 
-
-
-================
 Network Overview
 ================
 
@@ -26,59 +26,74 @@ Fuel uses several networks to deploy and administer the cloud:
 | Network name     | Description                                             |
 |                  |                                                         |
 +==================+=========================================================+
-| **PXE/ADMIN**    | Used for booting the nodes via PXE and/or Salt          |
+| **PXE/admin**    | Used for booting the nodes via PXE and/or Salt          |
 |                  | control network                                         |
 +------------------+---------------------------------------------------------+
-| **MCPCONTROL**   | Used to provision the infrastructure VMs (Salt & MaaS)  |
+| **mcpcontrol**   | Used to provision the infrastructure VMs (Salt & MaaS)  |
 +------------------+---------------------------------------------------------+
-| **Mgmt**         | Used for internal communication between                 |
+| **management**   | Used for internal communication between                 |
 |                  | OpenStack components                                    |
 +------------------+---------------------------------------------------------+
-| **Internal**     | Used for VM data communication within the               |
+| **internal**     | Used for VM data communication within the               |
 |                  | cloud deployment                                        |
 +------------------+---------------------------------------------------------+
-| **Public**       | Used to provide Virtual IPs for public endpoints        |
+| **public**       | Used to provide Virtual IPs for public endpoints        |
 |                  | that are used to connect to OpenStack services APIs.    |
 |                  | Used by Virtual machines to access the Internet         |
 +------------------+---------------------------------------------------------+
 
-
-These networks - except mcpcontrol - can be linux bridges configured before the deploy on the
+These networks - except ``mcpcontrol`` - can be linux bridges configured before the deploy on the
 Jumpserver. If they don't exists at deploy time, they will be created by the scripts as virsh
 networks.
 
-Mcpcontrol exists only on the Jumpserver and needs to be virtual because a DHCP server runs
+``mcpcontrol`` exists only on the Jumpserver and needs to be virtual because a DHCP server runs
 on this network and associates static host entry IPs for Salt and Maas VMs.
 
+Accessing the Salt Master Node (``cfg01``)
+==========================================
 
+The Salt Master node (``cfg01``) runs a ``sshd`` server listening on ``0.0.0.0:22``.
+To login as ``ubuntu`` user, use the RSA private key ``/var/lib/opnfv/mcp.rsa``:
 
-===================
-Accessing the Cloud
-===================
+.. code-block:: console
 
-Access to any component of the deployed cloud is done from Jumpserver to user *ubuntu* with
-ssh key ``/var/lib/opnfv/mcp.rsa``. The example below is a connection to Salt master.
-
-    .. code-block:: bash
-
-        $ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2
+    jenkins@jumpserver:~$ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2
+    ubuntu@cfg01:~$
 
 .. NOTE::
 
-    The Salt master IP is not hard set, it is configurable via ``INSTALLER_IP`` during deployment
+    User ``ubuntu`` has sudo rights.
 
-Logging in to cluster nodes is possible from the Jumpserver and from Salt master. On the Salt master
-cluster hostnames can be used instead of IP addresses:
+.. TIP::
 
-    .. code-block:: bash
+    The Salt master IP (``10.20.0.2``) is not hard set, it is configurable via ``INSTALLER_IP`` during deployment.
 
-        $ sudo -i
-        $ ssh -i mcp.rsa ubuntu@ctl01
+.. TIP::
 
-User *ubuntu* has sudo rights.
+    Starting with Gambia release, ``cfg01`` is containerized, so this also works (from jumpserver only):
 
+.. code-block:: console
 
-=============================
+    jenkins@jumpserver:~$ docker exec -it fuel bash
+    root@cfg01:~$
+
+Accessing Cluster Nodes
+=======================
+
+Logging in to cluster nodes is possible from the Jumpserver, Salt Master etc.
+
+.. code-block:: console
+
+    jenkins@jumpserver:~$ ssh -i /var/lib/opnfv/mcp.rsa ubuntu@192.168.11.52
+
+.. TIP::
+
+    ``/etc/hosts`` on ``cfg01`` has all the cluster hostnames, which can used instead of IP addresses.
+
+.. code-block:: console
+
+    root@cfg01:~$ ssh -i mcp.rsa ubuntu@ctl01
+
 Exploring the Cloud with Salt
 =============================
 
@@ -88,153 +103,159 @@ execute actions.
 
 For example tell salt to execute a ping to ``8.8.8.8`` on all the nodes.
 
-.. figure:: img/saltstack.png
+.. code-block:: console
 
-Complex filters can be done to the target like compound queries or node roles.
+    root@cfg01:~$ salt "*" network.ping 8.8.8.8
+                       ^^^                       target
+                           ^^^^^^^^^^^^          function to execute
+                                        ^^^^^^^  argument passed to the function
+
+.. TIP::
+
+    Complex filters can be done to the target like compound queries or node roles.
+
 For more information about Salt see the :ref:`fuel_userguide_references` section.
 
 Some examples are listed below. Note that these commands are issued from Salt master
-as *root* user.
+as ``root`` user.
 
+View the IPs of all the components
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. View the IPs of all the components
+.. code-block:: console
 
-    .. code-block:: bash
+    root@cfg01:~$ salt "*" network.ip_addrs
+    cfg01.mcp-odl-ha.local:
+       - 10.20.0.2
+       - 172.16.10.100
+    mas01.mcp-odl-ha.local:
+       - 10.20.0.3
+       - 172.16.10.3
+       - 192.168.11.3
+    .........................
 
-        root@cfg01:~$ salt "*" network.ip_addrs
-        cfg01.mcp-pike-odl-ha.local:
-           - 10.20.0.2
-           - 172.16.10.100
-        mas01.mcp-pike-odl-ha.local:
-           - 10.20.0.3
-           - 172.16.10.3
-           - 192.168.11.3
-        .........................
+View the interfaces of all the components and put the output in a ``yaml`` file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: console
 
-#. View the interfaces of all the components and put the output in a file with yaml format
+    root@cfg01:~$ salt "*" network.interfaces --out yaml --output-file interfaces.yaml
+    root@cfg01:~# cat interfaces.yaml
+    cfg01.mcp-odl-ha.local:
+     enp1s0:
+       hwaddr: 52:54:00:72:77:12
+       inet:
+       - address: 10.20.0.2
+         broadcast: 10.20.0.255
+         label: enp1s0
+         netmask: 255.255.255.0
+       inet6:
+       - address: fe80::5054:ff:fe72:7712
+         prefixlen: '64'
+         scope: link
+       up: true
+    .........................
 
-    .. code-block:: bash
+View installed packages on MaaS node
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        root@cfg01:~$ salt "*" network.interfaces --out yaml --output-file interfaces.yaml
-        root@cfg01:~# cat interfaces.yaml
-        cfg01.mcp-pike-odl-ha.local:
-         enp1s0:
-           hwaddr: 52:54:00:72:77:12
-           inet:
-           - address: 10.20.0.2
-             broadcast: 10.20.0.255
-             label: enp1s0
-             netmask: 255.255.255.0
-           inet6:
-           - address: fe80::5054:ff:fe72:7712
-             prefixlen: '64'
-             scope: link
-           up: true
-        .........................
+.. code-block:: console
 
+    root@cfg01:~# salt "mas*" pkg.list_pkgs
+    mas01.mcp-odl-ha.local:
+        ----------
+        accountsservice:
+            0.6.40-2ubuntu11.3
+        acl:
+            2.2.52-3
+        acpid:
+            1:2.0.26-1ubuntu2
+        adduser:
+            3.113+nmu3ubuntu4
+        anerd:
+            1
+    .........................
 
-#. View installed packages in MaaS node
+Execute any linux command on all nodes (e.g. ``ls /var/log``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    .. code-block:: bash
+.. code-block:: console
 
-        root@cfg01:~# salt "mas*" pkg.list_pkgs
-        mas01.mcp-pike-odl-ha.local:
-            ----------
-            accountsservice:
-                0.6.40-2ubuntu11.3
-            acl:
-                2.2.52-3
-            acpid:
-                1:2.0.26-1ubuntu2
-            adduser:
-                3.113+nmu3ubuntu4
-            anerd:
-                1
-        .........................
+    root@cfg01:~# salt "*" cmd.run 'ls /var/log'
+    cfg01.mcp-odl-ha.local:
+       alternatives.log
+       apt
+       auth.log
+       boot.log
+       btmp
+       cloud-init-output.log
+       cloud-init.log
+    .........................
 
+Execute any linux command on nodes using compound queries filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Execute any linux command on all nodes (list the content of ``/var/log`` in this example)
+.. code-block:: console
 
-    .. code-block:: bash
+    root@cfg01:~# salt -C '* and cfg01*' cmd.run 'ls /var/log'
+    cfg01.mcp-odl-ha.local:
+       alternatives.log
+       apt
+       auth.log
+       boot.log
+       btmp
+       cloud-init-output.log
+       cloud-init.log
+    .........................
 
-        root@cfg01:~# salt "*" cmd.run 'ls /var/log'
-        cfg01.mcp-pike-odl-ha.local:
-           alternatives.log
-           apt
-           auth.log
-           boot.log
-           btmp
-           cloud-init-output.log
-           cloud-init.log
-        .........................
+Execute any linux command on nodes using role filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: console
 
-#. Execute any linux command on nodes using compound queries filter
+    root@cfg01:~# salt -I 'nova:compute' cmd.run 'ls /var/log'
+    cmp001.mcp-odl-ha.local:
+       alternatives.log
+       apache2
+       apt
+       auth.log
+       btmp
+       ceilometer
+       cinder
+       cloud-init-output.log
+       cloud-init.log
+    .........................
 
-    .. code-block:: bash
-
-        root@cfg01:~# salt -C '* and cfg01*' cmd.run 'ls /var/log'
-        cfg01.mcp-pike-odl-ha.local:
-           alternatives.log
-           apt
-           auth.log
-           boot.log
-           btmp
-           cloud-init-output.log
-           cloud-init.log
-        .........................
-
-
-#. Execute any linux command on nodes using role filter
-
-    .. code-block:: bash
-
-        root@cfg01:~# salt -I 'nova:compute' cmd.run 'ls /var/log'
-        cmp001.mcp-pike-odl-ha.local:
-           alternatives.log
-           apache2
-           apt
-           auth.log
-           btmp
-           ceilometer
-           cinder
-           cloud-init-output.log
-           cloud-init.log
-        .........................
-
-
-
-===================
 Accessing Openstack
 ===================
 
 Once the deployment is complete, Openstack CLI is accessible from controller VMs (ctl01..03).
 Openstack credentials are at ``/root/keystonercv3``.
 
-    .. code-block:: bash
+.. code-block:: console
 
-        root@ctl01:~# source keystonercv3
-        root@ctl01:~# openstack image list
-        +--------------------------------------+-----------------------------------------------+--------+
-        | ID                                   | Name                                          | Status |
-        +======================================+===============================================+========+
-        | 152930bf-5fd5-49c2-b3a1-cae14973f35f | CirrosImage                                   | active |
-        | 7b99a779-78e4-45f3-9905-64ae453e3dcb | Ubuntu16.04                                   | active |
-        +--------------------------------------+-----------------------------------------------+--------+
-
+    root@ctl01:~# source keystonercv3
+    root@ctl01:~# openstack image list
+    +--------------------------------------+-----------------------------------------------+--------+
+    | ID                                   | Name                                          | Status |
+    +======================================+===============================================+========+
+    | 152930bf-5fd5-49c2-b3a1-cae14973f35f | CirrosImage                                   | active |
+    | 7b99a779-78e4-45f3-9905-64ae453e3dcb | Ubuntu16.04                                   | active |
+    +--------------------------------------+-----------------------------------------------+--------+
 
 The OpenStack Dashboard, Horizon, is available at ``http://<proxy public VIP>``.
-The administrator credentials are **admin**/**opnfv_secret**.
+The administrator credentials are ``admin``/``opnfv_secret``.
 
 .. figure:: img/horizon_login.png
-
+    :width: 60%
+    :align: center
 
 A full list of IPs/services is available at ``<proxy public VIP>:8090`` for baremetal deploys.
 
 .. figure:: img/salt_services_ip.png
+    :width: 60%
+    :align: center
 
-==============================
 Guest Operating System Support
 ==============================
 
@@ -265,60 +286,52 @@ UEFI-images for the guests:
 | Cirros 0.4.0     | Full support      | Full support     |
 +------------------+-------------------+------------------+
 
-
 The above table covers only UEFI image and implies OVMF/AAVMF firmware on the host. An x86 deployment
 also supports non-UEFI images, however that choice is up to the underlying hardware and the administrator
 to make.
 
 The images for the above operating systems can be found in their respective websites.
 
-
-=================
 OpenStack Storage
 =================
 
-OpenStack Cinder is the project behind block storage in OpenStack and Fuel@OPNFV supports LVM out of the box.
+OpenStack Cinder is the project behind block storage in OpenStack and OPNFV Fuel supports LVM out of the box.
 By default x86 supports 2 additional block storage devices and ARMBand supports only one.
 More devices can be supported if the OS-image created has additional properties allowing block storage devices
 to be spawned as SCSI drives. To do this, add the properties below to the server:
 
-    .. code-block:: bash
+.. code-block:: console
 
-        $ openstack image set --property hw_disk_bus='scsi' --property hw_scsi_model='virtio-scsi' <image>
+    root@ctl01:~$ openstack image set --property hw_disk_bus='scsi' \
+                                      --property hw_scsi_model='virtio-scsi' \
+                                      <image>
 
-The choice regarding which bus to use for the storage drives is an important one. Virtio-blk is the default
-choice for Fuel@OPNFV which attaches the drives in ``/dev/vdX``. However, since we want to be able to attach a
+The choice regarding which bus to use for the storage drives is an important one. ``virtio-blk`` is the default
+choice for OPNFV Fuel, which attaches the drives in ``/dev/vdX``. However, since we want to be able to attach a
 larger number of volumes to the virtual machines, we recommend the switch to SCSI drives which are attached
-in ``/dev/sdX`` instead. Virtio-scsi is a little worse in terms of performance but the ability to add a larger
-number of drives combined with added features like ZFS, Ceph et al, leads us to suggest the use of virtio-scsi in Fuel@OPNFV for both architectures.
+in ``/dev/sdX`` instead. ``virtio-scsi`` is a little worse in terms of performance but the ability to add a larger
+number of drives combined with added features like ZFS, Ceph et al, leads us to suggest the use of ``virtio-scsi`` in OPNFV Fuel for both architectures.
 
-More details regarding the differences and performance of virtio-blk vs virtio-scsi are beyond the scope
-of this manual but can be easily found in other sources online like `4`_ or `5`_.
+More details regarding the differences and performance of ``virtio-blk`` vs ``virtio-scsi`` are beyond the scope
+of this manual but can be easily found in other sources online like `VirtIO SCSI`_ or `VirtIO performance`_.
 
-.. _4: https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/
+Additional configuration for configuring images in OpenStack can be found in the OpenStack Glance documentation.
 
-.. _5: https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/
-
-Additional configuration for configuring images in openstack can be found in the OpenStack Glance documentation.
-
-
-
-===================
-Openstack Endpoints
+OpenStack Endpoints
 ===================
 
-For each Openstack service three endpoints are created: ``admin``, ``internal`` and ``public``.
+For each OpenStack service three endpoints are created: ``admin``, ``internal`` and ``public``.
 
-    .. code-block:: bash
+.. code-block:: console
 
-        ubuntu@ctl01:~$ openstack endpoint list --service keystone
-        +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
-        | ID                               | Region    | Service Name | Service Type | Enabled | Interface | URL                          |
-        +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
-        | 008fec57922b4e9e8bf02c770039ae77 | RegionOne | keystone     | identity     | True    | internal  | http://172.16.10.26:5000/v3  |
-        | 1a1f3c3340484bda9ef7e193f50599e6 | RegionOne | keystone     | identity     | True    | admin     | http://172.16.10.26:35357/v3 |
-        | b0a47d42d0b6491b995d7e6230395de8 | RegionOne | keystone     | identity     | True    | public    | https://10.0.15.2:5000/v3    |
-        +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+    ubuntu@ctl01:~$ openstack endpoint list --service keystone
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+    | ID                               | Region    | Service Name | Service Type | Enabled | Interface | URL                          |
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
+    | 008fec57922b4e9e8bf02c770039ae77 | RegionOne | keystone     | identity     | True    | internal  | http://172.16.10.26:5000/v3  |
+    | 1a1f3c3340484bda9ef7e193f50599e6 | RegionOne | keystone     | identity     | True    | admin     | http://172.16.10.26:35357/v3 |
+    | b0a47d42d0b6491b995d7e6230395de8 | RegionOne | keystone     | identity     | True    | public    | https://10.0.15.2:5000/v3    |
+    +----------------------------------+-----------+--------------+--------------+---------+-----------+------------------------------+
 
 MCP sets up all Openstack services to talk to each other over unencrypted
 connections on the internal management network. All admin/internal endpoints use
@@ -327,25 +340,22 @@ at the VCP proxy VMs.
 
 To access the public endpoints an SSL certificate has to be provided. For
 convenience, the installation script will copy the required certificate into
-to the cfg01 node at ``/etc/ssl/certs/os_cacert``.
+to the ``cfg01`` node at ``/etc/ssl/certs/os_cacert``.
 
-Copy the certificate from the cfg01 node to the client that will access the https
+Copy the certificate from the ``cfg01`` node to the client that will access the https
 endpoints and place it under ``/etc/ssl/certs/``. The SSL connection will be established
 automatically after.
 
-    .. code-block:: bash
+.. code-block:: console
 
-        $ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2 \
-          "cat /etc/ssl/certs/os_cacert" | sudo tee /etc/ssl/certs/os_cacert
+    jenkins@jumpserver:~$ ssh -o StrictHostKeyChecking=no -i /var/lib/opnfv/mcp.rsa -l ubuntu 10.20.0.2 \
+      "cat /etc/ssl/certs/os_cacert" | sudo tee /etc/ssl/certs/os_cacert
 
-
-=============================
 Reclass model viewer tutorial
 =============================
 
-
-In order to get a better understanding on the reclass model Fuel uses, the `reclass-doc
-<https://github.com/jirihybek/reclass-doc>`_ can be used to visualise the reclass model.
+In order to get a better understanding on the reclass model Fuel uses, the `reclass-doc`_
+can be used to visualise the reclass model.
 A simplified installation can be done with the use of a docker ubuntu container. This
 approach will avoid installing packages on the host, which might collide with other packages.
 After the installation is done, a webbrowser on the host can be used to view the results.
@@ -355,57 +365,65 @@ After the installation is done, a webbrowser on the host can be used to view the
     The host can be any device with Docker package already installed.
     The user which runs the docker needs to have root priviledges.
 
-
 **Instructions**
 
+Create a new directory at any location
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Create a new directory at any location
+.. code-block:: console
 
-    .. code-block:: bash
+    $ mkdir -p modeler
 
-        $ mkdir -p modeler
+Place fuel repo in the above directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. code-block:: console
 
-#. Place fuel repo in the above directory
+    $ cd modeler
+    $ git clone https://gerrit.opnfv.org/gerrit/fuel && cd fuel
 
-    .. code-block:: bash
+Create a container and mount the above host directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        $ cd modeler
-        $ git clone https://gerrit.opnfv.org/gerrit/fuel && cd fuel
+.. code-block:: console
 
+    $ docker run --privileged -it -v <absolute_path>/modeler:/host ubuntu bash
 
-#. Create a container and mount the above host directory
+Install all the required packages inside the container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    .. code-block:: bash
+.. code-block:: console
 
-        $ docker run --privileged -it -v <absolute_path>/modeler:/host ubuntu bash
-
-
-#. Install all the required packages inside the container.
-
-    .. code-block:: bash
-
-        $ apt-get update
-        $ apt-get install -y npm nodejs
-        $ npm install -g reclass-doc
-        $ cd /host/fuel/mcp/reclass
-        $ ln -s /usr/bin/nodejs /usr/bin/node
-        $ reclass-doc --output /host /host/fuel/mcp/reclass
+    $ apt-get update
+    $ apt-get install -y npm nodejs
+    $ npm install -g reclass-doc
+    $ cd /host/fuel/mcp/reclass
+    $ ln -s /usr/bin/nodejs /usr/bin/node
+    $ reclass-doc --output /host /host/fuel/mcp/reclass
 
 
-#. View the results from the host by using a browser. The file to open should be now at modeler/index.html
+View the results in a browser
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   .. figure:: img/reclass_doc.png
+The file to open should be now at ``modeler/index.html``.
 
+.. figure:: img/reclass_doc.png
+    :width: 60%
+    :align: center
 
 .. _fuel_userguide_references:
 
-==========
 References
 ==========
 
-1) :ref:`fuel-release-installation-label`
-2) `Saltstack Documentation <https://docs.saltstack.com/en/latest/topics/>`_
-3) `Saltstack Formulas <https://salt-formulas.readthedocs.io/en/latest/>`_
-4) `Virtio performance <https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/>`_
-5) `Virtio SCSI <https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/>`_
+#. :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
+#. `Saltstack Documentation`_
+#. `Saltstack Formulas`_
+#. `VirtIO performance`_
+#. `VirtIO SCSI`_
+
+.. _`Saltstack Documentation`: https://docs.saltstack.com/en/latest/topics/
+.. _`Saltstack Formulas`: https://salt-formulas.readthedocs.io/en/latest/
+.. _`VirtIO performance`: https://mpolednik.github.io/2017/01/23/virtio-blk-vs-virtio-scsi/
+.. _`VirtIO SCSI`: https://www.ovirt.org/develop/release-management/features/storage/virtio-scsi/
+.. _`reclass-doc`: https://github.com/jirihybek/reclass-doc

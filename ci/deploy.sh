@@ -32,7 +32,7 @@ usage ()
 {
 cat << EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-$(notify "$(basename "$0"): Deploy the Fuel@OPNFV MCP stack" 3)
+$(notify "$(basename "$0"): Deploy the OPNFV Fuel MCP stack" 3)
 
 $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
@@ -59,9 +59,9 @@ $(notify "OPTIONS:" 2)
   -N  Experimental: Do not virtualize control plane (novcp)
 
 $(notify_i "Description:" 2)
-Deploys the Fuel@OPNFV stack on the indicated lab resource.
+Deploys the OPNFV Fuel stack on the indicated lab resource.
 
-This script provides the Fuel@OPNFV deployment abstraction.
+This script provides the OPNFV Fuel deployment abstraction.
 It depends on the OPNFV official configuration directory/file structure
 and provides a fairly simple mechanism to execute a deployment.
 
