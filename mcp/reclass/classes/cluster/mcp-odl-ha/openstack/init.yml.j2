@@ -10,18 +10,38 @@ classes:
   - cluster.mcp-common-ha.openstack_init
 parameters:
   _param:
-    # opendaylight options
-    opendaylight_service_host: ${_param:opendaylight_server_node01_single_address}
-    opendaylight_rest_port: 8282
-
     neutron_tenant_network_types: "flat,vxlan"
+
+    # opendaylight options
+    opendaylight_service_host: ${_param:opnfv_opendaylight_server_address}
+    opendaylight_rest_port: 8282
 {%- if conf.MCP_VCP %}
+    opendaylight_server_node01_hostname: odl01
+    opendaylight_server_node02_hostname: odl02
+    opendaylight_server_node03_hostname: odl03
+    opendaylight_server_node01_address: ${_param:opnfv_opendaylight_server_node01_address}
+    opendaylight_server_node02_address: ${_param:opnfv_opendaylight_server_node02_address}
+    opendaylight_server_node03_address: ${_param:opnfv_opendaylight_server_node03_address}
   linux:
     network:
       host:
         odl01:
-          address: ${_param:opendaylight_service_host}
+          address: ${_param:opendaylight_server_node01_address}
           names:
             - ${_param:opendaylight_server_node01_hostname}
             - ${_param:opendaylight_server_node01_hostname}.${_param:cluster_domain}
+        odl02:
+          address: ${_param:opendaylight_server_node02_address}
+          names:
+            - ${_param:opendaylight_server_node02_hostname}
+            - ${_param:opendaylight_server_node02_hostname}.${_param:cluster_domain}
+        odl03:
+          address: ${_param:opendaylight_server_node03_address}
+          names:
+            - ${_param:opendaylight_server_node03_hostname}
+            - ${_param:opendaylight_server_node03_hostname}.${_param:cluster_domain}
+{%- else %}
+    opendaylight_control_hostname: ${_param:openstack_control_node02_hostname}
+    opendaylight_server_node01_hostname: ${_param:opendaylight_control_hostname}
+    opendaylight_server_node01_address: ${_param:opnfv_openstack_control_node02_address}
 {%- endif %}

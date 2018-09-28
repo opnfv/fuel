@@ -69,6 +69,14 @@ opendaylight_service_mask:
   - prereq:
     - pkg: opendaylight
 
+{%- if cluster_enabled %}
+configure_cluster:
+  cmd.run:
+  - name: /opt/opendaylight/bin/configure-cluster-ipdetect.sh {{ server.seed_nodes_list }}
+  - require:
+    - pkg: opendaylight
+{%- endif %}
+
 opendaylight:
   pkg.installed:
   - require:

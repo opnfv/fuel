@@ -19,5 +19,22 @@ parameters:
             - cluster.${_param:cluster_name}.opendaylight.control
           params:
             linux_system_codename: xenial
-            single_address: ${_param:opendaylight_server_node01_single_address}
+            single_address: ${_param:opendaylight_server_node01_address}
             pxe_admin_address: ${_param:opnfv_opendaylight_server_node01_pxe_admin_address}
+            keepalived_vip_priority: 103
+        opendaylight_control_node02:
+          classes:
+            - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            linux_system_codename: xenial
+            single_address: ${_param:opendaylight_server_node02_single_address}
+            pxe_admin_address: ${_param:opnfv_opendaylight_server_node02_pxe_admin_address}
+            keepalived_vip_priority: 102
+        opendaylight_control_node03:
+          classes:
+            - cluster.${_param:cluster_name}.opendaylight.control
+          params:
+            linux_system_codename: xenial
+            single_address: ${_param:opendaylight_server_node03_address}
+            pxe_admin_address: ${_param:opnfv_opendaylight_server_node03_pxe_admin_address}
+            keepalived_vip_priority: 101
