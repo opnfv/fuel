@@ -41,6 +41,10 @@ committers:
       email: 'guillermo.herrero@enea.com'
       company: 'enea.com'
       id: 'gherrero'
+    - name: 'Cristina Pauna'
+      email: 'Cristina.Pauna@enea.com'
+      company: 'enea.com'
+      id: 'CristinaPauna'
 tsc:
     # yamllint disable rule:line-length
     approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-07-07-13.59.log.html'
