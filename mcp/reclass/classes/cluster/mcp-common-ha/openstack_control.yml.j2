@@ -70,7 +70,6 @@ parameters:
     cluster_node03_hostname: ${_param:openstack_control_node03_hostname}
     cluster_node03_address: ${_param:openstack_control_node03_address}
     nova_vncproxy_url: https://${_param:cluster_public_host}:6080
-    barbican_integration_enabled: 'false'
     fernet_rotation_driver: 'shared_filesystem'
     credential_rotation_driver: 'shared_filesystem'
   nova:
@@ -95,6 +94,8 @@ parameters:
         volume_device_name: vdc
   glance:
     server:
+      barbican:
+        enabled: ${_param:barbican_integration_enabled}
       <<: *db_conn_recycle_time
 {%- if conf.MCP_VCP %}
   heat:
