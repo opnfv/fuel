@@ -8,6 +8,7 @@
 ---
 classes:
   - system.linux.system.repo.mcp.mirror.v1.openstack
+  - system.linux.system.single.simple
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
   - system.nova.compute.nfv.hugepages
@@ -66,9 +67,10 @@ parameters:
         sysctl:
           vm.dirty_ratio: 10
           vm.dirty_background_ratio: 5
-        boot_options:
+        ~boot_options:
           - spectre_v2=off
           - nopti
+          - ipv6.disable=0
   neutron:
     gateway:
       vlan_aware_vms: true
