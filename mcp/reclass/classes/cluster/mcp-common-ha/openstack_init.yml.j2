@@ -113,7 +113,7 @@ parameters:
     # opendaylight options
 {%- if conf.MCP_VCP %}
     opendaylight_server_node01_hostname: odl01
-    opendaylight_server_node01_single_address: ${_param:opnfv_opendaylight_server_node01_single_address}
+    opendaylight_server_node01_single_address: ${_param:opnfv_opendaylight_server_node01_address}
 {%- else %}
     opendaylight_control_hostname: ${_param:openstack_control_node02_hostname}
     opendaylight_server_node01_hostname: ${_param:opendaylight_control_hostname}

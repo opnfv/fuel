@@ -13,4 +13,4 @@ classes:
 
 parameters:
   _param:
-    opendaylight_service_host: ${_param:opnfv_opendaylight_server_node01_single_address}
+    opendaylight_service_host: ${_param:opnfv_opendaylight_server_node01_address}
