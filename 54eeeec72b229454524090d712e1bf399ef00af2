@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a682502_862561c4",
+        "filename": "mcp/patches/docker/0002-OPNFV-package-installation-Ubuntu-user.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-10-18T09:06:21Z",
+      "side": 1,
+      "message": "Need to wait a critical fix into keepalived formula.",
+      "range": {
+        "startLine": 36,
+        "startChar": 64,
+        "endLine": 36,
+        "endChar": 76
+      },
+      "revId": "54eeeec72b229454524090d712e1bf399ef00af2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_e6525512",
         "filename": "mcp/reclass/classes/cluster/mcp-odl-ha/infra/config.yml",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2018-10-17T13:37:45Z",
       "side": 1,
       "message": "this is misleading and leads to odl1 node having `name` and `domain`, `salt_master_host` etc while odl02/odl03 won\u0027t\n\nwe could just drop that class inheritance and define everything explicitly in this file until reclass.systes an opendaylight_control_cluster class",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "54eeeec72b229454524090d712e1bf399ef00af2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_2641ed5a",
+        "filename": "mcp/reclass/classes/cluster/mcp-odl-ha/infra/config.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-10-18T09:06:21Z",
+      "side": 1,
+      "message": "Now I\u0027m testing it, will handle it.",
+      "parentUuid": "5a682502_e6525512",
       "range": {
         "startLine": 10,
         "startChar": 34,
