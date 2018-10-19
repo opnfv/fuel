@@ -11,10 +11,3 @@ classes:
 parameters:
   _param:
     neutron_tenant_network_types: "geneve,flat"
-  linux:
-    system:
-      kernel:
-        ~boot_options:
-          - ipv6.disable=0
-          - spectre_v2=off
-          - nopti

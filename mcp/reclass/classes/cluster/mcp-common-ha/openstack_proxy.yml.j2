@@ -8,7 +8,6 @@
 ---
 classes:
   - system.linux.system.repo.mcp.mirror.v1.openstack
-  - system.linux.system.single.simple
   - system.nginx.server.single
   - system.nginx.server.proxy.openstack_api
   - system.nginx.server.proxy.openstack_vnc
@@ -40,9 +39,6 @@ parameters:
       package:
         libapache2-mod-wsgi:
           version: latest
-      kernel:
-        ~boot_options:
-          - ipv6.disable=0
 {%- if not conf.MCP_VCP %}
   nginx:
     server:
