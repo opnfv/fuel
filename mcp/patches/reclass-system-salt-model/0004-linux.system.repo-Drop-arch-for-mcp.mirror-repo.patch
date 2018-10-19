@@ -21,19 +21,16 @@ To keep old behavior for amd64 and prevent multiple downloads, let's
 just drop the 'architectures' field.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
----
- linux/system/repo/mcp/mirror/v1/openstack.yml | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/linux/system/repo/mcp/mirror/v1/openstack.yml b/linux/system/repo/mcp/mirror/v1/openstack.yml
-index a4a369b2..933bf53a 100644
---- a/linux/system/repo/mcp/mirror/v1/openstack.yml
-+++ b/linux/system/repo/mcp/mirror/v1/openstack.yml
+diff --git a/linux/system/repo/mcp/apt_mirantis/openstack.yml b/linux/system/repo/mcp/apt_mirantis/openstack.yml
+index c1483ac3..a6b1d50c 100644
+--- a/linux/system/repo/mcp/apt_mirantis/openstack.yml
++++ b/linux/system/repo/mcp/apt_mirantis/openstack.yml
 @@ -7,7 +7,6 @@ parameters:
-       repo:
          mirantis_openstack:
-           source: "deb http://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename} ${_param:linux_system_codename} main"
+           source: "deb ${_param:linux_system_repo_mirantis_openstack_url}/${_param:linux_system_codename} ${_param:linux_system_codename} main"
+           key: ${_param:linux_system_repo_mirror_mirantis_key}
 -          architectures: ${_param:linux_system_architecture}
            clean_file: true
-           key_url: https://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename}/archive-${_param:openstack_version}.key
            pin:
+           - pin: 'release o=Mirantis'

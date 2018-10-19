@@ -8,7 +8,6 @@
 ---
 classes:
   - service.nfs.client
-  - system.linux.system.single.simple
   - system.nova.compute.single
   - service.cinder.volume.single
   - system.cinder.volume.backend.lvm
@@ -85,5 +84,3 @@ parameters:
         sysctl:
           vm.dirty_ratio: 10
           vm.dirty_background_ratio: 5
-        ~boot_options:
-          - ipv6.disable=0
