@@ -10,7 +10,6 @@
 # NOTE: pod_config is generated and transferred into its final location on
 # cfg01 only during deployment to prevent leaking sensitive data
 classes:
-  - system.linux.system.single.simple
   - system.maas.region.single
   - service.maas.cluster.single
   - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
@@ -107,10 +106,6 @@ parameters:
     cluster:
       saltstack_repo_xenial: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/ xenial main"
   linux:
-    system:
-      kernel:
-        ~boot_options:
-          - ipv6.disable=0
     network:
       interface:
         mcpcontrol_interface:
