@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_5d1cb377",
+        "filename": "mcp/salt-formulas/salt-formula-opendaylight/opendaylight/server.sls",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-10-22T09:27:49Z",
+      "side": 1,
+      "message": "server.cluster_enabled",
+      "range": {
+        "startLine": 72,
+        "startChar": 7,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "c61902adbf0937ac594840c6ff7333401f95af94",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
