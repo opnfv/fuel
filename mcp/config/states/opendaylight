@@ -14,7 +14,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 
 # Get OpenDaylight server options with prefix odl_
 function odl() {
-  salt --out txt -I 'opendaylight:server' pillar.get "opendaylight:server:odl_$1" | cut -d ' ' -f2
+  salt --out txt -I 'opendaylight:server and *01*' pillar.get "opendaylight:server:odl_$1" | cut -d ' ' -f2
 }
 
 wait_for 5.0 "salt -I 'opendaylight:server' state.sls opendaylight"
