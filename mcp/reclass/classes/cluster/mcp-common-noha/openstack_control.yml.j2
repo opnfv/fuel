@@ -114,6 +114,8 @@ parameters:
       workers: 1
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      identity:
+        barbican_endpoint: ${barbican:server:host_href}
   cinder:
     controller:
       barbican:
