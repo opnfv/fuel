@@ -96,6 +96,8 @@ parameters:
   glance:
     server:
       <<: *db_conn_recycle_time
+      identity:
+        barbican_endpoint: ${barbican:server:host_href}
 {%- if conf.MCP_VCP %}
   heat:
     server:
