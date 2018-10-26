@@ -10,6 +10,7 @@ applications:
   - opendaylight
 classes:
   - service.keepalived.cluster.single
+  - service.haproxy.proxy.single
 parameters:
   _param:
     opendaylight_version: fluorine
@@ -17,6 +18,7 @@ parameters:
     keepalived_vip_address: ${_param:opendaylight_service_host}
     keepalived_vip_password: ${_param:opnfv_main_password}
     keepalived_vip_interface: ${_param:single_nic}
+    haproxy_odl_api_check_params: check inter 20s fastinter 2s
   opendaylight:
     server:
       enabled: 'True'
@@ -28,14 +30,33 @@ parameters:
   keepalived:
     cluster:
       vrrp_scripts:
-        check_port:
-          args:
-            - ${_param:opendaylight_rest_port}
-            - TCP
-            - 4
-          interval: 15
+        check_pidof:
+          args: haproxy
+          interval: 20
           rise: 3
           fall: 1
       instance:
         VIP:
-          track_script: check_port
+          track_script: check_pidof
+  haproxy:
+    proxy:
+      listen:
+        opendaylight_api:
+          type: general-service
+          balance: source
+          binds:
+            - address: ${_param:opendaylight_service_host}
+              port: ${_param:opendaylight_rest_port}
+          servers:
+            - name: ${_param:opendaylight_server_node01_hostname}
+              host: ${_param:opendaylight_server_node01_address}
+              port: ${_param:opendaylight_rest_port}
+              params: ${_param:haproxy_odl_api_check_params}
+            - name: ${_param:opendaylight_server_node02_hostname}
+              host: ${_param:opendaylight_server_node02_address}
+              port: ${_param:opendaylight_rest_port}
+              params: ${_param:haproxy_odl_api_check_params}
+            - name: ${_param:opendaylight_server_node03_hostname}
+              host: ${_param:opendaylight_server_node03_address}
+              port: ${_param:opendaylight_rest_port}
+              params: ${_param:haproxy_odl_api_check_params}
