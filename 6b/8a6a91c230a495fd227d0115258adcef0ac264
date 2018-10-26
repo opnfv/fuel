@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Guillermo Herrero <guillermo.herrero@enea.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Fri, 26 Oct 2018 07:17:26 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/63947
+Project: fuel
+Branch: refs/heads/master
