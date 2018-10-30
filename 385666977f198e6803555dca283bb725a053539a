@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_3a73b081",
+        "filename": "README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-10-30T15:28:19Z",
+      "side": 1,
+      "message": "The goal of the Fuel deployment process",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "385666977f198e6803555dca283bb725a053539a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_9a0924e0",
+        "filename": "ci/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-10-30T15:28:19Z",
+      "side": 1,
+      "message": "this is a convoluted explanation; maybe consider rephrasing it in a simpler mode",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "385666977f198e6803555dca283bb725a053539a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7a1b681b",
+        "filename": "ci/README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-10-30T15:28:19Z",
+      "side": 1,
+      "message": "maybe repeat here that when omitted, the pharos submodule is used by default",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 6
+      },
+      "revId": "385666977f198e6803555dca283bb725a053539a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_ba898028",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-10-30T15:28:19Z",
+      "side": 1,
+      "message": "there aren\u0027t actually any links above... :D",
+      "range": {
+        "startLine": 57,
+        "startChar": 70,
+        "endLine": 58,
+        "endChar": 12
+      },
+      "revId": "385666977f198e6803555dca283bb725a053539a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_1a9fd451",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-10-30T15:28:19Z",
+      "side": 1,
+      "message": "Caps?",
+      "range": {
+        "startLine": 68,
+        "startChar": 28,
+        "endLine": 68,
+        "endChar": 29
+      },
+      "revId": "385666977f198e6803555dca283bb725a053539a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
