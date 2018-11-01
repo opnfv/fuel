@@ -1,0 +1,39 @@
+##############################################################################
+# Copyright (c) 2017-2018 Mirantis Inc., Enea AB, Tieto and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+# Scenario details:
+#   Specific scenario for ONAP deployment on top of OPNFV
+#   Scenario is based on generic os-nosdn-nofeature-noha scenario
+# Responsible: Auto project
+---
+cluster:
+  domain: mcp-ovs-noha.local
+  states:
+    - openstack_noha
+    - neutron_gateway
+    - networks
+    - onap
+virtual:
+  nodes:
+    control:
+      - ctl01
+      - gtw01
+    compute:
+      - cmp001
+      - cmp002
+  # Below values are only used for each node if said node is virtual
+  ctl01:
+    vcpus: 4
+    ram: 16384
+  gtw01:
+    ram: 2048
+  cmp001:
+    vcpus: 36
+    ram: 122880
+  cmp002:
+    vcpus: 36
+    ram: 122880
