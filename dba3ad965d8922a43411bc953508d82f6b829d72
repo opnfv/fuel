@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_d4ca4c4e",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-01T15:46:02Z",
+      "side": 1,
+      "message": "Should we add a note to specify that the mixed arch deploy (baremetal \u0026 hybrid) needs to have all computes/controllers the same arch?",
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_b4f3509e",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-01T15:46:02Z",
+      "side": 1,
+      "message": "As far as I know this is untested, maybe it\u0027s worth mentioning it here",
+      "range": {
+        "startLine": 1059,
+        "startChar": 0,
+        "endLine": 1059,
+        "endChar": 26
+      },
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_f444a8b8",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-01T15:46:02Z",
+      "side": 1,
+      "message": "remove the word",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_741098a8",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-01T15:46:02Z",
+      "side": 1,
+      "message": "we might need to remove this, as the scenario is still not in CI",
+      "range": {
+        "startLine": 183,
+        "startChar": 28,
+        "endLine": 183,
+        "endChar": 39
+      },
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_d426cc15",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-01T15:46:02Z",
+      "side": 1,
+      "message": "I would add an example on how to access the MAAS gui (ip and user/pass) and maybe a link to maas documentation.",
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
