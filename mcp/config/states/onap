@@ -1,0 +1,21 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2018 Tieto
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+# Deploy ONAP on top of OPNFV installed by Fuel/MCP
+# ONAP installation is managed by OPNFV Auto project
+
+salt -C 'I@nova:controller and *01*' cmd.run ". /root/keystonercv3; \
+  AUTO_INSTALL_DIR=$HOME/auto; \
+  AUTO_REPO='https://gerrit.opnfv.org/gerrit/auto'; \
+  ONAP_INSTALL_SCRIPT='ci/deploy-onap-fuel.sh'; \
+  git clone $AUTO_REPO $AUTO_INSTALL_DIR; \
+  cd $AUTO_INSTALL_DIR; \
+  export AUTO_INSTALL_DIR; \
+  git clone $AUTO_REPO $AUTO_INSTALL_DIR; \
+  git git pull https://gerrit.opnfv.org/gerrit/auto refs/changes/71/64371/8; \
+  sudo -E $ONAP_INSTALL_SCRIPT"
