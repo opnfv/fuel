@@ -256,10 +256,10 @@ function prepare_vms {
     ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" \
        -u 'user-data.sh' -h "${node}" "${image_dir}/mcp_${node}.iso"
     cp "${image_dir}/${image}" "${image_dir}/mcp_${node}.qcow2"
-    qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
+    qemu-img resize "${image_dir}/mcp_${node}.qcow2" 200G
     # Prepare dedicated drive for cinder on cmp nodes
     if [[ "${node}" =~ ^(cmp) ]]; then
-      qemu-img create "${image_dir}/mcp_${node}_storage.qcow2" 100G
+      qemu-img create "${image_dir}/mcp_${node}_storage.qcow2" 200G
     fi
   done
 
