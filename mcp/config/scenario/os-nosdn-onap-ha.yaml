@@ -1,0 +1,46 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB, Tieto and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+# Scenario details:
+#   Specific scenario for ONAP deployment on top of OPNFV
+#   Scenario is based on generic os-nosdn-nofeature-ha scenario
+# Responsible: Auto project
+---
+cluster:
+  domain: mcp-ovs-ha.local
+  states:
+    - openstack_ha
+    - networks
+    - onap
+virtual:
+  nodes:
+    control:
+      - kvm01
+      - kvm02
+      - kvm03
+    compute:
+      - cmp001
+      - cmp002
+  # Below values are only used for each node if said node is virtual
+  mas01:
+    vcpus: 4
+    ram: 6144
+  kvm01:
+    vcpus: 4
+    ram: 14336
+  kvm02:
+    vcpus: 4
+    ram: 14336
+  kvm03:
+    vcpus: 4
+    ram: 14336
+  cmp001:
+    vcpus: 32
+    ram: 102400
+  cmp002:
+    vcpus: 32
+    ram: 102400
