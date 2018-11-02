@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_3f38b99f",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-02T08:58:22Z",
+      "side": 1,
+      "message": "By looking at the diagram, you have different baremetal servers for controller, gateway and odl. That\u0027s different than the hybrid deployment, where these are VMs.",
+      "parentUuid": "5a682502_5f72d5ad",
+      "range": {
+        "startLine": 1059,
+        "startChar": 0,
+        "endLine": 1059,
+        "endChar": 26
+      },
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_f444a8b8",
         "filename": "docs/release/release-notes/release-notes.rst",
         "patchSetId": 6
