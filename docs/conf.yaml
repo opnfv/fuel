@@ -8,3 +8,5 @@
 ---
 project_cfg: opnfv
 project: fuel
+version: "Gambia"
+release: "Gambia"
