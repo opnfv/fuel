@@ -13,6 +13,7 @@ cluster:
     - openstack_noha
     - neutron_gateway
     - networks
+    - sqlalchemy_update
 virtual:
   nodes:
     control:

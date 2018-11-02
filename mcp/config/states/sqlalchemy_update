@@ -1,3 +1,4 @@
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -5,36 +6,11 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
----
-cluster:
-  domain: mcp-odl-noha.local
-  states:
-    - dpdk
-    - opendaylight
-    - openstack_noha
-    - neutron_gateway
-    - networks
-    - sqlalchemy_update
-virtual:
-  nodes:
-    control:
-      - ctl01
-      - gtw01
-      - odl01
-    compute:
-      - cmp001
-      - cmp002
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 1024
-  odl01:
-    vcpus: 4
-    ram: 5120
-  cmp001:
-    vcpus: 4
-    ram: 8192
-  cmp002:
-    vcpus: 4
-    ram: 8192
+
+sqlalchemy_ver=1.2.1
+
+salt -I 'neutron:server' pkg.install python-pip
+salt -I 'neutron:server' cmd.run \
+  "sudo -H -u neutron pip install --user SQLAlchemy==${sqlalchemy_ver}"
+
+salt -I 'neutron:server' service.restart neutron-server
