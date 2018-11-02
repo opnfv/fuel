@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a682502_1f785d8e",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-11-02T01:25:48Z",
+      "side": 1,
+      "message": "We could document it here too, we also have a warning @L111 about the controllers + jumpserver being the same arch; as for computes, from a deployment perspective, they can have different architectures (untested, but should just work).",
+      "parentUuid": "5a682502_d4ca4c4e",
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_b4f3509e",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2018-11-01T15:46:02Z",
       "side": 1,
       "message": "As far as I know this is untested, maybe it\u0027s worth mentioning it here",
+      "range": {
+        "startLine": 1059,
+        "startChar": 0,
+        "endLine": 1059,
+        "endChar": 26
+      },
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_5f72d5ad",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-11-02T01:25:48Z",
+      "side": 1,
+      "message": "Definitely untested in CI, although we test it manually on hybrid PODs. Will add a note.",
+      "parentUuid": "5a682502_b4f3509e",
       "range": {
         "startLine": 1059,
         "startChar": 0,
