@@ -14,6 +14,7 @@ cluster:
     - neutron_gateway
     - quagga
     - networks
+    - sqlalchemy_update
 virtual:
   nodes:
     control:

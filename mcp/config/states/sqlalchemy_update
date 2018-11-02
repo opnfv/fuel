@@ -1,3 +1,4 @@
+#!/bin/bash -e
 ##############################################################################
 # Copyright (c) 2018 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
@@ -5,36 +6,12 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
----
-cluster:
-  domain: mcp-odl-noha.local
-  states:
-    - dpdk
-    - opendaylight
-    - openstack_noha
-    - neutron_gateway
-    - networks
-    - sqlalchemy_update
-virtual:
-  nodes:
-    control:
-      - ctl01
-      - gtw01
-      - odl01
-    compute:
-      - cmp001
-      - cmp002
-  ctl01:
-    vcpus: 4
-    ram: 14336
-  gtw01:
-    ram: 1024
-  odl01:
-    vcpus: 4
-    ram: 5120
-  cmp001:
-    vcpus: 4
-    ram: 8192
-  cmp002:
-    vcpus: 4
-    ram: 8192
+
+pkg_base='http://ubuntu-cloud.archive.canonical.com/ubuntu/pool/main/s/sqlalchemy'
+pkgs='python-sqlalchemy-ext_1.2.8+ds1-1ubuntu2~cloud0_amd64.deb python-sqlalchemy_1.2.8+ds1-1ubuntu2~cloud0_all.deb'
+
+for pkg in $pkgs; do
+  salt -I 'neutron:server' cmd.run "wget -P /tmp -N $pkg_base/$pkg && dpkg --force-all -i /tmp/$pkg"
+done
+
+salt -I 'neutron:server' service.restart neutron-server
