@@ -1,0 +1,43 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 5 Nov 2018 16:47:13 +0100
+Subject: [PATCH] curtin: Tune default salt-minion config
+
+* Sync AArch64 configuration with the changes introduced by commit
+  c6a12de on amd64
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ maas/files/curtin_userdata_arm64_generic_xenial | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/maas/files/curtin_userdata_arm64_generic_xenial b/maas/files/curtin_userdata_arm64_generic_xenial
+index af9a047..1b2e401 100644
+--- a/maas/files/curtin_userdata_arm64_generic_xenial
++++ b/maas/files/curtin_userdata_arm64_generic_xenial
+@@ -32,8 +32,16 @@ late_commands:
+   apt_03_update: ["curtin", "in-target", "--", "apt-get", "update"]
+   salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "python-futures"]
+   salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
+-  salt_03_hostname_get: ["curtin", "in-target", "--", "sh", "-c", "echo 'id: {% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}' >> /etc/salt/minion"]
+-  salt_04_master: ["curtin", "in-target", "--", "sh", "-c", "echo 'master: {{ salt_master_ip }}' >> /etc/salt/minion"]
++  salt_03_hostname_get: ["curtin", "in-target", "--", "sh", "-c", "echo 'id: {% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}' >> /etc/salt/minion.d/minion.conf"]
++  salt_04_master: ["curtin", "in-target", "--", "sh", "-c", "echo 'master: {{ salt_master_ip }}' >> /etc/salt/minion.d/minion.conf"]
++  salt_05_max_event_size: ["curtin", "in-target", "--", "sh", "-c", "echo 'max_event_size: 100000000' >> /etc/salt/minion.d/minion.conf"]
++  salt_06_acceptance_wait_time_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time_max: 60' >> /etc/salt/minion.d/minion.conf"]
++  salt_07_acceptance_wait_time: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time: 10' >> /etc/salt/minion.d/minion.conf"]
++  salt_08_random_reauth_delay: ["curtin", "in-target", "--", "sh", "-c", "echo 'random_reauth_delay: 270' >> /etc/salt/minion.d/minion.conf"]
++  salt_09_recon_default: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_default: 1000' >> /etc/salt/minion.d/minion.conf"]
++  salt_10_recon_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_max: 60000' >> /etc/salt/minion.d/minion.conf"]
++  salt_11_recon_randomize: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_randomize: True' >> /etc/salt/minion.d/minion.conf"]
++  salt_12_auth_timeout: ["curtin", "in-target", "--", "sh", "-c", "echo 'auth_timeout: 60' >> /etc/salt/minion.d/minion.conf"]
+ {% raw %}
+ {{if third_party_drivers and driver}}
+   driver_00_key_get: curtin in-target -- sh -c "/bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg"

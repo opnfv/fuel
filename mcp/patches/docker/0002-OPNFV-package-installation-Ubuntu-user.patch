@@ -20,6 +20,9 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
   `salt_minion_reclass_dependencies`;
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
 index 2c75586..13813a2 100644
