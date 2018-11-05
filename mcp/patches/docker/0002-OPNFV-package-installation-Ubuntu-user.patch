@@ -25,7 +25,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  1 file changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..d7d4c49 100644
+index 2c75586..23f299b 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -102,12 +102,46 @@ salt-formulas:
@@ -33,7 +33,7 @@ index 2c75586..d7d4c49 100644
      ARG RECLASS_BASE="/srv/salt/reclass"
      ENV RECLASS_BASE $RECLASS_BASE
 -    RUN echo "Layer python/salt module prerequisites, formulas" \
-+    RUN echo "Layer python/salt module prerequisites, formulas (29 Oct 2018)" \
++    RUN echo "Layer python/salt module prerequisites, formulas (05 Nov 2018)" \
        && mkdir -p /srv/salt \
        && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
