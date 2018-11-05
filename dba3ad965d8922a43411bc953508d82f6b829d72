@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a682502_65af4095",
+        "filename": "docs/release/installation/installation.instruction.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-05T15:13:34Z",
+      "side": 1,
+      "message": "I was referring to the fact that all controllers need to have the same arch, as well as all computes. The existing warning on the jumpserver should be enough.",
+      "parentUuid": "5a682502_1f785d8e",
+      "revId": "dba3ad965d8922a43411bc953508d82f6b829d72",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_b4f3509e",
         "filename": "docs/release/installation/installation.instruction.rst",
         "patchSetId": 6
