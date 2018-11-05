@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_85ac1ca2",
+        "filename": "docs/release/userguide/userguide.rst",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-11-05T15:13:34Z",
+      "side": 1,
+      "message": "user/pass?",
+      "range": {
+        "startLine": 398,
+        "startChar": 2,
+        "endLine": 398,
+        "endChar": 7
+      },
+      "revId": "3f8f20396232a42531a60a0e66b1c4e21aea2436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
