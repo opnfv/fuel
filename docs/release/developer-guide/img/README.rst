@@ -1,0 +1,1 @@
+../../installation/img/README.rst
