@@ -83,7 +83,7 @@ Release Data
 | **Release designation**              | Gambia 7.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | November 2nd, 2018                   |
+| **Release date**                     | November 9, 2018                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | OPNFV Gambia 7.0 release             |
