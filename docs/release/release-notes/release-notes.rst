@@ -229,17 +229,17 @@ For more information on the OPNFV ``Gambia`` 7.0 release, please see:
 #. `Mirantis Cloud Platform Documentation`_
 
 .. FIXME: cleanup unused refs, extend above list
-.. _`OpenDaylight`: https://www.opendaylight.org/software
+.. _`OpenDaylight`: https://www.opendaylight.org
 .. _`OpenDaylight Artifacts`: https://www.opendaylight.org/software/downloads
 .. _`MCP`: https://www.mirantis.com/software/mcp/
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`fuel git repository`: https://git.opnfv.org/fuel
-.. _`OpenStack Documentation`: https://docs.openstack.org
+.. _`OpenStack Documentation`: https://docs.openstack.org/queens
 .. _`OpenStack Queens Release Artifacts`: https://www.openstack.org/software/queens
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/releases/Gambia
+.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
 .. _`OPNFV Documentation`: https://docs.opnfv.org
-.. _`OPNFV Software Downloads`: https://www.opnfv.org/software/download
+.. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
 .. OPNFV Fuel Gambia JIRA filters
 .. _`OPNFV Fuel JIRA: Gambia Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12503

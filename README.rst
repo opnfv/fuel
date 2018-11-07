@@ -140,7 +140,7 @@ For more information on the OPNFV Gambia 7.0 release, please see:
 #. `Mirantis Cloud Platform Documentation`_
 
 .. _`OpenStack`: https://www.openstack.org
-.. _`OpenDaylight`: https://www.opendaylight.org/software
+.. _`OpenDaylight`: https://www.opendaylight.org
 .. _`PostgreSQL`: https://www.postgresql.org
 .. _`MongoDB`: https://www.mongodb.com
 .. _`RabbitMQ`: https://www.rabbitmq.com
@@ -154,9 +154,9 @@ For more information on the OPNFV Gambia 7.0 release, please see:
 .. _`MCP`: https://www.mirantis.com/software/mcp/
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/releases/Gambia
+.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
 .. _`OPNFV Documentation`: https://docs.opnfv.org
-.. _`OPNFV Software Downloads`: https://www.opnfv.org/software/download
+.. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`OPNFV Fuel Contributing`: CONTRIBUTING.rst
 .. _`OPNFV Fuel Wiki Page`: https://wiki.opnfv.org/display/fuel/Fuel+Opnfv
 .. _`OPNFV Community Support mailing list`: https://lists.opnfv.org/g/opnfv-users
