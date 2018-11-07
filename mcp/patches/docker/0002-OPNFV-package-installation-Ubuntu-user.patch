@@ -20,20 +20,26 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
   `salt_minion_reclass_dependencies`;
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
----
- DockerMake.yml | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..d7d4c49 100644
+index 2c75586..5b508ac 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
-@@ -102,12 +102,46 @@ salt-formulas:
+@@ -94,7 +94,7 @@ salt-formulas:
+   build: |
+     ARG SALT_FORMULA_VERSION="master"
+     ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
+-    ARG SALT_FORMULA_SOURCES="https://github.com/salt-formulas https://github.com/saltstack-formulas"
++    ARG SALT_FORMULA_SOURCES="https://gerrit.mcp.mirantis.com/salt-formulas"
+     ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
+     ARG SALT_FORMULAS_BASE="/srv/salt/formula"
+     ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
+@@ -102,12 +102,33 @@ salt-formulas:
      ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
      ARG RECLASS_BASE="/srv/salt/reclass"
      ENV RECLASS_BASE $RECLASS_BASE
 -    RUN echo "Layer python/salt module prerequisites, formulas" \
-+    RUN echo "Layer python/salt module prerequisites, formulas (29 Oct 2018)" \
++    RUN echo "Layer python/salt module prerequisites, formulas (09 Nov 2018)" \
        && mkdir -p /srv/salt \
        && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
@@ -41,19 +47,6 @@ index 2c75586..d7d4c49 100644
 
 +opnfv:
 +  build: |
-+    # Some formulas have empty git repos, use the package version
-+    ARG SALT_FORMULA_VERSION="nightly"
-+    ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
-+    ARG SALT_FORMULA_LIST="salt-formula-gnocchi"
-+    ENV SALT_FORMULA_LIST $SALT_FORMULA_LIST
-+    ENV APT_REPOSITORY "deb [arch=amd64] http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
-+    ENV APT_REPOSITORY_GPG "http://apt.mirantis.com/public.gpg"
-+    RUN echo "Layer extra salt-formulas packages" \
-+      && echo "$APT_REPOSITORY" | tee /etc/apt/sources.list.d/salt-formulas.list >/dev/null \
-+      && curl -sL $APT_REPOSITORY_GPG | $SUDO apt-key add - \
-+      && eval ${LAYER_PKGUPDT} \
-+      && ${LAYER_INSTALL} ${SALT_FORMULA_LIST} -y --fix-missing -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-+      && eval ${LAYER_CLEANUP}
 +    RUN echo "Layer with OPNFV packages" \
 +      && eval ${LAYER_PKGUPDT} \
 +      && ${LAYER_INSTALL} \
