@@ -33,7 +33,7 @@ index 2c75586..d7d4c49 100644
      ARG RECLASS_BASE="/srv/salt/reclass"
      ENV RECLASS_BASE $RECLASS_BASE
 -    RUN echo "Layer python/salt module prerequisites, formulas" \
-+    RUN echo "Layer python/salt module prerequisites, formulas (29 Oct 2018)" \
++    RUN echo "Layer python/salt module prerequisites, formulas (09 Nov 2018)" \
        && mkdir -p /srv/salt \
        && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
@@ -44,7 +44,7 @@ index 2c75586..d7d4c49 100644
 +    # Some formulas have empty git repos, use the package version
 +    ARG SALT_FORMULA_VERSION="nightly"
 +    ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
-+    ARG SALT_FORMULA_LIST="salt-formula-gnocchi"
++    ARG SALT_FORMULA_LIST="salt-formula-gnocchi salt-formula-redis"
 +    ENV SALT_FORMULA_LIST $SALT_FORMULA_LIST
 +    ENV APT_REPOSITORY "deb [arch=amd64] http://apt.mirantis.com/xenial ${SALT_FORMULA_VERSION} salt"
 +    ENV APT_REPOSITORY_GPG "http://apt.mirantis.com/public.gpg"
