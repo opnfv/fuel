@@ -22,6 +22,30 @@
       "revId": "e86f9c20903551c443586adae7c2e05fdcdd742d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_8d10bea9",
+        "filename": "docs/release/scenarios/os-odl-ovs-noha/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-11-07T14:22:07Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "5a682502_0d45ceb2",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "e86f9c20903551c443586adae7c2e05fdcdd742d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
