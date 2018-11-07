@@ -85,7 +85,7 @@ Network ``PXE/admin``
     During ``MaaS`` commissioning phase, IP addresses are handed out by
     ``MaaS``'s DHCP.
 
-.. NOTE::
+.. WARNING::
 
     Default addresses in below table correspond to a ``PXE/admin`` CIDR of
     ``192.168.11.0/24`` (the usual value used in OPNFV labs).
@@ -156,12 +156,6 @@ Network ``management``
 .. TIP::
 
     ``management`` often has an IP range offset defined in ``IDF``.
-
-.. NOTE::
-
-    Default addresses in below table correspond to a ``management`` CIDR of
-    ``172.16.10.0/24`` (one of the commonly used values in OPNFV labs).
-    This is defined in ``IDF`` and can easily be changed to something else.
 
 .. WARNING::
 
@@ -257,7 +251,7 @@ Network ``internal``
 
     ``internal`` does not usually use an IP range offset in ``IDF``.
 
-.. NOTE::
+.. WARNING::
 
     Default addresses in below table correspond to an ``internal`` CIDR of
     ``10.1.0.0/24`` (the usual value used in OPNFV labs).
@@ -284,12 +278,6 @@ Network ``public``
 .. TIP::
 
     ``public`` often has an IP range offset defined in ``IDF``.
-
-.. NOTE::
-
-    Default addresses in below table correspond to a ``public`` CIDR of
-    ``172.30.10.0/24`` (one of the used values in OPNFV labs).
-    This is defined in ``IDF`` and can easily be changed to something else.
 
 .. WARNING::
 
