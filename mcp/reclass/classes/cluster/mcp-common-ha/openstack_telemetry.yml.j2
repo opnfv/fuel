@@ -44,7 +44,7 @@ parameters:
     gnocchi_storage_incoming_redis_url: ${_param:openstack_telemetry_redis_url}
   redis:
     server:
-      version: 3.0
+      version: 5.0
       appendfsync: 'no'
       bind:
         address: ${_param:single_address}
