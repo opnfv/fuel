@@ -75,7 +75,7 @@ env VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
 # shellcheck disable=SC2086
 python -m pipenv run \
   invoke build saltmaster-reclass \
-    --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
+    --require 'salt salt-formulas-pkg opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
     --dist-rel=xenial \
     --formula-rev=nightly \
