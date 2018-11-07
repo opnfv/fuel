@@ -42,9 +42,14 @@ parameters:
     openstack_telemetry_redis_url: redis://${_param:redis_sentinel_node01_address}:26379?sentinel=master_1&sentinel_fallback=${_param:redis_sentinel_node02_address}:26379&sentinel_fallback=${_param:redis_sentinel_node03_address}:26379
     gnocchi_coordination_url: ${_param:openstack_telemetry_redis_url}
     gnocchi_storage_incoming_redis_url: ${_param:openstack_telemetry_redis_url}
+  linux:
+    system:
+      sysfs:
+        transparent_hugepages:
+          kernel/mm/transparent_hugepage/enabled: never
   redis:
     server:
-      version: 3.0
+      version: 5.0
       appendfsync: 'no'
       bind:
         address: ${_param:single_address}
