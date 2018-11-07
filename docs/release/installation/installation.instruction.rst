@@ -147,6 +147,13 @@ installation of ``Gambia`` using Fuel:
 |                  |                                                      |
 |                  |     These can be allocated to a single NIC           |
 |                  |     or spread out over multiple NICs.                |
+|                  |                                                      |
+|                  | .. WARNING::                                         |
+|                  |                                                      |
+|                  |     No external ``DHCP`` server should be present    |
+|                  |     in the ``PXE/admin`` network segment, as it      |
+|                  |     would interfere with ``MaaS`` ``DHCP`` during    |
+|                  |     ``baremetal`` node commissioning/deploying.      |
 +------------------+------------------------------------------------------+
 | **Power mgmt**   | All targets need to have power management tools that |
 |                  | allow rebooting the hardware (e.g. ``IPMI``).        |
@@ -784,7 +791,7 @@ The following parameters are currently supported:
 +=================================+===========================================+
 | ``nova_cpu_pinning``            | List of CPU cores nova will be pinned to. |
 |                                 |                                           |
-|                                 | .. WARNING::                              |
+|                                 | .. NOTE::                                 |
 |                                 |                                           |
 |                                 |     Currently disabled.                   |
 +---------------------------------+-------------------------------------------+
