@@ -17,3 +17,4 @@ OPNFV Fuel Scenarios
    os-ovn-nofeature-ha/index.rst
    os-nosdn-vpp-noha/index.rst
    os-nosdn-vpp-ha/index.rst
+   os-odl-ovs-noha/index.rst
