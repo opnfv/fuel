@@ -1,0 +1,217 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 6 Dec 2018 18:25:42 +0100
+Subject: [PATCH] Bring in basic VPP support
+
+TODO:
+- update README
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ neutron/agents/_vpp.sls                | 38 ++++++++++++++++++++++++
+ neutron/compute.sls                    |  2 ++
+ neutron/files/queens/_ml2_conf.vpp.ini | 41 ++++++++++++++++++++++++++
+ neutron/files/queens/ml2_conf.ini      |  5 ++++
+ neutron/gateway.sls                    |  2 ++
+ neutron/map.jinja                      | 16 ++++++++++
+ 6 files changed, 104 insertions(+)
+ create mode 100644 neutron/agents/_vpp.sls
+ create mode 100644 neutron/files/queens/_ml2_conf.vpp.ini
+
+diff --git a/neutron/agents/_vpp.sls b/neutron/agents/_vpp.sls
+new file mode 100644
+index 0000000..4c50d18
+--- /dev/null
++++ b/neutron/agents/_vpp.sls
+@@ -0,0 +1,38 @@
++{%- if pillar.neutron.gateway is defined %}
++{%- from "neutron/map.jinja" import gateway as neutron with context %}
++{%- else %}
++{%- from "neutron/map.jinja" import compute as neutron with context %}
++{%- endif %}
++
++{%- if 'vpp' in neutron.get('backend', {}).get('mechanism', []) %}
++
++/etc/neutron/plugins/ml2/ml2_conf.ini:
++  file.managed:
++  - source: salt://neutron/files/{{ neutron.version }}/_ml2_conf.vpp.ini
++  - mode: 0640
++  - user: root
++  - group: neutron
++  - template: jinja
++
++{%- if pillar.neutron.gateway is defined %}
++
++/etc/neutron/rootwrap.d/vpp.filters:
++  file.managed:
++  - contents: |
++      [Filters]
++      brctl: CommandFilter, brctl, root
++  - mode: 0640
++  - user: root
++  - group: neutron
++
++{%- endif %}
++
++vpp:
++  service.running:
++    - enable: True
++
++vpp-agent:
++  service.running:
++    - enable: True
++
++{%- endif %}
+diff --git a/neutron/compute.sls b/neutron/compute.sls
+index e815410..e99c110 100644
+--- a/neutron/compute.sls
++++ b/neutron/compute.sls
+@@ -111,7 +111,9 @@ neutron_metadata_agent:
+     {%- if compute.opendaylight is defined %}
+       {%- include "neutron/opendaylight/client.sls" %}
+     {%- else %}
++      {#- We can reuse this for ml2_vpp and ignore openvswitch_agent.ini #}
+       {%- include "neutron/ml2_ovs/init.sls" %}
++      {%- include "neutron/agents/_vpp.sls" %}
+     {%- endif %}
+
+   {%- elif compute.backend.engine == "ovn" %}
+diff --git a/neutron/files/queens/_ml2_conf.vpp.ini b/neutron/files/queens/_ml2_conf.vpp.ini
+new file mode 100644
+index 0000000..2373f64
+--- /dev/null
++++ b/neutron/files/queens/_ml2_conf.vpp.ini
+@@ -0,0 +1,41 @@
++{%- if pillar.neutron.server is defined %}
++{%- from "neutron/map.jinja" import server as neutron with context %}
++{%- elif pillar.neutron.gateway is defined %}
++{%- from "neutron/map.jinja" import gateway as neutron with context %}
++{%- else %}
++{%- from "neutron/map.jinja" import compute as neutron with context %}
++{%- endif %}
++
++{%- if 'vpp' in neutron.get('backend', {}).get('mechanism', []) %}
++
++{%- set physnets_vpp = [] %}
++{%- set mechanism_vpp = neutron.backend.mechanism.vpp %}
++{%- for physnet, params in neutron.backend.get('physnets', {}).iteritems() %}
++{%-   if params.get('vpp_interface', False) %}
++{%-     do physnets_vpp.append([physnet, params.get('vpp_interface')]|join(":")) %}
++{%-   endif %}
++{%- endfor %}
++{%- if not physnets_vpp %}
++{%-   do physnets_vpp.append('physnet1:tap-0') %}
++{%- endif %}
++
++{%- if pillar.neutron.server is not defined %}
++[ml2]
++type_drivers = flat,vlan
++{%- endif %}
++
++[ml2_vpp]
++jwt_signing = False
++etcd_insecure_explicit_disable_https = True
++l3_hosts = {{ mechanism_vpp.get('l3_hosts', '127.0.0.1') }}
++enable_l3_ha = False
++gpe_locators =
++gpe_src_cidr =
++enable_vpp_restart = False
++etcd_pass = {{ mechanism_vpp.get('etcd_pass', '') }}
++etcd_user = {{ mechanism_vpp.get('etcd_user', '') }}
++etcd_port = {{ mechanism_vpp.get('etcd_port', 2379) }}
++etcd_host = {{ mechanism_vpp.get('etcd_host', '127.0.0.1') }}
++physnets = {{ ','.join(physnets_vpp) }}
++
++{%- endif %}
+diff --git a/neutron/files/queens/ml2_conf.ini b/neutron/files/queens/ml2_conf.ini
+index bb2f126..057d325 100644
+--- a/neutron/files/queens/ml2_conf.ini
++++ b/neutron/files/queens/ml2_conf.ini
+@@ -28,6 +28,9 @@ agent_boot_time = {{ server.get('agent_boot_time', 180) }}
+ # List of network type driver entrypoints to be loaded from the
+ # neutron.ml2.type_drivers namespace. (list value)
+ #type_drivers = local,flat,vlan,gre,vxlan,geneve
++{%- if 'vpp' in server.backend.get('mechanism', []) %}
++type_drivers = flat,vlan
++{%- endif %}
+
+ # Ordered list of network_types to allocate as tenant networks. The default
+ # value 'local' is useful for single-box testing but provides no connectivity
+@@ -264,6 +267,8 @@ neutron_sync_mode = {{ _ovn.neutron_sync_mode|default('repair') }}
+ enable_distributed_floating_ip = {{ server.dvr|default('false') }}
+ {%- endif %}
+
++{%- include "neutron/files/queens/_ml2_conf.vpp.ini" %}
++
+ {%- if server.backend.opendaylight|default(False) %}
+ [ml2_odl]
+ # HTTP URL of OpenDaylight REST interface. (string value)
+diff --git a/neutron/gateway.sls b/neutron/gateway.sls
+index 61b4372..ca07b9f 100644
+--- a/neutron/gateway.sls
++++ b/neutron/gateway.sls
+@@ -40,6 +40,8 @@ haproxy:
+
+ {%- endif %}
+
++{%- include "neutron/agents/_vpp.sls" %}
++
+ {%- if gateway.l2gw is defined %}
+ {%- include "neutron/agents/_l2gw.sls" %}
+ {%- endif %}
+diff --git a/neutron/map.jinja b/neutron/map.jinja
+index 78e2867..902c9a0 100644
+--- a/neutron/map.jinja
++++ b/neutron/map.jinja
+@@ -12,9 +12,13 @@
+ {%- do compute_pkgs_ovn.extend(['neutron-common', 'python-networking-ovn', 'haproxy']) %}
+ {%- endif %}
+ {%- set linuxbridge_enabled = pillar.neutron.compute is defined and pillar.neutron.compute.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
++{%- set vpp_enabled = pillar.neutron.compute is defined and pillar.neutron.compute.get('backend', {}).get('mechanism', {}) == "vpp" %}
+ {%- if linuxbridge_enabled %}
+ {%- set pkgs_cmp = ['neutron-linuxbridge-agent'] %}
+ {%- set services_cmp = ['neutron-linuxbridge-agent'] %}
++{%- elif vpp_enabled %}
++{%- set pkgs_cmp = ['neutron-common', 'vpp-agent'] %}
++{%- set services_cmp = ['vpp-agent'] %}
+ {%- else %}
+ {%- set pkgs_cmp = ['neutron-openvswitch-agent', 'python-pycadf'] %}
+ {%- set services_cmp = ['neutron-openvswitch-agent'] %}
+@@ -70,11 +74,19 @@
+
+ {%- set opendaylight_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.opendaylight is defined %}
+ {%- set linuxbridge_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
++{%- set vpp_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.get('backend', {}).get('mechanism', {}) == "vpp" %}
+ {%- set pkgs_list = ['neutron-dhcp-agent', 'neutron-metadata-agent'] %}
+ {%- set services_list = ['neutron-metadata-agent', 'neutron-dhcp-agent'] %}
+ {%- if linuxbridge_enabled %}
+ {%- do pkgs_list.extend(['neutron-linuxbridge-agent', 'neutron-l3-agent']) %}
+ {%- do services_list.extend(['neutron-linuxbridge-agent', 'neutron-l3-agent']) %}
++{%- elif vpp_enabled %}
++{%- do pkgs_list.extend(['vpp-agent']) %}
++{%- do services_list.extend(['vpp-agent']) %}
++{%- if 'vpp-router' not in pillar.neutron.gateway.backend.get('router', '') %}
++{%- do pkgs_list.extend(['neutron-l3-agent']) %}
++{%- do services_list.extend(['neutron-l3-agent']) %}
++{%- endif %}
+ {%- elif not opendaylight_enabled %}
+ {%- do pkgs_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
+ {%- do services_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
+@@ -122,6 +134,10 @@
+ {%- do server_pkgs_list.append('python-networking-sfc') %}
+ {%- endif %}
+
++{%- if 'vpp' in pillar.neutron.get('server', {}).get('backend', {}).get('mechanism', []) %}
++{%- do server_pkgs_list.extend(['python-networking-vpp']) %}
++{%- endif %}
++
+ {% set server = salt['grains.filter_by']({
+     'BaseDefaults': default_params,
+     'Debian': {
