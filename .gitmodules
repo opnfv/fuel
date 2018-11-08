@@ -26,3 +26,7 @@
 	path = mcp/salt-formulas/salt-formula-redis
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/redis
 	branch = master
+[submodule "salt-formula-neutron"]
+	path = mcp/salt-formulas/salt-formula-neutron
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/neutron
+	branch = master
