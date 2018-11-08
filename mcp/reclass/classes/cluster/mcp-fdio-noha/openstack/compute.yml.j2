@@ -11,22 +11,50 @@
 ---
 classes:
   - service.neutron.compute.single
+  - system.nova.compute.nfv.hugepages
   - cluster.mcp-common-noha.openstack_compute
   - cluster.mcp-fdio-noha
 parameters:
+  neutron:
+    compute:
+      backend:
+        router: 'vpp-router'
+        tenant_network_types: "${_param:neutron_tenant_network_types}"
+        ~mechanism:
+          vpp:
+            driver: vpp
+            etcd_port: ${_param:node_port}
+            etcd_host: ${_param:node_address}
+            l3_hosts: ${_param:openstack_gateway_node01_hostname}
+        physnets:
+          physnet1:
+            vpp_interface: tap0
+          physnet2:
+            vpp_interface: GigabitEthernet0/5/0
   linux:
+    system:
+      kernel:
+        # FIXME: from idf?
+        isolcpu: 1
+        boot_options:
+          - spectre_v2=off
+          - nopti
+          - intel_iommu=on
+          - nohz_full=${linux:system:kernel:isolcpu}
+          - rcu_nocbs=${linux:system:kernel:isolcpu}
     network:
       interface:
+        dpdk0:
+          name: ${_param:dpdk0_name}
+          pci: ${_param:dpdk0_pci}
+          driver: ${_param:dpdk0_driver}
+          enabled: true
+          type: dpdk_vpp_port
+          mtu: ${_param:interface_mtu}
+        {{ nm.cmp001.nic_private }}:
+          type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
         pxe_admin_int:
           # For scenarios without public network on cmp, set admin gw
           gateway: {{ nm.net_admin_gw }}
           name_servers:
             - {{ nm.net_admin_gw }}
-        br-mesh:
-          enabled: true
-          type: bridge
-          proto: static
-          address: ${_param:tenant_address}
-          netmask: ${_param:opnfv_net_private_mask}
-          use_interfaces:
-            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}

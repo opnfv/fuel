@@ -7,6 +7,60 @@
 ##############################################################################
 ---
 classes:
-  - system.neutron.control.openvswitch.single
   - cluster.mcp-common-noha.openstack_control
   - cluster.mcp-fdio-noha
+  - system.neutron.control.single
+  - service.etcd.server.single
+  - system.galera.server.database.neutron
+# FIXME: move most of below config as reclass.sytem neutron.control.vpp.single
+parameters:
+  _param:
+    neutron_control_dvr: True
+    neutron_l3_ha: False
+    neutron_global_physnet_mtu: 1500
+    neutron_external_mtu: 1500
+    neutron_enable_qos: False
+    neutron_enable_vlan_aware_vms: False
+    neutron_enable_bgp_vpn: False
+    neutron_bgp_vpn_driver: bagpipe
+    internal_protocol: 'http'
+    openstack_node_role: primary
+  neutron:
+    server:
+      role: ${_param:openstack_node_role}
+      global_physnet_mtu: ${_param:neutron_global_physnet_mtu}
+      l3_ha: ${_param:neutron_l3_ha}
+      dvr: ${_param:neutron_control_dvr}
+      qos: ${_param:neutron_enable_qos}
+      vlan_aware_vms: ${_param:neutron_enable_vlan_aware_vms}
+      bgp_vpn:
+        enabled: ${_param:neutron_enable_bgp_vpn}
+        driver: ${_param:neutron_bgp_vpn_driver}
+      backend:
+        engine: ml2
+        router: 'vpp-router'
+        tenant_network_types: "${_param:neutron_tenant_network_types}"
+        external_mtu: ${_param:neutron_external_mtu}
+        mechanism:
+          vpp:
+            driver: vpp
+            etcd_port: ${_param:node_port}
+            etcd_host: ${_param:node_address}
+            l3_hosts: ${_param:openstack_gateway_node01_hostname}
+        physnets:
+          physnet1:
+            vpp_interface: tap0
+          physnet2:
+            # FIXME: parameterize vlan range and interface name
+            vpp_interface: GigabitEthernet0/5/0
+            vlan_range: '100:200'
+      compute:
+        region: ${_param:openstack_region}
+      database:
+        host: ${_param:openstack_database_address}
+      identity:
+        region: ${_param:openstack_region}
+        protocol: ${_param:internal_protocol}
+      message_queue:
+        members:
+          - host: ${_param:single_address}

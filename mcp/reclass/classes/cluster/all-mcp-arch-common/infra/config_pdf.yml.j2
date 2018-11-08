@@ -37,6 +37,12 @@ parameters:
       data_source:
         engine: local
       node:
+{%- if '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+        openstack_gateway_node01:
+          params:
+            dpdk0_name: {{ conf.idf.fuel.network.node[nm.ctl01.idx].interfaces[nm.idx_private] }}
+            dpdk0_pci: '"{{ conf.idf.fuel.network.node[nm.ctl01.idx].busaddr[nm.idx_private] }}"'
+{%- endif %}
         # We support per-node (not only per-role) compute configuration via IDF
 {%- for cmp in range(1, nm.cmp_nodes + 1) %}
   {%- set n = '%02d' | format(cmp) %}
@@ -61,7 +67,7 @@ parameters:
             linux_system_codename: xenial
 
   {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
-  {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
+  {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
     {%- if conf.idf.fuel.reclass is defined %}
       {%- if conf.idf.fuel.reclass.node[i].compute_params.dpdk is defined %}
         {#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}

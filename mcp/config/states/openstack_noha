@@ -41,6 +41,10 @@ salt -I 'heat:server' state.sls heat
 salt -I 'cinder:controller' state.sls cinder
 wait_for 3 "salt -I 'cinder:volume' state.sls cinder"
 
+if salt -I 'neutron:server' match.pillar 'etcd:server' \
+  --out yaml --static | grep -q -e 'true' ; then
+  salt -I 'neutron:server' state.sls etcd
+fi
 salt -I 'neutron:server' state.sls neutron
 salt -I 'neutron:compute' state.sls neutron
 

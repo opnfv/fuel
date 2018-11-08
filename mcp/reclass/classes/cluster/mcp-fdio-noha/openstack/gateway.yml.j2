@@ -7,6 +7,7 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 {%- import 'net_macros.j2' as ma with context %}
+{# FIXME: pass vlan range to fdio? #}
 {%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 ---
 classes:
@@ -14,15 +15,46 @@ classes:
   - service.neutron.gateway.single
   - cluster.mcp-fdio-noha
 parameters:
+  neutron:
+    gateway:
+      agents:
+        l3:
+          interface_driver: neutron.agent.linux.interface.BridgeInterfaceDriver
+        dhcp:
+          interface_driver: neutron.agent.linux.interface.BridgeInterfaceDriver
+      backend:
+        router: 'vpp-router'
+        tenant_network_types: "${_param:neutron_tenant_network_types}"
+        ~mechanism:
+          vpp:
+            driver: vpp
+            etcd_port: ${_param:node_port}
+            etcd_host: ${_param:node_address}
+            l3_hosts: ${_param:openstack_gateway_node01_hostname}
+        physnets:
+          physnet1:
+            vpp_interface: tap0
+          physnet2:
+            vpp_interface: GigabitEthernet0/5/0
   linux:
+    system:
+      kernel:
+        # FIXME: from idf?
+        isolcpu: 1
+        boot_options:
+          - spectre_v2=off
+          - nopti
+          - intel_iommu=on
+          - nohz_full=${linux:system:kernel:isolcpu}
+          - rcu_nocbs=${linux:system:kernel:isolcpu}
     network:
       interface:
-        br-mesh:
+        dpdk0:
+          name: ${_param:dpdk0_name}
+          pci: ${_param:dpdk0_pci}
+          # driver: ${_param:dpdk0_driver}
+          # FIXME: param from idf via config
+          driver: 'igb_uio'
           enabled: true
-          type: bridge
+          type: dpdk_vpp_port
           mtu: ${_param:interface_mtu}
-          proto: static
-          address: ${_param:tenant_address}
-          netmask: ${_param:opnfv_net_private_mask}
-          use_interfaces:
-            - {{ ma.interface_str(nm.ctl01.nic_private, vlan_private_start) }}

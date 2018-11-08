@@ -29,8 +29,19 @@ parameters:
 {%- endif %}
   linux:
     network:
+{%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
       ovs_nowait: true
       bridge: openvswitch
+{%- else %}
+      dpdk:
+        enabled: true
+        driver: "${_param:compute_dpdk_driver}"
+      vpp:
+        enabled: true
+        dpdk_socket_mem: 1024
+        main_core: ${linux:system:kernel:isolcpu}
+        gid: 'neutron'
+{%- endif %}
       interface:
         pxe_admin_int:
           enabled: true

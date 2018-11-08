@@ -15,10 +15,32 @@
 {%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 {%- do vlans.update({ vlan_private_start: nm.ctl01.nic_private }) %}
 {%- endif %}
+{%- if '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+{%- do nics.update({ nm.ctl01.nic_public: True }) %}
+{%- do vlans.update({ nm.vlan_public: nm.ctl01.nic_public }) %}
+{%- endif %}
 parameters:
   linux:
     network:
+{%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
+{%- set floating_br_type = 'ovs_bridge' %}
       bridge: openvswitch
+{%- else %}
+{%- set floating_br_type = 'bridge' %}
+      vpp:
+        enabled: true
+        dpdk_socket_mem: 1024
+        main_core: ${linux:system:kernel:isolcpu}
+        gid: 'neutron'
+        commands: |
+          create tap host-if-name vpp_ext_tap host-bridge br-floating rx-ring-size 1024 tx-ring-size 1024
+          set interface state tap0 up
+      dpdk:
+        enabled: true
+        # driver: "${_param:compute_dpdk0_driver}"
+        # FIXME: param from idf via config
+        driver: 'uio'
+{%- endif %}
       interface:
         pxe_admin_int:
           enabled: true
@@ -39,6 +61,7 @@ parameters:
 
 {{ ma.linux_network_interfaces_vlan(vlans) }}
 
+{%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
         ovs_port_{{ nm.ctl01.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
@@ -48,16 +71,17 @@ parameters:
           type: ovs_port
           ovs_bridge: br-floating
           bridge: br-floating
+{%- endif %}
         br-floating:
           enabled: true
-          type: ovs_bridge
+          type: {{ floating_br_type }}
           proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
-          use_interfaces:
-            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           noifupdown: true
         br-mgmt:
           enabled: true
