@@ -1,0 +1,266 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 27 Dec 2018 18:35:36 +0100
+Subject: [PATCH] Fix link speed for virtual PODs
+
+ethtool reports the link speed as 'unknown' for said devices.
+The only (current) consumer of this information is Fuel's new VPP
+support, which detects all these interfaces as 'Gigabit', so align
+our definitions in order to be able to dynamically construct the
+VPP interface names based on PDF (link speed) + IDF (PCI bus).
+
+While at it, add a new j2 macro helper to be used by Fuel installer.
+
+Change-Id: Id6a52bbb7b86bbe3db2a81bb91ac378c6876ffc0
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/net_macros.j2 | 8 ++++++++
+ labs/arm/virtual2.yaml               | 8 ++++----
+ labs/ericsson/virtual-pod1bl01.yaml  | 8 ++++----
+ labs/ericsson/virtual1.yaml          | 8 ++++----
+ labs/ericsson/virtual2.yaml          | 8 ++++----
+ labs/ericsson/virtual3.yaml          | 8 ++++----
+ labs/ericsson/virtual4.yaml          | 8 ++++----
+ labs/ericsson/virtual5.yaml          | 8 ++++----
+ 8 files changed, 36 insertions(+), 28 deletions(-)
+
+diff --git a/config/installers/fuel/net_macros.j2 b/config/installers/fuel/net_macros.j2
+index 7ff3166..a7cf3e5 100644
+--- a/config/installers/fuel/net_macros.j2
++++ b/config/installers/fuel/net_macros.j2
+@@ -35,3 +35,11 @@
+ {%- macro interface_str(nic, vlan = 0) -%}
+     {{ nic }}{% if vlan | int > 0 %}.{{ vlan }}{% endif %}
+ {%- endmacro -%}
++
++{%- macro vpp_interface_str(speed, pci_addr) -%}
++    {%- set p = pci_addr.replace('.', ':').split(':') -%}
++    {%- set s = 'GigabitEthernet%d/%d/%d' | format(p[-3] | int(0, 16),
++                                                   p[-2] | int(0, 16),
++                                                   p[-1] | int(0, 16)) -%}
++    {% if '40g' in speed %}Forty{% elif '10g' in speed %}Ten{% endif %}{{ s }}
++{%- endmacro -%}
+diff --git a/labs/arm/virtual2.yaml b/labs/arm/virtual2.yaml
+index 3c2b3b1..fda336c 100644
+--- a/labs/arm/virtual2.yaml
++++ b/labs/arm/virtual2.yaml
+@@ -92,22 +92,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual-pod1bl01.yaml b/labs/ericsson/virtual-pod1bl01.yaml
+index 9edebee..996a330 100644
+--- a/labs/ericsson/virtual-pod1bl01.yaml
++++ b/labs/ericsson/virtual-pod1bl01.yaml
+@@ -115,22 +115,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual1.yaml b/labs/ericsson/virtual1.yaml
+index c19d9c7..c7519bf 100644
+--- a/labs/ericsson/virtual1.yaml
++++ b/labs/ericsson/virtual1.yaml
+@@ -115,22 +115,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual2.yaml b/labs/ericsson/virtual2.yaml
+index 7298b78..ca3f42e 100644
+--- a/labs/ericsson/virtual2.yaml
++++ b/labs/ericsson/virtual2.yaml
+@@ -115,22 +115,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual3.yaml b/labs/ericsson/virtual3.yaml
+index 33f2e09..5c4f6ba 100644
+--- a/labs/ericsson/virtual3.yaml
++++ b/labs/ericsson/virtual3.yaml
+@@ -115,22 +115,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual4.yaml b/labs/ericsson/virtual4.yaml
+index cbf50f0..de6c5ee 100644
+--- a/labs/ericsson/virtual4.yaml
++++ b/labs/ericsson/virtual4.yaml
+@@ -115,22 +115,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+diff --git a/labs/ericsson/virtual5.yaml b/labs/ericsson/virtual5.yaml
+index 4826044..0a9e602 100644
+--- a/labs/ericsson/virtual5.yaml
++++ b/labs/ericsson/virtual5.yaml
+@@ -107,22 +107,22 @@ nodes:
+       address: 'qemu:///system'
+     interfaces: &interfaces
+       - name: 'nic1'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
+         vlan: native
+       - name: 'nic2'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic3'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native
+       - name: 'nic4'
+-        speed: 10gb
++        speed: 1gb
+         features: 'dpdk|sriov'
+         mac_address: "00:00:00:00:00:00"
+         vlan: native

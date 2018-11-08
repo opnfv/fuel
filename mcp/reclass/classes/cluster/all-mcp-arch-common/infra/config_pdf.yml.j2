@@ -6,6 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
 ---
 classes:
   - system.reclass.storage.salt
@@ -61,7 +62,9 @@ parameters:
             linux_system_codename: xenial
 
   {#- No partial defaults, all or nothing. Defaults tuned for lf-pod2. #}
-  {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
+  {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+    {%- set private_speed = conf.nodes[i].interfaces[nm.idx_private].speed %}
+    {%- set private_pci = conf.idf.fuel.network.node[i].busaddr[nm.idx_private] %}
     {%- if conf.idf.fuel.reclass is defined %}
       {%- if conf.idf.fuel.reclass.node[i].compute_params.dpdk is defined %}
         {#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}
@@ -84,7 +87,8 @@ parameters:
             dpdk0_n_rxq: 2
     {%- endif %}
             dpdk0_name: {{ conf.idf.fuel.network.node[i].interfaces[nm.idx_private] }}
-            dpdk0_pci: '"{{ conf.idf.fuel.network.node[i].busaddr[nm.idx_private] }}"'
+            dpdk0_pci: '"{{ private_pci }}"'
+            dpdk0_vpp: {{ ma.vpp_interface_str(private_speed, private_pci) }}
   {%- else %}
     {%- if conf.idf.fuel.reclass is defined %}
       {%- if conf.idf.fuel.reclass.node[i].compute_params.common is defined %}

@@ -6,6 +6,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
+{#- FIXME: figure out whether current DPDK behavior is OK? #}
+{%- set vlan_private = nm.vlan_private %}
+{%- if vlan_private == 'native' %}
+{%- set vlan_private = '100-200' %}
+{%- endif %}
 ---
 parameters:
   _param:
@@ -19,7 +24,7 @@ parameters:
     opnfv_net_public_pool_start: {{ nm.net_public_pool_start }}
     opnfv_net_public_pool_end: {{ nm.net_public_pool_end }}
 
-    opnfv_net_tenant_vlan: "{{ nm.vlan_private | string | replace('-', ':') }}"
+    opnfv_net_tenant_vlan: "{{ vlan_private | string | replace('-', ':') }}"
 
 {%- for network in nm.networks %}
 {%- for key in nm.hosts[network] %}

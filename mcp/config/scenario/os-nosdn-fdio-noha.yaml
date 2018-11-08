@@ -24,4 +24,35 @@ virtual:
     vcpus: 4
     ram: 14336
   gtw01:
-    ram: 2048
+    vcpus: 8
+    ram: 8192
+    cpu_topology:
+      sockets: 1
+      cores: 4
+      threads: 2
+    numa:
+      cell0:
+        memory: 8388608
+        cpus: 0-7
+  cmp001:
+    vcpus: 8
+    ram: 8192
+    cpu_topology:
+      sockets: 1
+      cores: 4
+      threads: 2
+    numa:
+      cell0:
+        memory: 8388608
+        cpus: 0-7
+  cmp002:
+    vcpus: 8
+    ram: 8192
+    cpu_topology:
+      sockets: 1
+      cores: 4
+      threads: 2
+    numa:
+      cell0:
+        memory: 8388608
+        cpus: 0-7

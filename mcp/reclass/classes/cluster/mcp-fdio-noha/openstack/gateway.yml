@@ -5,16 +5,19 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-{%- import 'net_map.j2' as nm with context %}
 ---
 classes:
-  - service.neutron.compute.single
-  - system.nova.compute.nfv.hugepages
-  - cluster.mcp-common-noha.openstack_compute
+  - cluster.mcp-common-noha.openstack_gateway
+  - service.neutron.gateway.single
   - cluster.mcp-fdio-noha
 parameters:
   neutron:
-    compute:
+    gateway:
+      agents:
+        l3:
+          interface_driver: neutron.agent.linux.interface.BridgeInterfaceDriver
+        dhcp:
+          interface_driver: neutron.agent.linux.interface.BridgeInterfaceDriver
       backend:
         router: 'vpp-router'
         tenant_network_types: "${_param:neutron_tenant_network_types}"
@@ -48,10 +51,3 @@ parameters:
           enabled: true
           type: dpdk_vpp_port
           mtu: ${_param:interface_mtu}
-        {{ nm.cmp001.nic_private }}:
-          type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
-        pxe_admin_int:
-          # For scenarios without public network on cmp, set admin gw
-          gateway: {{ nm.net_admin_gw }}
-          name_servers:
-            - {{ nm.net_admin_gw }}
