@@ -1,0 +1,135 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 10 Dec 2018 16:16:26 +0100
+Subject: [PATCH] network: Bring in basic VPP support
+
+For now, we only care about DPDK-backed VPP ports.
+
+TODO:
+- README.rst: VPP port usage
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/files/vpp_commands.txt |  4 ++++
+ linux/files/vpp_startup.conf | 44 ++++++++++++++++++++++++++++++++++++
+ linux/network/dpdk.sls       | 38 +++++++++++++++++++++++++++++++
+ 3 files changed, 86 insertions(+)
+ create mode 100644 linux/files/vpp_commands.txt
+ create mode 100644 linux/files/vpp_startup.conf
+
+diff --git a/linux/files/vpp_commands.txt b/linux/files/vpp_commands.txt
+new file mode 100644
+index 0000000..2ce4726
+--- /dev/null
++++ b/linux/files/vpp_commands.txt
+@@ -0,0 +1,4 @@
++{%- from "linux/map.jinja" import network with context %}
++{%- if network.vpp.commands is defined %}
++{{ network.vpp.commands }}
++{%- endif %}
+diff --git a/linux/files/vpp_startup.conf b/linux/files/vpp_startup.conf
+new file mode 100644
+index 0000000..d66ecd3
+--- /dev/null
++++ b/linux/files/vpp_startup.conf
+@@ -0,0 +1,44 @@
++{%- from "linux/map.jinja" import network with context %}
++unix {
++  cli-listen /run/vpp/cli.sock
++  log /var/log/vpp.log
++  full-coredump
++  nodaemon
++  startup-config /etc/vpp/commands.txt
++{%- if network.vpp.gid is defined %}
++  gid {{ network.vpp.gid }}
++{%- endif %}
++}
++api-trace {
++  on
++}
++{%- if network.vpp.gid is defined %}
++api-segment {
++  gid {{ network.vpp.gid }}
++}
++{%- endif %}
++cpu {
++{%- if network.vpp.main_core is defined %}
++  main-core {{ network.vpp.main_core }}
++{%- endif %}
++{%- if network.vpp.corelist_workers is defined %}
++  corelist-workers {{ network.vpp.corelist_workers }}
++{%- endif %}
++{%- if network.vpp.skip_core is defined %}
++  skip-core {{ network.vpp.skip_core }}
++{%- endif %}
++{%- if network.vpp.workers is defined %}
++  workers {{ network.vpp.workers }}
++{%- endif %}
++}
++dpdk {
++{%- if network.vpp.dpdk_socket_mem is defined %}
++  socket-mem {{ network.vpp.dpdk_socket_mem }}
++{%- endif %}
++  ## Whitelist specific interface by specifying PCI address
++{%- for interface_name, interface in network.interface.items() %}
++{%- if 'dpdk_vpp_port' in interface.type and interface.pci is defined %}
++  dev {{ interface.pci }}
++{%- endif %}
++{%- endfor %}
++}
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 786f7c8..09453c6 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -32,6 +32,44 @@ linux_network_dpdk_service:
+   - watch:
+     - file: /etc/dpdk/interfaces
+
++{%- if network.vpp is defined %}
++
++vpp_pkgs:
++  pkg.installed:
++  - pkgs:
++    - vpp
++    - vpp-plugins
++    - bridge-utils
++
++/etc/vpp/commands.txt:
++  file.managed:
++    - source: salt://linux/files/vpp_commands.txt
++    - template: jinja
++    - require:
++      - pkg: vpp_pkgs
++
++/etc/vpp/startup.conf:
++  file.managed:
++    - source: salt://linux/files/vpp_startup.conf
++    - template: jinja
++    - require:
++      - pkg: vpp_pkgs
++
++/etc/sysctl.d/80-vpp.conf:
++  file.managed:
++    - contents:
++      - '# Disabled by salt-formula-linux'
++
++linux_network_vpp_service:
++  service.running:
++  - enable: true
++  - name: vpp
++  - watch:
++    - file: /etc/vpp/startup.conf
++    - file: /etc/vpp/commands.txt
++
++{%- endif %}
++
+ {%- if network.openvswitch is defined %}
+
+ openvswitch_dpdk_pkgs:

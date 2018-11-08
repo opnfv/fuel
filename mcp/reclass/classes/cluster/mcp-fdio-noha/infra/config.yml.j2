@@ -1,0 +1,57 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Until SDF is implemented, hardcode gtw01 node index in IDF as ctl01 +1 #}
+{%- set gi = nm.ctl01.idx + 1 %}
+---
+classes:
+  - system.reclass.storage.system.openstack_gateway_single
+  - cluster.mcp-common-noha.infra.config
+  - cluster.mcp-fdio-noha
+  - cluster.all-mcp-arch-common.infra.config_pdf
+parameters:
+  reclass:
+    storage:
+      node:
+        openstack_gateway_node01:
+          params:
+            tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+            external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
+            pxe_admin_address: ${_param:opnfv_openstack_gateway_node01_pxe_admin_address}
+{%- if '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+{%- set private_speed = conf.nodes[gi].interfaces[nm.idx_private].speed %}
+{%- set private_pci = conf.idf.fuel.network.node[gi].busaddr[nm.idx_private] %}
+            # We reuse compute-specific configuration from IDF, so we don't have
+            # to rework everything in both Pharos and Fuel
+            # However, OVS-related configuration is unused and only DPDK is relevant
+    {%- if conf.idf.fuel.reclass is defined %}
+      {%- if conf.idf.fuel.reclass.node[gi].compute_params.dpdk is defined %}
+        {#- Can't dump json here due to dpdk0_* below, explicitly create yaml #}
+        {%- set _dpdk = conf.idf.fuel.reclass.node[gi].compute_params.dpdk %}
+        {%- for _i in _dpdk %}
+            {{ _i }}: '"{{ _dpdk[_i] }}"'
+        {%- endfor %}
+      {%- endif %}
+    {%- else %}
+            compute_hugepages_size: 2M
+            compute_hugepages_count: 8192
+            compute_hugepages_mount: /mnt/hugepages_2M
+            compute_kernel_isolcpu: 2,3,10,11
+            compute_dpdk_driver: uio
+            compute_ovs_pmd_cpu_mask: '"0xc04"'
+            compute_ovs_dpdk_socket_mem: '"2048,2048"'
+            compute_ovs_dpdk_lcore_mask: '"0x8"'
+            compute_ovs_memory_channels: '"2"'
+            dpdk0_driver: igb_uio
+            dpdk0_n_rxq: 2
+    {%- endif %}
+            dpdk0_name: {{ conf.idf.fuel.network.node[gi].interfaces[nm.idx_private] }}
+            dpdk0_pci: '"{{ conf.idf.fuel.network.node[gi].busaddr[nm.idx_private] }}"'
+            dpdk0_vpp: {{ ma.vpp_interface_str(private_speed, private_pci) }}
+{%- endif %}
