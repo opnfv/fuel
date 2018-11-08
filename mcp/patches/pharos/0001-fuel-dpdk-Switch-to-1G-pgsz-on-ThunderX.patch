@@ -1,0 +1,138 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 29 Dec 2018 19:28:47 +0100
+Subject: [PATCH] fuel, dpdk: Switch to 1G pgsz on ThunderX
+
+VPP requires 1G pagesizes on ThunderX nodes, so switch from 2M to 1G
+when DPDK is used.
+
+While at it, extend the Fuel j2 macro to accomodate different naming
+of virtual function network devices based on the driver used (vfio).
+
+Change-Id: Ic29ce04867955282b6f988ed69a44b316ffdc994
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/net_macros.j2 | 14 +++++++++-----
+ labs/arm/idf-pod10.yaml              |  6 +++---
+ labs/arm/idf-pod6.yaml               |  6 +++---
+ labs/arm/idf-pod7.yaml               |  6 +++---
+ labs/arm/idf-pod8.yaml               |  6 +++---
+ labs/arm/idf-pod9.yaml               |  6 +++---
+ 6 files changed, 24 insertions(+), 20 deletions(-)
+
+diff --git a/config/installers/fuel/net_macros.j2 b/config/installers/fuel/net_macros.j2
+index a7cf3e5..ad26a79 100644
+--- a/config/installers/fuel/net_macros.j2
++++ b/config/installers/fuel/net_macros.j2
+@@ -36,10 +36,14 @@
+     {{ nic }}{% if vlan | int > 0 %}.{{ vlan }}{% endif %}
+ {%- endmacro -%}
+
+-{%- macro vpp_interface_str(speed, pci_addr) -%}
++{%- macro vpp_interface_str(speed, pci_addr, driver = '') -%}
+     {%- set p = pci_addr.replace('.', ':').split(':') -%}
+-    {%- set s = 'GigabitEthernet%d/%d/%d' | format(p[-3] | int(0, 16),
+-                                                   p[-2] | int(0, 16),
+-                                                   p[-1] | int(0, 16)) -%}
+-    {% if '40g' in speed %}Forty{% elif '10g' in speed %}Ten{% endif %}{{ s }}
++    {%- set s = 'Ethernet%d/%d/%d' | format(p[-3] | int(0, 16),
++                                            p[-2] | int(0, 16),
++                                            p[-1] | int(0, 16)) -%}
++    {%- if 'vfio' in driver -%}
++    VirtualFunction{{ s }}
++    {%- else -%}
++    {% if '40g' in speed %}Forty{% elif '10g' in speed %}Ten{% endif %}Gigabit{{ s }}
++    {%- endif -%}
+ {%- endmacro -%}
+diff --git a/labs/arm/idf-pod10.yaml b/labs/arm/idf-pod10.yaml
+index 836f2da..a073515 100644
+--- a/labs/arm/idf-pod10.yaml
++++ b/labs/arm/idf-pod10.yaml
+@@ -142,9 +142,9 @@ idf:
+               compute_kernel_isolcpu: *nova_cpu_pinning_common_arm
+             dpdk:
+               nova_cpu_pinning: "12-47"
+-              compute_hugepages_size: 2M
+-              compute_hugepages_count: 8192
+-              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
+               compute_kernel_isolcpu: *nova_cpu_pinning_common_arm
+               compute_dpdk_driver: vfio
+               compute_ovs_pmd_cpu_mask: "0x300"
+diff --git a/labs/arm/idf-pod6.yaml b/labs/arm/idf-pod6.yaml
+index e07c2ea..6d6c9c3 100644
+--- a/labs/arm/idf-pod6.yaml
++++ b/labs/arm/idf-pod6.yaml
+@@ -98,9 +98,9 @@ idf:
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+             dpdk:
+               nova_cpu_pinning: "12-47"
+-              compute_hugepages_size: 2M
+-              compute_hugepages_count: 8192
+-              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+               compute_dpdk_driver: vfio
+               compute_ovs_pmd_cpu_mask: "0x300"
+diff --git a/labs/arm/idf-pod7.yaml b/labs/arm/idf-pod7.yaml
+index d21fd87..2cc681b 100644
+--- a/labs/arm/idf-pod7.yaml
++++ b/labs/arm/idf-pod7.yaml
+@@ -100,9 +100,9 @@ idf:
+               compute_kernel_isolcpu: *nova_cpu_pinning_common_a
+             dpdk:
+               nova_cpu_pinning: "4-47"
+-              compute_hugepages_size: 2M
+-              compute_hugepages_count: 8192
+-              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
+               compute_kernel_isolcpu: *nova_cpu_pinning_common_a
+               compute_dpdk_driver: vfio
+               compute_ovs_pmd_cpu_mask: "0xc"
+diff --git a/labs/arm/idf-pod8.yaml b/labs/arm/idf-pod8.yaml
+index 2b0146a..f5ef724 100644
+--- a/labs/arm/idf-pod8.yaml
++++ b/labs/arm/idf-pod8.yaml
+@@ -96,9 +96,9 @@ idf:
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+             dpdk:
+               nova_cpu_pinning: "12-47"
+-              compute_hugepages_size: 2M
+-              compute_hugepages_count: 8192
+-              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+               compute_dpdk_driver: vfio
+               compute_ovs_pmd_cpu_mask: "0x300"
+diff --git a/labs/arm/idf-pod9.yaml b/labs/arm/idf-pod9.yaml
+index 27ae3cd..b6252d3 100644
+--- a/labs/arm/idf-pod9.yaml
++++ b/labs/arm/idf-pod9.yaml
+@@ -100,9 +100,9 @@ idf:
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+             dpdk:
+               nova_cpu_pinning: "12-47"
+-              compute_hugepages_size: 2M
+-              compute_hugepages_count: 8192
+-              compute_hugepages_mount: /mnt/hugepages_2M
++              compute_hugepages_size: 1G
++              compute_hugepages_count: 16
++              compute_hugepages_mount: /mnt/hugepages_1G
+               compute_kernel_isolcpu: *nova_cpu_pinning_common
+               compute_dpdk_driver: vfio
+               compute_ovs_pmd_cpu_mask: "0x300"

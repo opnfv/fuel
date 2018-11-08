@@ -17,8 +17,9 @@ mcp-*-ha/infra/init_vcp.yml
 mcp-odl-ha/infra/maas.yml
 mcp-odl-*/opendaylight/control.yml
 mcp-odl-ha/openstack/init.yml
-mcp-odl-noha/infra/config.yml
+mcp-odl-*/infra/config.yml
 mcp-*-noha/openstack/compute.yml
 mcp-common-noha/infra/init.yml
 mcp-common-noha/init_options.yml
 mcp-*-noha/openstack/gateway.yml
+mcp-fdio-noha/infra/config.yml

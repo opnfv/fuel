@@ -8,6 +8,13 @@
 ---
 classes:
   - cluster.mcp-common-noha.openstack_init
+  - cluster.all-mcp-arch-common.fdio_repo
 parameters:
   _param:
-    neutron_tenant_network_types: "flat,vxlan"
+    openstack_gateway_node01_hostname: 'gtw01'
+    neutron_tenant_network_types: "flat,vlan"
+    etcd_initial_token: ${_param:opnfv_main_password}
+    node_address: ${_param:cluster_node01_address}
+    node_hostname: ${_param:cluster_node01_hostname}
+    node_port: 4001
+    external_vpp_tap: 'tap0'
