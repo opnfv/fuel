@@ -8,6 +8,7 @@
 ---
 classes:
   - cluster.mcp-common-ha.openstack_init
+  - cluster.all-mcp-arch-common.fdio_repo
 parameters:
   _param:
     neutron_tenant_network_types: "flat,vxlan"
