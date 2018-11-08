@@ -11,14 +11,34 @@
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.ctl01.nic_mgmt: True, nm.ctl01.nic_private: True } %}
 {%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt } %}
-{%- if '-ovs-' not in conf.MCP_DEPLOY_SCENARIO %}
+{%- if '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+{%- do nics.update({ nm.ctl01.nic_public: True }) %}
+{%- do vlans.update({ nm.vlan_public: nm.ctl01.nic_public }) %}
+{%- elif '-ovs-' not in conf.MCP_DEPLOY_SCENARIO %}
 {%- set vlan_private_start = (nm.vlan_private | string).rsplit('-')[0] %}
 {%- do vlans.update({ vlan_private_start: nm.ctl01.nic_private }) %}
 {%- endif %}
 parameters:
   linux:
     network:
+{%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
+{%- set floating_br_type = 'ovs_bridge' %}
       bridge: openvswitch
+{%- else %}
+{%- set floating_br_type = 'bridge' %}
+      vpp:
+        enabled: true
+        # Reuse ovs-dpdk socket mem configuration from IDF
+        dpdk_socket_mem: ${_param:compute_ovs_dpdk_socket_mem}
+        main_core: ${linux:system:kernel:isolcpu}
+        gid: 'neutron'
+        commands: |
+          create tap host-if-name vpp_ext_tap host-bridge br-floating rx-ring-size 1024 tx-ring-size 1024
+          set interface state ${_param:external_vpp_tap} up
+      dpdk:
+        enabled: true
+        driver: "${_param:compute_dpdk_driver}"
+{%- endif %}
       interface:
         pxe_admin_int:
           enabled: true
@@ -39,6 +59,7 @@ parameters:
 
 {{ ma.linux_network_interfaces_vlan(vlans) }}
 
+{%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
         ovs_port_{{ nm.ctl01.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
@@ -48,16 +69,17 @@ parameters:
           type: ovs_port
           ovs_bridge: br-floating
           bridge: br-floating
+{%- endif %}
         br-floating:
           enabled: true
-          type: ovs_bridge
+          type: {{ floating_br_type }}
           proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
-          use_interfaces:
-            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           noifupdown: true
         br-mgmt:
           enabled: true
