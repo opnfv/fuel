@@ -27,7 +27,7 @@ salt -C "${cluster_nodes_query}" file.replace $debian_ip_source \
   repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
 
 salt -C "${cluster_nodes_query}" pkg.install bridge-utils
-salt -C "${control_nodes_query}" state.apply linux.network,linux.system.kernel
+salt -C "${control_nodes_query}" state.apply linux.system.repo,linux.network,linux.system.kernel
 wait_for 5.0 "salt -C '${cluster_nodes_query}' state.apply salt.minion"
 wait_for 5.0 "salt -C '${compute_nodes_query}' state.apply linux.system,linux.network"
 wait_for 30.0 "salt -C '${cluster_nodes_query}' test.ping"

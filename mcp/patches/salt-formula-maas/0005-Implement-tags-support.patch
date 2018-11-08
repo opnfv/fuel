@@ -18,7 +18,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
  3 files changed, 39 insertions(+)
 
 diff --git a/README.rst b/README.rst
-index 78d8aef..8c35458 100644
+index 88d3358..6f5563f 100644
 --- a/README.rst
 +++ b/README.rst
 @@ -181,6 +181,11 @@ Single MAAS region service [single UI/API]:
@@ -34,7 +34,7 @@ index 78d8aef..8c35458 100644
          # domain: mydomain.local # This function broken
          http_proxy: http://192.168.0.10:3142
 diff --git a/_modules/maas.py b/_modules/maas.py
-index 28e46c5..f56ed34 100644
+index c02f104..ef7511e 100644
 --- a/_modules/maas.py
 +++ b/_modules/maas.py
 @@ -876,6 +876,28 @@ class Domain(MaasObject):
@@ -66,7 +66,7 @@ index 28e46c5..f56ed34 100644
  class MachinesStatus(MaasObject):
      @classmethod
      def execute(cls, objects_name=None):
-@@ -1064,5 +1086,9 @@ def process_sshprefs():
+@@ -1025,5 +1047,9 @@ def process_sshprefs():
      return SSHPrefs().process()
 
 
@@ -77,10 +77,10 @@ index 28e46c5..f56ed34 100644
  def wait_for_machine_status(**kwargs):
      return MachinesStatus.wait_for_machine_status(**kwargs)
 diff --git a/maas/region.sls b/maas/region.sls
-index 4a7f6cc..52fb952 100644
+index 5da3a7f..0b47fe4 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -444,4 +444,12 @@ maas_sshkey_{{ idx }}:
+@@ -442,4 +442,12 @@ maas_sshkey_{{ idx }}:
  {% endfor %}
  {%- endif %}
 
