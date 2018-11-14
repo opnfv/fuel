@@ -40,6 +40,8 @@ parameters:
         boot_options:
           - spectre_v2=off
           - nopti
+        sysctl:
+          net.ipv4.ip_forward: 0
   libvirt:
     server:
       service: libvirtd
