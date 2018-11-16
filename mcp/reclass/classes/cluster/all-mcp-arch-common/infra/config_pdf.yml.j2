@@ -53,6 +53,7 @@ parameters:
             - cluster.${_param:cluster_name}.openstack.compute
           params:
             pxe_admin_address: {{ nm.net_admin | ipnet_hostaddr(admin) }}
+            pxe_admin_interface: {{ conf.idf.fuel.network.node[i].interfaces[nm.idx_admin] }}
             single_address: {{ nm.net_mgmt | ipnet_hostaddr(mgmt) }}
             tenant_address: {{ nm.net_private | ipnet_hostaddr(pri) }}
             external_address: {{ nm.net_public | ipnet_hostaddr(pub) }}

@@ -34,7 +34,7 @@ parameters:
       interface:
         pxe_admin_int:
           enabled: true
-          name: {{ nm.cmp001.nic_admin }}
+          name: ${_param:pxe_admin_interface}
           proto: static
           type: eth
           address: ${_param:pxe_admin_address}
