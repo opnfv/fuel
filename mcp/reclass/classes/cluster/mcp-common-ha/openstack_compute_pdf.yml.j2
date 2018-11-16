@@ -14,6 +14,7 @@
 ---
 parameters:
   _param:
+    pxe_admin_interface: {{ nm.cmp001.nic_admin }}
     # Should later be determined via PDF/IDF, AArch64 has ESP on /dev/sda1
 {%- if conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
     ~cinder_lvm_devices: ['/dev/vdb']
@@ -30,7 +31,7 @@ parameters:
         # PXE/admin is always untagged on computes
         pxe_admin_int:
           enabled: true
-          name: {{ nm.cmp001.nic_admin }}
+          name: ${_param:pxe_admin_interface}
           proto: static
           type: eth
           address: ${_param:pxe_admin_address}

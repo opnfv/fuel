@@ -828,6 +828,10 @@ The following parameters are currently supported:
 +---------------------------------+-------------------------------------------+
 | ``dpdk0_n_rxq``                 | Number of ``RX`` queues.                  |
 +---------------------------------+-------------------------------------------+
+| ``pxe_admin_interface``         | Network interface name override, useful   |
+|                                 | for clusters with non-identical compute   |
+|                                 | network configuration.                    |
++---------------------------------+-------------------------------------------+
 
 Sample ``compute_params`` configuration block (for a single node):
 
