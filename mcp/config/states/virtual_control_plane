@@ -34,7 +34,7 @@ fi
 wait_for 5.0 "salt -C 'kvm*' state.sls libvirt"
 
 salt -C 'kvm* or cmp*' state.apply salt
-wait_for 10.0 "salt -C 'kvm*' state.sls salt.control"
+wait_for 10.0 "salt -C 'kvm*' state.sls salt.control,linux.system.kernel"
 
 vcp_nodes=$(salt --out yaml 'kvm01*' pillar.get salt:control:cluster:internal:node | \
             awk '/\s+\w+[[:digit:]]+:$/ {gsub(/:$/, "*"); printf "%s ", $1}')
