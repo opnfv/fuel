@@ -21,14 +21,22 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- DockerMake.yml | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ DockerMake.yml | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..13813a2 100644
+index 2c75586..eb06cbd 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
-@@ -94,7 +94,7 @@ salt-formulas:
+@@ -29,6 +29,7 @@ common-cleanup:
+
+ common:
+   build: |
++    ARG CACHE_INVALIDATE="0"
+     RUN echo "Layer with common packages" \
+       && eval ${LAYER_PKGUPDT} \
+       && apt-get upgrade -qy \
+@@ -94,7 +95,7 @@ salt-formulas:
    build: |
      ARG SALT_FORMULA_VERSION="master"
      ENV SALT_FORMULA_VERSION $SALT_FORMULA_VERSION
@@ -37,14 +45,7 @@ index 2c75586..13813a2 100644
      ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
      ARG SALT_FORMULAS_BASE="/srv/salt/formula"
      ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
-@@ -102,12 +102,46 @@ salt-formulas:
-     ENV SALT_ENV_PATH_ $SALT_ENV_PATH_
-     ARG RECLASS_BASE="/srv/salt/reclass"
-     ENV RECLASS_BASE $RECLASS_BASE
--    RUN echo "Layer python/salt module prerequisites, formulas" \
-+    RUN echo "Layer python/salt module prerequisites, formulas (09 Nov 2018)" \
-       && mkdir -p /srv/salt \
-       && curl -sSqL https://raw.githubusercontent.com/salt-formulas/salt-formulas-scripts/master/formula-fetch.sh -o /srv/salt/formula-fetch.sh \
+@@ -108,6 +109,40 @@ salt-formulas:
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
        && eval ${LAYER_CLEANUP}
 
