@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_6be91c1a",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn-noha/os-odl-bgpvpn-noha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-11-23T14:27:26Z",
+      "side": 1,
+      "message": "should be Rocky for next release",
+      "range": {
+        "startLine": 11,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "99e00459e79f8e320bd52278356db2b3f6cb83ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
