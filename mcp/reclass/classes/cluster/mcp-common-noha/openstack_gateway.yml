@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.openstack
+  - system.linux.system.repo.mcp.mirror.v1.openstack
   - cluster.mcp-common-noha.openstack_gateway_pdf
 parameters:
   _param:
