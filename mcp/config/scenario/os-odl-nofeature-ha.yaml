@@ -12,7 +12,6 @@ cluster:
     - opendaylight
     - openstack_ha
     - networks
-    - sqlalchemy_update
 virtual:
   nodes:
     control:

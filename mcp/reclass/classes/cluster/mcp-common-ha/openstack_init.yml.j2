@@ -7,8 +7,6 @@
 ##############################################################################
 {%- import 'net_map.j2' as nm with context %}
 ---
-classes:
-  - cluster.all-mcp-arch-common.uca_repo
 parameters:
   _param:
     # openstack service addresses
@@ -197,13 +195,8 @@ parameters:
     # billometer_identity_token: ${_param:keystone_service_token}
   linux:
     system:
-      repo:
-        uca:
-          pin:
-            - pin: 'release o=Canonical'
-              priority: 1200
-              package: 'libvirt* qemu* openvswitch* python-openvswitch ovn* dpdk* libdpdk*'
 {%- if 'aarch64' in nm.cluster.arch %}
+      repo:
         armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
           source: "deb http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename} ${_param:openstack_version}-armband main"
           key: ${_param:armband_key}

@@ -14,7 +14,6 @@ cluster:
     - neutron_gateway
     - tacker
     - networks
-    - sqlalchemy_update
 virtual:
   nodes:
     control:
