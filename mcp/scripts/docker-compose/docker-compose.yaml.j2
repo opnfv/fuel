@@ -62,4 +62,4 @@ networks:
     ipam:
       config:
         - subnet: {{ nm.net_mgmt }}
-          ip_range: {{ [nm.net_mgmt | ipnet_hostaddr(2), nm.net_mgmt.split("/")[-1]] | join("/") }}
+          ip_range: {{ [nm.net_mgmt | ipnet_hostaddr(nm.start_ip[nm.net_mgmt] + nm.net_mgmt_hosts.index('opnfv_infra_config_address') +1), nm.net_mgmt.split("/")[-1]] | join("/") }}
