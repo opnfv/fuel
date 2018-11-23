@@ -14,8 +14,8 @@ classes:
 parameters:
   _param:
     opendaylight_version: fluorine
+    cluster_vip_address: ${_param:opendaylight_service_host}
     keepalived_vip_virtual_router_id: 199
-    keepalived_vip_address: ${_param:opendaylight_service_host}
     keepalived_vip_password: ${_param:opnfv_main_password}
     keepalived_vip_interface: ${_param:single_nic}
     haproxy_odl_api_check_params: check inter 20s fastinter 2s
