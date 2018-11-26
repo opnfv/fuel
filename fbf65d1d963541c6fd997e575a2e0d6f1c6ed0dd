@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_61d3fd38",
+        "filename": "mcp/salt-formulas/salt-formula-opendaylight/metadata/service/server/cluster.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-11-26T11:27:00Z",
+      "side": 1,
+      "message": "This line should be removed. The above define is enough.",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 57
+      },
+      "revId": "fbf65d1d963541c6fd997e575a2e0d6f1c6ed0dd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
