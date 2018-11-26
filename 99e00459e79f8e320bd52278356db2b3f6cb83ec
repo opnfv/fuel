@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_a10fd5e0",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn-noha/os-odl-bgpvpn-noha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-11-26T10:50:47Z",
+      "side": 1,
+      "message": "Discussing this issue with Sofia Wallin before Gambia 7.0 we resulted that this could be part of Gambia 7.1 or 7.2.\nIt has been also stated at https://wiki.opnfv.org/display/SWREL/Gambia+Scenario+Status.",
+      "parentUuid": "1a622d24_8b463822",
+      "range": {
+        "startLine": 5,
+        "startChar": 49,
+        "endLine": 5,
+        "endChar": 60
+      },
+      "revId": "99e00459e79f8e320bd52278356db2b3f6cb83ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_6be91c1a",
         "filename": "docs/release/scenarios/os-odl-bgpvpn-noha/os-odl-bgpvpn-noha.rst",
         "patchSetId": 1
