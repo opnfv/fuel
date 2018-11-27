@@ -32,12 +32,14 @@ DEPLOY_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/scripts"; pwd)
 DOCKER_DIR=$(cd "${MCP_REPO_ROOT_PATH}/docker"; pwd)
 DOCKER_TAG=${1:-latest}
 DOCKER_PUSH=${2---push}  # pass an empty second arg to disable push
+CACHE_INVALIDATE=${CACHE_INVALIDATE:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
 source "${DEPLOY_DIR}/lib_jump_common.sh"
 
 [ ! "${TERM:-unknown}" = 'unknown' ] || export TERM=vt220
+[ "${CACHE_INVALIDATE}" = 0 ] || CACHE_INVALIDATE=$(date +%s)
 
 #
 # END of variables to customize
@@ -69,11 +71,10 @@ docker_install
 popd > /dev/null
 pushd "${DOCKER_DIR}" > /dev/null
 
-python -m pipenv --two
-env VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install
-env VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
+env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv --two install
+env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
 # shellcheck disable=SC2086
-python -m pipenv run \
+env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
   invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
@@ -81,6 +82,8 @@ python -m pipenv run \
     --formula-rev=nightly \
     --opnfv-tag="${DOCKER_TAG}" \
     --salt='stable 2017.7' \
+    --build-arg-extra " \
+        CACHE_INVALIDATE=\"${CACHE_INVALIDATE}\"" \
     ${DOCKER_PUSH}
 
 popd > /dev/null
