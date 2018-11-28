@@ -412,7 +412,7 @@ function prepare_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
   [ -n "${MCP_REPO_ROOT_PATH}" ] || exit 1
-  docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
+  [ ! -e "${image_dir}/docker-compose" ] || COMPOSE_PREFIX="${image_dir}/"
 
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
   if [[ ! "${MCP_DOCKER_TAG}" =~ 'verify' ]]; then
@@ -426,7 +426,7 @@ function prepare_containers {
 function start_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
-  docker-compose --version > /dev/null 2>&1 || COMPOSE_PREFIX="${image_dir}/"
+  [ ! -e "${image_dir}/docker-compose" ] || COMPOSE_PREFIX="${image_dir}/"
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml up -d
 }
 
