@@ -15,9 +15,12 @@ services:
     container_name: "fuel"
     image: "opnfv/fuel:saltmaster-reclass-{{ conf.MCP_DOCKER_TAG }}"
     networks:
-      - mcpcontrol
-      - pxebr
-      - mgmt
+      mcpcontrol:
+        ipv4_address: {{ conf.SALT_MASTER }}
+      pxebr:
+        ipv4_address: {{ nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_config_pxe_admin_address') +1) }}
+      mgmt:
+        ipv4_address: {{ nm.net_mgmt | ipnet_hostaddr(nm.start_ip[nm.net_mgmt] + nm.net_mgmt_hosts.index('opnfv_infra_config_address') +1) }}
     volumes:
        - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
        - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel
@@ -42,7 +45,6 @@ networks:
       config:
         - subnet: {{ net_mcpcontrol }}
           gateway: {{ net_mcpcontrol | ipnet_hostaddr(1) }}
-          ip_range: {{ [conf.SALT_MASTER, conf.MCPCONTROL_PREFIX] | join("/") }}
   pxebr:
     driver: macvlan
     driver_opts:
@@ -50,7 +52,6 @@ networks:
     ipam:
       config:
         - subnet: {{ nm.net_admin }}
-          ip_range: {{ [nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_config_pxe_admin_address') +1), nm.net_admin.split("/")[-1]] | join("/") }}
   mgmt:
     driver: macvlan
     driver_opts:
@@ -62,4 +63,3 @@ networks:
     ipam:
       config:
         - subnet: {{ nm.net_mgmt }}
-          ip_range: {{ [nm.net_mgmt | ipnet_hostaddr(nm.start_ip[nm.net_mgmt] + nm.net_mgmt_hosts.index('opnfv_infra_config_address') +1), nm.net_mgmt.split("/")[-1]] | join("/") }}

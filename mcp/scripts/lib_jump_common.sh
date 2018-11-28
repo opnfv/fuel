@@ -114,7 +114,9 @@ function docker_install {
     fi
   fi
   # Distro-provided docker-compose might be simply broken (Ubuntu 16.04, CentOS 7)
-  if ! docker-compose --version > /dev/null 2>&1; then
+  if ! docker-compose --version > /dev/null 2>&1 || \
+      [ "$(docker-compose version --short | tr -d '.')" -lt 1220 ] && \
+      [ "$(uname -m)" = 'x86_64' ]; then
     COMPOSE_BIN="${image_dir}/docker-compose"
     COMPOSE_VERSION='1.22.0'
     notify_n "[WARN] Using docker-compose ${COMPOSE_VERSION} in ${COMPOSE_BIN}" 3
