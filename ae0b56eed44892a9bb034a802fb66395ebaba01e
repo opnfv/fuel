@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_2bc55f5b",
+        "filename": "mcp/scripts/docker-compose/docker-compose.yaml.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-11-28T17:32:47Z",
+      "side": 1,
+      "message": "Not exactly sure why (docker is always a mystery), but if the networks were previously created and cfg01 got 172.16.10.2, even after [1] is applied, Docker will not pick up the new IP, although `docker network inspect` looks as expected ...\nApplying the configuration using ipv4_address per service seems to do the trick and it\u0027s also cleaner.\n\n[1] https://gerrit.opnfv.org/gerrit/#/c/65293/",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "ae0b56eed44892a9bb034a802fb66395ebaba01e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_6ba637c3",
+        "filename": "mcp/scripts/lib_jump_common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-11-28T17:32:47Z",
+      "side": 1,
+      "message": "docker-compose on Ubuntu Xenial is 1.8 (from 2016), which is why creating our macvlan networks takes ~20s per network.\nUsing a newer docker-compose makes the network creation instant.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 72
+      },
+      "revId": "ae0b56eed44892a9bb034a802fb66395ebaba01e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
