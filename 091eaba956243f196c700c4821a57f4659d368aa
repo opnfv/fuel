@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_aeecddc8",
+        "filename": "mcp/scripts/lib_jump_common.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-11-29T18:08:11Z",
+      "side": 1,
+      "message": "docker-compose releases only contain x86 binaries ... on aarch64 we\u0027ll have to stick to the distro packages",
+      "range": {
+        "startLine": 119,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 31
+      },
+      "revId": "091eaba956243f196c700c4821a57f4659d368aa",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
