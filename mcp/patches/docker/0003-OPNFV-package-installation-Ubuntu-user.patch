@@ -21,11 +21,11 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- DockerMake.yml | 37 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+ DockerMake.yml | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..eb06cbd 100644
+index 2c75586..9ab7195 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -29,6 +29,7 @@ common-cleanup:
@@ -45,7 +45,7 @@ index 2c75586..eb06cbd 100644
      ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
      ARG SALT_FORMULAS_BASE="/srv/salt/formula"
      ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
-@@ -108,6 +109,40 @@ salt-formulas:
+@@ -108,6 +109,41 @@ salt-formulas:
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
        && eval ${LAYER_CLEANUP}
 
@@ -72,6 +72,7 @@ index 2c75586..eb06cbd 100644
 +           kmod \
 +           net-tools \
 +           openssh-server \
++           python-futures \
 +           python-m2crypto \
 +           python-msgpack \
 +           python-netaddr \
