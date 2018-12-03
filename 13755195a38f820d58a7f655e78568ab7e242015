@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_998849e9",
+        "filename": "mcp/config/states/onap",
+        "patchSetId": 50
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-03T14:53:51Z",
+      "side": 1,
+      "message": "It\u0027s nice to use Salt for all the things we do in this state, but considering the script run might take hours, I think interactive output would be really useful here.\nThat being said, we could use ssh instead of Salt, something like:\n$ ssh -i /root/fuel/mcp/scripts/mcp.rsa ubuntu@ctl01 \". /root/keystonercv3; [ ... ]\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "13755195a38f820d58a7f655e78568ab7e242015",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
