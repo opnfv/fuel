@@ -70,6 +70,30 @@
       "revId": "13755195a38f820d58a7f655e78568ab7e242015",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_f4c34488",
+        "filename": "mcp/config/states/onap",
+        "patchSetId": 50
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-04T10:29:13Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve seen your comment after I\u0027ve already prepared, tested and uploaded a new version with ctl*01 name detection. It should be more generic and inline with the rest of the script. Hopefully it\u0027s ok.",
+      "parentUuid": "1a622d24_f4dce476",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 63
+      },
+      "revId": "13755195a38f820d58a7f655e78568ab7e242015",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
