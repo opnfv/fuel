@@ -1,0 +1,65 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2018 Tieto
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+# Deploy ONAP on top of OPNFV installed by Fuel/MCP
+# ONAP installation is managed by OPNFV Auto project
+
+AUTO_INSTALL_DIR=/opt/auto
+AUTO_REPO='https://gerrit.opnfv.org/gerrit/auto'
+ONAP_INSTALL_SCRIPT='ci/deploy-onap-fuel.sh'
+
+echo "Clone Auto Repo"
+salt -C 'I@nova:controller and *01*' cmd.run "\
+    rm -rf $AUTO_INSTALL_DIR; \
+    git clone $AUTO_REPO $AUTO_INSTALL_DIR"
+
+echo "ONAP installation starts at $(date)"
+echo "It can take several hours to finish."
+
+# detect compute HW configuration, i.e. minimal values available across
+# all compute nodes
+CMP_COUNT=$(salt -C 'I@nova:compute' grains.get id --out txt | wc -l)
+CMP_MIN_MEM=$(salt -C 'I@nova:compute' grains.get mem_total --out txt  |\
+    sed -re 's/^[^:]+: ([0-9]+)$/\1/g' | sort -n | head -n1)
+CMP_MIN_CPUS=$(salt -C 'I@nova:compute' grains.get num_cpus --out txt  |\
+    sed -re 's/^[^:]+: ([0-9]+)$/\1/g' | sort -n | head -n1)
+# check disk size for storage of instances; if shared storage is mounted,
+# then return its size, otherwise sum up avalable space of root disk of all
+# compute nodes
+STORAGE_PATH='/var/lib/nova/instances'
+MOUNT_COUNT=$(salt "cmp*" mount.is_mounted $STORAGE_PATH --out txt |\
+    grep True | wc -l)
+if [ $MOUNT_COUNT -eq $CMP_COUNT ] ; then
+    CMP_STORAGE_TOTAL=$(salt "cmp*" cmd.run "df -BGB $STORAGE_PATH" --out txt |\
+        grep "$STORAGE_PATH" |\
+        sed -re 's/^.* +([0-9]+)GB +([0-9]+GB +){2}.*$/\1/g' |\
+        sort -n | head -n1)
+else
+    CMP_STORAGE_TOTAL=0
+    for STORAGE in $(salt "cmp*" cmd.run "df -BGB /" --out txt | grep '/$' |\
+        sed -re 's/^.* +([0-9]+GB +){2}([0-9]+)GB +.*$/\2/g') ; do
+        CMP_STORAGE_TOTAL=$(($CMP_STORAGE_TOTAL+$STORAGE));
+    done
+fi
+
+# Deploy ONAP with detected configuration
+# execute installation from the 1st controller node
+CTL01=$(salt  -C 'I@nova:controller and *01*' grains.get id --out txt |\
+    head -n1 | cut -d':' -f1)
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    -i /root/fuel/mcp/scripts/mcp.rsa -l ubuntu $CTL01 "bash -s" <<COMMANDS
+  sudo -i
+  source /root/keystonercv3
+  cd $AUTO_INSTALL_DIR
+  export CMP_COUNT=$CMP_COUNT
+  export CMP_MIN_MEM=$CMP_MIN_MEM
+  export CMP_MIN_CPUS=$CMP_MIN_CPUS
+  export CMP_STORAGE_TOTAL=$CMP_STORAGE_TOTAL
+  export AUTO_INSTALL_DIR=$AUTO_INSTALL_DIR
+  $ONAP_INSTALL_SCRIPT | tee $AUTO_INSTALL_DIR/auto_deploy.log
+COMMANDS
