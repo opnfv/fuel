@@ -22,6 +22,9 @@ NODE_MASK="${LOCAL_VIRT_NODES// /|}"
 
 wait_for 5.0 "salt-call state.sls reclass,linux.network,salt.minion \
               exclude='[{id: reclass_packages}, {id: /etc/reclass/reclass-config.yml}]'"
+# Workaround for: https://github.com/salt-formulas/reclass/issues/77
+salt-call file.replace '/usr/local/lib/python2.7/dist-packages/reclass/settings.py' \
+  pattern='(ignore_overwritten_missing_references)defaults.' repl='\1'
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' saltutil.refresh_pillar"
 
 # NOTE: domain name changes are not yet supported without a clean redeploy
