@@ -1,0 +1,7 @@
+Code-Review+2: Cristina Pauna <cristina.pauna@enea.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Fri, 07 Dec 2018 12:00:02 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/65633
+Project: fuel
+Branch: refs/heads/stable/gambia
