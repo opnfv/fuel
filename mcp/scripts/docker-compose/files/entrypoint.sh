@@ -74,6 +74,10 @@ sed -i -e "s|return 'start/running' in |return 'is running' in |" \
        -e "s|ret = _default_runlevel|return _default_runlevel|" \
     /usr/lib/python2.7/dist-packages/salt/modules/upstart.py
 
+# Workaround for: https://github.com/salt-formulas/reclass/issues/77
+sed -i -e 's|\(ignore_overwritten_missing_references\)defaults.|\1|' \
+    /usr/local/lib/python2.7/dist-packages/reclass/settings.py
+
 # Remove broken symlinks in /srv/salt, silences recurring warnings
 find -L /srv/salt /srv/salt/env/prd/_* -maxdepth 1 -type l -delete
 
