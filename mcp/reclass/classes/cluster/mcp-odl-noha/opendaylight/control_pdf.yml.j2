@@ -10,6 +10,10 @@
 {#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
 {%- set nics = { nm.ctl01.nic_mgmt: True } %}
 {%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt } %}
+{%- if '-bgpvpn-' in conf.MCP_DEPLOY_SCENARIO %}
+  {%- do nics.update({nm.ctl01.nic_public: True}) %}
+  {%- do vlans.update({nm.vlan_public: nm.ctl01.nic_public}) %}
+{%- endif %}
 ---
 parameters:
   linux:
@@ -28,14 +32,15 @@ parameters:
           name_servers:
             - {{ nm.net_admin_gw }}
 {%- if '-bgpvpn-' in conf.MCP_DEPLOY_SCENARIO %}
-        external:
+        br-ext:
           enabled: true
-          name: {{ nm.ctl01.nic_public }}
+          type: bridge
           proto: static
-          type: eth
           address: ${_param:opnfv_opendaylight_server_external_address}
           netmask: ${_param:opnfv_net_public_mask}
           mtu: ${_param:interface_mtu}
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           noifupdown: true
 {%- endif %}
 
