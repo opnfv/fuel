@@ -53,6 +53,7 @@ parameters:
           type: ovs_port
           mtu: ${_param:interface_mtu}
           bridge: br-floating
+          noifupdown: true
         br-ex:
           enabled: true
           type: bridge
@@ -64,6 +65,7 @@ parameters:
             - float-to-ex
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          noifupdown: true
 {%- else %}
         br-mesh:
           enabled: true
