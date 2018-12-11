@@ -87,6 +87,9 @@ parameters:
       <<: *db_conn_recycle_time
       vlan_aware_vms: true
       root_helper_daemon: false
+      global_physnet_mtu: ${_param:interface_mtu}
+      backend:
+        external_mtu: ${_param:interface_mtu}
   keystone:
     server:
       <<: *db_conn_recycle_time
