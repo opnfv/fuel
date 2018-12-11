@@ -13,8 +13,6 @@
 {%- set vlans = { nm.vlan_admin: nm.ctl01.nic_admin, nm.vlan_mgmt: nm.ctl01.nic_mgmt, nm.vlan_public: nm.ctl01.nic_public } %}
 ---
 parameters:
-  _param:
-    interface_mtu: 1500
   linux:
     network:
       interface:

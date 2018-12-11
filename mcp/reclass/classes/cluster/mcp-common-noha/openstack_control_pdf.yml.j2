@@ -22,6 +22,7 @@ parameters:
           type: eth
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
+          mtu: ${_param:interface_mtu}
           noifupdown: true
 
 {#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}

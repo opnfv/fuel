@@ -20,7 +20,6 @@ parameters:
         br-mesh:
           enabled: true
           type: bridge
-          mtu: ${_param:interface_mtu}
           proto: static
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}

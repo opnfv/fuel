@@ -1,0 +1,146 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 11 Dec 2018 16:00:45 +0100
+Subject: [PATCH] IDF: Add idf.fuel.network.interface_mtu
+
+Allow configuring cluster-level jumbo frames via IDF.
+
+All virtual PODs default to using jumbo frames, while baremetal
+PODs will keep using 1500 until we confirm all switches are
+properly configured.
+
+While at it, update net_macros to configure MTU for VLAN interfaces
+too.
+
+JIRA: FUEL-336
+
+Change-Id: Id6c7ec9377b15d53e69c8cbb16fa469b52ab7e3a
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/net_macros.j2    | 1 +
+ config/pdf/idf-pod1.schema.yaml         | 2 ++
+ labs/arm/idf-virtual2.yaml              | 1 +
+ labs/ericsson/idf-virtual-pod1bl01.yaml | 1 +
+ labs/ericsson/idf-virtual1.yaml         | 1 +
+ labs/ericsson/idf-virtual2.yaml         | 1 +
+ labs/ericsson/idf-virtual3.yaml         | 1 +
+ labs/ericsson/idf-virtual4.yaml         | 1 +
+ labs/ericsson/idf-virtual5.yaml         | 1 +
+ 9 files changed, 10 insertions(+)
+
+diff --git a/config/installers/fuel/net_macros.j2 b/config/installers/fuel/net_macros.j2
+index b9693d1..7ff3166 100644
+--- a/config/installers/fuel/net_macros.j2
++++ b/config/installers/fuel/net_macros.j2
+@@ -23,6 +23,7 @@
+         {{ vlans[vlan] }}.{{ vlan }}:
+           enabled: true
+           proto: manual
++          mtu: ${_param:interface_mtu}
+           type: vlan
+           name: {{ vlans[vlan] }}.{{ vlan }}
+           use_interfaces:
+diff --git a/config/pdf/idf-pod1.schema.yaml b/config/pdf/idf-pod1.schema.yaml
+index a1108a0..7546279 100644
+--- a/config/pdf/idf-pod1.schema.yaml
++++ b/config/pdf/idf-pod1.schema.yaml
+@@ -63,6 +63,8 @@ definitions:
+         network:
+           type: 'object'
+           properties:
++            interface_mtu:
++              type: 'number'
+             ntp_strata_host1:
+               type: 'string'
+             ntp_strata_host2:
+diff --git a/labs/arm/idf-virtual2.yaml b/labs/arm/idf-virtual2.yaml
+index fa83e19..ba025d0 100644
+--- a/labs/arm/idf-virtual2.yaml
++++ b/labs/arm/idf-virtual2.yaml
+@@ -57,6 +57,7 @@ idf:
+         private: ~
+         public: 'public'
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual-pod1bl01.yaml b/labs/ericsson/idf-virtual-pod1bl01.yaml
+index 528152c..8e172d9 100644
+--- a/labs/ericsson/idf-virtual-pod1bl01.yaml
++++ b/labs/ericsson/idf-virtual-pod1bl01.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual1.yaml b/labs/ericsson/idf-virtual1.yaml
+index e7ba00f..08d2812 100644
+--- a/labs/ericsson/idf-virtual1.yaml
++++ b/labs/ericsson/idf-virtual1.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual2.yaml b/labs/ericsson/idf-virtual2.yaml
+index 586661a..e51d545 100644
+--- a/labs/ericsson/idf-virtual2.yaml
++++ b/labs/ericsson/idf-virtual2.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual3.yaml b/labs/ericsson/idf-virtual3.yaml
+index 4a7aa82..a398499 100644
+--- a/labs/ericsson/idf-virtual3.yaml
++++ b/labs/ericsson/idf-virtual3.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual4.yaml b/labs/ericsson/idf-virtual4.yaml
+index ddcd621..cac78af 100644
+--- a/labs/ericsson/idf-virtual4.yaml
++++ b/labs/ericsson/idf-virtual4.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
+diff --git a/labs/ericsson/idf-virtual5.yaml b/labs/ericsson/idf-virtual5.yaml
+index 067ec0c..7e2b3a4 100644
+--- a/labs/ericsson/idf-virtual5.yaml
++++ b/labs/ericsson/idf-virtual5.yaml
+@@ -58,6 +58,7 @@ idf:
+         private: ~
+         public: ~
+     network:
++      interface_mtu: 9000
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
+       node:
