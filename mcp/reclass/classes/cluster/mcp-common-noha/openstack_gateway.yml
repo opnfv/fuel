@@ -11,7 +11,6 @@ classes:
   - cluster.mcp-common-noha.openstack_gateway_pdf
 parameters:
   _param:
-    interface_mtu: 9000
     linux_system_codename: xenial
   neutron:
     gateway:

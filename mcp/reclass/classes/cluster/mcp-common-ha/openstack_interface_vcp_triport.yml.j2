@@ -28,6 +28,7 @@ parameters:
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
           noifupdown: true
+          mtu: ${_param:interface_mtu}
         single_int:
           enabled: true
           type: eth
@@ -37,6 +38,7 @@ parameters:
           netmask: ${_param:opnfv_net_public_mask}
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
+          mtu: ${_param:interface_mtu}
         control_int:
           enabled: true
           type: eth
@@ -44,6 +46,7 @@ parameters:
           name: ${_param:control_nic}
           address: ${_param:control_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
+          mtu: ${_param:interface_mtu}
 {%- else %}
 {#- For NOVCP scenarios, base config is in kvm_pdf, only add/override gw #}
 parameters:
