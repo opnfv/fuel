@@ -29,6 +29,7 @@ parameters:
           name_servers:
             - {{ nm.net_admin_gw }}
           noifupdown: true
+          mtu: ${_param:interface_mtu}
         single:
           enabled: true
           type: eth
@@ -36,4 +37,5 @@ parameters:
           name: ${_param:single_nic}
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_public_mask}
+          mtu: ${_param:interface_mtu}
 {%- endif %}

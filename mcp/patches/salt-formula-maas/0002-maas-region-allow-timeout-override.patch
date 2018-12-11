@@ -39,14 +39,14 @@ JIRA: FUEL-316
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- maas/region.sls | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ maas/region.sls | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/maas/region.sls b/maas/region.sls
-index e0f65b0..d151e3a 100644
+index e0f65b0..5da3a7f 100644
 --- a/maas/region.sls
 +++ b/maas/region.sls
-@@ -38,6 +38,46 @@ restore_maas_database_{{ region.database.name }}:
+@@ -38,6 +38,36 @@ restore_maas_database_{{ region.database.name }}:
 
  {%- endif %}
 
@@ -65,16 +65,6 @@ index e0f65b0..d151e3a 100644
 +    - name: "/usr/lib/python3/dist-packages/maasserver/node_status.py"
 +    - pattern: '^(\s+NODE_STATUS.DEPLOYING:)\s+\d+,$'
 +    - repl: \1 {{ salt['pillar.get']('_param:opnfv_maas_timeout_deploying', '40') }},
-+    - require:
-+      - pkg: maas_region_packages
-+    - require_in:
-+      - service: maas_region_services
-+
-+maas_ip_blksize_force:
-+  file.replace:
-+    - name: "/usr/lib/python3/dist-packages/tftp/bootstrap.py"
-+    - pattern: 'int_blksize = min\(\(int_blksize, MAX_BLOCK_SIZE\)\)'
-+    - repl: 'int_blksize = 1464'
 +    - require:
 +      - pkg: maas_region_packages
 +    - require_in:
