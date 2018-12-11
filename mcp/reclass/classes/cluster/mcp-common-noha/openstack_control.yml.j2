@@ -72,7 +72,6 @@ classes:
   - cluster.mcp-common-noha.openstack_control_pdf
 parameters:
   _param:
-    interface_mtu: 9000
     linux_system_codename: xenial
     ceilometer_create_gnocchi_resources: 'True'
     barbican_integration_enabled: 'false'
@@ -185,9 +184,9 @@ parameters:
     server:
       vlan_aware_vms: true
       root_helper_daemon: false
-      global_physnet_mtu: 9000
+      global_physnet_mtu: ${_param:interface_mtu}
       backend:
-        external_mtu: 9000
+        external_mtu: ${_param:interface_mtu}
 {%- if '-bgpvpn-' in conf.MCP_DEPLOY_SCENARIO %}
       bgp_vpn:
         enabled: True

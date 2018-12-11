@@ -45,6 +45,8 @@ parameters:
     opnfv_vcp_vm_tertiary_interface: ens4
 {%- endif %}
 
+    interface_mtu: {{ conf.idf.fuel.network.interface_mtu or 1500 }}
+
     ntp_strata_host1: {{ conf.idf.fuel.network.ntp_strata_host1 or '1.pool.ntp.org' }}
     ntp_strata_host2: {{ conf.idf.fuel.network.ntp_strata_host2 or '0.pool.ntp.org' }}
 
