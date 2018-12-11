@@ -609,6 +609,7 @@ Fuel installer:
           timeout_comissioning: 10          # commissioning timeout in minutes
           timeout_deploying: 15             # deploy timeout in minutes
         network:                            # Cluster nodes network (mandatory)
+          interface_mtu: 1500               # Cluster-level MTU (optional)
           ntp_strata_host1: 1.pool.ntp.org  # NTP1 (optional)
           ntp_strata_host2: 0.pool.ntp.org  # NTP2 (optional)
           node: ...                         # List of per-node cfg (mandatory)
