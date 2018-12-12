@@ -19,9 +19,6 @@ parameters:
     mcpcontrol_interface: ${_param:opnfv_fn_vm_primary_interface}
     primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
     pxe_admin_interface: ${_param:opnfv_fn_vm_tertiary_interface}
-    interface_mtu: 1500
-    # MaaS has issues using MTU > 1500 for PXE interface
-    pxe_admin_interface_mtu: 1500
     linux_system_codename: xenial
     maas_admin_username: opnfv
     dns_server01: '{{ nm.dns_public[0] }}'
@@ -113,6 +110,7 @@ parameters:
           name: ${_param:mcpcontrol_interface}
           type: eth
           proto: dhcp
+          mtu: ${_param:interface_mtu}
         primary_interface:
           enabled: true
           name: ${_param:primary_interface}
@@ -134,7 +132,8 @@ parameters:
         pxe_admin_interface:
           enabled: true
           name: ${_param:pxe_admin_interface}
-          mtu: ${_param:pxe_admin_interface_mtu}
+          # MaaS has issues using MTU > 1500 for PXE interface
+          mtu: 1500
           proto: static
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_admin_mask}
