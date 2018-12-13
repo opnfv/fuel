@@ -77,16 +77,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-7.0.0                          |
+| **Repo/tag**                         | opnfv-7.1.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Gambia 7.0                           |
+| **Release designation**              | Gambia 7.1                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | November 9, 2018                     |
+| **Release date**                     | December 14, 2018                    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Gambia 7.0 release             |
+| **Purpose of the delivery**          | OPNFV Gambia 7.1 release             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -109,7 +109,7 @@ deployment toolchain. It is based on following upstream versions:
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Gambia`` 7.0 release.
+This is the ``Gambia`` 7.1 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -131,12 +131,14 @@ Feature Additions
 - containerized Salt Master;
 - ``OVN`` scenarios;
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia New features`_ filter.
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 New features`_
+filter.
 
 Bug Corrections
 ~~~~~~~~~~~~~~~
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia Bugs (fixed)`_ filter.
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Bugs (fixed)`_
+filter.
 
 Software Deliverables
 ~~~~~~~~~~~~~~~~~~~~~
@@ -205,23 +207,25 @@ System Limitations
 Known Issues
 ------------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia Known issues`_ filter.
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Known issues`_
+filter.
 
 Workarounds
 -----------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia Workarounds`_ filter.
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Workarounds`_
+filter.
 
 Test Results
 ============
 
-The ``Gambia`` 7.0 release with the Fuel deployment tool has undergone QA test
+The ``Gambia`` 7.1 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Gambia`` 7.0 release, please see:
+For more information on the OPNFV ``Gambia`` 7.1 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
@@ -246,7 +250,7 @@ For more information on the OPNFV ``Gambia`` 7.0 release, please see:
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
 .. OPNFV Fuel Gambia JIRA filters
-.. _`OPNFV Fuel JIRA: Gambia Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12503
-.. _`OPNFV Fuel JIRA: Gambia New features`: https://jira.opnfv.org/issues/?filter=12504
-.. _`OPNFV Fuel JIRA: Gambia Known issues`: https://jira.opnfv.org/issues/?filter=12505
-.. _`OPNFV Fuel JIRA: Gambia Workarounds`: https://jira.opnfv.org/issues/?filter=12506
+.. _`OPNFV Fuel JIRA: Gambia 7.1 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12601
+.. _`OPNFV Fuel JIRA: Gambia 7.1 New features`: https://jira.opnfv.org/issues/?filter=12600
+.. _`OPNFV Fuel JIRA: Gambia 7.1 Known issues`: https://jira.opnfv.org/issues/?filter=12602
+.. _`OPNFV Fuel JIRA: Gambia 7.1 Workarounds`: https://jira.opnfv.org/issues/?filter=12603

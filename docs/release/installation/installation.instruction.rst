@@ -963,7 +963,7 @@ These steps are common for ``virtual``, ``baremetal`` or ``hybrid`` deploys,
 
     jenkins@jumpserver:~$ git clone https://git.opnfv.org/fuel
     jenkins@jumpserver:~$ cd fuel
-    jenkins@jumpserver:~/fuel$ git checkout opnfv-7.0.0
+    jenkins@jumpserver:~/fuel$ git checkout opnfv-7.1.0
     jenkins@jumpserver:~/fuel$ ci/deploy.sh -l <lab_name> \
                                             -p <pod_name> \
                                             -b <URI to configuration repo containing the PDF/IDF files> \
@@ -1369,7 +1369,7 @@ article.
 References
 ==========
 
-For more information on the OPNFV ``Gambia`` 7.0 release, please see:
+For more information on the OPNFV ``Gambia`` 7.1 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
