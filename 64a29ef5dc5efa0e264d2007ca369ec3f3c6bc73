@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a622d24_62c49140",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-13T12:52:10Z",
+      "side": 1,
+      "message": "onap-ha",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_828d6d34",
         "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
         "patchSetId": 1
