@@ -1,0 +1,22 @@
+##############################################################################
+# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.reclass.storage.system.openstack_gateway_single
+  - cluster.mcp-common-noha.infra.config
+  - cluster.mcp-fdio-noha
+  - cluster.all-mcp-arch-common.infra.config_pdf
+parameters:
+  reclass:
+    storage:
+      node:
+        openstack_gateway_node01:
+          params:
+            tenant_address: ${_param:opnfv_openstack_gateway_node01_tenant_address}
+            external_address: ${_param:opnfv_openstack_gateway_node01_external_address}
+            pxe_admin_address: ${_param:opnfv_openstack_gateway_node01_pxe_admin_address}
