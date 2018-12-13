@@ -2,7 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) 2018 Mirantis Inc., Enea Software AB and others
 
-This document provides scenario level details for Gambia 7.0 of deployment
+This document provides scenario level details for Gambia 7.1 of deployment
 with Open Virtual Network (OVN) providing Layers 2 and 3 networking and no
 extra features enabled.
 

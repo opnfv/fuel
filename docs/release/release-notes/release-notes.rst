@@ -77,16 +77,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-7.0.0                          |
+| **Repo/tag**                         | opnfv-7.1.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Gambia 7.0                           |
+| **Release designation**              | Gambia 7.1                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | November 9, 2018                     |
+| **Release date**                     | December 14, 2018                    |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Gambia 7.0 release             |
+| **Purpose of the delivery**          | OPNFV Gambia 7.1 release             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -109,7 +109,7 @@ deployment toolchain. It is based on following upstream versions:
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Gambia`` 7.0 release.
+This is the ``Gambia`` 7.1 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -215,13 +215,13 @@ For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia Workarounds`_ filter.
 Test Results
 ============
 
-The ``Gambia`` 7.0 release with the Fuel deployment tool has undergone QA test
+The ``Gambia`` 7.1 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Gambia`` 7.0 release, please see:
+For more information on the OPNFV ``Gambia`` 7.1 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
