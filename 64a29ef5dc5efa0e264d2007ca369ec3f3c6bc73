@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_828d6d34",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-13T12:32:45Z",
+      "side": 1,
+      "message": "Tieto should be added into all headers",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_82944d38",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-13T12:32:45Z",
+      "side": 1,
+      "message": "Generic note:\n\nThis scenario is \"specific scenario\" created from \"generic scenario\" os-nosdn-nofeature-ha.\n\nThis should be explicitly mentioned in the documentation.\n\nThe same apply for noha scenario.",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_e28261ff",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-13T12:32:45Z",
+      "side": 1,
+      "message": "This is not valid for Gambia!\nEither change it to Hunter or remove the release name/number.",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_02a03d8f",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-13T12:32:45Z",
+      "side": 1,
+      "message": "\"no extra features enabled\" is not true - on the contrary we deploy ONAP on top of OPNFV!",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_62adb188",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1306
+      },
+      "writtenOn": "2018-12-13T12:32:45Z",
+      "side": 1,
+      "message": "Links to auto documentation should be provided as installation process will be described there in detail",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
