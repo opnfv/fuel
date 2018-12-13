@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_e2e701e3",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "Missed that one. Thank you.",
+      "parentUuid": "1a622d24_62c49140",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_828d6d34",
         "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-12-13T12:32:45Z",
       "side": 1,
       "message": "Tieto should be added into all headers",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_c2ec85ca",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a622d24_828d6d34",
       "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_8209ed97",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a622d24_82944d38",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_e28261ff",
         "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2018-12-13T12:32:45Z",
       "side": 1,
       "message": "This is not valid for Gambia!\nEither change it to Hunter or remove the release name/number.",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_02ce7d5a",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a622d24_e28261ff",
       "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_62dbf11b",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "I referred to the OVS scenario which stated no extra features and only then mentions OVS.\n\nUpdated it as requested.",
+      "parentUuid": "1a622d24_02a03d8f",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_62adb188",
         "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2018-12-13T12:32:45Z",
       "side": 1,
       "message": "Links to auto documentation should be provided as installation process will be described there in detail",
+      "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_a204e97e",
+        "filename": "docs/release/scenarios/os-nosdn-onap-ha/os-nosdn-ovs-ha.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7089
+      },
+      "writtenOn": "2018-12-13T13:38:40Z",
+      "side": 1,
+      "message": "Added placeholder Auto Documentation Links.\nThis will be updated to point to the setup after the documentation is created.",
+      "parentUuid": "1a622d24_62adb188",
       "revId": "64a29ef5dc5efa0e264d2007ca369ec3f3c6bc73",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
