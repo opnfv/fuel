@@ -42,7 +42,8 @@ wait_for 30.0 "salt -I 'keystone:client' state.sls keystone.client"
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
 salt -I 'glance:server' state.sls glance -b 1
-salt -I 'nova:controller' state.sls nova -b 1
+salt -I 'nova:controller:role:primary' state.sls nova
+salt -I 'nova:controller:role:secondary' state.sls nova -b 1
 salt -I 'heat:server' state.sls heat -b 1
 
 wait_for 5.0 "salt -I 'cinder:controller' state.sls cinder -b 1"
@@ -61,8 +62,8 @@ if salt -I 'nova:compute' match.grain 'cpuarch:aarch64' \
   salt -C 'G@cpuarch:aarch64 and I@nova:compute' state.sls armband
 fi
 
-salt -C 'I@barbican:server and *01*' state.sls barbican
-salt -C 'I@barbican:server and not *01*' state.sls barbican -b 1
+salt -I 'barbican:server:role:primary' state.sls barbican
+salt -I 'barbican:server:role:secondary' state.sls barbican -b 1
 salt -I 'barbican:client' state.sls barbican
 
 salt -I 'redis:cluster:role:master' state.sls redis
