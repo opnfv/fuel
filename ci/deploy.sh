@@ -131,6 +131,8 @@ DEPLOY_DIR=$(cd "${MCP_REPO_ROOT_PATH}/mcp/scripts"; pwd)
 MCP_STORAGE_DIR='/var/lib/opnfv/tmpdir'
 URI_REGEXP='(file|https?|ftp)://.*'
 BASE_CONFIG_URI="file://${MCP_REPO_ROOT_PATH}/mcp/scripts/pharos"
+OPNFV_BRANCH=$(sed -ne 's/defaultbranch=//p' "${MCP_REPO_ROOT_PATH}/.gitreview")
+DEF_DOCKER_TAG=$(basename "${OPNFV_BRANCH/master/latest}")
 
 # Customize deploy workflow
 DRY_RUN=${DRY_RUN:-0}
@@ -139,7 +141,7 @@ USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
 NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
-MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-latest}
+MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-${DEF_DOCKER_TAG}}
 MCP_CMP_SS=${MCP_CMP_SS:-0}
 
 source "${DEPLOY_DIR}/globals.sh"
