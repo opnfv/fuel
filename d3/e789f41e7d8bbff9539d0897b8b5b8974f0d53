@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Fri, 14 Dec 2018 08:39:32 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/65795
+Project: fuel
+Branch: refs/heads/stable/gambia
