@@ -148,21 +148,29 @@ parameters:
           netmask: ${_param:opnfv_net_admin_mask}
           type: eth
   iptables:
+    schema:
+      epoch: 1
     service:
-      enabled: True
-      chain:
-        POSTROUTING:
-          rules:
-            - table: nat
-              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
-              jump: MASQUERADE
-        INPUT:
-          rules:
-            - table: filter
-              source_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
-              jump: ACCEPT
-        INPUT:
-          rules:
-            - table: filter
-              destination_network: '${_param:single_address}/${_param:opnfv_net_admin_mask}'
-              jump: ACCEPT
+      v4:
+        enabled: true
+        persistent_config: /etc/iptables/rules.v4
+      v6:
+        enabled: false
+    tables:
+      v4:
+        filter:
+          chains:
+            INPUT:
+              ruleset:
+                10:
+                  rule: -s ${_param:single_address}/${_param:opnfv_net_admin_mask}
+                11:
+                  rule: -d ${_param:single_address}/${_param:opnfv_net_admin_mask}
+        nat:
+          chains:
+            POSTROUTING:
+              policy: ACCEPT
+              ruleset:
+                10:
+                  rule: -s ${_param:single_address}/${_param:opnfv_net_admin_mask}
+                  action: MASQUERADE
