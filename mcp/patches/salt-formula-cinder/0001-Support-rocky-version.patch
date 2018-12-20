@@ -1,0 +1,50 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 29 Nov 2018 13:53:14 +0400
+Subject: [PATCH] Support rocky version
+
+Change-Id: I00450e0cdced03ea08ce22ac611b6baafc1c782e
+Related-Prod: PROD-23724
+
+diff --git a/cinder/controller.sls b/cinder/controller.sls
+index f103550..33e062f 100644
+--- a/cinder/controller.sls
++++ b/cinder/controller.sls
+@@ -58,7 +58,7 @@ cinder_controller_packages:
+   {%- set cinder_log_services = controller.services %}
+ {%- endif %}
+
+-{%- if controller.version not in ('ocata','pike','queens') %}
++{%- if controller.version not in ('ocata', 'pike', 'queens', 'rocky') %}
+   {%- do cinder_log_services.append('cinder-api') %}
+ {%- endif %}
+
+@@ -307,7 +307,7 @@ cinder_controller_services:
+ {#- Therefore if api_version is not defined and OpenStack version is mitaka or newton use v2.0. #}
+ {%- if 'api_version' in identity %}
+ {%- set keystone_api_version = identity.get('api_version') %}
+-{%- else %}
++{%- else %}
+ {%- if 'version' in controller and controller.version in ['mitaka', 'newton'] %}
+ {%- set keystone_api_version = 'v2.0' %}
+ {%- else %}
+diff --git a/cinder/map.jinja b/cinder/map.jinja
+index 18050cf..01a967d 100644
+--- a/cinder/map.jinja
++++ b/cinder/map.jinja
+@@ -77,7 +77,7 @@
+     'BaseDefaults': default_params,
+     'Debian': {
+         'pkgs': ['cinder-volume', 'lvm2', 'sysfsutils', 'sg3-utils', 'python-cinder','python-mysqldb','p7zip', 'gettext-base', 'python-memcache', 'python-pycadf'],
+-        'openiscsi_pkgs': ['open-iscsi', 'tgt'],
++        'openiscsi_pkgs': ['open-iscsi', 'tgt', 'thin-provisioning-tools'],
+         'iscsitarget_pkgs': ['iscsitarget', 'iscsitarget-dkms'],
+         'services': ['cinder-volume'],
+         'iscsitarget_services': ['iscsitarget'],
