@@ -16,7 +16,7 @@
 	branch = master
 [submodule "salt-formula-keystone"]
 	path = mcp/salt-formulas/salt-formula-keystone
-	url = https://github.com/salt-formulas/salt-formula-keystone
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/keystone
 	branch = master
 [submodule "salt-formula-maas"]
 	path = mcp/salt-formulas/salt-formula-maas

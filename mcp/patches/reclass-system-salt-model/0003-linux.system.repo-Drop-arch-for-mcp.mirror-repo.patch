@@ -21,19 +21,48 @@ To keep old behavior for amd64 and prevent multiple downloads, let's
 just drop the 'architectures' field.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
----
- linux/system/repo/mcp/mirror/v1/openstack.yml | 1 -
- 1 file changed, 1 deletion(-)
 
+diff --git a/keystone/client/v3/service/heat.yml b/keystone/client/v3/service/heat.yml
+index 6c45bfe2..f1d500c7 100644
+--- a/keystone/client/v3/service/heat.yml
++++ b/keystone/client/v3/service/heat.yml
+@@ -6,6 +6,9 @@ parameters:
+     client:
+       resources:
+         v3:
++          domains:
++            heat_user_domain:
++              description: 'Contains users and projects created by heat'
+           roles:
+             heat_stack_user:
+               name: heat_stack_user
+@@ -21,6 +24,14 @@ parameters:
+                 service_admin:
+                   name: admin
+                   project_id: service
++            heat_domain_admin:
++              password: ${_param:heat_domain_admin_password}
++              email: ${_param:admin_email}
++              roles:
++                heat_stack_admin:
++                  name: admin
++                  role_domain_id: heat_user_domain
++                  domain_id: heat_user_domain
+           services:
+             heat:
+               type: orchestration
 diff --git a/linux/system/repo/mcp/mirror/v1/openstack.yml b/linux/system/repo/mcp/mirror/v1/openstack.yml
-index a4a369b2..933bf53a 100644
+index a4a369b2..12647495 100644
 --- a/linux/system/repo/mcp/mirror/v1/openstack.yml
 +++ b/linux/system/repo/mcp/mirror/v1/openstack.yml
-@@ -7,7 +7,6 @@ parameters:
+@@ -7,9 +7,8 @@ parameters:
        repo:
          mirantis_openstack:
            source: "deb http://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename} ${_param:linux_system_codename} main"
 -          architectures: ${_param:linux_system_architecture}
            clean_file: true
-           key_url: https://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename}/archive-${_param:openstack_version}.key
+-          key_url: https://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename}/archive-${_param:openstack_version}.key
++          key_url: https://mirror.mirantis.com/${_param:apt_mk_version}/openstack-${_param:openstack_version}/${_param:linux_system_codename}/archive-openstack-${_param:openstack_version}.key
            pin:
+           - pin: 'release o=Mirantis'
+             priority: 1100

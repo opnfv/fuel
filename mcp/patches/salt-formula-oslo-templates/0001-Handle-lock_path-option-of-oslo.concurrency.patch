@@ -1,0 +1,29 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Tue, 18 Dec 2018 11:59:51 +0400
+Subject: [PATCH] Handle lock_path option of oslo.concurrency
+
+Neutron agents requires lock_path option to be set
+to perform concurrency actions.
+
+Change-Id: If0a297fc2bb6f01bb8be9b31237f8e135d254a14
+Related-Prod: PROD-23722
+
+diff --git a/oslo_templates/files/queens/oslo/_concurrency.conf b/oslo_templates/files/queens/oslo/_concurrency.conf
+index 856ae0d..cd6b7ed 100644
+--- a/oslo_templates/files/queens/oslo/_concurrency.conf
++++ b/oslo_templates/files/queens/oslo/_concurrency.conf
+@@ -16,3 +16,6 @@ disable_process_locking = {{ _data.disable_process_locking }}
+ # tempfile.gettempdir function to find a suitable location. If
+ # external locks are used, a lock path must be set. (string value)
+ #lock_path = /tmp
++{%- if _data.lock_path is defined %}
++lock_path = {{ _data.lock_path }}
++{%- endif %}
