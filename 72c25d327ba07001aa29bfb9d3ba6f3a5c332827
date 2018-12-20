@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_7def0bb1",
+        "filename": "mcp/patches/salt-formula-cinder/0001-Support-rocky-version.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-20T12:12:55Z",
+      "side": 1,
+      "message": "I think we need to add git submodules for salt-formula-* repos we patch, like salt-formula-cinder.",
+      "revId": "72c25d327ba07001aa29bfb9d3ba6f3a5c332827",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_9df2e798",
+        "filename": "mcp/scripts/pharos",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-20T12:12:55Z",
+      "side": 1,
+      "message": "This is moving Pharos 1 commit back.",
+      "revId": "72c25d327ba07001aa29bfb9d3ba6f3a5c332827",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
