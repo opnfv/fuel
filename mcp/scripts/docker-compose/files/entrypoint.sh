@@ -69,6 +69,13 @@ for formula in /usr/share/salt-formulas/reclass/service/*; do
     ln -sf "${formula}" "/srv/salt/reclass/classes/service/$(basename ${formula})"
 done
 
+# Temporary link queens configs to rocky
+for f in /srv/salt/env/prd/*/files/queens; do
+    if [ ! -d "$f/../rocky" ]; then
+        ln -sf "$f" "$f/../rocky"
+    fi
+done
+
 # Tini init system resembles upstart very much, but needs a little adjustment
 sed -i -e "s|return 'start/running' in |return 'is running' in |" \
        -e "s|ret = _default_runlevel|return _default_runlevel|" \
