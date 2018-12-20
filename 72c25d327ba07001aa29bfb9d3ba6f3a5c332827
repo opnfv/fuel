@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_1d36d752",
+        "filename": "mcp/patches/salt-formula-cinder/0001-Support-rocky-version.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-12-20T12:14:41Z",
+      "side": 1,
+      "message": "just wanted to confirm it, thanks.",
+      "parentUuid": "1a622d24_7def0bb1",
+      "revId": "72c25d327ba07001aa29bfb9d3ba6f3a5c332827",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_9df2e798",
         "filename": "mcp/scripts/pharos",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-20T12:12:55Z",
       "side": 1,
       "message": "This is moving Pharos 1 commit back.",
+      "revId": "72c25d327ba07001aa29bfb9d3ba6f3a5c332827",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_bd308357",
+        "filename": "mcp/scripts/pharos",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4291
+      },
+      "writtenOn": "2018-12-20T12:14:41Z",
+      "side": 1,
+      "message": "yes, made it by mistake",
+      "parentUuid": "1a622d24_9df2e798",
       "revId": "72c25d327ba07001aa29bfb9d3ba6f3a5c332827",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
