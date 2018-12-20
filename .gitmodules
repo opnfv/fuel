@@ -16,7 +16,7 @@
 	branch = master
 [submodule "salt-formula-keystone"]
 	path = mcp/salt-formulas/salt-formula-keystone
-	url = https://github.com/salt-formulas/salt-formula-keystone
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/keystone
 	branch = master
 [submodule "salt-formula-maas"]
 	path = mcp/salt-formulas/salt-formula-maas
@@ -25,4 +25,28 @@
 [submodule "salt-formula-redis"]
 	path = mcp/salt-formulas/salt-formula-redis
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/redis
+	branch = master
+[submodule "salt-formula-cinder"]
+	path = mcp/salt-formulas/salt-formula-cinder
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/cinder
+	branch = master
+[submodule "salt-formula-heat"]
+	path = mcp/salt-formulas/salt-formula-heat
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/heat
+	branch = master
+[submodule "salt-formula-nova"]
+	path = mcp/salt-formulas/salt-formula-nova
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/nova
+	branch = master
+[submodule "salt-formula-neutron"]
+	path = mcp/salt-formulas/salt-formula-neutron
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/neutron
+	branch = master
+[submodule "salt-formula-oslo-templates"]
+	path = mcp/salt-formulas/salt-formula-oslo-templates
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/oslo-templates
+	branch = master
+[submodule "salt-formula-horizon"]
+	path = mcp/salt-formulas/salt-formula-horizon
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/horizon
 	branch = master

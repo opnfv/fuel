@@ -1,0 +1,61 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Wed, 28 Nov 2018 13:06:33 +0400
+Subject: [PATCH] Support rocky version
+
+Change-Id: I4116f8cf359f7a3187411577cfcafda115c7be59
+Related-Prod: PROD-23724
+---
+ heat/files/queens/heat.conf.Debian | 4 ++--
+ heat/server.sls                    | 9 +++++++--
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/heat/files/queens/heat.conf.Debian b/heat/files/queens/heat.conf.Debian
+index f5b4b13..9c50706 100644
+--- a/heat/files/queens/heat.conf.Debian
++++ b/heat/files/queens/heat.conf.Debian
+@@ -230,12 +230,12 @@ region_name_for_services = {{ server.region }}
+
+ # Keystone domain name which contains heat template-defined users. If
+ # `stack_user_domain_id` option is set, this option is ignored. (string value)
+-stack_user_domain_name = {{ server.stack_domain_admin.get('stack_user_domain_name', 'heat_user_domain') }}
++stack_user_domain_name = {{ server.stack_domain_admin.get('domain', 'heat_user_domain') }}
+
+ # Keystone username, a user with roles sufficient to manage users and projects
+ # in the stack_user_domain. (string value)
+ #stack_domain_admin = <None>
+-stack_domain_admin = heat_domain_admin
++stack_domain_admin = {{ server.stack_domain_admin.get('name', 'heat_domain_admin') }}
+
+ # Keystone password for stack_domain_admin user. (string value)
+ #stack_domain_admin_password = <None>
+diff --git a/heat/server.sls b/heat/server.sls
+index 02e73b4..037c28a 100644
+--- a/heat/server.sls
++++ b/heat/server.sls
+@@ -156,11 +156,16 @@ keystonercv3:
+ {%- endif %}
+
+ {%- if not grains.get('virtual_subtype', None) == "Docker" %}
+-{%- if server.version != 'juno' %}
++{%- if server.version not in ['juno', 'rocky'] %}
+
+ heat_keystone_setup:
+   cmd.run:
+-  - name: 'source /root/keystonercv3; heat-keystone-setup-domain --stack-user-domain-name heat_user_domain --stack-domain-admin heat_domain_admin --stack-domain-admin-password {{ server.stack_domain_admin.password }}'
++  - name: >-
++      source /root/keystonercv3;
++      heat-keystone-setup-domain
++      --stack-user-domain-name {{ server.stack_domain_admin.domain|default('heat_user_domain') }}
++      --stack-domain-admin {{ server.stack_domain_admin.name|default('heat_domain_admin') }}
++      --stack-domain-admin-password {{ server.stack_domain_admin.password }}
+   - shell: /bin/bash
+   - require:
+     - file: /etc/heat/heat.conf

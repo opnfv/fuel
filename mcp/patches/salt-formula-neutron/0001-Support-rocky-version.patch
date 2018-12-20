@@ -1,0 +1,78 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Tue, 11 Dec 2018 17:27:40 +0400
+Subject: [PATCH] Support rocky version
+
+Change-Id: Ie9439cf50b5dcfb73f63acd1f01c1dcb034358ee
+Related-Prod: PROD-23722
+---
+ metadata/service/compute/ovn/single.yml | 2 ++
+ metadata/service/compute/single.yml     | 2 ++
+ metadata/service/control/cluster.yml    | 2 ++
+ metadata/service/control/single.yml     | 2 ++
+ metadata/service/gateway/single.yml     | 2 ++
+ 5 files changed, 10 insertions(+)
+
+diff --git a/metadata/service/compute/ovn/single.yml b/metadata/service/compute/ovn/single.yml
+index 1665ac8..187f180 100644
+--- a/metadata/service/compute/ovn/single.yml
++++ b/metadata/service/compute/ovn/single.yml
+@@ -33,3 +33,5 @@ parameters:
+             enabled: ${_param:openstack_fluentd_handler_enabled}
+           ossyslog:
+             enabled: ${_param:openstack_ossyslog_handler_enabled}
++      concurrency:
++        lock_path: /var/lock/neutron
+diff --git a/metadata/service/compute/single.yml b/metadata/service/compute/single.yml
+index 96f4268..baeb03c 100644
+--- a/metadata/service/compute/single.yml
++++ b/metadata/service/compute/single.yml
+@@ -47,3 +47,5 @@ parameters:
+             enabled: ${_param:openstack_fluentd_handler_enabled}
+           ossyslog:
+             enabled: ${_param:openstack_ossyslog_handler_enabled}
++      concurrency:
++        lock_path: /var/lock/neutron
+diff --git a/metadata/service/control/cluster.yml b/metadata/service/control/cluster.yml
+index 33ddaa2..4753725 100644
+--- a/metadata/service/control/cluster.yml
++++ b/metadata/service/control/cluster.yml
+@@ -46,6 +46,8 @@ parameters:
+             enabled: ${_param:openstack_fluentd_handler_enabled}
+           ossyslog:
+             enabled: ${_param:openstack_ossyslog_handler_enabled}
++      concurrency:
++        lock_path: /var/lock/neutron
+       message_queue:
+         engine: rabbitmq
+         host: ${_param:cluster_vip_address}
+diff --git a/metadata/service/control/single.yml b/metadata/service/control/single.yml
+index 939856c..448d6fe 100644
+--- a/metadata/service/control/single.yml
++++ b/metadata/service/control/single.yml
+@@ -50,6 +50,8 @@ parameters:
+             enabled: ${_param:openstack_fluentd_handler_enabled}
+           ossyslog:
+             enabled: ${_param:openstack_ossyslog_handler_enabled}
++      concurrency:
++        lock_path: /var/lock/neutron
+       message_queue:
+         engine: rabbitmq
+         host: ${_param:single_address}
+diff --git a/metadata/service/gateway/single.yml b/metadata/service/gateway/single.yml
+index 2649449..631e749 100644
+--- a/metadata/service/gateway/single.yml
++++ b/metadata/service/gateway/single.yml
+@@ -42,3 +42,5 @@ parameters:
+             enabled: ${_param:openstack_fluentd_handler_enabled}
+           ossyslog:
+             enabled: ${_param:openstack_ossyslog_handler_enabled}
++      concurrency:
++        lock_path: /var/lock/neutron
