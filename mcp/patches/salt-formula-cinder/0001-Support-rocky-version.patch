@@ -30,7 +30,7 @@ index f103550..33e062f 100644
  {#- Therefore if api_version is not defined and OpenStack version is mitaka or newton use v2.0. #}
  {%- if 'api_version' in identity %}
  {%- set keystone_api_version = identity.get('api_version') %}
--{%- else %}
+-{%- else %} 
 +{%- else %}
  {%- if 'version' in controller and controller.version in ['mitaka', 'newton'] %}
  {%- set keystone_api_version = 'v2.0' %}

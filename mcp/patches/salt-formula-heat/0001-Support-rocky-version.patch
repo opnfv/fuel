@@ -36,7 +36,7 @@ index f5b4b13..6b90880 100644
  {%- endif %}
 
  # Maximum raw byte size of any template. (integer value)
--max_template_size = {{ server.get('max_template_size', 5440000) }}
+-max_template_size = {{ server.get('max_template_size', 5440000) }} 
 +max_template_size = {{ server.get('max_template_size', 5440000) }}
 
  # Maximum depth allowed when using nested stacks. (integer value)
