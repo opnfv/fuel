@@ -82,8 +82,8 @@ parameters:
         armband:
           name: armband
           enabled: '1'
-          url: 'http://linux.enea.com/mcp-repos/${_param:openstack_version}/${_param:linux_system_codename}'
-          distributions: '${_param:openstack_version}-armband'
+          url: 'http://linux.enea.com/mcp-repos/${_param:armband_repo_version}/${_param:linux_system_codename}'
+          distributions: '${_param:armband_repo_version}-armband'
           components: 'main'
           arches: 'arm64'
           key: ${_param:armband_key}
