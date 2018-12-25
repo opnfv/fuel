@@ -10,40 +10,31 @@ From: Michael Polenchuk <mpolenchuk@mirantis.com>
 Date: Wed, 28 Feb 2018 17:54:28 +0400
 Subject: [PATCH] Set ovs bridges as L3 interfaces
 
-Change-Id: I1e83129cc184cf481bea21d7aa452bf60d9e0499
----
- linux/files/ovs_bridge      | 18 ++++++++++++++++++
- linux/files/ovs_port        |  7 ++++++-
- linux/network/interface.sls | 28 ++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 linux/files/ovs_bridge
-
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
-new file mode 100644
-index 0000000..d33864c
---- /dev/null
+index bf9b74f..c45d459 100644
+--- a/linux/files/ovs_bridge
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,18 @@
-+auto {{ bridge_name }}
+@@ -1,4 +1,5 @@
+ auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
-+iface {{ bridge_name }} inet static
-+  ovs_type OVSBridge
-+  address {{ bridge.address }}
-+  netmask {{ bridge.netmask }}
-+  {%- if bridge.use_interfaces is defined %}
-+  ovs_ports {{ bridge.use_interfaces|join(' ') }}
-+  {%- endif %}
-+  {%- if bridge.datapath_type is defined %}
-+  ovs_extra set Bridge ${IFACE} datapath_type={{ bridge.datapath_type }}
-+  {%- endif %}
-+  {%- if bridge.gateway is defined %}
-+  gateway {{ bridge.gateway }}
-+  {%- endif %}
-+  {%- if bridge.name_servers is defined %}
-+  dns-nameservers {{ bridge.name_servers | join(' ') }}
-+  {%- endif %}
+ iface {{ bridge_name }} inet {{ bridge.get('proto', 'static' if bridge.address is defined else 'manual') }}
+ ovs_type {{ bridge.get('ovs_bridge_type', 'OVSBridge') }}
+ mtu {{ bridge.get('mtu', '1500') }}
+@@ -12,3 +13,12 @@ gateway {{ bridge.gateway }}
+ {%- if bridge.ovs_options is defined %}
+ ovs_options {{ bridge.ovs_options }}
+ {%- endif %}
++{%- if bridge.use_interfaces is defined %}
++ovs_ports {{ bridge.use_interfaces|join(' ') }}
++{%- endif %}
++{%- if bridge.datapath_type is defined %}
++ovs_extra set Bridge ${IFACE} datapath_type={{ bridge.datapath_type }}
++{%- endif %}
++{%- if bridge.name_servers is defined %}
++dns-nameservers {{ bridge.name_servers | join(' ') }}
++{%- endif %}
 diff --git a/linux/files/ovs_port b/linux/files/ovs_port
-index 222ca8e..03072cd 100644
+index a55b821..cbc85cd 100644
 --- a/linux/files/ovs_port
 +++ b/linux/files/ovs_port
 @@ -1,6 +1,11 @@
@@ -60,41 +51,44 @@ index 222ca8e..03072cd 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index a39fc37..b76c5d6 100644
+index 65e7bb8..6a2526a 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
-@@ -92,6 +92,34 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
- ovs_bridge_{{ interface_name }}:
-   openvswitch_bridge.present:
-   - name: {{ interface_name }}
-+{%- if interface.get('proto', 'manual') == 'static' %}
-+  file.managed:
-+  - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
-+  - makedirs: True
-+  - source: salt://linux/files/ovs_bridge
-+  - defaults:
-+      bridge: {{ interface|yaml }}
-+      bridge_name: {{ interface_name }}
-+  - template: jinja
-+
-+linux_interfaces_include_{{ interface_name }}:
-+  file.prepend:
-+  - name: /etc/network/interfaces
-+  - text: |
-+      source /etc/network/interfaces.d/*
-+      # Workaround for Upstream-Bug: https://github.com/saltstack/salt/issues/40262
-+      source /etc/network/interfaces.u/*
-+
-+ovs_bridge_up_{{ interface_name }}:
-+  cmd.run:
+@@ -115,6 +115,9 @@ dpdk_ovs_bridge_{{ interface_name }}:
+ dpdk_ovs_bridge_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: dpdk_ovs_bridge_{{ interface_name }}
+     - file: linux_interfaces_final_include
+@@ -166,10 +169,16 @@ ovs_bridge_{{ interface_name }}:
+
+ ovs_bridge_up_{{ interface_name }}:
+   cmd.run:
+-  - name: ifup {{ interface_name }}
 +  - name: ifup --ignore-errors {{ interface_name }}
-+  - require:
-+    - file: ovs_bridge_{{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
 +    - openvswitch_bridge: ovs_bridge_{{ interface_name }}
-+    - file: linux_interfaces_final_include
+     - file: ovs_bridge_{{ interface_name }}
+     - file: linux_interfaces_final_include
 +  - unless:
 +    - ip link show {{ interface_name }} | grep -q '\<UP\>'
-+{%- endif %}
 
- {# add linux network interface into OVS bridge #}
- {%- for int_name, int in network.interface.items() %}
+
+
+@@ -230,6 +239,9 @@ ovs_port_{{ interface_name }}:
+ ovs_port_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: ovs_port_{{ interface_name }}
+     - openvswitch_bridge: ovs_bridge_{{ interface.bridge }}_present
