@@ -12,7 +12,7 @@
 	branch = master
 [submodule "salt-formula-linux"]
 	path = mcp/salt-formulas/salt-formula-linux
-	url = https://github.com/salt-formulas/salt-formula-linux
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/linux
 	branch = master
 [submodule "salt-formula-keystone"]
 	path = mcp/salt-formulas/salt-formula-keystone
