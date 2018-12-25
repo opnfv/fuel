@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_cb4f7991",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-25T11:59:16Z",
+      "side": 1,
+      "message": "This will only work on x86, as there\u0027s currently no HiPE erlang compiler on AArch64.\nSince rabbitmq postinstall script calls a hipe recompile no matter the arch, we (armband) will have to push a new rabbitmq package anyway to avoid this.\nSo let\u0027s merge it like this for now and we\u0027ll deal with AArch64 later.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "bf3c5bf4a149b26cf3e0ef9787c7538bb0c5d4c9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
