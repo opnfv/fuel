@@ -1,0 +1,176 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Sat, 29 Dec 2018 16:46:50 +0400
+Subject: [PATCH] Extend ovs bridges
+
+diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
+index bf9b74f..c45d459 100644
+--- a/linux/files/ovs_bridge
++++ b/linux/files/ovs_bridge
+@@ -1,4 +1,5 @@
+ auto {{ bridge_name }}
++allow-ovs {{ bridge_name }}
+ iface {{ bridge_name }} inet {{ bridge.get('proto', 'static' if bridge.address is defined else 'manual') }}
+ ovs_type {{ bridge.get('ovs_bridge_type', 'OVSBridge') }}
+ mtu {{ bridge.get('mtu', '1500') }}
+@@ -12,3 +13,12 @@ gateway {{ bridge.gateway }}
+ {%- if bridge.ovs_options is defined %}
+ ovs_options {{ bridge.ovs_options }}
+ {%- endif %}
++{%- if bridge.use_interfaces is defined %}
++ovs_ports {{ bridge.use_interfaces|join(' ') }}
++{%- endif %}
++{%- if bridge.datapath_type is defined %}
++ovs_extra set Bridge ${IFACE} datapath_type={{ bridge.datapath_type }}
++{%- endif %}
++{%- if bridge.name_servers is defined %}
++dns-nameservers {{ bridge.name_servers | join(' ') }}
++{%- endif %}
+diff --git a/linux/files/ovs_port b/linux/files/ovs_port
+index a55b821..cbc85cd 100644
+--- a/linux/files/ovs_port
++++ b/linux/files/ovs_port
+@@ -1,6 +1,11 @@
+-auto {{ port_name }}
++# With systemd, adding OVS bridges as 'auto' can cause race conditions
++# https://github.com/openvswitch/ovs/blob/master/debian/openvswitch-switch.README.Debian
++# auto {{ port_name }}
+ allow-{{ port.bridge }} {{ port_name }}
+ iface {{ port_name }} inet {{ port.get('proto', 'manual') }}
++{%- if '.' in port_name %}
++vlan-raw-device {{ port_name.split('.')[0] }}
++{%- endif %}
+ ovs_type {{ port.get('ovs_port_type', 'OVSIntPort') }}
+ mtu {{ port.get('mtu', '1500') }}
+ ovs_bridge {{ port.bridge }}
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 7cc4102..c400831 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -141,7 +141,45 @@ linux_network_dpdk_bond_mode_{{ interface_name }}:
+ linux_network_dpdk_bridge_interface_{{ interface_name }}:
+   cmd.run:
+     - name: "ovs-vsctl{%- if network.ovs_nowait %} --no-wait{%- endif %} add-br {{ interface_name }} -- set bridge {{ interface_name }} datapath_type=netdev{% if interface.tag is defined %} -- set port {{ interface_name }} tag={{ interface.tag }}{% endif %}"
+-    - unless: "ovs-vsctl show | grep {{ interface_name }}"
++    - unless: 'ovs-vsctl show | grep "Bridge {{ interface_name }}"'
++
++    {# OVS dpdk needs ip address for vxlan termination on bridge br-prv #}
++    {%- if interface.address is defined %}
++
++{# create override for openvswitch dependency for dpdk br-prv #}
++/etc/systemd/system/ifup@{{ interface_name }}.service.d/override.conf:
++  file.managed:
++    - makedirs: true
++    - require:
++      - cmd: linux_network_dpdk_bridge_interface_{{ interface_name }}
++    - contents: |
++        [Unit]
++        Requires=openvswitch-switch.service
++        After=openvswitch-switch.service
++
++{# enforce ip address and mtu for ovs dpdk br-prv #}
++dpdk_ovs_bridge_{{ interface_name }}:
++  file.managed:
++    - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
++    - contents: |
++        auto {{ interface_name }}
++        iface {{ interface_name }} inet static
++        address {{ interface.address }}
++        netmask {{ interface.netmask }}
++        {%- if interface.mtu is defined %}
++        mtu {{ interface.mtu }}
++        {%- endif %}
++    - makedirs: True
++    - require:
++      - file: /etc/systemd/system/ifup@{{ interface_name }}.service.d/override.conf
++
++dpdk_ovs_bridge_up_{{ interface_name }}:
++  cmd.run:
++  - name: ifup {{ interface_name }}
++  - require:
++    - file: dpdk_ovs_bridge_{{ interface_name }}
++
++    {%- endif %}
+
+   {%- elif interface.type == 'dpdk_ovs_port' and interface.bridge is defined %}
+
+diff --git a/linux/network/interface.sls b/linux/network/interface.sls
+index 65e7bb8..8b3e4a7 100644
+--- a/linux/network/interface.sls
++++ b/linux/network/interface.sls
+@@ -82,43 +82,6 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
+     - name: ovs-vsctl{%- if network.ovs_nowait %} --no-wait{%- endif %} add-port {{ interface_name }} {{ int_name }}
+ {%- endif %}
+ {%- endfor %}
+-
+-linux_interfaces_include_{{ interface_name }}:
+-  file.prepend:
+-  - name: /etc/network/interfaces
+-  - text: |
+-      source /etc/network/interfaces.d/*
+-      # Workaround for Upstream-Bug: https://github.com/saltstack/salt/issues/40262
+-      source /etc/network/interfaces.u/*
+-
+-{# create override for openvswitch dependency for dpdk br-prv #}
+-/etc/systemd/system/ifup@{{ interface_name }}.service.d/override.conf:
+-  file.managed:
+-    - makedirs: true
+-    - require:
+-      - cmd: linux_network_dpdk_bridge_interface_{{ interface_name }}
+-    - contents: |
+-        [Unit]
+-        Requires=openvswitch-switch.service
+-        After=openvswitch-switch.service
+-
+-dpdk_ovs_bridge_{{ interface_name }}:
+-  file.managed:
+-  - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
+-  - makedirs: True
+-  - source: salt://linux/files/ovs_bridge
+-  - defaults:
+-      bridge: {{ interface|yaml }}
+-      bridge_name: {{ interface_name }}
+-  - template: jinja
+-
+-dpdk_ovs_bridge_up_{{ interface_name }}:
+-  cmd.run:
+-  - name: ifup {{ interface_name }}
+-  - require:
+-    - file: dpdk_ovs_bridge_{{ interface_name }}
+-    - file: linux_interfaces_final_include
+-
+ {%- endif %}
+
+ {# it is not used for any interface with type preffix dpdk,eg. dpdk_ovs_port #}
+@@ -166,7 +129,13 @@ ovs_bridge_{{ interface_name }}:
+
+ ovs_bridge_up_{{ interface_name }}:
+   cmd.run:
+-  - name: ifup {{ interface_name }}
++  - name: ifup --ignore-errors {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- else %}
++  - unless:
++    - ip link show {{ interface_name }} | grep -q '\<UP\>'
++  {%- endif %}
+   - require:
+     - file: ovs_bridge_{{ interface_name }}
+     - file: linux_interfaces_final_include
+@@ -230,6 +199,9 @@ ovs_port_{{ interface_name }}:
+ ovs_port_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: ovs_port_{{ interface_name }}
+     - openvswitch_bridge: ovs_bridge_{{ interface.bridge }}_present
