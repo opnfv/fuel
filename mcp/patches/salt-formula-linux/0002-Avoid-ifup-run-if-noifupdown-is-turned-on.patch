@@ -1,0 +1,46 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Sat, 29 Dec 2018 15:59:02 +0400
+Subject: [PATCH] Avoid ifup run if noifupdown is turned on
+
+diff --git a/linux/network/interface.sls b/linux/network/interface.sls
+index 65e7bb8..945884e 100644
+--- a/linux/network/interface.sls
++++ b/linux/network/interface.sls
+@@ -115,6 +115,9 @@ dpdk_ovs_bridge_{{ interface_name }}:
+ dpdk_ovs_bridge_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: dpdk_ovs_bridge_{{ interface_name }}
+     - file: linux_interfaces_final_include
+@@ -167,6 +170,9 @@ ovs_bridge_{{ interface_name }}:
+ ovs_bridge_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: ovs_bridge_{{ interface_name }}
+     - file: linux_interfaces_final_include
+@@ -230,6 +236,9 @@ ovs_port_{{ interface_name }}:
+ ovs_port_up_{{ interface_name }}:
+   cmd.run:
+   - name: ifup {{ interface_name }}
++  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
++  - onlyif: /bin/false
++  {%- endif %}
+   - require:
+     - file: ovs_port_{{ interface_name }}
+     - openvswitch_bridge: ovs_bridge_{{ interface.bridge }}_present
