@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_0641685a",
+        "filename": "mcp/patches/salt-formula-neutron/0001-Bring-in-basic-VPP-support.patch",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-27T20:11:38Z",
+      "side": 1,
+      "message": "I doubt this will be upstreamed in the current form. However, we\u0027re running out of cycles for refining this, so this should be enough for the 7.2 OPNFV release ...\nThe fact that vpp-agent requires ml2_conf.ini on gtw/cmp is really messing everything up.",
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_6625bcc1",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-27T20:11:38Z",
+      "side": 1,
+      "message": "maybe we should guard this with another \u0027if fdio\u0027, as this change breaks noha baremetal deploys on arm-pod5 (which has 4 NICs on cmp nodes, but only 2 NICs on gtw; and the private interface index is set to 2, which is out of bounds for the gtw node ...).",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 21
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_263c64e2",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-27T20:11:38Z",
+      "side": 1,
+      "message": "I\u0027m too tired to investigate this further today, so I\u0027ll look at it tomorrow or early next week.\nAfaict, the vlan range defined in IDF is only consumed by DPDK scenarios, but I have no idea how \u0027native\u0027 works for our virtual PODs ...\nSo, either this is silently ignored / discarded before it reaches ml2_conf.ini on ctl01; or we should actually alter all virtual POD IDFs to have a valid VLAN range in Pharos. I incline towards the second, as that would also align with the baremetal POD definitions (which do have a valid VLAN range, also configured on the TOR).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
