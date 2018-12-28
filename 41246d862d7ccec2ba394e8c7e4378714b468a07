@@ -161,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_5165d8df",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-28T12:48:45Z",
+      "side": 1,
+      "message": "Please disregard all this, I was using a broken PDF/IDF for my testing. All CI PODs have proper vlan ranges for private defined, unlike mine which had \u0027native\u0027 ...",
+      "parentUuid": "1a622d24_f174e49d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_7113b45c",
         "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
         "patchSetId": 2
