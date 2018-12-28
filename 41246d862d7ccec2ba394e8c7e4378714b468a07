@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_310adc21",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-12-28T09:25:50Z",
+      "side": 1,
+      "message": "I think the implications of a configuration like that are bigger. If we\u0027re lacking the third link for the gtw node you have to come up with a whole different setup for the gtw node (so that it has both public and private subnets on the same link). \n\nIf this is the only pod with 2 links on the gtw, I would say leave the code as is, and we can state in the docs the prerequisite for the scenario.",
+      "parentUuid": "1a622d24_6625bcc1",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 21
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_263c64e2",
         "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
         "patchSetId": 2
@@ -59,6 +83,47 @@
         "endLine": 13,
         "endChar": 12
       },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_110fe031",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-12-28T09:25:50Z",
+      "side": 1,
+      "message": "On a virtual deploy it souldn\u0027t matter the vlan range. The traffic between VMs doesn\u0027t reach the TOR, it uses the virtual networks on the jumpserver.",
+      "parentUuid": "1a622d24_263c64e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_7113b45c",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2018-12-28T09:25:50Z",
+      "side": 1,
+      "message": "If this section is not common for all scenarios anymore, should it not be moved to each scenario\u0027s respective file instead of having if/else?\nSame comment goes for the other files in this folder.",
       "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
