@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_b14b8c58",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/infra/config_pdf.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-28T11:15:19Z",
+      "side": 1,
+      "message": "I\u0027ll add an `if fdio`. The problem is not with the fdio scenario, but with all the others, since this file is used by all other scenarios which normally work just fine without dedicated private nics on gtw.",
+      "parentUuid": "1a622d24_310adc21",
+      "range": {
+        "startLine": 91,
+        "startChar": 12,
+        "endLine": 91,
+        "endChar": 21
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_263c64e2",
         "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
         "patchSetId": 2
@@ -113,6 +137,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_f174e49d",
+        "filename": "mcp/reclass/classes/cluster/all-mcp-arch-common/opnfv/init.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-28T11:15:19Z",
+      "side": 1,
+      "message": "I\u0027ll do an ovs-dpdk deploy today and check how the vlans are configured. The setup should work with any vlan range, but right now we don\u0027t pass any vlan range to ml2 at all (only a \u0027native\u0027 string), so I wonder how vlan networks used to work in this case.",
+      "parentUuid": "1a622d24_110fe031",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_7113b45c",
         "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
         "patchSetId": 2
@@ -124,6 +172,24 @@
       "writtenOn": "2018-12-28T09:25:50Z",
       "side": 1,
       "message": "If this section is not common for all scenarios anymore, should it not be moved to each scenario\u0027s respective file instead of having if/else?\nSame comment goes for the other files in this folder.",
+      "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_11740098",
+        "filename": "mcp/reclass/classes/cluster/mcp-common-noha/openstack_compute_pdf.yml.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-28T11:15:19Z",
+      "side": 1,
+      "message": "We don\u0027t have a strict rule here, but since we have to ommit the ovs parts in this file for fdio, we need an `if fdio` anyway. Moving this to fdio dir would make sense if we moved all the ovs bits to their scenarios as well, which would duplicate a lot of code ... it\u0027s not that easy to read, but then again if we add odl-fdio at some point, we\u0027d have to duplicate the fdio bits too ...",
+      "parentUuid": "1a622d24_7113b45c",
       "revId": "41246d862d7ccec2ba394e8c7e4378714b468a07",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
