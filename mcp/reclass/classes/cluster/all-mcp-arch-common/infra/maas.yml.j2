@@ -29,6 +29,13 @@ parameters:
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
     region:
+{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
+      tags:
+        aarch64_hugepages_1g:
+          comment: 'Enable 1G pagesizes on aarch64'
+          definition: '//capability[@id="asimd"]'
+          kernel_opts: 'default_hugepagesz=1G hugepagesz=1G'
+{%- endif %}
       timeout:
         # Set maas.wait_for_<state> timeouts to ~2.5x of MaaS <state> timeout
         ready: {{ nm.maas_timeout_comissioning * 150 }}
