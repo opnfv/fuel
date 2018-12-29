@@ -15,7 +15,8 @@ parameters:
     server:
       bind_host: ${_param:cluster_local_address}
       enabled: true
-      branch: stable/queens
+      git:
+        branch: stable/${_param:openstack_version}
       database:
         engine: mysql
         host: ${_param:single_address}
