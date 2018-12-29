@@ -1,0 +1,81 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 29 Dec 2018 23:09:01 +0100
+Subject: [PATCH] Implement 'tags' support
+
+TODO:
+- add README example;
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ _modules/maas.py | 26 ++++++++++++++++++++++++++
+ maas/region.sls  |  8 ++++++++
+ 2 files changed, 34 insertions(+)
+
+diff --git a/_modules/maas.py b/_modules/maas.py
+index c02f104..ef7511e 100644
+--- a/_modules/maas.py
++++ b/_modules/maas.py
+@@ -876,6 +876,28 @@ class Domain(MaasObject):
+         return ret
+
+
++class Tags(MaasObject):
++    def __init__(self):
++        super(Tags, self).__init__()
++        self._all_elements_url = u'api/2.0/tags/'
++        self._create_url = u'api/2.0/tags/'
++        self._config_path = 'region.tags'
++        self._update_url = u'api/2.0/tags/{0}/'
++        self._update_key = 'name'
++
++    def fill_data(self, name, tag_data):
++        data = {
++            'name': name,
++        }
++        for key in ['comment', 'definition', 'kernel_opts']:
++            if key in tag_data:
++                data[key] = tag_data[key]
++        return data
++
++    def update(self, new, old):
++        return new
++
++
+ class MachinesStatus(MaasObject):
+     @classmethod
+     def execute(cls, objects_name=None):
+@@ -1025,5 +1047,9 @@ def process_sshprefs():
+     return SSHPrefs().process()
+
+
++def process_tags():
++    return Tags().process()
++
++
+ def wait_for_machine_status(**kwargs):
+     return MachinesStatus.wait_for_machine_status(**kwargs)
+diff --git a/maas/region.sls b/maas/region.sls
+index 5da3a7f..0b47fe4 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -442,4 +442,12 @@ maas_sshkey_{{ idx }}:
+ {% endfor %}
+ {%- endif %}
+
++{%- if region.get('tags', False)  %}
++maas_tags:
++  module.run:
++  - name: maas.process_tags
++  - require:
++    - cmd: maas_login_admin
++{%- endif %}
++
+ {%- endif %}
