@@ -48,17 +48,13 @@ function __kernel_modules {
   fi
 
   # Best-effort attempt at building a non-maintaned kernel module
-  local __baseurl
-  local __subdir
+  local __baseurl='http://vault.centos.org/centos'
+  local __subdir='Source/SPackages'
   local __uname_r=$(uname -r)
   local __uname_m=$(uname -m)
   if [ "${__uname_m}" = 'x86_64' ]; then
-    __baseurl='http://vault.centos.org/centos'
-    __subdir='Source/SPackages'
     __srpm="kernel-${__uname_r%.${__uname_m}}.src.rpm"
   else
-    __baseurl='http://vault.centos.org/altarch'
-    __subdir="Source/${__uname_m}/Source/SPackages"
     # NOTE: fmt varies across releases (e.g. kernel-alt-4.11.0-44.el7a.src.rpm)
     __srpm="kernel-alt-${__uname_r%.${__uname_m}}.src.rpm"
   fi
