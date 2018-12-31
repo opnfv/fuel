@@ -101,14 +101,14 @@ function jumpserver_check_requirements {
 function docker_install {
   local image_dir=$1
   # Mininum effort attempt at installing Docker if missing
-  if ! docker --version; then
+  if ! sudo docker --version; then
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
     rm get-docker.sh
     # On RHEL distros, the Docker service should be explicitly started
     sudo systemctl start docker
   else
-    DOCKER_VER=$(docker version --format '{{.Server.Version}}')
+    DOCKER_VER=$(sudo docker version --format '{{.Server.Version}}')
     if [ "${DOCKER_VER%%.*}" -lt 2 ]; then
       notify_e "[ERROR] Docker version ${DOCKER_VER} is too old, please upgrade it."
     fi
