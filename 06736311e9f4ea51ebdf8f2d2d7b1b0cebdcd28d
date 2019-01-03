@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_4c6a5f1b",
+        "filename": "mcp/config/states/openstack_noha",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2019-01-03T14:32:09Z",
+      "side": 1,
+      "message": "I just thought we can do this by simply:\n\n  salt -I neutron:server state.sls etcd,neutron\n\nand it will do nothing if etcd pillar is not defined. If we tried to handle them one by one, etcd state would err since no minions did anything, but grouping it with neutron will work just fine.\nWe should apply the same trick for the `armband` state below.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "06736311e9f4ea51ebdf8f2d2d7b1b0cebdcd28d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
