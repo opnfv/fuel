@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_14450970",
+        "filename": "mcp/config/states/openstack_ha",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2019-01-09T14:50:30Z",
+      "side": 1,
+      "message": "That condition was added because on x86 nodes, the salt call would have returned a non-zero exit code if no nodes were matched.\nHowever, combining the `nova` and `armband` states together, we will always have a match, so that\u0027s no longer an issue.",
+      "revId": "7da37b3418836fa10d802206aed8a560f84cf640",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
