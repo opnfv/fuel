@@ -32,7 +32,7 @@ parameters:
     cluster_node02_address: ${_param:opnfv_openstack_control_node02_address}
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:opnfv_openstack_control_node03_address}
-    armband_repo_version: 'queens'  # ${_param:openstack_version}
+    armband_repo_version: ${_param:openstack_version}
     glance_version: ${_param:openstack_version}
     glance_service_host: ${_param:cluster_local_address}
     keystone_version: ${_param:openstack_version}
