@@ -58,6 +58,7 @@ supplemented with OPNFV unique components such as:
 
 - `OpenDaylight`_
 - Open Virtual Network (``OVN``)
+- `Vector Packet Processing`_
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
 
@@ -77,16 +78,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-7.1.0                          |
+| **Repo/tag**                         | opnfv-7.2.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Gambia 7.1                           |
+| **Release designation**              | Gambia 7.2                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | December 14, 2018                    |
+| **Release date**                     | January 18, 2019                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Gambia 7.1 release             |
+| **Purpose of the delivery**          | OPNFV Gambia 7.2 release             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -109,7 +110,7 @@ deployment toolchain. It is based on following upstream versions:
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Gambia`` 7.1 release.
+This is the ``Gambia`` 7.2 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -133,13 +134,13 @@ Feature Additions
 - ``ODL`` ``BGPVPN`` scenario;
 - ``IDF`` support for configuring cluster-level ``MTU``;
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 New features`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 New features`_
 filter.
 
 Bug Corrections
 ~~~~~~~~~~~~~~~
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Bugs (fixed)`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Bugs (fixed)`_
 filter.
 
 Software Deliverables
@@ -190,6 +191,9 @@ Scenario Matrix
 +-------------------------+---------------+-------------+------------+
 | os-ovn-nofeature-ha     | ``aarch64``   |             |            |
 +-------------------------+---------------+-------------+------------+
+| os-nosdn-fdio-noha      | ``x86_64``,   |             |            |
+|                         | ``aarch64``   |             |            |
++-------------------------+---------------+-------------+------------+
 
 Known Limitations, Issues and Workarounds
 =========================================
@@ -209,25 +213,25 @@ System Limitations
 Known Issues
 ------------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Known issues`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Known issues`_
 filter.
 
 Workarounds
 -----------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.1 Workarounds`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Workarounds`_
 filter.
 
 Test Results
 ============
 
-The ``Gambia`` 7.1 release with the Fuel deployment tool has undergone QA test
+The ``Gambia`` 7.2 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Gambia`` 7.1 release, please see:
+For more information on the OPNFV ``Gambia`` 7.2 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
@@ -240,6 +244,7 @@ For more information on the OPNFV ``Gambia`` 7.1 release, please see:
 
 .. FIXME: cleanup unused refs, extend above list
 .. _`OpenDaylight`: https://www.opendaylight.org
+.. _`Vector Packet Processing`: https://wiki.fd.io/view/VPP
 .. _`OpenDaylight Artifacts`: https://www.opendaylight.org/software/downloads
 .. _`MCP`: https://www.mirantis.com/software/mcp/
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
@@ -252,7 +257,7 @@ For more information on the OPNFV ``Gambia`` 7.1 release, please see:
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
 .. OPNFV Fuel Gambia JIRA filters
-.. _`OPNFV Fuel JIRA: Gambia 7.1 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12601
-.. _`OPNFV Fuel JIRA: Gambia 7.1 New features`: https://jira.opnfv.org/issues/?filter=12600
-.. _`OPNFV Fuel JIRA: Gambia 7.1 Known issues`: https://jira.opnfv.org/issues/?filter=12602
-.. _`OPNFV Fuel JIRA: Gambia 7.1 Workarounds`: https://jira.opnfv.org/issues/?filter=12603
+.. _`OPNFV Fuel JIRA: Gambia 7.2 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12604
+.. _`OPNFV Fuel JIRA: Gambia 7.2 New features`: https://jira.opnfv.org/issues/?filter=12605
+.. _`OPNFV Fuel JIRA: Gambia 7.2 Known issues`: https://jira.opnfv.org/issues/?filter=12606
+.. _`OPNFV Fuel JIRA: Gambia 7.2 Workarounds`: https://jira.opnfv.org/issues/?filter=12607
