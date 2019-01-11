@@ -18,7 +18,7 @@ parameters:
     network:
       interface:
 {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
-        {{ nm.cmp001.nic_private }}:
+        {{ nm.ctl01.nic_private }}:
           ovs_bridge: br-prv
         br-prv:
           enabled: true
@@ -36,5 +36,5 @@ parameters:
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
-            - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
+            - {{ ma.interface_str(nm.ctl01.nic_private, vlan_private_start) }}
 {%- endif %}
