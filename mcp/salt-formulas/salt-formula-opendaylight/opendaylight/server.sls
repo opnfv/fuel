@@ -147,6 +147,17 @@ opendaylight:
       - service: opendaylight
 {%- endif %}
 
+{%- if server.netvirt_nat_mode is defined %}
+/opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-natservice-config.xml:
+  file.managed:
+  - source: salt://opendaylight/files/netvirt-natservice-config.xml
+  - makedirs: true
+  - watch_in:
+    - service: opendaylight
+  - use:
+    - file: /opt/opendaylight/etc/jetty.xml
+{%- endif %}
+
 {%- if server.dhcp.enabled %}
 /opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-dhcpservice-config.xml:
   file.managed:
