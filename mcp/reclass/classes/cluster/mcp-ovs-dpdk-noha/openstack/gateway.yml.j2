@@ -19,7 +19,7 @@ parameters:
   linux:
     network:
       interface:
-        {{ nm.cmp001.nic_private }}:
+        {{ nm.ctl01.nic_private }}:
           ovs_bridge: br-prv
         br-prv:
           enabled: true
