@@ -47,6 +47,7 @@ function cleanup_uefi {
     efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
     xargs -I{} efibootmgr --delete-bootnum --bootnum {}; \
     rm -rf /boot/efi/*\"" || true
+  ${cmd_str} "sudo salt -C 'kvm* or cmp*' cmd.run 'shutdown now'" || true
 }
 
 function get_nova_compute_pillar_data {
