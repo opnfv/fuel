@@ -303,7 +303,7 @@ installed on the Jumpserver:
     .. code-block:: console
 
         jenkins@jumpserver:~$ cat /etc/apt/sources.list.d/armband.list
-        deb http://linux.enea.com/mcp-repos/queens/xenial queens-armband main
+        deb http://linux.enea.com/mcp-repos/rocky/xenial rocky-armband main
 
         jenkins@jumpserver:~$ sudo apt-key adv --keyserver keys.gnupg.net \
                                                --recv 798AB1D1
@@ -1375,7 +1375,7 @@ For more information on the OPNFV ``Gambia`` 7.2 release, please see:
 #. `OPNFV Documentation`_
 #. `OPNFV Software Downloads`_
 #. `OPNFV Gambia Wiki Page`_
-#. `OpenStack Queens Release Artifacts`_
+#. `OpenStack Rocky Release Artifacts`_
 #. `OpenStack Documentation`_
 #. `OpenDaylight Artifacts`_
 #. `Mirantis Cloud Platform Documentation`_
@@ -1390,8 +1390,8 @@ For more information on the OPNFV ``Gambia`` 7.2 release, please see:
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`fuel git repository`: https://git.opnfv.org/fuel
 .. _`pharos git repo`: https://git.opnfv.org/pharos
-.. _`OpenStack Documentation`: https://docs.openstack.org/queens
-.. _`OpenStack Queens Release Artifacts`: https://www.openstack.org/software/queens
+.. _`OpenStack Documentation`: https://docs.openstack.org/rocky
+.. _`OpenStack Rocky Release Artifacts`: https://www.openstack.org/software/rocky
 .. _`OPNFV Home Page`: https://www.opnfv.org
 .. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
 .. _`OPNFV Documentation`: https://docs.opnfv.org

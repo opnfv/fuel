@@ -249,8 +249,8 @@ For more information on the OPNFV ``Gambia`` 7.2 release, please see:
 .. _`MCP`: https://www.mirantis.com/software/mcp/
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`fuel git repository`: https://git.opnfv.org/fuel
-.. _`OpenStack Documentation`: https://docs.openstack.org/queens
-.. _`OpenStack Queens Release Artifacts`: https://www.openstack.org/software/queens
+.. _`OpenStack Documentation`: https://docs.openstack.org/rocky
+.. _`OpenStack Rocky Release Artifacts`: https://www.openstack.org/software/rocky
 .. _`OPNFV Home Page`: https://www.opnfv.org
 .. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
 .. _`OPNFV Documentation`: https://docs.opnfv.org
