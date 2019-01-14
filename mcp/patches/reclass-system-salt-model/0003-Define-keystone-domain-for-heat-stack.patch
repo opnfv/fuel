@@ -1,0 +1,44 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Wed, 9 Jan 2019 15:36:36 +0400
+Subject: [PATCH] Define keystone domain for heat stack
+
+Create domain for heat stack user by keystone state,
+previously it was doing by heat-keystone-setup-domain script.
+
+diff --git a/keystone/client/v3/service/heat.yml b/keystone/client/v3/service/heat.yml
+index 6c45bfe2..f1d500c7 100644
+--- a/keystone/client/v3/service/heat.yml
++++ b/keystone/client/v3/service/heat.yml
+@@ -6,6 +6,9 @@ parameters:
+     client:
+       resources:
+         v3:
++          domains:
++            heat_user_domain:
++              description: 'Contains users and projects created by heat'
+           roles:
+             heat_stack_user:
+               name: heat_stack_user
+@@ -21,6 +24,14 @@ parameters:
+                 service_admin:
+                   name: admin
+                   project_id: service
++            heat_domain_admin:
++              password: ${_param:heat_domain_admin_password}
++              email: ${_param:admin_email}
++              roles:
++                heat_stack_admin:
++                  name: admin
++                  role_domain_id: heat_user_domain
++                  domain_id: heat_user_domain
+           services:
+             heat:
+               type: orchestration
