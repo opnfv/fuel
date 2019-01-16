@@ -194,7 +194,7 @@ function __apt_repos_pkgs_image {
 function __cleanup_vms {
   # clean up existing nodes
   for node in $(${VIRSH} list --name | grep -P '\w{3}\d{2}'); do
-    ${VIRSH} destroy "${node}"
+    ${VIRSH} destroy "${node}" 2>/dev/null || true
   done
   for node in $(${VIRSH} list --name --all | grep -P '\w{3}\d{2}'); do
     ${VIRSH} domblklist "${node}" | awk '/^.da/ {print $2}' | \
