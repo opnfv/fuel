@@ -117,6 +117,8 @@ parameters:
         host: ${_param:openstack_proxy_control_address}
         port: 8003
         protocol: http
+      stack_domain_admin:
+        domain: heat_user_domain
 {%- else %}
   libvirt:
     server:
