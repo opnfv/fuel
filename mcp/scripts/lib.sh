@@ -36,22 +36,17 @@ function wait_for {
 }
 
 function cleanup_uefi {
-  # Clean up Ubuntu boot entry if cfg01, kvm nodes online from previous deploy
+  # Clean up Ubuntu boot entry if cfg01, baremetal nodes online from previous deploy
   local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
-  local grain_virtual=$(salt -C 'I@nova:compute and *01*' grains.get virtual --out txt | cut -d ' ' -f2)
   ping -c 1 -w 1 "${SALT_MASTER}" || return 0
   [ ! "$(hostname)" = 'cfg01' ] || cmd_str='eval'
-  # NOTE: Targeting nodes by hostname is fragile and should be refactored to
-  # also cover corner cases like noha scenarios on AArch64 baremetal's 'ctl01'
-  ${cmd_str} "sudo salt -C 'kvm* or cmp*' cmd.run \
+  ${cmd_str} "sudo salt -C 'G@virtual:physical and not cfg01*' cmd.run \
     \"which efibootmgr > /dev/null 2>&1 && \
     efibootmgr | grep -oP '(?<=Boot)[0-9]+(?=.*ubuntu)' | \
     xargs -I{} efibootmgr --delete-bootnum --bootnum {}; \
     rm -rf /boot/efi/*\"" || true
 
-  if [ "${grain_virtual}" == physical ]; then
-    ${cmd_str} "sudo salt -C 'kvm* or cmp*' cmd.run 'shutdown now'" || true
-  fi
+  ${cmd_str} "sudo salt -C 'G@virtual:physical and not cfg01*' cmd.run 'shutdown now'" || true
 }
 
 function get_nova_compute_pillar_data {
