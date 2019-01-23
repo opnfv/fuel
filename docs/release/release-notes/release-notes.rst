@@ -84,7 +84,7 @@ Release Data
 | **Release designation**              | Gambia 7.2                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | January 18, 2019                     |
+| **Release date**                     | January 25, 2019                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
 | **Purpose of the delivery**          | OPNFV Gambia 7.2 release             |
