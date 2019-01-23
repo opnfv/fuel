@@ -1,0 +1,14 @@
+parameters:
+  _param:
+    repo_ovs_210: https://mirror.mirantis.com/nightly/openstack-rocky/${_param:linux_system_codename}
+  linux:
+    system:
+      repo:
+        openvswitch:
+          source: "deb ${_param:repo_ovs_210} ${_param:linux_system_codename} main"
+          clean_file: true
+          key_url: ${_param:repo_ovs_210}/archive-rocky.key
+          pin:
+            - pin: 'release l=openstack-rocky-nightly'
+              priority: 1101
+              package: 'openvswitch* python-openvswitch ovn* dpdk* libdpdk*'
