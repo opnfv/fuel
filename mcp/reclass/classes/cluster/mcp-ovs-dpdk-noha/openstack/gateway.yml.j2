@@ -25,3 +25,5 @@ parameters:
           enabled: true
           type: ovs_bridge
           mtu: ${_param:interface_mtu}
+          use_interfaces:
+            - {{ nm.ctl01.nic_private }}

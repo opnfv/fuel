@@ -27,6 +27,8 @@ parameters:
           proto: static
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}
+          use_interfaces:
+            - {{ nm.ctl01.nic_private }}
 {%- else %}
         br-mesh:
           enabled: true

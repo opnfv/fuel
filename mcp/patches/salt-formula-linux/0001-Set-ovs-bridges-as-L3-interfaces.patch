@@ -12,16 +12,18 @@ Subject: [PATCH] Set ovs bridges as L3 interfaces
 
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..d33864c
+index 0000000..1322eeb
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,20 @@
 +auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
-+iface {{ bridge_name }} inet static
++iface {{ bridge_name }} inet {{ bridge.get('proto', 'static' if bridge.address is defined else 'manual') }}
 +  ovs_type OVSBridge
++  {%- if bridge.address is defined %}
 +  address {{ bridge.address }}
 +  netmask {{ bridge.netmask }}
++  {%- endif %}
 +  {%- if bridge.use_interfaces is defined %}
 +  ovs_ports {{ bridge.use_interfaces|join(' ') }}
 +  {%- endif %}
@@ -52,14 +54,13 @@ index 222ca8e..03072cd 100644
  mtu {{ port.get('mtu', '1500') }}
  ovs_bridge {{ port.bridge }}
 diff --git a/linux/network/interface.sls b/linux/network/interface.sls
-index a39fc37..c4a94a3 100644
+index a39fc37..8bce092 100644
 --- a/linux/network/interface.sls
 +++ b/linux/network/interface.sls
-@@ -92,6 +92,37 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
+@@ -92,6 +92,35 @@ add_int_{{ int_name }}_to_ovs_dpdk_bridge_{{ interface_name }}:
  ovs_bridge_{{ interface_name }}:
    openvswitch_bridge.present:
    - name: {{ interface_name }}
-+{%- if interface.get('proto', 'manual') == 'static' %}
 +  file.managed:
 +  - name: /etc/network/interfaces.u/ifcfg-{{ interface_name }}
 +  - makedirs: True
@@ -87,13 +88,21 @@ index a39fc37..c4a94a3 100644
 +  {%- if network.noifupdown|d(false) or interface.noifupdown|d(false) %}
 +  - onlyif: /bin/false
 +  {%- else %}
-+  - unless: ip link show {{ interface_name }} | grep -q '\<UP\>'
++  - unless: grep -qFx up /sys/class/net/{{ interface_name }}/operstate
 +  {%- endif %}
-+{%- endif %}
 
  {# add linux network interface into OVS bridge #}
  {%- for int_name, int in network.interface.items() %}
-@@ -176,6 +207,9 @@ ovs_port_{{ interface_name }}_line2:
+@@ -102,7 +131,7 @@ ovs_bridge_{{ interface_name }}:
+
+ add_int_{{ int_name }}_to_ovs_bridge_{{ interface_name }}:
+   cmd.run:
+-    - unless: ovs-vsctl show | grep {{ int_name }}
++    - unless: ovs-vsctl list-ports {{ interface_name }} | grep -qFx {{ int_name }}
+     - name: ovs-vsctl{%- if network.ovs_nowait %} --no-wait{%- endif %} add-port {{ interface_name }} {{ int_name }}
+
+ {%- endif %}
+@@ -176,6 +205,9 @@ ovs_port_{{ interface_name }}_line2:
  ovs_port_up_{{ interface_name }}:
    cmd.run:
    - name: ifup {{ interface_name }}
