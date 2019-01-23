@@ -21,6 +21,7 @@ classes:
 parameters:
   linux:
     network:
+      ovs_nowait: false
       interface:
 {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
         dpdk0:
@@ -53,6 +54,7 @@ parameters:
           type: ovs_port
           mtu: ${_param:interface_mtu}
           bridge: br-floating
+          ovs_bridge: br-floating
           noifupdown: true
         br-ex:
           enabled: true
