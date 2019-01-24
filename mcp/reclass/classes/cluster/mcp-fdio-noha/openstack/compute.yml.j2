@@ -13,6 +13,11 @@ classes:
   - cluster.mcp-common-noha.openstack_compute
   - cluster.mcp-fdio-noha
 parameters:
+  nova:
+    compute:
+      # yamllint disable-line rule:truthy
+      vif_plugging_is_fatal: False
+      vif_plugging_timeout: 0
   neutron:
     compute:
       backend:

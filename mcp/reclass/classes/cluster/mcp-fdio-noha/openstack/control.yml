@@ -29,6 +29,11 @@ parameters:
     internal_protocol: 'http'
     neutron_firewall_driver: 'iptables_hybrid'
     openstack_node_role: primary
+  nova:
+    controller:
+      # yamllint disable-line rule:truthy
+      vif_plugging_is_fatal: False
+      vif_plugging_timeout: 0
   neutron:
     server:
       role: ${_param:openstack_node_role}
