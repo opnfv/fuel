@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Cristina Pauna <cristina.pauna@enea.com>
+Submitted-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-at: Thu, 24 Jan 2019 19:50:23 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/66613
+Project: fuel
+Branch: refs/heads/stable/gambia
