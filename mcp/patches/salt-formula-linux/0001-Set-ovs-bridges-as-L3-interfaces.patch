@@ -10,13 +10,22 @@ From: Michael Polenchuk <mpolenchuk@mirantis.com>
 Date: Wed, 28 Feb 2018 17:54:28 +0400
 Subject: [PATCH] Set ovs bridges as L3 interfaces
 
+---
+ linux/files/ovs_bridge      | 22 ++++++++++++++++++++++
+ linux/files/ovs_port        |  8 +++++++-
+ linux/network/interface.sls | 34 +++++++++++++++++++++++++++++++++-
+ 3 files changed, 62 insertions(+), 2 deletions(-)
+ create mode 100644 linux/files/ovs_bridge
+
 diff --git a/linux/files/ovs_bridge b/linux/files/ovs_bridge
 new file mode 100644
-index 0000000..1322eeb
+index 0000000..4718b91
 --- /dev/null
 +++ b/linux/files/ovs_bridge
-@@ -0,0 +1,20 @@
-+auto {{ bridge_name }}
+@@ -0,0 +1,22 @@
++# With systemd, adding OVS bridges as 'auto' can cause race conditions
++# https://github.com/openvswitch/ovs/blob/master/debian/openvswitch-switch.README.Debian
++# auto {{ bridge_name }}
 +allow-ovs {{ bridge_name }}
 +iface {{ bridge_name }} inet {{ bridge.get('proto', 'static' if bridge.address is defined else 'manual') }}
 +  ovs_type OVSBridge
@@ -37,11 +46,15 @@ index 0000000..1322eeb
 +  dns-nameservers {{ bridge.name_servers | join(' ') }}
 +  {%- endif %}
 diff --git a/linux/files/ovs_port b/linux/files/ovs_port
-index 222ca8e..efb0307 100644
+index 222ca8e..41821b7 100644
 --- a/linux/files/ovs_port
 +++ b/linux/files/ovs_port
-@@ -1,6 +1,9 @@
- auto {{ port_name }}
+@@ -1,6 +1,12 @@
+-auto {{ port_name }}
++# With systemd, adding OVS bridges as 'auto' can cause race conditions
++# https://github.com/openvswitch/ovs/blob/master/debian/openvswitch-switch.README.Debian
++# OVS ports will be automatically ifup-ed when ifup-ing the OVS bridge
++# auto {{ port_name }}
  allow-{{ port.bridge }} {{ port_name }}
  iface {{ port_name }} inet {{ port.get('proto', 'manual') }}
 +{%- if '.' in port_name %}
