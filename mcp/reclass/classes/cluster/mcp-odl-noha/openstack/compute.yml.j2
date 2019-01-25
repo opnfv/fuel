@@ -80,7 +80,7 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
           use_interfaces:
             - {{ ma.interface_str(nm.cmp001.nic_private, vlan_private_start) }}
-        ovs_port_{{ nm.cmp001.nic_public }}:
+        {{ nm.cmp001.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
           mtu: ${_param:interface_mtu}

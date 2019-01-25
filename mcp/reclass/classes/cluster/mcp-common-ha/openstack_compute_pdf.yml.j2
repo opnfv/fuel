@@ -42,6 +42,9 @@ parameters:
 {%- if nm.cmp001.nic_admin in nics %}
   {%- do nics.pop(nm.cmp001.nic_admin) %}
 {%- endif %}
+{%- if nm.cmp001.nic_public in nics %}
+  {%- do nics.pop(nm.cmp001.nic_public) %}
+{%- endif %}
 
 {{ ma.linux_network_interfaces_nic(nics) }}
 
@@ -67,7 +70,7 @@ parameters:
           gateway: ${_param:opnfv_net_public_gw}
           name_servers: {{ nm.dns_public }}
           noifupdown: true
-        ovs_port_{{ nm.cmp001.nic_public }}:
+        {{ nm.cmp001.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.cmp001.nic_public, nm.vlan_public) }}
           proto: manual

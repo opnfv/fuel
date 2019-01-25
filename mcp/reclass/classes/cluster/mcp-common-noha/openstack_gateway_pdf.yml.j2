@@ -60,7 +60,7 @@ parameters:
 {{ ma.linux_network_interfaces_vlan(vlans) }}
 
 {%- if '-fdio-' not in conf.MCP_DEPLOY_SCENARIO %}
-        ovs_port_{{ nm.ctl01.nic_public }}:
+        {{ nm.ctl01.nic_public }}:
           enabled: true
           name: {{ ma.interface_str(nm.ctl01.nic_public, nm.vlan_public) }}
           mtu: ${_param:interface_mtu}
