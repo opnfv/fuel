@@ -7,13 +7,19 @@
 ##############################################################################
 ---
 parameters:
+  _param:
+    vpp_version: '18.07-release'
   linux:
     system:
       repo:
         fdio.ubuntu:
           # yamllint disable-line rule:line-length
           source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu.${_param:linux_system_codename}.main/ ./"
-          # NOTE(armband): For now we define all repos on all archs, let APT figure it out
+          pin:
+            - pin: 'version ${_param:vpp_version}'
+              priority: 1200
+              package: 'vpp*'
+        # NOTE(armband): For now we define all repos on all archs, let APT figure it out
         fdio.ubuntu-arm:
           # yamllint disable-line rule:line-length
           source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu-arm.${_param:linux_system_codename}.main/ ./"
