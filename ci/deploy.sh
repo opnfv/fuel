@@ -38,13 +38,13 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f] [-F] [-e | -E[E]] [-d] [-D] [-N] [-m]
+    [-f] [-F[F]] [-e[e] | -E[E]] [-d] [-D] [-N] [-m]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
   -d  Dry-run
   -D  Debug logging
-  -e  Do not launch environment deployment
+  -e  Do not launch environment deployment (use twice to skip cloud setup)
   -E  Remove existing VCP VMs (use twice to redeploy baremetal nodes)
   -f  Deploy on existing Salt master (use twice or more to skip states)
   -F  Same as -e, do not launch environment deployment (legacy option)
@@ -77,6 +77,8 @@ $(notify_i "Input parameters to the build script are:" 2)
 -d Dry-run - Produce deploy config files, but do not execute deploy
 -D Debug logging - Enable extra logging in sh deploy scripts (set -x)
 -e Do not launch environment deployment
+   If specified twice (e.g. -e -e), only the operating system and networks
+   will be provisioned, skipping cloud installation.
 -E Remove existing VCP VMs. It will destroy and undefine all VCP VMs
    currently defined on cluster KVM nodes. If specified twice (e.g. -E -E),
    baremetal nodes (VCP too, implicitly) will be removed, then reprovisioned.
@@ -138,7 +140,7 @@ DEF_DOCKER_TAG=$(basename "${OPNFV_BRANCH/master/latest}")
 DRY_RUN=${DRY_RUN:-0}
 USE_EXISTING_PKGS=${USE_EXISTING_PKGS:-0}
 USE_EXISTING_INFRA=${USE_EXISTING_INFRA:-0}
-NO_DEPLOY_ENVIRONMENT=${NO_DEPLOY_ENVIRONMENT:-0}
+MCP_NO_DEPLOY_ENVIRONMENT=${MCP_NO_DEPLOY_ENVIRONMENT:-0}
 ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
 MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-${DEF_DOCKER_TAG}}
@@ -179,7 +181,7 @@ do
             ((USE_EXISTING_INFRA+=1))
             ;;
         F|e)
-            NO_DEPLOY_ENVIRONMENT=1
+            ((MCP_NO_DEPLOY_ENVIRONMENT+=1))
             ;;
         E)
             ((ERASE_ENV+=1))
@@ -279,7 +281,8 @@ export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 # Expand jinja2 templates based on PDF data and env vars
 [[ "${DEPLOY_SCENARIO}" =~ -ha$ ]] || MCP_VCP=0
 export MCP_REPO_ROOT_PATH MCP_VCP MCP_STORAGE_DIR MCP_DOCKER_TAG MCP_CMP_SS \
-       MCP_JUMP_ARCH=$(uname -i) MCP_DEPLOY_SCENARIO="${DEPLOY_SCENARIO}"
+       MCP_JUMP_ARCH=$(uname -i) MCP_DEPLOY_SCENARIO="${DEPLOY_SCENARIO}" \
+       MCP_NO_DEPLOY_ENVIRONMENT
 do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${BASE_CONFIG_URI}" "${SCENARIO_DIR}" \
                       "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"
@@ -322,7 +325,7 @@ check_connection
 
 # Openstack cluster setup
 set +x
-if [ ${NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
+if [ ${MCP_NO_DEPLOY_ENVIRONMENT} -eq 1 ]; then
     notify "[NOTE] Skip openstack cluster setup" 2
 else
     for state in "${cluster_states[@]:${USE_EXISTING_INFRA}}"; do
