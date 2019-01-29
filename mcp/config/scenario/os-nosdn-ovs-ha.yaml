@@ -37,7 +37,7 @@ virtual:
     ram: 14336
   cmp001:
     vcpus: 4
-    ram: 8192
+    ram: 10240
   cmp002:
     vcpus: 4
-    ram: 8192
+    ram: 10240

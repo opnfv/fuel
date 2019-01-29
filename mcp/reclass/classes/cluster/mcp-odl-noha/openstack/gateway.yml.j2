@@ -19,6 +19,9 @@ parameters:
       interface:
 {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO %}
         {{ nm.ctl01.nic_private }}:
+          ovs_port_type: OVSPort
+          type: ovs_port
+          bridge: br-prv
           ovs_bridge: br-prv
         br-prv:
           enabled: true
@@ -27,6 +30,8 @@ parameters:
           proto: static
           address: ${_param:tenant_address}
           netmask: ${_param:opnfv_net_private_mask}
+          use_interfaces:
+            - {{ nm.ctl01.nic_private }}
 {%- else %}
         br-mesh:
           enabled: true

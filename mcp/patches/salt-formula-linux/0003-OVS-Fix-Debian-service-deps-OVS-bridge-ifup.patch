@@ -1,0 +1,97 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Fri, 25 Jan 2019 21:20:04 +0100
+Subject: [PATCH] OVS: Fix Debian service deps, OVS bridge ifup
+
+Fix OVS vs Linux bridge race condition:
+- OVS services should start before networking service;
+- OVS services should start after DPDK service (if present);
+- networking service should ifup OVS bridges (and automatically their
+  OVS ports if present) after Linux interfaces/bridges;
+- br-prv should be handled by OVS to avoid another race condition,
+  so use 'allow-ovs br-prv' instead of 'auto';
+
+NOTE:
+- OVS ports/bridges should NOT be configured as auto for this to work;
+- OVS services correspond to OVS 2.9 or newer, since before that
+  ovsdb-server was called openvswitch-nonetwork.
+- we also need to take care of one particularly ugly circular dep:
+  ovs-vswitchd --> ovsdb-server -(default dep)-> sysinit.target -->
+  cloud-init.service --> networking.service --> ovs-vswitchd
+  We'll just set 'DefaultDependencies=no' for ovs services, although
+  this might require explicitly adding back some of the indirect
+  dependencies of sysinit.target.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/network/dpdk.sls      |  2 +-
+ linux/network/interface.sls | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 09453c6..e866909 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -199,7 +199,7 @@ linux_network_dpdk_bridge_interface_{{ interface_name }}:
+ /etc/network/interfaces.u/ifcfg-{{ interface_name }}:
+   file.managed:
+     - contents: |
+-        auto {{ interface_name }}
++        allow-ovs {{ interface_name }}
+         iface {{ interface_name }} inet static
+         address {{ interface.address }}
+         netmask {{ interface.netmask }}
+diff --git a/linux/network/interface.sls b/linux/network/interface.sls
+index 8bce092..11db5be 100644
+--- a/linux/network/interface.sls
++++ b/linux/network/interface.sls
+@@ -24,6 +24,42 @@ linux_network_bridge_pkgs:
+   - pkgs: {{ network.bridge_pkgs }}
+   {%- endif %}
+
++{%- if network.bridge == 'openvswitch' and grains.os_family == 'Debian' %}
++
++{# create drop-in dpdk, networking dependency for ovs services #}
++/etc/systemd/system/ovsdb-server.service.d/override.conf:
++  file.managed:
++    - makedirs: true
++    - require:
++      - pkg: linux_network_bridge_pkgs
++    - contents: |
++        [Unit]
++        After=dpdk.service
++        Before=networking.service
++        DefaultDependencies=no
++
++/etc/systemd/system/ovs-vswitchd.service.d/override.conf:
++  file.managed:
++    - makedirs: true
++    - require:
++      - pkg: linux_network_bridge_pkgs
++    - contents: |
++        [Unit]
++        Before=networking.service
++        DefaultDependencies=no
++
++{# Debian/Ubuntu won't automatically ifup OVS bridges, workaround #}
++/etc/systemd/system/networking.service.d/ovs_workaround.conf:
++  file.managed:
++    - makedirs: true
++    - require:
++      - pkg: linux_network_bridge_pkgs
++    - contents: |
++        [Service]
++        ExecStart=/sbin/ifup --allow=ovs -a --read-environment
++
++{%- endif %}
++
+ {%- endif %}
+
+ {%- for f in network.get('concat_iface_files', []) %}
