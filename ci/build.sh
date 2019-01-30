@@ -33,6 +33,7 @@ DOCKER_DIR=$(cd "${MCP_REPO_ROOT_PATH}/docker"; pwd)
 DOCKER_TAG=${1:-latest}
 DOCKER_PUSH=${2---push}  # pass an empty second arg to disable push
 CACHE_INVALIDATE=${CACHE_INVALIDATE:-0}
+SALT_VERSION='stable 2017.7'
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
@@ -81,9 +82,18 @@ env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
     --dist-rel=xenial \
     --formula-rev=nightly \
     --opnfv-tag="${DOCKER_TAG}" \
-    --salt='stable 2017.7' \
+    --salt="${SALT_VERSION}" \
     --build-arg-extra " \
         CACHE_INVALIDATE=\"${CACHE_INVALIDATE}\"" \
+    ${DOCKER_PUSH}
+
+env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
+  invoke build saltminion-maas \
+    --require 'maas' \
+    --dist=ubuntu \
+    --dist-rel=xenial \
+    --opnfv-tag="${DOCKER_TAG}" \
+    --salt="${SALT_VERSION}" \
     ${DOCKER_PUSH}
 
 popd > /dev/null

@@ -1,0 +1,89 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 30 Jan 2019 17:21:03 +0100
+Subject: [PATCH] Add saltminion-maas build target
+
+---
+ DockerMake.yml | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ invoke.yml     |  5 +++++
+ 2 files changed, 50 insertions(+)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index 9ab7195..550cac6 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -50,6 +50,51 @@ common:
+       && eval ${LAYER_CLEANUP}
+
+
++maas:
++  requires:
++  - python
++  build: |
++    ARG SALT_VERSION="stable"
++    ENV SALT_VERSION $SALT_VERSION
++    ARG SALT_BOOTSTRAP_OPTS="-PdX ${SALT_VERSION}"
++    ENV SALT_BOOTSTRAP_OPTS $SALT_BOOTSTRAP_OPTS
++    RUN echo "Layer with MaaS, salt-minion packages" \
++      && find /etc/systemd/system \
++              /lib/systemd/system \
++              -path '*.wants/*' \
++              -not -name '*journald*' \
++              -not -name '*systemd-tmpfiles*' \
++              -not -name '*systemd-user-sessions*' \
++              -exec rm \{} \; \
++      && systemctl set-default multi-user.target \
++      && eval ${LAYER_PKGUPDT} \
++      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 ${SALT_BOOTSTRAP_OPTS} \
++      && apt-get upgrade -qy \
++      && ${LAYER_INSTALL} maas-common \
++      && ${LAYER_INSTALL} \
++           avahi-utils \
++           dbconfig-pgsql \
++           ipmitool \
++           iputils-ping \
++           lsb-release \
++           maas-cli \
++           maas-dns \
++           maas-rack-controller \
++           maas-region-api \
++           openssh-server \
++           postgresql \
++           python-futures \
++           python-m2crypto \
++           python-msgpack \
++           python-netaddr \
++           python-oauth \
++           python-psutil \
++           python-yaml \
++           tcpdump \
++      && eval ${LAYER_CLEANUP}
++    ENTRYPOINT ["/sbin/init"]
++
++
+ salt:
+   requires:
+   - python
+diff --git a/invoke.yml b/invoke.yml
+index 291f4c7..a2f4614 100644
+--- a/invoke.yml
++++ b/invoke.yml
+@@ -62,6 +62,11 @@ target:
+   #    - salt
+   #  require:
+   #    - saltclass
++  saltminion-maas:
++    matrix:
++      - dist
++    require:
++      - maas
+
+ dockermake:
+   destination: 'images'
