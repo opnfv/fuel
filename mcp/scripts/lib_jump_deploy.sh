@@ -278,9 +278,9 @@ function prepare_vms {
 }
 
 function create_networks {
-  local all_vnode_networks=("mcpcontrol" "$@")
-  # create required networks, including constant "mcpcontrol"
-  for net in "${all_vnode_networks[@]}"; do
+  local all_vnode_networks=("$@")
+  # create required networks
+  for net in "mcpcontrol" "${all_vnode_networks[@]}"; do
     if ${VIRSH} net-info "${net}" >/dev/null 2>&1; then
       ${VIRSH} net-destroy "${net}" || true
       ${VIRSH} net-undefine "${net}"
@@ -293,12 +293,12 @@ function create_networks {
       ${VIRSH} net-start "${net}"
     fi
   done
-  # create veth pairs for relevant networks (mcpcontrol, pxebr, mgmt)
-  for i in $(seq 0 2 4); do
+  # create veth pairs for relevant networks (pxebr, mgmt)
+  for i in $(seq 0 2 2); do
     sudo ip link del "veth_mcp$i" || true
     sudo ip link add "veth_mcp$i" type veth peer name "veth_mcp$((i+1))"
-    sudo ip link set "veth_mcp$i" up mtu 9000
-    sudo ip link set "veth_mcp$((i+1))" up mtu 9000
+    sudo ip link set "veth_mcp$i" up
+    sudo ip link set "veth_mcp$((i+1))" up
     sudo brctl addif "${all_vnode_networks[$((i/2))]}" "veth_mcp$i"
   done
 }
@@ -337,14 +337,7 @@ function create_vms {
 
     # prepare network args
     local vnode_networks=("$@")
-    if [[ "${vnode_data[0]}" =~ ^(cfg01|mas01) ]]; then
-      net_args=" --network network=mcpcontrol,model=virtio"
-      # 3rd interface gets connected to PXE/Admin Bridge (cfg01, mas01)
-      vnode_networks[2]="${vnode_networks[0]}"
-    else
-      net_args=" --network bridge=${vnode_networks[0]},model=virtio"
-    fi
-    for net in "${vnode_networks[@]:1}"; do
+    for net in "${vnode_networks[@]}"; do
       net_args="${net_args} --network bridge=${net},model=virtio"
     done
 
@@ -370,27 +363,16 @@ function create_vms {
   done
 }
 
-function update_mcpcontrol_network {
-  # set static ip address for salt master node, MaaS node
-  local amac=$(${VIRSH} domiflist mas01 2>&1| awk '/mcpcontrol/ {print $5; exit}')
-  [ -z "${amac}" ] || ${VIRSH} net-update "mcpcontrol" add ip-dhcp-host \
-    "<host mac='${amac}' name='mas01' ip='${MAAS_IP}'/>" --live --config
-}
-
 function reset_vms {
   local vnodes=("$@")
   local cmd_str="ssh ${SSH_OPTS} ${SSH_SALT}"
 
   # reset non-infrastructure vms, wait for them to come back online
   for node in "${vnodes[@]}"; do
-    if [[ ! "${node}" =~ (cfg01|mas01) ]]; then
-      ${VIRSH} reset "${node}"
-    fi
+    ${VIRSH} reset "${node}"
   done
   for node in "${vnodes[@]}"; do
-    if [[ ! "${node}" =~ (cfg01|mas01) ]]; then
-      wait_for 20.0 "${cmd_str} sudo salt -C '${node}*' saltutil.sync_all"
-    fi
+    wait_for 20.0 "${cmd_str} sudo salt -C '${node}*' saltutil.sync_all"
   done
 }
 
@@ -414,9 +396,22 @@ function prepare_containers {
   if [[ ! "${MCP_DOCKER_TAG}" =~ 'verify' ]]; then
     "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml pull
   fi
+  # FIXME
   sudo rm -rf "${image_dir}/"{salt,hosts,pki} "${image_dir}/nodes/"*
-  mkdir -p "${image_dir}/salt/"{master.d,minion.d}
+  mkdir -p "${image_dir}/"{salt/master.d,salt/minion.d}
   touch "${image_dir}/hosts"
+
+  if grep -q -e 'maas' 'docker-compose/docker-compose.yaml'; then
+    # Apparmor workaround for bind9 inside Docker containers using AUFS
+    for profile in 'usr.sbin.ntpd' 'usr.sbin.named' \
+                   'usr.sbin.dhcpd' 'usr.bin.tcpdump'; do
+      if [ -e "/etc/apparmor.d/${profile}" ] && \
+       [ ! -e "/etc/apparmor.d/disable/${profile}" ]; then
+        sudo ln -sf "/etc/apparmor.d/${profile}" "/etc/apparmor.d/disable/"
+        sudo apparmor_parser -R "/etc/apparmor.d/${profile}" || true
+      fi
+    done
+  fi
 }
 
 function start_containers {
