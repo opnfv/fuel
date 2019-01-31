@@ -30,7 +30,7 @@ virtual:
     ram: 1024
   odl01:
     vcpus: 4
-    ram: 5120
+    ram: 6144
   cmp001:
     vcpus: 4
     ram: 10240
