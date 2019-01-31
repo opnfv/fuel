@@ -19,6 +19,10 @@ classes:
   - cluster.mcp-common-noha.openstack_compute
   - cluster.mcp-odl-noha
 parameters:
+  nova:
+    compute:
+      vif_plugging_is_fatal: false
+      vif_plugging_timeout: 120
   linux:
     network:
       ovs_nowait: false
