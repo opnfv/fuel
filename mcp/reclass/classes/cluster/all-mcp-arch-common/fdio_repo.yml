@@ -12,7 +12,7 @@ parameters:
   linux:
     system:
       repo:
-        fdio.ubuntu:
+        fdio-ubuntu:
           # yamllint disable-line rule:line-length
           source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu.${_param:linux_system_codename}.main/ ./"
           pin:
@@ -20,7 +20,7 @@ parameters:
               priority: 1200
               package: 'vpp*'
         # NOTE(armband): For now we define all repos on all archs, let APT figure it out
-        fdio.ubuntu-arm:
+        fdio-ubuntu-arm:
           # yamllint disable-line rule:line-length
           source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu-arm.${_param:linux_system_codename}.main/ ./"
         networking-vpp:
