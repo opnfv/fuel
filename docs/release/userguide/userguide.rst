@@ -360,9 +360,12 @@ Logging in to cluster nodes is possible from the Jumpserver, Salt Master etc.
     ``/etc/hosts`` on ``cfg01`` has all the cluster hostnames, which can be
     used instead of IP addresses.
 
+    ``/root/.ssh/config`` on ``cfg01`` configures the default user and key:
+    ``ubuntu``, respectively ``/root/fuel/mcp/scripts/mcp.rsa``.
+
 .. code-block:: console
 
-    root@cfg01:~$ ssh -i ~/fuel/mcp/scripts/mcp.rsa ubuntu@ctl01
+    root@cfg01:~$ ssh ctl01
 
 Debugging ``MaaS`` Comissioning/Deployment Issues
 =================================================

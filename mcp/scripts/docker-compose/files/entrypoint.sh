@@ -16,6 +16,9 @@ fi
 if [ ! -f /home/ubuntu/.ssh/authorized_keys ]; then
     install -D -o ubuntu /root/fuel/mcp/scripts/mcp.rsa.pub \
                          /home/ubuntu/.ssh/authorized_keys
+    mkdir -p /root/.ssh/
+    echo 'User ubuntu' > /root/.ssh/config
+    echo 'IdentityFile /root/fuel/mcp/scripts/mcp.rsa' >> /root/.ssh/config
 fi
 
 if ! grep -q localhost /etc/hosts; then
