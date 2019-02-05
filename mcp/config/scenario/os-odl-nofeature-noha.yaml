@@ -29,4 +29,4 @@ virtual:
     ram: 2048
   odl01:
     vcpus: 4
-    ram: 5120
+    ram: 6144
