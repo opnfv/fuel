@@ -11,6 +11,9 @@ classes:
   - cluster.all-mcp-arch-common
 parameters:
   _param:
+    # infra service addresses
+    infra_config_address: ${_param:opnfv_infra_config_address}
+    infra_config_deploy_address: {{ conf.SALT_MASTER }}
     cluster_domain: ${_param:cluster_name}.local
     reclass_config_master: ${_param:opnfv_infra_config_pxe_admin_address}
     infra_maas_node01_hostname: mas01
