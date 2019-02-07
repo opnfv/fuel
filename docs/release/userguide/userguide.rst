@@ -29,7 +29,8 @@ Fuel uses several networks to deploy and administer the cloud:
 | **PXE/admin**    | Used for booting the nodes via PXE and/or Salt           |
 |                  | control network                                          |
 +------------------+----------------------------------------------------------+
-| **mcpcontrol**   | Used to provision the infrastructure hosts (Salt & MaaS) |
+| **mcpcontrol**   | Docker network used to provision the infrastructure      |
+|                  | hosts (Salt & MaaS)                                      |
 +------------------+----------------------------------------------------------+
 | **management**   | Used for internal communication between                  |
 |                  | OpenStack components                                     |
@@ -45,20 +46,21 @@ Fuel uses several networks to deploy and administer the cloud:
 These networks - except ``mcpcontrol`` - can be Linux bridges configured
 before the deploy on the Jumpserver.
 If they don't exists at deploy time, they will be created by the scripts as
-``libvirt`` managed networks.
+``libvirt`` managed networks (except ``mcpcontrol``, which will be handled by
+Docker using the ``bridge`` driver).
 
 Network ``mcpcontrol``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-``mcpcontrol`` is a virtual network, managed by libvirt. Its only purpose is to
+``mcpcontrol`` is a virtual network, managed by Docker. Its only purpose is to
 provide a simple method of assigning an arbitrary ``INSTALLER_IP`` to the Salt
 master node (``cfg01``), to maintain backwards compatibility with old OPNFV
 Fuel behavior. Normally, end-users only need to change the ``INSTALLER_IP`` if
 the default CIDR (``10.20.0.0/24``) overlaps with existing lab networks.
 
-``mcpcontrol`` has both NAT and DHCP enabled, so the Salt master (``cfg01``)
-and the MaaS VM (``mas01``, when present) get assigned predefined IPs (``.2``,
-``.3``, while the jumpserver bridge port gets ``.1``).
+``mcpcontrol`` uses the Docker bridge driver, so the Salt master (``cfg01``)
+and the MaaS containers (``mas01``, when present) get assigned predefined IPs
+(``.2``, ``.3``, while the jumpserver gets ``.1``).
 
 +------------------+---------------------------+-----------------------------+
 | Host             | Offset in IP range        | Default address             |
@@ -346,6 +348,18 @@ To login as ``ubuntu`` user, use the RSA private key ``/var/lib/opnfv/mcp.rsa``:
     jenkins@jumpserver:~$ docker exec -it fuel bash
     root@cfg01:~$
 
+Accessing the MaaS Node (``mas01``)
+===================================
+
+Starting with the ``Hunter`` release, the MaaS node (``mas01``) is
+containerized and no longer runs a ``sshd`` server. To access it (from
+``jumpserver`` only):
+
+.. code-block:: console
+
+    jenkins@jumpserver:~$ docker exec -it maas bash
+    root@mas01:~$
+
 Accessing Cluster Nodes
 =======================
 
@@ -382,18 +396,9 @@ Accessing the ``MaaS`` Dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``MaaS`` web-based dashboard is available at
-``http://<mas01 IP address>:5240/MAAS``, e.g.
-``http://172.16.10.12:5240/MAAS``.
+``http://<jumpserver IP address>:5240/MAAS``.
 
 The administrator credentials are ``opnfv``/``opnfv_secret``.
-
-.. NOTE::
-
-    ``mas01`` VM does not automatically get assigned an IP address in the
-    public network segment. If ``MaaS`` dashboard should be accesiable from
-    the public network, such an address can be manually added to the last
-    VM NIC interface in ``mas01`` (which is already connected to the public
-    network bridge).
 
 Ensure Commission/Deploy Timeouts Are Not Too Small
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -446,30 +451,31 @@ Check Network Connectivity Between Nodes on the Jumpserver
 ``cfg01`` is a Docker container running on the ``jumpserver``, connected to
 Docker networks (created by docker-compose automatically on container up),
 which in turn are connected using veth pairs to their ``libvirt`` managed
-counterparts.
+counterparts (or manually created bridges).
 
-For example, the ``mcpcontrol`` network(s) should look like below.
+For example, the ``mgmt`` network(s) should look like below for a ``virtual``
+deployment.
 
 .. code-block:: console
 
-    jenkins@jumpserver:~$ brctl show mcpcontrol
+    jenkins@jumpserver:~$ brctl show mgmt
     bridge name   bridge id           STP enabled   interfaces
-    mcpcontrol    8000.525400064f77   yes           mcpcontrol-nic
-                                                    veth_mcp0
+    mgmt          8000.525400064f77   yes           mgmt-nic
+                                                    veth_mcp2
                                                     vnet8
 
     jenkins@jumpserver:~$ docker network ls
     NETWORK ID    NAME                              DRIVER   SCOPE
-    81a0fdb3bd78  docker-compose_docker-mcpcontrol  macvlan  local
+    81a0fdb3bd78  docker-compose_mgmt               macvlan  local
     [...]
 
-    jenkins@jumpserver:~$ docker network inspect docker-compose_mcpcontrol
+    jenkins@jumpserver:~$ docker network inspect docker-compose_mgmt
     [
         {
-            "Name": "docker-compose_mcpcontrol",
+            "Name": "docker-compose_mgmt",
             [...]
             "Options": {
-                "parent": "veth_mcp1"
+                "parent": "veth_mcp3"
             },
         }
     ]
@@ -488,14 +494,13 @@ segment).
         inet addr:172.16.10.2   Bcast:0.0.0.0  Mask:255.255.255.0
         inet addr:192.168.11.2  Bcast:0.0.0.0  Mask:255.255.255.0
 
-For each network of interest (``mcpcontrol``, ``mgmt``, ``PXE/admin``), check
-that ``cfg01`` can ping the jumpserver IP in that network segment, as well as
-the ``mas01`` IP in that network.
+For each network of interest (``mgmt``, ``PXE/admin``), check
+that ``cfg01`` can ping the jumpserver IP in that network segment.
 
 .. NOTE::
 
-    ``mcpcontrol`` is set up at VM bringup, so it should always be available,
-    while the other networks are configured by Salt as part of the
+    ``mcpcontrol`` is set up at container bringup, so it should always be
+    available, while the other networks are configured by Salt as part of the
     ``virtual_init`` STATE file.
 
 .. code-block:: console
@@ -552,7 +557,7 @@ To confirm or rule out this possibility, monitor the serial console output of
 one (or more) cluster nodes during ``MaaS`` commissioning. If the node is
 properly configured to attempt PXE boot, yet it times out waiting for an IP
 address from ``mas01`` ``DHCP``, it's worth checking that ``DHCP`` packets
-reach the ``jumpserver``, respectively the ``mas01`` VM.
+reach the ``jumpserver``, respectively the ``mas01`` container.
 
 .. code-block:: console
 

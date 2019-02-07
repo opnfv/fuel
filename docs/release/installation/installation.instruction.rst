@@ -108,7 +108,7 @@ installation of ``Gambia`` using Fuel:
 |                  |                                                      |
 +==================+======================================================+
 | **1 Jumpserver** | A physical node (also called Foundation Node) that   |
-|                  | hosts the Salt Master container and MaaS VM          |
+|                  | hosts the Salt Master and MaaS containers            |
 +------------------+------------------------------------------------------+
 | **# of nodes**   | Minimum 5                                            |
 |                  |                                                      |
@@ -170,7 +170,7 @@ installation of ``Gambia`` using Fuel:
 |                  |                                                      |
 +==================+======================================================+
 | **1 Jumpserver** | A physical node (also called Foundation Node) that   |
-|                  | hosts the Salt Master container, MaaS VM and         |
+|                  | hosts the Salt Master and MaaS containers, and       |
 |                  | each of the virtual nodes defined in ``PDF``         |
 +------------------+------------------------------------------------------+
 | **# of nodes**   | .. NOTE::                                            |
@@ -423,6 +423,14 @@ Changes ``deploy.sh`` Will Perform to Jumpserver OS
 
     The install script will alter Jumpserver sysconf and disable
     ``net.bridge.bridge-nf-call``.
+
+.. WARNING::
+
+    On Jumpservers running Ubuntu with AppArmor enabled, when deploying
+    on baremetal nodes (i.e. when MaaS is used), the install script
+    will disable certain conflicting AppArmor profiles that interfere with
+    MaaS services inside the container, e.g. ``ntpd``, ``named``, ``dhcpd``,
+    ``tcpdump``.
 
 .. WARNING::
 
@@ -729,7 +737,7 @@ Sample ``public`` network configuration block:
                   private: 'trunk'
                   public: 'trunk'
                 trunks:
-                  # mgmt network is not decapsulated for jumpserver infra VMs,
+                  # mgmt network is not decapsulated for jumpserver infra nodes,
                   # to align with the VLAN configuration of baremetal nodes.
                   mgmt: True
 
@@ -991,15 +999,15 @@ A simplified overview of the steps ``deploy.sh`` will automatically perform is:
 
 - create a Salt Master Docker container on the jumpserver, which will drive
   the rest of the installation;
-- ``baremetal`` or ``hybrid`` only: create a ``MaaS`` infrastructure node VM,
+- ``baremetal`` or ``hybrid`` only: create a ``MaaS`` container node,
   which will be leveraged using Salt to handle OS provisioning on the
   ``baremetal`` nodes;
 - leverage Salt to install & configure OpenStack;
 
 .. NOTE::
 
-    A virtual network ``mcpcontrol`` is always created for initial connection
-    of the VMs on Jumphost.
+    A Docker network ``mcpcontrol`` is always created for initial connection
+    of the infrastructure containers (``cfg01``, ``mas01``) on Jumphost.
 
 .. WARNING::
 
@@ -1096,7 +1104,7 @@ each on a separate Jumphost node, both behind the same ``TOR`` switch:
    +-------------+------------------------------------------------------------+
    | ``cfg01``   | Salt Master Docker container                               |
    +-------------+------------------------------------------------------------+
-   | ``mas01``   | MaaS Node VM                                               |
+   | ``mas01``   | MaaS Node Docker container                                 |
    +-------------+------------------------------------------------------------+
    | ``ctl01``   | Baremetal controller node                                  |
    +-------------+------------------------------------------------------------+
@@ -1125,7 +1133,7 @@ each on a separate Jumphost node, both behind the same ``TOR`` switch:
    +---------------------------+----------------------------------------------+
    | ``cfg01``                 | Salt Master Docker container                 |
    +---------------------------+----------------------------------------------+
-   | ``mas01``                 | MaaS Node VM                                 |
+   | ``mas01``                 | MaaS Node Docker container                   |
    +---------------------------+----------------------------------------------+
    | ``kvm01``,                | Baremetals which hold the VMs with           |
    | ``kvm02``,                | controller functions                         |
@@ -1186,7 +1194,7 @@ each on a separate Jumphost node, both behind the same ``TOR`` switch:
    +-------------+------------------------------------------------------------+
    | ``cfg01``   | Salt Master Docker container                               |
    +-------------+------------------------------------------------------------+
-   | ``mas01``   | MaaS Node VM                                               |
+   | ``mas01``   | MaaS Node Docker container                                 |
    +-------------+------------------------------------------------------------+
    | ``ctl01``   | Controller VM                                              |
    +-------------+------------------------------------------------------------+
@@ -1324,10 +1332,10 @@ sequentially by the deploy script:
 +===========================+=================================================+
 | ``virtual_init``          | ``cfg01``: reclass node generation              |
 |                           |                                                 |
-|                           | ``jumpserver`` VMs (e.g. ``mas01``): basic OS   |
+|                           | ``jumpserver`` VMs (if present): basic OS       |
 |                           | config                                          |
 +---------------------------+-------------------------------------------------+
-| ``maas``                  | ``mas01``: OS, MaaS installation,               |
+| ``maas``                  | ``mas01``: OS, MaaS configuration               |
 |                           | ``baremetal`` node commissioning and deploy     |
 |                           |                                                 |
 |                           | .. NOTE::                                       |

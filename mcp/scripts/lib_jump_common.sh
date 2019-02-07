@@ -61,13 +61,15 @@ function jumpserver_pkg_install {
 
 function jumpserver_check_requirements {
   # shellcheck disable=SC2178
+  local states=$1; shift
+  # shellcheck disable=SC2178
   local vnodes=$1; shift
   local br=("$@")
   local err_br_not_found='Linux bridge not found!'
   local err_br_virsh_net='is a virtual network, Linux bridge expected!'
   local warn_br_endpoint="Endpoints might be inaccessible from external hosts!"
   # MaaS requires a Linux bridge for PXE/admin
-  if [[ "${vnodes}" =~ mas01 ]]; then
+  if [[ "${states}" =~ maas ]]; then
     if ! brctl showmacs "${br[0]}" >/dev/null 2>&1; then
       notify_e "[ERROR] PXE/admin (${br[0]}) ${err_br_not_found}"
     fi
@@ -77,9 +79,9 @@ function jumpserver_check_requirements {
     fi
   fi
   # If virtual nodes are present, public should be a Linux bridge
-  if [ "$(echo "${vnodes}" | wc -w)" -gt 2 ]; then
+  if [ -n "${vnodes}" ]; then
     if ! brctl showmacs "${br[3]}" >/dev/null 2>&1; then
-      if [[ "${vnodes}" =~ mas01 ]]; then
+      if [[ "${states}" =~ maas ]]; then
         # Baremetal nodes *require* a proper public network
         notify_e "[ERROR] Public (${br[3]}) ${err_br_not_found}"
       else
@@ -88,7 +90,7 @@ function jumpserver_check_requirements {
       fi
     fi
     if ${VIRSH} net-info "${br[3]}" >/dev/null 2>&1; then
-      if [[ "${vnodes}" =~ mas01 ]]; then
+      if [[ "${states}" =~ maas ]]; then
         notify_e "[ERROR] ${br[3]} ${err_br_virsh_net}"
       else
         notify_n "[WARN] ${br[3]} ${err_br_virsh_net}" 3
