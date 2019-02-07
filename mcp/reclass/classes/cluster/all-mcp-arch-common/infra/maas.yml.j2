@@ -16,14 +16,10 @@ classes:
   - cluster.all-mcp-arch-common.opnfv.pod_config
 parameters:
   _param:
-    mcpcontrol_interface: ${_param:opnfv_fn_vm_primary_interface}
-    primary_interface: ${_param:opnfv_fn_vm_secondary_interface}
-    pxe_admin_interface: ${_param:opnfv_fn_vm_tertiary_interface}
     linux_system_codename: xenial
     maas_admin_username: opnfv
     dns_server01: '{{ nm.dns_public[0] }}'
-    pxe_admin_address: ${_param:infra_maas_node01_deploy_address}
-    single_address: ${_param:pxe_admin_address}
+    single_address: ${_param:infra_maas_node01_deploy_address}
     hwe_kernel: 'hwe-16.04'
     opnfv_maas_timeout_comissioning: {{ nm.maas_timeout_comissioning }}
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
@@ -114,46 +110,23 @@ parameters:
         default_min_hwe_kernel: ${_param:hwe_kernel}
     cluster:
       saltstack_repo_xenial: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/ xenial main"
+      region:
+        port: 5240
   linux:
     system:
-      kernel:
+      repo:
+        armband_3:
+          enabled: false
+      ~locale: ''
+      ~kernel:
         sysctl:
           net.ipv4.ip_forward: 1
     network:
-      interface:
-        mcpcontrol_interface:
-          enabled: true
-          name: ${_param:mcpcontrol_interface}
-          type: eth
-          proto: dhcp
-          mtu: ${_param:interface_mtu}
-        primary_interface:
-          enabled: true
-          name: ${_param:primary_interface}
-          type: eth
-{%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) and (nm.vlan_mgmt | int > 0) %}
-          proto: manual
-          mtu: ${_param:interface_mtu}
-        primary_interface_vlan:
-          enabled: true
-          type: vlan
-          name: ${_param:primary_interface}.{{ nm.vlan_mgmt }}
-          use_interfaces:
-            - ${_param:primary_interface}
-{%- endif %}
-          proto: static
-          mtu: ${_param:interface_mtu}
-          address: ${_param:infra_maas_node01_address}
-          netmask: ${_param:opnfv_net_mgmt_mask}
-        pxe_admin_interface:
-          enabled: true
-          name: ${_param:pxe_admin_interface}
-          # MaaS has issues using MTU > 1500 for PXE interface
-          mtu: 1500
-          proto: static
-          address: ${_param:single_address}
-          netmask: ${_param:opnfv_net_admin_mask}
-          type: eth
+      resolv:
+        dns:
+{%- for server in nm.dns_public %}
+          - {{ server }}
+{%- endfor %}
   iptables:
     schema:
       epoch: 1

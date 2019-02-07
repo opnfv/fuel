@@ -21,11 +21,6 @@ if [ ! -f /home/ubuntu/.ssh/authorized_keys ]; then
     echo 'IdentityFile /root/fuel/mcp/scripts/mcp.rsa' >> /root/.ssh/config
 fi
 
-if ! grep -q localhost /etc/hosts; then
-    # overwrite hosts only on first container up, to preserve cluster nodes
-    cp -a /root/fuel/mcp/scripts/docker-compose/files/hosts /etc/hosts
-fi
-
 # salt state does not properly configure file_roots in master.conf, hard set it
 cp -a /root/fuel/mcp/scripts/docker-compose/files/opnfv_master.conf \
       /etc/salt/master.d/opnfv_master.conf
