@@ -1,13 +1,17 @@
 ##############################################################################
-# Copyright (c) 2017 Mirantis Inc. and others.
+# Copyright (c) 2019 Mirantis Inc. and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+{%- set pkgs = ['opendaylight'] %}
+{%- do pkgs.append('opendaylight-leveldbjni') if grains['cpuarch'] == 'aarch64' %}
+
 {% set server = salt['grains.filter_by']({
     'Debian': {
+      'pkgs': pkgs,
       'karaf_features': {'default': ['standard', 'wrap', 'ssh']},
       'odl_rest_port': '8282',
       'odl_bind_ip': '0.0.0.0',
@@ -25,8 +29,5 @@
       'java_extra_opts': '-Djava.net.preferIPv4Stack=true -XX:+UseG1GC',
       'java_min_mem': '1g',
       'java_max_mem': '2g',
-    },
-    'RedHat': {
-      'repo': 'opendaylight-6-testing'
-    },
+    }
 }, merge=salt['pillar.get']('opendaylight:server')) %}
