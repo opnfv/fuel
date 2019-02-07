@@ -22,33 +22,60 @@ services:
       mgmt:
         ipv4_address: {{ nm.net_mgmt | ipnet_hostaddr(nm.start_ip[nm.net_mgmt] + nm.net_mgmt_hosts.index('opnfv_infra_config_address') +1) }}
     volumes:
-       - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
-       - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel
-       - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint.sh:/entrypoint.sh
-       - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml
-       - {{ conf.MCP_STORAGE_DIR }}/nodes:/srv/salt/reclass/nodes
-       - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
-       - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt
-       - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts
+      - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
+      - {{ conf.MCP_REPO_ROOT_PATH }}:/root/fuel
+      - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint.sh:/entrypoint.sh
+      - {{ conf.MCP_STORAGE_DIR }}/pod_config.yml:/root/pod_config.yml
+      - {{ conf.MCP_STORAGE_DIR }}/nodes:/srv/salt/reclass/nodes
+      - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
+      - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt
+      - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts
 {%- if conf.MCP_VCP %}
-       - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
+      - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
 {%- endif %}
     hostname: cfg01
     domainname: {{ conf.cluster.domain }}
     privileged: true
+{%- if nm.cluster.has_baremetal_nodes %}
+  opnfv-fuel-maas:
+    container_name: "maas"
+    image: "opnfv/fuel:saltminion-maas-{{ conf.MCP_DOCKER_TAG }}"
+    networks:
+      mcpcontrol:
+        ipv4_address: {{ conf.MAAS_IP }}
+      pxebr:
+        ipv4_address: {{ nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_maas_node01_deploy_address') +1) }}
+      mgmt:
+        ipv4_address: {{ nm.net_mgmt | ipnet_hostaddr(nm.start_ip[nm.net_mgmt] + nm.net_mgmt_hosts.index('opnfv_infra_maas_node01_address') +1) }}
+    volumes:
+      - /lib/modules:/lib/modules:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket:ro
+      - {{ conf.MCP_REPO_ROOT_PATH }}/mcp/scripts/docker-compose/files/entrypoint_maas.sh:/entrypoint.sh:ro
+      - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts:ro
+      - {{ conf.MCP_STORAGE_DIR }}/mas01/etc/iptables:/etc/iptables
+      - {{ conf.MCP_STORAGE_DIR }}/mas01/var/lib/postgresql:/var/lib/postgresql
+      - {{ conf.MCP_STORAGE_DIR }}/mas01/var/lib/maas:/var/lib/maas
+      - {{ conf.MCP_STORAGE_DIR }}/mas01/var/spool/maas-proxy:/var/spool/maas-proxy
+      - {{ conf.MCP_STORAGE_DIR }}/mas01/etc/maas:/etc/maas
+    hostname: mas01
+    domainname: {{ conf.cluster.domain }}
+    privileged: true
+    ports:
+      - 5240:5240
+{%- endif %}
 networks:
   mcpcontrol:
-    driver: macvlan
+    driver: bridge
     driver_opts:
-      parent: veth_mcp1  # Always untagged
+      com.docker.network.driver.mtu: 9000
     ipam:
       config:
         - subnet: {{ net_mcpcontrol }}
-          gateway: {{ net_mcpcontrol | ipnet_hostaddr(1) }}
   pxebr:
     driver: macvlan
     driver_opts:
-      parent: veth_mcp3  # Always untagged
+      parent: veth_mcp1  # Always untagged
     ipam:
       config:
         - subnet: {{ nm.net_admin }}
@@ -58,7 +85,7 @@ networks:
 {%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) %}
       parent: {{ ma.interface_str('veth_mcp5', nm.vlan_mgmt) }}
 {%- else %}
-      parent: veth_mcp5  # Untagged by default
+      parent: veth_mcp3  # Untagged by default
 {%- endif %}
     ipam:
       config:

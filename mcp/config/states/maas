@@ -17,6 +17,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 bm_nodes=$(salt --out yaml 'mas01*' pillar.get maas:region:machines | \
            awk '/^\s+\w+[[:digit:]]+:$/ {gsub(/:$/, "*"); printf "%s ", $1}')
 
+wait_for 60.0 "salt --out yaml -C 'mas01*' service.status maas-fixup | fgrep -q 'false'"
+
 # Optionally destroy MaaS machines from a previous run
 if [ "${ERASE_ENV}" -gt 1 ]; then
   cleanup_uefi
@@ -26,7 +28,7 @@ if [ "${ERASE_ENV}" -gt 1 ]; then
 fi
 
 # MaaS rack/region controller, node commissioning
-wait_for 10.0 "salt -C 'mas01*' state.apply linux,salt,openssh,ntp,iptables"
+wait_for 10.0 "salt -C 'mas01*' state.apply salt,iptables"
 salt -C 'mas01*' state.apply maas.cluster
 
 wait_for 10 "salt -C 'mas01*' state.apply maas.region"

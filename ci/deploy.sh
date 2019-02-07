@@ -295,7 +295,8 @@ source "${DEPLOY_DIR}/xdf_data.sh"
 
 # Jumpserver prerequisites check
 notify "[NOTE] Using bridges: ${OPNFV_BRIDGES[*]}" 2
-jumpserver_check_requirements "${virtual_nodes[*]}" "${OPNFV_BRIDGES[@]}"
+jumpserver_check_requirements "${cluster_states[*]}" "${virtual_nodes[*]}" \
+                              "${OPNFV_BRIDGES[@]}"
 
 # Infra setup
 if [ ${DRY_RUN} -eq 1 ]; then
@@ -311,7 +312,6 @@ else
     do_sysctl_cfg
     do_udev_cfg
     create_vms "${MCP_STORAGE_DIR}" "${virtual_nodes_data}" "${OPNFV_BRIDGES[@]}"
-    update_mcpcontrol_network
     start_vms "${virtual_nodes[@]}"
 
     # https://github.com/docker/libnetwork/issues/1743
