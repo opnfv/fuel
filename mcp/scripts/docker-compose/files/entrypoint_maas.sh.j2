@@ -1,0 +1,51 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+if [ ! -e /var/lib/postgresql/*/main ]; then
+    cp -ar /var/lib/opnfv/{postgresql,maas} /var/lib/
+    cp -ar /var/lib/opnfv/etc/{ssh,maas} /etc/
+else
+    chown -R maas:maas /var/lib/maas
+    chown -R postgres:postgres /var/lib/postgresql
+fi
+
+if [ ! -f /etc/sysctl.d/99-salt.conf ]; then
+    echo 'net.ipv4.ip_forward = 1' > /etc/sysctl.d/99-salt.conf
+fi
+
+cat <<-EOF | tee /etc/resolv.conf
+{%- for server in nm.dns_public %}
+nameserver {{ server }}
+{%- endfor %}
+EOF
+
+cat <<-EOF | tee /etc/salt/minion.d/opnfv.conf
+id: mas01.{{ conf.cluster.domain }}
+master: {{ conf.SALT_MASTER }}
+grains:
+  virtual_subtype: Docker_
+EOF
+rm -f /etc/salt/minion.d/99-master-address.conf
+
+# Configure mass-region-controller if not already done previously
+# Also work around MaaS issues with PXE/admin using jumbo frames
+[ ! -e /var/lib/maas/secret ] || exit 0
+MAAS_FIXUP_SERVICE="/etc/systemd/system/maas-fixup.service"
+cat <<-EOF | tee "${MAAS_FIXUP_SERVICE}"
+[Unit]
+After=postgresql.service
+[Service]
+ExecStart=/bin/sh -ec '\
+  echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections && \
+  /var/lib/dpkg/info/maas-region-controller.config configure && \
+  /var/lib/dpkg/info/maas-region-controller.postinst configure && \
+  ifconfig eth2 mtu 1500'
+EOF
+ln -sf "${MAAS_FIXUP_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
+rm "/usr/sbin/policy-rc.d"

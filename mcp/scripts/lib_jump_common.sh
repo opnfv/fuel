@@ -67,6 +67,7 @@ function jumpserver_check_requirements {
   local err_br_virsh_net='is a virtual network, Linux bridge expected!'
   local warn_br_endpoint="Endpoints might be inaccessible from external hosts!"
   # MaaS requires a Linux bridge for PXE/admin
+# FIXME
   if [[ "${vnodes}" =~ mas01 ]]; then
     if ! brctl showmacs "${br[0]}" >/dev/null 2>&1; then
       notify_e "[ERROR] PXE/admin (${br[0]}) ${err_br_not_found}"

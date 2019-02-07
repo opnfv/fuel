@@ -11,6 +11,7 @@
 **/releng/
 **/mcp/scripts/virsh_net/*.xml
 **/mcp/scripts/docker-compose/*.yaml
+**/mcp/scripts/docker-compose/files/opnfv_maas.conf
 **/mcp/scripts/*.img
 .tox/
 docs/_build/*

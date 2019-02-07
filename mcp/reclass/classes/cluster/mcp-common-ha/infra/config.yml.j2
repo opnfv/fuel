@@ -23,12 +23,6 @@ classes:
 parameters:
   _param:
     salt_master_host: ${_param:infra_config_deploy_address}
-    single_address: ${_param:infra_config_address}
-    deploy_address: ${_param:infra_config_deploy_address}
-    pxe_admin_address: ${_param:opnfv_infra_config_pxe_admin_address}
-    mcpcontrol_nic: ${_param:opnfv_fn_vm_primary_interface}
-    single_nic: ${_param:opnfv_fn_vm_secondary_interface}
-    pxe_admin_nic: ${_param:opnfv_fn_vm_tertiary_interface}
   salt:
     master:
       accept_policy: open_mode
