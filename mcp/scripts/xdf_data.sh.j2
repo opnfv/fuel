@@ -34,7 +34,8 @@
   {%- set arr = [] -%}
   {%- for section in section_map -%}
     {%- for n in V.nodes[section] or [] -%}
-      {%- if conf.nodes[section_map[section] + loop.index0].node.type == 'virtual' -%}
+      {%- if ( section_map[section] < conf.nodes | length and
+               conf.nodes[section_map[section] + loop.index0].node.type == 'virtual' ) -%}
         {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
         {%- set cpu_topo = 'cpu_topology' in V[n] and not conf.MCP_CMP_SS -%}
         {%- if 'numa' in V[n] and cpu_topo -%}
@@ -61,7 +62,8 @@
   {%- set arr = [] -%}
   {%- for section in sections -%}
     {%- for n in V.nodes[section] or [] -%}
-      {%- if conf.nodes[section_map[section] + loop.index0].node.type in type -%}
+      {%- if ( section_map[section] < conf.nodes | length and
+               conf.nodes[section_map[section] + loop.index0].node.type in type ) -%}
         {%- do arr.append(n) -%}
       {%- endif -%}
     {%- endfor -%}
