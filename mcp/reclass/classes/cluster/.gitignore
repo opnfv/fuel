@@ -22,3 +22,7 @@ mcp-*-noha/openstack/compute.yml
 mcp-common-noha/infra/init.yml
 mcp-*-noha/openstack/gateway.yml
 mcp-fdio-noha/infra/config.yml
+mcp-iec-noha/akraino/iec.yml
+mcp-iec-noha/infra/config.yml
+mcp-iec-noha/infra/init.yml
+mcp-iec-noha/infra/kvm.yml

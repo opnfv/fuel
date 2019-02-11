@@ -58,7 +58,7 @@ wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
 wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"
 
-salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' system.reboot
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' cmd.run 'reboot'
 wait_for 30.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' test.ping"
 
 salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.upgrade refresh=False dist_upgrade=True

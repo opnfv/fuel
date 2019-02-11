@@ -19,6 +19,7 @@
 parameters:
   _param:
     # Should later be determined via PDF/IDF, AArch64 has ESP on /dev/sda1
+{%- if nm.cmp001.idx < conf.nodes | length %}
 {%- if conf.nodes[nm.cmp001.idx].node.type == 'virtual' %}
     ~cinder_lvm_devices: ['/dev/vdb']
 {%- elif conf.nodes[nm.cmp001.idx].node.arch == 'aarch64' or
@@ -26,6 +27,7 @@ parameters:
     ~cinder_lvm_devices: ['/dev/sda2']
 {%- else %}
     ~cinder_lvm_devices: ['/dev/sda1']
+{%- endif %}
 {%- endif %}
   linux:
     network:
