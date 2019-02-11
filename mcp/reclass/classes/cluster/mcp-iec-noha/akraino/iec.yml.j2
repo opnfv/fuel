@@ -1,0 +1,66 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- if '-vcp-' in conf.MCP_DEPLOY_SCENARIO %}
+{%- set nics = {} %}
+{%- set vlans = {} %}
+{%- else %}
+{%- set nics = { nm.ctl01.nic_mgmt: True } %}
+{%- set vlans = { nm.vlan_mgmt: nm.ctl01.nic_mgmt } %}
+{%- endif %}
+---
+classes:
+  - cluster.mcp-iec-noha
+  - cluster.all-mcp-arch-common.opnfv.maas_proxy
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
+parameters:
+  _param:
+{%- if '-vcp-' in conf.MCP_DEPLOY_SCENARIO %}
+    pxe_admin_interface: ${_param:opnfv_vcp_vm_primary_interface}
+    single_nic: ${_param:opnfv_vcp_vm_secondary_interface}
+{%- else %}
+    pxe_admin_interface: {{ nm.ctl01.nic_admin }}
+    single_nic: {{ ma.interface_str(nm.ctl01.nic_mgmt, nm.vlan_mgmt) }}
+{%- endif %}
+  linux:
+    network:
+      interface:
+        pxe_admin_int:
+          enabled: true
+          name: ${_param:pxe_admin_interface}
+          proto: static
+          type: eth
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          mtu: ${_param:interface_mtu}
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
+          noifupdown: true
+
+{#- prevent duplicates for tagged mgmt on the same physical interface as PXE/admin #}
+{%- if nm.ctl01.nic_admin in nics %}
+  {%- do nics.pop(nm.ctl01.nic_admin) %}
+{%- endif %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
+        br-ctl:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: ${_param:opnfv_net_mgmt_mask}
+          noifupdown: true
+          use_interfaces:
+            - ${_param:single_nic}
+          mtu: ${_param:interface_mtu}

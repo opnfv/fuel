@@ -30,7 +30,7 @@ services:
       - {{ conf.MCP_STORAGE_DIR }}/pki:/etc/pki
       - {{ conf.MCP_STORAGE_DIR }}/salt:/etc/salt
       - {{ conf.MCP_STORAGE_DIR }}/hosts:/etc/hosts
-{%- if conf.MCP_VCP %}
+{%- if conf.MCP_VCP or '-vcp-' in conf.MCP_DEPLOY_SCENARIO %}
       - {{ conf.MCP_STORAGE_DIR }}/base_image_opnfv_fuel_vcp.img:/srv/salt/env/prd/salt/files/control/images/base_image_opnfv_fuel_vcp.img
 {%- endif %}
     hostname: cfg01
