@@ -14,7 +14,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/xdf_data.sh"
 
 cluster_nodes_query="${control_nodes_query} or cmp*"
-compute_nodes_query='cmp*'
 
 # KVM, compute node prereqs
 # patch the networking module for Debian based distros
@@ -27,12 +26,12 @@ salt -C "${cluster_nodes_query}" file.replace $debian_ip_source \
   repl="\n        if not __salt__['pkg.version']('vlan'):\n            __salt__['pkg.install']('vlan')"
 
 salt -C "${cluster_nodes_query}" pkg.install bridge-utils
-salt -C "${control_nodes_query}" state.apply linux.system.repo,linux.network,linux.system.kernel
+salt -C "${cluster_nodes_query}" state.apply linux.system.repo
 wait_for 5.0 "salt -C '${cluster_nodes_query}' state.apply salt.minion"
-wait_for 5.0 "salt -C '${compute_nodes_query}' state.apply linux.system,linux.network"
+wait_for 5.0 "salt -C '${cluster_nodes_query}' state.apply linux,ntp"
 wait_for 30.0 "salt -C '${cluster_nodes_query}' test.ping"
 
-salt -C "${cluster_nodes_query}" system.reboot
+salt -C "${cluster_nodes_query}" cmd.run 'reboot'
 wait_for 90.0 "salt -C '${cluster_nodes_query}' test.ping"
 
 salt -C "${cluster_nodes_query}" state.apply linux,ntp

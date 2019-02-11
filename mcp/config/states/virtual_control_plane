@@ -27,11 +27,7 @@ if [ "${ERASE_ENV}" -eq 1 ]; then
 fi
 
 # KVM libvirt first, VCP deployment
-if salt -C 'kvm*' match.grain 'cpuarch:aarch64' \
-  --out yaml --static | grep -q -e 'true' ; then
-  wait_for 5.0 "salt -C 'G@cpuarch:aarch64 and kvm*' state.sls armband"
-fi
-wait_for 5.0 "salt -C 'kvm*' state.sls libvirt"
+wait_for 5.0 "salt -C 'kvm*' state.sls armband,libvirt"
 
 salt -C 'kvm* or cmp*' state.apply salt
 wait_for 10.0 "salt -C 'kvm*' state.sls salt.control,linux.system.kernel"
@@ -58,7 +54,7 @@ wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
 wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' ssh.set_auth_key ${SUDO_USER} \
   $(awk 'NR==1{print $2}' "$(eval echo "~${SUDO_USER}/.ssh/authorized_keys")")"
 
-salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' system.reboot
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' cmd.run 'reboot'
 wait_for 30.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' test.ping"
 
 salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.upgrade refresh=False dist_upgrade=True

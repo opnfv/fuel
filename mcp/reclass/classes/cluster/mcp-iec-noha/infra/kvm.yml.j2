@@ -1,0 +1,100 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{#- NOTE: br-{mgmt,ctl} are cross-referenced, careful when changing names #}
+{%- import 'net_map.j2' as nm with context %}
+{%- import 'net_macros.j2' as ma with context %}
+{#- Filter-out NIC duplicates by constructing a dict (used NICs only) #}
+{%- set nics = { nm.ctl01.nic_admin: True, nm.ctl01.nic_mgmt: True } %}
+{%- set vlans = { nm.vlan_admin: nm.ctl01.nic_admin, nm.vlan_mgmt: nm.ctl01.nic_mgmt } %}
+---
+classes:
+  - system.salt.control.virt
+  - cluster.all-mcp-arch-common.opnfv.maas_proxy
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
+  - cluster.mcp-iec-noha.infra
+parameters:
+  _param:
+    linux_system_codename: xenial
+  linux:
+    network:
+      interface:
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
+        br-mgmt:
+          enabled: true
+          proto: static
+          address: ${_param:pxe_admin_address}
+          netmask: ${_param:opnfv_net_admin_mask}
+          gateway: {{ nm.net_admin_gw }}
+          name_servers:
+            - {{ nm.net_admin_gw }}
+          type: bridge
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_admin, nm.vlan_admin) }}
+          noifupdown: true
+        br-ctl:
+          enabled: true
+          type: bridge
+          proto: static
+          address: ${_param:single_address}
+          netmask: ${_param:opnfv_net_mgmt_mask}
+          use_interfaces:
+            - {{ ma.interface_str(nm.ctl01.nic_mgmt, nm.vlan_mgmt) }}
+          noifupdown: true
+    system:
+      kernel:
+        boot_options:
+          - spectre_v2=off
+          - nopti
+        sysctl:
+          net.ipv4.ip_forward: 0
+  libvirt:
+    server:
+      service: libvirtd
+      config_sys: /etc/default/libvirtd
+      unix_sock_group: libvirt
+  salt:
+    control:
+      size:
+        akraino.iec:
+          cpu: 8
+          ram: 12288
+          disk_profile: small
+          net_profile: default
+      cluster:
+        internal:
+          domain: ${_param:cluster_domain}
+          engine: virt
+          node:
+{%- for i in range(1, 4) %}
+            iec0{{ i }}:
+              name: ${_param:akraino_iec_node0{{ i }}_hostname}
+              provider: ${_param:infra_kvm_node0{{ i }}_hostname}.${_param:cluster_domain}
+              size: akraino.iec
+              image: ${_param:salt_control_xenial_image}
+{%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
+              machine: virt
+              cpu_mode: host-passthrough
+              loader:
+                readonly: 'yes'
+                type: pflash
+                path: /usr/share/AAVMF/AAVMF_CODE.fd
+{%- endif %}
+{%- endfor %}
+  virt:
+    nic:
+      default:
+        eth1:
+          bridge: br-mgmt
+          model: virtio
+        eth0:
+          bridge: br-ctl
+          model: virtio
