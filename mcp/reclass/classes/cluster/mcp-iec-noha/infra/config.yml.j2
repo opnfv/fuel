@@ -1,0 +1,57 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+---
+classes:
+  - cluster.mcp-common-noha.infra.config
+  - cluster.mcp-iec-noha
+  - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
+  - cluster.all-mcp-arch-common.infra.config_pdf
+parameters:
+  reclass:
+    storage:
+      ~node:
+{%- if nm.cluster.has_baremetal_nodes %}
+{#- Since we overwrite the ~node key, we need to re-add maas node explicitly #}
+        infra_maas_node01:
+          name: ${_param:infra_maas_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.infra.maas
+          params:
+            salt_master_host: ${_param:infra_config_deploy_address}
+            linux_system_codename: ${_param:infra_maas_system_codename}
+            single_address: ${_param:infra_maas_node01_deploy_address}
+{%- endif %}
+{%- if '-vcp-' in conf.MCP_DEPLOY_SCENARIO %}
+{%- for i in range(1, 4) %}
+        infra_kvm_node0{{ i }}:
+          name: ${_param:infra_kvm_node0{{ i }}_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.infra.kvm
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: ${_param:linux_system_codename}
+            single_address: ${_param:opnfv_infra_kvm_node0{{ i }}_address}
+            pxe_admin_address: ${_param:opnfv_infra_kvm_node0{{ i }}_pxe_admin_address}
+{%- endfor %}
+{%- endif %}
+{%- for i in range(1, 4) %}
+        akraino_iec_node0{{ i }}:
+          name: ${_param:akraino_iec_node0{{ i }}_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.akraino.iec
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: ${_param:linux_system_codename}
+            single_address: ${_param:opnfv_openstack_control_node0{{ i }}_address}
+            external_address: ${_param:opnfv_openstack_control_node0{{ i }}_external_address}
+            pxe_admin_address: ${_param:opnfv_openstack_control_node0{{ i }}_pxe_admin_address}
+{%- endfor %}

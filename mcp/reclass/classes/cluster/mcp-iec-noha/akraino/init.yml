@@ -1,0 +1,32 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+parameters:
+  _param:
+    # NOTE(armband): reuse Openstack definitions
+    akraino_iec_node01_address: ${_param:opnfv_openstack_control_node01_address}
+    akraino_iec_node02_address: ${_param:opnfv_openstack_control_node02_address}
+    akraino_iec_node03_address: ${_param:opnfv_openstack_control_node03_address}
+  linux:
+    network:
+      host:
+        iec01:
+          address: ${_param:akraino_iec_node01_address}
+          names:
+            - iec01
+            - iec01.${_param:cluster_domain}
+        iec02:
+          address: ${_param:akraino_iec_node02_address}
+          names:
+            - iec02
+            - iec02.${_param:cluster_domain}
+        iec03:
+          address: ${_param:akraino_iec_node03_address}
+          names:
+            - iec03
+            - iec03.${_param:cluster_domain}
