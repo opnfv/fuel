@@ -33,6 +33,10 @@ parameters:
     master:
       accept_policy: open_mode
       file_recv: true
+    minion:
+      mine:
+        module:
+          x509.get_pem_entries: ['/etc/pki/all_cas/*']
   reclass:
     storage:
       data_source:
