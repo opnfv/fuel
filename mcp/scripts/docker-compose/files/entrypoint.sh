@@ -26,7 +26,7 @@ fi
 # salt state does not properly configure file_roots in master.conf, hard set it
 cp -a /root/fuel/mcp/scripts/docker-compose/files/opnfv_master.conf \
       /etc/salt/master.d/opnfv_master.conf
-echo 'master: localhost' > /etc/salt/minion.d/opnfv_slave.conf
+echo -e 'master: localhost\nmine_interval: 15' > /etc/salt/minion.d/opnfv_slave.conf
 
 # NOTE: Most Salt and/or reclass tools have issues traversing Docker mounts
 # or detecting them as directories inside the container.
