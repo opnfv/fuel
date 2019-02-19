@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_b8aee1e5",
+        "filename": "mcp/config/states/akraino_iec",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5267
+      },
+      "writtenOn": "2019-02-19T12:02:28Z",
+      "side": 1,
+      "message": "This needs to be updated with the new path",
+      "range": {
+        "startLine": 39,
+        "startChar": 44,
+        "endLine": 39,
+        "endChar": 78
+      },
+      "revId": "23559d00f898e5e88d238c1ce805ed9d09f14fca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
