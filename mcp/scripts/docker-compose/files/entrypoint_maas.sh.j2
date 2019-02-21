@@ -10,9 +10,9 @@
 {%- set pxebr_addr = nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_maas_node01_deploy_address') +1) %}
 if [ ! -e /var/lib/postgresql/*/main ]; then
     cp -ar /var/lib/opnfv/{postgresql,maas} /var/lib/
-    cp -ar /var/lib/opnfv/etc/{ssh,maas} /etc/
+    cp -ar /var/lib/opnfv/etc/maas /etc/
 fi
-chown -R maas:maas /var/lib/maas
+chown -R maas:maas /var/lib/maas /etc/maas
 chown -R postgres:postgres /var/lib/postgresql
 chown -R proxy:proxy /var/spool/maas-proxy
 
