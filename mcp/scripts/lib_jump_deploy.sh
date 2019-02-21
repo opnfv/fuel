@@ -441,10 +441,9 @@ function prepare_containers {
   mkdir -p "${image_dir}/"{salt/master.d,salt/minion.d}
 
   if grep -q -e 'maas' 'docker-compose/docker-compose.yaml'; then
-    chmod +x docker-compose/files/entrypoint*.sh
     # Apparmor workaround for bind9 inside Docker containers using AUFS
     for profile in 'usr.sbin.ntpd' 'usr.sbin.named' \
-                   'usr.sbin.dhcpd' 'usr.bin.tcpdump'; do
+                   'usr.sbin.dhcpd' 'usr.sbin.tcpdump' 'usr.bin.tcpdump'; do
       if [ -e "/etc/apparmor.d/${profile}" ] && \
        [ ! -e "/etc/apparmor.d/disable/${profile}" ]; then
         sudo ln -sf "/etc/apparmor.d/${profile}" "/etc/apparmor.d/disable/"
@@ -458,6 +457,9 @@ function start_containers {
   local image_dir=$1
   [ -n "${image_dir}" ] || exit 1
   [ ! -e "${image_dir}/docker-compose" ] || COMPOSE_PREFIX="${image_dir}/"
+  if grep -q -e 'maas' 'docker-compose/docker-compose.yaml'; then
+    chmod +x docker-compose/files/entrypoint*.sh
+  fi
   "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml up -d
 }
 
