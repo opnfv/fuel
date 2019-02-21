@@ -135,8 +135,10 @@ function __mount_image {
   sudo mount -t proc proc "${OPNFV_MNT_DIR}/proc"
   sudo mount -t sysfs sys "${OPNFV_MNT_DIR}/sys"
   sudo mount -o bind /dev "${OPNFV_MNT_DIR}/dev"
-  sudo mkdir -p "${OPNFV_MNT_DIR}/run/resolvconf"
+  sudo mkdir -p "${OPNFV_MNT_DIR}/run/resolvconf" \
+                "${OPNFV_MNT_DIR}/run/systemd/resolve"
   sudo cp /etc/resolv.conf "${OPNFV_MNT_DIR}/run/resolvconf"
+  sudo cp /etc/resolv.conf "${OPNFV_MNT_DIR}/run/systemd/resolve/stub-resolv.conf"
   echo "GRUB_DISABLE_OS_PROBER=true" | \
     sudo tee -a "${OPNFV_MNT_DIR}/etc/default/grub"
   sudo sed -i -e 's/^\(GRUB_TIMEOUT\)=.*$/\1=1/g' -e 's/^GRUB_HIDDEN.*$//g' \
@@ -220,8 +222,14 @@ function prepare_vms {
 
   cleanup_uefi
   __cleanup_vms
-  __get_base_image "${base_image}" "${image_dir}"
   IFS='^' read -r -a repos_pkgs <<< "${repos_pkgs_str}"
+
+  if [ ${#vnodes[@]} -eq 0 ] && \
+   ([[ "${repos_pkgs_str}" =~ \^{3}$ ]] || [ -z "${repos_pkgs[*]:4}" ]); then
+    echo "[INFO] Patched base image / VCP image not required, skipping"
+    return 0
+  fi
+  __get_base_image "${base_image}" "${image_dir}"
 
   local _h=$(echo "${repos_pkgs_str}.$(md5sum "${image_dir}/${_o}")" | \
              md5sum | cut -c -8)
@@ -454,7 +462,8 @@ function cleanup_mounts {
       sudo sed -i -e 's/^\s*set root=.*$//g' -e 's/^\s*loopback.*$//g' \
         "${OPNFV_MNT_DIR}/boot/grub/grub.cfg"
     fi
-    sudo rm -f "${OPNFV_MNT_DIR}/run/resolvconf/resolv.conf"
+    sudo rm -f "${OPNFV_MNT_DIR}/run/resolvconf/resolv.conf" \
+               "${OPNFV_MNT_DIR}/run/systemd/resolve/stub-resolv.conf"
     sync
     if mountpoint -q "${OPNFV_MNT_DIR}"; then
       sudo umount -l "${OPNFV_MNT_DIR}" || true
