@@ -31,6 +31,7 @@ x86_64:
         - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
     pkg:
       install:
+        - ifupdown
         - linux-generic-hwe-16.04
         - salt-minion
   control:
@@ -55,6 +56,7 @@ aarch64:
         - armband_3 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/rocky/xenial rocky-armband main
     pkg:
       install:
+        - ifupdown
         - python-futures
         - salt-minion
   control:
