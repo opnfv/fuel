@@ -46,6 +46,7 @@ salt -I 'nova:compute' state.sls nova,armband
 salt -I 'barbican:server' state.sls barbican
 salt -I 'barbican:client' state.sls barbican
 
+$(dirname "${BASH_SOURCE[0]}")/gnocchi_deps
 salt -I 'redis:server' state.sls redis
 salt -I 'gnocchi:server' state.sls gnocchi
 salt -I 'panko:server' state.sls panko

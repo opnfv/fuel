@@ -1,0 +1,11 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+salt -I 'gnocchi:server' pkg.install pkgs='["python-pip", "gnocchi-api"]'
+salt -I 'gnocchi:server' pip.install protobuf,trollius user=gnocchi
