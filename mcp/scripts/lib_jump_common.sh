@@ -97,6 +97,14 @@ function jumpserver_check_requirements {
         notify_n "[WARN] ${warn_br_endpoint}" 3
       fi
     fi
+    # https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1797332
+    if lsb_release -d | grep -q -e 'Ubuntu 16.04'; then
+      if uname -r | grep -q -e '^4\.4\.'; then
+        notify_n "[WARN] Host kernel too old; nested virtualization issues!" 3
+        notify_n "[WARN] apt install linux-generic-hwe-16.04 && reboot" 3
+        notify_e "[ERROR] Please upgrade the kernel and reboot!"
+      fi
+    fi
   fi
 }
 
