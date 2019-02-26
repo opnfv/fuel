@@ -19,11 +19,10 @@ virtual:
       - cmp001
       - cmp002
   ctl01:
-    vcpus: 4
     ram: 14336
   cmp001:
-    vcpus: 5
-    ram: 8192
+    vcpus: 6
+    ram: 10240
   cmp002:
-    vcpus: 5
-    ram: 8192
+    vcpus: 6
+    ram: 10240
