@@ -184,6 +184,7 @@ parameters:
     server:
       vlan_aware_vms: true
       root_helper_daemon: false
+      agent_down_time: 300
       global_physnet_mtu: ${_param:interface_mtu}
       backend:
         external_mtu: ${_param:interface_mtu}

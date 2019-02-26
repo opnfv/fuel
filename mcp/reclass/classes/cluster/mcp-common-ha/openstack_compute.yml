@@ -72,10 +72,13 @@ parameters:
     gateway:
       vlan_aware_vms: true
       root_helper_daemon: false
+      dhcp_lease_duration: 3600
+      report_interval: 120
   nova:
     compute:
       disk_cachemodes: file=directsync,block=none
       preallocate_images: space
+      heal_instance_info_cache_interval: 300
       barbican:
         enabled: ${_param:barbican_integration_enabled}
       image:
