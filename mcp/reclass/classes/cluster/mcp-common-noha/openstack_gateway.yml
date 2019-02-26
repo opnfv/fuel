@@ -18,3 +18,5 @@ parameters:
       agent_mode: ${_param:neutron_gateway_agent_mode}
       vlan_aware_vms: true
       root_helper_daemon: false
+      dhcp_lease_duration: 3600
+      report_interval: 120

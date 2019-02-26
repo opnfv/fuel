@@ -27,7 +27,7 @@ virtual:
     vcpus: 4
     ram: 14336
   gtw01:
-    ram: 1024
+    ram: 2048
   odl01:
     vcpus: 4
     ram: 6144
