@@ -56,11 +56,8 @@ if salt 'cmp*' match.pillar 'neutron:compute:backend:engine:ovn' \
   salt -I 'neutron:compute' state.sls neutron.compute
 fi
 
-salt -I 'nova:compute' state.sls nova
-if salt -I 'nova:compute' match.grain 'cpuarch:aarch64' \
-  --out yaml --static | grep -q -e 'true' ; then
-  salt -C 'G@cpuarch:aarch64 and I@nova:compute' state.sls armband
-fi
+$(dirname "${BASH_SOURCE[0]}")/nova_nfs_utime
+salt -I 'nova:compute' state.sls nova,armband
 
 salt -I 'barbican:server:role:primary' state.sls barbican
 salt -I 'barbican:server:role:secondary' state.sls barbican -b 1
