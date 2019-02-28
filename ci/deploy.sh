@@ -306,8 +306,7 @@ elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     notify "[NOTE] Use existing infra: skip first ${USE_EXISTING_INFRA} states" 2
     notify "[STATE] Skipping: ${cluster_states[*]::${USE_EXISTING_INFRA}}" 2
 else
-    prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}" \
-      "${virtual_nodes[@]}"
+    prepare_vms "${base_image}" "${MCP_STORAGE_DIR}" "${virtual_repos_pkgs}"
     create_networks "${OPNFV_BRIDGES[@]}"
     do_sysctl_cfg
     do_udev_cfg

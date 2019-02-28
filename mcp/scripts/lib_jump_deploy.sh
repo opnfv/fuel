@@ -212,7 +212,6 @@ function prepare_vms {
   local base_image=$1; shift
   local image_dir=$1; shift
   local repos_pkgs_str=$1; shift # ^-sep list of repos, pkgs to install/rm
-  local vnodes=("$@")
   local image=base_image_opnfv_fuel.img
   local vcp_image=${image%.*}_vcp.img
   local _o=${base_image/*\/}
@@ -245,18 +244,6 @@ function prepare_vms {
     fi
     ln -sf "${image_dir}/${_tmp}" "${image_dir}/${image}"
   fi
-
-  # Create config ISO and resize OS disk image for each foundation node VM
-  for node in "${vnodes[@]}"; do
-    ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" \
-       -u 'user-data.sh' -h "${node}" "${image_dir}/mcp_${node}.iso"
-    cp "${image_dir}/${image}" "${image_dir}/mcp_${node}.qcow2"
-    qemu-img resize "${image_dir}/mcp_${node}.qcow2" 100G
-    # Prepare dedicated drive for cinder on cmp nodes
-    if [[ "${node}" =~ ^(cmp) ]]; then
-      qemu-img create "${image_dir}/mcp_${node}_storage.qcow2" 100G
-    fi
-  done
 
   # VCP VMs base image specific changes
   if [[ ! "${repos_pkgs_str}" =~ \^{3}$ ]] && [ -n "${repos_pkgs[*]:4}" ]; then
@@ -304,8 +291,9 @@ function create_networks {
 
 function create_vms {
   local image_dir=$1; shift
+  local image=base_image_opnfv_fuel.img
   # vnode data should be serialized with the following format:
-  #   <name0>,<ram0>,<vcpu0>[,<sockets0>,<cores0>,<threads0>[,<cell0name0>,<cell0memory0>,
+  #   <name0>,<disks0>,<ram0>,<vcpu0>[,<sockets0>,<cores0>,<threads0>[,<cell0name0>,<cell0memory0>,
   #   <cell0cpus0>,<cell1name0>,<cell1memory0>,<cell1cpus0>]]|<name1>,...'
   IFS='|' read -r -a vnodes <<< "$1"; shift
 
@@ -320,18 +308,34 @@ function create_vms {
   for serialized_vnode_data in "${vnodes[@]}"; do
     if [ -z "${serialized_vnode_data}" ]; then continue; fi
     IFS=',' read -r -a vnode_data <<< "${serialized_vnode_data}"
+    IFS=';' read -r -a disks_data <<< "${vnode_data[1]}"
+
+    # Create config ISO and resize OS disk image for each foundation node VM
+    ./create-config-drive.sh -k "$(basename "${SSH_KEY}").pub" \
+       -u 'user-data.sh' -h "${vnode_data[0]}" "${image_dir}/mcp_${vnode_data[0]}.iso"
+    cp "${image_dir}/${image}" "${image_dir}/mcp_${vnode_data[0]}.qcow2"
+    qemu-img resize "${image_dir}/mcp_${vnode_data[0]}.qcow2" "${disks_data[0]}"
+    # Prepare additional drives if present
+    idx=0
+    virt_extra_storage=
+    for dsize in "${disks_data[@]:1}"; do
+      ((idx+=1))
+      qcow_file="${image_dir}/mcp_${vnode_data[0]}_${idx}.qcow2"
+      qemu-img create "${qcow_file}" "${dsize}"
+      virt_extra_storage+=" --disk path=${qcow_file},format=qcow2,bus=virtio,cache=none,io=native"
+    done
 
     # prepare VM CPU model, count, topology (optional), NUMA cells (optional, requires topo)
     local virt_cpu_args=' --cpu host-passthrough'
-    local idx=6  # cell0.name index in serialized data
+    local idx=7  # cell0.name index in serialized data
     while [ -n "${vnode_data[${idx}]}" ]; do
       virt_cpu_args+=",${vnode_data[${idx}]}.memory=${vnode_data[$((idx + 1))]}"
       virt_cpu_args+=",${vnode_data[${idx}]}.cpus=${vnode_data[$((idx + 2))]}"
       idx=$((idx + 3))
     done
-    virt_cpu_args+=" --vcpus vcpus=${vnode_data[2]}"
-    if [ -n "${vnode_data[5]}" ]; then
-      virt_cpu_args+=",sockets=${vnode_data[3]},cores=${vnode_data[4]},threads=${vnode_data[5]}"
+    virt_cpu_args+=" --vcpus vcpus=${vnode_data[3]}"
+    if [ -n "${vnode_data[6]}" ]; then
+      virt_cpu_args+=",sockets=${vnode_data[4]},cores=${vnode_data[5]},threads=${vnode_data[6]}"
     fi
 
     # prepare network args
@@ -341,18 +345,12 @@ function create_vms {
       net_args="${net_args} --network bridge=${net},model=virtio"
     done
 
-    # dedicated storage drive for cinder on cmp nodes
-    virt_extra_storage=
-    if [[ "${vnode_data[0]}" =~ ^(cmp) ]]; then
-      virt_extra_storage="--disk path=${image_dir}/mcp_${vnode_data[0]}_storage.qcow2,format=qcow2,bus=virtio,cache=none,io=native"
-    fi
-
     [ ! -e "${image_dir}/virt-manager" ] || VIRT_PREFIX="${image_dir}/virt-manager/"
     # shellcheck disable=SC2086
     ${VIRT_PREFIX}${VIRSH/virsh/virt-install} --name "${vnode_data[0]}" \
     ${virt_cpu_args} --accelerate \
     ${net_args} \
-    --ram "${vnode_data[1]}" \
+    --ram "${vnode_data[2]}" \
     --disk path="${image_dir}/mcp_${vnode_data[0]}.qcow2",format=qcow2,bus=virtio,cache=none,io=native \
     ${virt_extra_storage} \
     --os-type linux --os-variant none \

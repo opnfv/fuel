@@ -1,0 +1,588 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Sat, 2 Mar 2019 12:24:38 +0100
+Subject: [PATCH] [PDF/IDF] UNH virtual1 for LaaS/ONAP usage
+
+In order to fully utilize all available resources (88 CPU threads,
+256GB RAM) in Fuel virtual deployments, add basic PDF/IDF files
+based on ericsson-virtual1 templates.
+
+IDF is mostly unchanged compared to idf-virtual1 from Ericsson lab.
+PDF allocates more disk capacity for the first node (controller role
+in Fuel deployments), as well as more vCPUs/RAM for the last 2 nodes
+(compute role in Fuel virtual deployments).
+
+While at it, align ericsson vPOD definitions to match the new format
+(2 disks should be defined for each compute node; account for HT).
+
+Change-Id: Iac8ee857a3297084ea9f087ba8007950413fda25
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ labs/arm/virtual2.yaml              |  16 ++-
+ labs/ericsson/virtual-pod1bl01.yaml |  16 ++-
+ labs/ericsson/virtual1.yaml         |  16 ++-
+ labs/ericsson/virtual2.yaml         |  16 ++-
+ labs/ericsson/virtual3.yaml         |  16 ++-
+ labs/ericsson/virtual4.yaml         |  16 ++-
+ labs/ericsson/virtual5.yaml         |  17 ++-
+ labs/unh/idf-virtual1.yaml          | 105 ++++++++++++++++++
+ labs/unh/virtual1.yaml              | 164 ++++++++++++++++++++++++++++
+ 9 files changed, 360 insertions(+), 22 deletions(-)
+ create mode 100644 labs/unh/idf-virtual1.yaml
+ create mode 100644 labs/unh/virtual1.yaml
+
+diff --git a/labs/arm/virtual2.yaml b/labs/arm/virtual2.yaml
+index fda336c..f19a5de 100644
+--- a/labs/arm/virtual2.yaml
++++ b/labs/arm/virtual2.yaml
+@@ -33,7 +33,7 @@ jumphost:
+       disk_capacity: 500G
+       disk_type: hdd
+       disk_interface: sata
+-      disk_rotation: 7200
++      disk_rotation: &diskrotation 7200
+   os: ubuntu-16.04
+   remote_params: &remote_params
+     type: ipmi
+@@ -126,12 +126,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual-pod1bl01.yaml b/labs/ericsson/virtual-pod1bl01.yaml
+index 996a330..e565d54 100644
+--- a/labs/ericsson/virtual-pod1bl01.yaml
++++ b/labs/ericsson/virtual-pod1bl01.yaml
+@@ -100,7 +100,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -149,12 +149,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual1.yaml b/labs/ericsson/virtual1.yaml
+index c7519bf..57f855b 100644
+--- a/labs/ericsson/virtual1.yaml
++++ b/labs/ericsson/virtual1.yaml
+@@ -100,7 +100,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -149,12 +149,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual2.yaml b/labs/ericsson/virtual2.yaml
+index ca3f42e..cab58ee 100644
+--- a/labs/ericsson/virtual2.yaml
++++ b/labs/ericsson/virtual2.yaml
+@@ -100,7 +100,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -149,12 +149,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual3.yaml b/labs/ericsson/virtual3.yaml
+index 5c4f6ba..d401171 100644
+--- a/labs/ericsson/virtual3.yaml
++++ b/labs/ericsson/virtual3.yaml
+@@ -100,7 +100,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -149,12 +149,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual4.yaml b/labs/ericsson/virtual4.yaml
+index de6c5ee..effa861 100644
+--- a/labs/ericsson/virtual4.yaml
++++ b/labs/ericsson/virtual4.yaml
+@@ -100,7 +100,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -149,12 +149,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+diff --git a/labs/ericsson/virtual5.yaml b/labs/ericsson/virtual5.yaml
+index 0a9e602..b49d6e8 100644
+--- a/labs/ericsson/virtual5.yaml
++++ b/labs/ericsson/virtual5.yaml
+@@ -92,7 +92,7 @@ nodes:
+       vendor: libvirt
+       model: virt
+       cpus: 1
+-      cores: 8
++      cores: 4
+       memory: 6G
+     disks: &disks
+       - name: 'disk1'
+@@ -141,13 +141,22 @@ nodes:
+   ############################################################################
+   - name: node-4
+     node: *nodeparams
+-    disks: *disks
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+   ############################################################################
+   - name: node-5
+     node: *nodeparams
+-    disks: *disks
++    disks: *compute_disks
+     remote_management: *remotemgmt
+     interfaces: *interfaces
+-##############################################################################
+diff --git a/labs/unh/idf-virtual1.yaml b/labs/unh/idf-virtual1.yaml
+new file mode 100644
+index 0000000..f63f58e
+--- /dev/null
++++ b/labs/unh/idf-virtual1.yaml
+@@ -0,0 +1,105 @@
++##############################################################################
++# Copyright (c) 2019 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### unh-virtual1 Installer descriptor file ###
++
++idf:
++  version: 0.1
++  net_config:
++    # NOTE: Network names are likely to change after the PDF spec is updated
++    oob:
++      interface: 0
++      ip-range: ~
++      vlan: native
++      mask: 24
++    # All networks (except OOB) are virtual networks managed by `libvirt`
++    # Interface indexes are based on Fuel installer defaults
++    admin:
++      interface: 0  # when used, will be first vnet interface, untagged
++      vlan: native
++      network: 192.168.11.0
++      mask: 24
++    mgmt:
++      interface: 1  # when used, will be second vnet interface, untagged
++      vlan: native
++      network: 172.16.10.0
++      ip-range: 172.16.10.10-172.16.10.254  # Some IPs are in use by lab infra
++      mask: 24
++    storage:
++      interface: 4  # when used, will be fifth vnet interface, untagged
++      vlan: native
++      network: 192.168.20.0
++      mask: 24
++    private:
++      interface: 2  # when used, will be third vnet interface, untagged
++      vlan: 1000-1999
++      network: 10.1.0.0
++      mask: 24
++    public:
++      interface: 3  # when used, will be fourth vnet interface, untagged
++      vlan: native
++      network: 10.16.0.0
++      ip-range: 10.16.0.100-10.16.0.254  # Some IPs are in use by lab infra
++      mask: 24
++      gateway: 10.16.0.1
++      dns:
++        - 8.8.8.8
++        - 8.8.4.4
++  fuel:
++    jumphost:
++      bridges:
++        admin: ~
++        mgmt: ~
++        private: ~
++        public: ~
++    network:
++      interface_mtu: 9000
++      ntp_strata_host1: 1.pool.ntp.org
++      ntp_strata_host2: 0.pool.ntp.org
++      node:
++        # Ordered-list, index should be in sync with node index in PDF
++        - interfaces: &interfaces
++            # Ordered-list, index should be in sync with interface index in PDF
++            - 'ens3'
++            - 'ens4'
++            - 'ens5'
++            - 'ens6'
++          busaddr: &busaddr
++            # Bus-info reported by `ethtool -i ethX`
++            - '0000:00:03.0'
++            - '0000:00:04.0'
++            - '0000:00:05.0'
++            - '0000:00:06.0'
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++        - interfaces: *interfaces
++          busaddr: *busaddr
++    reclass:
++      node:
++        - compute_params: &compute_params
++            common: &compute_params_common
++              compute_hugepages_size: 2M
++              compute_hugepages_count: 2048
++              compute_hugepages_mount: /mnt/hugepages_2M
++            dpdk:
++              <<: *compute_params_common
++              compute_dpdk_driver: uio
++              compute_ovs_pmd_cpu_mask: "0x6"
++              compute_ovs_dpdk_socket_mem: "1024"
++              compute_ovs_dpdk_lcore_mask: "0x8"
++              compute_ovs_memory_channels: "2"
++              dpdk0_driver: igb_uio
++              dpdk0_n_rxq: 2
++        - compute_params: *compute_params
++        - compute_params: *compute_params
++        - compute_params: *compute_params
++        - compute_params: *compute_params
+diff --git a/labs/unh/virtual1.yaml b/labs/unh/virtual1.yaml
+new file mode 100644
+index 0000000..b9f9a4d
+--- /dev/null
++++ b/labs/unh/virtual1.yaml
+@@ -0,0 +1,164 @@
++##############################################################################
++# Copyright (c) 2019 Ericsson AB, Mirantis Inc., Enea AB and others.
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Apache License, Version 2.0
++# which accompanies this distribution, and is available at
++# http://www.apache.org/licenses/LICENSE-2.0
++##############################################################################
++---
++### unh-virtual1 POD descriptor file ###
++
++version: 1.0
++details:
++  pod_owner: University of New Hampshire
++  contact: lincoln.lavoie@iol.unh.edu
++  lab: UNH lab
++  location: New Hampshire, USA
++  type: development
++  link: https://wiki.opnfv.org/pages/viewpage.action?pageId=12389095
++##############################################################################
++jumphost:
++  name: unh-virtual1
++  node: &jumpparams
++    type: baremetal
++    vendor: HP
++    model: ProLiant
++    arch: x86_64
++    cpus: 2
++    cpu_cflags: haswell
++    cores: 22
++    memory: 512G
++  disks:
++    - name: 'disk1'
++      disk_capacity: 800G
++      disk_type: ssd
++      disk_interface: sata
++      disk_rotation: 0
++  os: ubuntu-16.04
++  remote_params: &remoteparas
++    type: ipmi
++    versions:
++      - 1.0
++      - 2.0
++    user: changeme
++    pass: changeme
++  remote_management:
++    <<: *remoteparas
++    address: 0.0.0.0/24
++    mac_address: "00:00:00:00:00:00"
++  interfaces:
++    - name: 'nic1'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      address: 100.64.202.5/24
++      mac_address: "00:00:00:00:00:00"
++    - name: 'nic2'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++    - name: 'nic3'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++    - name: 'nic4'
++      speed: 10gb
++      features: 'dpdk|sriov'
++      mac_address: "00:00:00:00:00:00"
++##############################################################################
++nodes:
++  - name: node-1
++    node: &nodeparams
++      <<: *jumpparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      type: virtual
++      vendor: libvirt
++      model: virt
++      cpus: 1
++      cores: 4
++      memory: 14G
++    disks:
++      - name: 'disk1'
++        disk_capacity: 400G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: &diskrotation 0
++    remote_management: &remotemgmt
++      type: libvirt
++      user: changeme
++      pass: changeme
++      address: 'qemu:///system'
++    interfaces: &interfaces
++      - name: 'nic1'
++        speed: 1gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"  # MACs will be assigned by libvirt
++        vlan: native
++      - name: 'nic2'
++        speed: 1gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic3'
++        speed: 1gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++      - name: 'nic4'
++        speed: 1gb
++        features: 'dpdk|sriov'
++        mac_address: "00:00:00:00:00:00"
++        vlan: native
++  ############################################################################
++  - name: node-2
++    node:
++      <<: *nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      cpus: 1
++      cores: 4
++      memory: 8G
++    disks: &disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-3
++    node:
++      <<: *nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      cpus: 1
++      cores: 4
++      memory: 8G
++    disks: *disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-4
++    node: &compute_nodeparams
++      <<: *nodeparams
++      # Fuel overrides certain params (e.g. cpus, mem) based on node role later
++      cpus: 2
++      cores: 18
++      memory: 120G
++    disks: &compute_disks
++      - name: 'disk1'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++      - name: 'disk2'
++        disk_capacity: 100G
++        disk_type: hdd
++        disk_interface: scsi  # virtio-scsi
++        disk_rotation: *diskrotation
++    remote_management: *remotemgmt
++    interfaces: *interfaces
++  ############################################################################
++  - name: node-5
++    node: *compute_nodeparams
++    disks: *compute_disks
++    remote_management: *remotemgmt
++    interfaces: *interfaces

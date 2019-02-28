@@ -10,6 +10,7 @@
 x86_64:
   base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
   default:
+    disks: 100G  # ';'-separated list of disk drives to create
     vcpus: 4
     ram: 8192
     cluster: &arch_default_cluster_states
@@ -41,6 +42,7 @@ x86_64:
 aarch64:
   base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
   default:
+    disks: 100G  # ';'-separated list of disk drives to create
     vcpus: 6
     ram: 4096
     cluster: *arch_default_cluster_states
