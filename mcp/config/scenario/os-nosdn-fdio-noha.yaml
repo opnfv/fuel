@@ -35,6 +35,7 @@ virtual:
         memory: 8388608
         cpus: 0-7
   cmp001:
+    disks: 100G;100G
     vcpus: 8
     ram: 8192
     cpu_topology:
@@ -46,6 +47,7 @@ virtual:
         memory: 8388608
         cpus: 0-7
   cmp002:
+    disks: 100G;100G
     vcpus: 8
     ram: 8192
     cpu_topology:

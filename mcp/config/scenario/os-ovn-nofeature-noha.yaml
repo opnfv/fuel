@@ -21,8 +21,10 @@ virtual:
   ctl01:
     ram: 14336
   cmp001:
+    disks: 100G;100G
     vcpus: 6
     ram: 10240
   cmp002:
+    disks: 100G;100G
     vcpus: 6
     ram: 10240

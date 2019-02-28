@@ -36,8 +36,10 @@ virtual:
     vcpus: 4
     ram: 14336
   cmp001:
+    disks: 100G;100G
     vcpus: 4
     ram: 8192
   cmp002:
+    disks: 100G;100G
     vcpus: 4
     ram: 8192

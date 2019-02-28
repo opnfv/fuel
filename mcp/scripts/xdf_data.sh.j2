@@ -43,7 +43,8 @@
             {%- do V[n].update({'s_numa': c if 's_numa' not in V[n] else pack([c, V[n].s_numa])}) -%}
           {%- endfor -%}
         {%- endif -%}
-        {%- do arr.append(pack([n, V[n].ram or arch.default.ram,
+        {%- do arr.append(pack([n, V[n].disks or arch.default.disks,
+                                   V[n].ram or arch.default.ram,
                                    V[n].vcpus or arch.default.vcpus,
                                    '' if not cpu_topo else pack([
                                        V[n].cpu_topology.sockets,
