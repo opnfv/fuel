@@ -32,8 +32,10 @@ virtual:
   gtw01:
     ram: 2048
   cmp001:
+    disks: 100G;100G
     vcpus: 36
     ram: 122880
   cmp002:
+    disks: 100G;100G
     vcpus: 36
     ram: 122880

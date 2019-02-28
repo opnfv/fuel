@@ -47,9 +47,6 @@ function do_templates_scenario {
       notify_e "[ERROR] IDF does not match yaml schema!"
     fi
   fi
-  for _yaml in "${extra_yaml[@]}"; do
-    awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
-  done
   if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
     -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
@@ -63,6 +60,9 @@ function do_templates_scenario {
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")"; then
     notify_e '[ERROR] Could not convert j2 scenario definitions!'
   fi
+  for _yaml in "${extra_yaml[@]}"; do
+    awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
+  done
 }
 
 # Expand reclass and virsh network templates based on PDF + IDF + others
