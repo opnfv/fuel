@@ -41,6 +41,9 @@ parameters:
         boot_options:
           - spectre_v2=off
           - nopti
+          - nospec_store_bypass_disable
+          - noibrs
+          - noibpb
           - intel_iommu=on
           - iommu=pt
           - nohz_full=${linux:system:kernel:isolcpu}
