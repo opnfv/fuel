@@ -41,6 +41,9 @@ parameters:
         boot_options:
           - spectre_v2=off
           - nopti
+          - nospec_store_bypass_disable
+          - noibrs
+          - noibpb
         sysctl:
           net.ipv4.ip_forward: 0
   libvirt:
