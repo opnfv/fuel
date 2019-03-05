@@ -16,6 +16,24 @@
       "revId": "4db6996a3a05a24f8c0639221c6ef80822043bea",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da01753e_2bd57543",
+        "filename": "mcp/patches/pharos/0001-PDF-IDF-UNH-virtual1-for-LaaS-ONAP-usage.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2019-03-05T11:55:25Z",
+      "side": 1,
+      "message": "This is temporary until the Pharos patch is merged, after which I\u0027ll rebase this change, bump the pharos git submodule and this patch will be gone.",
+      "parentUuid": "da01753e_8bf3c109",
+      "revId": "4db6996a3a05a24f8c0639221c6ef80822043bea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
