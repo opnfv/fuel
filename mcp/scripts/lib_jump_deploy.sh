@@ -292,14 +292,46 @@ function create_networks {
       ${VIRSH} net-start "${net}"
     fi
   done
-  # create veth pairs for relevant networks (pxebr, mgmt)
-  for i in $(seq 0 2 2); do
-    sudo ip link del "veth_mcp$i" || true
-    sudo ip link add "veth_mcp$i" type veth peer name "veth_mcp$((i+1))"
-    sudo ip link set "veth_mcp$i" up mtu 9000
-    sudo ip link set "veth_mcp$((i+1))" up mtu 9000
-    sudo brctl addif "${all_vnode_networks[$((i/2))]}" "veth_mcp$i"
-  done
+
+  sudo ip link del veth_mcp0 || true
+  sudo ip link del veth_mcp2 || true
+  # Create systemd service for veth creation after reboot
+  FUEL_VETHC_SERVICE="/etc/systemd/system/opnfv-fuel-vethc.service"
+  FUEL_VETHA_SERVICE="/etc/systemd/system/opnfv-fuel-vetha.service"
+  test -f /usr/sbin/ip && PREFIX=/usr/sbin || PREFIX=/sbin
+  cat <<-EOF | sudo tee "${FUEL_VETHC_SERVICE}"
+	[Unit]
+	After=libvirtd.service
+	Before=docker.service
+	[Service]
+	ExecStart=/bin/sh -ec '\
+	  ${PREFIX}/ip link add veth_mcp0 type veth peer name veth_mcp1 && \
+	  ${PREFIX}/ip link add veth_mcp2 type veth peer name veth_mcp3 && \
+	  ${PREFIX}/ip link set veth_mcp0 up mtu 9000 && \
+	  ${PREFIX}/ip link set veth_mcp1 up mtu 9000 && \
+	  ${PREFIX}/ip link set veth_mcp2 up mtu 9000 && \
+	  ${PREFIX}/ip link set veth_mcp3 up mtu 9000'
+	EOF
+  cat <<-EOF | sudo tee "${FUEL_VETHA_SERVICE}"
+	[Unit]
+	StartLimitInterval=200
+	StartLimitBurst=10
+	After=opnfv-fuel-vethc.service
+	[Service]
+	Restart=on-failure
+	RestartSec=10
+	ExecStartPre=/bin/sh -ec '\
+	  ${PREFIX}/brctl showstp ${all_vnode_networks[0]} > /dev/null 2>&1 && \
+	  ${PREFIX}/brctl showstp ${all_vnode_networks[1]} > /dev/null 2>&1'
+	ExecStart=/bin/sh -ec '\
+	  ${PREFIX}/brctl addif ${all_vnode_networks[0]} veth_mcp0 && \
+	  ${PREFIX}/brctl addif ${all_vnode_networks[1]} veth_mcp2'
+	EOF
+  sudo ln -sf "${FUEL_VETHC_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
+  sudo ln -sf "${FUEL_VETHA_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
+  sudo systemctl daemon-reload
+  sudo systemctl restart opnfv-fuel-vethc
+  sudo systemctl restart opnfv-fuel-vetha
 }
 
 function create_vms {

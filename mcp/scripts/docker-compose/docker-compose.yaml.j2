@@ -14,6 +14,7 @@ services:
   opnfv-fuel-salt-master:
     container_name: "fuel"
     image: "opnfv/fuel:saltmaster-reclass-{{ conf.MCP_DOCKER_TAG }}"
+    restart: always
     networks:
       mcpcontrol:
         ipv4_address: {{ conf.SALT_MASTER }}
@@ -40,6 +41,7 @@ services:
   opnfv-fuel-maas:
     container_name: "maas"
     image: "opnfv/fuel:saltminion-maas-{{ conf.MCP_DOCKER_TAG }}"
+    restart: always
     networks:
       mcpcontrol:
         ipv4_address: {{ conf.MAAS_IP }}
@@ -83,7 +85,7 @@ networks:
     driver: macvlan
     driver_opts:
 {%- if conf.idf.fuel.jumphost.get('trunks', {}).get('mgmt', False) %}
-      parent: {{ ma.interface_str('veth_mcp5', nm.vlan_mgmt) }}
+      parent: {{ ma.interface_str('veth_mcp3', nm.vlan_mgmt) }}
 {%- else %}
       parent: veth_mcp3  # Untagged by default
 {%- endif %}
