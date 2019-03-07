@@ -1,0 +1,39 @@
+#!/bin/bash -e
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+
+# Create and distribute SSL certificates for services
+salt-call state.sls salt.minion
+
+# Install etcd
+salt -I 'etcd:server' state.sls etcd.server.service
+salt -I 'etcd:server' cmd.run ". /var/lib/etcd/configenv && etcdctl cluster-health"
+
+# Install Kubernetes and Calico
+salt -I 'kubernetes:master' state.sls kubernetes.master.kube-addons
+salt -I 'kubernetes:pool' state.sls kubernetes.pool
+salt -I 'kubernetes:pool' cmd.run "calicoctl node status"
+salt -I 'kubernetes:pool' cmd.run "calicoctl get ippool"
+
+# Setup NAT for Calico
+salt -I 'kubernetes:master' state.sls etcd.server.setup
+
+# Run whole master to check consistency
+salt -I 'kubernetes:master' state.sls kubernetes exclude=kubernetes.master.setup
+
+# Register addons
+salt -I 'kubernetes:master' state.sls kubernetes.master.setup
+
+# Upload config
+K8S_CONFIG=kubernetes.config
+K8S_HOST_ID=$(salt -I 'kubernetes:master' --out=yaml cp.push \
+  /etc/kubernetes/admin-kube-config \
+  upload_path="$K8S_CONFIG" | cut -d':' -f1)
+cd /opt && ln -sf "/var/cache/salt/master/minions/${K8S_HOST_ID}/files/${K8S_CONFIG}"

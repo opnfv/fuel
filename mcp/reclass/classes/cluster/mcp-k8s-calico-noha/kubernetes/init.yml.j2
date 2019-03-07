@@ -1,0 +1,108 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+---
+parameters:
+  _param:
+    salt_minion_ca_authority: salt_master_ca
+
+    # kubelet
+    kubelet_fail_on_swap: true
+
+    # kubernetes settings
+    kubernetes_admin_user: admin
+    kubernetes_admin_password: sbPfel23ZigJF3Bm
+    kubernetes_admin_token: PpP6Mm3pAoPVqcKOKUu0x1dh7b1959Fi
+    kubernetes_kubelet_token: JJ2PKHxjiU6EYvIt18BqwdSK1HvWh8pt
+    kubernetes_kube-proxy_token: jT0hJk9L6cIw5UpYDNhsRwcj3Z2n62B6
+    kubernetes_scheduler_token: VgkUHfrW07zNxrb0ucFyX7NBnSJN9Xp6
+    kubernetes_controller-manager_token: uXrdZ1YKF6qlYm3sHje2iEXMGAGDWOIU
+    kubernetes_dns_token: 0S1I4iJeFjq5fopPwwCwTp3xFpEZfeUl
+    etcd_initial_token: IN7KaRMSo3xkGxkjAAPtkRkAgqN4ZNRq
+    kubernetes_netchecker_agent_probeurls: "http://ipinfo.io"
+
+    # addresses and hostnames
+    kubernetes_internal_api_address: 10.254.0.1
+    kubernetes_internal_dns_address: 10.254.0.10
+    kubernetes_control_hostname: ctl
+    kubernetes_control_node01_hostname: ctl01
+    kubernetes_compute01_hostname: cmp001
+    kubernetes_compute02_hostname: cmp002
+    kubernetes_control_node01_address: ${_param:openstack_control_address}
+    kubernetes_control_address: ${_param:kubernetes_control_node01_address}
+    master_address: ${_param:kubernetes_control_node01_address}
+    cluster_local_address: ${_param:single_address}
+
+    # cert
+    control_address: ${_param:kubernetes_control_node01_address}
+
+    # etcd stuff
+    node_hostname: ${_param:kubernetes_control_node01_hostname}
+    node_address: ${_param:kubernetes_control_node01_address}
+    node_port: 4001
+
+    # calico
+    calico_private_network: 192.168.0.0
+    calico_private_netmask: 16
+
+    # coredns
+    kubernetes_externaldns_provider: coredns
+    kubernetes_metallb_addresses_pool: 172.16.10.70-172.16.10.95
+
+    # switches of addons
+    kubernetes_kubedns_enabled: false
+    kubernetes_externaldns_enabled: false
+    kubernetes_coredns_enabled: true
+    kubernetes_dashboard: false
+    kubernetes_virtlet_enabled: false
+    kubernetes_flannel_enabled: false
+    kubernetes_genie_enabled: false
+    kubernetes_calico_enabled: true
+    kubernetes_opencontrail_enabled: false
+    kubernetes_contrail_network_controller_enabled: false
+    kubernetes_metallb_enabled: false
+    kubernetes_ingressnginx_enabled: false
+    kubernetes_rbd_enabled: false
+    kubernetes_helm_enabled: false
+    kubernetes_netchecker_enabled: true
+    kubernetes_calico_policy_enabled: false
+    kubernetes_metrics_server_enabled: false
+
+    kubernetes_ingressnginx_controller_replicas: 1
+    kubernetes_virtlet_use_apparmor: false
+
+    kubernetes_addon_namespace: kube-system
+
+
+    # Cloud providers parameters
+    kubernetes_cloudprovider_enabled: false
+    kubernetes_cloudprovider_type: 'openstack'
+
+  linux:
+    system:
+      kernel:
+        sysctl:
+          net.ipv4.tcp_congestion_control: yeah
+          net.ipv4.tcp_slow_start_after_idle: 0
+          net.ipv4.tcp_fin_timeout: 30
+    network:
+      host:
+        ctl01:
+          address: ${_param:kubernetes_control_node01_address}
+          names:
+            - ctl01
+            - ctl01.${_param:cluster_domain}
+{%- for cmp in range(1, nm.cmp_nodes + 1) %}
+  {%- set h = 'cmp%03d' | format(cmp) %}
+  {%- set mgmt = nm.net_mgmt_hosts | length + nm.start_ip[nm.net_mgmt] + loop.index %}
+        {{ h }}:
+          address: {{ nm.net_mgmt | ipnet_hostaddr(mgmt) }}
+          names:
+            - {{ h }}
+            - {{ h }}.${_param:cluster_domain}
+{%- endfor %}

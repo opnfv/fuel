@@ -54,3 +54,11 @@
 	path = mcp/salt-formulas/salt-formula-gnocchi
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/gnocchi
 	branch = master
+[submodule "salt-formula-etcd"]
+	path = mcp/salt-formulas/salt-formula-etcd
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/etcd
+	branch = master
+[submodule "salt-formula-kubernetes"]
+	path = mcp/salt-formulas/salt-formula-kubernetes
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/kubernetes
+	branch = master
