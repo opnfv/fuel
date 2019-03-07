@@ -1,0 +1,54 @@
+classes:
+- system.linux.system.repo.mcp.apt_mirantis.docker
+- system.kubernetes.pool.single
+- system.salt.minion.cert.k8s_client_single
+- system.salt.minion.cert.etcd_client_single
+
+parameters:
+  kubernetes:
+    common:
+      hyperkube:
+        source: ${_param:kubernetes_hyperkube_source}
+        source_hash: ${_param:kubernetes_hyperkube_source_hash}
+        pause_image: ${_param:kubernetes_pause_image}
+    pool:
+      proxy:
+        daemon_opts:
+          cluster-cidr: ${_param:calico_private_network}/${_param:calico_private_netmask}
+      kubelet:
+        address: ${_param:single_address}
+        fail_on_swap: ${_param:kubelet_fail_on_swap}
+      network:
+        calico:
+          enabled: True
+          no_default_pools: False
+          image: ${_param:kubernetes_calico_image}
+          calicoctl_image: ${_param:kubernetes_calico_calicoctl_image}
+          cni_image: ${_param:kubernetes_calico_cni_image}
+          kube_controllers_image: ${_param:kubernetes_calico_kube_controllers_image}
+          birdcl_source: ${_param:kubernetes_calico_birdcl_source}
+          birdcl_source_hash: ${_param:kubernetes_calico_birdcl_source_hash}
+          calicoctl_source: ${_param:kubernetes_calico_calicoctl_source}
+          calicoctl_source_hash: ${_param:kubernetes_calico_calicoctl_source_hash}
+          cni_ipam_source: ${_param:kubernetes_calico_cni_ipam_source}
+          cni_ipam_source_hash: ${_param:kubernetes_calico_cni_ipam_source_hash}
+          cni_source: ${_param:kubernetes_calico_cni_source}
+          cni_source_hash: ${_param:kubernetes_calico_cni_source_hash}
+          etcd:
+            ssl:
+              enabled: True
+          policy:
+            enabled: ${_param:kubernetes_calico_policy_enabled}
+  linux:
+    system:
+      kernel:
+        sysctl:
+          # The default operating system limits on mmap counts is likely to be too low, which may result in out of memory exceptions.
+          vm.max_map_count: 262144
+    storage:
+      enabled: true
+      swap:
+        img:
+          enabled: false
+          engine: file
+          device: /swap.img

@@ -1,0 +1,112 @@
+parameters:
+  _param:
+    # General
+    linux_system_codename: xenial
+    salt_minion_ca_host: ${_param:infra_config_hostname}.${_param:cluster_domain}
+    salt_minion_ca_authority: salt_master_ca
+
+    # kubelet
+    kubelet_fail_on_swap: True
+
+    # kubernetes settings
+    kubernetes_admin_user: admin
+    kubernetes_admin_password: sbPfel23ZigJF3Bm
+    kubernetes_admin_token: PpP6Mm3pAoPVqcKOKUu0x1dh7b1959Fi
+    kubernetes_kubelet_token: JJ2PKHxjiU6EYvIt18BqwdSK1HvWh8pt
+    kubernetes_kube-proxy_token: jT0hJk9L6cIw5UpYDNhsRwcj3Z2n62B6
+    kubernetes_scheduler_token: VgkUHfrW07zNxrb0ucFyX7NBnSJN9Xp6
+    kubernetes_controller-manager_token: uXrdZ1YKF6qlYm3sHje2iEXMGAGDWOIU
+    kubernetes_dns_token: 0S1I4iJeFjq5fopPwwCwTp3xFpEZfeUl
+    kubernetes_openstack_provider_cloud_password: changemeplease
+    etcd_initial_token: IN7KaRMSo3xkGxkjAAPtkRkAgqN4ZNRq
+
+    # component docker images
+    kubernetes_hyperkube_source: https://docker-prod-local.artifactory.mirantis.com/artifactory/binary-prod-local/mirantis/kubernetes/hyperkube-binaries/hyperkube_v1.12.3-2_1544133573591
+    kubernetes_hyperkube_source_hash: md5=fc23eaf3ba63d9ed9d141f465f584012
+    kubernetes_pause_image: docker-prod-virtual.docker.mirantis.net/mirantis/kubernetes/pause-amd64:v1.12.3-2
+    kubernetes_virtlet_image: mirantis/virtlet:v1.4.1
+    kubernetes_criproxy_version: v0.12.0
+    kubernetes_criproxy_checksum: md5=371cacd3d8568eb88425498b48a649dd
+    kubernetes_netchecker_agent_probeurls: "http://ipinfo.io"
+
+    # addresses and hostnames
+    kubernetes_internal_api_address: 10.254.0.1
+    kubernetes_internal_dns_address: 10.254.0.10
+    kubernetes_control_hostname: ctl
+    kubernetes_control_address: 172.16.10.253
+    kubernetes_control_node01_hostname: ctl01
+    kubernetes_compute01_hostname: cmp001
+    kubernetes_control_node01_address: 172.16.10.36
+    master_address: ${_param:kubernetes_control_node01_address}
+    cluster_local_address: ${_param:single_address}
+
+    cluster_vip_address: ${_param:kubernetes_control_address}
+    cluster_local_address: ${_param:single_address}
+
+    # cert
+    control_address: ${_param:kubernetes_control_node01_address}
+    salt_master_base_environment: prd
+
+    # etcd stuff
+    node_hostname: ${_param:kubernetes_control_node01_hostname}
+    node_address: ${_param:kubernetes_control_node01_address}
+    node_port: 4001
+
+    # calico
+    calico_private_network: 192.168.0.0
+    calico_private_netmask: 16
+
+    # component docker images
+    kubernetes_externaldns_provider: coredns
+    kubernetes_metallb_addresses_pool: 172.16.10.70-172.16.10.95
+
+    # switches of addons
+    kubernetes_kubedns_enabled: False
+    kubernetes_externaldns_enabled: False
+    kubernetes_coredns_enabled: True
+    kubernetes_dashboard: false
+    kubernetes_virtlet_enabled: False
+    kubernetes_flannel_enabled: False
+    kubernetes_genie_enabled: False
+    kubernetes_calico_enabled: True
+    kubernetes_opencontrail_enabled: False
+    kubernetes_contrail_network_controller_enabled: False
+    kubernetes_metallb_enabled: False
+    kubernetes_ingressnginx_enabled: False
+    kubernetes_rbd_enabled: False
+    kubernetes_helm_enabled: False
+    kubernetes_netchecker_enabled: True
+    kubernetes_calico_policy_enabled: False
+    kubernetes_metrics_server_enabled: False
+
+    kubernetes_ingressnginx_controller_replicas: 1
+    kubernetes_virtlet_use_apparmor: False
+
+    kubernetes_addon_namespace: kube-system
+
+
+    # Cloud providers parameters
+
+    kubernetes_cloudprovider_enabled: False
+    kubernetes_cloudprovider_type: 'openstack'
+
+  linux:
+    network:
+      resolv:
+        dns:
+          - ${_param:dns_server01}
+          - ${_param:dns_server02}
+          - ${_param:kubernetes_internal_dns_address}
+        search:
+          - ${_param:cluster_domain}
+      host:
+        ctl:
+          address: ${_param:kubernetes_control_address}
+          names:
+          - ${_param:kubernetes_control_hostname}
+          - ${_param:kubernetes_control_hostname}.${_param:cluster_domain}
+        ctl01:
+          address: ${_param:kubernetes_control_node01_address}
+          names:
+          - ${_param:kubernetes_control_node01_hostname}
+          - ${_param:kubernetes_control_node01_hostname}.${_param:cluster_domain}

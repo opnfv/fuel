@@ -1,0 +1,4 @@
+classes:
+- system.defaults
+- cluster.mcp-k8s-calico-noha.kubernetes
+- cluster.mcp-k8s-calico-noha.infra

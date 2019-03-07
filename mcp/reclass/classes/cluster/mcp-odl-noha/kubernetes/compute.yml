@@ -1,0 +1,5 @@
+classes:
+- system.linux.network.hosts
+- cluster.mcp-odl-noha.kubernetes.common
+- cluster.mcp-odl-noha.kubernetes.networking.virtual
+- cluster.mcp-odl-noha

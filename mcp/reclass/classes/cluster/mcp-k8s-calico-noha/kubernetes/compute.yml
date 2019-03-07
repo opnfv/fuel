@@ -1,0 +1,5 @@
+classes:
+- system.linux.network.hosts
+- cluster.mcp-k8s-calico-noha.kubernetes.common
+- cluster.mcp-k8s-calico-noha.kubernetes.networking.virtual
+- cluster.mcp-k8s-calico-noha
