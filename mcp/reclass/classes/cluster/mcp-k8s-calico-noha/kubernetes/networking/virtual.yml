@@ -1,0 +1,23 @@
+# Virtual node default networking template
+#
+---
+parameters:
+  linux:
+    network:
+      interface:
+        deploy_interface:
+          name: ${_param:primary_interface}
+          enabled: true
+          type: eth
+          proto: dhcp
+        control_interface:
+          name: ${_param:control_interface}
+          enabled: true
+          type: eth
+          proto: static
+          address: ${_param:single_address}
+          netmask: 255.255.255.0
+          ipflush_onchange: true
+          restart_on_ipflush: true
+          post_up_cmds:
+            - ip r rep 10.254.0.0/16 via ${_param:single_address}

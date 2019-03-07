@@ -1,0 +1,25 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.salt.minion.cert.k8s_server_single
+  - system.reclass.storage.system.kubernetes_control_single
+  - cluster.mcp-k8s-calico-noha
+parameters:
+  _param:
+    salt_master_base_environment: prd
+    reclass_data_repository: local
+    reclass_data_revision: master
+    reclass_config_master: ${_param:infra_config_deploy_address}
+    single_address: ${_param:infra_config_address}
+    deploy_address: ${_param:infra_config_deploy_address}
+    linux_system_codename: xenial
+    salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
+    salt_master_host: 127.0.0.1
+    salt_master_environment_revision: master
+    salt_master_environment_repository: 'https://github.com/salt-formulas'

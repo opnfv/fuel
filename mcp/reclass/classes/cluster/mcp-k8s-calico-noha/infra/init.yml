@@ -1,0 +1,44 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - system.defaults
+  - system.linux.system.single
+  - system.linux.system.single.debian
+  - system.salt.minion.single
+  - system.linux.system.repo.mcp.apt_mirantis.saltstack
+  - system.linux.system.repo.mcp.apt_mirantis.ubuntu
+parameters:
+  _param:
+    # infra service addresses
+    infra_config_hostname: cfg01
+    infra_config_address: 172.16.10.11
+    infra_config_deploy_address: 192.168.11.2
+
+    cluster_domain: k8s-ha-calico.local
+    cluster_name: k8s-ha-calico
+    primary_interface: ens3
+    control_interface: ens4
+
+    dns_server01: 8.8.4.4
+    dns_server02: 9.9.9.9
+
+    mcp_version: nightly
+    apt_mk_version: ${_param:mcp_version}
+
+  linux:
+    network:
+      host:
+        cfg01:
+          address: ${_param:infra_config_address}
+          names:
+            - ${_param:infra_config_hostname}
+            - ${_param:infra_config_hostname}.${_param:cluster_domain}
+    system:
+      name: ${_param:infra_config_hostname}
+      domain: ${_param:cluster_domain}
