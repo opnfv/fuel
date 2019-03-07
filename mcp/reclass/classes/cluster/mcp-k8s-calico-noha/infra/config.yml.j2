@@ -1,0 +1,79 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+{%- import 'net_map.j2' as nm with context %}
+---
+classes:
+  - system.reclass.storage.salt
+  - system.reclass.storage.system.kubernetes_control_single
+{%- if nm.cluster.has_baremetal_nodes %}
+  - system.reclass.storage.system.infra_maas_single
+{%- endif %}
+  - system.salt.master.api
+  - system.salt.master.single
+  - system.salt.minion.ca.salt_master
+  - system.salt.minion.cert.k8s_server_single
+  - cluster.mcp-k8s-calico-noha
+parameters:
+  _param:
+    salt_master_environment_repository: 'https://github.com/salt-formulas'
+    salt_master_environment_revision: master
+    reclass_data_repository: local
+    salt_master_base_environment: prd
+    salt_master_host: 127.0.0.1
+    salt_minion_ca_host: ${linux:network:fqdn}
+    salt_minion_ca_authority: salt_master_ca
+    # yamllint disable-line rule:line-length
+    salt_api_password_hash: "$6$sGnRlxGf$al5jMCetLP.vfI/fTl3Z0N7Za1aeiexL487jAtyRABVfT3NlwZxQGVhO7S1N8OwS/34VHYwZQA8lkXwKMN/GS1"
+    kubernetes_control_node01_deploy_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}
+  linux:
+    system:
+      user:
+        salt:
+          home: /home/salt
+  salt:
+    master:
+      accept_policy: open_mode
+      file_recv: true
+      worker_threads: 4
+      command_timeout: 20
+    minion:
+      mine:
+        module:
+          x509.get_pem_entries: ['/etc/pki/all_cas/*']
+  reclass:
+    storage:
+      data_source:
+        engine: local
+      node:
+        kubernetes_control_node01:
+          params:
+            pxe_admin_interface: {{ nm.ctl01.nic_admin }}
+            pxe_admin_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}
+        # We support per-node (not only per-role) compute configuration via IDF
+{%- for cmp in range(1, nm.cmp_nodes + 1) %}
+  {%- set n = '%02d' | format(cmp) %}
+  {%- set i = nm.cmp001.idx + cmp - 1 %}
+
+  {%- set admin = nm.net_admin_hosts | length + nm.start_ip[nm.net_admin] + loop.index %}
+  {%- set mgmt = nm.net_mgmt_hosts | length + nm.start_ip[nm.net_mgmt] + loop.index %}
+  {%- set pub = nm.net_public_hosts | length + nm.start_ip[nm.net_public] + loop.index %}
+  {%- set pri = nm.net_private_hosts | length + nm.start_ip[nm.net_private] + loop.index %}
+        openstack_compute_node{{ n }}:
+          name: cmp{{ '%03d' | format(cmp) }}
+          domain: ${_param:cluster_domain}
+          classes:
+            - cluster.${_param:cluster_name}.kubernetes.compute
+          params:
+            pxe_admin_address: {{ nm.net_admin | ipnet_hostaddr(admin) }}
+            pxe_admin_interface: {{ conf.idf.fuel.network.node[i].interfaces[nm.idx_admin] }}
+            single_address: {{ nm.net_mgmt | ipnet_hostaddr(mgmt) }}
+            tenant_address: {{ nm.net_private | ipnet_hostaddr(pri) }}
+            external_address: {{ nm.net_public | ipnet_hostaddr(pub) }}
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: xenial
+{%- endfor %}
