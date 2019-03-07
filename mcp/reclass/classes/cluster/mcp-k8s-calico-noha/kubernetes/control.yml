@@ -1,0 +1,99 @@
+##############################################################################
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+---
+classes:
+  - service.etcd.server.single
+  - service.kubernetes.control.cluster
+  - system.salt.minion.cert.etcd_server_single
+  - system.kubernetes.master.single
+  - system.kubernetes.master.auth.rbac
+  - system.kubernetes.control.roles.cluster-admin
+  - cluster.mcp-k8s-calico-noha.kubernetes.common
+  - cluster.mcp-k8s-calico-noha
+parameters:
+  _param:
+    docker_image_etcd: quay.io/coreos/etcd:v3.3.12
+    kubernetes_etcd_repo: https://github.com/etcd-io/etcd/releases/download
+    kubernetes_etcd_source: ${_param:kubernetes_etcd_repo}/v3.3.12/etcd-v3.3.12-linux-amd64.tar.gz
+    kubernetes_etcd_source_hash: md5=079af00546443b686df31e7ec605135e
+  etcd:
+    server:
+      image: ${_param:docker_image_etcd}
+      source:
+        engine: archive
+      etcd_source: ${_param:kubernetes_etcd_source}
+      etcd_source_hash: ${_param:kubernetes_etcd_source_hash}
+      setup:
+        calico:
+          key: /calico/ipam/v2/assignment/ipv4/block/${_param:calico_private_network}-${_param:calico_private_netmask}
+          value: '{"masquerade":true,"cidr":"${_param:calico_private_network}/${_param:calico_private_netmask}"}'
+      ssl:
+        enabled: true
+  kubernetes:
+    common:
+      addons:
+        virtlet:
+          enabled: ${_param:kubernetes_virtlet_enabled}
+          namespace: ${_param:kubernetes_addon_namespace}
+          image: ${_param:kubernetes_virtlet_image}
+          criproxy_version: ${_param:kubernetes_criproxy_version}
+          criproxy_source: ${_param:kubernetes_criproxy_checksum}
+          hosts:
+            - ${_param:kubernetes_compute01_hostname}
+        dashboard:
+          enabled: ${_param:kubernetes_dashboard}
+          image: ${_param:kubernetes_dashboard_image}
+        helm:
+          enabled: ${_param:kubernetes_helm_enabled}
+        netchecker:
+          enabled: ${_param:kubernetes_netchecker_enabled}
+          agent_probeurls: ${_param:kubernetes_netchecker_agent_probeurls}
+        externaldns:
+          enabled: ${_param:kubernetes_externaldns_enabled}
+          image: ${_param:kubernetes_externaldns_image}
+          provider: ${_param:kubernetes_externaldns_provider}
+        metallb:
+          enabled: ${_param:kubernetes_metallb_enabled}
+          addresses:
+            - ${_param:kubernetes_metallb_addresses_pool}
+        ingress-nginx:
+          enabled: ${_param:kubernetes_ingressnginx_enabled}
+        metrics-server:
+          enabled: ${_param:kubernetes_metrics_server_enabled}
+    master:
+      apiserver:
+        insecure_address: 0.0.0.0
+      kubelet:
+        address: ${_param:single_address}
+        fail_on_swap: ${_param:kubelet_fail_on_swap}
+      etcd:
+        ssl:
+          enabled: true
+      network:
+        calico:
+          enabled: true
+          image: ${_param:kubernetes_calico_image}
+          calicoctl_image: ${_param:kubernetes_calico_calicoctl_image}
+          cni_image: ${_param:kubernetes_calico_cni_image}
+          kube_controllers_image: ${_param:kubernetes_calico_kube_controllers_image}
+          birdcl_source: ${_param:kubernetes_calico_birdcl_source}
+          birdcl_source_hash: ${_param:kubernetes_calico_birdcl_source_hash}
+          calicoctl_source: ${_param:kubernetes_calico_calicoctl_source}
+          calicoctl_source_hash: ${_param:kubernetes_calico_calicoctl_source_hash}
+          cni_ipam_source: ${_param:kubernetes_calico_cni_ipam_source}
+          cni_ipam_source_hash: ${_param:kubernetes_calico_cni_ipam_source_hash}
+          cni_source: ${_param:kubernetes_calico_cni_source}
+          cni_source_hash: ${_param:kubernetes_calico_cni_source_hash}
+          etcd:
+            ssl:
+              enabled: true
+          policy:
+            enabled: ${_param:kubernetes_calico_policy_enabled}
+      namespace:
+        netchecker:
+          enabled: true
