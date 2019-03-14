@@ -62,7 +62,6 @@ salt -I 'barbican:server:role:primary' state.sls barbican
 salt -I 'barbican:server:role:secondary' state.sls barbican -b 1
 salt -I 'barbican:client' state.sls barbican
 
-$(dirname "${BASH_SOURCE[0]}")/gnocchi_deps
 salt -I 'redis:cluster:role:master' state.sls redis
 salt -I 'redis:server' state.sls redis
 salt -I 'gnocchi:server' state.sls gnocchi -b 1

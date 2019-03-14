@@ -9,7 +9,6 @@
 classes:
   - system.keystone.client.single
   - system.keystone.client.service.aodh
-  - system.keystone.client.service.ceilometer
   - system.keystone.client.service.nova21
   - system.keystone.client.service.nova-placement
   - system.keystone.client.service.cinder3

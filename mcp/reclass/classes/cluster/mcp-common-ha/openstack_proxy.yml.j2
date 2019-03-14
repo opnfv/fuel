@@ -13,7 +13,6 @@ classes:
   - system.nginx.server.proxy.openstack_vnc
   - system.nginx.server.proxy.openstack_web
   - system.nginx.server.proxy.openstack.aodh
-  - system.nginx.server.proxy.openstack.ceilometer
   - system.nginx.server.proxy.openstack.barbican
   - system.apache.server.single
   - system.horizon.server.single
@@ -49,8 +48,6 @@ parameters:
           host:
             address: ${_param:openstack_proxy_address}
         nginx_proxy_openstack_api_aodh:
-          <<: *nginx_openstack_proxy_address
-        nginx_proxy_openstack_api_ceilometer:
           <<: *nginx_openstack_proxy_address
         nginx_proxy_openstack_api_cinder:
           <<: *nginx_openstack_proxy_address

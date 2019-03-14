@@ -50,3 +50,7 @@
 	path = mcp/salt-formulas/salt-formula-horizon
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/horizon
 	branch = master
+[submodule "salt-formula-gnocchi"]
+	path = mcp/salt-formulas/salt-formula-gnocchi
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/gnocchi
+	branch = master
