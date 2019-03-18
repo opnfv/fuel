@@ -121,9 +121,10 @@ function __mount_image {
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
   sudo kpartx -av "${OPNFV_NBD_DEV}"
-  sleep 5 # /dev/nbdNp1 takes some time to come up
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
+  sudo partx -uvn 1:1 "${OPNFV_NBD_DEV}"
   if sudo growpart "${OPNFV_NBD_DEV}" 1; then
+    sudo partx -d "${OPNFV_NBD_DEV}"
     sudo kpartx -u "${OPNFV_NBD_DEV}"
     sudo e2fsck -pf "${OPNFV_MAP_DEV}"
     sudo resize2fs "${OPNFV_MAP_DEV}"
@@ -497,6 +498,7 @@ function cleanup_mounts {
       sudo losetup -d "${OPNFV_LOOP_DEV}"
   fi
   if [ -n "${OPNFV_NBD_DEV}" ]; then
+    sudo partx -d "${OPNFV_NBD_DEV}" || true
     sudo kpartx -d "${OPNFV_NBD_DEV}" || true
     sudo qemu-nbd -d "${OPNFV_NBD_DEV}" || true
   fi
