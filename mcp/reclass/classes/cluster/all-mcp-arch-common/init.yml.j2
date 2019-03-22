@@ -7,6 +7,7 @@
 ##############################################################################
 ---
 classes:
+  - system.defaults
   - system.linux.system.single
   - cluster.all-mcp-arch-common.opnfv
   - cluster.all-mcp-arch-common.passwords
@@ -14,8 +15,7 @@ parameters:
   _param:
     openstack_version: rocky
     armband_repo_version: ${_param:openstack_version}
-    apt_mk_version: nightly
-    mcp_repo_version: 1.1
+    mcp_version: nightly
 
     banner_company_name: OPNFV
 
