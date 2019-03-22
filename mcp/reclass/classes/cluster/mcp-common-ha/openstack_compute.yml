@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.mirror.v1.openstack
+  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
   - system.nova.compute.nfv.hugepages
