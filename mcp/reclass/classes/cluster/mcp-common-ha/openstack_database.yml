@@ -7,7 +7,7 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.mirror.v1.openstack
+  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.galera.server.cluster
   - system.galera.server.database.aodh
   - system.galera.server.database.cinder
