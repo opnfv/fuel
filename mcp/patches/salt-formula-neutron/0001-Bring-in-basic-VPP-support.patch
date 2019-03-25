@@ -1,5 +1,5 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
 :
 : All rights reserved. This program and the accompanying materials
 : are made available under the terms of the Apache License, Version 2.0
@@ -15,15 +15,15 @@ TODO:
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- neutron/agents/_vpp.sls                | 25 ++++++++++++++++
- neutron/compute.sls                    |  2 ++
- neutron/files/queens/_ml2_conf.vpp.ini | 41 ++++++++++++++++++++++++++
- neutron/files/queens/ml2_conf.ini      |  5 ++++
- neutron/gateway.sls                    |  2 ++
- neutron/map.jinja                      | 16 ++++++++++
- 6 files changed, 91 insertions(+)
+ neutron/agents/_vpp.sls               | 25 ++++++++++++++++
+ neutron/compute.sls                   |  2 ++
+ neutron/files/rocky/_ml2_conf.vpp.ini | 41 +++++++++++++++++++++++++++
+ neutron/files/rocky/ml2_conf.ini      |  4 +++
+ neutron/gateway.sls                   |  2 ++
+ neutron/map.jinja                     | 16 +++++++++++
+ 6 files changed, 90 insertions(+)
  create mode 100644 neutron/agents/_vpp.sls
- create mode 100644 neutron/files/queens/_ml2_conf.vpp.ini
+ create mode 100644 neutron/files/rocky/_ml2_conf.vpp.ini
 
 diff --git a/neutron/agents/_vpp.sls b/neutron/agents/_vpp.sls
 new file mode 100644
@@ -57,7 +57,7 @@ index 0000000..c1845d0
 +
 +{%- endif %}
 diff --git a/neutron/compute.sls b/neutron/compute.sls
-index e815410..e99c110 100644
+index 708a51d..3767011 100644
 --- a/neutron/compute.sls
 +++ b/neutron/compute.sls
 @@ -111,7 +111,9 @@ neutron_metadata_agent:
@@ -70,11 +70,11 @@ index e815410..e99c110 100644
      {%- endif %}
 
    {%- elif compute.backend.engine == "ovn" %}
-diff --git a/neutron/files/queens/_ml2_conf.vpp.ini b/neutron/files/queens/_ml2_conf.vpp.ini
+diff --git a/neutron/files/rocky/_ml2_conf.vpp.ini b/neutron/files/rocky/_ml2_conf.vpp.ini
 new file mode 100644
 index 0000000..2373f64
 --- /dev/null
-+++ b/neutron/files/queens/_ml2_conf.vpp.ini
++++ b/neutron/files/rocky/_ml2_conf.vpp.ini
 @@ -0,0 +1,41 @@
 +{%- if pillar.neutron.server is defined %}
 +{%- from "neutron/map.jinja" import server as neutron with context %}
@@ -117,11 +117,11 @@ index 0000000..2373f64
 +physnets = {{ ','.join(physnets_vpp) }}
 +
 +{%- endif %}
-diff --git a/neutron/files/queens/ml2_conf.ini b/neutron/files/queens/ml2_conf.ini
-index bb2f126..057d325 100644
---- a/neutron/files/queens/ml2_conf.ini
-+++ b/neutron/files/queens/ml2_conf.ini
-@@ -28,6 +28,9 @@ agent_boot_time = {{ server.get('agent_boot_time', 180) }}
+diff --git a/neutron/files/rocky/ml2_conf.ini b/neutron/files/rocky/ml2_conf.ini
+index 48ad7df..4f323fa 100644
+--- a/neutron/files/rocky/ml2_conf.ini
++++ b/neutron/files/rocky/ml2_conf.ini
+@@ -27,6 +27,9 @@ agent_boot_time = {{ server.get('agent_boot_time', 180) }}
  # List of network type driver entrypoints to be loaded from the
  # neutron.ml2.type_drivers namespace. (list value)
  #type_drivers = local,flat,vlan,gre,vxlan,geneve
@@ -131,15 +131,14 @@ index bb2f126..057d325 100644
 
  # Ordered list of network_types to allocate as tenant networks. The default
  # value 'local' is useful for single-box testing but provides no connectivity
-@@ -264,6 +267,8 @@ neutron_sync_mode = {{ _ovn.neutron_sync_mode|default('repair') }}
+@@ -239,6 +242,7 @@ neutron_sync_mode = {{ _ovn.neutron_sync_mode|default('repair') }}
  enable_distributed_floating_ip = {{ server.dvr|default('false') }}
  {%- endif %}
 
-+{%- include "neutron/files/queens/_ml2_conf.vpp.ini" %}
-+
++{%- include "neutron/files/rocky/_ml2_conf.vpp.ini" %}
+
  {%- if server.backend.opendaylight|default(False) %}
  [ml2_odl]
- # HTTP URL of OpenDaylight REST interface. (string value)
 diff --git a/neutron/gateway.sls b/neutron/gateway.sls
 index 61b4372..ca07b9f 100644
 --- a/neutron/gateway.sls
@@ -154,10 +153,10 @@ index 61b4372..ca07b9f 100644
  {%- include "neutron/agents/_l2gw.sls" %}
  {%- endif %}
 diff --git a/neutron/map.jinja b/neutron/map.jinja
-index 78e2867..3e93b1f 100644
+index 1670a3f..3a03952 100644
 --- a/neutron/map.jinja
 +++ b/neutron/map.jinja
-@@ -12,9 +12,13 @@
+@@ -14,9 +14,13 @@
  {%- do compute_pkgs_ovn.extend(['neutron-common', 'python-networking-ovn', 'haproxy']) %}
  {%- endif %}
  {%- set linuxbridge_enabled = pillar.neutron.compute is defined and pillar.neutron.compute.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
@@ -171,7 +170,7 @@ index 78e2867..3e93b1f 100644
  {%- else %}
  {%- set pkgs_cmp = ['neutron-openvswitch-agent', 'python-pycadf'] %}
  {%- set services_cmp = ['neutron-openvswitch-agent'] %}
-@@ -70,11 +74,19 @@
+@@ -72,11 +76,19 @@
 
  {%- set opendaylight_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.opendaylight is defined %}
  {%- set linuxbridge_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
@@ -191,7 +190,7 @@ index 78e2867..3e93b1f 100644
  {%- elif not opendaylight_enabled %}
  {%- do pkgs_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
  {%- do services_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
-@@ -122,6 +134,10 @@
+@@ -124,6 +136,10 @@
  {%- do server_pkgs_list.append('python-networking-sfc') %}
  {%- endif %}
 
