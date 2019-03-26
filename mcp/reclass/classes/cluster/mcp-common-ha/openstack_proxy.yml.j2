@@ -25,6 +25,7 @@ parameters:
     cluster_vip_address: ${_param:openstack_proxy_address}
     keepalived_openstack_web_public_vip_address: ${_param:cluster_vip_address}
     keepalived_openstack_web_public_vip_interface: ${_param:single_nic}
+    keepalived_openstack_web_public_vip_password: ${_param:opnfv_main_password}
     keepalived_vip_address: ${_param:openstack_proxy_control_address}
     keepalived_vip_interface: ${_param:control_nic}
     keepalived_vip_virtual_router_id: 240

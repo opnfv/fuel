@@ -17,6 +17,7 @@ parameters:
         mcp_glusterfs:
           # yamllint disable-line rule:line-length
           source: "deb http://ppa.launchpad.net/gluster/glusterfs-${_param:glusterfs_version}/ubuntu ${_param:linux_system_codename} main"
+          key: ${_param:linux_system_repo_mcp_glusterfs_key}
           pin:
             - package: '*'
               pin: release o=LP-PPA-gluster-glusterfs-${_param:glusterfs_version}

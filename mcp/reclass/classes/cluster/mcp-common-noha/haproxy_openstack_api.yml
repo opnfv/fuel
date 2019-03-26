@@ -8,7 +8,7 @@
 ---
 parameters:
   _param:
-    haproxy_check: check inter 15s fastinter 2s downinter 4s rise 3 fall 3
+    haproxy_check: check inter 30m fastinter 2s downinter 4s rise 3 fall 3
   haproxy:
     proxy:
       listen:
