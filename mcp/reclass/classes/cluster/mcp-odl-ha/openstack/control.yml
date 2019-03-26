@@ -21,3 +21,7 @@ parameters:
         sdn_controller_password: ${_param:opendaylight_password}
         sdn_controller_webport: ${_param:opendaylight_rest_port}
         sdn_controller_restconfport: ${_param:opendaylight_rest_port}
+  neutron:
+    server:
+      backend:
+        password: ${_param:opendaylight_password}

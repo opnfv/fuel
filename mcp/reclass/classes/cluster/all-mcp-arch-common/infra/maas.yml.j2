@@ -111,6 +111,7 @@ parameters:
     cluster:
       saltstack_repo_xenial: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/ xenial main"
       region:
+        host: ${_param:single_address}
         port: 5240
   linux:
     system:

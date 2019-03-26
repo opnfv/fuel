@@ -22,6 +22,7 @@ classes:
   - system.keystone.client.service.nova21
   - system.keystone.client.service.nova-placement
   - system.keystone.client.service.cinder3
+  - system.keystone.client.service.ceilometer
   - system.keystone.client.service.aodh
   - system.keystone.client.service.gnocchi
   - system.keystone.client.service.panko
@@ -72,6 +73,7 @@ parameters:
   _param:
     linux_system_codename: xenial
     ceilometer_create_gnocchi_resources: 'True'
+    ceilometer_endpoint_status: absent
     barbican_integration_enabled: 'false'
   linux:
     system:
@@ -97,6 +99,9 @@ parameters:
       resources:
         v3:
           enabled: true
+          services:
+            ceilometer:
+              status: absent
       server:
         identity:
           admin:
