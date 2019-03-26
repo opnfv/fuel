@@ -13,17 +13,23 @@ classes:
   - system.keystone.client.service.nova-placement
   - system.keystone.client.service.cinder3
   - system.keystone.client.service.designate
+  - system.keystone.client.service.ceilometer
   - system.keystone.client.service.gnocchi
   - system.keystone.client.service.panko
   - system.keystone.client.service.barbican
   - system.keystone.client.v3.service.keystone
 parameters:
+  _param:
+    ceilometer_endpoint_status: absent
   keystone:
     client:
       enabled: true
       resources:
         v3:
           enabled: true
+          services:
+            ceilometer:
+              status: absent
       server:
         identity:
           admin:
