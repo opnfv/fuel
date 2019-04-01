@@ -1,0 +1,25 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Mon, 1 Apr 2019 13:09:37 +0400
+Subject: [PATCH] [dpdk] Enable per port memory model
+
+
+diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
+index 786f7c8..48c00f5 100644
+--- a/linux/network/dpdk.sls
++++ b/linux/network/dpdk.sls
+@@ -49,6 +49,7 @@ linux_network_dpdk_ovs_service:
+   - unless: 'ovs-vsctl get Open_vSwitch . other_config | grep "dpdk-init=\"true\""'
+ 
+ {%- set ovs_options = [
++  'per-port-memory="true"',
+   "pmd-cpu-mask=\""+network.openvswitch.pmd_cpu_mask+"\"",
+   "dpdk-socket-mem=\""+network.openvswitch.dpdk_socket_mem+"\"",
+   "dpdk-lcore-mask=\""+network.openvswitch.dpdk_lcore_mask+"\"",

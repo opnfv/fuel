@@ -9,7 +9,6 @@
 cluster:
   domain: mcp-odl-noha.local
   states:
-    - dpdk
     - opendaylight
     - openstack_noha
     - neutron_gateway
