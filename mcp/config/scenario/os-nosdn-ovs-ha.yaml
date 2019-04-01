@@ -9,7 +9,6 @@
 cluster:
   domain: mcp-ovs-dpdk-ha.local
   states:
-    - dpdk
     - openstack_ha
     - networks
 virtual:
