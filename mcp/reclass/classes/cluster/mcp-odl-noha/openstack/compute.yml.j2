@@ -52,10 +52,7 @@ parameters:
           proto: manual
         br-floating:
           enabled: true
-          type: ovs_bridge
-          datapath_type: netdev
-          use_interfaces:
-            - float-to-ex
+          type: dpdk_ovs_bridge
         float-to-ex:
           enabled: true
           type: ovs_port

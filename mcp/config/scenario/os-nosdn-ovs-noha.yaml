@@ -9,7 +9,6 @@
 cluster:
   domain: mcp-ovs-dpdk-noha.local
   states:
-    - dpdk
     - openstack_noha
     - neutron_gateway
     - networks
