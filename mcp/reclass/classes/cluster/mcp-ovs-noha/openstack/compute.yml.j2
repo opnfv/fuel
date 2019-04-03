@@ -15,6 +15,10 @@ classes:
   - cluster.mcp-common-noha.openstack_compute
   - cluster.mcp-ovs-noha
 parameters:
+  neutron:
+    compute:
+      dhcp_agent_enabled: true
+      metadata_agent_enabled: true
   linux:
     network:
       interface:
