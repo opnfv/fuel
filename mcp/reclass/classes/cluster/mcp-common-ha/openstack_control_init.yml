@@ -30,6 +30,10 @@ parameters:
           services:
             ceilometer:
               status: absent
+            # required only for Rally validation
+            cinder:
+              type: volume
+              description: OpenStack Volume Service
       server:
         identity:
           admin:
