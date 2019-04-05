@@ -18,6 +18,6 @@
  under the License.
 -->
 <natservice-config xmlns="urn:opendaylight:netvirt:natservice:config">
-  <nat-mode>{{ server.netvirt_nat_mode }}</nat-mode>
-  <snat-punt-timeout>5</snat-punt-timeout>
+  <nat-mode>{{ server.netvirt_natservice.nat_mode|d('controller') }}</nat-mode>
+  <snat-punt-timeout>{{ server.netvirt_natservice.snat_punt_timeout|d('5') }}</snat-punt-timeout>
 </natservice-config>
