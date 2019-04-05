@@ -26,7 +26,7 @@ virtual:
     ram: 4096
   cmp001:
     vcpus: 6
-    ram: 10240
+    ram: 14336
   cmp002:
     vcpus: 6
-    ram: 10240
+    ram: 14336
