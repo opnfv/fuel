@@ -22,7 +22,9 @@ parameters:
       java_min_mem: 4g
       java_max_mem: 4g
       router_enabled: true
-      netvirt_nat_mode: conntrack
+      netvirt_natservice:
+        nat_mode: conntrack
+        snat_punt_timeout: 0
       karaf_features:
         odl_default:
           - odl-restconf-all
