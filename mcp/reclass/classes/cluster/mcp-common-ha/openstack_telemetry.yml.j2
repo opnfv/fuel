@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - service.redis.server.single
   - system.ceilometer.server.cluster
   - system.ceilometer.server.coordination.redis
@@ -23,6 +22,7 @@ classes:
   - system.gnocchi.common.storage.redis
   - system.gnocchi.common.coordination.redis
   - system.panko.server.cluster
+  - cluster.all-mcp-arch-common.backports
 parameters:
   _param:
     keepalived_openstack_telemetry_vip_interface: ${_param:single_nic}

@@ -7,9 +7,9 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.rabbitmq.server.cluster
   - system.rabbitmq.server.vhost.openstack
+  - cluster.all-mcp-arch-common.backports
 parameters:
   _param:
     keepalived_vip_interface: ${_param:single_nic}
