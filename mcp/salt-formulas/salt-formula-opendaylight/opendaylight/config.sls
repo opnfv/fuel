@@ -73,7 +73,7 @@ pax.logging.cfg.{{ opt }}:
       ovsdb.of.version: 1.3
 {%- endif %}
 
-{%- if server.netvirt_nat_mode is defined %}
+{%- if server.netvirt_natservice is defined %}
 /opt/opendaylight/etc/opendaylight/datastore/initial/config/netvirt-natservice-config.xml:
   file.managed:
   - source: salt://opendaylight/files/netvirt-natservice-config.xml
