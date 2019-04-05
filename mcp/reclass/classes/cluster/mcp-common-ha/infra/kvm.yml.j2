@@ -8,7 +8,6 @@
 {%- import 'net_map.j2' as nm with context %}
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - service.keepalived.cluster.single
   - system.glusterfs.server.volume.glance
   - system.glusterfs.server.volume.keystone
@@ -22,6 +21,7 @@ classes:
   # - system.salt.control.cluster.stacklight_server_cluster
   # - system.salt.control.cluster.stacklight_log_cluster
   # - system.salt.control.cluster.stacklight_telemetry_cluster
+  - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-ha.glusterfs_repo
   - cluster.mcp-common-ha.infra.kvm_pdf
   - cluster.all-mcp-arch-common.opnfv.maas_proxy
