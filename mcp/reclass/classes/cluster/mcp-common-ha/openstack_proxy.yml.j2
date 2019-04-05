@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.nginx.server.single
   - system.nginx.server.proxy.openstack_api
   - system.nginx.server.proxy.openstack_vnc
@@ -20,6 +19,7 @@ classes:
   - system.sphinx.server.doc.reclass
   - service.keepalived.cluster.single
   - system.keepalived.cluster.instance.openstack_web_public_vip
+  - cluster.all-mcp-arch-common.backports
 parameters:
   _param:
     cluster_vip_address: ${_param:openstack_proxy_address}

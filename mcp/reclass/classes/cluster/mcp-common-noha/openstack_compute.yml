@@ -15,8 +15,8 @@ classes:
   - system.ceilometer.client.nova_compute
   - system.ceilometer.client.cinder_volume
   - system.ceilometer.agent.polling.default
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - service.barbican.client.single
+  - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-noha.openstack_compute_pdf
 parameters:
   _param:

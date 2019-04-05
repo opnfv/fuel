@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.glusterfs.client.cluster
   - system.nova.compute.cluster
   - system.nova.compute.nfv.hugepages
@@ -17,6 +16,7 @@ classes:
   - system.ceilometer.agent.cluster
   - system.ceilometer.agent.polling.default
   - service.barbican.client.cluster
+  - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-ha.glusterfs_repo
   - cluster.mcp-common-ha.openstack_compute_pdf
   - cluster.all-mcp-arch-common.opnfv.maas_proxy
