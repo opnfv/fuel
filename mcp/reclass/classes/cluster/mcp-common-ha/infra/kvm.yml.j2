@@ -101,6 +101,8 @@ parameters:
             mdb01: &salt_control_xenial_image_common_attr
               image: ${_param:salt_control_xenial_image}
 {%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
+              seed: qemu-nbd
+              ~cloud_init: ~
               machine: virt
               cpu_mode: host-passthrough
               loader:
