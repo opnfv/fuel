@@ -7,7 +7,6 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
   - system.galera.server.cluster
   - system.galera.server.database.aodh
   - system.galera.server.database.cinder
@@ -21,6 +20,7 @@ classes:
   - system.galera.server.database.neutron
   - system.galera.server.database.panko
   - system.galera.server.database.barbican
+  - cluster.all-mcp-arch-common.backports
 parameters:
   _param:
     keepalived_vip_interface: ${_param:single_nic}
