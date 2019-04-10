@@ -38,10 +38,6 @@ parameters:
     redis_sentinel_node01_address: ${_param:openstack_telemetry_node01_address}
     redis_sentinel_node02_address: ${_param:openstack_telemetry_node02_address}
     redis_sentinel_node03_address: ${_param:openstack_telemetry_node03_address}
-    # yamllint disable-line rule:line-length
-    openstack_telemetry_redis_url: redis://${_param:redis_sentinel_node01_address}:26379?sentinel=master_1&sentinel_fallback=${_param:redis_sentinel_node02_address}:26379&sentinel_fallback=${_param:redis_sentinel_node03_address}:26379
-    gnocchi_coordination_url: ${_param:openstack_telemetry_redis_url}
-    gnocchi_storage_incoming_redis_url: ${_param:openstack_telemetry_redis_url}
   linux:
     system:
       sysfs:
@@ -92,10 +88,6 @@ parameters:
   aodh:
     server:
       <<: *db_conn_recycle_time
-      coordination_backend:
-        url: ${_param:openstack_telemetry_redis_url}
   ceilometer:
     server:
       ~database: ~
-      coordination_backend:
-        url: ${_param:openstack_telemetry_redis_url}
