@@ -46,14 +46,9 @@ classes:
   - service.barbican.server.plugin.simple_crypto
   - service.redis.server.single
   - service.ceilometer.server.single
-  - system.ceilometer.server.coordination.redis
   - system.ceilometer.server.backend.default
   - system.aodh.server.single
-  - system.aodh.server.coordination.redis
   - system.gnocchi.server.single
-  - system.gnocchi.common.storage.incoming.redis
-  - system.gnocchi.common.storage.redis
-  - system.gnocchi.common.coordination.redis
   - service.panko.server.single
   - system.apache.server.site.gnocchi
   - system.apache.server.site.panko
@@ -175,6 +170,14 @@ parameters:
       appendfsync: 'no'
       bind:
         address: ${_param:single_address}
+  gnocchi:
+    common:
+      storage:
+        driver: redis
+        redis_url: redis://${_param:single_address}:6379
+        incoming:
+          driver: redis
+          redis_url: redis://${_param:single_address}:6379
   nfs:
     server:
       share:
