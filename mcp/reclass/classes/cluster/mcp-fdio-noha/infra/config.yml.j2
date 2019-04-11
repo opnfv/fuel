@@ -41,13 +41,13 @@ parameters:
       {%- endif %}
     {%- else %}
             compute_hugepages_size: 2M
-            compute_hugepages_count: 8192
+            compute_hugepages_count: 13312
             compute_hugepages_mount: /mnt/hugepages_2M
-            compute_kernel_isolcpu: 2,3,10,11
+            compute_kernel_isolcpu: 3,8,9,10,11
             compute_dpdk_driver: uio
-            compute_ovs_pmd_cpu_mask: '"0xc04"'
-            compute_ovs_dpdk_socket_mem: '"2048,2048"'
-            compute_ovs_dpdk_lcore_mask: '"0x8"'
+            compute_ovs_pmd_cpu_mask: '"0x708"'
+            compute_ovs_dpdk_socket_mem: '"4096,4096"'
+            compute_ovs_dpdk_lcore_mask: '"0x800"'
             compute_ovs_memory_channels: '"2"'
             dpdk0_driver: igb_uio
             dpdk0_n_rxq: 2
