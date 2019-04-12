@@ -328,7 +328,8 @@ function create_networks {
 	  ${PREFIX}/brctl showstp ${all_vnode_networks[1]} > /dev/null 2>&1'
 	ExecStart=/bin/sh -ec '\
 	  ${PREFIX}/brctl addif ${all_vnode_networks[0]} veth_mcp0 && \
-	  ${PREFIX}/brctl addif ${all_vnode_networks[1]} veth_mcp2'
+	  ${PREFIX}/brctl addif ${all_vnode_networks[1]} veth_mcp2 && \
+	  ${PREFIX}/ip route add ${SALT_MASTER} dev ${all_vnode_networks[0]}'
 	EOF
   sudo ln -sf "${FUEL_VETHC_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
   sudo ln -sf "${FUEL_VETHA_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
