@@ -1,0 +1,8 @@
+Code-Review+2: Cristina Pauna <cristina.pauna@enea.com>
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Fri, 12 Apr 2019 08:39:30 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/67541
+Project: fuel
+Branch: refs/heads/master
