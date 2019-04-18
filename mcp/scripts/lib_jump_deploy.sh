@@ -329,8 +329,9 @@ function create_networks {
 	ExecStart=/bin/sh -ec '\
 	  ${PREFIX}/brctl addif ${all_vnode_networks[0]} veth_mcp0 && \
 	  ${PREFIX}/brctl addif ${all_vnode_networks[1]} veth_mcp2 && \
+	  while ${PREFIX}/ip rule del to ${SALT_MASTER} iif docker0 table 200 2>/dev/null; do true; done && \
 	  ${PREFIX}/ip rule add to ${SALT_MASTER} iif docker0 table 200 && \
-	  ${PREFIX}/ip route add ${SALT_MASTER} dev ${all_vnode_networks[0]} table 200'
+	  ${PREFIX}/ip route replace ${SALT_MASTER} dev ${all_vnode_networks[0]} table 200'
 	EOF
   sudo ln -sf "${FUEL_VETHC_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
   sudo ln -sf "${FUEL_VETHA_SERVICE}" "/etc/systemd/system/multi-user.target.wants/"
