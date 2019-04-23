@@ -71,6 +71,16 @@ parameters:
           - nospec_store_bypass_disable
           - noibrs
           - noibpb
+      file:
+        /var/tmp/dhcp_agent.patch:
+          contents: |
+            549,551c549,550
+            <                 self.schedule_resync("Duplicate IP addresses found, "
+            <                                      "DHCP cache is out of sync",
+            <                                      created_port.network_id)
+            ---
+            >                 LOG.info("Duplicate IP addresses found for %s network",
+            >                          created_port.network_id)
   neutron:
     gateway:
       vlan_aware_vms: true
