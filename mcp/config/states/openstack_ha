@@ -48,6 +48,7 @@ salt -I 'heat:server' state.sls heat -b 1
 wait_for 5.0 "salt -I 'cinder:controller' state.sls cinder -b 1"
 wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
 
+$(dirname "${BASH_SOURCE[0]}")/neutron_dhcp_agent_patch
 salt -I 'neutron:server' state.sls neutron -b 1
 salt -I 'neutron:gateway' state.sls neutron.gateway
 if salt 'cmp*' match.pillar 'neutron:compute:backend:engine:ovn' \
