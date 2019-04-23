@@ -23,8 +23,8 @@ POD_NETWORK_CIDR='100.100.0.0/16' # Avoid overlapping Fuel's PXE/admin net
 [ -e "${IEC_REPO_PATH}" ] || su - "${IEC_USER}" -c \
   "git clone '${IEC_REPO_URI}' '${IEC_REPO_PATH}'"
 # shellcheck disable=SC2086
-wait_for 3.0 "! salt-cp 'iec*' -C '${IEC_SCRIPTS_PATH}/' \
-              '$(dirname ${IEC_SCRIPTS_PATH})' | grep -e False"
+wait_for 3.0 "! salt-cp 'iec*' -C '${IEC_REPO_PATH}/' \
+              '$(dirname ${IEC_REPO_PATH})' | grep -e False"
 salt -C 'iec*' cmd.run "chown -R ${IEC_USER}:${IEC_USER} ${IEC_REPO_PATH}"
 
 salt -C 'iec*' cmd.run runas="${IEC_USER}" "${IEC_SCRIPTS_PATH}/k8s_common.sh"
