@@ -34,21 +34,26 @@ salt -I 'haproxy:proxy' state.sls haproxy
 salt -I 'haproxy:proxy' service.status haproxy
 salt -I 'haproxy:proxy' service.restart rsyslog
 
-salt -I 'keystone:server' state.sls keystone.server -b 1
+salt -I 'keystone:server:role:primary' state.sls keystone.server
+salt -I 'keystone:server:role:secondary' state.sls keystone.server
 salt -I 'keystone:server' service.restart apache2
 
 wait_for 30.0 "salt -I 'keystone:client' state.sls keystone.client"
 salt -I 'keystone:server' cmd.run ". /root/keystonercv3; openstack service list"
 
-salt -I 'glance:server' state.sls glance -b 1
+salt -I 'glance:server:role:primary' state.sls glance
+salt -I 'glance:server:role:secondary' state.sls glance
 salt -I 'nova:controller:role:primary' state.sls nova
-salt -I 'nova:controller:role:secondary' state.sls nova -b 1
-salt -I 'heat:server' state.sls heat -b 1
+salt -I 'nova:controller:role:secondary' state.sls nova
+salt -I 'heat:server:role:primary' state.sls heat
+salt -I 'heat:server:role:secondary' state.sls heat
 
-wait_for 5.0 "salt -I 'cinder:controller' state.sls cinder -b 1"
+salt -I 'cinder:controller:role:primary' state.sls cinder
+salt -I 'cinder:controller:role:secondary' state.sls cinder
 wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
 
-salt -I 'neutron:server' state.sls neutron -b 1
+salt -I 'neutron:server:role:primary' state.sls neutron
+salt -I 'neutron:server:role:secondary' state.sls neutron
 salt -I 'neutron:gateway' state.sls neutron.gateway
 if salt 'cmp*' match.pillar 'neutron:compute:backend:engine:ovn' \
   --out yaml --static | grep -q -e 'true' ; then
@@ -58,14 +63,17 @@ fi
 salt -I 'nova:compute' state.sls nova,armband
 
 salt -I 'barbican:server:role:primary' state.sls barbican
-salt -I 'barbican:server:role:secondary' state.sls barbican -b 1
+salt -I 'barbican:server:role:secondary' state.sls barbican
 salt -I 'barbican:client' state.sls barbican
 
 salt -I 'redis:cluster:role:master' state.sls redis
 salt -I 'redis:server' state.sls redis
-salt -I 'gnocchi:server' state.sls gnocchi -b 1
-salt -I 'panko:server' state.sls panko -b 1
-salt -I 'aodh:server' state.sls aodh -b 1
+salt -I 'gnocchi:server:role:primary' state.sls gnocchi
+salt -I 'gnocchi:server:role:secondary' state.sls gnocchi
+salt -I 'panko:server:role:primary' state.sls panko
+salt -I 'panko:server:role:secondary' state.sls panko
+salt -I 'aodh:server:role:primary' state.sls aodh
+salt -I 'aodh:server:role:secondary' state.sls aodh
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
