@@ -7,19 +7,19 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Michael Polenchuk <mpolenchuk@mirantis.com>
-Date: Mon, 1 Apr 2019 13:09:37 +0400
-Subject: [PATCH] [dpdk] Enable per port memory model
+Date: Tue, 30 Apr 2019 12:59:54 +0400
+Subject: [PATCH] [dpdk] Handle per port memory model
 
 
 diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
-index 786f7c8..48c00f5 100644
+index 786f7c8..c6f3020 100644
 --- a/linux/network/dpdk.sls
 +++ b/linux/network/dpdk.sls
 @@ -49,6 +49,7 @@ linux_network_dpdk_ovs_service:
    - unless: 'ovs-vsctl get Open_vSwitch . other_config | grep "dpdk-init=\"true\""'
- 
+
  {%- set ovs_options = [
-+  'per-port-memory="true"',
++  'per-port-memory="'+network.openvswitch.per_port_memory|d('false')+'"',
    "pmd-cpu-mask=\""+network.openvswitch.pmd_cpu_mask+"\"",
    "dpdk-socket-mem=\""+network.openvswitch.dpdk_socket_mem+"\"",
    "dpdk-lcore-mask=\""+network.openvswitch.dpdk_lcore_mask+"\"",
