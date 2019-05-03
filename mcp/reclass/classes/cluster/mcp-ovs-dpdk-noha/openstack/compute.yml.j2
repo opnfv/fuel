@@ -16,8 +16,6 @@ classes:
 parameters:
   neutron:
     compute:
-      dhcp_agent_enabled: true
-      metadata_agent_enabled: true
       backend:
         tenant_network_types: ${_param:neutron_tenant_network_types}
   linux:
