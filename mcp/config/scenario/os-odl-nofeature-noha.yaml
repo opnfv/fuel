@@ -29,3 +29,7 @@ virtual:
     ram: 2048
   odl01:
     ram: 6144
+  cmp001:
+    disks: 100G;100G
+  cmp002:
+    disks: 100G;100G
