@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28ebe371_b7346cce",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2019-05-06T13:26:10Z",
+      "side": 1,
+      "message": "``Gambia`` would be nicer",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "2726b7425c5d9cf6ecc0a9db89330594072a8294",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ff10c9_1e5725b0",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2019-05-06T13:26:10Z",
+      "side": 1,
+      "message": "I can\u0027t find any references to the latest release number of MCP, so we can probably go with ``Q1`19`` GA release.",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 102,
+        "endChar": 16
+      },
+      "revId": "2726b7425c5d9cf6ecc0a9db89330594072a8294",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
