@@ -2,7 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) 2018 Mirantis Inc., Enea Software AB and others
 
-This document provides scenario level details for Gambia 7.2 of
+This document provides scenario level details for Hunter 8.0 of
 deployment with OpenDaylight controller and DPDK feature enabled.
 
 Introduction
@@ -36,5 +36,5 @@ Tested on virtual deploy only.
 References
 ==========
 
-For more information on the OPNFV Gambia release, please visit
+For more information on the OPNFV Hunter release, please visit
 https://www.opnfv.org/software
