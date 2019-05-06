@@ -9,10 +9,10 @@ OPNFV Fuel Release Notes
 Abstract
 ========
 
-This document provides the release notes for ``Gambia`` release with the Fuel
+This document provides the release notes for ``Hunter`` release with the Fuel
 deployment toolchain.
 
-Starting with this release, both ``x86_64`` and ``aarch64`` architectures
+Starting with Gambia release, both ``x86_64`` and ``aarch64`` architectures
 are supported at the same time by the ``fuel`` codebase.
 
 License
@@ -23,13 +23,13 @@ All Fuel and "common" entities are protected by the `Apache License 2.0`_.
 Important Notes
 ===============
 
-This is the OPNFV ``Gambia`` release that implements the deploy stage of the
+This is the OPNFV ``Hunter`` release that implements the deploy stage of the
 OPNFV CI pipeline via Fuel.
 
 Fuel is based on the `MCP`_ installation tool chain.
 More information available at `Mirantis Cloud Platform Documentation`_.
 
-The goal of the ``Gambia`` release and this Fuel-based deployment process is
+The goal of the ``Hunter`` release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
@@ -38,7 +38,7 @@ Carefully follow the installation instructions.
 Summary
 =======
 
-``Gambia`` release with the Fuel deployment toolchain will establish an OPNFV
+``Hunter`` release with the Fuel deployment toolchain will establish an OPNFV
 target system on a Pharos compliant lab infrastructure. The current definition
 of an OPNFV target system is OpenStack Queens combined with an SDN
 controller, such as OpenDaylight. The system is deployed with OpenStack High
@@ -53,7 +53,7 @@ Furthermore, Fuel is capable of deploying scenarios in a ``baremetal``,
 ``virtual`` or ``hybrid`` fashion. ``virtual`` deployments use multiple VMs on
 the Jump Host and internal networking to simulate the ``baremetal`` deployment.
 
-For ``Gambia``, the typical use of Fuel as an OpenStack installer is
+For ``Hunter``, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
 - `OpenDaylight`_
@@ -62,14 +62,14 @@ supplemented with OPNFV unique components such as:
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
 
-This ``Gambia`` artifact provides Fuel as the deployment stage tool in the
+This ``Hunter`` artifact provides Fuel as the deployment stage tool in the
 OPNFV CI pipeline including:
 
 - Automated (Jenkins, RTD) documentation build & publish (multiple documents);
 - Automated (Jenkins) build & publish of Salt Master Docker image;
-- Automated (Jenkins) deployment of ``Gambia`` running on baremetal or a nested
+- Automated (Jenkins) deployment of ``Hunter`` running on baremetal or a nested
   hypervisor environment (KVM);
-- Automated (Jenkins) validation of the ``Gambia`` deployment
+- Automated (Jenkins) validation of the ``Hunter`` deployment
 
 Release Data
 ============
@@ -78,16 +78,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-7.2.0                          |
+| **Repo/tag**                         | opnfv-8.0.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Gambia 7.2                           |
+| **Release designation**              | Hunter 8.0                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | January 25, 2019                     |
+| **Release date**                     | May 10, 2019                         |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Gambia 7.2 release             |
+| **Purpose of the delivery**          | OPNFV Hunter 8.0 release             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -96,12 +96,12 @@ Version Change
 Module Version Changes
 ~~~~~~~~~~~~~~~~~~~~~~
 
-This is the first tracked version of the ``Gambia`` release with the Fuel
+This is the first tracked version of the ``Hunter`` release with the Fuel
 deployment toolchain. It is based on following upstream versions:
 
 - MCP (``Q2`18`` GA release)
 
-- OpenStack (``Queens`` release)
+- OpenStack (``Rocky`` release)
 
 - OpenDaylight (``Fluorine`` release)
 
@@ -110,7 +110,7 @@ deployment toolchain. It is based on following upstream versions:
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Gambia`` 7.2 release.
+This is the ``Hunter`` 8.0 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -134,13 +134,13 @@ Feature Additions
 - ``ODL`` ``BGPVPN`` scenario;
 - ``IDF`` support for configuring cluster-level ``MTU``;
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 New features`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 New features`_
 filter.
 
 Bug Corrections
 ~~~~~~~~~~~~~~~
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Bugs (fixed)`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Bugs (fixed)`_
 filter.
 
 Software Deliverables
@@ -213,30 +213,30 @@ System Limitations
 Known Issues
 ------------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Known issues`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Known issues`_
 filter.
 
 Workarounds
 -----------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Gambia 7.2 Workarounds`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Workarounds`_
 filter.
 
 Test Results
 ============
 
-The ``Gambia`` 7.2 release with the Fuel deployment tool has undergone QA test
+The ``Hunter`` 8.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Gambia`` 7.2 release, please see:
+For more information on the OPNFV ``Hunter`` 8.0 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
 #. `OPNFV Software Downloads`_
-#. `OPNFV Gambia Wiki Page`_
+#. `OPNFV Hunter Wiki Page`_
 #. `OpenStack Queens Release Artifacts`_
 #. `OpenStack Documentation`_
 #. `OpenDaylight Artifacts`_
@@ -252,12 +252,12 @@ For more information on the OPNFV ``Gambia`` 7.2 release, please see:
 .. _`OpenStack Documentation`: https://docs.openstack.org/rocky
 .. _`OpenStack Rocky Release Artifacts`: https://www.openstack.org/software/rocky
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
+.. _`OPNFV Hunter Wiki Page`: https://wiki.opnfv.org/display/SWREL/Hunter
 .. _`OPNFV Documentation`: https://docs.opnfv.org
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
-.. OPNFV Fuel Gambia JIRA filters
-.. _`OPNFV Fuel JIRA: Gambia 7.2 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12604
-.. _`OPNFV Fuel JIRA: Gambia 7.2 New features`: https://jira.opnfv.org/issues/?filter=12605
-.. _`OPNFV Fuel JIRA: Gambia 7.2 Known issues`: https://jira.opnfv.org/issues/?filter=12606
-.. _`OPNFV Fuel JIRA: Gambia 7.2 Workarounds`: https://jira.opnfv.org/issues/?filter=12607
+.. OPNFV Fuel Hunter JIRA filters
+.. _`OPNFV Fuel JIRA: Hunter 8.0 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12705
+.. _`OPNFV Fuel JIRA: Hunter 8.0 New features`: https://jira.opnfv.org/issues/?filter=12706
+.. _`OPNFV Fuel JIRA: Hunter 8.0 Known issues`: https://jira.opnfv.org/issues/?filter=12707
+.. _`OPNFV Fuel JIRA: Hunter 8.0 Workarounds`: https://jira.opnfv.org/issues/?filter=12708

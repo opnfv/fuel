@@ -42,7 +42,7 @@ None
 References
 ==========
 
-For more information on the OPNFV Gambia release, please visit
+For more information on the OPNFV Hunter release, please visit
 https://www.opnfv.org/software
 For setup instructions visit the Auto Project at,
 https://wiki.opnfv.org/display/AUTO/Auto+Documentation
