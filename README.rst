@@ -16,7 +16,7 @@ OPNFV Fuel
 Description
 ===========
 
-This is the OPNFV Gambia release that implements the deploy stage of the
+This is the OPNFV Hunter release that implements the deploy stage of the
 OPNFV CI pipeline via Fuel.
 
 Fuel is based on the `MCP`_ installation tool chain.
@@ -131,12 +131,12 @@ Licenses as listed below (non-exhaustive list, depending on end-user config):
 References
 ==========
 
-For more information on the OPNFV Gambia 7.0 release, please see:
+For more information on the OPNFV Hunter release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
 #. `OPNFV Software Downloads`_
-#. `OPNFV Gambia Wiki Page`_
+#. `OPNFV Hunter Wiki Page`_
 #. `Mirantis Cloud Platform Documentation`_
 
 .. _`OpenStack`: https://www.openstack.org
@@ -154,7 +154,7 @@ For more information on the OPNFV Gambia 7.0 release, please see:
 .. _`MCP`: https://www.mirantis.com/software/mcp/
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Gambia Wiki Page`: https://wiki.opnfv.org/display/SWREL/Gambia
+.. _`OPNFV Hunter Wiki Page`: https://wiki.opnfv.org/display/SWREL/Hunter
 .. _`OPNFV Documentation`: https://docs.opnfv.org
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`OPNFV Fuel Contributing`: CONTRIBUTING.rst
