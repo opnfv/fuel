@@ -16,9 +16,9 @@ do_exit () {
     local RC=$?
     cleanup_mounts > /dev/null 2>&1
     if [ ${RC} -eq 0 ]; then
-        notify_n "[OK] MCP: Openstack installation finished succesfully!" 2
+        notify_n "[OK] MCP: Installation of $DEPLOY_SCENARIO finished succesfully!" 2
     else
-        notify_n "[ERROR] MCP: Openstack installation threw a fatal error!"
+        notify_n "[ERROR] MCP: Installation  of $DEPLOY_SCENARIO threw a fatal error!"
     fi
 }
 #
