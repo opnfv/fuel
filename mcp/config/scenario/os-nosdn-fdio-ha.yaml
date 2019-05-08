@@ -40,8 +40,8 @@ virtual:
   cmp001:
     disks: 100G;100G
     vcpus: 4
-    ram: 8192
+    ram: 12288
   cmp002:
     disks: 100G;100G
     vcpus: 4
-    ram: 8192
+    ram: 12288
