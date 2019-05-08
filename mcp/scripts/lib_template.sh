@@ -47,11 +47,6 @@ function do_templates_scenario {
       notify_e "[ERROR] IDF does not match yaml schema!"
     fi
   fi
-  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
-    -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
-    -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
-    notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
-  fi
   printenv | \
     awk '/^(SALT|MCP|MAAS).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
   j2args=$(find "${scenario_dir}" -name '*.j2' -exec echo -j {} \;)
@@ -63,6 +58,11 @@ function do_templates_scenario {
   for _yaml in "${extra_yaml[@]}"; do
     awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
   done
+  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
+    -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
+    -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
+    notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
+  fi
 }
 
 # Expand reclass and virsh network templates based on PDF + IDF + others

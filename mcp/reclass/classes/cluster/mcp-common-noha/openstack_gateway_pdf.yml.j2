@@ -28,6 +28,7 @@ parameters:
 {%- set floating_br_type = 'bridge' %}
       vpp:
         enabled: true
+        decimal_interface_names: true
         # Reuse ovs-dpdk socket mem configuration from IDF
         dpdk_socket_mem: ${_param:compute_ovs_dpdk_socket_mem}
         main_core: ${linux:system:kernel:isolcpu}
