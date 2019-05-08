@@ -17,10 +17,10 @@ TODO:
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- linux/files/vpp_commands.txt |  4 ++++
- linux/files/vpp_startup.conf | 44 ++++++++++++++++++++++++++++++++++++
- linux/network/dpdk.sls       | 38 +++++++++++++++++++++++++++++++
- 3 files changed, 86 insertions(+)
+ linux/files/vpp_commands.txt |  4 +++
+ linux/files/vpp_startup.conf | 47 ++++++++++++++++++++++++++++++++++++
+ linux/network/dpdk.sls       | 38 +++++++++++++++++++++++++++++
+ 3 files changed, 89 insertions(+)
  create mode 100644 linux/files/vpp_commands.txt
  create mode 100644 linux/files/vpp_startup.conf
 
@@ -36,10 +36,10 @@ index 0000000..2ce4726
 +{%- endif %}
 diff --git a/linux/files/vpp_startup.conf b/linux/files/vpp_startup.conf
 new file mode 100644
-index 0000000..d66ecd3
+index 0000000..fcfc1fd
 --- /dev/null
 +++ b/linux/files/vpp_startup.conf
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,47 @@
 +{%- from "linux/map.jinja" import network with context %}
 +unix {
 +  cli-listen /run/vpp/cli.sock
@@ -74,6 +74,9 @@ index 0000000..d66ecd3
 +{%- endif %}
 +}
 +dpdk {
++{%- if network.vpp.decimal_interface_names is defined %}
++  decimal-interface-names
++{%- endif %}
 +{%- if network.vpp.dpdk_socket_mem is defined %}
 +  socket-mem {{ network.vpp.dpdk_socket_mem }}
 +{%- endif %}
