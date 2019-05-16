@@ -83,6 +83,9 @@ $(notify_i "Input parameters to the build script are:" 2)
    currently defined on cluster KVM nodes. If specified twice (e.g. -E -E),
    baremetal nodes (VCP too, implicitly) will be removed, then reprovisioned.
    Only applicable for baremetal deploys.
+   If specified 3 times, a complete uninstallation (cleanup) will be performed
+   on the jumpserver (even for virtual deploys): VMs, virsh networks,
+   containers, networks, services etc.
 -f Deploy on existing Salt master. It will skip infrastructure VM creation,
    but it will still sync reclass configuration from current repo to Salt
    Master node.
@@ -301,6 +304,10 @@ jumpserver_check_requirements "${cluster_states[*]}" "${virtual_nodes[*]}" \
 # Infra setup
 if [ ${DRY_RUN} -eq 1 ]; then
     notify "[NOTE] Dry run, skipping all deployment tasks" 2
+    exit 0
+elif [ ${ERASE_ENV} -gt 2 ]; then
+    notify "[NOTE] Uninstall / cleanup all jumpserver Fuel resources" 2
+    cleanup_all "${MCP_STORAGE_DIR}" "${OPNFV_BRIDGES[@]}"
     exit 0
 elif [ ${USE_EXISTING_INFRA} -gt 0 ]; then
     notify "[NOTE] Use existing infra: skip first ${USE_EXISTING_INFRA} states" 2
