@@ -327,6 +327,27 @@ function create_networks {
   sudo systemctl restart opnfv-fuel-vetha
 }
 
+function cleanup_all {
+  local image_dir=$1; shift
+  local all_vnode_networks=("$@")
+  [ ! -e "${image_dir}/docker-compose" ] || COMPOSE_PREFIX="${image_dir}/"
+
+  cleanup_uefi
+  __cleanup_vms
+  sudo ip link del veth_mcp0 || true
+  sudo ip link del veth_mcp2 || true
+  for net in "mcpcontrol" "${all_vnode_networks[@]}"; do
+    if ${VIRSH} net-info "${net}" >/dev/null 2>&1; then
+      ${VIRSH} net-destroy "${net}" || true
+      ${VIRSH} net-undefine "${net}"
+    fi
+  done
+  sudo rm -f "/etc/systemd/system/multi-user.target.wants/opnfv-fuel"* \
+             "/etc/systemd/system/opnfv-fuel"*
+  sudo systemctl daemon-reload
+  "${COMPOSE_PREFIX}docker-compose" -f docker-compose/docker-compose.yaml down
+}
+
 function create_vms {
   local image_dir=$1; shift
   local image=base_image_opnfv_fuel.img
