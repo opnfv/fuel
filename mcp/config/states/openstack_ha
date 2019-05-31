@@ -52,7 +52,6 @@ salt -I 'cinder:controller:role:primary' state.sls cinder
 salt -I 'cinder:controller:role:secondary' state.sls cinder
 wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
 
-$(dirname "${BASH_SOURCE[0]}")/neutron_dhcp_agent_patch
 salt -I 'neutron:server:role:primary' state.sls neutron
 salt -I 'neutron:server:role:secondary' state.sls neutron
 salt -I 'neutron:gateway' state.sls neutron.gateway
