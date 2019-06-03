@@ -1,0 +1,32 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 5 Jun 2019 14:23:21 +0200
+Subject: [PATCH] wsgi.conf: Allow configuration of `locations`
+
+wsgi configuration template should also asupport configuring locations
+in order to allow Horizon resources to be accessed from '/static',
+otherwise the system level reclass config for it is silently ignored.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ apache/files/wsgi.conf | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/apache/files/wsgi.conf b/apache/files/wsgi.conf
+index cad01dc..d375708 100644
+--- a/apache/files/wsgi.conf
++++ b/apache/files/wsgi.conf
+@@ -26,4 +26,6 @@ Listen {{ site.host.address }}:{{ site.host.port }}
+         Allow from all
+     </IfVersion>
+   </Directory>
++
++  {%- include "apache/files/_locations.conf" %}
+ </VirtualHost>
