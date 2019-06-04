@@ -97,7 +97,6 @@ parameters:
       cacert: /etc/ssl/certs/mcp_os_cacert
       openrc_extra:
         volume_device_name: sdc
-        block_migration: false
   glance:
     server:
       <<: *db_conn_recycle_time
