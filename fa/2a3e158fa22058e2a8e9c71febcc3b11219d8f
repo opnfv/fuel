@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Submitted-by: Michael Polenchuk <mpolenchuk@mirantis.com>
+Submitted-at: Tue, 04 Jun 2019 04:40:08 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/67978
+Project: fuel
+Branch: refs/heads/stable/hunter
