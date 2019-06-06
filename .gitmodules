@@ -62,3 +62,7 @@
 	path = mcp/salt-formulas/salt-formula-kubernetes
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/kubernetes
 	branch = master
+[submodule "salt-formula-apache"]
+	path = mcp/salt-formulas/salt-formula-apache
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/apache
+	branch = master
