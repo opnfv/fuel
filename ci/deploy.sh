@@ -38,7 +38,8 @@ $(notify "USAGE:" 2)
   $(basename "$0") -l lab-name -p pod-name -s deploy-scenario \\
     [-b Lab Config Base URI] \\
     [-S storage-dir] [-L /path/to/log/file.tar.gz] \\
-    [-f] [-F[F]] [-e[e] | -E[E]] [-d] [-D] [-N] [-m]
+    [-f] [-F[F]] [-e[e] | -E[E]] [-d] [-D] [-N] [-m] \\
+    [-o operating-system]
 
 $(notify "OPTIONS:" 2)
   -b  Base-uri for the stack-configuration structure
@@ -51,6 +52,7 @@ $(notify "OPTIONS:" 2)
   -h  Print this message and exit
   -l  Lab-name
   -p  Pod-name
+  -o  Use specified operating system for jumpserver/VCP VMs
   -P  Skip installation of package dependencies
   -s  Deploy-scenario short-name
   -S  Storage dir for VM images and other deploy artifacts
@@ -101,6 +103,9 @@ $(notify_i "Input parameters to the build script are:" 2)
    single guest CPU socket.
 -N Experimental: Instead of virtualizing the control plane (VCP), deploy
    control plane directly on baremetal nodes
+-o Operating system to be preinstalled on jumpserver VMs (for virtual/hybrid
+   deployments) and/or VCP VMs (for baremetal deployments).
+   Defaults to 'ubuntu1604' (Xenial).
 -P Skip installing dependency distro packages on current host
    This flag should only be used if you have kept back older packages that
    would be upgraded and that is undesirable on the current system.
@@ -148,6 +153,7 @@ ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
 MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-${DEF_DOCKER_TAG}}
 MCP_CMP_SS=${MCP_CMP_SS:-0}
+MCP_OS=${MCP_OS:-ubuntu1604}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"
@@ -163,7 +169,7 @@ source "${DEPLOY_DIR}/lib_jump_deploy.sh"
 # BEGIN of main
 #
 set +x
-while getopts "b:dDfEFl:L:Np:Ps:S:he" OPTION
+while getopts "b:dDfEFl:L:No:p:Ps:S:he" OPTION
 do
     case $OPTION in
         b)
@@ -200,6 +206,9 @@ do
             ;;
         N)
             MCP_VCP=0
+            ;;
+        o)
+            MCP_OS=${OPTARG}
             ;;
         p)
             TARGET_POD=${OPTARG}
@@ -285,7 +294,7 @@ export MAAS_SSH_KEY="$(cat "$(basename "${SSH_KEY}").pub")"
 [[ "${DEPLOY_SCENARIO}" =~ -ha$ ]] || MCP_VCP=0
 export MCP_REPO_ROOT_PATH MCP_VCP MCP_STORAGE_DIR MCP_DOCKER_TAG MCP_CMP_SS \
        MCP_JUMP_ARCH=$(uname -i) MCP_DEPLOY_SCENARIO="${DEPLOY_SCENARIO}" \
-       MCP_NO_DEPLOY_ENVIRONMENT
+       MCP_NO_DEPLOY_ENVIRONMENT MCP_OS
 do_templates_scenario "${MCP_STORAGE_DIR}" "${TARGET_LAB}" "${TARGET_POD}" \
                       "${BASE_CONFIG_URI}" "${SCENARIO_DIR}" \
                       "${SCENARIO_DIR}/${DEPLOY_SCENARIO}.yaml"

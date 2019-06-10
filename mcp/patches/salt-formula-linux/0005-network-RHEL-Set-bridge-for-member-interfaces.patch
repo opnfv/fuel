@@ -1,0 +1,44 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 11 Jun 2019 03:57:29 +0200
+Subject: [PATCH] network: RHEL: Set bridge for member interfaces
+
+For RHEL, bridge member interfaces need to be passed down the
+bridge name, so lookup all bridges, find the one containing the
+current interface (if any) and use it when calling
+`network.managed`.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ linux/network/interface.sls | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/linux/network/interface.sls b/linux/network/interface.sls
+index 11db5be..ccac6d7 100644
+--- a/linux/network/interface.sls
++++ b/linux/network/interface.sls
+@@ -303,6 +303,17 @@ linux_interface_{{ interface_name }}:
+     - cmd: ovs_port_up_{{ network }}
+     {%- endfor %}
+   {%- endif %}
++  {%- if grains.os_family == 'RedHat' %}
++    {%- set br_todo = [] %}
++    {%- for br_name, br_info in network.interface.items() %}
++      {%- if br_info.type == 'bridge' and interface_name in br_info.get('use_interfaces', []) %}
++        {%- do br_todo.append(br_info.get('name', br_name)) %}
++      {%- endif %}
++    {%- endfor %}
++    {%- if br_todo %}
++  - bridge: {{ br_todo | first }}
++    {%- endif %}
++  {%- endif %}
+   {%- if interface.type == 'bridge' %}
+   - bridge: {{ interface_name }}
+   - delay: 0
