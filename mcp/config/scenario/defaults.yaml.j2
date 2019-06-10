@@ -8,7 +8,6 @@
 {%- import 'net_map.j2' as nm with context %}
 ---
 x86_64:
-  base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
   default:
     disks: 100G  # ';'-separated list of disk drives to create
     vcpus: 4
@@ -23,47 +22,86 @@ x86_64:
         - virtual_control_plane
 {%- endif %}
 {%- endif %}
-  common:
-    apt:
-      keys:
-        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
-      repos:
-        # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
-    pkg:
-      install:
-        - linux-generic-hwe-16.04
-        - salt-minion
-  control:
-    apt: ~
-    pkg:
-      install:
-        - cloud-init
+  ubuntu:
+    base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
+    common:
+      repo:
+        keys:
+          - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
+      pkg:
+        install:
+          - linux-generic-hwe-16.04
+          - salt-minion
+    control:
+      repo: ~
+      pkg:
+        install:
+          - cloud-init
+  centos:
+    base_image: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
+    common:
+      repo:
+        keys:
+          - https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> rpm <repo url>
+          - saltstack 0 rpm https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
+      pkg:
+        install:
+          - salt-minion
+          - epel-release
+    control:
+      repo: ~
+      pkg:
+        install:
+          - cloud-init
 aarch64:
-  base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
   default:
     disks: 100G  # ';'-separated list of disk drives to create
     vcpus: 6
     ram: 4096
     cluster: *arch_default_cluster_states
-  common:
-    apt:
-      keys:
-        - https://linux.enea.com/mcp-repos/rocky/xenial/archive-mcprocky.key
-        - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
-      repos:
-        # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-        - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
-        - armband_3 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/rocky/xenial rocky-armband main
-    pkg:
-      install:
-{%- if '-iec-' in conf.MCP_DEPLOY_SCENARIO %}
-        - linux-generic-hwe-16.04
-{%- endif %}
-        - python-futures
-        - salt-minion
-  control:
-    apt: ~
-    pkg:
-      install:
-        - cloud-init
+  ubuntu:
+    base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
+    common:
+      apt:
+        keys:
+          - https://linux.enea.com/mcp-repos/rocky/xenial/archive-mcprocky.key
+          - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
+          - armband_3 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/rocky/xenial rocky-armband main
+      pkg:
+        install:
+  {%- if '-iec-' in conf.MCP_DEPLOY_SCENARIO %}
+          - linux-generic-hwe-16.04
+  {%- endif %}
+          - python-futures
+          - salt-minion
+    control:
+      apt: ~
+      pkg:
+        install:
+          - cloud-init
+  centos:
+    base_image: https://cloud.centos.org/altarch/7/images/aarch64/CentOS-7-aarch64-GenericCloud.qcow2.xz
+    common:
+      repo:
+        keys:
+          - https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> rpm <repo url>
+          - saltstack 0 rpm https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
+      pkg:
+        install:
+          - salt-minion
+          - epel-release
+    control:
+      repo: ~
+      pkg:
+        install:
+          - cloud-init

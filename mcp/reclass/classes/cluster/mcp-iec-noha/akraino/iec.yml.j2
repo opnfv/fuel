@@ -32,12 +32,34 @@ parameters:
     single_nic: {{ ma.interface_str(nm.ctl01.nic_mgmt, nm.vlan_mgmt) }}
 {%- endif %}
   linux:
+{%- if 'centos' not in conf.MCP_OS %}
+{%- set proto_manual = 'manual' %}
+{%- else %}
+{%- set proto_manual = 'none' %}
+    system:
+      file:
+        /etc/gshadow:
+          group: root
+        /etc/shadow:
+          group: root
+        /etc/udev/rules.d/70-persistent-net.rules:
+          contents: ''
+      kernel:
+        boot_options:
+          - net.ifnames=1
+          - biosdevname=1
+        modules:
+          - br_netfilter
+      at:
+        enabled: False
+      cron:
+        enabled: False
+{%- endif %}
     network:
       interface:
         pxe_admin_int:
           enabled: true
           name: ${_param:pxe_admin_interface}
-          proto: static
           type: eth
           address: ${_param:pxe_admin_address}
           netmask: ${_param:opnfv_net_admin_mask}
@@ -49,28 +71,27 @@ parameters:
   {%- do nics.pop(nm.ctl01.nic_admin) %}
 {%- endif %}
 
-{{ ma.linux_network_interfaces_nic(nics) }}
+{{ ma.linux_network_interfaces_nic(nics, proto_manual) }}
 
-{{ ma.linux_network_interfaces_vlan(vlans) }}
+{{ ma.linux_network_interfaces_vlan(vlans, proto_manual) }}
 
 {%- if '-vcp-' in conf.MCP_DEPLOY_SCENARIO %}
         single:
           enabled: true
           type: eth
-          proto: manual
+          proto: {{ proto_manual }}
           name: ${_param:single_nic}
           mtu: ${_param:interface_mtu}
         external:
           enabled: true
           type: eth
-          proto: manual
+          proto: {{ proto_manual }}
           name: ${_param:external_nic}
           mtu: ${_param:interface_mtu}
 {%- endif %}
         br-ctl:
           enabled: true
           type: bridge
-          proto: static
           address: ${_param:single_address}
           netmask: ${_param:opnfv_net_mgmt_mask}
           noifupdown: true
@@ -80,7 +101,6 @@ parameters:
         br-ex:
           enabled: true
           type: bridge
-          proto: static
           address: ${_param:external_address}
           netmask: ${_param:opnfv_net_public_mask}
           noifupdown: true
