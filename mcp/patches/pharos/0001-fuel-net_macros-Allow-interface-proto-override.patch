@@ -1,0 +1,54 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 10 Jun 2019 15:13:52 +0200
+Subject: [PATCH] [fuel] net_macros: Allow interface proto override
+
+For non-Debian systems, proto 'manual' is not a valid choice and
+we should be able to override it.
+e.g.: For CentOS, proto 'none' should be used instead.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ config/installers/fuel/net_macros.j2 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/config/installers/fuel/net_macros.j2 b/config/installers/fuel/net_macros.j2
+index ad26a79..c0a5d32 100644
+--- a/config/installers/fuel/net_macros.j2
++++ b/config/installers/fuel/net_macros.j2
+@@ -5,24 +5,24 @@
+ # which accompanies this distribution, and is available at
+ # http://www.apache.org/licenses/LICENSE-2.0
+ ##############################################################################
+-{%- macro linux_network_interfaces_nic(nics) -%}
++{%- macro linux_network_interfaces_nic(nics, proto = 'manual') -%}
+ {%- for nic in nics %}
+         {{ nic }}:
+           enabled: true
+           type: eth
+-          proto: manual
++          proto: {{ proto }}
+           mtu: ${_param:interface_mtu}
+           name: {{ nic }}
+           noifupdown: true
+ {%- endfor %}
+ {%- endmacro -%}
+
+-{%- macro linux_network_interfaces_vlan(vlans) -%}
++{%- macro linux_network_interfaces_vlan(vlans, proto = 'manual') -%}
+ {%- for vlan in vlans %}
+     {%- if vlan | int > 0 %}
+         {{ vlans[vlan] }}.{{ vlan }}:
+           enabled: true
+-          proto: manual
++          proto: {{ proto }}
+           mtu: ${_param:interface_mtu}
+           type: vlan
+           name: {{ vlans[vlan] }}.{{ vlan }}

@@ -31,7 +31,11 @@ wait_for 3.0 "(for n in ${LOCAL_VIRT_NODES}; do salt -C \${n}.* test.ping || exi
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' saltutil.sync_all"
 [[ ! "${NODE_MASK}" =~ mas01 ]] || exit 0
 
-wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux"
+if [[ "${base_image}" =~ centos ]]; then
+  # CentOS uses an older kernel, skip non-existing sysctl options
+  EXCLUDE_IDS="exclude='[{id: linux_kernel_net.core.netdev_budget_usecs}]'"
+fi
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux ${EXCLUDE_IDS}"
 
 salt -C "E@^(${NODE_MASK}).*" cmd.run 'reboot'
 wait_for 90.0 "salt -C 'E@^(${NODE_MASK}).*' test.ping"
