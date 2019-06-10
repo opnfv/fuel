@@ -40,3 +40,5 @@ deploy:
     # AArch64 VMs use AAVMF (guest UEFI)
     - ipxe-qemu
     - qemu-efi
+    # AArch64 CentOS cloud image is archived with xz
+    - xz-utils

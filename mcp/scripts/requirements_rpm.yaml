@@ -44,3 +44,5 @@ deploy:
   aarch64:
     # AArch64 VMs use AAVMF (guest UEFI)
     - AAVMF
+    # AArch64 CentOS cloud image is archived with xz
+    - xz
