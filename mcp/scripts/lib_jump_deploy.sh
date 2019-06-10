@@ -104,7 +104,7 @@ function __kernel_modules {
 function __mount_image {
   local image=$1
   local image_dir=$2
-  OPNFV_MNT_DIR="${image_dir}/ubuntu"
+  OPNFV_MNT_DIR="${image_dir}/mnt"
 
   # Find free nbd, loop devices
   for dev in '/sys/class/block/nbd'*; do
@@ -117,7 +117,8 @@ function __mount_image {
   OPNFV_MAP_DEV=/dev/mapper/$(basename "${OPNFV_NBD_DEV}")p1
   export OPNFV_MNT_DIR OPNFV_LOOP_DEV
   [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
-  qemu-img resize "${image_dir}/${image}" 3G
+  [[ "${MCP_OS:-}" =~ centos ]] || \
+    qemu-img resize "${image_dir}/${image}" 3G
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
   sudo kpartx -av "${OPNFV_NBD_DEV}"
@@ -128,6 +129,10 @@ function __mount_image {
     sudo e2fsck -pf "${OPNFV_MAP_DEV}"
     sudo resize2fs "${OPNFV_MAP_DEV}"
   else
+    if [ "$(uname -i)" = "aarch64" ] && [[ "${MCP_OS:-}" =~ centos ]]; then
+      # AArch64 CentOS cloud image has root partition at index 4 instead of 1
+      OPNFV_MAP_DEV=${OPNFV_MAP_DEV/p1/p4}
+    fi
     sleep 5 # /dev/nbdNp1 takes some time to come up
   fi
   sudo partx -d "${OPNFV_NBD_DEV}"
@@ -138,8 +143,8 @@ function __mount_image {
   sudo mount -t proc proc "${OPNFV_MNT_DIR}/proc"
   sudo mount -t sysfs sys "${OPNFV_MNT_DIR}/sys"
   sudo mount -o bind /dev "${OPNFV_MNT_DIR}/dev"
-  sudo mkdir -p "${OPNFV_MNT_DIR}/run/resolvconf"
-  sudo cp /etc/resolv.conf "${OPNFV_MNT_DIR}/run/resolvconf"
+  sudo cp -f --remove-destination \
+    /etc/resolv.conf "${OPNFV_MNT_DIR}/etc/resolv.conf"
   echo "GRUB_DISABLE_OS_PROBER=true" | \
     sudo tee -a "${OPNFV_MNT_DIR}/etc/default/grub"
   sudo sed -i -e 's/^\(GRUB_TIMEOUT\)=.*$/\1=1/g' -e 's/^GRUB_HIDDEN.*$//g' \
@@ -153,8 +158,10 @@ function __apt_repos_pkgs_image {
   local pkgs_r=(${4//,/ })
   [ -n "${OPNFV_MNT_DIR}" ] || exit 1
 
+  # NOTE: We don't support (yet) some features for non-APT repos: keys, prio
+
   # APT keys
-  if [ "${#apt_key_urls[@]}" -gt 0 ]; then
+  if [[ "${MCP_OS:-}" =~ ubuntu ]] && [ "${#apt_key_urls[@]}" -gt 0 ]; then
     for apt_key in "${apt_key_urls[@]}"; do
       sudo chroot "${OPNFV_MNT_DIR}" /bin/bash -c \
         "wget -qO - '${apt_key}' | apt-key add -"
@@ -164,6 +171,16 @@ function __apt_repos_pkgs_image {
   for repo_line in "${all_repos[@]}"; do
     # <repo_name>|<repo prio>|deb|[arch=<arch>]|<repo url>|<dist>|<repo comp>
     local repo=(${repo_line//|/ })
+
+    if [[ "${MCP_OS:-}" =~ centos ]]; then
+      cat <<-EOF | sudo tee "${OPNFV_MNT_DIR}/etc/yum.repos.d/${repo[0]}.repo"
+		[${repo[0]}]
+		baseurl=${repo[3]}
+		enabled=1
+		gpgcheck=0
+		EOF
+      continue
+    fi
     [ "${#repo[@]}" -gt 5 ] || continue
     # NOTE: Names and formatting are compatible with Salt linux.system.repo
     cat <<-EOF | sudo tee "${OPNFV_MNT_DIR}/etc/apt/preferences.d/${repo[0]}"
@@ -178,15 +195,23 @@ function __apt_repos_pkgs_image {
   done
   # Install packages
   if [ "${#pkgs_i[@]}" -gt 0 ]; then
-    sudo DEBIAN_FRONTEND="noninteractive" \
-      chroot "${OPNFV_MNT_DIR}" apt-get update
-    sudo DEBIAN_FRONTEND="noninteractive" FLASH_KERNEL_SKIP="true" \
-      chroot "${OPNFV_MNT_DIR}" apt-get install -y "${pkgs_i[@]}"
+    if [[ "${MCP_OS:-}" =~ ubuntu ]]; then
+      sudo DEBIAN_FRONTEND="noninteractive" \
+        chroot "${OPNFV_MNT_DIR}" apt-get update
+      sudo DEBIAN_FRONTEND="noninteractive" FLASH_KERNEL_SKIP="true" \
+        chroot "${OPNFV_MNT_DIR}" apt-get install -y "${pkgs_i[@]}"
+    else
+      sudo chroot "${OPNFV_MNT_DIR}" yum install -y "${pkgs_i[@]}"
+    fi
   fi
   # Remove packages
   if [ "${#pkgs_r[@]}" -gt 0 ]; then
-    sudo DEBIAN_FRONTEND="noninteractive" FLASH_KERNEL_SKIP="true" \
-      chroot "${OPNFV_MNT_DIR}" apt-get purge -y "${pkgs_r[@]}"
+    if [[ "${MCP_OS:-}" =~ ubuntu ]]; then
+      sudo DEBIAN_FRONTEND="noninteractive" FLASH_KERNEL_SKIP="true" \
+        chroot "${OPNFV_MNT_DIR}" apt-get purge -y "${pkgs_r[@]}"
+    else
+      sudo chroot "${OPNFV_MNT_DIR}" yum remove -y "${pkgs_r[@]}"
+    fi
   fi
   # Disable cloud-init metadata service datasource
   sudo mkdir -p "${OPNFV_MNT_DIR}/etc/cloud/cloud.cfg.d"
@@ -212,7 +237,8 @@ function __cleanup_vms {
 ##############################################################################
 
 function prepare_vms {
-  local base_image=$1; shift
+  local base_image_f=$1; shift
+  local base_image=${base_image_f%.xz}
   local image_dir=$1; shift
   local repos_pkgs_str=$1; shift # ^-sep list of repos, pkgs to install/rm
   local image=base_image_opnfv_fuel.img
@@ -222,7 +248,8 @@ function prepare_vms {
 
   cleanup_uefi
   __cleanup_vms
-  __get_base_image "${base_image}" "${image_dir}"
+  __get_base_image "${base_image_f}" "${image_dir}"
+  [ "${base_image}" == "${base_image_f}" ] || unxz -fk "${image_dir}/${_o}.xz"
   IFS='^' read -r -a repos_pkgs <<< "${repos_pkgs_str}"
 
   local _h=$(echo "${repos_pkgs_str}.$(md5sum "${image_dir}/${_o}")" | \
@@ -513,7 +540,6 @@ function cleanup_mounts {
       sudo sed -i -e 's/^\s*set root=.*$//g' -e 's/^\s*loopback.*$//g' \
         "${OPNFV_MNT_DIR}/boot/grub/grub.cfg"
     fi
-    sudo rm -f "${OPNFV_MNT_DIR}/run/resolvconf/resolv.conf"
     sync
     if mountpoint -q "${OPNFV_MNT_DIR}"; then
       sudo umount -l "${OPNFV_MNT_DIR}" || true
