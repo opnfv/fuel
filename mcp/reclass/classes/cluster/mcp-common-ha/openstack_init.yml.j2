@@ -149,7 +149,8 @@ parameters:
     horizon_identity_host: ${_param:openstack_control_address}
     horizon_identity_encryption: none
     horizon_identity_version: 3
-    nginx_server_site_nginx_proxy_openstack_web_enabled: True
+    apache_mods_status_enabled: false
+    nginx_server_site_nginx_proxy_openstack_web_enabled: true
     aodh_service_host: ${_param:openstack_telemetry_address}
     gnocchi_version: 4.3
     gnocchi_service_host: ${_param:openstack_telemetry_address}
