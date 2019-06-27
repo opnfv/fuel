@@ -2,7 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) 2018 Mirantis Inc., Enea Software AB and others
 
-This document provides scenario level details for Hunter 8.0 of
+This document provides scenario level details for Hunter 8.1 of
 deployment with no SDN controller and no extra features enabled.
 
 Introduction
