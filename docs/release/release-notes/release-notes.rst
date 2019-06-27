@@ -78,16 +78,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-8.0.0                          |
+| **Repo/tag**                         | opnfv-8.1.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Hunter 8.0                           |
+| **Release designation**              | Hunter 8.1                           |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | May 10, 2019                         |
+| **Release date**                     | June 24, 2019                        |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Hunter 8.0 release             |
+| **Purpose of the delivery**          | OPNFV Hunter 8.1 release             |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -110,7 +110,7 @@ deployment toolchain. It is based on following upstream versions:
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Hunter`` 8.0 release.
+This is the ``Hunter`` 8.1 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -134,13 +134,10 @@ Feature Additions
 - ``ODL`` ``BGPVPN`` scenario;
 - ``IDF`` support for configuring cluster-level ``MTU``;
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 New features`_
-filter.
-
 Bug Corrections
 ~~~~~~~~~~~~~~~
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Bugs (fixed)`_
+For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.1 Bugs (fixed)`_
 filter.
 
 Software Deliverables
@@ -213,25 +210,23 @@ System Limitations
 Known Issues
 ------------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Known issues`_
-filter.
+None
 
 Workarounds
 -----------
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.0 Workarounds`_
-filter.
+None
 
 Test Results
 ============
 
-The ``Hunter`` 8.0 release with the Fuel deployment tool has undergone QA test
+The ``Hunter`` 8.1 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Hunter`` 8.0 release, please see:
+For more information on the OPNFV ``Hunter`` 8.1 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
@@ -257,7 +252,4 @@ For more information on the OPNFV ``Hunter`` 8.0 release, please see:
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
 .. OPNFV Fuel Hunter JIRA filters
-.. _`OPNFV Fuel JIRA: Hunter 8.0 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12705
-.. _`OPNFV Fuel JIRA: Hunter 8.0 New features`: https://jira.opnfv.org/issues/?filter=12706
-.. _`OPNFV Fuel JIRA: Hunter 8.0 Known issues`: https://jira.opnfv.org/issues/?filter=12707
-.. _`OPNFV Fuel JIRA: Hunter 8.0 Workarounds`: https://jira.opnfv.org/issues/?filter=12708
+.. _`OPNFV Fuel JIRA: Hunter 8.1 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12710

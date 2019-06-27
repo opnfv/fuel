@@ -971,7 +971,7 @@ These steps are common for ``virtual``, ``baremetal`` or ``hybrid`` deploys,
 
     jenkins@jumpserver:~$ git clone https://git.opnfv.org/fuel
     jenkins@jumpserver:~$ cd fuel
-    jenkins@jumpserver:~/fuel$ git checkout opnfv-8.0.0
+    jenkins@jumpserver:~/fuel$ git checkout opnfv-8.1.0
     jenkins@jumpserver:~/fuel$ ci/deploy.sh -l <lab_name> \
                                             -p <pod_name> \
                                             -b <URI to configuration repo containing the PDF/IDF files> \
@@ -1377,7 +1377,7 @@ article.
 References
 ==========
 
-For more information on the OPNFV ``Hunter`` 8.0 release, please see:
+For more information on the OPNFV ``Hunter`` 8.1 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
