@@ -22,6 +22,26 @@ x86_64:
         - virtual_control_plane
 {%- endif %}
 {%- endif %}
+  ubuntu1804:
+    base_image: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+    common:
+      repo:
+        keys:
+          - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
+      pkg:
+        install:
+          - salt-minion
+          - ifupdown
+          - cloud-init
+          - dnsmasq
+    control:
+      repo: ~
+      pkg:
+        install:
+          - cloud-init
   ubuntu1604:
     base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
     common:
@@ -64,6 +84,26 @@ aarch64:
     vcpus: 6
     ram: 4096
     cluster: *arch_default_cluster_states
+  ubuntu1804:
+    base_image: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-arm64.img
+    common:
+      repo:
+        keys:
+          - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+        repos:
+          # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
+          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
+      pkg:
+        install:
+          - salt-minion
+          - ifupdown
+          - cloud-init
+          - dnsmasq
+    control:
+      repo: ~
+      pkg:
+        install:
+          - cloud-init
   ubuntu1604:
     base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
     common:

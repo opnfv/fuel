@@ -11,5 +11,10 @@ rm -f /etc/salt/minion_id /etc/salt/pki/minion/minion_master.pub
 echo "id: $(hostname).{{ conf.cluster.domain }}" > /etc/salt/minion
 echo "master: {{ nm.net_admin | ipnet_hostaddr(nm.start_ip[nm.net_admin] + nm.net_admin_hosts.index('opnfv_infra_config_pxe_admin_address') +1) }}" >> /etc/salt/minion
 ldconfig
+{%- if 'ubuntu1804' in conf.MCP_OS %}
+systemctl unmask networking.service || true
+systemctl enable networking.service || true
+systemctl start networking.service || true
+{%- endif %}
 systemctl enable salt-minion.service
 systemctl restart salt-minion.service

@@ -152,6 +152,24 @@ function __mount_image {
   sudo mount -t proc proc "${OPNFV_MNT_DIR}/proc"
   sudo mount -t sysfs sys "${OPNFV_MNT_DIR}/sys"
   sudo mount -o bind /dev "${OPNFV_MNT_DIR}/dev"
+  if [[ "${MCP_OS:-}" =~ ubuntu1804 ]]; then
+    # Ubuntu Bionic (18.04) or newer defaults to using netplan.io, revert it
+    sudo mkdir -p "${OPNFV_MNT_DIR}/run/systemd/resolve"
+    sudo cp -f --remove-destination /etc/resolv.conf \
+      "${OPNFV_MNT_DIR}/run/systemd/resolve/stub-resolv.conf"
+    sudo chroot "${OPNFV_MNT_DIR}" systemctl stop \
+      systemd-networkd.socket systemd-networkd \
+      networkd-dispatcher systemd-networkd-wait-online systemd-resolved
+    sudo chroot "${OPNFV_MNT_DIR}" systemctl disable \
+      systemd-networkd.socket systemd-networkd \
+      networkd-dispatcher systemd-networkd-wait-online systemd-resolved
+    sudo chroot "${OPNFV_MNT_DIR}" systemctl mask \
+      systemd-networkd.socket systemd-networkd \
+      networkd-dispatcher systemd-networkd-wait-online systemd-resolved
+    sudo chroot "${OPNFV_MNT_DIR}" apt --assume-yes purge nplan netplan.io
+    echo "source /etc/network/interfaces.d/*" | \
+      sudo tee "${OPNFV_MNT_DIR}/etc/network/interfaces"
+  fi
   sudo cp -f --remove-destination \
     /etc/resolv.conf "${OPNFV_MNT_DIR}/etc/resolv.conf"
   echo "GRUB_DISABLE_OS_PROBER=true" | \
