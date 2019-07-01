@@ -124,7 +124,8 @@ function __mount_image {
   sudo kpartx -av "${OPNFV_NBD_DEV}"
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
   sudo partx -uvn 1:1 "${OPNFV_NBD_DEV}"
-  if sudo growpart "${OPNFV_NBD_DEV}" 1; then
+  if [[ "${MCP_OS:-}" =~ ubuntu1604 ]] && sudo growpart "${OPNFV_NBD_DEV}" 1
+  then
     sudo kpartx -u "${OPNFV_NBD_DEV}"
     sudo e2fsck -pf "${OPNFV_MAP_DEV}"
     sudo resize2fs "${OPNFV_MAP_DEV}"
