@@ -107,7 +107,7 @@ aarch64:
   ubuntu1604:
     base_image: https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
     common:
-      apt:
+      repo:
         keys:
           - https://linux.enea.com/mcp-repos/rocky/xenial/archive-mcprocky.key
           - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
@@ -123,7 +123,7 @@ aarch64:
           - python-futures
           - salt-minion
     control:
-      apt: ~
+      repo: ~
       pkg:
         install:
           - cloud-init
