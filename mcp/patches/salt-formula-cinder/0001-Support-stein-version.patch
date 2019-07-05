@@ -1,0 +1,25 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Tue, 9 Jul 2019 14:23:14 +0400
+Subject: [PATCH] Support stein version
+
+diff --git a/cinder/controller.sls b/cinder/controller.sls
+index 31cb53c..f58e261 100644
+--- a/cinder/controller.sls
++++ b/cinder/controller.sls
+@@ -72,7 +72,7 @@ cinder_controller_packages:
+ {%- endif %}
+ 
+ {# Starting from ocata api running undder apache, so dedicated loggong.conf is not needed #}
+-{%- if controller.version not in ('ocata','pike','queens', 'rocky') %}
++{%- if controller.version not in ('ocata','pike','queens', 'rocky', 'stein') %}
+   {%- do cinder_log_services.append('cinder-api') %}
+ {%- endif %}
+ 

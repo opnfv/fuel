@@ -66,3 +66,23 @@
 	path = mcp/salt-formulas/salt-formula-apache
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/apache
 	branch = master
+[submodule "salt-formula-aodh"]
+	path = mcp/salt-formulas/salt-formula-aodh
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/aodh
+	branch = master
+[submodule "salt-formula-panko"]
+	path = mcp/salt-formulas/salt-formula-panko
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/panko
+	branch = master
+[submodule "salt-formula-barbican"]
+	path = mcp/salt-formulas/salt-formula-barbican
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/barbican
+	branch = master
+[submodule "salt-formula-ceilometer"]
+	path = mcp/salt-formulas/salt-formula-ceilometer
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/ceilometer
+	branch = master
+[submodule "salt-formula-glance"]
+	path = mcp/salt-formulas/salt-formula-glance
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/glance
+	branch = master

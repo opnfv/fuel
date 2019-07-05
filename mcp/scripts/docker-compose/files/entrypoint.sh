@@ -67,10 +67,10 @@ for formula in /usr/share/salt-formulas/reclass/service/*; do
     ln -sf "${formula}" "/srv/salt/reclass/classes/service/$(basename ${formula})"
 done
 
-# Temporary link queens configs to rocky
-for f in /srv/salt/env/prd/*/files/queens; do
-    if [ ! -d "$f/../rocky" ]; then
-        ln -sf "$f" "$f/../rocky"
+# Temporary link rocky configs to stein
+for f in /srv/salt/env/prd/*/files/rocky; do
+    if [ ! -d "$f/../stein" ]; then
+        ln -sf "$f" "$f/../stein"
     fi
 done
 

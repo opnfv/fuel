@@ -1,0 +1,47 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Wed, 10 Jul 2019 10:18:58 +0400
+Subject: [PATCH] Extend apache service state
+
+diff --git a/aodh/server.sls b/aodh/server.sls
+index 04b0395..258e5fe 100644
+--- a/aodh/server.sls
++++ b/aodh/server.sls
+@@ -183,20 +183,16 @@ aodh_api_config:
+ 
+ {%- endif %}
+ 
+-aodh_apache_restart:
+-  service.running:
+-  - enable: true
+-  - name: apache2
+-  {%- if grains.get('noservices') %}
+-  - onlyif: /bin/false
+-  {%- endif %}
+-  - watch:
+-    - file: /etc/aodh/aodh.conf
+-    {%- if pillar.get('apache', {}).get('server', {}).get('site', {}).aodh is defined %}
+-    - apache_enable_aodh_wsgi
+-    {%- else %}
+-    - file: aodh_api_apache_config
+-    {%- endif %}
++extend:
++  apache_service:
++    service.running:
++    - watch:
++      - file: /etc/aodh/aodh.conf
++      {%- if pillar.get('apache', {}).get('server', {}).get('site', {}).aodh is defined %}
++      - apache_enable_aodh_wsgi
++      {%- else %}
++      - file: aodh_api_apache_config
++      {%- endif %}
+ 
+ {%- endif %}
+ 

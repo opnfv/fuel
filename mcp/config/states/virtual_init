@@ -36,8 +36,8 @@ if [[ "${base_image}" =~ centos ]]; then
   EXCLUDE_IDS="exclude='[{id: linux_kernel_net.core.netdev_budget_usecs}]'"
 fi
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.sls linux ${EXCLUDE_IDS}"
+wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' pkg.upgrade refresh=False dist_upgrade=True"
 
 salt -C "E@^(${NODE_MASK}).*" cmd.run 'reboot'
 wait_for 90.0 "salt -C 'E@^(${NODE_MASK}).*' test.ping"
-wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' pkg.upgrade refresh=False dist_upgrade=True"
 wait_for 3.0 "salt -C 'E@^(${NODE_MASK}).*' state.apply salt,ntp"

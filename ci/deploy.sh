@@ -105,7 +105,7 @@ $(notify_i "Input parameters to the build script are:" 2)
    control plane directly on baremetal nodes
 -o Operating system to be preinstalled on jumpserver VMs (for virtual/hybrid
    deployments) and/or VCP VMs (for baremetal deployments).
-   Defaults to 'ubuntu1604' (Xenial).
+   Defaults to 'ubuntu1804' (Bionic).
 -P Skip installing dependency distro packages on current host
    This flag should only be used if you have kept back older packages that
    would be upgraded and that is undesirable on the current system.
@@ -153,7 +153,7 @@ ERASE_ENV=${ERASE_ENV:-0}
 MCP_VCP=${MCP_VCP:-1}
 MCP_DOCKER_TAG=${MCP_DOCKER_TAG:-${DEF_DOCKER_TAG}}
 MCP_CMP_SS=${MCP_CMP_SS:-0}
-MCP_OS=${MCP_OS:-ubuntu1604}
+MCP_OS=${MCP_OS:-ubuntu1804}
 
 source "${DEPLOY_DIR}/globals.sh"
 source "${DEPLOY_DIR}/lib.sh"

@@ -19,8 +19,6 @@ classes:
   - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-noha.openstack_compute_pdf
 parameters:
-  _param:
-    linux_system_codename: xenial
   nova:
     compute:
       libvirt_service: libvirtd
@@ -39,6 +37,11 @@ parameters:
         enabled: ${_param:barbican_integration_enabled}
       image:
         verify_glance_signatures: false
+      pkgs:
+        - nova-compute
+        - python3-novaclient
+        - pm-utils
+        - sysfsutils
   neutron:
     compute:
       notification: true
@@ -67,6 +70,11 @@ parameters:
         host: ${_param:cluster_local_address}
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      pkgs:
+        - cinder-volume
+      openiscsi_services:
+        - tgt
+        - iscsid
   nfs:
     client:
       mount:
