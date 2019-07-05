@@ -10,8 +10,6 @@ classes:
   - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-noha.openstack_gateway_pdf
 parameters:
-  _param:
-    linux_system_codename: xenial
   neutron:
     gateway:
       notification: true

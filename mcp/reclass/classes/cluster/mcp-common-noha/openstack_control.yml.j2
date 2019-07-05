@@ -50,6 +50,7 @@ classes:
   - system.aodh.server.single
   - system.gnocchi.server.single
   - service.panko.server.single
+  - system.apache.server.site.aodh
   - system.apache.server.site.gnocchi
   - system.apache.server.site.panko
   - system.apache.server.site.barbican
@@ -66,7 +67,6 @@ classes:
   - cluster.mcp-common-noha.openstack_control_pdf
 parameters:
   _param:
-    linux_system_codename: xenial
     ceilometer_create_gnocchi_resources: 'True'
     ceilometer_endpoint_status: absent
     barbican_integration_enabled: 'false'
@@ -120,14 +120,19 @@ parameters:
         enabled: ${_param:barbican_integration_enabled}
       identity:
         barbican_endpoint: ${barbican:server:host_href}
+      pkgs:
+        - glance
+      services:
+        - glance-api
   cinder:
     controller:
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      pkgs:
+        - cinder-api
+        - cinder-scheduler
   nova:
     controller:
-      networking: dvr
-      cpu_allocation: 54
       metadata:
         password: ${_param:metadata_password}
       bind:
@@ -138,6 +143,13 @@ parameters:
       workers: 1
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      pkgs:
+        - nova-api
+        - nova-conductor
+        - nova-consoleauth
+        - nova-scheduler
+        - nova-novncproxy
+        - python3-novaclient
   horizon:
     server:
       # yamllint disable-line rule:truthy
@@ -198,6 +210,8 @@ parameters:
       global_physnet_mtu: ${_param:interface_mtu}
       backend:
         external_mtu: ${_param:interface_mtu}
+      pkgs:
+        - neutron-server
 {%- if '-bgpvpn-' in conf.MCP_DEPLOY_SCENARIO %}
       bgp_vpn:
         enabled: True
@@ -215,6 +229,7 @@ parameters:
           <<: *wsgi_threads
         barbican_admin:
           <<: *wsgi_threads
+      mod_wsgi: libapache2-mod-wsgi-py3
   barbican:
     server:
       ks_notifications_enable: true
