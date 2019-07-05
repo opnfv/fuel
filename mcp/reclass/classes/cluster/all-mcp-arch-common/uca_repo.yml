@@ -12,7 +12,7 @@ parameters:
       repo:
         uca:
           # yamllint disable-line rule:line-length
-          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/${_param:openstack_version} main"
+          source: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu ${_param:linux_system_codename}-updates/${_param:openstack_version} main"
           key: |
             -----BEGIN PGP PUBLIC KEY BLOCK-----
             Version: GnuPG v1

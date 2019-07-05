@@ -7,16 +7,28 @@
 ##############################################################################
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.openstack
+  - system.linux.system.repo.keystorage.mirantis_com
+  - cluster.all-mcp-arch-common.uca_repo
 parameters:
   _param:
-    backports_version: queens
+    backports_version: rocky
+    linux_system_codename: bionic
   linux:
     system:
       repo:
-        mirantis_openstack_backports:
+        mirantis_openstack:
           # yamllint disable-line rule:line-length
-          source: "deb ${_param:linux_system_repo_url}/openstack-${_param:backports_version}/${_param:linux_system_codename} ${_param:linux_system_codename} main"
+          source: "deb ${_param:linux_system_repo_url}/openstack-${_param:backports_version}/xenial xenial main"
           key: ${_param:linux_system_repo_mirror_mirantis_key}
           architectures: ${_param:linux_system_architecture}
           clean_file: true
+          pinning:
+            10:
+              enabled: true
+              pin: 'release o=Mirantis'
+              priority: 1101
+              package: '/jinja2|redis/'
+            20:
+              enabled: true
+              pin: 'release o=Mirantis'
+              priority: 1
