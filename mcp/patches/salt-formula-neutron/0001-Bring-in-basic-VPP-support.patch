@@ -14,16 +14,6 @@ TODO:
 - update README
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
----
- neutron/agents/_vpp.sls               | 25 ++++++++++++++++
- neutron/compute.sls                   |  2 ++
- neutron/files/rocky/_ml2_conf.vpp.ini | 41 +++++++++++++++++++++++++++
- neutron/files/rocky/ml2_conf.ini      |  4 +++
- neutron/gateway.sls                   |  2 ++
- neutron/map.jinja                     | 16 +++++++++++
- 6 files changed, 90 insertions(+)
- create mode 100644 neutron/agents/_vpp.sls
- create mode 100644 neutron/files/rocky/_ml2_conf.vpp.ini
 
 diff --git a/neutron/agents/_vpp.sls b/neutron/agents/_vpp.sls
 new file mode 100644
@@ -68,7 +58,7 @@ index 708a51d..3767011 100644
        {%- include "neutron/ml2_ovs/init.sls" %}
 +      {%- include "neutron/agents/_vpp.sls" %}
      {%- endif %}
-
+ 
    {%- elif compute.backend.engine == "ovn" %}
 diff --git a/neutron/files/rocky/_ml2_conf.vpp.ini b/neutron/files/rocky/_ml2_conf.vpp.ini
 new file mode 100644
@@ -118,7 +108,7 @@ index 0000000..2373f64
 +
 +{%- endif %}
 diff --git a/neutron/files/rocky/ml2_conf.ini b/neutron/files/rocky/ml2_conf.ini
-index 48ad7df..4f323fa 100644
+index a9a598f..4429c80 100644
 --- a/neutron/files/rocky/ml2_conf.ini
 +++ b/neutron/files/rocky/ml2_conf.ini
 @@ -27,6 +27,9 @@ agent_boot_time = {{ server.get('agent_boot_time', 180) }}
@@ -128,32 +118,32 @@ index 48ad7df..4f323fa 100644
 +{%- if 'vpp' in server.backend.get('mechanism', []) %}
 +type_drivers = flat,vlan
 +{%- endif %}
-
+ 
  # Ordered list of network_types to allocate as tenant networks. The default
  # value 'local' is useful for single-box testing but provides no connectivity
 @@ -239,6 +242,7 @@ neutron_sync_mode = {{ _ovn.neutron_sync_mode|default('repair') }}
  enable_distributed_floating_ip = {{ server.dvr|default('false') }}
  {%- endif %}
-
+ 
 +{%- include "neutron/files/rocky/_ml2_conf.vpp.ini" %}
-
+ 
  {%- if server.backend.opendaylight|default(False) %}
  [ml2_odl]
 diff --git a/neutron/gateway.sls b/neutron/gateway.sls
-index 61b4372..ca07b9f 100644
+index e51990a..95d4d07 100644
 --- a/neutron/gateway.sls
 +++ b/neutron/gateway.sls
 @@ -40,6 +40,8 @@ haproxy:
-
+ 
  {%- endif %}
-
+ 
 +{%- include "neutron/agents/_vpp.sls" %}
 +
  {%- if gateway.l2gw is defined %}
  {%- include "neutron/agents/_l2gw.sls" %}
  {%- endif %}
 diff --git a/neutron/map.jinja b/neutron/map.jinja
-index 1670a3f..3a03952 100644
+index 9e6cb36..17cd5b3 100644
 --- a/neutron/map.jinja
 +++ b/neutron/map.jinja
 @@ -14,9 +14,13 @@
@@ -170,13 +160,15 @@ index 1670a3f..3a03952 100644
  {%- else %}
  {%- set pkgs_cmp = ['neutron-openvswitch-agent', 'python-pycadf'] %}
  {%- set services_cmp = ['neutron-openvswitch-agent'] %}
-@@ -72,11 +76,19 @@
-
+@@ -73,6 +77,7 @@
  {%- set opendaylight_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.opendaylight is defined %}
  {%- set linuxbridge_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
+ {%- set dhcp_enabled = pillar.neutron.gateway is defined and pillar.neutron.gateway.get('dhcp_agent_enabled', True) %}
 +{%- set vpp_enabled = 'vpp' in pillar.neutron.get('gateway', {}).get('backend', {}).get('mechanism', []) %}
- {%- set pkgs_list = ['neutron-dhcp-agent', 'neutron-metadata-agent'] %}
- {%- set services_list = ['neutron-metadata-agent', 'neutron-dhcp-agent'] %}
+ {%- set pkgs_list = ['neutron-metadata-agent'] %}
+ 
+ {%- set services_list = ['neutron-metadata-agent'] %}
+@@ -83,6 +88,13 @@
  {%- if linuxbridge_enabled %}
  {%- do pkgs_list.extend(['neutron-linuxbridge-agent', 'neutron-l3-agent']) %}
  {%- do services_list.extend(['neutron-linuxbridge-agent', 'neutron-l3-agent']) %}
@@ -190,10 +182,10 @@ index 1670a3f..3a03952 100644
  {%- elif not opendaylight_enabled %}
  {%- do pkgs_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
  {%- do services_list.extend(['neutron-openvswitch-agent', 'neutron-l3-agent']) %}
-@@ -124,6 +136,10 @@
- {%- do server_pkgs_list.append('python-networking-sfc') %}
- {%- endif %}
-
+@@ -132,6 +144,10 @@
+ {%- set server_services_list = ['neutron-server'] %}
+ {%- do server_services_list.append('neutron-rpc-server') if wsgi_enabled %}
+ 
 +{%- if 'vpp' in pillar.neutron.get('server', {}).get('backend', {}).get('mechanism', []) %}
 +{%- do server_pkgs_list.extend(['python-networking-vpp']) %}
 +{%- endif %}

@@ -30,7 +30,7 @@ parameters:
           classes:
             - cluster.${_param:cluster_name}.openstack.control
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             salt_master_host: ${_param:reclass_config_master}
             single_address: ${_param:openstack_control_node01_address}
             pxe_admin_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}

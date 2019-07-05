@@ -1,5 +1,5 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-: Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
 :
 : All rights reserved. This program and the accompanying materials
 : are made available under the terms of the Apache License, Version 2.0
@@ -7,24 +7,22 @@
 : http://www.apache.org/licenses/LICENSE-2.0
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-Date: Thu, 20 Dec 2018 16:35:02 +0100
-Subject: [PATCH] Support rocky version
+Date: Tue, 9 Jul 2019 14:54:50 +0400
+Subject: [PATCH] Support stein version
 
-Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
-
-diff --git a/horizon/files/local_settings/rocky_settings.py b/horizon/files/local_settings/rocky_settings.py
+diff --git a/horizon/files/local_settings/stein_settings.py b/horizon/files/local_settings/stein_settings.py
 new file mode 120000
-index 0000000..30ad409
+index 0000000..183e9a8
 --- /dev/null
-+++ b/horizon/files/local_settings/rocky_settings.py
++++ b/horizon/files/local_settings/stein_settings.py
 @@ -0,0 +1 @@
-+queens_settings.py
++rocky_settings.py
 \ No newline at end of file
-diff --git a/horizon/files/policy/rocky b/horizon/files/policy/rocky
+diff --git a/horizon/files/policy/stein b/horizon/files/policy/stein
 new file mode 120000
-index 0000000..06aba54
+index 0000000..c8dbb8c
 --- /dev/null
-+++ b/horizon/files/policy/rocky
++++ b/horizon/files/policy/stein
 @@ -0,0 +1 @@
-+queens/
++rocky
 \ No newline at end of file

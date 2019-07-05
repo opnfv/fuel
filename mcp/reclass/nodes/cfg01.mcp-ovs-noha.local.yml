@@ -10,7 +10,7 @@ classes:
   - cluster.mcp-ovs-noha.infra.config
 parameters:
   _param:
-    linux_system_codename: xenial
+    linux_system_codename: bionic
     reclass_data_revision: master
   linux:
     system:

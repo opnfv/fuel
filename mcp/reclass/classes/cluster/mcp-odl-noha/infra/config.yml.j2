@@ -20,7 +20,7 @@ parameters:
           classes:
             - cluster.${_param:cluster_name}.opendaylight.control
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             single_address: ${_param:opendaylight_service_host}
             pxe_admin_address: ${_param:opnfv_opendaylight_server_node01_pxe_admin_address}
         openstack_gateway_node01:
