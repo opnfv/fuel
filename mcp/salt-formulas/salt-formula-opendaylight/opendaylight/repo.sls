@@ -52,5 +52,5 @@ opendaylight_repo:
   # https://github.com/saltstack/salt/pull/45224
   # - ppa: {{ server.repo }}
   - human_name: opendaylight-ppa
-  - name: deb http://ppa.launchpad.net/odl-team/{{ server.version }}/ubuntu xenial main
-  - file: /etc/apt/sources.list.d/odl-team-ubuntu-{{ server.version }}-xenial.list
+  - name: deb http://ppa.launchpad.net/{{ server.repo }}/ubuntu {{ grains.oscodename }} main
+  - file: /etc/apt/sources.list.d/odl-team-{{ server.version }}.list

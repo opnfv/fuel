@@ -43,3 +43,15 @@ parameters:
           use_interfaces:
             - {{ ma.interface_str(nm.ctl01.nic_private, vlan_private_start) }}
 {%- endif %}
+    system:
+      file:
+        /var/tmp/odl_hostconfig.patch:
+          contents: |
+            420c420
+            <                 if datapath_types.find(datapath_type) >= 0)
+            ---
+            >                 if datapath_type in datapath_types)
+            460c460
+            <         return subprocess.check_output(command_line).strip()  # nosec
+            ---
+            >         return subprocess.check_output(command_line).strip().decode()  # nosec
