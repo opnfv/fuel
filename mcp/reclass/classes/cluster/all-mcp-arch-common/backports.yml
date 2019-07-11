@@ -27,7 +27,16 @@ parameters:
               pin: 'release o=Mirantis'
               priority: 1101
               package: '/jinja2|redis/'
+            15:
+              enabled: true
+              pin: 'release o=Mirantis,l=extra-nightly'
+              priority: -1
+              package: 'mysql-common'
             20:
               enabled: true
               pin: 'release o=Mirantis'
               priority: 1
+        mirantis_extra:
+          # yamllint disable-line rule:line-length
+          source: "deb ${_param:linux_system_repo_url}extra/${_param:linux_system_codename} ${_param:linux_system_codename} main"
+          key: ${_param:linux_system_repo_mirror_mirantis_key}
