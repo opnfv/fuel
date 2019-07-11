@@ -34,7 +34,7 @@ parameters:
               package: 'mysql-common'
             20:
               enabled: true
-              pin: 'release o=Mirantis'
+              pin: 'release o=Mirantis,l=openstack-rocky-nightly'
               priority: 1
         mirantis_extra:
           # yamllint disable-line rule:line-length

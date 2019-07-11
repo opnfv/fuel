@@ -85,10 +85,8 @@ parameters:
         volume_device_name: sdc
       pkgs:
         - keystone
-        - python-psycopg2
-        - python-mysqldb
-        - python-openstackclient
-        - python-tornado
+        - python3-memcache
+        - python3-openstackclient
     client:
       enabled: true
       resources:
@@ -210,8 +208,6 @@ parameters:
       global_physnet_mtu: ${_param:interface_mtu}
       backend:
         external_mtu: ${_param:interface_mtu}
-      pkgs:
-        - neutron-server
 {%- if '-bgpvpn-' in conf.MCP_DEPLOY_SCENARIO %}
       bgp_vpn:
         enabled: True

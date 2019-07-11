@@ -1,0 +1,114 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Michael Polenchuk <mpolenchuk@mirantis.com>
+Date: Thu, 11 Jul 2019 11:52:53 +0400
+Subject: [PATCH] Align packages with stein reqs
+
+diff --git a/neutron/map.jinja b/neutron/map.jinja
+index 17cd5b3..ed1831a 100644
+--- a/neutron/map.jinja
++++ b/neutron/map.jinja
+@@ -11,7 +11,7 @@
+ {%- if os_family == "Debian" %}
+ {%- set compute_pkgs_ovn = ['ovn-common', 'ovn-host'] %}
+ {%- if pillar.neutron.compute is defined and pillar.neutron.compute.metadata is defined %}
+-{%- do compute_pkgs_ovn.extend(['neutron-common', 'python-networking-ovn', 'haproxy']) %}
++{%- do compute_pkgs_ovn.extend(['neutron-common', 'python3-networking-ovn', 'haproxy']) %}
+ {%- endif %}
+ {%- set linuxbridge_enabled = pillar.neutron.compute is defined and pillar.neutron.compute.get('backend', {}).get('mechanism', {}).get('lb', {}).get('driver', {}) == "linuxbridge" %}
+ {%- set vpp_enabled = 'vpp' in pillar.neutron.get('compute', {}).get('backend', {}).get('mechanism', []) %}
+@@ -22,7 +22,7 @@
+ {%- set pkgs_cmp = ['vpp-agent'] %}
+ {%- set services_cmp = ['vpp-agent'] %}
+ {%- else %}
+-{%- set pkgs_cmp = ['neutron-openvswitch-agent', 'python-pycadf'] %}
++{%- set pkgs_cmp = ['neutron-openvswitch-agent'] %}
+ {%- set services_cmp = ['neutron-openvswitch-agent'] %}
+ {%- endif %}
+ {%- endif %}
+@@ -33,7 +33,7 @@
+     'Debian': {
+         'pkgs': pkgs_cmp,
+         'pkgs_ovn': compute_pkgs_ovn,
+-        'pkgs_bagpipe': ['python-networking-bagpipe'],
++        'pkgs_bagpipe': ['python3-networking-bagpipe'],
+         'services': services_cmp,
+         'services_ovn': ['ovn-host'],
+         'dpdk': false,
+@@ -138,9 +138,9 @@
+ 
+ {%- set sfc_enabled = pillar.neutron.get('server', {}).get('sfc', {}).get('enabled', False) %}
+ {%- set wsgi_enabled = pillar.neutron.get('server', {}).get('wsgi', {}).get('enabled', False) %}
+-{%- set server_pkgs_list = ['python-neutron-lbaas'] %}
++{%- set server_pkgs_list = [] %}
+ {%- do server_pkgs_list.append('uwsgi-plugin-python' if wsgi_enabled else 'neutron-server') %}
+-{%- do server_pkgs_list.append('python-networking-sfc') if sfc_enabled %}
++{%- do server_pkgs_list.append('python3-networking-sfc') if sfc_enabled %}
+ {%- set server_services_list = ['neutron-server'] %}
+ {%- do server_services_list.append('neutron-rpc-server') if wsgi_enabled %}
+ 
+@@ -152,11 +152,11 @@
+     'BaseDefaults': default_params,
+     'Debian': {
+         'pkgs': server_pkgs_list,
+-        'pkgs_ovn': ['python-networking-ovn', 'ovn-common', 'ovn-central'],
++        'pkgs_ovn': ['python3-networking-ovn', 'ovn-common', 'ovn-central'],
+         'pkgs_ml2': ['neutron-plugin-ml2'],
+-        'pkgs_l2gw': ['python-networking-l2gw'],
+-        'pkgs_bgpvpn': ['python-networking-bgpvpn'],
+-        'pkgs_bagpipe': ['python-networking-bagpipe'],
++        'pkgs_l2gw': ['python3-networking-l2gw'],
++        'pkgs_bgpvpn': ['python3-networking-bgpvpn'],
++        'pkgs_bagpipe': ['python3-networking-bagpipe'],
+         'services': server_services_list,
+         'services_ovn': ['openvswitch-switch', 'ovn-central'],
+         'notification': {},
+@@ -204,7 +204,7 @@
+ 
+ {% set client = salt['grains.filter_by']({
+     'Debian': {
+-        'pkgs': ['python-neutronclient'],
++        'pkgs': ['python3-neutronclient'],
+         'enabled': false
+     },
+     'RedHat': {
+diff --git a/neutron/opendaylight/client.sls b/neutron/opendaylight/client.sls
+index fb5829f..be9aff6 100644
+--- a/neutron/opendaylight/client.sls
++++ b/neutron/opendaylight/client.sls
+@@ -4,7 +4,7 @@
+ {%- from "neutron/map.jinja" import compute as neutron with context %}
+ {%- endif %}
+ 
+-python-networking-odl:
++python3-networking-odl:
+   pkg.installed
+ 
+ {%- if not grains.get('noservices', False) %}
+@@ -31,6 +31,6 @@ neutron_odl_ovs_hostconfig:
+   cmd.run:
+   - name: 'neutron-odl-ovs-hostconfig {{ ovs_hostconfig|join(' ') }}'
+   - require:
+-    - pkg: python-networking-odl
++    - pkg: python3-networking-odl
+ 
+ {%- endif %}
+diff --git a/neutron/server.sls b/neutron/server.sls
+index 99bbdef..692e0ce 100644
+--- a/neutron/server.sls
++++ b/neutron/server.sls
+@@ -115,7 +115,7 @@ ml2_plugin_link:
+ {%- endif %}
+ 
+ {%- if server.backend.get('opendaylight', False) %}
+-python-networking-odl:
++python3-networking-odl:
+   pkg.installed:
+   - require_in:
+     - pkg: neutron_server_packages
