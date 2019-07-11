@@ -9,9 +9,11 @@
 ##############################################################################
 
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
+SCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]}")/../../scripts
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/lib.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/xdf_data.sh"
+source "${SCRIPTS_DIR}/lib.sh"
+source "${SCRIPTS_DIR}/xdf_data.sh"
+source "${SCRIPTS_DIR}/globals.sh"
 
 IEC_REPO_URI='https://gerrit.akraino.org/r/iec'
 IEC_USER_L='ubuntu'
@@ -40,7 +42,10 @@ salt -C 'iec*' cmd.run runas="${IEC_USER}" "${IEC_SCRIPTS_PATH}/k8s_common.sh"
 IEC_MASTER_IP=$(salt --out txt -C 'iec* and *01*' pillar.get \
                 _param:single_address | cut -d ' ' -f2)
 salt -C 'iec* and *01*' cmd.run runas="${IEC_USER}" \
-  "${IEC_SCRIPTS_PATH}/k8s_master.sh ${IEC_MASTER_IP} ${POD_NETWORK_CIDR}"
+  stdin="$(sed -z 's/\n/\\n/g' "${SCRIPTS_DIR}/$(basename "${SSH_KEY}")")" \
+  "mkdir -p .ssh && touch .ssh/id_rsa && chmod 600 .ssh/id_rsa && \
+   cat > .ssh/id_rsa && \
+   ${IEC_SCRIPTS_PATH}/k8s_master.sh ${IEC_MASTER_IP} ${POD_NETWORK_CIDR}"
 
 KUBE_NODE_CNT=$(salt --out txt -C 'iec* and *01*' cmd.run runas="${IEC_USER}" \
                 'kubectl get nodes | grep -c -e "^iec"' | cut -d ' ' -f2)
