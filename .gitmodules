@@ -86,3 +86,7 @@
 	path = mcp/salt-formulas/salt-formula-glance
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/glance
 	branch = master
+[submodule "salt-formula-rabbitmq"]
+	path = mcp/salt-formulas/salt-formula-rabbitmq
+	url = https://gerrit.mcp.mirantis.com/salt-formulas/rabbitmq
+	branch = master
