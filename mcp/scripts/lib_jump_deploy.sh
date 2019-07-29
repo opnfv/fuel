@@ -154,7 +154,7 @@ function __mount_image {
   if [[ "${MCP_OS:-}" =~ ubuntu1804 ]]; then
     # Ubuntu Bionic (18.04) or newer defaults to using netplan.io, revert it
     sudo mkdir -p "${OPNFV_MNT_DIR}/run/systemd/resolve"
-    sudo cp -f --remove-destination /etc/resolv.conf \
+    echo "nameserver ${dns_public}" | sudo tee \
       "${OPNFV_MNT_DIR}/run/systemd/resolve/stub-resolv.conf"
     sudo chroot "${OPNFV_MNT_DIR}" systemctl stop \
       systemd-networkd.socket systemd-networkd \
@@ -172,8 +172,9 @@ function __mount_image {
     sudo sed -i -e 's/^\(SELINUX\)=.*$/\1=permissive/g' \
       "${OPNFV_MNT_DIR}/etc/selinux/config"
   fi
-  sudo cp -f --remove-destination \
-    /etc/resolv.conf "${OPNFV_MNT_DIR}/etc/resolv.conf"
+  sudo rm -f "${OPNFV_MNT_DIR}/etc/resolv.conf"
+  echo "nameserver ${dns_public}" | sudo tee \
+    "${OPNFV_MNT_DIR}/etc/resolv.conf"
   echo "GRUB_DISABLE_OS_PROBER=true" | \
     sudo tee -a "${OPNFV_MNT_DIR}/etc/default/grub"
   sudo sed -i -e 's/^\(GRUB_TIMEOUT\)=.*$/\1=1/g' -e 's/^GRUB_HIDDEN.*$//g' \
