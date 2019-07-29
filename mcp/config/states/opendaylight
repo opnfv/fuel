@@ -19,3 +19,7 @@ function odl() {
 
 wait_for 5.0 "salt -I 'opendaylight:server' state.sls opendaylight"
 wait_for 20 "salt --out yaml -C 'I@neutron:server and *01*' network.connect $(odl bind_ip) $(odl rest_port) | fgrep -q 'result: true'"
+
+# https://bugs.launchpad.net/networking-odl/+bug/1822559
+salt -I 'linux:network:bridge:openvswitch' pkg.install python3-networking-odl
+salt -I 'linux:network:bridge:openvswitch' file.patch /usr/lib/python3/dist-packages/networking_odl/cmd/set_ovs_hostconfigs.py /var/tmp/odl_hostconfig.patch || true
