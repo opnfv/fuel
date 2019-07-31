@@ -74,5 +74,5 @@ parameters:
             tenant_address: {{ nm.net_private | ipnet_hostaddr(pri) }}
             external_address: {{ nm.net_public | ipnet_hostaddr(pub) }}
             salt_master_host: ${_param:reclass_config_master}
-            linux_system_codename: xenial
+            linux_system_codename: bionic
 {%- endfor %}
