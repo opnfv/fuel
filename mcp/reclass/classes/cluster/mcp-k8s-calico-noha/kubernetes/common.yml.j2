@@ -8,15 +8,14 @@
 {%- import 'net_map.j2' as nm with context %}
 ---
 classes:
-  - system.linux.system.repo.mcp.apt_mirantis.docker
-  - system.linux.system.repo.mcp.apt_mirantis.update.docker
-  - system.linux.system.repo.mcp.apt_mirantis.kubernetes_extra
-  - system.linux.system.repo.mcp.apt_mirantis.update.kubernetes_extra
   - system.kubernetes.pool.single
   - system.salt.minion.cert.k8s_client_single
   - system.salt.minion.cert.etcd_client_single
+  - cluster.all-mcp-arch-common.backports
   - cluster.mcp-common-noha.openstack_compute_pdf
 parameters:
+  _param:
+    kubernetes_containerd_package: containerd
   kubernetes:
     common:
       hyperkube:
