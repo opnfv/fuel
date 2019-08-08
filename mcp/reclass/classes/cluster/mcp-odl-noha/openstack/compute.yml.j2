@@ -23,6 +23,10 @@ parameters:
     compute:
       vif_plugging_is_fatal: false
       vif_plugging_timeout: 60
+  neutron:
+    compute:
+      opendaylight:
+        ovsdb_server_iface: ptcp:6640:127.0.0.1
   linux:
     network:
       ovs_nowait: false

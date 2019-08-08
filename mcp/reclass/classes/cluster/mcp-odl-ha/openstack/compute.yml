@@ -15,3 +15,7 @@ parameters:
   neutron:
     gateway:
       agent_mode: ${_param:neutron_gateway_agent_mode}
+      backend:
+        ovsdb_connection: tcp:127.0.0.1:6640
+      opendaylight:
+        ovsdb_server_iface: ptcp:6640:127.0.0.1
