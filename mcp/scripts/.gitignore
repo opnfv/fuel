@@ -2,3 +2,4 @@ mcp.rsa*
 user-data.sh
 xdf_data.sh
 docker-compose/files/entrypoint_maas.sh
+docker-compose/files/hosts

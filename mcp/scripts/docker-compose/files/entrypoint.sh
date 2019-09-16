@@ -89,6 +89,11 @@ find -L /srv/salt /srv/salt/env/prd/_* -maxdepth 1 -type l -delete
 # Fix up any permissions after above file shuffling
 chown root:root -R /srv/salt
 
+# Docker-ce 19.x+ workaround for broken domainname setup
+# shellcheck source=/dev/null
+source /root/fuel/mcp/scripts/xdf_data.sh
+hostname -b "cfg01.${CLUSTER_DOMAIN}"
+
 service ssh start
 service salt-minion start
 
