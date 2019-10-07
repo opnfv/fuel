@@ -19,7 +19,7 @@ classes:
   - cluster.mcp-iec-noha.infra
 parameters:
   _param:
-    linux_system_codename: xenial
+    linux_system_codename: bionic
   linux:
     network:
       interface:
@@ -87,7 +87,7 @@ parameters:
               name: ${_param:akraino_iec_node0{{ i }}_hostname}
               provider: ${_param:infra_kvm_node0{{ i }}_hostname}.${_param:cluster_domain}
               size: akraino.iec
-              image: ${_param:salt_control_xenial_image}
+              image: ${_param:salt_control_bionic_image}
 {%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
               machine: virt
               cpu_mode: host-passthrough

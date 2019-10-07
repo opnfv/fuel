@@ -1,0 +1,44 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 24 Oct 2019 23:04:16 +0200
+Subject: [PATCH] Add Ubuntu Bionic support
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ redis/map.jinja | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/redis/map.jinja b/redis/map.jinja
+index 299d5a4..7cbceb4 100755
+--- a/redis/map.jinja
++++ b/redis/map.jinja
+@@ -37,6 +37,9 @@
+     'xenial': {
+         'version': '3.0',
+     },
++    'bionic': {
++        'version': '3.0',
++    },
+ }, grain='oscodename', merge=salt['pillar.get']('redis:server'))) %}
+
+ {% set cluster = salt['grains.filter_by']({
+@@ -60,4 +63,12 @@
+             'port': '26379'
+         }
+     },
++    'bionic': {
++        'pkgs': ['redis-sentinel'],
++        'service': 'redis-sentinel',
++        'sentinel': {
++            'address': '127.0.0.1',
++            'port': '26379'
++        }
++    },
+ }, grain='oscodename', merge=salt['pillar.get']('redis:cluster'))) %}

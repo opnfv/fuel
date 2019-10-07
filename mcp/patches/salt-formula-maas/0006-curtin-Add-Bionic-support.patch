@@ -1,0 +1,213 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Wed, 16 Oct 2019 15:02:39 +0200
+Subject: [PATCH] curtin: Add Bionic support
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ .../curtin_userdata_amd64_generic_bionic      | 80 +++++++++++++++++++
+ .../curtin_userdata_arm64_generic_bionic      | 65 +++++++++++++++
+ maas/region.sls                               | 24 ++++++
+ 3 files changed, 169 insertions(+)
+ create mode 100644 maas/files/curtin_userdata_amd64_generic_bionic
+ create mode 100644 maas/files/curtin_userdata_arm64_generic_bionic
+
+diff --git a/maas/files/curtin_userdata_amd64_generic_bionic b/maas/files/curtin_userdata_amd64_generic_bionic
+new file mode 100644
+index 0000000..0b6fd15
+--- /dev/null
++++ b/maas/files/curtin_userdata_amd64_generic_bionic
+@@ -0,0 +1,80 @@
++{%- from "maas/map.jinja" import cluster with context %}
++{%- raw %}
++#cloud-config
++debconf_selections:
++ maas: |
++  {{for line in str(curtin_preseed).splitlines()}}
++  {{line}}
++  {{endfor}}
++{{if third_party_drivers and driver}}
++early_commands:
++  {{py: key_string = ''.join(['\\x%x' % x for x in map(ord, driver['key_binary'])])}}
++  driver_00_get_key: /bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg
++  driver_01_add_key: ["apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
++  driver_02_add: ["add-apt-repository", "-y", "deb {{driver['repository']}} {{node.get_distro_series()}} main"]
++  driver_03_update_install: ["sh", "-c", "apt-get update --quiet && apt-get --assume-yes install {{driver['package']}}"]
++  driver_04_load: ["sh", "-c", "depmod && modprobe {{driver['module']}}"]
++{{endif}}
++late_commands:
++  maas: [wget, '--no-proxy', {{node_disable_pxe_url|escape.json}}, '--post-data', {{node_disable_pxe_data|escape.json}}, '-O', '/dev/null']
++{% endraw %}
++
++{%- if cluster.get('saltstack_repo_key', False) %}
++  {% set salt_repo_key = salt['hashutil.base64_b64encode'](cluster.saltstack_repo_key) %}
++  apt_00_set_gpg: ["curtin", "in-target", "--", "sh", "-c", "echo '{{salt_repo_key}}' | base64 -d | apt-key add -"]
++{%- endif %}
++{% if cluster.saltstack_repo_bionic.startswith('deb') %}
++  {%- set saltstack_repo = cluster.saltstack_repo_bionic -%}
++{%- else %}
++  {%- set saltstack_repo = 'deb [arch=amd64] ' + cluster.saltstack_repo_bionic -%}
++{%- endif %}
++
++  apt_01_set_repo: ["curtin", "in-target", "--", "sh", "-c", "echo '{{ saltstack_repo }}' >> /etc/apt/sources.list.d/mcp_saltstack.list"]
++  apt_03_update: ["curtin", "in-target", "--", "apt-get", "update"]
++{%- if salt['pillar.get']('maas:cluster:curtin_vars:amd64:bionic:extra_pkgs:enabled')|default(false) %}
++  {% for pkg in pillar.maas.cluster.curtin_vars.amd64.bionic.extra_pkgs.pkgs -%}
++  apt_04_install_pkgs_{{ loop.index }}: ["curtin", "in-target", "--", "apt-get", "-y", "install", "{{ pkg }}"]
++  {% endfor %}
++{%- endif %}
++  salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "ifupdown", "cloud-init", "dnsmasq"]
++  salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
++  salt_03_hostname_get: ["curtin", "in-target", "--", "sh", "-c", "echo 'id: {% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}' >> /etc/salt/minion.d/minion.conf"]
++  salt_04_master: ["curtin", "in-target", "--", "sh", "-c", "echo 'master: {{ salt_master_ip }}' >> /etc/salt/minion.d/minion.conf"]
++  salt_05_max_event_size: ["curtin", "in-target", "--", "sh", "-c", "echo 'max_event_size: 100000000' >> /etc/salt/minion.d/minion.conf"]
++  salt_06_acceptance_wait_time_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time_max: 60' >> /etc/salt/minion.d/minion.conf"]
++  salt_07_acceptance_wait_time: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time: 10' >> /etc/salt/minion.d/minion.conf"]
++  salt_08_random_reauth_delay: ["curtin", "in-target", "--", "sh", "-c", "echo 'random_reauth_delay: 270' >> /etc/salt/minion.d/minion.conf"]
++  salt_09_recon_default: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_default: 1000' >> /etc/salt/minion.d/minion.conf"]
++  salt_10_recon_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_max: 60000' >> /etc/salt/minion.d/minion.conf"]
++  salt_11_recon_randomize: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_randomize: True' >> /etc/salt/minion.d/minion.conf"]
++  salt_12_auth_timeout: ["curtin", "in-target", "--", "sh", "-c", "echo 'auth_timeout: 60' >> /etc/salt/minion.d/minion.conf"]
++
++  salt_20_bionic_nplan_stop: ["curtin", "in-target", "--", "systemctl", "stop", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_21_bionic_nplan_disable: ["curtin", "in-target", "--", "systemctl", "disable", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_22_bionic_nplan_mask: ["curtin", "in-target", "--", "systemctl", "mask", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_23_bionic_nplan_purge: ["curtin", "in-target", "--", "apt", "--assume-yes", "purge", "nplan", "netplan.io"]
++  salt_24_bionic_interfaces: ["curtin", "in-target", "--", "sh", "-c", "echo 'source /etc/network/interfaces.d/*' >> /etc/network/interfaces"]
++  salt_25_bionic_networking_unmask: ["curtin", "in-target", "--", "systemctl", "unmask", "networking.service"]
++  salt_26_bionic_networking_enable: ["curtin", "in-target", "--", "systemctl", "enable", "networking.service"]
++  salt_27_bionic_networking_start: ["curtin", "in-target", "--", "systemctl", "start", "networking.service"]
++
++{%- if salt['pillar.get']('maas:cluster:curtin_vars:amd64:bionic:kernel_package:enabled')|default(false)  %}
++kernel:
++  package: {{ pillar.maas.cluster.curtin_vars.amd64.bionic.kernel_package.value }}
++{%- endif %}
++
++{% raw %}
++{{if third_party_drivers and driver}}
++  driver_00_key_get: curtin in-target -- sh -c "/bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg"
++  driver_02_key_add: ["curtin", "in-target", "--", "apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
++  driver_03_add: ["curtin", "in-target", "--", "add-apt-repository", "-y", "deb {{driver['repository']}} {{node.get_distro_series()}} main"]
++  driver_04_update_install: ["curtin", "in-target", "--", "apt-get", "update", "--quiet"]
++  driver_05_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "{{driver['package']}}"]
++  driver_06_depmod: ["curtin", "in-target", "--", "depmod"]
++  driver_07_update_initramfs: ["curtin", "in-target", "--", "update-initramfs", "-u"]
++{{endif}}
++{% endraw %}
++
++{#
++# vim: ft=jinja
++#}
+diff --git a/maas/files/curtin_userdata_arm64_generic_bionic b/maas/files/curtin_userdata_arm64_generic_bionic
+new file mode 100644
+index 0000000..c7cb997
+--- /dev/null
++++ b/maas/files/curtin_userdata_arm64_generic_bionic
+@@ -0,0 +1,65 @@
++{%- from "maas/map.jinja" import cluster with context %}
++{% raw %}
++#cloud-config
++debconf_selections:
++ maas: |
++  {{for line in str(curtin_preseed).splitlines()}}
++  {{line}}
++  {{endfor}}
++{{if third_party_drivers and driver}}
++early_commands:
++  {{py: key_string = ''.join(['\\x%x' % x for x in map(ord, driver['key_binary'])])}}
++  driver_00_get_key: /bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg
++  driver_01_add_key: ["apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
++  driver_02_add: ["add-apt-repository", "-y", "deb {{driver['repository']}} {{node.get_distro_series()}} main"]
++  driver_03_update_install: ["sh", "-c", "apt-get update --quiet && apt-get --assume-yes install {{driver['package']}}"]
++  driver_04_load: ["sh", "-c", "depmod && modprobe {{driver['module']}}"]
++{{endif}}
++late_commands:
++  maas: [wget, '--no-proxy', {{node_disable_pxe_url|escape.json}}, '--post-data', {{node_disable_pxe_data|escape.json}}, '-O', '/dev/null']
++{% endraw %}
++{%- if cluster.get('saltstack_repo_key', False) %}
++  {% set salt_repo_key = salt['hashutil.base64_b64encode'](cluster.saltstack_repo_key) %}
++  apt_00_set_gpg: ["curtin", "in-target", "--", "sh", "-c", "echo '{{salt_repo_key}}' | base64 -d | apt-key add -"]
++{%- endif %}
++{% if cluster.saltstack_repo_bionic.startswith('deb') %}
++  {%- set saltstack_repo = cluster.saltstack_repo_bionic -%}
++{%- else %}
++  {%- set saltstack_repo = 'deb [arch=amd64] ' + cluster.saltstack_repo_bionic -%}
++{%- endif %}
++{#- NOTE: Re-use amd64 repos on arm64 since most packages are arch independent #}
++  apt_01_set_repo: ["curtin", "in-target", "--", "sh", "-c", "echo '{{ saltstack_repo }}' >> /etc/apt/sources.list.d/mcp_saltstack.list"]
++  apt_03_update: ["curtin", "in-target", "--", "apt-get", "update"]
++  salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "python-futures", "ifupdown", "cloud-init", "dnsmasq"]
++  salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
++  salt_03_hostname_get: ["curtin", "in-target", "--", "sh", "-c", "echo 'id: {% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}' >> /etc/salt/minion.d/minion.conf"]
++  salt_04_master: ["curtin", "in-target", "--", "sh", "-c", "echo 'master: {{ salt_master_ip }}' >> /etc/salt/minion.d/minion.conf"]
++  salt_05_max_event_size: ["curtin", "in-target", "--", "sh", "-c", "echo 'max_event_size: 100000000' >> /etc/salt/minion.d/minion.conf"]
++  salt_06_acceptance_wait_time_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time_max: 60' >> /etc/salt/minion.d/minion.conf"]
++  salt_07_acceptance_wait_time: ["curtin", "in-target", "--", "sh", "-c", "echo 'acceptance_wait_time: 10' >> /etc/salt/minion.d/minion.conf"]
++  salt_08_random_reauth_delay: ["curtin", "in-target", "--", "sh", "-c", "echo 'random_reauth_delay: 270' >> /etc/salt/minion.d/minion.conf"]
++  salt_09_recon_default: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_default: 1000' >> /etc/salt/minion.d/minion.conf"]
++  salt_10_recon_max: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_max: 60000' >> /etc/salt/minion.d/minion.conf"]
++  salt_11_recon_randomize: ["curtin", "in-target", "--", "sh", "-c", "echo 'recon_randomize: True' >> /etc/salt/minion.d/minion.conf"]
++  salt_12_auth_timeout: ["curtin", "in-target", "--", "sh", "-c", "echo 'auth_timeout: 60' >> /etc/salt/minion.d/minion.conf"]
++
++  salt_20_bionic_nplan_stop: ["curtin", "in-target", "--", "systemctl", "stop", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_21_bionic_nplan_disable: ["curtin", "in-target", "--", "systemctl", "disable", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_22_bionic_nplan_mask: ["curtin", "in-target", "--", "systemctl", "mask", "systemd-networkd.socket", "systemd-networkd", "networkd-dispatcher", "systemd-networkd-wait-online", "systemd-resolved"]
++  salt_23_bionic_nplan_purge: ["curtin", "in-target", "--", "apt", "--assume-yes", "purge", "nplan", "netplan.io"]
++  salt_24_bionic_interfaces: ["curtin", "in-target", "--", "sh", "-c", "echo 'source /etc/network/interfaces.d/*' >> /etc/network/interfaces"]
++  salt_25_bionic_networking_unmask: ["curtin", "in-target", "--", "systemctl", "unmask", "networking.service"]
++  salt_26_bionic_networking_enable: ["curtin", "in-target", "--", "systemctl", "enable", "networking.service"]
++  salt_27_bionic_networking_start: ["curtin", "in-target", "--", "systemctl", "start", "networking.service"]
++
++{% raw %}
++{{if third_party_drivers and driver}}
++  driver_00_key_get: curtin in-target -- sh -c "/bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg"
++  driver_02_key_add: ["curtin", "in-target", "--", "apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
++  driver_03_add: ["curtin", "in-target", "--", "add-apt-repository", "-y", "deb {{driver['repository']}} {{node.get_distro_series()}} main"]
++  driver_04_update_install: ["curtin", "in-target", "--", "apt-get", "update", "--quiet"]
++  driver_05_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "{{driver['package']}}"]
++  driver_06_depmod: ["curtin", "in-target", "--", "depmod"]
++  driver_07_update_initramfs: ["curtin", "in-target", "--", "update-initramfs", "-u"]
++{{endif}}
++{% endraw %}
+diff --git a/maas/region.sls b/maas/region.sls
+index 52fb952..ca876ee 100644
+--- a/maas/region.sls
++++ b/maas/region.sls
+@@ -138,6 +138,30 @@ maas_apache_headers:
+   - require:
+     - pkg: maas_region_packages
+
++/etc/maas/preseeds/curtin_userdata_amd64_generic_bionic:
++  file.managed:
++  - source: salt://maas/files/curtin_userdata_amd64_generic_bionic
++  - template: jinja
++  - user: root
++  - group: root
++  - mode: 644
++  - context:
++      salt_master_ip: {{ region.salt_master_ip }}
++  - require:
++    - pkg: maas_region_packages
++
++/etc/maas/preseeds/curtin_userdata_arm64_generic_bionic:
++  file.managed:
++  - source: salt://maas/files/curtin_userdata_arm64_generic_bionic
++  - template: jinja
++  - user: root
++  - group: root
++  - mode: 644
++  - context:
++      salt_master_ip: {{ region.salt_master_ip }}
++  - require:
++    - pkg: maas_region_packages
++
+ Configure /root/.pgpass for MAAS:
+   file.managed:
+   - name: /root/.pgpass

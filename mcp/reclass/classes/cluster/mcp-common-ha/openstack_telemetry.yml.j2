@@ -56,6 +56,7 @@ parameters:
     cluster:
       enabled: true
       mode: sentinel
+      password: ${_param:opnfv_main_password}
       role: ${_param:redis_cluster_role}
       quorum: 2
       master:
@@ -74,8 +75,7 @@ parameters:
         - python-memcache
   apache:
     server:
-      bind:
-        listen_default_ports: false
+      mod_wsgi: libapache2-mod-wsgi-py3
       ~modules:
         - rewrite
 {%- if conf.MCP_VCP %} {#- wsgi module will be enabled by a different class inherited later #}

@@ -84,11 +84,11 @@ parameters:
 {%- if 'aarch64' in nm.cluster.arch %}
       repo:
         armband_3:  # Should be in sync with the repo config generated via curtin/MaaS
-          source: "deb http://linux.enea.com/mcp-repos/${_param:armband_repo_version}/${_param:linux_system_codename} ${_param:armband_repo_version}-armband main"
+          source: "deb http://linux.enea.com/mcp-repos/${_param:armband_repo_version}/xenial ${_param:armband_repo_version}-armband main"
           key: ${_param:armband_key}
           pin:
             - pin: 'release a=${_param:armband_repo_version}-armband'
-              priority: 1201
+              priority: 15
               package: '*'
 {%- endif %}
     network:

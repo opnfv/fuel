@@ -12,9 +12,41 @@ classes:
 parameters:
   _param:
     backports_version: rocky
+    fakeinitscripts_ppa_key: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      xsFNBFwKq9ABEADqWu9anJFs3RJ87i53tU8lBC8JGa55YmRlN7LgvkPYMtXj3xOR
+      tBn8HJ3B0b2fKx2htUs+oWtFFCkNUmptnNz+tMVdwXt1lXSr2MEzO6PgBBAvak0j
+      GMLSsI4p60YqoPARMjPXvZ+VNcGZ6RSOKlNnEqSb+M76iaVaqEWBipDR1g+llCd9
+      lgUVQ8iKolw+5iCnPnjmm0GdE9iw7Az0aUIv3yXNaEZwnGb9egdoioY4OvkY9HqR
+      KkgsrTVBWiTOsoDctrPkLNsB1BZLA/Qkgv4Sih2Bc7atgid6SvvuGClex+9MdBPQ
+      r0nT03O0uiXQ4Zk/ULlXaE2ci9dhMD5SNspgZnEULcubqL/Xd2iq6DlW22iXmj2X
+      PSoF6YxrtxlocaC2ChKFGITR7yiudxDYSCyBzXBMP7zfLVwZC3IX309HaxJRPCk5
+      PEatmq0++z3lWfNXEjQ48Rt0mYTC5ktcJQGpSSp30hjrIfz5Jxa/FACQCJBGbr0/
+      jO6cB6TJpHDnwdsEvCLJmeI6+OYkEzExarL8Wg8DdQUo5uppS4zANAgMsUbVqFz5
+      7WDlLMKPRAheEdZJIwCHXZrB3TibZTNUuafmQD+4a50cfKgNHlb+ks/5gbkxRdNj
+      DdZYI6gbh7PZcvIKOvakrEer8RIpqgSXyWPxIviyCGpp/+webUyapFwstQARAQAB
+      zRxMYXVuY2hwYWQgUFBBIGZvciBPUE5GViBGdWVswsF4BBMBAgAiBQJcCqvQAhsD
+      BgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCVWdwe/i1a+JgbEADZPwsdXStw
+      kqS+bg+bL4sCK55LnYAPWWnqXLuqpEEXusuGYEyahu69SOidL3/AXY1iM9FnbBE0
+      qyycLQVOv/lt7Bs1WVg7M3gNjTsnCH7RbZsGVWDnOuZ1G0KP2o72dmrR9GYFArHA
+      MMc3YVoKAWhRBWHUKdSp/D68i/cfJ4V1PNhDpchOz4ytPjo2xyHyBW+wxLxNiC32
+      3uZeT7EpO8UbhuFDd3+PLaNrI1p2mkYxdmTpVBLIdKdAMq1QYi0B1nLvJ7Cp2yck
+      2HKrI6pb74l7dkQOxx+x/inAMbZKX/AvKSjzyJ+Fxc4TT28m79QLuHtORiaPWCep
+      HePcl/0Qu2n85qOtWbWFWCJwlmvfTkHw2u7PEjutTgX9zOLdEFliu3v9nhvec7Mk
+      AzwpilBD6eAHav8Yhx6CKNR5GReK3viJ8+lso/D/56ap7el+W+M6K59imJ/r8WVx
+      79qPXTAB29Co8hC5ky2qqeHMHw39VqC/JpCYPjH7qZNyWWhXBwHcobktuCc+tXdq
+      t1qlTz0aU/DLGUW8Buk9R6ZZTvSUibT8tRqDYtVhyJ7u/2qCdqhFoculWr6e6DQF
+      KP41NGKN4LtqQh7HmFCswvBnlu7BpkVlBqlHEMpqRUbJd7fg0oGkEf6P8hhWwdd2
+      0keWK/lCMRHDEN6+/1ppP7M90/JyUPXfFA==
+      =stQK
+      -----END PGP PUBLIC KEY BLOCK-----
   linux:
     system:
       repo:
+        opnfv_fakeinitscripts:
+          source: "deb http://ppa.launchpad.net/opnfv-fuel/fakeinitscripts/ubuntu ${_param:linux_system_codename} main"
+          key: ${_param:fakeinitscripts_ppa_key}
         mirantis_openstack:
           # yamllint disable-line rule:line-length
           source: "deb ${_param:linux_system_repo_url}/openstack-${_param:backports_version}/xenial xenial main"

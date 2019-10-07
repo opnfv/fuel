@@ -16,11 +16,11 @@ classes:
   - cluster.all-mcp-arch-common.opnfv.pod_config
 parameters:
   _param:
-    linux_system_codename: xenial
+    linux_system_codename: bionic
     maas_admin_username: opnfv
     dns_server01: '{{ nm.dns_public[0] }}'
     single_address: ${_param:infra_maas_node01_deploy_address}
-    hwe_kernel: 'hwe-16.04'
+    hwe_kernel: 'ga-18.04'
     opnfv_maas_timeout_comissioning: {{ nm.maas_timeout_comissioning }}
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
@@ -43,7 +43,7 @@ parameters:
           url: http://images.maas.io/ephemeral-v3/daily
           keyring_file: /usr/share/keyrings/ubuntu-cloudimage-keyring.gpg
       boot_sources_selections:
-        xenial:
+        bionic:
           url: "http://images.maas.io/ephemeral-v3/daily"
           os: "ubuntu"
           release: "${_param:linux_system_codename}"
@@ -53,8 +53,7 @@ parameters:
 {%- endfor %}
           subarches:
             - "generic"
-            - "ga-16.04"
-            - "hwe-16.04"
+            - "ga-18.04"
           labels: '"*"'
       fabrics:
         pxe_admin:
@@ -85,7 +84,7 @@ parameters:
         armband:
           name: armband
           enabled: '1'
-          url: 'http://linux.enea.com/mcp-repos/${_param:armband_repo_version}/${_param:linux_system_codename}'
+          url: 'http://linux.enea.com/mcp-repos/${_param:armband_repo_version}/xenial'
           distributions: '${_param:armband_repo_version}-armband'
           components: 'main'
           arches: 'arm64'
@@ -98,8 +97,8 @@ parameters:
         active_discovery_interval: 600
         ntp_external_only: true
         upstream_dns: ${_param:dns_server01}
-        commissioning_distro_series: 'xenial'
-        default_distro_series: 'xenial'
+        commissioning_distro_series: 'bionic'
+        default_distro_series: 'bionic'
         default_osystem: 'ubuntu'
         default_storage_layout: 'lvm'
         enable_http_proxy: true
@@ -109,7 +108,7 @@ parameters:
         network_discovery: 'enabled'
         default_min_hwe_kernel: ${_param:hwe_kernel}
     cluster:
-      saltstack_repo_xenial: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/ xenial main"
+      saltstack_repo_bionic: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/ bionic main"
       region:
         host: ${_param:single_address}
         port: 5240

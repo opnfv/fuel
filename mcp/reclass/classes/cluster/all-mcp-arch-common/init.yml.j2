@@ -14,13 +14,13 @@ classes:
 parameters:
   _param:
     openstack_version: stein
-    armband_repo_version: ${_param:openstack_version}
+    armband_repo_version: rocky
     mcp_version: nightly
 
     banner_company_name: OPNFV
 
     salt_control_trusty_image: ''  # Dummy value, to keep reclass 1.5.2 happy
-    salt_control_xenial_image: salt://salt/files/control/images/base_image_opnfv_fuel_vcp.img
+    salt_control_bionic_image: salt://salt/files/control/images/base_image_opnfv_fuel_vcp.img
 
     # VCP VMs spawned on KVM Hosts net ifaces (max 3)
 {%- if conf.MCP_JUMP_ARCH == 'aarch64' %}
