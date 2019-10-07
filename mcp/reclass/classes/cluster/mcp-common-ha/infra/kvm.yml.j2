@@ -28,7 +28,7 @@ classes:
   - cluster.all-mcp-arch-common.opnfv.lab_proxy_pdf
 parameters:
   _param:
-    linux_system_codename: xenial
+    linux_system_codename: bionic
     cluster_vip_address: ${_param:infra_kvm_address}
     cluster_node01_address: ${_param:infra_kvm_node01_address}
     cluster_node02_address: ${_param:infra_kvm_node02_address}
@@ -53,6 +53,7 @@ parameters:
       unix_sock_group: libvirt
   salt:
     control:
+      virt_service: libvirtd
       size:  # RAM 4096,8192,16384,32768,65536
         # Default production sizing
         openstack.control:
@@ -98,8 +99,8 @@ parameters:
       cluster:
         internal:
           node:
-            mdb01: &salt_control_xenial_image_common_attr
-              image: ${_param:salt_control_xenial_image}
+            mdb01: &salt_control_bionic_image_common_attr
+              image: ${_param:salt_control_bionic_image}
 {%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
               seed: qemu-nbd
               ~cloud_init: ~
@@ -111,31 +112,31 @@ parameters:
                 path: /usr/share/AAVMF/AAVMF_CODE.fd
 {%- endif %}
             mdb02:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             mdb03:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             ctl01:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             ctl02:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             ctl03:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             dbs01:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             dbs02:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             dbs03:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             msg01:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             msg02:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             msg03:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             prx01:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
             prx02:
-              <<: *salt_control_xenial_image_common_attr
+              <<: *salt_control_bionic_image_common_attr
               provider: kvm03.${_param:cluster_domain}
   virt:
     nic:

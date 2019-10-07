@@ -10,8 +10,3 @@
 classes:
   - cluster.mcp-odl-ha.infra
   - cluster.all-mcp-arch-common.infra.maas
-{%- if 'aarch64' not in nm.cluster.arch %}
-parameters:
-  _param:
-    hwe_kernel: 'ga-16.04'
-{%- endif %}

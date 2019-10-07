@@ -66,6 +66,12 @@ salt -I 'barbican:server:role:primary' state.sls barbican
 salt -I 'barbican:server:role:secondary' state.sls barbican
 salt -I 'barbican:client' state.sls barbican
 
+# remove config files coming from packages
+for service in gnocchi panko; do
+  salt -I "${service}:server" pkg.install ${service}-api
+  salt -I "${service}:server" file.remove "/etc/apache2/sites-enabled/${service}-api.conf"
+done
+
 salt -I 'redis:cluster:role:master' state.sls redis
 salt -I 'redis:server' state.sls redis
 salt -I 'gnocchi:server:role:primary' state.sls gnocchi
@@ -77,7 +83,7 @@ salt -I 'aodh:server:role:secondary' state.sls aodh
 salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
-salt -I 'horizon:server' state.sls apache,horizon
+wait_for 3.0 "salt -I 'horizon:server' state.sls apache,horizon"
 salt -I 'nginx:server' state.sls nginx
 
 cluster_public_host=$(salt -C 'I@nginx:server and *01*' --out=yaml \

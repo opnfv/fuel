@@ -8,7 +8,6 @@
 {%- import 'net_map.j2' as nm with context %}
 ---
 classes:
-  - system.linux.system.repo.saltstack.xenial
   - system.reclass.storage.system.physical_control_cluster
   - system.reclass.storage.system.openstack_control_cluster
   - system.reclass.storage.system.openstack_proxy_cluster
@@ -36,7 +35,7 @@ parameters:
         infra_kvm_node01:
           params:
             keepalived_vip_priority: 100
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_infra_kvm_node01_pxe_admin_address}
         infra_kvm_node02:
 {%- if not conf.MCP_VCP %}
@@ -45,16 +44,16 @@ parameters:
 {%- endif %}
           params:
             keepalived_vip_priority: 101
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_infra_kvm_node02_pxe_admin_address}
         infra_kvm_node03:
           params:
             keepalived_vip_priority: 102
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_infra_kvm_node03_pxe_admin_address}
         openstack_telemetry_node01:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             # create resources only from 1 controller
             # to prevent race conditions
             ceilometer_create_gnocchi_resources: true
@@ -62,33 +61,33 @@ parameters:
             pxe_admin_address: ${_param:opnfv_openstack_telemetry_node01_pxe_admin_address}
         openstack_telemetry_node02:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             redis_cluster_role: 'slave'
             pxe_admin_address: ${_param:opnfv_openstack_telemetry_node02_pxe_admin_address}
         openstack_telemetry_node03:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             redis_cluster_role: 'slave'
             pxe_admin_address: ${_param:opnfv_openstack_telemetry_node03_pxe_admin_address}
         openstack_message_queue_node01:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_message_queue_node01_pxe_admin_address}
         openstack_message_queue_node02:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_message_queue_node02_pxe_admin_address}
         openstack_message_queue_node03:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_message_queue_node03_pxe_admin_address}
         openstack_proxy_node01:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_proxy_node01_pxe_admin_address}
         openstack_proxy_node02:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_proxy_node02_pxe_admin_address}
         # stacklight_log_node01:
         #   classes:
@@ -101,31 +100,31 @@ parameters:
           classes:
             - cluster.mcp-common-ha.openstack_control_init
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             # NOTE: When VCP is present, external_address is not used
             external_address: ${_param:openstack_proxy_node01_address}
             pxe_admin_address: ${_param:opnfv_openstack_control_node01_pxe_admin_address}
         openstack_control_node02:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             external_address: 0.0.0.0
             pxe_admin_address: ${_param:opnfv_openstack_control_node02_pxe_admin_address}
         openstack_control_node03:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             external_address: ${_param:openstack_proxy_node02_address}
             pxe_admin_address: ${_param:opnfv_openstack_control_node03_pxe_admin_address}
         openstack_database_node01:
           classes:
             - cluster.mcp-common-ha.openstack_database_init
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_database_node01_pxe_admin_address}
         openstack_database_node02:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_database_node02_pxe_admin_address}
         openstack_database_node03:
           params:
-            linux_system_codename: xenial
+            linux_system_codename: bionic
             pxe_admin_address: ${_param:opnfv_openstack_database_node03_pxe_admin_address}

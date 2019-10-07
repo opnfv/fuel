@@ -29,7 +29,7 @@ parameters:
             odl0{{ i }}:
               name: ${_param:opendaylight_server_node0{{ i }}_hostname}
               provider: ${_param:infra_kvm_node0{{ i }}_hostname}.${_param:cluster_domain}
-              image: ${_param:salt_control_xenial_image}
+              image: ${_param:salt_control_bionic_image}
               size: opendaylight.server
     {%- if conf.nodes[nm.ctl01.idx].node.arch == 'aarch64' %}
               machine: virt

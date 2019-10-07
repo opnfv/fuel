@@ -48,6 +48,9 @@ cd /srv/salt/env/prd/maas/files && ln -sf \
 salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' cp.get_file \
   "salt://maas/files/$(basename "${APT_CONF_D_CURTIN}")" "${APT_CONF_D_CURTIN}"
 
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.sls linux.system.repo
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' pkg.install force_yes=true python-jinja2
+salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' service.restart salt-minion
 wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply salt"
 wait_for 10.0 "salt -C 'E@^(?!cfg01|mas01|kvm|cmp00).*' state.apply linux,ntp"
 

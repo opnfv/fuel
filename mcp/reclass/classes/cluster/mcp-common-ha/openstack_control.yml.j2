@@ -52,7 +52,7 @@ classes:
 parameters:
   _param:
 {%- if not conf.MCP_VCP %}
-    linux_system_codename: xenial  # sync from kvm
+    linux_system_codename: bionic  # sync from kvm
     # For NOVCP, we switch keepalived VIPs, to keep cluster_vip_address in ctl
     single_nic: br-ctl  # for keepalive_vip_interface interpolation
     control_nic: ~      # Dummy value to keep reclass 1.5.2 happy
@@ -73,14 +73,26 @@ parameters:
     barbican_integration_enabled: 'false'
     fernet_rotation_driver: 'shared_filesystem'
     credential_rotation_driver: 'shared_filesystem'
+  common_conn_recycle_time: &db_conn_recycle_time
+    database:
+      connection_recycle_time: ${_param:db_connection_recycle_time}
   nova:
-    controller: &db_conn_recycle_time
-      database:
-        connection_recycle_time: ${_param:db_connection_recycle_time}
+    controller:
+      <<: *db_conn_recycle_time
       barbican:
         enabled: ${_param:barbican_integration_enabled}
+      pkgs:
+        - nova-api
+        - nova-conductor
+        - nova-consoleauth
+        - nova-scheduler
+        - nova-novncproxy
+        - python3-novaclient
   cinder:
     controller:
+      pkgs:
+        - cinder-api
+        - cinder-scheduler
       <<: *db_conn_recycle_time
   neutron:
     server:
@@ -91,17 +103,27 @@ parameters:
       global_physnet_mtu: ${_param:interface_mtu}
       backend:
         external_mtu: ${_param:interface_mtu}
+      pkgs:
+        - neutron-server
   keystone:
     server:
       <<: *db_conn_recycle_time
       cacert: /etc/ssl/certs/mcp_os_cacert
       openrc_extra:
         volume_device_name: sdc
+      pkgs:
+        - keystone
+        - python3-memcache
+        - python3-openstackclient
   glance:
     server:
       <<: *db_conn_recycle_time
       identity:
         barbican_endpoint: ${barbican:server:host_href}
+      pkgs:
+        - glance
+      services:
+        - glance-api
 {%- if conf.MCP_VCP %}
   heat:
     server:
@@ -118,6 +140,9 @@ parameters:
         host: ${_param:openstack_proxy_control_address}
         port: 8003
         protocol: http
+  apache:
+    server:
+      mod_wsgi: libapache2-mod-wsgi-py3
 {%- else %}
   libvirt:
     server:
@@ -135,6 +160,7 @@ parameters:
     server:
       bind:
         listen_default_ports: false
+      mod_wsgi: libapache2-mod-wsgi-py3
   # sync from common-ha kvm role
   glusterfs:
     server:
