@@ -19,3 +19,16 @@ parameters:
         ovsdb_connection: tcp:127.0.0.1:6640
       opendaylight:
         ovsdb_server_iface: ptcp:6640:127.0.0.1
+  linux:
+    system:
+      file:
+        /var/tmp/odl_hostconfig.patch:
+          contents: |
+            420c420
+            <                 if datapath_types.find(datapath_type) >= 0)
+            ---
+            >                 if datapath_type in datapath_types)
+            460c460
+            <         return subprocess.check_output(command_line).strip()  # nosec
+            ---
+            >         return subprocess.check_output(command_line).strip().decode()  # nosec
