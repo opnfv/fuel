@@ -36,6 +36,26 @@ parameters:
             vpp_interface: ${_param:dpdk0_vpp}
   linux:
     system:
+      file:
+        /var/tmp/vpp.patch:
+          contents: |
+            --- /usr/share/vpp/api/core/interface.api.json
+            +++ /usr/share/vpp/api/core/interface.api.json
+            @@ -392,12 +392,12 @@
+                             "i_sid"
+                         ],
+                         [
+            -                "string",
+            +                "u8",
+                             "interface_name",
+                             64
+                         ],
+                         [
+            -                "string",
+            +                "u8",
+                             "tag",
+                             64
+                         ],
       kernel:
         isolcpu: 1  # NOTE: Hardcoded for now
         boot_options:
