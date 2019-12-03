@@ -60,3 +60,7 @@ salt -I 'ceilometer:server' state.sls ceilometer
 salt -I 'ceilometer:agent' state.sls ceilometer
 
 salt -I 'horizon:server' state.sls apache,horizon
+
+# FIXME: Temporary workaround for py3 compat
+salt -C 'cmp*' file.patch /usr/share/vpp/api/core/interface.api.json /var/tmp/vpp.patch || true
+salt -C 'cmp*' service.restart vpp-agent
