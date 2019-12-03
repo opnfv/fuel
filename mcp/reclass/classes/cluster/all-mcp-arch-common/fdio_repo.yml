@@ -1,5 +1,5 @@
 ##############################################################################
-# Copyright (c) 2018 Mirantis Inc., Enea AB and others.
+# Copyright (c) 2019 Mirantis Inc., Enea AB and others.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -8,21 +8,82 @@
 ---
 parameters:
   _param:
-    vpp_version: '18.07-release'
+    vpp_version: '19.08.1-*'
   linux:
     system:
       repo:
         fdio-ubuntu:
-          # yamllint disable-line rule:line-length
-          source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu.${_param:linux_system_codename}.main/ ./"
+          source: "deb https://packagecloud.io/fdio/1908/ubuntu/ ${_param:linux_system_codename} main"
+          key: |
+            -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+            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
+            Stl5YLE/10c=
+            =/RWK
+            -----END PGP PUBLIC KEY BLOCK-----
           pin:
             - pin: 'version ${_param:vpp_version}'
               priority: 1200
               package: 'vpp*'
-        # NOTE(armband): For now we define all repos on all archs, let APT figure it out
-        fdio-ubuntu-arm:
-          # yamllint disable-line rule:line-length
-          source: "deb [trusted=yes] http://nexus.fd.io/content/repositories/fd.io.ubuntu-arm.${_param:linux_system_codename}.main/ ./"
         networking-vpp:
           source: "deb http://ppa.launchpad.net/opnfv-fuel/networking-vpp/ubuntu ${_param:linux_system_codename} main"
           key: |
