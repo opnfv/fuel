@@ -10,3 +10,6 @@
 CI_DEBUG=${CI_DEBUG:-0}; [[ "${CI_DEBUG}" =~ (false|0) ]] || set -x
 
 salt -I 'neutron:gateway' state.sls neutron
+# FIXME: Temporary workaround for py3 compat
+salt -C 'gtw*' file.patch /usr/share/vpp/api/core/interface.api.json /var/tmp/vpp.patch || true
+salt -C 'gtw*' service.restart vpp-agent
