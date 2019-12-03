@@ -187,7 +187,7 @@ index 9e6cb36..17cd5b3 100644
  {%- do server_services_list.append('neutron-rpc-server') if wsgi_enabled %}
  
 +{%- if 'vpp' in pillar.neutron.get('server', {}).get('backend', {}).get('mechanism', []) %}
-+{%- do server_pkgs_list.extend(['python-networking-vpp']) %}
++{%- do server_pkgs_list.extend(['python3-networking-vpp']) %}
 +{%- endif %}
 +
  {% set server = salt['grains.filter_by']({

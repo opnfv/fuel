@@ -91,7 +91,7 @@ diff --git a/linux/network/dpdk.sls b/linux/network/dpdk.sls
 index 786f7c8..09453c6 100644
 --- a/linux/network/dpdk.sls
 +++ b/linux/network/dpdk.sls
-@@ -32,6 +32,44 @@ linux_network_dpdk_service:
+@@ -32,6 +32,45 @@ linux_network_dpdk_service:
    - watch:
      - file: /etc/dpdk/interfaces
 
@@ -101,7 +101,8 @@ index 786f7c8..09453c6 100644
 +  pkg.installed:
 +  - pkgs:
 +    - vpp
-+    - vpp-plugins
++    - vpp-plugin-core
++    - vpp-plugin-dpdk
 +    - bridge-utils
 +
 +/etc/vpp/commands.txt:
