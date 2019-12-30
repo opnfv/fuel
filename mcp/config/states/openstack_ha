@@ -86,6 +86,13 @@ salt -I 'ceilometer:agent' state.sls ceilometer
 wait_for 3.0 "salt -I 'horizon:server' state.sls apache,horizon"
 salt -I 'nginx:server' state.sls nginx
 
+# Workaround Horizon missing CSS/JS, see FUEL-324
+if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashboard | grep -qE ':.*mcp'; then
+  salt -I 'horizon:server' file.symlink \
+    /var/lib/openstack-dashboard/static \
+    /usr/share/openstack-dashboard/static
+fi
+
 cluster_public_host=$(salt -C 'I@nginx:server and *01*' --out=yaml \
   pillar.get _param:cluster_public_host | awk '{print $2; exit}')
 dashboard_host=$(salt -C 'I@nginx:server and *01*' --out=yaml cp.push \

@@ -56,6 +56,8 @@ classes:
   - system.apache.server.site.barbican
   - system.apache.server.single
   - system.horizon.server.single
+  - system.nginx.server.single
+  - system.nginx.server.proxy.openstack_web
   - service.haproxy.proxy.single
 {%- if '-sfc-' in conf.MCP_DEPLOY_SCENARIO %}
   - system.keystone.client.service.tacker
@@ -238,3 +240,8 @@ parameters:
     server:
       env_variables:
         hostname: localhost
+  nginx:
+    server:
+      site:
+        nginx_ssl_redirect_openstack_web:
+          enabled: false

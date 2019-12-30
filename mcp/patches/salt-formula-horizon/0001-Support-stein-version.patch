@@ -10,6 +10,13 @@ From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 Date: Tue, 9 Jul 2019 14:54:50 +0400
 Subject: [PATCH] Support stein version
 
+---
+ horizon/files/local_settings/stein_settings.py | 1 +
+ horizon/files/policy/stein                     | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 120000 horizon/files/local_settings/stein_settings.py
+ create mode 120000 horizon/files/policy/stein
+
 diff --git a/horizon/files/local_settings/stein_settings.py b/horizon/files/local_settings/stein_settings.py
 new file mode 120000
 index 0000000..183e9a8
