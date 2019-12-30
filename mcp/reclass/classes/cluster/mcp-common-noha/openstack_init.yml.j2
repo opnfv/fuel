@@ -54,6 +54,12 @@ parameters:
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
     horizon_identity_version: 3
+    horizon_public_protocol: http
+    horizon_public_port: 80
+    apache_mods_status_enabled: false
+    nginx_server_site_nginx_proxy_openstack_web_enabled: true
+    nginx_proxy_ssl:
+      enabled: false
 
     barbican_version: ${_param:openstack_version}
     barbican_service_host: ${_param:cluster_local_address}
