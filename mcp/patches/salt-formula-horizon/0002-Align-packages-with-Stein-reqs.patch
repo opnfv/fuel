@@ -1,0 +1,30 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Mon, 30 Dec 2019 16:15:04 +0100
+Subject: [PATCH] Align packages with Stein reqs
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ horizon/map.jinja | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/horizon/map.jinja b/horizon/map.jinja
+index 3779d69..0cebe0c 100644
+--- a/horizon/map.jinja
++++ b/horizon/map.jinja
+@@ -6,7 +6,7 @@
+
+ {%- if not salt['pillar.get']('horizon:server:cache:backend') %}
+   {%- if salt['pillar.get']('horizon:server:version') not in ['mitaka','newton'] %}
+-    {%- set cache_pkgs = ['python-pylibmc'] %}
++    {%- set cache_pkgs = ['python3-pylibmc'] %}
+     {%- set default_cache_backend = 'django.core.cache.backends.memcached.PyLibMCCache' %}
+   {%- else %}
+     {% if grains['os_family'] == 'RedHat' %}
