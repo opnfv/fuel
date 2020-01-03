@@ -29,7 +29,7 @@ parameters:
       tags:
         aarch64_hugepages_1g:
           comment: 'Enable 1G pagesizes on aarch64'
-          definition: '//capability[@id="asimd"]'
+          definition: '//capability[@id="asimd"]|//capability[@id="cp15_barrier"]'
           kernel_opts: 'default_hugepagesz=1G hugepagesz=1G'
 {%- endif %}
       timeout:
