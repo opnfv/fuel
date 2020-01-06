@@ -84,6 +84,8 @@ parameters:
       report_interval: 120
   nova:
     compute:
+      libvirt_service: libvirtd
+      libvirt_bin: /etc/default/libvirtd
       disk_cachemodes: file=directsync,block=none
       preallocate_images: space
       heal_instance_info_cache_interval: 300
