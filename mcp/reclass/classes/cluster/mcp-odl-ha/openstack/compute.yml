@@ -12,10 +12,6 @@ classes:
   - cluster.mcp-odl-ha.openstack.compute_pdf
   - cluster.mcp-odl-ha.infra
 parameters:
-  nova:
-    compute:
-      libvirt_service: libvirtd
-      libvirt_bin: /etc/default/libvirtd
   neutron:
     gateway:
       agent_mode: ${_param:neutron_gateway_agent_mode}

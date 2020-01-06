@@ -12,10 +12,6 @@ classes:
   - cluster.mcp-ovn-ha.openstack.compute_pdf
   - cluster.mcp-ovn-ha.infra
 parameters:
-  nova:
-    compute:
-      libvirt_service: libvirtd
-      libvirt_bin: /etc/default/libvirtd
   neutron:
     gateway:
       ~message_queue: ~

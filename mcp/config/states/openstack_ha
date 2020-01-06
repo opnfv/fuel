@@ -91,6 +91,9 @@ if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashbo
   salt -I 'horizon:server' file.symlink \
     /var/lib/openstack-dashboard/static \
     /usr/share/openstack-dashboard/static
+  salt -I 'horizon:server' cmd.run "python3 /usr/share/openstack-dashboard/manage.py collectstatic --noinput"
+  salt -I 'horizon:server' cmd.run "python3 /usr/share/openstack-dashboard/manage.py compress --force"
+  salt -I 'horizon:server' service.reload apache2
 fi
 
 cluster_public_host=$(salt -C 'I@nginx:server and *01*' --out=yaml \
