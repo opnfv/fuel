@@ -138,6 +138,26 @@ function docker_install {
   fi
 }
 
+function e2fsprogs_install {
+  local image_dir=$1
+  E2FS_VER=$(e2fsck -V 2>&1 | grep -Pzo "e2fsck \K1\.\d{2}")
+  if [ "${E2FS_VER//./}" -lt 143 ]; then
+    E2FS_TGZ="${image_dir}/e2fsprogs.tar.gz"
+    E2FS_VER='1.43.9'
+    E2FS_URL="https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/snapshot/e2fsprogs-${E2FS_VER}.tar.gz"
+    notify_n "[WARN] Using e2fsprogs ${E2FS_VER} from ${E2FS_TGZ}" 3
+    if [ ! -e "${E2FS_TGZ}" ]; then
+      curl -L "${E2FS_URL}" -o "${E2FS_TGZ}"
+      mkdir -p "${image_dir}/e2fsprogs"
+      tar xzf "${E2FS_TGZ}" -C "${image_dir}/e2fsprogs" --strip-components=1
+      cd "${image_dir}/e2fsprogs" || exit 1
+      ./configure
+      make
+      cd - || exit 1
+    fi
+  fi
+}
+
 function virtinst_install {
   local image_dir=$1
   VIRT_VER=$(virt-install --version 2>&1)
