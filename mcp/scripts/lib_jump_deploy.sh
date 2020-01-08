@@ -118,7 +118,7 @@ function __mount_image {
   export OPNFV_MNT_DIR OPNFV_LOOP_DEV
   [ -n "${OPNFV_NBD_DEV}" ] && [ -n "${OPNFV_LOOP_DEV}" ] || exit 1
   [[ "${MCP_OS:-}" =~ centos ]] || \
-    qemu-img resize "${image_dir}/${image}" 3G
+    qemu-img resize "${image_dir}/${image}" 4G
   sudo qemu-nbd --connect="${OPNFV_NBD_DEV}" --aio=native --cache=none \
     "${image_dir}/${image}"
   sudo kpartx -av "${OPNFV_NBD_DEV}"
