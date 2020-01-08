@@ -267,6 +267,10 @@ else
     jumpserver_pkg_install 'deploy'
     docker_install "${MCP_STORAGE_DIR}"
     virtinst_install "${MCP_STORAGE_DIR}"
+    # Ubuntu 18.04 cloud image requires newer e2fsprogs
+    if [[ "${MCP_OS:-}" =~ ubuntu1804 ]]; then
+        e2fsprogs_install "${MCP_STORAGE_DIR}"
+    fi
 fi
 
 if ! ${VIRSH} list >/dev/null 2>&1; then
