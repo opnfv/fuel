@@ -36,7 +36,7 @@ salt -I 'nova:controller' state.sls nova
 salt -I 'heat:server' state.sls heat
 
 salt -I 'cinder:controller' state.sls cinder
-wait_for 3 "salt -I 'cinder:volume' state.sls cinder"
+wait_for 3 "salt -I 'cinder:volume' state.sls armband.cinder,cinder"
 
 salt -I 'neutron:server' state.sls etcd,neutron
 salt -I 'neutron:compute' state.sls neutron

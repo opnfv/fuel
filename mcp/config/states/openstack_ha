@@ -50,7 +50,7 @@ salt -I 'heat:server:role:secondary' state.sls heat
 
 salt -I 'cinder:controller:role:primary' state.sls cinder
 salt -I 'cinder:controller:role:secondary' state.sls cinder
-wait_for 3.0 "salt -I 'cinder:volume' state.sls cinder"
+wait_for 3.0 "salt -I 'cinder:volume' state.sls armband.cinder,cinder"
 
 salt -I 'neutron:server:role:primary' state.sls neutron
 salt -I 'neutron:server:role:secondary' state.sls neutron
