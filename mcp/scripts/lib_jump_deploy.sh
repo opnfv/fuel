@@ -124,11 +124,15 @@ function __mount_image {
   sudo kpartx -av "${OPNFV_NBD_DEV}"
   # Hardcode partition index to 1, unlikely to change for Ubuntu UCA image
   sudo partx -uvn 1:1 "${OPNFV_NBD_DEV}"
-  if [[ "${MCP_OS:-}" =~ ubuntu1604 ]] && sudo growpart "${OPNFV_NBD_DEV}" 1
+  if [[ "${MCP_OS:-}" =~ ubuntu ]] && sudo growpart "${OPNFV_NBD_DEV}" 1
   then
+    if [ -e "${image_dir}/e2fsprogs" ]; then
+      E2FSCK_PREFIX="${image_dir}/e2fsprogs/e2fsck/"
+      RESIZE_PREFIX="${image_dir}/e2fsprogs/resize/"
+    fi
     sudo kpartx -u "${OPNFV_NBD_DEV}"
-    sudo e2fsck -pf "${OPNFV_MAP_DEV}"
-    sudo resize2fs "${OPNFV_MAP_DEV}"
+    sudo "${E2FSCK_PREFIX}e2fsck" -pf "${OPNFV_MAP_DEV}"
+    sudo "${RESIZE_PREFIX}resize2fs" "${OPNFV_MAP_DEV}"
   else
     sleep 5 # /dev/nbdNp1 takes some time to come up
   fi
