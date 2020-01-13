@@ -10,8 +10,3 @@ classes:
   - cluster.mcp-common-ha.openstack_compute
   - cluster.mcp-ovs-ha.openstack.compute_pdf
   - cluster.mcp-ovs-ha.infra
-parameters:
-  nova:
-    compute:
-      libvirt_service: libvirtd
-      libvirt_bin: /etc/default/libvirtd

@@ -18,10 +18,6 @@ parameters:
       vhost_socket_dir: ${_param:compute_ovs_vhost_socket_dir}
       backend:
         tenant_vlan_range: ${_param:neutron_tenant_vlan_range}
-  nova:
-    compute:
-      libvirt_service: libvirtd
-      libvirt_bin: /etc/default/libvirtd
   linux:
     system:
       kernel:
