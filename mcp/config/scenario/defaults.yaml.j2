@@ -33,7 +33,9 @@ x86_64:
           - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
+  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO %}
           - linux-generic-hwe-18.04
+  {%- endif %}
           - salt-minion
           - ifupdown
           - cloud-init
@@ -97,7 +99,9 @@ aarch64:
           - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
+  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO %}
           - linux-generic-hwe-18.04
+  {%- endif %}
           - salt-minion
           - ifupdown
           - cloud-init
