@@ -18,3 +18,13 @@ parameters:
     node_hostname: ${_param:cluster_node01_hostname}
     node_port: 4001
     external_vpp_tap: 'tap0'
+  linux:
+    system:
+      file:
+        /etc/systemd/network/99-default.link:
+          contents: |
+            # Workaround tap/bridge MAC generation issue
+            # https://github.com/systemd/systemd/issues/3374
+            [Link]
+            NamePolicy=kernel database onboard slot path
+            MACAddressPolicy=none
