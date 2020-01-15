@@ -37,6 +37,10 @@ services:
     hostname: cfg01
     domainname: {{ conf.cluster.domain }}
     privileged: true
+    dns:
+{%- for server in nm.dns_public %}
+      - {{ server }}
+{%- endfor %}
 {%- if nm.cluster.has_baremetal_nodes %}
   opnfv-fuel-maas:
     container_name: "maas"
@@ -63,6 +67,10 @@ services:
     hostname: mas01
     domainname: {{ conf.cluster.domain }}
     privileged: true
+    dns:
+{%- for server in nm.dns_public %}
+      - {{ server }}
+{%- endfor %}
     ports:
       - 5240:5240
 {%- endif %}
