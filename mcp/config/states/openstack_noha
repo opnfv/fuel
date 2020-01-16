@@ -70,3 +70,7 @@ if ! salt -C 'I@horizon:server and *01*' --out=yaml pkg.version openstack-dashbo
   salt -I 'horizon:server' cmd.run "python3 /usr/share/openstack-dashboard/manage.py compress --force"
   salt -I 'horizon:server' service.reload apache2
 fi
+
+# FIXME: Temporary workaround for VPP 20.01 compat
+salt -C 'cmp*' cmd.run 'cd /usr/lib/python3/dist-packages/ && patch -p1 < /var/tmp/vpp.patch'
+salt -C 'cmp*' service.restart vpp-agent
