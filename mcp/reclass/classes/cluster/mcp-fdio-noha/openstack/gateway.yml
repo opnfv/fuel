@@ -37,6 +37,247 @@ parameters:
             vpp_interface: ${_param:dpdk0_vpp}
   linux:
     system:
+      file:
+        /var/tmp/vpp.patch:
+          contents: |
+            From c0444c656cc3b65f84e79e78c1e00a711d119fb6 Mon Sep 17 00:00:00 2001
+            From: Onong Tayeng <otayeng@cisco.com>
+            Date: Fri, 17 Jan 2020 21:01:20 +0530
+            Subject: [PATCH] VPP 20.01 API changes
+            
+            Change-Id: I71aa431d8cf041fd381d0d0bf0a1383f90003253
+            ---
+             networking_vpp/agent/server.py | 14 ++----
+             networking_vpp/agent/vpp.py    | 96 +++++++++++++++++++++++-------------------
+             2 files changed, 56 insertions(+), 54 deletions(-)
+            
+            diff --git a/networking_vpp/agent/server.py b/networking_vpp/agent/server.py
+            index 2a6be5d..ed973ba 100644
+            --- a/networking_vpp/agent/server.py
+            +++ b/networking_vpp/agent/server.py
+            @@ -1966,9 +1966,7 @@ class VPPForwarder(object):
+                                                   is_ipv6=is_ipv6,
+                                                   is_local=is_local)
+                         else:
+            -                self.vpp.set_interface_ip(
+            -                    loopback_idx, self._pack_address(gateway_ip), prefixlen,
+            -                    is_ipv6)
+            +                self.vpp.set_interface_ip(loopback_idx, gateway_ip, prefixlen)
+             
+                     router_dict = {
+                         'segmentation_id': seg_id,
+            @@ -2273,8 +2271,7 @@ class VPPForwarder(object):
+                                   router['gateway_ip'], local_ip)
+                         # Delete the IP address from the BVI.
+                         self.vpp.del_interface_ip(
+            -                bvi_if_idx, self._pack_address(router['gateway_ip']),
+            -                router['prefixlen'], router['is_ipv6'])
+            +                bvi_if_idx, router['gateway_ip'], router['prefixlen'])
+                         # Delete the local route
+                         prefixlen = 128 if router['is_ipv6'] else 32
+                         self.vpp.delete_ip_route(vrf=router['vrf_id'],
+            @@ -2285,9 +2282,7 @@ class VPPForwarder(object):
+                                                  is_ipv6=router['is_ipv6'],
+                                                  is_local=1)
+                         self.vpp.set_interface_ip(bvi_if_idx,
+            -                                      self._pack_address(local_ip),
+            -                                      router['prefixlen'],
+            -                                      router['is_ipv6'])
+            +                                      local_ip, router['prefixlen'])
+                         # Set the router external interface corresponding to the local
+                         # route as non-local.
+                         for router in self.router_external_interfaces.values():
+            @@ -2339,8 +2334,7 @@ class VPPForwarder(object):
+                             if len(addresses) > 1:
+                                 # Dont' delete the BVI, only remove one IP from it
+                                 self.vpp.del_interface_ip(
+            -                        bvi_if_idx, self._pack_address(router['gateway_ip']),
+            -                        router['prefixlen'], router['is_ipv6'])
+            +                        bvi_if_idx, router['gateway_ip'], router['prefixlen'])
+                             else:
+                                 # Last subnet assigned, delete the interface
+                                 self.vpp.delete_loopback(bvi_if_idx)
+            diff --git a/networking_vpp/agent/vpp.py b/networking_vpp/agent/vpp.py
+            index 0ea57f8..489e195 100644
+            --- a/networking_vpp/agent/vpp.py
+            +++ b/networking_vpp/agent/vpp.py
+            @@ -158,13 +158,22 @@ class VPPInterface(object):
+                 #     FIB_PATH_NH_PROTO_NSH = 5
+                 PROTO_IPV4 = 0
+                 PROTO_IPV6 = 1
+            +    # Note(onong): In 20.01, sw_interface_set_flags has a new field 'flags' of
+            +    # type vl_api_if_status_flags_t which takes the following values:
+            +    #
+            +    # enum if_status_flags
+            +    # {
+            +    #   IF_STATUS_API_FLAG_ADMIN_UP = 1,
+            +    #   IF_STATUS_API_FLAG_LINK_UP = 2,
+            +    # };
+            +    IF_FLAG_ADMIN_UP = 1
+            +    IF_FLAG_ADMIN_DOWN = 0
+             
+                 def get_interfaces(self):
+                     # type: () -> Iterator[dict]
+                     t = self.call_vpp('sw_interface_dump')
+             
+                     for iface in t:
+            -            mac = bytearray(iface.l2_address[:iface.l2_address_length])
+                         # Note(onong): VPP 19.08.1 onwards interface_name and tag fields
+                         # are type "string" instead of the earlier "u8". In python3, PAPI
+                         # converts "string" type to python str whereas in python2 it
+            @@ -178,7 +187,7 @@ class VPPInterface(object):
+                         # 19.08.1 onwards.
+                         yield {'name': iface.interface_name,
+                                'tag': iface.tag,
+            -                   'mac': ':'.join(["%02x" % int(c) for c in mac]),
+            +                   'mac': iface.l2_address,
+                                'sw_if_idx': iface.sw_if_index,
+                                'sup_sw_if_idx': iface.sup_sw_if_index
+                                }
+            @@ -268,20 +277,25 @@ class VPPInterface(object):
+                         mac_bytes = mac_to_bytes('00:00:00:00:00:00')
+                         use_random_mac = True
+             
+            +        # Note(onong): In VPP 20.01, the following API changes have happened:
+            +        #      host_ip4_addr_set --> host_ip4_prefix_set
+            +        #      host_ip6_addr_set --> host_ip6_prefix_set
+            +        #      type of host_if_name changed from u8 to string
+            +        #      type of tag changed from u8 to string
+                     t = self.call_vpp('tap_create_v2',
+                                       use_random_mac=use_random_mac,
+                                       mac_address=mac_bytes,
+                                       host_if_name_set=True,
+            -                          host_if_name=binary_type(ifname),
+            +                          host_if_name=ifname,
+                                       id=0xffffffff,  # choose ifidx automatically
+            -                          host_ip4_addr_set=False,
+            -                          host_ip6_addr_set=False,
+            +                          host_ip4_prefix_set=False,
+            +                          host_ip6_prefix_set=False,
+                                       host_bridge_set=False,
+                                       host_namespace_set=False,
+                                       host_mac_addr_set=False,
+                                       tx_ring_sz=1024,
+                                       rx_ring_sz=1024,
+            -                          tag=binary_type(tag))
+            +                          tag=tag)
+             
+                     return t.sw_if_index  # will be -1 on failure (e.g. 'already exists')
+             
+            @@ -309,14 +323,18 @@ class VPPInterface(object):
+                 def create_vhostuser(self, ifpath, mac, tag,
+                                      qemu_user=None, qemu_group=None, is_server=False):
+                     # type: (str, str, str, Optional[str], Optional[str], bool) -> int
+            +
+            +        # Note(onong): In VPP 20.01, the following API changes have happened:
+            +        #      type of sock_filename changed from u8 to string
+            +        #      type of tag changed from u8 to string
+                     t = self.call_vpp('create_vhost_user_if',
+                                       is_server=is_server,
+            -                          sock_filename=binary_type(ifpath),
+            +                          sock_filename=ifpath,
+                                       renumber=False,
+                                       custom_dev_instance=0,
+                                       use_custom_mac=True,
+                                       mac_address=mac_to_bytes(mac),
+            -                          tag=binary_type(tag))
+            +                          tag=tag)
+             
+                     if is_server and qemu_user is not None and qemu_group is not None:
+                         # The permission that qemu runs as.
+            @@ -824,9 +842,10 @@ class VPPInterface(object):
+                     NB: NOT ATOMIC if multiple interfaces
+                     """
+                     for ifidx in ifidxes:
+            +            # Note(onong): VPP 20.01 onwards, admin_up_down field is replaced
+            +            # by 'flags' which is of type vl_api_if_status_flags_t
+                         self.call_vpp('sw_interface_set_flags',
+            -                          sw_if_index=ifidx,
+            -                          admin_up_down=1)
+            +                          sw_if_index=ifidx, flags=self.IF_FLAG_ADMIN_UP)
+             
+                 def ifdown(self, *ifidxes):
+                     """Bring a list of interfaces down
+            @@ -834,9 +853,10 @@ class VPPInterface(object):
+                     NB: NOT ATOMIC if multiple interfaces
+                     """
+                     for ifidx in ifidxes:
+            +            # Note(onong): VPP 20.01 onwards, admin_up_down field is replaced
+            +            # by 'flags' which is of type vl_api_if_status_flags_t
+                         self.call_vpp('sw_interface_set_flags',
+            -                          sw_if_index=ifidx,
+            -                          admin_up_down=0)
+            +                          sw_if_index=ifidx, flags=self.IF_FLAG_ADMIN_DOWN)
+             
+                 ########################################
+             
+            @@ -878,44 +898,32 @@ class VPPInterface(object):
+                     return self.call_vpp('sw_interface_get_table',
+                                          sw_if_index=if_idx).vrf_id
+             
+            -    def set_interface_ip(self, if_idx, ip, prefixlen, is_ipv6=False):
+            +    def set_interface_ip(self, if_idx, ip, prefixlen):
+                     # Set the interface IP address, usually the subnet's
+                     # gateway IP.
+            +        #
+            +        # Note(onong): VPP 20.01 onwards, the ip address needs to be passed as
+            +        # the new vl_api_address_with_prefix_t type which maps to the python
+            +        # IPv4/IPv6Interface object in PAPI. The six.text_type() is for py2
+            +        # compatibility.
+            +        prefix = six.text_type(ip + "/" + str(prefixlen))
+            +        prefix = ipaddress.ip_interface(prefix)
+                     self.call_vpp('sw_interface_add_del_address',
+            -                      sw_if_index=if_idx, is_add=True, is_ipv6=is_ipv6,
+            -                      del_all=False, address_length=prefixlen,
+            -                      address=ip)
+            +                      sw_if_index=if_idx, is_add=True,
+            +                      del_all=False, prefix=prefix)
+             
+            -    def del_interface_ip(self, if_idx, ip, prefixlen, is_ipv6=False):
+            +    def del_interface_ip(self, if_idx, ip, prefixlen):
+                     # Delete an ip address from the specified interface
+            +        #
+            +        # Note(onong): VPP 20.01 onwards, the ip address needs to be passed as
+            +        # the new vl_api_address_with_prefix_t type which maps to the python
+            +        # IPv4/IPv6Interface object in PAPI. The six.text_type() is for py2
+            +        # compatibility.
+            +        prefix = six.text_type(ip + "/" + str(prefixlen))
+            +        prefix = ipaddress.ip_interface(prefix)
+                     self.call_vpp('sw_interface_add_del_address',
+            -                      sw_if_index=if_idx, is_add=False, is_ipv6=is_ipv6,
+            -                      del_all=False, address_length=prefixlen,
+            -                      address=ip)
+            -
+            -    def set_interface_address(self, sw_if_index, is_ipv6,
+            -                              address_length, address):
+            -        # TODO(ijw): duplicate; should be removed
+            -        """Configure an IPv4 or IPv6 address on a software interface."""
+            -        self.call_vpp('sw_interface_add_del_address',
+            -                      sw_if_index=sw_if_index,
+            -                      is_add=1,
+            -                      is_ipv6=is_ipv6,
+            -                      del_all=False,
+            -                      address_length=address_length,
+            -                      address=address)
+            -
+            -    def del_interface_address(self, sw_if_index, is_ipv6,
+            -                              address_length, address):
+            -        # TODO(ijw): duplicate; should be removed
+            -        """Remove an IPv4 or IPv6 address on a software interface."""
+            -        self.call_vpp('sw_interface_add_del_address',
+            -                      sw_if_index=sw_if_index,
+            -                      is_add=0,
+            -                      is_ipv6=is_ipv6,
+            -                      del_all=False,
+            -                      address_length=address_length,
+            -                      address=address)
+            +                      sw_if_index=if_idx, is_add=False,
+            +                      del_all=False, prefix=prefix)
+             
+                 def encode_route_path_labels(self):
+                     """Fill up/initialize the route's path label stack.
+            -- 
+            2.7.4
       kernel:
         hugepages:
           large:
