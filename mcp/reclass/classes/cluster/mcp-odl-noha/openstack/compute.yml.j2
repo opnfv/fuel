@@ -49,11 +49,14 @@ parameters:
           netmask: ${_param:opnfv_net_private_mask}
         {{ nm.cmp001.nic_private }}:
           type: dpdk  # Not a meaningful type, just match 'dpdk' for filtering
-        {{ nm.cmp001.nic_public }}:
-          enabled: true
-          type: eth
-          mtu: ${_param:interface_mtu}
-          proto: manual
+
+{%- set nics = { nm.cmp001.nic_public: True } %}
+{%- set vlans = { nm.vlan_public: nm.cmp001.nic_public } %}
+
+{{ ma.linux_network_interfaces_nic(nics) }}
+
+{{ ma.linux_network_interfaces_vlan(vlans) }}
+
         br-floating:
           enabled: true
           type: ovs_bridge
