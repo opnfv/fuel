@@ -13,9 +13,9 @@ Subject: [PATCH] curtin: Add Bionic support
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  .../curtin_userdata_amd64_generic_bionic      | 80 +++++++++++++++++++
- .../curtin_userdata_arm64_generic_bionic      | 65 +++++++++++++++
+ .../curtin_userdata_arm64_generic_bionic      | 75 +++++++++++++++++
  maas/region.sls                               | 24 ++++++
- 3 files changed, 169 insertions(+)
+ 3 files changed, 179 insertions(+)
  create mode 100644 maas/files/curtin_userdata_amd64_generic_bionic
  create mode 100644 maas/files/curtin_userdata_arm64_generic_bionic
 
@@ -107,10 +107,10 @@ index 0000000..0b6fd15
 +#}
 diff --git a/maas/files/curtin_userdata_arm64_generic_bionic b/maas/files/curtin_userdata_arm64_generic_bionic
 new file mode 100644
-index 0000000..c7cb997
+index 0000000..2ef97ba
 --- /dev/null
 +++ b/maas/files/curtin_userdata_arm64_generic_bionic
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,75 @@
 +{%- from "maas/map.jinja" import cluster with context %}
 +{% raw %}
 +#cloud-config
@@ -143,6 +143,11 @@ index 0000000..c7cb997
 +{#- NOTE: Re-use amd64 repos on arm64 since most packages are arch independent #}
 +  apt_01_set_repo: ["curtin", "in-target", "--", "sh", "-c", "echo '{{ saltstack_repo }}' >> /etc/apt/sources.list.d/mcp_saltstack.list"]
 +  apt_03_update: ["curtin", "in-target", "--", "apt-get", "update"]
++{%- if salt['pillar.get']('maas:cluster:curtin_vars:arm64:bionic:extra_pkgs:enabled')|default(false) %}
++  {% for pkg in pillar.maas.cluster.curtin_vars.arm64.bionic.extra_pkgs.pkgs -%}
++  apt_04_install_pkgs_{{ loop.index }}: ["curtin", "in-target", "--", "apt-get", "-y", "install", "{{ pkg }}"]
++  {% endfor %}
++{%- endif %}
 +  salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "python-futures", "ifupdown", "cloud-init", "dnsmasq"]
 +  salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
 +  salt_03_hostname_get: ["curtin", "in-target", "--", "sh", "-c", "echo 'id: {% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}' >> /etc/salt/minion.d/minion.conf"]
@@ -164,6 +169,11 @@ index 0000000..c7cb997
 +  salt_25_bionic_networking_unmask: ["curtin", "in-target", "--", "systemctl", "unmask", "networking.service"]
 +  salt_26_bionic_networking_enable: ["curtin", "in-target", "--", "systemctl", "enable", "networking.service"]
 +  salt_27_bionic_networking_start: ["curtin", "in-target", "--", "systemctl", "start", "networking.service"]
++
++{%- if salt['pillar.get']('maas:cluster:curtin_vars:arm64:bionic:kernel_package:enabled')|default(false)  %}
++kernel:
++  package: {{ pillar.maas.cluster.curtin_vars.arm64.bionic.kernel_package.value }}
++{%- endif %}
 +
 +{% raw %}
 +{{if third_party_drivers and driver}}
