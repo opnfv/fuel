@@ -113,6 +113,23 @@ parameters:
       region:
         host: ${_param:single_address}
         port: 5240
+{%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO and conf.MCP_KERNEL_VER %}
+      curtin_vars:
+        amd64:
+          bionic: &curtin_vars_bionic
+            kernel_package:
+              enabled: True
+              value: 'linux-image-{{ conf.MCP_KERNEL_VER }}-generic'
+            extra_pkgs:
+              enabled: True
+              pkgs:
+                - linux-image-{{ conf.MCP_KERNEL_VER }}-generic
+                - linux-headers-{{ conf.MCP_KERNEL_VER }}-generic
+                - linux-modules-extra-{{ conf.MCP_KERNEL_VER }}-generic
+        arm64:
+          bionic:
+            <<: *curtin_vars_bionic
+{%- endif %}
   linux:
     system:
       repo:

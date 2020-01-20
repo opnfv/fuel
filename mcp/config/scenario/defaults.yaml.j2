@@ -33,8 +33,9 @@ x86_64:
           - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
-  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO %}
-          - linux-generic-hwe-18.04
+  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO and conf.MCP_KERNEL_VER %}
+          - linux-image-{{ conf.MCP_KERNEL_VER }}-generic
+          - linux-headers-{{ conf.MCP_KERNEL_VER }}-generic
   {%- endif %}
           - salt-minion
           - ifupdown
@@ -99,8 +100,9 @@ aarch64:
           - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
-  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO %}
-          - linux-generic-hwe-18.04
+  {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO and conf.MCP_KERNEL_VER %}
+          - linux-image-{{ conf.MCP_KERNEL_VER }}-generic
+          - linux-headers-{{ conf.MCP_KERNEL_VER }}-generic
   {%- endif %}
           - salt-minion
           - ifupdown
