@@ -31,3 +31,10 @@ parameters:
     minion:
       tcp_keepalive: True
       tcp_keepalive_idle: 60
+  linux:
+    network:
+      resolv:
+        dns:
+{%- for server in nm.dns_public %}
+          - {{ server }}
+{%- endfor %}

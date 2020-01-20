@@ -122,12 +122,6 @@ parameters:
       ~kernel:
         sysctl:
           net.ipv4.ip_forward: 1
-    network:
-      resolv:
-        dns:
-{%- for server in nm.dns_public %}
-          - {{ server }}
-{%- endfor %}
   iptables:
     schema:
       epoch: 1
