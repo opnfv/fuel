@@ -1,0 +1,31 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Tue, 21 Jan 2020 20:46:44 +0100
+Subject: [PATCH] arm-pod10: Increase MaaS deploy timeout
+
+Change-Id: Ibf098e14ba72bb6e4cf8654eccd9f9a5ec142046
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ labs/arm/idf-pod10.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/labs/arm/idf-pod10.yaml b/labs/arm/idf-pod10.yaml
+index bcdb891..39aac78 100644
+--- a/labs/arm/idf-pod10.yaml
++++ b/labs/arm/idf-pod10.yaml
+@@ -59,7 +59,7 @@ idf:
+     maas:
+       # MaaS timeouts (in minutes)
+       timeout_comissioning: 10
+-      timeout_deploying: 15
++      timeout_deploying: 25
+     network:
+       ntp_strata_host1: 1.se.pool.ntp.org
+       ntp_strata_host2: 0.se.pool.ntp.org
