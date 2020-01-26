@@ -11,15 +11,15 @@ Date: Wed, 30 Jan 2019 17:21:03 +0100
 Subject: [PATCH] Add saltminion-maas build target
 
 ---
- DockerMake.yml | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++
- invoke.yml     |  5 +++++
- 2 files changed, 66 insertions(+)
+ DockerMake.yml | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ invoke.yml     |  5 ++++
+ 2 files changed, 67 insertions(+)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 9ab7195..2c0b8ac 100644
+index 9ab7195..6c90522 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
-@@ -50,6 +50,67 @@ common:
+@@ -50,6 +50,68 @@ common:
        && eval ${LAYER_CLEANUP}
 
 
@@ -33,14 +33,6 @@ index 9ab7195..2c0b8ac 100644
 +    ARG SALT_BOOTSTRAP_OPTS="-PdX ${SALT_VERSION}"
 +    ENV SALT_BOOTSTRAP_OPTS $SALT_BOOTSTRAP_OPTS
 +    RUN echo "Layer with MaaS, salt-minion packages" \
-+      && find /etc/systemd/system \
-+              /lib/systemd/system \
-+              -path '*.wants/*' \
-+              -not -name '*journald*' \
-+              -not -name '*systemd-tmpfiles*' \
-+              -not -name '*systemd-user-sessions*' \
-+              -exec rm \{} \; \
-+      && systemctl set-default multi-user.target \
 +      && eval ${LAYER_PKGUPDT} \
 +      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 ${SALT_BOOTSTRAP_OPTS} \
 +      && apt-get upgrade -qy \
@@ -68,7 +60,16 @@ index 9ab7195..2c0b8ac 100644
 +           python-psutil \
 +           python-yaml \
 +           sysfsutils \
++           systemd \
 +           tcpdump \
++      && find /etc/systemd/system \
++              /lib/systemd/system \
++              -path '*.wants/*' \
++              -not -name '*journald*' \
++              -not -name '*systemd-tmpfiles*' \
++              -not -name '*systemd-user-sessions*' \
++              -exec rm \{} \; \
++      && systemctl set-default multi-user.target \
 +      && apt-get download maas-region-controller \
 +      && dpkg-deb --extract maas-region-controller*.deb maas-region-controller \
 +      && dpkg-deb --control maas-region-controller*.deb maas-region-controller/DEBIAN \
