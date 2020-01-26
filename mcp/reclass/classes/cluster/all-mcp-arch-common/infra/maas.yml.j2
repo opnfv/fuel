@@ -20,7 +20,7 @@ parameters:
     maas_admin_username: opnfv
     dns_server01: '{{ nm.dns_public[0] }}'
     single_address: ${_param:infra_maas_node01_deploy_address}
-    hwe_kernel: 'hwe-18.04'
+    hwe_kernel: 'ga-18.04'
     opnfv_maas_timeout_comissioning: {{ nm.maas_timeout_comissioning }}
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
@@ -54,7 +54,6 @@ parameters:
           subarches:
             - "generic"
             - "ga-18.04"
-            - "hwe-18.04"
           labels: '"*"'
       fabrics:
         pxe_admin:
