@@ -11,15 +11,15 @@ Date: Wed, 30 Jan 2019 17:21:03 +0100
 Subject: [PATCH] Add saltminion-maas build target
 
 ---
- DockerMake.yml | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++
- invoke.yml     |  5 +++++
- 2 files changed, 66 insertions(+)
+ DockerMake.yml | 63 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ invoke.yml     |  5 ++++
+ 2 files changed, 68 insertions(+)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 9ab7195..2c0b8ac 100644
+index 7f497c9..ffb62e1 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
-@@ -50,6 +50,67 @@ common:
+@@ -50,6 +50,69 @@ common:
        && eval ${LAYER_CLEANUP}
 
 
@@ -33,6 +33,9 @@ index 9ab7195..2c0b8ac 100644
 +    ARG SALT_BOOTSTRAP_OPTS="-PdX ${SALT_VERSION}"
 +    ENV SALT_BOOTSTRAP_OPTS $SALT_BOOTSTRAP_OPTS
 +    RUN echo "Layer with MaaS, salt-minion packages" \
++      && eval ${LAYER_PKGUPDT} \
++      && apt-get upgrade -qy \
++      && ${LAYER_INSTALL} maas-common systemd \
 +      && find /etc/systemd/system \
 +              /lib/systemd/system \
 +              -path '*.wants/*' \
@@ -41,10 +44,6 @@ index 9ab7195..2c0b8ac 100644
 +              -not -name '*systemd-user-sessions*' \
 +              -exec rm \{} \; \
 +      && systemctl set-default multi-user.target \
-+      && eval ${LAYER_PKGUPDT} \
-+      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 ${SALT_BOOTSTRAP_OPTS} \
-+      && apt-get upgrade -qy \
-+      && ${LAYER_INSTALL} maas-common \
 +      && ${LAYER_INSTALL} \
 +           at \
 +           avahi-utils \
@@ -65,6 +64,7 @@ index 9ab7195..2c0b8ac 100644
 +           python-msgpack \
 +           python-netaddr \
 +           python-oauth \
++           python-pip \
 +           python-psutil \
 +           python-yaml \
 +           sysfsutils \
@@ -80,8 +80,10 @@ index 9ab7195..2c0b8ac 100644
 +      && mv /var/lib/maas /var/lib/postgresql /var/lib/opnfv/ \
 +      && mv /etc/maas /etc/ssh /var/lib/opnfv/etc/ \
 +      && mv /var/lib/opnfv/maas-region-controller.postinst /var/lib/dpkg/info/ \
++      && python -m pip install -U jinja2 \
++      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 ${SALT_BOOTSTRAP_OPTS} \
 +      && eval ${LAYER_CLEANUP}
-+    ENTRYPOINT ["/bin/bash", "-c", "/entrypoint.sh && exec /sbin/init"]
++    ENTRYPOINT ["/bin/bash", "-c", "/entrypoint.sh && exec /lib/systemd/systemd"]
 +
 +
  salt:
