@@ -21,15 +21,18 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
 * Pin dockermake to v0.8 to allow using python3.5 for virtualenv,
   since python 3.6 is not easily available for Ubuntu Xenial
   jump/build hosts.
+* Pin jinja2 to 2.11.0 to bypass [1].
+
+[1] https://github.com/saltstack/salt/issues/46594
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- DockerMake.yml | 38 +++++++++++++++++++++++++++++++++++++-
+ DockerMake.yml | 39 ++++++++++++++++++++++++++++++++++++++-
  Pipfile        |  4 ++--
- 2 files changed, 39 insertions(+), 3 deletions(-)
+ 2 files changed, 40 insertions(+), 3 deletions(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index 2c75586..9ab7195 100644
+index 2c75586..f30024c 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
 @@ -29,6 +29,7 @@ common-cleanup:
@@ -49,7 +52,7 @@ index 2c75586..9ab7195 100644
      ENV SALT_FORMULA_SOURCES $SALT_FORMULA_SOURCES
      ARG SALT_FORMULAS_BASE="/srv/salt/formula"
      ENV SALT_FORMULAS_BASE $SALT_FORMULAS_BASE
-@@ -108,6 +109,41 @@ salt-formulas:
+@@ -108,6 +109,42 @@ salt-formulas:
        && bash -c 'source /srv/salt/formula-fetch.sh && setupPyEnv && fetchAll' \
        && eval ${LAYER_CLEANUP}
 
@@ -85,6 +88,7 @@ index 2c75586..9ab7195 100644
 +           python-yaml \
 +      && useradd -m ubuntu \
 +      && echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ubuntu \
++      && python -m pip install -U jinja2==2.11.0 \
 +      && eval ${LAYER_CLEANUP}
 +
 +

@@ -90,3 +90,7 @@
 	path = mcp/salt-formulas/salt-formula-rabbitmq
 	url = https://gerrit.mcp.mirantis.com/salt-formulas/rabbitmq
 	branch = master
+[submodule "salt-formula-nfs"]
+	path = mcp/salt-formulas/salt-formula-nfs
+	url = https://github.com/salt-formulas/salt-formula-nfs
+	branch = master

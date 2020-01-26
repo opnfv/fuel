@@ -25,6 +25,9 @@ parameters:
     opnfv_maas_timeout_deploying: {{ nm.maas_timeout_deploying }}
   maas:
     region:
+      services:
+        - maas-regiond
+        - bind9
 {%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
       tags:
         aarch64_hugepages_1g:
@@ -32,6 +35,7 @@ parameters:
           definition: '//capability[@id="asimd"]|//capability[@id="cp15_barrier"]'
           kernel_opts: 'default_hugepagesz=1G hugepagesz=1G'
 {%- endif %}
+      enable_iframe: False
       timeout:
         # Set maas.wait_for_<state> timeouts to ~2.5x of MaaS <state> timeout
         ready: {{ nm.maas_timeout_comissioning * 150 }}
