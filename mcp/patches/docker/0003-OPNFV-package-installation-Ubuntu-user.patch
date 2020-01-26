@@ -18,11 +18,17 @@ Subject: [PATCH] OPNFV package installation, Ubuntu user
   have to switch to 'root' login;
 * Preinstall `salt_minion_dependency_packages` and
   `salt_minion_reclass_dependencies`;
+* Pin dockermake to v0.8 to allow using python3.5 for virtualenv,
+  since python 3.6 is not easily available for Ubuntu Xenial
+  jump/build hosts.
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+
+wip
 ---
  DockerMake.yml | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+ Pipfile        |  4 ++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
 index 2c75586..9ab7195 100644
@@ -87,3 +93,18 @@ index 2c75586..9ab7195 100644
  wheel:
    requires:
      - base
+diff --git a/Pipfile b/Pipfile
+index d3e8d66..340e125 100644
+--- a/Pipfile
++++ b/Pipfile
+@@ -7,8 +7,8 @@ name = "pypi"
+
+ [packages]
+ pygithub = "*"
+-docker-make = {git = "https://github.com/avirshup/DockerMake"}
+-dockermake = {git = "https://github.com/avirshup/DockerMake"}
++docker-make = {git = "https://github.com/avirshup/DockerMake", ref = "aeac230fd5ab468d806bf42b120aa97f91eb40a2"}
++dockermake = {git = "https://github.com/avirshup/DockerMake", ref = "aeac230fd5ab468d806bf42b120aa97f91eb40a2"}
+
+ [requires]
+ python_version = "3.6"

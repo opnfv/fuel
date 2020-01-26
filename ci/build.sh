@@ -56,26 +56,25 @@ trap do_exit SIGINT SIGTERM EXIT
 # Set no restrictive umask so that Jenkins can remove any residuals
 umask 0000
 
-# Clone git submodules and apply our patches
-make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
-
 pushd "${DEPLOY_DIR}" > /dev/null
 
 # Install distro packages and pip-managed prerequisites
-PYTHON_BIN_PATH="$(python -m site --user-base)/bin"
-PATH="$PATH:$PYTHON_BIN_PATH"
 notify "[NOTE] Installing required build-time distro and pip pkgs" 2
 jumpserver_pkg_install 'build'
-python -m pip install --upgrade pipenv --user
+PYTHON_BIN_PATH="$(python3 -m site --user-base)/bin"
+PATH="$PATH:$PYTHON_BIN_PATH"
+# Clone git submodules and apply our patches
+make -C "${MCP_REPO_ROOT_PATH}/mcp/patches" deepclean patches-import
+python3 -m pip install --upgrade pipenv --user
 docker_install
 
 popd > /dev/null
 pushd "${DOCKER_DIR}" > /dev/null
 
-env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv --two install
-env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
+env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python3 -m pipenv --three install
+env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python3 -m pipenv install invoke
 # shellcheck disable=SC2086
-env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
+env PIPENV_HIDE_EMOJIS=1 python3 -m pipenv run \
   invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
@@ -87,7 +86,7 @@ env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
         CACHE_INVALIDATE=\"${CACHE_INVALIDATE}\"" \
     ${DOCKER_PUSH}
 
-env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
+env PIPENV_HIDE_EMOJIS=1 python3 -m pipenv run \
   invoke build saltminion-maas \
     --require 'maas' \
     --dist=ubuntu \
