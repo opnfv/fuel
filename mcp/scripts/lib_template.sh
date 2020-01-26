@@ -51,14 +51,14 @@ function do_templates_scenario {
     awk '/^(SALT|MCP|MAAS).*=/ { gsub(/=/,": "); print }' >> "${LOCAL_PDF}"
   j2args=$(find "${scenario_dir}" -name '*.j2' -exec echo -j {} \;)
   # shellcheck disable=SC2086
-  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
+  if ! python3 "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")"; then
     notify_e '[ERROR] Could not convert j2 scenario definitions!'
   fi
   for _yaml in "${extra_yaml[@]}"; do
     awk '/^---$/{f=1;next;}f' "${_yaml}" >> "${LOCAL_PDF}"
   done
-  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
+  if ! python3 "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" \
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")" \
     -j "${PHAROS_IA}" -v > "${image_dir}/pod_config.yml"; then
     notify_e "[ERROR] Could not convert PDF+IDF to reclass model input!"
@@ -84,7 +84,7 @@ function do_templates_cluster {
            "$(readlink -f docker-compose)" $(readlink -f ./*j2) \
            -name '*.j2' -exec echo -j {} \;)
   # shellcheck disable=SC2086
-  if ! "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
+  if ! python3 "${PHAROS_GEN_CFG}" -y "${LOCAL_PDF}" ${j2args} -b -v \
     -i "$(dirname "$(readlink -f "${PHAROS_IA}")")"; then
     notify_e '[ERROR] Could not convert PDF to network definitions!'
   fi
