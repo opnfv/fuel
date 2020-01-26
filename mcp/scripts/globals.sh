@@ -13,7 +13,7 @@ export SSH_KEY=${SSH_KEY:-"/var/lib/opnfv/mcp.rsa"}
 export SALT_MASTER=${INSTALLER_IP:-10.20.0.2}
 export SALT_MASTER_USER=${SALT_MASTER_USER:-ubuntu}
 export VIRSH=${VIRSH:-'virsh --connect qemu:///system'}
-export MCP_KERNEL_VER=${MCP_KERNEL_VER:-5.0.0-37}
+export MCP_KERNEL_VER=${MCP_KERNEL_VER:-}
 
 # Derived from INSTALLER_IP
 export MCPCONTROL_NET=${MCPCONTROL_NET:-${SALT_MASTER%.*}.0}
