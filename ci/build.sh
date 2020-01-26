@@ -78,7 +78,7 @@ env PIPENV_HIDE_EMOJIS=1 python3 -m pipenv run \
   invoke build saltmaster-reclass \
     --require 'salt salt-formulas opnfv reclass tini-saltmaster' \
     --dist=ubuntu \
-    --dist-rel=xenial \
+    --dist-rel=bionic \
     --formula-rev=nightly \
     --opnfv-tag="${DOCKER_TAG}" \
     --salt="${SALT_VERSION}" \
@@ -90,7 +90,7 @@ env PIPENV_HIDE_EMOJIS=1 python3 -m pipenv run \
   invoke build saltminion-maas \
     --require 'maas' \
     --dist=ubuntu \
-    --dist-rel=xenial \
+    --dist-rel=bionic \
     --opnfv-tag="${DOCKER_TAG}" \
     --salt="${SALT_VERSION}" \
     ${DOCKER_PUSH}
