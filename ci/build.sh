@@ -72,7 +72,7 @@ docker_install
 popd > /dev/null
 pushd "${DOCKER_DIR}" > /dev/null
 
-env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv --two install
+env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv --three install
 env PIPENV_HIDE_EMOJIS=1 VIRTUALENV_ALWAYS_COPY=1 python -m pipenv install invoke
 # shellcheck disable=SC2086
 env PIPENV_HIDE_EMOJIS=1 python -m pipenv run \
