@@ -39,7 +39,7 @@
         {%- if n not in V -%}{%- do V.update({n: {}}) -%}{%- endif -%}
         {%- set cpu_topo = 'cpu_topology' in V[n] and not conf.MCP_CMP_SS -%}
         {%- if 'numa' in V[n] and cpu_topo -%}
-          {%- for k, v in V[n].numa.iteritems() -%}
+          {%- for k, v in V[n].numa.items() -%}
             {%- set c = pack([k, v.memory, v.cpus]) -%}
             {%- do V[n].update({'s_numa': c if 's_numa' not in V[n] else pack([c, V[n].s_numa])}) -%}
           {%- endfor -%}
