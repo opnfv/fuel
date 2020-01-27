@@ -72,6 +72,9 @@ parameters:
     ceilometer_create_gnocchi_resources: 'True'
     ceilometer_endpoint_status: absent
     barbican_integration_enabled: 'false'
+  common_conn_recycle_time: &db_conn_recycle_time
+    database:
+      connection_recycle_time: ${_param:db_connection_recycle_time}
   linux:
     system:
       package:
@@ -82,6 +85,7 @@ parameters:
           kernel/mm/transparent_hugepage/enabled: never
   keystone:
     server:
+      <<: *db_conn_recycle_time
       admin_email: ${_param:admin_email}
       openrc_extra:
         volume_device_name: sdc
@@ -112,6 +116,7 @@ parameters:
             project_domain_name: 'Default'
   glance:
     server:
+      <<: *db_conn_recycle_time
       storage:
         engine: file
       images: []
@@ -131,8 +136,10 @@ parameters:
       pkgs:
         - cinder-api
         - cinder-scheduler
+      <<: *db_conn_recycle_time
   nova:
     controller:
+      <<: *db_conn_recycle_time
       metadata:
         password: ${_param:metadata_password}
       bind:
@@ -156,6 +163,7 @@ parameters:
       secure: False
   heat:
     server:
+      <<: *db_conn_recycle_time
       bind:
         api_cfn:
           address: ${_param:single_address}
@@ -204,6 +212,7 @@ parameters:
                 - async
   neutron:
     server:
+      <<: *db_conn_recycle_time
       vlan_aware_vms: true
       root_helper_daemon: false
       agent_down_time: 300
@@ -245,3 +254,9 @@ parameters:
       site:
         nginx_ssl_redirect_openstack_web:
           enabled: false
+  aodh:
+    server:
+      <<: *db_conn_recycle_time
+  panko:
+    server:
+      <<: *db_conn_recycle_time
