@@ -28,8 +28,12 @@ parameters:
       services:
         - maas-regiond
         - bind9
-{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
       tags:
+        aarch64_nopti:
+          comment: 'Disable PTI on aarch64 (LP #1857074)'
+          definition: '//capability[@id="asimd"]|//capability[@id="cp15_barrier"]'
+          kernel_opts: 'nopti kpti=0'
+{%- if '-ovs-' in conf.MCP_DEPLOY_SCENARIO or '-fdio-' in conf.MCP_DEPLOY_SCENARIO %}
         aarch64_hugepages_1g:
           comment: 'Enable 1G pagesizes on aarch64'
           definition: '//capability[@id="asimd"]|//capability[@id="cp15_barrier"]'
