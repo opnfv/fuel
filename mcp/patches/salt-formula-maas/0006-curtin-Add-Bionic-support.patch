@@ -21,7 +21,7 @@ Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 
 diff --git a/maas/files/curtin_userdata_amd64_generic_bionic b/maas/files/curtin_userdata_amd64_generic_bionic
 new file mode 100644
-index 0000000..6b01a58
+index 0000000..89c350e
 --- /dev/null
 +++ b/maas/files/curtin_userdata_amd64_generic_bionic
 @@ -0,0 +1,83 @@
@@ -64,7 +64,7 @@ index 0000000..6b01a58
 +  {% endfor %}
 +{%- endif %}
 +{%- if salt['pillar.get']('maas:cluster:curtin_vars:amd64:bionic:kernel_package:enabled')|default(false)  %}
-+  apt_05_kernel_old_absent: ["curtin", "in-target", "--", "sh", "-c", "dpkg -l '*linux-generic-*[0-9]*' '*linux-image-*[0-9]*' '*linux-headers-*[0-9]*' '*linux-image-extra-*[0-9]*' '*linux-modules-extra-*[0-9]*' 2>/dev/null | grep -E '^ii' | awk '{print $2}' | grep -v '{{ pillar.maas.cluster.curtin_vars.amd64.bionic.kernel_package.value.split('-')[2:-1] | join('-') }}' | xargs dpkg --purge --force-depends"]
++  apt_05_kernel_old_absent: ["curtin", "in-target", "--", "sh", "-c", "dpkg -l '*linux-generic-*[0-9]*' '*linux-image-*[0-9]*' '*linux-headers-*[0-9]*' '*linux-image-extra-*[0-9]*' '*linux-modules-extra-*[0-9]*' 'linux-image-generic' 'linux-headers-generic' 2>/dev/null | grep -E '^ii' | awk '{print $2}' | grep -v '{{ pillar.maas.cluster.curtin_vars.amd64.bionic.kernel_package.value.split('-')[2:-1] | join('-') }}' | xargs dpkg --purge --force-depends"]
 +{%- endif %}
 +  salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "ifupdown", "cloud-init", "dnsmasq"]
 +  salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
@@ -110,7 +110,7 @@ index 0000000..6b01a58
 +#}
 diff --git a/maas/files/curtin_userdata_arm64_generic_bionic b/maas/files/curtin_userdata_arm64_generic_bionic
 new file mode 100644
-index 0000000..54c908c
+index 0000000..102cd62
 --- /dev/null
 +++ b/maas/files/curtin_userdata_arm64_generic_bionic
 @@ -0,0 +1,78 @@
@@ -152,7 +152,7 @@ index 0000000..54c908c
 +  {% endfor %}
 +{%- endif %}
 +{%- if salt['pillar.get']('maas:cluster:curtin_vars:arm64:bionic:kernel_package:enabled')|default(false)  %}
-+  apt_05_kernel_old_absent: ["curtin", "in-target", "--", "sh", "-c", "dpkg -l '*linux-generic-*[0-9]*' '*linux-image-*[0-9]*' '*linux-headers-*[0-9]*' '*linux-image-extra-*[0-9]*' '*linux-modules-extra-*[0-9]*' 2>/dev/null | grep -E '^ii' | awk '{print $2}' | grep -v '{{ pillar.maas.cluster.curtin_vars.arm64.bionic.kernel_package.value.split('-')[2:-1] | join('-') }}' | xargs dpkg --purge --force-depends"]
++  apt_05_kernel_old_absent: ["curtin", "in-target", "--", "sh", "-c", "dpkg -l '*linux-generic-*[0-9]*' '*linux-image-*[0-9]*' '*linux-headers-*[0-9]*' '*linux-image-extra-*[0-9]*' '*linux-modules-extra-*[0-9]*' 'linux-image-generic' 'linux-headers-generic' 2>/dev/null | grep -E '^ii' | awk '{print $2}' | grep -v '{{ pillar.maas.cluster.curtin_vars.arm64.bionic.kernel_package.value.split('-')[2:-1] | join('-') }}' | xargs dpkg --purge --force-depends"]
 +{%- endif %}
 +  salt_01_install: ["curtin", "in-target", "--", "apt-get", "-y", "install", "salt-minion", "python-futures", "ifupdown", "cloud-init", "dnsmasq"]
 +  salt_02_hostname_set: ["curtin", "in-target", "--", "echo", "{% raw %}{{node.hostname}}{% endraw %}.{{pillar.linux.system.domain}}"]
