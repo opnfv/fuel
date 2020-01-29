@@ -11,11 +11,7 @@ OPNFV Fuel Scenarios
 .. toctree::
    :maxdepth: 2
 
-   os-nosdn-ovs-noha/index.rst
-   os-nosdn-ovs-ha/index.rst
-   os-ovn-nofeature-noha/index.rst
-   os-ovn-nofeature-ha/index.rst
-   os-nosdn-fdio-noha/index.rst
-   os-odl-ovs-noha/index.rst
-   os-nosdn-onap-ha/index.rst
-   os-nosdn-onap-noha/index.rst
+   os-nosdn-nofeature-noha/index.rst
+   os-nosdn-nofeature-ha/index.rst
+   os-odl-nofeature-noha/index.rst
+   os-odl-nofeature-ha/index.rst
