@@ -9,7 +9,7 @@ OPNFV Fuel Release Notes
 Abstract
 ========
 
-This document provides the release notes for ``Hunter`` release with the Fuel
+This document provides the release notes for ``Iruya`` release with the Fuel
 deployment toolchain.
 
 Starting with ``Gambia`` release, both ``x86_64`` and ``aarch64`` architectures
@@ -23,13 +23,13 @@ All Fuel and "common" entities are protected by the `Apache License 2.0`_.
 Important Notes
 ===============
 
-This is the OPNFV ``Hunter`` release that implements the deploy stage of the
+This is the OPNFV ``Iruya`` release that implements the deploy stage of the
 OPNFV CI pipeline via Fuel.
 
 Fuel is based on the `MCP`_ installation tool chain.
 More information available at `Mirantis Cloud Platform Documentation`_.
 
-The goal of the ``Hunter`` release and this Fuel-based deployment process is
+The goal of the ``Iruya`` release and this Fuel-based deployment process is
 to establish a lab ready platform accelerating further development
 of the OPNFV infrastructure.
 
@@ -38,7 +38,7 @@ Carefully follow the installation instructions.
 Summary
 =======
 
-``Hunter`` release with the Fuel deployment toolchain will establish an OPNFV
+``Iruya`` release with the Fuel deployment toolchain will establish an OPNFV
 target system on a Pharos compliant lab infrastructure. The current definition
 of an OPNFV target system is OpenStack Queens combined with an SDN
 controller, such as OpenDaylight. The system is deployed with OpenStack High
@@ -53,23 +53,21 @@ Furthermore, Fuel is capable of deploying scenarios in a ``baremetal``,
 ``virtual`` or ``hybrid`` fashion. ``virtual`` deployments use multiple VMs on
 the Jump Host and internal networking to simulate the ``baremetal`` deployment.
 
-For ``Hunter``, the typical use of Fuel as an OpenStack installer is
+For ``Iruya``, the typical use of Fuel as an OpenStack installer is
 supplemented with OPNFV unique components such as:
 
 - `OpenDaylight`_
-- Open Virtual Network (``OVN``)
-- `Vector Packet Processing`_
 
 As well as OPNFV-unique configurations of the Hardware and Software stack.
 
-This ``Hunter`` artifact provides Fuel as the deployment stage tool in the
+This ``Iruya`` artifact provides Fuel as the deployment stage tool in the
 OPNFV CI pipeline including:
 
 - Automated (Jenkins, RTD) documentation build & publish (multiple documents);
 - Automated (Jenkins) build & publish of Salt Master Docker image;
-- Automated (Jenkins) deployment of ``Hunter`` running on baremetal or a nested
+- Automated (Jenkins) deployment of ``Iruya`` running on baremetal or a nested
   hypervisor environment (KVM);
-- Automated (Jenkins) validation of the ``Hunter`` deployment
+- Automated (Jenkins) validation of the ``Iruya`` deployment
 
 Release Data
 ============
@@ -78,16 +76,16 @@ Release Data
 | **Project**                          | fuel                                 |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | opnfv-8.1.0                          |
+| **Repo/tag**                         | opnfv-9.0.0                          |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release designation**              | Hunter 8.1                           |
+| **Release designation**              | Iruya 9.0                            |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Release date**                     | June 24, 2019                        |
+| **Release date**                     | January 31, 2020                     |
 |                                      |                                      |
 +--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | OPNFV Hunter 8.1 release             |
+| **Purpose of the delivery**          | OPNFV Iruya 9.0 release              |
 +--------------------------------------+--------------------------------------+
 
 Version Change
@@ -96,21 +94,21 @@ Version Change
 Module Version Changes
 ~~~~~~~~~~~~~~~~~~~~~~
 
-This is the first tracked version of the ``Hunter`` release with the Fuel
+This is the first tracked version of the ``Iruya`` release with the Fuel
 deployment toolchain. It is based on following upstream versions:
 
 - MCP (``Q1`19`` GA release)
 
-- OpenStack (``Rocky`` release)
+- OpenStack (``Stein`` release)
 
-- OpenDaylight (``Fluorine`` release)
+- OpenDaylight (``Neon`` release)
 
-- Ubuntu (``16.04`` release)
+- Ubuntu (``18.04`` release)
 
 Document Changes
 ~~~~~~~~~~~~~~~~
 
-This is the ``Hunter`` 8.1 release.
+This is the ``Iruya`` 9.0 release.
 It comes with the following documentation:
 
 - :ref:`OPNFV Fuel Installation Instruction <fuel-installation>`
@@ -125,20 +123,12 @@ Reason for Version
 Feature Additions
 ~~~~~~~~~~~~~~~~~
 
-- ``multiarch`` cluster support;
-- ``hybrid`` cluster support;
-- ``PDF``/``IDF`` support for ``virtual`` PODs;
-- ``baremetal`` support for noHA deployments;
-- containerized Salt Master;
-- ``OVN`` scenarios;
-- ``ODL`` ``BGPVPN`` scenario;
-- ``IDF`` support for configuring cluster-level ``MTU``;
+Due to reduced schedule, this is a maintainance release.
 
 Bug Corrections
 ~~~~~~~~~~~~~~~
 
-For an exhaustive list, see the `OPNFV Fuel JIRA: Hunter 8.1 Bugs (fixed)`_
-filter.
+N/A
 
 Software Deliverables
 ~~~~~~~~~~~~~~~~~~~~~
@@ -166,30 +156,9 @@ Scenario Matrix
 | os-nosdn-nofeature-ha   | ``x86_64``,   |             |            |
 |                         | ``aarch64``   |             |            |
 +-------------------------+---------------+-------------+------------+
-| os-nosdn-ovs-noha       |               | ``x86_64``  |            |
-+-------------------------+---------------+-------------+------------+
-| os-nosdn-ovs-ha         | ``x86_64``,   |             |            |
-|                         | ``aarch64``   |             |            |
-+-------------------------+---------------+-------------+------------+
 | os-odl-nofeature-noha   |               | ``x86_64``  |            |
 +-------------------------+---------------+-------------+------------+
 | os-odl-nofeature-ha     | ``x86_64``,   |             |            |
-|                         | ``aarch64``   |             |            |
-+-------------------------+---------------+-------------+------------+
-| os-odl-ovs-noha         |               | ``x86_64``  |            |
-+-------------------------+---------------+-------------+------------+
-| os-odl-ovs-ha           | ``x86_64``    |             |            |
-+-------------------------+---------------+-------------+------------+
-| os-odl-bgpvpn-noha      |               | ``x86_64``  |            |
-+-------------------------+---------------+-------------+------------+
-| os-odl-sfc-noha         |               | ``x86_64``  |            |
-+-------------------------+---------------+-------------+------------+
-| os-ovn-nofeature-noha   |               | ``x86_64``  |            |
-+-------------------------+---------------+-------------+------------+
-| os-ovn-nofeature-ha     | ``aarch64``   |             |            |
-+-------------------------+---------------+-------------+------------+
-| os-nosdn-fdio-noha      | ``x86_64``,   |             |            |
-|                         | ``aarch64``   |             |            |
 +-------------------------+---------------+-------------+------------+
 
 Known Limitations, Issues and Workarounds
@@ -220,18 +189,18 @@ None
 Test Results
 ============
 
-The ``Hunter`` 8.1 release with the Fuel deployment tool has undergone QA test
+The ``Iruya`` 9.0 release with the Fuel deployment tool has undergone QA test
 runs, see separate test results.
 
 References
 ==========
 
-For more information on the OPNFV ``Hunter`` 8.1 release, please see:
+For more information on the OPNFV ``Iruya`` 9.0 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
 #. `OPNFV Software Downloads`_
-#. `OPNFV Hunter Wiki Page`_
+#. `OPNFV Iruya Wiki Page`_
 #. `OpenStack Queens Release Artifacts`_
 #. `OpenStack Documentation`_
 #. `OpenDaylight Artifacts`_
@@ -245,11 +214,9 @@ For more information on the OPNFV ``Hunter`` 8.1 release, please see:
 .. _`Mirantis Cloud Platform Documentation`: https://docs.mirantis.com/mcp/latest/
 .. _`fuel git repository`: https://git.opnfv.org/fuel
 .. _`OpenStack Documentation`: https://docs.openstack.org/rocky
-.. _`OpenStack Rocky Release Artifacts`: https://www.openstack.org/software/rocky
+.. _`OpenStack Stein Release Artifacts`: https://www.openstack.org/software/stein
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Hunter Wiki Page`: https://wiki.opnfv.org/display/SWREL/Hunter
+.. _`OPNFV Iruya Wiki Page`: https://wiki.opnfv.org/display/SWREL/Iruya
 .. _`OPNFV Documentation`: https://docs.opnfv.org
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0
-.. OPNFV Fuel Hunter JIRA filters
-.. _`OPNFV Fuel JIRA: Hunter 8.1 Bugs (fixed)`: https://jira.opnfv.org/issues/?filter=12710
