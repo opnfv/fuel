@@ -12,19 +12,19 @@ Subject: [PATCH] curtin: Add Bionic support
 
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
- .../curtin_userdata_amd64_generic_bionic      | 83 +++++++++++++++++++
- .../curtin_userdata_arm64_generic_bionic      | 78 +++++++++++++++++
+ .../curtin_userdata_amd64_generic_bionic      | 85 +++++++++++++++++++
+ .../curtin_userdata_arm64_generic_bionic      | 79 +++++++++++++++++
  maas/region.sls                               | 24 ++++++
- 3 files changed, 185 insertions(+)
+ 3 files changed, 188 insertions(+)
  create mode 100644 maas/files/curtin_userdata_amd64_generic_bionic
  create mode 100644 maas/files/curtin_userdata_arm64_generic_bionic
 
 diff --git a/maas/files/curtin_userdata_amd64_generic_bionic b/maas/files/curtin_userdata_amd64_generic_bionic
 new file mode 100644
-index 0000000..c28721a
+index 0000000..a704d44
 --- /dev/null
 +++ b/maas/files/curtin_userdata_amd64_generic_bionic
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,85 @@
 +{%- from "maas/map.jinja" import cluster with context %}
 +{%- raw %}
 +#cloud-config
@@ -33,8 +33,10 @@ index 0000000..c28721a
 +  {{for line in str(curtin_preseed).splitlines()}}
 +  {{line}}
 +  {{endfor}}
-+{{if third_party_drivers and driver}}
 +early_commands:
++  thin_tools_install: ["sh", "-c", "apt-get update --quiet && apt-get --assume-yes install thin-provisioning-tools"]
++{{if third_party_drivers and driver}}
++thin-provisioning-tools
 +  {{py: key_string = ''.join(['\\x%x' % x for x in map(ord, driver['key_binary'])])}}
 +  driver_00_get_key: /bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg
 +  driver_01_add_key: ["apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
@@ -110,10 +112,10 @@ index 0000000..c28721a
 +#}
 diff --git a/maas/files/curtin_userdata_arm64_generic_bionic b/maas/files/curtin_userdata_arm64_generic_bionic
 new file mode 100644
-index 0000000..d14388a
+index 0000000..006d8c2
 --- /dev/null
 +++ b/maas/files/curtin_userdata_arm64_generic_bionic
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,79 @@
 +{%- from "maas/map.jinja" import cluster with context %}
 +{% raw %}
 +#cloud-config
@@ -122,8 +124,9 @@ index 0000000..d14388a
 +  {{for line in str(curtin_preseed).splitlines()}}
 +  {{line}}
 +  {{endfor}}
-+{{if third_party_drivers and driver}}
 +early_commands:
++  thin_tools_install: ["sh", "-c", "apt-get update --quiet && apt-get --assume-yes install thin-provisioning-tools"]
++{{if third_party_drivers and driver}}
 +  {{py: key_string = ''.join(['\\x%x' % x for x in map(ord, driver['key_binary'])])}}
 +  driver_00_get_key: /bin/echo -en '{{key_string}}' > /tmp/maas-{{driver['package']}}.gpg
 +  driver_01_add_key: ["apt-key", "add", "/tmp/maas-{{driver['package']}}.gpg"]
