@@ -9,7 +9,7 @@ OPNFV Fuel Installation Instruction
 Abstract
 ========
 
-This document describes how to install the ``Hunter`` release of
+This document describes how to install the ``Iruya`` release of
 OPNFV when using Fuel as a deployment tool, covering its usage,
 limitations, dependencies and required system resources.
 
@@ -21,20 +21,20 @@ Introduction
 ============
 
 This document provides guidelines on how to install and
-configure the ``Hunter`` release of OPNFV when using Fuel as a
+configure the ``Iruya`` release of OPNFV when using Fuel as a
 deployment tool, including required software and hardware configurations.
 
 Although the available installation options provide a high degree of
 freedom in how the system is set up, including architecture, services
 and features, etc., said permutations may not provide an OPNFV
 compliant reference architecture. This document provides a
-step-by-step guide that results in an OPNFV ``Hunter`` compliant
+step-by-step guide that results in an OPNFV ``Iruya`` compliant
 deployment.
 
 The audience of this document is assumed to have good knowledge of
 networking and Unix/Linux administration.
 
-Before starting the installation of the ``Hunter`` release of
+Before starting the installation of the ``Iruya`` release of
 OPNFV, using Fuel as a deployment tool, some planning must be
 done.
 
@@ -80,7 +80,7 @@ Hardware Requirements for ``virtual`` Deploys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following minimum hardware requirements must be met for the ``virtual``
-installation of ``Hunter`` using Fuel:
+installation of ``Iruya`` using Fuel:
 
 +------------------+------------------------------------------------------+
 | **HW Aspect**    | **Requirement**                                      |
@@ -101,7 +101,7 @@ Hardware Requirements for ``baremetal`` Deploys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following minimum hardware requirements must be met for the ``baremetal``
-installation of ``Hunter`` using Fuel:
+installation of ``Iruya`` using Fuel:
 
 +------------------+------------------------------------------------------+
 | **HW Aspect**    | **Requirement**                                      |
@@ -163,7 +163,7 @@ Hardware Requirements for ``hybrid`` (``baremetal`` + ``virtual``) Deploys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following minimum hardware requirements must be met for the ``hybrid``
-installation of ``Hunter`` using Fuel:
+installation of ``Iruya`` using Fuel:
 
 +------------------+------------------------------------------------------+
 | **HW Aspect**    | **Requirement**                                      |
@@ -255,7 +255,7 @@ three physically separated networks.
     infrastructure as well as the provider networks and the private tenant
     VLANs needs to be manually configured.
 
-Manual configuration of the ``Hunter`` hardware platform should
+Manual configuration of the ``Iruya`` hardware platform should
 be carried out according to the `OPNFV Pharos Specification`_.
 
 OPNFV Software Prerequisites
@@ -864,7 +864,7 @@ Sample ``compute_params`` configuration block (for a single node):
 ``SDF``
 ~~~~~~~
 
-Scenario Descriptor Files are not yet implemented in the OPNFV Fuel ``Hunter``
+Scenario Descriptor Files are not yet implemented in the OPNFV Fuel ``Iruya``
 release.
 
 Instead, embedded OPNFV Fuel scenarios files are locally available in
@@ -881,7 +881,7 @@ Deployment Types
 
 .. WARNING::
 
-    OPNFV releases previous to ``Hunter`` used to rely on the ``virtual``
+    OPNFV releases previous to ``Iruya`` used to rely on the ``virtual``
     keyword being part of the POD name (e.g. ``ericsson-virtual2``) to
     configure the deployment type as ``virtual``. Otherwise ``baremetal``
     was implied.
@@ -951,7 +951,7 @@ These steps are common for ``virtual``, ``baremetal`` or ``hybrid`` deploys,
 ``x86_64``, ``aarch64`` or ``mixed`` (``x86_64`` and ``aarch64``):
 
 - Clone the OPNFV Fuel code from gerrit
-- Checkout the ``Hunter`` release tag
+- Checkout the ``Iruya`` release tag
 - Start the deploy script
 
 .. NOTE::
@@ -971,7 +971,7 @@ These steps are common for ``virtual``, ``baremetal`` or ``hybrid`` deploys,
 
     jenkins@jumpserver:~$ git clone https://git.opnfv.org/fuel
     jenkins@jumpserver:~$ cd fuel
-    jenkins@jumpserver:~/fuel$ git checkout opnfv-8.1.0
+    jenkins@jumpserver:~/fuel$ git checkout opnfv-9.0.0
     jenkins@jumpserver:~/fuel$ ci/deploy.sh -l <lab_name> \
                                             -p <pod_name> \
                                             -b <URI to configuration repo containing the PDF/IDF files> \
@@ -1377,12 +1377,12 @@ article.
 References
 ==========
 
-For more information on the OPNFV ``Hunter`` 8.1 release, please see:
+For more information on the OPNFV ``Iruya`` 9.0 release, please see:
 
 #. `OPNFV Home Page`_
 #. `OPNFV Documentation`_
 #. `OPNFV Software Downloads`_
-#. `OPNFV Hunter Wiki Page`_
+#. `OPNFV Iruya Wiki Page`_
 #. `OpenStack Rocky Release Artifacts`_
 #. `OpenStack Documentation`_
 #. `OpenDaylight Artifacts`_
@@ -1401,7 +1401,7 @@ For more information on the OPNFV ``Hunter`` 8.1 release, please see:
 .. _`OpenStack Documentation`: https://docs.openstack.org/rocky
 .. _`OpenStack Rocky Release Artifacts`: https://www.openstack.org/software/rocky
 .. _`OPNFV Home Page`: https://www.opnfv.org
-.. _`OPNFV Hunter Wiki Page`: https://wiki.opnfv.org/display/SWREL/Hunter
+.. _`OPNFV Iruya Wiki Page`: https://wiki.opnfv.org/display/SWREL/Iruya
 .. _`OPNFV Documentation`: https://docs.opnfv.org
 .. _`OPNFV Software Downloads`: https://www.opnfv.org/software/downloads
 .. _`Apache License 2.0`: https://www.apache.org/licenses/LICENSE-2.0

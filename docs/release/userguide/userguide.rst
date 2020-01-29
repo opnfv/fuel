@@ -9,7 +9,7 @@ OPNFV Fuel User Guide
 Abstract
 ========
 
-This document contains details about using OPNFV Fuel ``Hunter`` release after
+This document contains details about using OPNFV Fuel ``Iruya`` release after
 it was deployed. For details on how to deploy OpenStack, check
 the installation instructions in the :ref:`fuel_userguide_references` section.
 
