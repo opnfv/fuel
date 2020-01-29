@@ -73,6 +73,7 @@ parameters:
         boot_options:
           - spectre_v2=off
           - nopti
+          - kpti=off
           - nospec_store_bypass_disable
           - noibrs
           - noibpb
