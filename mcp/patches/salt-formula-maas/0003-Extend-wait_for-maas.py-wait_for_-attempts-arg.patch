@@ -60,13 +60,13 @@ Signed-off-by: ting wu <ting.wu@enea.com>
 Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
 ---
  README.rst                                   |  9 +++-
- _modules/maas.py                             | 49 ++++++++++++++++++--
+ _modules/maas.py                             | 52 +++++++++++++++++---
  maas/machines/wait_for_deployed.sls          |  2 +
  maas/machines/wait_for_ready.sls             |  3 ++
  maas/machines/wait_for_ready_or_deployed.sls | 15 ++++++
  maas/map.jinja                               |  4 ++
  tests/pillar/maas_region.sls                 |  4 ++
- 7 files changed, 79 insertions(+), 7 deletions(-)
+ 7 files changed, 81 insertions(+), 8 deletions(-)
  create mode 100644 maas/machines/wait_for_ready_or_deployed.sls
 
 diff --git a/README.rst b/README.rst
@@ -102,9 +102,18 @@ index 20da43e..78d8aef 100644
              ignore_machines:
                 - kvm01 # in case it's broken or whatever
 diff --git a/_modules/maas.py b/_modules/maas.py
-index c02f104..28e46c5 100644
+index c02f104..bb70576 100644
 --- a/_modules/maas.py
 +++ b/_modules/maas.py
+@@ -670,7 +670,7 @@ class DeployMachines(MaasObject):
+         if machine['status'] == self.DEPLOYED:
+             return
+         if machine['status'] != self.READY:
+-            raise Exception('Not in ready state')
++            return
+         data = {
+             'system_id': machine['system_id'],
+         }
 @@ -921,6 +921,7 @@ class MachinesStatus(MaasObject):
              req_status: string; Polling status
              machines:   list; machine names
@@ -122,7 +131,7 @@ index c02f104..28e46c5 100644
          if not to_discover:
              try:
                  to_discover = __salt__['config.get']('maas')['region'][
-@@ -943,11 +946,45 @@ class MachinesStatus(MaasObject):
+@@ -943,11 +946,46 @@ class MachinesStatus(MaasObject):
          while len(total) <= len(to_discover):
              for m in to_discover:
                  for discovered in MachinesStatus.execute()['machines']:
@@ -155,6 +164,7 @@ index c02f104..28e46c5 100644
 +                                LOG.info('Machine {0} mark broken'.format(sid))
 +                                cls._maas.post(u'api/2.0/machines/{0}/'
 +                                    .format(sid), 'mark_broken', **data)
++                                time.sleep(poll_time)
 +                                LOG.info('Machine {0} mark fixed'.format(sid))
 +                                cls._maas.post(u'api/2.0/machines/{0}/'
 +                                    .format(sid), 'mark_fixed', **data)
@@ -172,7 +182,7 @@ index c02f104..28e46c5 100644
              if len(total) <= 0:
                  LOG.debug(
                      "Machines:{} are:{}".format(to_discover, req_status))
-@@ -959,7 +996,9 @@ class MachinesStatus(MaasObject):
+@@ -959,7 +997,9 @@ class MachinesStatus(MaasObject):
                  "Waiting status:{} "
                  "for machines:{}"
                  "\nsleep for:{}s "
