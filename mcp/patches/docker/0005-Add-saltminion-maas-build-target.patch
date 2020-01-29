@@ -11,15 +11,15 @@ Date: Wed, 30 Jan 2019 17:21:03 +0100
 Subject: [PATCH] Add saltminion-maas build target
 
 ---
- DockerMake.yml | 63 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ DockerMake.yml | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++
  invoke.yml     |  5 ++++
- 2 files changed, 68 insertions(+)
+ 2 files changed, 69 insertions(+)
 
 diff --git a/DockerMake.yml b/DockerMake.yml
-index f30024c..ca91539 100644
+index f30024c..a23541c 100644
 --- a/DockerMake.yml
 +++ b/DockerMake.yml
-@@ -50,6 +50,69 @@ common:
+@@ -50,6 +50,70 @@ common:
        && eval ${LAYER_CLEANUP}
 
 
@@ -66,6 +66,7 @@ index f30024c..ca91539 100644
 +           python-oauth \
 +           python-pip \
 +           python-psutil \
++           python-setuptools \
 +           python-yaml \
 +           sysfsutils \
 +           tcpdump \
