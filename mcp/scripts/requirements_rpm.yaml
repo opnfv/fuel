@@ -38,9 +38,9 @@ deploy:
     - wget
     # For python is indirectly required for PDF parsing
     - python3
-    - python3-jinja2
-    - python3-yaml
-    - python3-jsonschema
+    - python36-jinja2
+    - python36-yaml
+    - python36-jsonschema
   # Optional, arch-specific requirements, matched by key name = $(uname -m)
   aarch64:
     # AArch64 VMs use AAVMF (guest UEFI)
