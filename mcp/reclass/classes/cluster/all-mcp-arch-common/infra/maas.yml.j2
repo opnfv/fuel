@@ -113,7 +113,7 @@ parameters:
         default_min_hwe_kernel: ${_param:hwe_kernel}
         kernel_opts: 'spectre_v2=off nopti kpti=off nospec_store_bypass_disable noibrs noibpb'
     cluster:
-      saltstack_repo_bionic: "deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/ bionic main"
+      saltstack_repo_bionic: "deb [arch=amd64] http://archive.repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/ bionic main"
       region:
         host: ${_param:single_address}
         port: 5240

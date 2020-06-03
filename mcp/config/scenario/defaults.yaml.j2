@@ -27,10 +27,10 @@ x86_64:
     common:
       repo:
         keys:
-          - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
+          - saltstack 500 deb [arch=amd64] http://archive.repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
   {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO and conf.MCP_KERNEL_VER %}
@@ -51,10 +51,10 @@ x86_64:
     common:
       repo:
         keys:
-          - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
+          - saltstack 500 deb [arch=amd64] http://archive.repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
       pkg:
         install:
           - linux-generic-hwe-16.04
@@ -69,10 +69,10 @@ x86_64:
     common:
       repo:
         keys:
-          - https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> rpm <repo url>
-          - saltstack 0 rpm https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
+          - saltstack 0 rpm https://archive.repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
       pkg:
         install:
           - salt-minion
@@ -94,10 +94,10 @@ aarch64:
     common:
       repo:
         keys:
-          - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
+          - saltstack 500 deb [arch=amd64] http://archive.repo.saltstack.com/apt/ubuntu/18.04/amd64/2017.7 bionic main
       pkg:
         install:
   {%- if '-iec-' not in conf.MCP_DEPLOY_SCENARIO and conf.MCP_KERNEL_VER %}
@@ -119,10 +119,10 @@ aarch64:
       repo:
         keys:
           - https://linux.enea.com/mcp-repos/rocky/xenial/archive-mcprocky.key
-          - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> deb [arch=<arch>] <repo url> <repo dist> <repo comp>
-          - saltstack 500 deb [arch=amd64] http://repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
+          - saltstack 500 deb [arch=amd64] http://archive.repo.saltstack.com/apt/ubuntu/16.04/amd64/2017.7 xenial main
           - armband_3 1201 deb [arch=arm64] http://linux.enea.com/mcp-repos/rocky/xenial rocky-armband main
       pkg:
         install:
@@ -137,15 +137,15 @@ aarch64:
         install:
           - cloud-init
   centos7:
-    base_image: https://cloud.centos.org/altarch/7/images/aarch64/CentOS-7-aarch64-GenericCloud.qcow2.xz
+    base_image: https://cloud.centos.org/altarch/7/images/CentOS-7-aarch64-GenericCloud.qcow2.xz
     common:
       repo:
         keys:
-          - https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
+          - https://archive.repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7/SALTSTACK-GPG-KEY.pub
         repos:
           # <repo name> <repo prio> rpm <repo url>
           - openstack-rocky 0 rpm http://mirror.centos.org/altarch/$releasever/cloud/aarch64/openstack-rocky
-          - saltstack 0 rpm https://repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
+          - saltstack 0 rpm https://archive.repo.saltstack.com/yum/redhat/$releasever/x86_64/2017.7
       pkg:
         install:
           - salt-minion
