@@ -42,6 +42,9 @@ source "${DEPLOY_DIR}/lib_jump_common.sh"
 [ ! "${TERM:-unknown}" = 'unknown' ] || export TERM=vt220
 [ "${CACHE_INVALIDATE}" = 0 ] || CACHE_INVALIDATE=$(date +%s)
 
+export LC_ALL=en_US.utf-8
+export LANG=en_US.utf-8
+
 #
 # END of variables to customize
 ##############################################################################
@@ -93,6 +96,8 @@ env PIPENV_HIDE_EMOJIS=1 python3 -m pipenv run \
     --dist-rel=bionic \
     --opnfv-tag="${DOCKER_TAG}" \
     --salt="${SALT_VERSION}" \
+    --build-arg-extra " \
+        CACHE_INVALIDATE=\"${CACHE_INVALIDATE}\"" \
     ${DOCKER_PUSH}
 
 popd > /dev/null

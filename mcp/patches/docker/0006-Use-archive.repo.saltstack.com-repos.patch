@@ -1,0 +1,42 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+: Copyright (c) 2019 Mirantis Inc., Enea AB and others.
+:
+: All rights reserved. This program and the accompanying materials
+: are made available under the terms of the Apache License, Version 2.0
+: which accompanies this distribution, and is available at
+: http://www.apache.org/licenses/LICENSE-2.0
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+From: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+Date: Thu, 18 Jun 2020 16:33:35 +0200
+Subject: [PATCH] Use archive.repo.saltstack.com repos
+
+Saltstack packages for 2017.7 have been archives, use the appropiate
+repository URL.
+
+Signed-off-by: Alexandru Avadanii <Alexandru.Avadanii@enea.com>
+---
+ DockerMake.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/DockerMake.yml b/DockerMake.yml
+index a23541c..5910613 100644
+--- a/DockerMake.yml
++++ b/DockerMake.yml
+@@ -109,7 +109,7 @@ maas:
+       && mv /etc/maas /etc/ssh /var/lib/opnfv/etc/ \
+       && mv /var/lib/opnfv/maas-region-controller.postinst /var/lib/dpkg/info/ \
+       && python -m pip install -U jinja2==2.11.0 \
+-      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 ${SALT_BOOTSTRAP_OPTS} \
++      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s -- -A cfg01 -R archive.repo.saltstack.com ${SALT_BOOTSTRAP_OPTS} \
+       && eval ${LAYER_CLEANUP}
+     ENTRYPOINT ["/bin/bash", "-c", "/entrypoint.sh && exec /lib/systemd/systemd"]
+
+@@ -127,7 +127,7 @@ salt:
+     RUN echo "Layer salt" \
+       && eval ${LAYER_PKGUPDT} \
+       && mkdir -p /var/run/salt /var/cache/salt /var/log/salt /etc/salt/pki/master/minions /srv/salt/formula /srv/salt/env \
+-      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s --  ${SALT_BOOTSTRAP_PKGS} -M -A localhost ${SALT_BOOTSTRAP_OPTS} \
++      && curl -qL https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh | $SUDO sh -s --  ${SALT_BOOTSTRAP_PKGS} -R archive.repo.saltstack.com -M -A localhost ${SALT_BOOTSTRAP_OPTS} \
+       && if ! getent passwd salt > /dev/null;then useradd --system salt; fi \
+       && chown -R salt:salt /etc/salt /var/cache/salt /var/log/salt /var/run/salt \
+       && eval ${LAYER_CLEANUP}
